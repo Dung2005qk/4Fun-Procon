@@ -48,6 +48,14 @@ struct HttpResponse {
         std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
+[[nodiscard]] udon::DeadlineCalibration btc_http_deadline_calibration() {
+    udon::DeadlineCalibration calibration;
+    calibration.version = "btc-http-observed-safe-v1";
+    calibration.networkFloor = std::chrono::milliseconds{1500};
+    calibration.networkPercent = 30;
+    return calibration;
+}
+
 class ReplayWriter {
 public:
     explicit ReplayWriter(const std::string& path) {
@@ -272,12 +280,17 @@ void run_replay_check(const RuntimeOptions& options) {
     udon::MatchLedger ledger;
     std::optional<udon::DayState> currentState;
     std::optional<udon::SimulationResult> previousSimulation;
+    std::optional<udon::SimulationResult> pendingSimulation;
     std::int32_t simulatedDays = 0;
     std::int32_t reconciledTransitions = 0;
 
     for (const udon::JsonValue& event : events) {
         const std::string& kind = event.at("kind").string();
         if (kind == "day_state") {
+            if (pendingSimulation.has_value()) {
+                std::cout << "unacknowledged_action_before_next_state=1\n";
+                pendingSimulation.reset();
+            }
             const std::int64_t atUnixMs = event.at("atUnixMs").integer();
             const udon::DayState nextState = udon::parse_btc_day_state(
                 config,
@@ -308,8 +321,38 @@ void run_replay_check(const RuntimeOptions& options) {
                 if (reconciled) {
                     ++reconciledTransitions;
                 }
+                previousSimulation.reset();
             }
             currentState = nextState;
+            continue;
+        }
+        if (kind == "action_result" || kind == "action_result_recovery") {
+            if (!pendingSimulation.has_value() || !currentState.has_value()) {
+                continue;
+            }
+            const bool accepted = udon::btc_action_result_accepted(event.at("body"));
+            const std::optional<std::int32_t> acceptedDay =
+                udon::btc_action_result_day(event.at("body"));
+            const bool currentDay = !acceptedDay.has_value() ||
+                *acceptedDay == currentState->dayNumber;
+            if (accepted && currentDay) {
+                ledger.apply(pendingSimulation->score);
+                previousSimulation = *pendingSimulation;
+                ++simulatedDays;
+            } else {
+                std::cout << "action_result_accepted=" << (accepted ? 1 : 0)
+                          << " expected_day=" << currentState->dayNumber;
+                if (acceptedDay.has_value()) {
+                    std::cout << " accepted_day=" << *acceptedDay;
+                }
+                const std::string reason = udon::btc_action_result_reason(event.at("body"));
+                if (!reason.empty()) {
+                    std::cout << " reason=" << reason;
+                }
+                std::cout << '\n';
+                previousSimulation.reset();
+            }
+            pendingSimulation.reset();
             continue;
         }
         if (kind != "actions" && kind != "actions_fallback" && kind != "actions_recovery_wait") {
@@ -413,10 +456,7 @@ void run_replay_check(const RuntimeOptions& options) {
         if (!simulation.valid || !agrees) {
             throw std::runtime_error("BTC replay failed exact local validation");
         }
-        ledger.apply(simulation.score);
-        previousSimulation = simulation;
-        currentState.reset();
-        ++simulatedDays;
+        pendingSimulation = simulation;
     }
     std::cout << "summary days=" << simulatedDays
               << " reconciled_transitions=" << reconciledTransitions
@@ -486,7 +526,9 @@ void run_replay_solve(const RuntimeOptions& options) {
         }
         if ((kind == "action_result" || kind == "action_result_recovery") &&
             pendingSimulation.has_value() && pendingWireDay > lastAcceptedWireDay &&
-            udon::btc_action_result_accepted(event.at("body"))) {
+            udon::btc_action_result_accepted(event.at("body")) &&
+            (!udon::btc_action_result_day(event.at("body")).has_value() ||
+             *udon::btc_action_result_day(event.at("body")) == pendingWireDay + 1)) {
             ledger.apply(pendingSimulation->score);
             lastAcceptedWireDay = pendingWireDay;
             pendingSimulation.reset();
@@ -495,7 +537,7 @@ void run_replay_solve(const RuntimeOptions& options) {
     if (!targetState.has_value()) {
         throw std::runtime_error("requested day is absent from BTC replay");
     }
-    udon::UdonShieldEngine engine(config);
+    udon::UdonShieldEngine engine(config, {}, btc_http_deadline_calibration());
     const auto started = std::chrono::steady_clock::now();
     const udon::DecisionResult decision = engine.solve_day(
         *targetState,
@@ -909,7 +951,8 @@ void run_http(const RuntimeOptions& options) {
     replay.record("setup", setupDocument, setupResponse.status);
     const udon::MatchConfig config = udon::parse_btc_setup(setupDocument, adapterOptions);
     const ReplayResumeState resume = load_replay_resume(options.replayPath, config, adapterOptions);
-    udon::MatchSession session(config);
+    const udon::DeadlineCalibration deadlineCalibration = btc_http_deadline_calibration();
+    udon::MatchSession session(config, {}, deadlineCalibration);
     if (!resume.assignmentAccepted || !resume.assignment.has_value()) {
         const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
             std::chrono::milliseconds{options.responseBudgetMs},
@@ -962,13 +1005,25 @@ void run_http(const RuntimeOptions& options) {
                 adapterOptions);
             const udon::SessionDecision decision = session.on_authoritative_state(state, ledger, receivedAt);
             replay.record("decision", decision.replay);
+            const std::int64_t actionDeadlineMs = state.endsAt * 1000;
+            constexpr std::int64_t minimumSubmissionWindowMs = 1000;
+            if (unix_milliseconds() + minimumSubmissionWindowMs >= actionDeadlineMs) {
+                if (session.has_pending_submission()) {
+                    session.reject_pending_submission();
+                }
+                udon::JsonValue::Object skipped;
+                skipped.emplace("day", udon::JsonValue(static_cast<std::int64_t>(state.dayNumber)));
+                skipped.emplace("reason", udon::JsonValue("insufficient-authoritative-day-window"));
+                replay.record("actions_deadline_skip", udon::JsonValue(std::move(skipped)));
+                lastAcceptedWireDay = wireDay;
+                continue;
+            }
             udon::DayPlan submittedPlan = decision.maySubmit
                 ? decision.decision.candidate.plan
                 : udon::make_wait_plan(config, state.dayNumber);
             udon::JsonValue wirePlan = udon::serialize_day_plan(submittedPlan);
             replay.record(decision.maySubmit ? "actions" : "actions_fallback", wirePlan);
 
-            const std::int64_t actionDeadlineMs = state.endsAt * 1000;
             HttpResponse actionResponse = post_until_deadline(
                 client,
                 root + "/actions",
@@ -979,6 +1034,15 @@ void run_http(const RuntimeOptions& options) {
             replay.record("action_result", actionResult, actionResponse.status);
             bool accepted = actionResponse.status >= 200 && actionResponse.status < 300 &&
                 udon::btc_action_result_accepted(actionResult);
+            const std::optional<std::int32_t> acceptedDay = udon::btc_action_result_day(actionResult);
+            if (accepted && acceptedDay.has_value() && *acceptedDay != wireDay + 1) {
+                if (session.has_pending_submission()) {
+                    session.reject_pending_submission();
+                }
+                throw std::runtime_error(
+                    "BTC accepted an action for a stale day: expected " +
+                    std::to_string(wireDay + 1) + ", got " + std::to_string(*acceptedDay));
+            }
             bool appliedDecision = accepted && decision.maySubmit;
             if (!accepted) {
                 if (session.has_pending_submission()) {
@@ -997,6 +1061,12 @@ void run_http(const RuntimeOptions& options) {
                 replay.record("action_result_recovery", actionResult, actionResponse.status);
                 accepted = actionResponse.status >= 200 && actionResponse.status < 300 &&
                     udon::btc_action_result_accepted(actionResult);
+                const std::optional<std::int32_t> recoveryDay = udon::btc_action_result_day(actionResult);
+                if (accepted && recoveryDay.has_value() && *recoveryDay != wireDay + 1) {
+                    throw std::runtime_error(
+                        "BTC accepted a recovery WAIT for a stale day: expected " +
+                        std::to_string(wireDay + 1) + ", got " + std::to_string(*recoveryDay));
+                }
                 appliedDecision = false;
                 if (!accepted) {
                     throw std::runtime_error(

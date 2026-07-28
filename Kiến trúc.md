@@ -865,6 +865,8 @@ Gọi \(t^{recv}_d\) là lúc nhận state và \(T_d=endsAt-t^{recv}_d\) là to�
 
 Tỷ lệ thuần phần trăm không đủ cho deadline cực ngắn. Trên đúng hardware/runtime thi đấu, đo p99 của ba floor không thể cắt: \(t_{seed}^{min}\) cho parse + instantiate safe incumbent từ state hiện tại, \(t_{val}^{min}\) cho independent validation, và \(t_{net}^{min}\) cho serialize/send. Manifest có các deadline class `emergency/short/normal/long`, chọn **một lần ngay khi nhận \(T_d\)** chỉ từ deadline/config công khai; mỗi profile tự cộng đúng 100% và bất biến trong ngày.
 
+Runtime HTTP phải kiểm tra thêm freshness của ACK: nếu state wire là `d`, ACK hợp lệ phải khai báo ngày `d+1`. ACK của ngày lớn hơn chứng minh submission đã vượt biên ngày và có thể bị áp lên state khác, nên không được cập nhật ledger hay tiếp tục planning. Trong giai đoạn chưa đủ mẫu p99, implementation dùng manifest bảo thủ `btc-http-observed-safe-v1` với network floor `1500 ms` và cấm gửi khi cửa sổ còn dưới `1000 ms`; đây là safety floor tạm thời cần tiếp tục đo trên BTC, không phải tham số tối ưu hóa score.
+
 - Nếu \(T_d\) đủ cho `normal-v1`, dùng bảng trên.
 - Nếu \(T_d\) chỉ đủ các floor, vào `emergency`: parse state, tạo đúng một core `WAIT(S_d)` tại current cell cho mỗi agent, một validation pass, serialize/send; W0, column search và W1 challenger certification nhận 0. Không tái dùng mù một route của ngày trước.
 - Nếu \(T_d<t_{seed}^{min}+t_{val}^{min}+t_{net}^{min}\) ở p99, build chưa đạt điều kiện thời gian tối thiểu và không được coi là competition-ready; không chữa bằng cách bỏ validation.

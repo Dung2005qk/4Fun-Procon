@@ -254,6 +254,25 @@ bool btc_action_result_accepted(const JsonValue& document) {
     return true;
 }
 
+std::optional<std::int32_t> btc_action_result_day(const JsonValue& document) {
+    if (document.is_null()) {
+        return std::nullopt;
+    }
+    static_cast<void>(require_object(document, "BTC action result"));
+    if (!document.contains("day") || document.at("day").is_null()) {
+        return std::nullopt;
+    }
+    if (!document.at("day").is_number()) {
+        throw ProtocolError("BTC action result day must be an integer or null");
+    }
+    const std::int64_t day = document.at("day").integer();
+    if (day < std::numeric_limits<std::int32_t>::min() ||
+        day > std::numeric_limits<std::int32_t>::max()) {
+        throw ProtocolError("BTC action result day is out of range");
+    }
+    return static_cast<std::int32_t>(day);
+}
+
 std::string btc_action_result_reason(const JsonValue& document) {
     if (!document.is_object() || !document.contains("reason") || document.at("reason").is_null()) {
         return {};

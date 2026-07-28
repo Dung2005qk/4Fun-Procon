@@ -18,6 +18,7 @@ WebSocket và sandbox gửi khung theo thứ tự `setup -> assignment -> day_st
 - `/setup`, `/state`, `/assignment` có thể trả HTTP `425` trước khi mở trận.
 - Poll tối thiểu `200 ms`; HTTP `429` tương ứng `E_RATE_LIMIT`.
 - Fuel đối thủ có thể bị ẩn; chiến lược không được phụ thuộc vào giá trị đó.
+- `action_result.day` là ngày authoritative 1-based. Runtime phải đối chiếu với `state.day + 1`; ACK lệch ngày không được cập nhật ledger vì plan có thể đã bị áp vào một state khác.
 
 ## Luồng HTTP
 
@@ -44,3 +45,5 @@ Hướng theo chiều kim đồng hồ từ trên-trái:
 Chi phí tính theo ô nguồn: đất `2 bước/1 fuel`, núi `3/2`, đường smooth `1/2`, busy `2/2`, jammed `4/2`; ao không đi được. Một agent sai làm cả submission bị từ chối.
 
 Các lỗi action chính: `E_NOT_ADJACENT`, `E_POND`, `E_STEP_OVERFLOW`, `E_NO_FUEL`, `E_BAD_FORMAT`, `E_RATE_LIMIT`.
+
+Không dùng toàn bộ `endsAt - now` cho solver. Runtime hiện giữ floor HTTP `1500 ms` và bỏ gửi khi còn dưới `1000 ms`; các số này là guard an toàn từ quan sát BTC, chưa phải tuyên bố p99 competition-ready.

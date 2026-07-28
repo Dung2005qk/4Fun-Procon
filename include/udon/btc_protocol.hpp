@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <cstdint>
+#include <optional>
 #include <string>
 
 #include "udon/json.hpp"
@@ -33,6 +34,7 @@ enum class BtcFrameKind : std::uint8_t {
 
 [[nodiscard]] BtcFrameKind classify_btc_frame(const JsonValue& document);
 [[nodiscard]] bool btc_action_result_accepted(const JsonValue& document);
+[[nodiscard]] std::optional<std::int32_t> btc_action_result_day(const JsonValue& document);
 [[nodiscard]] std::string btc_action_result_reason(const JsonValue& document);
 [[nodiscard]] DayPlan make_wait_plan(const MatchConfig& config, std::int32_t dayNumber);
 

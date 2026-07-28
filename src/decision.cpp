@@ -3524,12 +3524,16 @@ DecisionResult UdonShieldEngine::solve_day(
     if (result.deadline.deadlineClass != DeadlineClass::Short &&
         masterSearchWindow >= std::chrono::milliseconds{40} &&
         std::chrono::steady_clock::now() < preRecombinationDeadline) {
+        const std::chrono::milliseconds independentBudgetCap =
+            deadlineCalibration.networkFloor >= std::chrono::milliseconds{1000}
+            ? std::chrono::milliseconds{180}
+            : std::chrono::milliseconds{450};
         const std::chrono::milliseconds independentBudget = std::min(
-            std::chrono::milliseconds{450},
+            independentBudgetCap,
             std::max(
                 std::chrono::milliseconds{40},
                 std::chrono::milliseconds{
-                    masterSearchWindow.count() * 95 / 100}));
+                    masterSearchWindow.count() / 5}));
         const std::chrono::milliseconds beforeIndependent = elapsed();
         blank_slate::Diagnostics independentDiagnostics;
         blank_slate::Planner independentPlanner(

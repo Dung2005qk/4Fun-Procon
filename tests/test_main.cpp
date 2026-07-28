@@ -157,6 +157,14 @@ void test_btc_official_wire_adapter() {
     require(!udon::btc_action_result_accepted(
             udon::JsonValue::parse(R"({"reason":"E_NO_FUEL"})")),
         "BTC reason code must reject an invalid action result");
+    require(
+        udon::btc_action_result_day(
+            udon::JsonValue::parse(R"({"day":3,"valid":true})")) == 3,
+        "BTC action result must expose its authoritative accepted day");
+    require(
+        !udon::btc_action_result_day(
+             udon::JsonValue::parse(R"({"valid":true})")).has_value(),
+        "BTC action result without a day must remain explicitly unknown");
 
     require_throws(
         [&]() {
