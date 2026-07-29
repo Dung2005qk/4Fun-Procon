@@ -136,6 +136,7 @@ struct MasterDiagnostics {
     std::int32_t invalidPlanCombinations = 0;
     std::int32_t reservationConflicts = 0;
     bool nativeExactStockCredits = false;
+    bool stockCappedSearchOrder = false;
     bool deadlineReached = false;
     bool searchComplete = false;
     OfficialScore optimisticUpperBound;
@@ -191,6 +192,7 @@ struct MasterOptions {
     std::int32_t maximumResolveRounds = 0;
     std::vector<MandatoryReservation> mandatoryReservations;
     bool useStockCredits = true;
+    bool preferStockCappedSearchOrder = true;
     bool enableLexicographicBranchAndBound = true;
     std::optional<std::chrono::steady_clock::time_point> deadline;
 };

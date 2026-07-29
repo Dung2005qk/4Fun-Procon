@@ -687,6 +687,8 @@ void merge_master_diagnostics(MasterDiagnostics& target, const MasterDiagnostics
     target.criticalRoadPromotions += addition.criticalRoadPromotions;
     target.nativeExactStockCredits =
         target.nativeExactStockCredits || addition.nativeExactStockCredits;
+    target.stockCappedSearchOrder =
+        target.stockCappedSearchOrder || addition.stockCappedSearchOrder;
     target.deadlineReached = target.deadlineReached || addition.deadlineReached;
     target.searchComplete = hadSearch
         ? target.searchComplete && addition.searchComplete

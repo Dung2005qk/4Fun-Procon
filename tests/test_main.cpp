@@ -2,6 +2,7 @@
 #include <chrono>
 #include <cstdlib>
 #include <exception>
+#include <functional>
 #include <iostream>
 #include <limits>
 #include <stdexcept>
@@ -2002,6 +2003,158 @@ void test_master_lexicographic_branch_and_bound(
             " score=" + std::to_string(bounded.front().scoreAfterToday.lifetimeDistinct));
 }
 
+void test_master_stock_capped_search_order() {
+    const udon::MatchConfig config = udon::parse_match_config(
+        udon::JsonValue::parse(R"({
+            "startsAt":1778227200,
+            "daySeconds":[5,5,5,5],
+            "daySteps":[32,32,32,32],
+            "map":{"height":8,"width":8,"cells":[
+                [0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],
+                [0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]
+            ]},
+            "spots":[
+                {"brand":10,"pos":11,"stocks":1},
+                {"brand":10,"pos":48,"stocks":1},{"brand":10,"pos":49,"stocks":1},
+                {"brand":10,"pos":50,"stocks":1},{"brand":10,"pos":51,"stocks":1},
+                {"brand":10,"pos":52,"stocks":1},{"brand":10,"pos":53,"stocks":1},
+                {"brand":10,"pos":54,"stocks":1}
+            ],
+            "agents":[0,1,2,3,4,5,6,7],
+            "fuelLimits":64,
+            "players":2,
+            "busyThreshold":2,
+            "jammedThreshold":4
+        })"));
+    const udon::DayState state = udon::parse_day_state(
+        config,
+        udon::JsonValue::parse(R"({
+            "endsAt":1778227205,
+            "day":1,
+            "agents":[
+                {"kind":0,"pos":0,"fuel":64},{"kind":0,"pos":1,"fuel":64},
+                {"kind":0,"pos":2,"fuel":64},{"kind":0,"pos":3,"fuel":64},
+                {"kind":0,"pos":4,"fuel":64},{"kind":0,"pos":5,"fuel":64},
+                {"kind":0,"pos":6,"fuel":64},{"kind":0,"pos":7,"fuel":64}
+            ],
+            "others":[],
+            "traffics":[]
+        })"));
+    const udon::ParetoRouter router(config);
+    const udon::RouteColumnGenerator generator(config, router);
+    udon::ColumnGenerationOptions generationOptions;
+    generationOptions.maximumPathsPerTarget = 4;
+    generationOptions.maximumColumnsPerAgent = 128;
+    generationOptions.maximumTargetSpots = 9;
+    const udon::RoutePortfolio generated = generator.generate(
+        state,
+        udon::MatchLedger{},
+        generationOptions);
+
+    std::vector<const udon::RouteColumn*> contested(8U, nullptr);
+    std::vector<std::vector<const udon::RouteColumn*>> uniqueByAgent(
+        8U,
+        std::vector<const udon::RouteColumn*>(7U, nullptr));
+    for (std::size_t agentOffset = 0; agentOffset < 8U; ++agentOffset) {
+        for (const udon::RouteColumn& column : generated.columnsByAgent.at(agentOffset)) {
+            if (!column.hasExactTimeline || column.firstVisits.size() != 1U) {
+                continue;
+            }
+            const udon::SpotIndex spot = column.firstVisits.front().spot;
+            if (spot == 0 && contested.at(agentOffset) == nullptr) {
+                contested.at(agentOffset) = &column;
+            } else if (spot > 0 && spot <= 7 &&
+                       uniqueByAgent.at(agentOffset).at(static_cast<std::size_t>(spot - 1)) == nullptr) {
+                uniqueByAgent.at(agentOffset).at(static_cast<std::size_t>(spot - 1)) = &column;
+            }
+        }
+        require(contested.at(agentOffset) != nullptr, "stock-order fixture requires a shared contested route");
+    }
+
+    std::vector<const udon::RouteColumn*> assignedUnique(8U, nullptr);
+    std::vector<bool> assignedAgent(8U, false);
+    std::function<bool(std::size_t)> assign = [&](std::size_t spotOffset) {
+        if (spotOffset == 7U) {
+            return true;
+        }
+        for (std::size_t agentOffset = 0; agentOffset < 8U; ++agentOffset) {
+            if (assignedAgent.at(agentOffset) || uniqueByAgent.at(agentOffset).at(spotOffset) == nullptr) {
+                continue;
+            }
+            assignedAgent.at(agentOffset) = true;
+            assignedUnique.at(agentOffset) = uniqueByAgent.at(agentOffset).at(spotOffset);
+            if (assign(spotOffset + 1U)) {
+                return true;
+            }
+            assignedUnique.at(agentOffset) = nullptr;
+            assignedAgent.at(agentOffset) = false;
+        }
+        return false;
+    };
+    std::string availability;
+    for (std::size_t agentOffset = 0; agentOffset < 8U; ++agentOffset) {
+        availability += " a" + std::to_string(agentOffset) + "=";
+        for (std::size_t spotOffset = 0; spotOffset < 7U; ++spotOffset) {
+            if (uniqueByAgent.at(agentOffset).at(spotOffset) != nullptr) {
+                availability += std::to_string(spotOffset + 1U);
+            }
+        }
+    }
+    require(
+        assign(0U),
+        "stock-order fixture requires seven distinct feasible service routes:" + availability);
+
+    udon::RoutePortfolio portfolio;
+    portfolio.columnsByAgent.resize(8U);
+    for (std::size_t agentOffset = 0; agentOffset < 8U; ++agentOffset) {
+        udon::RouteColumn contestedColumn = *contested.at(agentOffset);
+        contestedColumn.columnId = static_cast<std::int32_t>(agentOffset * 2U);
+        contestedColumn.priority = 1000000;
+        portfolio.columnsByAgent.at(agentOffset).push_back(std::move(contestedColumn));
+        if (assignedUnique.at(agentOffset) != nullptr) {
+            udon::RouteColumn uniqueColumn = *assignedUnique.at(agentOffset);
+            uniqueColumn.columnId = static_cast<std::int32_t>(agentOffset * 2U + 1U);
+            uniqueColumn.priority = 0;
+            portfolio.columnsByAgent.at(agentOffset).push_back(std::move(uniqueColumn));
+        }
+    }
+
+    const udon::ExactStepSimulator simulator(config);
+    const udon::IndependentDayValidator validator(config);
+    const udon::RouteMaster master(config, simulator, validator);
+    udon::MasterOptions options;
+    options.maximumCombinations = 128;
+    options.maximumCandidates = 1;
+    options.maximumResolveRounds = 1;
+    options.enableLexicographicBranchAndBound = false;
+    udon::MasterOptions rawClaimOptions = options;
+    rawClaimOptions.preferStockCappedSearchOrder = false;
+    udon::MasterDiagnostics rawClaimDiagnostics;
+    const std::vector<udon::MasterCandidate> rawClaimCandidates = master.solve(
+        state,
+        udon::MatchLedger{},
+        portfolio,
+        rawClaimOptions,
+        rawClaimDiagnostics);
+    udon::MasterDiagnostics diagnostics;
+    const std::vector<udon::MasterCandidate> candidates = master.solve(
+        state,
+        udon::MatchLedger{},
+        portfolio,
+        options,
+        diagnostics);
+    require(
+        !rawClaimCandidates.empty() && !rawClaimDiagnostics.stockCappedSearchOrder &&
+            rawClaimCandidates.front().scoreAfterToday.totalServings < 8,
+        "raw-claim search order must reproduce the bounded duplicated-stock miss");
+    require(
+        !candidates.empty() && diagnostics.stockCappedSearchOrder &&
+            candidates.front().scoreAfterToday.totalServings == 8,
+        "bounded master search must rank stock-capped credits above duplicated raw claims");
+}
+
 void test_viability_reservation_and_role_seeds(const udon::MatchConfig& config, const udon::DayState& state) {
     const std::vector<udon::RoleAssignment> roles = udon::RoleAssignmentEnumerator(config).shortlist(3);
     const std::vector<udon::RoleAssignment> exhaustive =
@@ -2621,6 +2774,7 @@ int main() {
         test_column_events_and_stock_cuts(config, state);
         test_unreachable_brand_staging_column();
         test_master_lexicographic_branch_and_bound(config, state);
+        test_master_stock_capped_search_order();
         test_viability_reservation_and_role_seeds(config, state);
         test_contingency_seed_bundle_is_atomic(config, state);
         test_end_step_docking(config, state);

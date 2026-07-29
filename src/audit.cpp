@@ -410,6 +410,7 @@ template <typename Value, std::size_t Count>
         "reservationConflicts",
         JsonValue(static_cast<std::int64_t>(diagnostics.reservationConflicts)));
     object.emplace("nativeExactStockCredits", JsonValue(diagnostics.nativeExactStockCredits));
+    object.emplace("stockCappedSearchOrder", JsonValue(diagnostics.stockCappedSearchOrder));
     object.emplace("deadlineReached", JsonValue(diagnostics.deadlineReached));
     object.emplace("searchComplete", JsonValue(diagnostics.searchComplete));
     object.emplace("optimisticUpperBound", score_object(diagnostics.optimisticUpperBound));

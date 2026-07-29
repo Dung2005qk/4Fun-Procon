@@ -1126,6 +1126,34 @@ void retain_alns_population(
     return result;
 }
 
+[[nodiscard]] std::int32_t marginal_stock_credits(
+    const MatchConfig& config,
+    const std::vector<const RouteColumn*>& selected,
+    const RouteColumn& candidate) {
+    std::int32_t marginalCredits = 0;
+    for (const ColumnVisitEvent& event : candidate.firstVisits) {
+        if (!event.claimedServing) {
+            continue;
+        }
+        std::int32_t selectedClaims = 0;
+        for (const RouteColumn* selectedColumn : selected) {
+            if (selectedColumn == nullptr) {
+                continue;
+            }
+            selectedClaims += static_cast<std::int32_t>(std::count_if(
+                selectedColumn->firstVisits.begin(),
+                selectedColumn->firstVisits.end(),
+                [&event](const ColumnVisitEvent& selectedEvent) {
+                    return selectedEvent.claimedServing && selectedEvent.spot == event.spot;
+                }));
+        }
+        if (selectedClaims < config.spots.at(static_cast<std::size_t>(event.spot)).stock) {
+            ++marginalCredits;
+        }
+    }
+    return marginalCredits;
+}
+
 [[nodiscard]] bool portfolio_has_exact_metadata(const RoutePortfolio& portfolio) {
     return std::all_of(
         portfolio.columnsByAgent.begin(),
@@ -2672,6 +2700,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
     MasterDiagnostics& diagnostics) const {
     diagnostics = MasterDiagnostics{};
     diagnostics.nativeExactStockCredits = options.useStockCredits;
+    diagnostics.stockCappedSearchOrder = options.preferStockCappedSearchOrder;
     if (portfolio.columnsByAgent.size() != static_cast<std::size_t>(config_.agent_count()) ||
         options.maximumCombinations <= 0 || options.maximumCandidates <= 0) {
         return {};
@@ -2781,7 +2810,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
             struct BeamSelection {
                 std::vector<const RouteColumn*> columns;
                 std::uint64_t brands = 0;
-                std::int32_t claimedServings = 0;
+                std::int32_t rankedServings = 0;
                 std::int64_t priority = 0;
             };
             std::vector<BeamSelection> beam;
@@ -2827,7 +2856,9 @@ std::vector<MasterCandidate> RouteMaster::solve(
                             continue;
                         }
                         candidate.brands |= column_brand_mask(config_, *column);
-                        candidate.claimedServings += column->estimatedServings;
+                        candidate.rankedServings += options.preferStockCappedSearchOrder
+                            ? marginal_stock_credits(config_, partial.columns, *column)
+                            : column->estimatedServings;
                         candidate.priority += conflict_aware_priority(*column, cutState);
                         expanded.push_back(std::move(candidate));
                     }
@@ -2848,8 +2879,8 @@ std::vector<MasterCandidate> RouteMaster::solve(
                         if (dailyOrder != 0) {
                             return dailyOrder > 0;
                         }
-                        if (left.claimedServings != right.claimedServings) {
-                            return left.claimedServings > right.claimedServings;
+                        if (left.rankedServings != right.rankedServings) {
+                            return left.rankedServings > right.rankedServings;
                         }
                         if (left.priority != right.priority) {
                             return left.priority > right.priority;
@@ -2967,9 +2998,9 @@ std::vector<MasterCandidate> RouteMaster::solve(
                 std::stable_sort(
                     branchColumns.begin(),
                     branchColumns.end(),
-                    [&ledger, selectedBrands, &activeEscortGroups, this](
-                        const RouteColumn* left,
-                        const RouteColumn* right) {
+                    [&ledger, selectedBrands, &activeEscortGroups, &selected, exactMetadata, &options, this](
+                         const RouteColumn* left,
+                         const RouteColumn* right) {
                         const bool leftMatchesEscort = activeEscortGroups.contains(left->escortGroup);
                         const bool rightMatchesEscort = activeEscortGroups.contains(right->escortGroup);
                         if (leftMatchesEscort != rightMatchesEscort) {
@@ -2988,7 +3019,19 @@ std::vector<MasterCandidate> RouteMaster::solve(
                             std::popcount(leftBrands & ~selectedBrands));
                         const std::int32_t rightDailyGain = static_cast<std::int32_t>(
                             std::popcount(rightBrands & ~selectedBrands));
-                        return leftDailyGain > rightDailyGain;
+                        if (leftDailyGain != rightDailyGain) {
+                            return leftDailyGain > rightDailyGain;
+                        }
+                        const std::int32_t leftServingGain = exactMetadata && options.preferStockCappedSearchOrder
+                            ? marginal_stock_credits(config_, selected, *left)
+                            : left->estimatedServings;
+                        const std::int32_t rightServingGain = exactMetadata && options.preferStockCappedSearchOrder
+                            ? marginal_stock_credits(config_, selected, *right)
+                            : right->estimatedServings;
+                        if (leftServingGain != rightServingGain) {
+                            return leftServingGain > rightServingGain;
+                        }
+                        return false;
                     });
                 for (const RouteColumn* column : branchColumns) {
                     bool bundleCompatible = true;

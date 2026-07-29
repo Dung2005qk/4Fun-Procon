@@ -20,6 +20,8 @@ Các tối ưu như cache khoảng cách, cắt Pareto, column shortlist, beam p
 
 Master hiện là native set-packing thay vì OR-Tools CP-SAT. Tối ưu từ điển được giữ đúng bằng comparator lexicographic và sound upper bound; chỉ khi `searchComplete=true` mới có proof tối ưu trên portfolio đã đóng băng. Deadline hữu hạn vẫn trả exact-valid incumbent và không được gắn nhãn global optimum.
 
+Beam và DFS của master mặc định xếp nhánh theo stock-capped marginal credits sau hai tier brand, thay vì cộng raw claims bị trùng stock. Đây chỉ là search ordering, không phải pruning; exact simulator/validator và tập nghiệm khi search hoàn tất không đổi. Replay audit ghi `masterDiagnostics.stockCappedSearchOrder=true`, còn test A/B giữ được raw-claim mode để chứng minh phản ví dụ bounded-search.
+
 ## Build
 
 Yêu cầu CMake, Ninja và compiler C++20:
