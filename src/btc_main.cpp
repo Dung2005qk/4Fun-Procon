@@ -1321,7 +1321,14 @@ void run_http(const RuntimeOptions& options) {
                 stateDocument,
                 receivedAt,
                 adapterOptions);
-            const udon::SessionDecision decision = session.on_authoritative_state(state, ledger, receivedAt);
+            const std::chrono::system_clock::time_point planningReceivedAt =
+                receivedAt + std::min(
+                    std::chrono::milliseconds{100},
+                    deadlineCalibration.networkFloor / 10);
+            const udon::SessionDecision decision = session.on_authoritative_state(
+                state,
+                ledger,
+                planningReceivedAt);
             replay.record("decision", decision.replay);
             const std::int64_t actionDeadlineMs = state.endsAt * 1000;
             constexpr std::int64_t minimumSubmissionWindowMs = 1000;

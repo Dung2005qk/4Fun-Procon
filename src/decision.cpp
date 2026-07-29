@@ -3814,10 +3814,22 @@ DecisionResult UdonShieldEngine::solve_day(
             independentCandidate.has_value();
     }
     const std::chrono::milliseconds beforeColumnGeneration = elapsed();
+    const std::chrono::steady_clock::time_point portfolioPhaseStarted =
+        std::chrono::steady_clock::now();
+    const std::chrono::milliseconds portfolioPhaseWindow = std::max(
+        std::chrono::milliseconds{0},
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            preRecombinationDeadline - portfolioPhaseStarted));
+    const bool stagedDeepHarvestSearch =
+        generationOptions.maximumHarvestExtensionDepth >= 4;
     ColumnGenerationOptions legacyGenerationOptions = generationOptions;
     legacyGenerationOptions.allowUncachedHarvestTargets = false;
     if (result.deadline.deadlineClass == DeadlineClass::Normal) {
         legacyGenerationOptions.maximumColumnsPerAgent = 12;
+    }
+    if (stagedDeepHarvestSearch) {
+        legacyGenerationOptions.deadline =
+            portfolioPhaseStarted + portfolioPhaseWindow * 50 / 100;
     }
     RoutePortfolio portfolio = generator_.generate(
         state,
@@ -3825,13 +3837,59 @@ DecisionResult UdonShieldEngine::solve_day(
         legacyGenerationOptions,
         &result.audit.columnGeneration);
     const RoutePortfolio legacyPortfolio = portfolio;
+    const std::chrono::milliseconds afterLegacyGeneration = elapsed();
+    std::chrono::milliseconds columnGenerationDuration =
+        afterLegacyGeneration - beforeColumnGeneration;
+    std::chrono::milliseconds stagedLegacyMasterDuration{0};
+    const auto solve_legacy_until = [this,
+                                     &state,
+                                     &ledger,
+                                     &legacyPortfolio,
+                                     &masterOptions,
+                                     &result](
+                                        std::chrono::steady_clock::time_point deadline) {
+        MasterOptions legacyMasterOptions = masterOptions;
+        legacyMasterOptions.maximumCombinations =
+            std::max(256, masterOptions.maximumCombinations / 2);
+        legacyMasterOptions.maximumCandidates =
+            std::max(8, masterOptions.maximumCandidates / 2);
+        legacyMasterOptions.diversityCandidates =
+            std::max(2, legacyMasterOptions.maximumCandidates / 4);
+        legacyMasterOptions.deadline = deadline;
+        MasterDiagnostics legacyDiagnostics;
+        std::vector<MasterCandidate> candidates = master_.solve(
+            state,
+            ledger,
+            legacyPortfolio,
+            legacyMasterOptions,
+            legacyDiagnostics);
+        merge_master_diagnostics(result.diagnostics, legacyDiagnostics);
+        return candidates;
+    };
+    std::vector<MasterCandidate> legacyCandidates;
+    if (stagedDeepHarvestSearch) {
+        const std::chrono::steady_clock::time_point legacyMasterDeadline =
+            portfolioPhaseStarted + portfolioPhaseWindow * 60 / 100;
+        if (std::chrono::steady_clock::now() < legacyMasterDeadline) {
+            const std::chrono::milliseconds beforeLegacyMaster = elapsed();
+            legacyCandidates = solve_legacy_until(legacyMasterDeadline);
+            stagedLegacyMasterDuration = elapsed() - beforeLegacyMaster;
+        }
+    }
     if (harvestExtensionMode_ > 1 &&
         (!generationOptions.deadline.has_value() ||
          std::chrono::steady_clock::now() < *generationOptions.deadline)) {
+        ColumnGenerationOptions expandedGenerationOptions = generationOptions;
+        if (stagedDeepHarvestSearch) {
+            expandedGenerationOptions.deadline =
+                portfolioPhaseStarted + portfolioPhaseWindow * 85 / 100;
+        }
+        const std::chrono::milliseconds beforeExpandedGeneration = elapsed();
         RoutePortfolio expandedPortfolio = generator_.generate(
             state,
             ledger,
-            generationOptions);
+            expandedGenerationOptions);
+        columnGenerationDuration += elapsed() - beforeExpandedGeneration;
         std::int32_t nextColumnId = 0;
         for (const std::vector<RouteColumn>& columns :
              portfolio.columnsByAgent) {
@@ -3874,7 +3932,7 @@ DecisionResult UdonShieldEngine::solve_day(
             }
         }
     }
-    result.timing.columnGeneration = elapsed() - beforeColumnGeneration;
+    result.timing.columnGeneration = columnGenerationDuration;
     result.audit.portfolioColumnsByAgent.reserve(portfolio.columnsByAgent.size());
     result.audit.portfolioBrandCountsByAgent.reserve(portfolio.columnsByAgent.size());
     result.audit.portfolioMaximumServingsByAgent.reserve(
@@ -3903,28 +3961,12 @@ DecisionResult UdonShieldEngine::solve_day(
             std::move(terminalCells));
     }
     const std::chrono::milliseconds beforeInitialMaster = elapsed();
-    std::vector<MasterCandidate> legacyCandidates;
-    if (harvestExtensionMode_ > 1 &&
+    if (!stagedDeepHarvestSearch && harvestExtensionMode_ > 1 &&
         std::chrono::steady_clock::now() < preRecombinationDeadline) {
-        MasterOptions legacyMasterOptions = masterOptions;
-        legacyMasterOptions.maximumCombinations =
-            std::max(256, masterOptions.maximumCombinations / 2);
-        legacyMasterOptions.maximumCandidates =
-            std::max(8, masterOptions.maximumCandidates / 2);
-        legacyMasterOptions.diversityCandidates =
-            std::max(2, legacyMasterOptions.maximumCandidates / 4);
         const std::chrono::steady_clock::time_point now =
             std::chrono::steady_clock::now();
-        legacyMasterOptions.deadline =
-            now + (preRecombinationDeadline - now) / 2;
-        MasterDiagnostics legacyDiagnostics;
-        legacyCandidates = master_.solve(
-            state,
-            ledger,
-            legacyPortfolio,
-            legacyMasterOptions,
-            legacyDiagnostics);
-        merge_master_diagnostics(result.diagnostics, legacyDiagnostics);
+        legacyCandidates = solve_legacy_until(
+            now + (preRecombinationDeadline - now) / 2);
     }
     if (!legacyCandidates.empty() &&
         better_search_candidate(legacyCandidates.front(), incumbent)) {
@@ -3947,7 +3989,8 @@ DecisionResult UdonShieldEngine::solve_day(
         generatedCandidates.begin(),
         generatedCandidates.end(),
         better_search_candidate);
-    result.timing.initialMaster = elapsed() - beforeInitialMaster;
+    result.timing.initialMaster =
+        stagedLegacyMasterDuration + elapsed() - beforeInitialMaster;
     if (independentCandidate.has_value()) {
         const bool duplicate = std::any_of(
             generatedCandidates.begin(),

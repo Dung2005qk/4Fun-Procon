@@ -439,7 +439,10 @@ void populate_exact_escort_segments(
     return true;
 }
 
-void prune_columns(std::vector<RouteColumn>& columns, std::int32_t maximumColumns) {
+void prune_columns(
+    std::vector<RouteColumn>& columns,
+    std::int32_t maximumColumns,
+    bool retainSpotDiversity) {
     std::sort(
         columns.begin(),
         columns.end(),
@@ -588,6 +591,81 @@ void prune_columns(std::vector<RouteColumn>& columns, std::int32_t maximumColumn
             }
             retain(best->columnId);
             coveredBrands |= best->estimatedBrands;
+        }
+        if (retainSpotDiversity) {
+            SpotIndex maximumSpot = -1;
+            for (const RouteColumn& column : unique) {
+                for (const ColumnVisitEvent& event : column.firstVisits) {
+                    maximumSpot = std::max(maximumSpot, event.spot);
+                }
+            }
+            std::vector<bool> coveredSpots(
+                maximumSpot >= 0
+                    ? static_cast<std::size_t>(maximumSpot) + 1U
+                    : 0U,
+                false);
+            const auto mark_claimed_spots = [&coveredSpots](const RouteColumn& column) {
+                for (const ColumnVisitEvent& event : column.firstVisits) {
+                    if (event.claimedServing) {
+                        coveredSpots.at(static_cast<std::size_t>(event.spot)) = true;
+                    }
+                }
+            };
+            for (const RouteColumn& column : unique) {
+                if (std::find(
+                        retainedIds.begin(),
+                        retainedIds.end(),
+                        column.columnId) != retainedIds.end()) {
+                    mark_claimed_spots(column);
+                }
+            }
+            const std::int32_t spotDiversityLimit = std::max(1, maximumColumns / 4);
+            for (std::int32_t diversityPick = 0;
+                 diversityPick < spotDiversityLimit &&
+                     static_cast<std::int32_t>(retainedIds.size()) < maximumColumns;
+                 ++diversityPick) {
+                const RouteColumn* best = nullptr;
+                std::int32_t bestMarginal = 0;
+                for (const RouteColumn& column : unique) {
+                    if (std::find(
+                            retainedIds.begin(),
+                            retainedIds.end(),
+                            column.columnId) != retainedIds.end()) {
+                        continue;
+                    }
+                    std::int32_t marginal = 0;
+                    for (const ColumnVisitEvent& event : column.firstVisits) {
+                        if (event.claimedServing &&
+                            !coveredSpots.at(static_cast<std::size_t>(event.spot))) {
+                            ++marginal;
+                        }
+                    }
+                    const std::int32_t columnBreadth = static_cast<std::int32_t>(
+                        std::popcount(column.estimatedBrands));
+                    const std::int32_t bestBreadth = best == nullptr
+                        ? -1
+                        : static_cast<std::int32_t>(
+                              std::popcount(best->estimatedBrands));
+                    if (marginal > bestMarginal ||
+                        (marginal == bestMarginal && marginal > 0 &&
+                         column.estimatedServings > best->estimatedServings) ||
+                        (marginal == bestMarginal && marginal > 0 &&
+                         column.estimatedServings == best->estimatedServings &&
+                         columnBreadth > bestBreadth) ||
+                        (marginal == bestMarginal && marginal > 0 &&
+                         column.estimatedServings == best->estimatedServings &&
+                         columnBreadth == bestBreadth &&
+                         column.priority > best->priority)) {
+                        best = &column;
+                        bestMarginal = marginal;
+                    }
+                }
+                if (best == nullptr || bestMarginal <= 0) {
+                    break;
+                }
+                retain(best->columnId);
+                mark_claimed_spots(*best);
+            }
         }
         for (const RouteColumn& column : unique) {
             retain(column.columnId);
@@ -2219,20 +2297,48 @@ RoutePortfolio RouteColumnGenerator::generate(
             }
             return left < right;
         });
-    std::vector<CellId> rendezvousCells = criticalRoads;
+    const bool multiDayFuelCarry =
+        config_.fuelLimit >= 3 * config_.steps_for_day(state.dayNumber);
+    std::vector<CellId> rendezvousCells = multiDayFuelCarry
+        ? std::vector<CellId>{}
+        : criticalRoads;
     rendezvousCells.reserve(criticalRoads.size() + state.agents.size() + 8U);
+    const auto append_rendezvous_cell = [&rendezvousCells](CellId cell) {
+        if (std::find(rendezvousCells.begin(), rendezvousCells.end(), cell) ==
+            rendezvousCells.end()) {
+            rendezvousCells.push_back(cell);
+        }
+    };
     for (const AgentState& agent : state.agents) {
-        rendezvousCells.push_back(agent.position);
+        if (multiDayFuelCarry) {
+            append_rendezvous_cell(agent.position);
+        } else {
+            rendezvousCells.push_back(agent.position);
+        }
+    }
+    if (multiDayFuelCarry) {
+        for (const CellId road : criticalRoads) {
+            append_rendezvous_cell(road);
+        }
     }
     const std::int32_t rendezvousSpotLimit = std::min<std::int32_t>(
         8,
         static_cast<std::int32_t>(rendezvousTargets.size()));
     for (std::int32_t targetOffset = 0; targetOffset < rendezvousSpotLimit; ++targetOffset) {
-        rendezvousCells.push_back(config_.spots.at(static_cast<std::size_t>(
-            rendezvousTargets.at(static_cast<std::size_t>(targetOffset)))).position);
+        const CellId target = config_.spots.at(static_cast<std::size_t>(
+            rendezvousTargets.at(static_cast<std::size_t>(targetOffset)))).position;
+        if (multiDayFuelCarry) {
+            append_rendezvous_cell(target);
+        } else {
+            rendezvousCells.push_back(target);
+        }
     }
-    std::sort(rendezvousCells.begin(), rendezvousCells.end());
-    rendezvousCells.erase(std::unique(rendezvousCells.begin(), rendezvousCells.end()), rendezvousCells.end());
+    if (!multiDayFuelCarry) {
+        std::sort(rendezvousCells.begin(), rendezvousCells.end());
+        rendezvousCells.erase(
+            std::unique(rendezvousCells.begin(), rendezvousCells.end()),
+            rendezvousCells.end());
+    }
     if (rendezvousCells.size() > 16U) {
         rendezvousCells.resize(16U);
     }
@@ -2799,7 +2905,10 @@ RoutePortfolio RouteColumnGenerator::generate(
                 std::make_move_iterator(harvestExtensions.begin()),
                 std::make_move_iterator(harvestExtensions.end()));
         }
-        prune_columns(columns, std::max(1, options.maximumColumnsPerAgent));
+        prune_columns(
+            columns,
+            std::max(1, options.maximumColumnsPerAgent),
+            config_.fuelLimit >= 3 * config_.steps_for_day(state.dayNumber));
     }
     populate_exact_escort_segments(state, portfolio);
     if (diagnostics != nullptr) {
@@ -2885,7 +2994,10 @@ RoutePoolAugmentation RouteColumnGenerator::augment_with_candidate_routes(
     }
 
     for (std::vector<RouteColumn>& columns : augmentation.portfolio.columnsByAgent) {
-        prune_columns(columns, maximumColumnsPerAgent);
+        prune_columns(
+            columns,
+            maximumColumnsPerAgent,
+            config_.fuelLimit >= 3 * config_.steps_for_day(state.dayNumber));
         augmentation.retainedNovelRoutes += static_cast<std::int32_t>(std::count_if(
             columns.begin(),
             columns.end(),
