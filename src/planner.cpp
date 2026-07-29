@@ -2857,43 +2857,50 @@ RoutePortfolio RouteColumnGenerator::generate(
                         extendedSources >= maximumExtendedSources) {
                         break;
                     }
-                    RouteColumn current = columns.at(sourceIndex);
                     const std::int32_t sourceRank = extendedSources;
                     bool extendedSource = false;
+                    std::vector<RouteColumn> frontier{columns.at(sourceIndex)};
                     for (std::int32_t extensionDepth = 0;
                          extensionDepth < maximumExtensionDepth;
                          ++extensionDepth) {
                         if (deadline_expired()) {
                             break;
                         }
-                        const std::vector<SpotIndex> targets =
-                            ordered_extension_targets(
-                                current,
-                                false,
-                                spotTransitionReady);
-                        const std::size_t targetLimit =
-                            std::min<std::size_t>(4U, targets.size());
-                        bool extendedAtDepth = false;
-                        for (std::size_t targetOffset = 0;
-                             targetOffset < targetLimit;
-                             ++targetOffset) {
-                            if (std::optional<RouteColumn> extended =
-                                    extend_to_target(
-                                        current,
-                                        targets.at(targetOffset));
-                                extended.has_value()) {
-                                extended->harvestExtensionSourceRank = sourceRank;
-                                current = *extended;
-                                harvestExtensions.push_back(
-                                    std::move(*extended));
-                                extendedSource = true;
-                                extendedAtDepth = true;
-                                break;
+                        std::vector<RouteColumn> nextFrontier;
+                        const std::int32_t branchesPerState =
+                            multiDayFuelCarry && extensionDepth == 0 ? 2 : 1;
+                        for (const RouteColumn& current : frontier) {
+                            const std::vector<SpotIndex> targets =
+                                ordered_extension_targets(
+                                    current,
+                                    false,
+                                    spotTransitionReady);
+                            const std::size_t targetLimit =
+                                std::min<std::size_t>(4U, targets.size());
+                            std::int32_t acceptedBranches = 0;
+                            for (std::size_t targetOffset = 0;
+                                 targetOffset < targetLimit &&
+                                     acceptedBranches < branchesPerState &&
+                                     !deadline_expired();
+                                 ++targetOffset) {
+                                if (std::optional<RouteColumn> extended =
+                                        extend_to_target(
+                                            current,
+                                            targets.at(targetOffset));
+                                    extended.has_value()) {
+                                    extended->harvestExtensionSourceRank = sourceRank;
+                                    nextFrontier.push_back(*extended);
+                                    harvestExtensions.push_back(
+                                        std::move(*extended));
+                                    extendedSource = true;
+                                    ++acceptedBranches;
+                                }
                             }
                         }
-                        if (!extendedAtDepth) {
+                        if (nextFrontier.empty()) {
                             break;
                         }
+                        frontier = std::move(nextFrontier);
                     }
                     if (extendedSource) {
                         ++extendedSources;
