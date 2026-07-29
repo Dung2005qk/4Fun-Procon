@@ -38,6 +38,23 @@ struct ParetoSearchOptions {
     std::optional<std::chrono::steady_clock::time_point> deadline;
 };
 
+struct ParetoSearchDiagnostics {
+    std::int32_t queries = 0;
+    std::int32_t cacheHits = 0;
+    std::int32_t cacheMisses = 0;
+    std::int32_t cacheClears = 0;
+    std::int32_t resourceBoundCacheHits = 0;
+    std::int32_t resourceBoundCacheMisses = 0;
+    std::int32_t deadlineRejectedQueries = 0;
+    std::int32_t deadlineInterruptedQueries = 0;
+    std::int64_t queuePops = 0;
+    std::int64_t labelsGenerated = 0;
+    std::int64_t labelsDominanceRejected = 0;
+    std::int64_t labelsDominated = 0;
+    std::int64_t labelsPrunedByCap = 0;
+    std::int64_t labelsPrunedByResourceBound = 0;
+};
+
 class ParetoRouter {
 public:
     explicit ParetoRouter(const MatchConfig& config);
@@ -46,7 +63,8 @@ public:
         CellId source,
         CellId target,
         const std::vector<RoadStatus>& roadStatuses,
-        const ParetoSearchOptions& options) const;
+        const ParetoSearchOptions& options,
+        ParetoSearchDiagnostics* diagnostics = nullptr) const;
 
 private:
     struct RouteQueryKey {
@@ -68,10 +86,33 @@ private:
         [[nodiscard]] std::size_t operator()(const RouteQueryKey& key) const;
     };
 
+    struct ResourceLowerBoundKey {
+        CellId target = kInvalidCell;
+        std::vector<RoadStatus> roadStatuses;
+
+        [[nodiscard]] bool operator==(const ResourceLowerBoundKey& other) const = default;
+    };
+
+    struct ResourceLowerBoundKeyHash {
+        [[nodiscard]] std::size_t operator()(const ResourceLowerBoundKey& key) const;
+    };
+
+    struct ResourceLowerBounds {
+        std::vector<std::int32_t> travelSteps;
+        std::vector<std::int32_t> patrolFuel;
+    };
+
     static constexpr std::size_t kMaximumCachedQueries = 4096;
+    static constexpr std::size_t kMaximumCachedBytes = 64U * 1024U * 1024U;
+    static constexpr std::size_t kMaximumResourceLowerBounds = 256;
 
     const MatchConfig& config_;
     mutable std::unordered_map<RouteQueryKey, std::vector<ParetoPath>, RouteQueryKeyHash> routeCache_;
+    mutable std::size_t routeCacheBytes_ = 0;
+    mutable std::unordered_map<
+        ResourceLowerBoundKey,
+        ResourceLowerBounds,
+        ResourceLowerBoundKeyHash> resourceLowerBoundCache_;
 };
 
 } 

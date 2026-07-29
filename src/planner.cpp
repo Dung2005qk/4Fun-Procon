@@ -11,6 +11,7 @@
 #include <set>
 #include <stdexcept>
 #include <tuple>
+#include <unordered_map>
 #include <utility>
 
 namespace udon {
@@ -43,7 +44,7 @@ struct TargetSeed {
             return result;
         }
     }
-    for (const RoadStatus desired : {RoadStatus::Jammed, RoadStatus::Busy, RoadStatus::Smooth}) {
+    for (const RoadStatus desired : {RoadStatus::Jammed, RoadStatus::Busy}) {
         for (const CellId road : config.roadCells) {
             if (state.roadStatuses.at(static_cast<std::size_t>(road)) == desired) {
                 if (append(road) && result.size() == 16U) {
@@ -766,46 +767,68 @@ void prune_columns(std::vector<RouteColumn>& columns, std::int32_t maximumColumn
     return true;
 }
 
+struct SynchronizationAvailability {
+    std::vector<std::uint32_t> escortAgentMasks;
+    std::vector<std::uint32_t> escortTankerMasks;
+    std::unordered_map<std::uint64_t, std::uint32_t> refuelProviderMasks;
+};
+
+[[nodiscard]] std::uint64_t refuel_event_key(const RefuelEvent& event) {
+    return (static_cast<std::uint64_t>(static_cast<std::uint32_t>(event.step)) << 32U) |
+        static_cast<std::uint32_t>(event.cell);
+}
+
 [[nodiscard]] bool partial_synchronized_selection_is_feasible(
     const DayState& state,
     const std::vector<const RouteColumn*>& selected,
-    const std::vector<std::vector<const RouteColumn*>>& availableColumns) {
+    const SynchronizationAvailability& availability) {
     struct ActiveGroup {
+        std::int32_t groupId = -1;
         std::int32_t selectedMembers = 0;
         std::int32_t selectedTankers = 0;
     };
-    std::map<std::int32_t, ActiveGroup> activeGroups;
+    std::array<ActiveGroup, static_cast<std::size_t>(kMaximumAgents)> activeGroups{};
+    std::size_t activeGroupCount = 0;
+    std::uint32_t assignedAgentMask = 0;
     for (AgentIndex agentIndex = 0; agentIndex < static_cast<AgentIndex>(selected.size()); ++agentIndex) {
         const RouteColumn* column = selected.at(static_cast<std::size_t>(agentIndex));
-        if (column == nullptr || column->escortGroup < 0) {
+        if (column == nullptr) {
             continue;
         }
-        ActiveGroup& group = activeGroups[column->escortGroup];
+        assignedAgentMask |=
+            std::uint32_t{1} << static_cast<std::uint32_t>(agentIndex);
+        if (column->escortGroup < 0) {
+            continue;
+        }
+        auto groupIterator = std::find_if(
+            activeGroups.begin(),
+            activeGroups.begin() + static_cast<std::ptrdiff_t>(activeGroupCount),
+            [column](const ActiveGroup& group) { return group.groupId == column->escortGroup; });
+        if (groupIterator == activeGroups.begin() + static_cast<std::ptrdiff_t>(activeGroupCount)) {
+            groupIterator = activeGroups.begin() + static_cast<std::ptrdiff_t>(activeGroupCount);
+            *groupIterator = ActiveGroup{column->escortGroup};
+            ++activeGroupCount;
+        }
+        ActiveGroup& group = *groupIterator;
         ++group.selectedMembers;
         group.selectedTankers +=
             state.agents.at(static_cast<std::size_t>(agentIndex)).kind == AgentKind::Tanker ? 1 : 0;
     }
-    for (const auto& [groupId, active] : activeGroups) {
+    for (std::size_t groupIndex = 0; groupIndex < activeGroupCount; ++groupIndex) {
+        const ActiveGroup& active = activeGroups.at(groupIndex);
         if (active.selectedTankers > 1) {
             return false;
         }
-        std::int32_t possibleMembers = active.selectedMembers;
-        bool tankerPossible = active.selectedTankers == 1;
-        for (AgentIndex agentIndex = 0; agentIndex < static_cast<AgentIndex>(selected.size()); ++agentIndex) {
-            if (selected.at(static_cast<std::size_t>(agentIndex)) != nullptr) {
-                continue;
-            }
-            const bool canJoin = std::any_of(
-                availableColumns.at(static_cast<std::size_t>(agentIndex)).begin(),
-                availableColumns.at(static_cast<std::size_t>(agentIndex)).end(),
-                [groupId](const RouteColumn* column) { return column->escortGroup == groupId; });
-            if (!canJoin) {
-                continue;
-            }
-            ++possibleMembers;
-            tankerPossible = tankerPossible ||
-                state.agents.at(static_cast<std::size_t>(agentIndex)).kind == AgentKind::Tanker;
-        }
+        const std::size_t groupOffset = static_cast<std::size_t>(active.groupId);
+        const std::uint32_t unassignedMembers = groupOffset <
+                availability.escortAgentMasks.size()
+            ? availability.escortAgentMasks.at(groupOffset) & ~assignedAgentMask
+            : 0U;
+        const std::int32_t possibleMembers = active.selectedMembers +
+            static_cast<std::int32_t>(std::popcount(unassignedMembers));
+        const bool tankerPossible = active.selectedTankers == 1 ||
+            (groupOffset < availability.escortTankerMasks.size() &&
+             (availability.escortTankerMasks.at(groupOffset) & ~assignedAgentMask) != 0U);
         if (possibleMembers < 2 || !tankerPossible) {
             return false;
         }
@@ -818,7 +841,11 @@ void prune_columns(std::vector<RouteColumn>& columns, std::int32_t maximumColumn
             continue;
         }
         for (const RefuelEvent& required : patrol->requiredRefuels) {
-            bool coveragePossible = false;
+            const auto availableProviders = availability.refuelProviderMasks.find(
+                refuel_event_key(required));
+            bool coveragePossible = availableProviders !=
+                    availability.refuelProviderMasks.end() &&
+                (availableProviders->second & ~assignedAgentMask) != 0U;
             for (AgentIndex tankerIndex = 0;
                  tankerIndex < static_cast<AgentIndex>(selected.size()) && !coveragePossible;
                  ++tankerIndex) {
@@ -830,18 +857,8 @@ void prune_columns(std::vector<RouteColumn>& columns, std::int32_t maximumColumn
                     coveragePossible = std::find(
                         tanker->providedRefuels.begin(),
                         tanker->providedRefuels.end(),
-                        required) != tanker->providedRefuels.end();
-                    continue;
+                            required) != tanker->providedRefuels.end();
                 }
-                coveragePossible = std::any_of(
-                    availableColumns.at(static_cast<std::size_t>(tankerIndex)).begin(),
-                    availableColumns.at(static_cast<std::size_t>(tankerIndex)).end(),
-                    [&required](const RouteColumn* candidate) {
-                        return std::find(
-                            candidate->providedRefuels.begin(),
-                            candidate->providedRefuels.end(),
-                            required) != candidate->providedRefuels.end();
-                    });
             }
             if (!coveragePossible) {
                 return false;
@@ -1051,6 +1068,48 @@ void populate_terminal_brand_feature(
     return distance;
 }
 
+using CandidateDiversityDistance =
+    std::tuple<std::int32_t, std::int64_t, std::int32_t>;
+
+[[nodiscard]] CandidateDiversityDistance candidate_diversity_distance(
+    const MasterCandidate& left,
+    const MasterCandidate& right) {
+    const std::size_t agentCount = std::min(
+        left.simulation.finalAgents.size(),
+        right.simulation.finalAgents.size());
+    std::int32_t differentTerminalPositions =
+        static_cast<std::int32_t>(
+            std::max(
+                left.simulation.finalAgents.size(),
+                right.simulation.finalAgents.size()) -
+            agentCount);
+    std::int64_t stateDistance = 0;
+    for (std::size_t agentIndex = 0; agentIndex < agentCount; ++agentIndex) {
+        const AgentState& leftAgent =
+            left.simulation.finalAgents.at(agentIndex);
+        const AgentState& rightAgent =
+            right.simulation.finalAgents.at(agentIndex);
+        differentTerminalPositions +=
+            leftAgent.position != rightAgent.position ? 1 : 0;
+        stateDistance += std::abs(leftAgent.fuel - rightAgent.fuel);
+    }
+    const std::size_t footprintCount = std::min(
+        left.simulation.roadFootprint.size(),
+        right.simulation.roadFootprint.size());
+    for (std::size_t roadIndex = 0;
+         roadIndex < footprintCount;
+         ++roadIndex) {
+        stateDistance += std::abs(
+            left.simulation.roadFootprint.at(roadIndex) -
+            right.simulation.roadFootprint.at(roadIndex));
+    }
+    return CandidateDiversityDistance{
+        differentTerminalPositions,
+        stateDistance,
+        candidate_plan_distance(left, right),
+    };
+}
+
 void retain_alns_population(
     std::vector<MasterCandidate>& candidates,
     std::int32_t maximumCandidates,
@@ -1080,23 +1139,28 @@ void retain_alns_population(
     }
     while (selected.size() < static_cast<std::size_t>(maximumCandidates)) {
         std::size_t bestIndex = candidates.size();
-        std::int32_t bestMinimumDistance = -1;
+        std::optional<CandidateDiversityDistance> bestMinimumDistance;
         for (std::size_t candidateIndex = qualityCount;
              candidateIndex < candidates.size();
              ++candidateIndex) {
             if (used.at(candidateIndex)) {
                 continue;
             }
-            std::int32_t minimumDistance = std::numeric_limits<std::int32_t>::max();
+            std::optional<CandidateDiversityDistance> minimumDistance;
             for (const std::size_t selectedIndex : selected) {
-                minimumDistance = std::min(
-                    minimumDistance,
-                    candidate_plan_distance(
+                const CandidateDiversityDistance distance =
+                    candidate_diversity_distance(
                         candidates.at(candidateIndex),
-                        candidates.at(selectedIndex)));
+                        candidates.at(selectedIndex));
+                if (!minimumDistance.has_value() ||
+                    distance < *minimumDistance) {
+                    minimumDistance = distance;
+                }
             }
-            if (minimumDistance > bestMinimumDistance) {
-                bestMinimumDistance = minimumDistance;
+            if (minimumDistance.has_value() &&
+                (!bestMinimumDistance.has_value() ||
+                 *minimumDistance > *bestMinimumDistance)) {
+                bestMinimumDistance = *minimumDistance;
                 bestIndex = candidateIndex;
             }
         }
@@ -1216,16 +1280,6 @@ void retain_alns_population(
         ledger.totalDailyDistinct + static_cast<std::int32_t>(std::popcount(dailyBrands)),
         ledger.totalServings + servings,
     };
-}
-
-[[nodiscard]] const MasterCandidate& worst_candidate(const std::vector<MasterCandidate>& candidates) {
-    const MasterCandidate* worst = &candidates.front();
-    for (const MasterCandidate& candidate : candidates) {
-        if (better_candidate(*worst, candidate)) {
-            worst = &candidate;
-        }
-    }
-    return *worst;
 }
 
 struct StockCutState {
@@ -1450,17 +1504,41 @@ RouteColumnGenerator::RouteColumnGenerator(const MatchConfig& config, const Pare
 RoutePortfolio RouteColumnGenerator::generate(
     const DayState& state,
     const MatchLedger& ledger,
-    const ColumnGenerationOptions& options) const {
+    const ColumnGenerationOptions& options,
+    ColumnGenerationDiagnostics* diagnostics) const {
     if (static_cast<std::int32_t>(state.agents.size()) != config_.agent_count()) {
         throw std::invalid_argument("column generation requires a complete day state");
+    }
+    if (diagnostics != nullptr) {
+        *diagnostics = ColumnGenerationDiagnostics{};
+        diagnostics->agentMilliseconds.assign(
+            static_cast<std::size_t>(config_.agent_count()),
+            0);
+        diagnostics->agentParetoQueries.assign(
+            static_cast<std::size_t>(config_.agent_count()),
+            0);
     }
     RoutePortfolio portfolio;
     portfolio.columnsByAgent.resize(static_cast<std::size_t>(config_.agent_count()));
     std::int32_t nextColumnId = 0;
     std::int32_t nextEscortGroup = 0;
     const std::vector<CellId> criticalRoads = select_critical_roads(config_, state, options.criticalRoadHints);
+    if (diagnostics != nullptr) {
+        diagnostics->criticalRoads = criticalRoads;
+    }
     const auto deadline_expired = [&options]() {
         return options.deadline.has_value() && std::chrono::steady_clock::now() >= *options.deadline;
+    };
+    const auto find_paths = [this, &state, diagnostics](
+                                CellId source,
+                                CellId target,
+                                const ParetoSearchOptions& searchOptions) {
+        return router_.find_paths(
+            source,
+            target,
+            state.roadStatuses,
+            searchOptions,
+            diagnostics != nullptr ? &diagnostics->pareto : nullptr);
     };
     std::vector<std::vector<std::vector<ParetoPath>>> spotTransitionCache(
         config_.spots.size(),
@@ -1473,7 +1551,8 @@ RoutePortfolio RouteColumnGenerator::generate(
                                   &options,
                                   &criticalRoads,
                                   &spotTransitionCache,
-                                  &spotTransitionReady](
+                                  &spotTransitionReady,
+                                  &find_paths](
                                      SpotIndex from,
                                      SpotIndex to,
                                      std::int32_t remainingSteps,
@@ -1493,10 +1572,9 @@ RoutePortfolio RouteColumnGenerator::generate(
             transitionOptions.patrol = true;
             transitionOptions.criticalRoads = criticalRoads;
             transitionOptions.deadline = options.deadline;
-            spotTransitionCache.at(fromOffset).at(toOffset) = router_.find_paths(
+            spotTransitionCache.at(fromOffset).at(toOffset) = find_paths(
                 config_.spots.at(fromOffset).position,
                 config_.spots.at(toOffset).position,
-                state.roadStatuses,
                 transitionOptions);
         }
         for (const ParetoPath& path : spotTransitionCache.at(fromOffset).at(toOffset)) {
@@ -1536,6 +1614,9 @@ RoutePortfolio RouteColumnGenerator::generate(
     }
 
     for (AgentIndex agentIndex = 0; agentIndex < config_.agent_count(); ++agentIndex) {
+        const auto agentGenerationStarted = std::chrono::steady_clock::now();
+        const std::int32_t agentQueriesBefore =
+            diagnostics != nullptr ? diagnostics->pareto.queries : 0;
         const AgentState& agent = state.agents.at(static_cast<std::size_t>(agentIndex));
         RouteColumn waitColumn;
         waitColumn.columnId = nextColumnId++;
@@ -1546,6 +1627,15 @@ RoutePortfolio RouteColumnGenerator::generate(
         waitColumn.priority = -1;
         portfolio.columnsByAgent.at(static_cast<std::size_t>(agentIndex)).push_back(std::move(waitColumn));
         if (deadline_expired()) {
+            if (diagnostics != nullptr) {
+                diagnostics->agentMilliseconds.at(static_cast<std::size_t>(agentIndex)) =
+                    std::chrono::duration_cast<std::chrono::milliseconds>(
+                        std::chrono::steady_clock::now() - agentGenerationStarted)
+                        .count();
+                diagnostics->agentParetoQueries.at(static_cast<std::size_t>(agentIndex)) =
+                    diagnostics->pareto.queries - agentQueriesBefore;
+                diagnostics->deadlineReached = true;
+            }
             continue;
         }
 
@@ -1596,10 +1686,9 @@ RoutePortfolio RouteColumnGenerator::generate(
                 break;
             }
             const Spot& spot = config_.spots.at(static_cast<std::size_t>(spotIndex));
-            const std::vector<ParetoPath> paths = router_.find_paths(
+            const std::vector<ParetoPath> paths = find_paths(
                 agent.position,
                 spot.position,
-                state.roadStatuses,
                 searchOptions);
             const bool newLifetimeBrand = !has_brand(ledger.lifetimeBrands, spot.brandIndex);
             const std::int32_t rarity = brand_rarity(config_, spot.brandIndex);
@@ -1637,10 +1726,9 @@ RoutePortfolio RouteColumnGenerator::generate(
                 stagingOptions.maximumPaths = 1;
                 const Spot& spot = config_.spots.at(
                     static_cast<std::size_t>(spotIndex));
-                const std::vector<ParetoPath> fullPaths = router_.find_paths(
+                const std::vector<ParetoPath> fullPaths = find_paths(
                     agent.position,
                     spot.position,
-                    state.roadStatuses,
                     stagingOptions);
                 if (fullPaths.empty()) {
                     continue;
@@ -1945,8 +2033,19 @@ RoutePortfolio RouteColumnGenerator::generate(
                 }
             }
         }
+        if (diagnostics != nullptr) {
+            diagnostics->agentMilliseconds.at(static_cast<std::size_t>(agentIndex)) =
+                std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::steady_clock::now() - agentGenerationStarted)
+                    .count();
+            diagnostics->agentParetoQueries.at(static_cast<std::size_t>(agentIndex)) =
+                diagnostics->pareto.queries - agentQueriesBefore;
+        }
     }
 
+    const auto coordinationStarted = std::chrono::steady_clock::now();
+    const std::int32_t coordinationQueriesBefore =
+        diagnostics != nullptr ? diagnostics->pareto.queries : 0;
     std::int32_t createdEscorts = 0;
     for (AgentIndex tankerIndex = 0;
          tankerIndex < config_.agent_count() && createdEscorts < options.maximumEscorts &&
@@ -1978,10 +2077,9 @@ RoutePortfolio RouteColumnGenerator::generate(
             if (createdEscorts >= options.maximumEscorts || deadline_expired()) {
                 break;
             }
-            const std::vector<ParetoPath> paths = router_.find_paths(
+            const std::vector<ParetoPath> paths = find_paths(
                 tanker.position,
                 spot.position,
-                state.roadStatuses,
                 escortOptions);
             if (paths.empty() || paths.front().directions.empty() ||
                 !std::all_of(
@@ -2056,10 +2154,9 @@ RoutePortfolio RouteColumnGenerator::generate(
                 if (createdEscorts >= options.maximumEscorts || deadline_expired()) {
                     break;
                 }
-                const std::vector<ParetoPath> paths = router_.find_paths(
+                const std::vector<ParetoPath> paths = find_paths(
                     state.agents.at(static_cast<std::size_t>(patrolIndex)).position,
                     spot.position,
-                    state.roadStatuses,
                     escortOptions);
                 if (paths.empty() || paths.front().directions.empty() ||
                     !escort_feasible(config_, state, patrolIndex, paths.front())) {
@@ -2170,15 +2267,13 @@ RoutePortfolio RouteColumnGenerator::generate(
                 if (createdRendezvous >= rendezvousLimit || deadline_expired()) {
                     break;
                 }
-                const std::vector<ParetoPath> patrolArrivals = router_.find_paths(
+                const std::vector<ParetoPath> patrolArrivals = find_paths(
                     patrol.position,
                     rendezvous,
-                    state.roadStatuses,
                     patrolArrivalOptions);
-                const std::vector<ParetoPath> tankerArrivals = router_.find_paths(
+                const std::vector<ParetoPath> tankerArrivals = find_paths(
                     tanker.position,
                     rendezvous,
-                    state.roadStatuses,
                     tankerArrivalOptions);
                 if (patrolArrivals.empty() || tankerArrivals.empty()) {
                     continue;
@@ -2214,10 +2309,9 @@ RoutePortfolio RouteColumnGenerator::generate(
                     if (spot.position == rendezvous) {
                         continue;
                     }
-                    const std::vector<ParetoPath> departures = router_.find_paths(
+                    const std::vector<ParetoPath> departures = find_paths(
                         rendezvous,
                         spot.position,
-                        state.roadStatuses,
                         departureOptions);
                     if (departures.empty()) {
                         continue;
@@ -2363,18 +2457,16 @@ RoutePortfolio RouteColumnGenerator::generate(
                  ++targetOffset) {
                 const SpotIndex spotIndex = dockingTargets.at(static_cast<std::size_t>(targetOffset));
                 const Spot& spot = config_.spots.at(static_cast<std::size_t>(spotIndex));
-                const std::vector<ParetoPath> patrolPaths = router_.find_paths(
+                const std::vector<ParetoPath> patrolPaths = find_paths(
                     patrol.position,
                     spot.position,
-                    state.roadStatuses,
                     patrolOptions);
                 if (patrolPaths.empty()) {
                     continue;
                 }
-                const std::vector<ParetoPath> tankerPaths = router_.find_paths(
+                const std::vector<ParetoPath> tankerPaths = find_paths(
                     tanker.position,
                     spot.position,
-                    state.roadStatuses,
                     tankerOptions);
                 if (tankerPaths.empty()) {
                     continue;
@@ -2464,7 +2556,10 @@ RoutePortfolio RouteColumnGenerator::generate(
         for (RouteColumn& column : columns) {
             enrich_column(column);
         }
-        if (agent.kind == AgentKind::Patrol && options.maximumColumnsPerAgent == 12 &&
+        if (agent.kind == AgentKind::Patrol &&
+            options.enableHarvestExtensions &&
+            options.maximumColumnsPerAgent >= 12 &&
+            options.maximumColumnsPerAgent <= 16 &&
             !deadline_expired()) {
             std::vector<std::size_t> sourceOrder;
             sourceOrder.reserve(columns.size());
@@ -2493,75 +2588,209 @@ RoutePortfolio RouteColumnGenerator::generate(
                     return leftColumn.columnId < rightColumn.columnId;
                 });
             std::vector<RouteColumn> harvestExtensions;
-            bool extendedRoute = false;
-            for (const std::size_t sourceIndex : sourceOrder) {
-                if (deadline_expired() || extendedRoute) {
-                    break;
-                }
-                const RouteColumn& source = columns.at(sourceIndex);
-                RouteColumn current = source;
-                std::set<SpotIndex> visitedSpots;
-                for (const ColumnVisitEvent& visit : source.firstVisits) {
-                    visitedSpots.insert(visit.spot);
-                }
-                for (std::int32_t extensionDepth = 0; extensionDepth < 2; ++extensionDepth) {
-                    if (deadline_expired() || current.actions.empty() ||
+            const auto ordered_extension_targets =
+                [this, &dockingTargets](
+                    const RouteColumn& current,
+                    bool requireCached,
+                    const std::vector<std::vector<bool>>& ready) {
+                    const SpotIndex terminalSpot = config_.spotAtCell.at(
+                        static_cast<std::size_t>(current.terminalCell));
+                    std::vector<SpotIndex> targets;
+                    targets.reserve(dockingTargets.size());
+                    for (const SpotIndex targetSpot : dockingTargets) {
+                        const bool alreadyVisited = std::any_of(
+                            current.firstVisits.begin(),
+                            current.firstVisits.end(),
+                            [targetSpot](const ColumnVisitEvent& visit) {
+                                return visit.spot == targetSpot;
+                            });
+                        if (!alreadyVisited && targetSpot != terminalSpot &&
+                            (!requireCached ||
+                             ready.at(static_cast<std::size_t>(terminalSpot)).at(
+                                 static_cast<std::size_t>(targetSpot)))) {
+                            targets.push_back(targetSpot);
+                        }
+                    }
+                    if (!requireCached) {
+                        std::sort(
+                            targets.begin(),
+                            targets.end(),
+                            [this, &current](SpotIndex left, SpotIndex right) {
+                                const Spot& leftSpot =
+                                    config_.spots.at(static_cast<std::size_t>(left));
+                                const Spot& rightSpot =
+                                    config_.spots.at(static_cast<std::size_t>(right));
+                                const bool leftAddsBrand =
+                                    !has_brand(current.estimatedBrands, leftSpot.brandIndex);
+                                const bool rightAddsBrand =
+                                    !has_brand(current.estimatedBrands, rightSpot.brandIndex);
+                                if (leftAddsBrand != rightAddsBrand) {
+                                    return leftAddsBrand;
+                                }
+                                const std::int32_t leftDistance =
+                                    terminalDistancesToSpots_.at(static_cast<std::size_t>(left)).at(
+                                        static_cast<std::size_t>(current.terminalCell));
+                                const std::int32_t rightDistance =
+                                    terminalDistancesToSpots_.at(static_cast<std::size_t>(right)).at(
+                                        static_cast<std::size_t>(current.terminalCell));
+                                if (leftDistance != rightDistance) {
+                                    return leftDistance < rightDistance;
+                                }
+                                if (leftSpot.stock != rightSpot.stock) {
+                                    return leftSpot.stock > rightSpot.stock;
+                                }
+                                return left < right;
+                            });
+                    }
+                    return targets;
+                };
+            const auto extend_to_target =
+                [this,
+                 &ledger,
+                 &enrich_column,
+                 &nextColumnId,
+                 &spot_transition](
+                    const RouteColumn& current,
+                    SpotIndex targetSpot) -> std::optional<RouteColumn> {
+                    if (current.actions.empty() ||
                         current.actions.back().kind != ActionKind::Wait ||
                         current.actions.back().value <= 1) {
-                        break;
+                        return std::nullopt;
                     }
                     const SpotIndex terminalSpot = config_.spotAtCell.at(
                         static_cast<std::size_t>(current.terminalCell));
                     const std::int32_t trailingWait = current.actions.back().value;
-                    bool extendedAtDepth = false;
-                    for (const SpotIndex targetSpot : dockingTargets) {
-                        if (deadline_expired() || visitedSpots.contains(targetSpot) ||
-                            targetSpot == terminalSpot ||
-                            !spotTransitionReady.at(static_cast<std::size_t>(terminalSpot)).at(
-                                static_cast<std::size_t>(targetSpot))) {
-                            continue;
-                        }
-                        const std::optional<ParetoPath> extension = spot_transition(
-                            terminalSpot,
-                            targetSpot,
-                            trailingWait - 1,
-                            current.terminalFuel);
-                        if (!extension.has_value() || extension->travelSteps >= trailingWait) {
-                            continue;
-                        }
-                        RouteColumn extended = current;
-                        extended.columnId = nextColumnId++;
-                        extended.actions.pop_back();
-                        for (const std::int32_t direction : extension->directions) {
-                            extended.actions.push_back(PlanAction::move(direction));
-                        }
-                        const std::int32_t finalWait = trailingWait - extension->travelSteps;
-                        if (finalWait > 0) {
-                            extended.actions.push_back(PlanAction::wait(finalWait));
-                        }
-                        const Spot& target = config_.spots.at(static_cast<std::size_t>(targetSpot));
-                        extended.terminalCell = target.position;
-                        extended.terminalFuel = current.terminalFuel - extension->patrolFuel;
-                        for (const auto& [road, stays] : extension->heuristicFootprint.entries) {
-                            extended.heuristicFootprint.add(road, stays);
-                        }
-                        extended.priority +=
-                            (!has_brand(ledger.lifetimeBrands, target.brandIndex) ? 1000000 : 0) +
-                            (config_.brand_count() - brand_rarity(config_, target.brandIndex)) * 1000 +
-                            target.stock * 10 - extension->travelSteps;
-                        enrich_column(extended);
-                        if (extended.estimatedServings <= current.estimatedServings) {
-                            continue;
-                        }
-                        visitedSpots.insert(targetSpot);
-                        current = extended;
-                        harvestExtensions.push_back(std::move(extended));
-                        extendedRoute = true;
-                        extendedAtDepth = true;
+                    const std::optional<ParetoPath> extension = spot_transition(
+                        terminalSpot,
+                        targetSpot,
+                        trailingWait - 1,
+                        current.terminalFuel);
+                    if (!extension.has_value() || extension->travelSteps >= trailingWait) {
+                        return std::nullopt;
+                    }
+                    RouteColumn extended = current;
+                    extended.columnId = nextColumnId++;
+                    extended.harvestExtension = true;
+                    extended.actions.pop_back();
+                    for (const std::int32_t direction : extension->directions) {
+                        extended.actions.push_back(PlanAction::move(direction));
+                    }
+                    const std::int32_t finalWait = trailingWait - extension->travelSteps;
+                    if (finalWait > 0) {
+                        extended.actions.push_back(PlanAction::wait(finalWait));
+                    }
+                    const Spot& target =
+                        config_.spots.at(static_cast<std::size_t>(targetSpot));
+                    extended.terminalCell = target.position;
+                    extended.terminalFuel =
+                        current.terminalFuel - extension->patrolFuel;
+                    for (const auto& [road, stays] :
+                         extension->heuristicFootprint.entries) {
+                        extended.heuristicFootprint.add(road, stays);
+                    }
+                    extended.priority +=
+                        (!has_brand(ledger.lifetimeBrands, target.brandIndex)
+                             ? 1000000
+                             : 0) +
+                        (config_.brand_count() -
+                         brand_rarity(config_, target.brandIndex)) *
+                            1000 +
+                        target.stock * 10 - extension->travelSteps;
+                    enrich_column(extended);
+                    if (extended.estimatedServings <= current.estimatedServings) {
+                        return std::nullopt;
+                    }
+                    return extended;
+                };
+            if (!options.allowUncachedHarvestTargets) {
+                bool extendedRoute = false;
+                for (const std::size_t sourceIndex : sourceOrder) {
+                    if (deadline_expired() || extendedRoute) {
                         break;
                     }
-                    if (!extendedAtDepth) {
+                    RouteColumn current = columns.at(sourceIndex);
+                    for (std::int32_t extensionDepth = 0;
+                         extensionDepth < 2;
+                         ++extensionDepth) {
+                        if (deadline_expired()) {
+                            break;
+                        }
+                        const std::vector<SpotIndex> targets =
+                            ordered_extension_targets(
+                                current,
+                                true,
+                                spotTransitionReady);
+                        bool extendedAtDepth = false;
+                        for (const SpotIndex targetSpot : targets) {
+                            if (std::optional<RouteColumn> extended =
+                                    extend_to_target(current, targetSpot);
+                                extended.has_value()) {
+                                current = *extended;
+                                harvestExtensions.push_back(
+                                    std::move(*extended));
+                                extendedRoute = true;
+                                extendedAtDepth = true;
+                                break;
+                            }
+                        }
+                        if (!extendedAtDepth) {
+                            break;
+                        }
+                    }
+                }
+            } else {
+                std::int32_t extendedSources = 0;
+                const std::int32_t maximumExtendedSources = std::max(
+                    1,
+                    options.maximumHarvestExtensionSources);
+                const std::int32_t maximumExtensionDepth = std::max(
+                    1,
+                    options.maximumHarvestExtensionDepth);
+                for (const std::size_t sourceIndex : sourceOrder) {
+                    if (deadline_expired() ||
+                        extendedSources >= maximumExtendedSources) {
                         break;
+                    }
+                    RouteColumn current = columns.at(sourceIndex);
+                    const std::int32_t sourceRank = extendedSources;
+                    bool extendedSource = false;
+                    for (std::int32_t extensionDepth = 0;
+                         extensionDepth < maximumExtensionDepth;
+                         ++extensionDepth) {
+                        if (deadline_expired()) {
+                            break;
+                        }
+                        const std::vector<SpotIndex> targets =
+                            ordered_extension_targets(
+                                current,
+                                false,
+                                spotTransitionReady);
+                        const std::size_t targetLimit =
+                            std::min<std::size_t>(4U, targets.size());
+                        bool extendedAtDepth = false;
+                        for (std::size_t targetOffset = 0;
+                             targetOffset < targetLimit;
+                             ++targetOffset) {
+                            if (std::optional<RouteColumn> extended =
+                                    extend_to_target(
+                                        current,
+                                        targets.at(targetOffset));
+                                extended.has_value()) {
+                                extended->harvestExtensionSourceRank = sourceRank;
+                                current = *extended;
+                                harvestExtensions.push_back(
+                                    std::move(*extended));
+                                extendedSource = true;
+                                extendedAtDepth = true;
+                                break;
+                            }
+                        }
+                        if (!extendedAtDepth) {
+                            break;
+                        }
+                    }
+                    if (extendedSource) {
+                        ++extendedSources;
                     }
                 }
             }
@@ -2573,6 +2802,15 @@ RoutePortfolio RouteColumnGenerator::generate(
         prune_columns(columns, std::max(1, options.maximumColumnsPerAgent));
     }
     populate_exact_escort_segments(state, portfolio);
+    if (diagnostics != nullptr) {
+        diagnostics->coordinationMilliseconds =
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - coordinationStarted)
+                .count();
+        diagnostics->coordinationParetoQueries =
+            diagnostics->pareto.queries - coordinationQueriesBefore;
+        diagnostics->deadlineReached = diagnostics->deadlineReached || deadline_expired();
+    }
     return portfolio;
 }
 
@@ -2705,6 +2943,48 @@ std::vector<MasterCandidate> RouteMaster::solve(
         options.maximumCombinations <= 0 || options.maximumCandidates <= 0) {
         return {};
     }
+    const bool hasSynchronizationConstraints = std::any_of(
+        portfolio.columnsByAgent.begin(),
+        portfolio.columnsByAgent.end(),
+        [](const std::vector<RouteColumn>& columns) {
+            return std::any_of(
+                columns.begin(),
+                columns.end(),
+                [](const RouteColumn& column) {
+                    return column.escortGroup >= 0 || !column.requiredRefuels.empty();
+                });
+        });
+    SynchronizationAvailability synchronizationAvailability;
+    if (hasSynchronizationConstraints) {
+        for (std::size_t agentOffset = 0;
+             agentOffset < portfolio.columnsByAgent.size();
+             ++agentOffset) {
+            const std::uint32_t agentMask =
+                std::uint32_t{1} << static_cast<std::uint32_t>(agentOffset);
+            const bool isTanker =
+                state.agents.at(agentOffset).kind == AgentKind::Tanker;
+            for (const RouteColumn& column : portfolio.columnsByAgent.at(agentOffset)) {
+                if (column.escortGroup >= 0) {
+                    const std::size_t groupOffset =
+                        static_cast<std::size_t>(column.escortGroup);
+                    if (groupOffset >= synchronizationAvailability.escortAgentMasks.size()) {
+                        synchronizationAvailability.escortAgentMasks.resize(groupOffset + 1U);
+                        synchronizationAvailability.escortTankerMasks.resize(groupOffset + 1U);
+                    }
+                    synchronizationAvailability.escortAgentMasks.at(groupOffset) |= agentMask;
+                    if (isTanker) {
+                        synchronizationAvailability.escortTankerMasks.at(groupOffset) |= agentMask;
+                    }
+                }
+                if (isTanker) {
+                    for (const RefuelEvent& refuel : column.providedRefuels) {
+                        synchronizationAvailability.refuelProviderMasks[refuel_event_key(refuel)] |=
+                            agentMask;
+                    }
+                }
+            }
+        }
+    }
     std::vector<MasterCandidate> candidates;
     std::set<std::string> evaluatedPlans;
     StockCutState cutState;
@@ -2726,6 +3006,8 @@ std::vector<MasterCandidate> RouteMaster::solve(
             break;
         }
         ++diagnostics.cutRounds;
+        const std::chrono::steady_clock::time_point roundPreparationStarted =
+            std::chrono::steady_clock::now();
         std::vector<std::vector<const RouteColumn*>> orderedColumns(
             static_cast<std::size_t>(config_.agent_count()));
         std::vector<AgentIndex> ordering;
@@ -2743,7 +3025,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
             std::sort(
                 ordered.begin(),
                 ordered.end(),
-                [&config = config_, &ledger, &cutState](const RouteColumn* left, const RouteColumn* right) {
+                [&config = config_, &ledger, &cutState, &options](const RouteColumn* left, const RouteColumn* right) {
                     const std::uint64_t leftBrands = column_brand_mask(config, *left);
                     const std::uint64_t rightBrands = column_brand_mask(config, *right);
                     const std::int32_t leftLifetimeGain = static_cast<std::int32_t>(
@@ -2768,6 +3050,12 @@ std::vector<MasterCandidate> RouteMaster::solve(
                         [](const ColumnVisitEvent& event) { return event.claimedServing; }));
                     if (leftClaims != rightClaims) {
                         return leftClaims > rightClaims;
+                    }
+                    if (options.preferBaselineHarvestSources &&
+                        left->harvestExtensionSourceRank !=
+                        right->harvestExtensionSourceRank) {
+                        return left->harvestExtensionSourceRank <
+                            right->harvestExtensionSourceRank;
                     }
                     const std::int32_t leftPriority = conflict_aware_priority(*left, cutState);
                     const std::int32_t rightPriority = conflict_aware_priority(*right, cutState);
@@ -2794,8 +3082,75 @@ std::vector<MasterCandidate> RouteMaster::solve(
         std::vector<const RouteColumn*> selected(static_cast<std::size_t>(config_.agent_count()), nullptr);
         bool learnedCut = false;
         const bool exactMetadata = portfolio_has_exact_metadata(portfolio);
+        std::vector<std::uint64_t> suffixPossibleBrands(ordering.size() + 1U, 0);
+        std::vector<std::vector<std::int32_t>> suffixPossibleClaims(
+            ordering.size() + 1U,
+            std::vector<std::int32_t>(config_.spots.size(), 0));
+        std::vector<std::vector<SpotIndex>> claimableSpotsByDepth(ordering.size());
+        std::vector<std::int32_t> suffixMaximumAgentClaims(ordering.size() + 1U, 0);
+        if (exactMetadata) {
+            for (std::size_t depth = ordering.size(); depth-- > 0U;) {
+                suffixPossibleBrands.at(depth) = suffixPossibleBrands.at(depth + 1U);
+                suffixPossibleClaims.at(depth) = suffixPossibleClaims.at(depth + 1U);
+                suffixMaximumAgentClaims.at(depth) =
+                    suffixMaximumAgentClaims.at(depth + 1U);
+                const AgentIndex agentIndex = ordering.at(depth);
+                std::vector<bool> agentCanClaim(config_.spots.size(), false);
+                std::int32_t maximumAgentClaims = 0;
+                for (const RouteColumn* column :
+                     orderedColumns.at(static_cast<std::size_t>(agentIndex))) {
+                    suffixPossibleBrands.at(depth) |= column_brand_mask(config_, *column);
+                    std::int32_t columnClaims = 0;
+                    for (const ColumnVisitEvent& event : column->firstVisits) {
+                        if (event.claimedServing) {
+                            agentCanClaim.at(static_cast<std::size_t>(event.spot)) = true;
+                            ++columnClaims;
+                        }
+                    }
+                    maximumAgentClaims = std::max(maximumAgentClaims, columnClaims);
+                }
+                suffixMaximumAgentClaims.at(depth) += maximumAgentClaims;
+                for (std::size_t spotOffset = 0; spotOffset < agentCanClaim.size(); ++spotOffset) {
+                    if (agentCanClaim.at(spotOffset)) {
+                        ++suffixPossibleClaims.at(depth).at(spotOffset);
+                        claimableSpotsByDepth.at(depth).push_back(
+                            static_cast<SpotIndex>(spotOffset));
+                    }
+                }
+            }
+        }
+        std::vector<std::int32_t> selectedClaimCounts(config_.spots.size(), 0);
+        const auto suffix_upper_bound_score =
+            [this, &ledger, &suffixPossibleBrands, &suffixMaximumAgentClaims](
+                std::uint64_t selectedBrands,
+                std::size_t depth,
+                std::int32_t servingUpperBound,
+                std::int32_t selectedRawClaims) {
+                const std::uint64_t dailyBrands =
+                    selectedBrands | suffixPossibleBrands.at(depth);
+                const std::int32_t agentServingUpperBound =
+                    selectedRawClaims + suffixMaximumAgentClaims.at(depth);
+                return OfficialScore{
+                    static_cast<std::int32_t>(std::popcount(
+                        ledger.lifetimeBrands | dailyBrands)),
+                    ledger.totalDailyDistinct +
+                        static_cast<std::int32_t>(std::popcount(dailyBrands)),
+                    ledger.totalServings +
+                        std::min(servingUpperBound, agentServingUpperBound),
+                };
+            };
+        std::int32_t rootServingUpperBound = 0;
+        if (exactMetadata) {
+            for (std::size_t spotOffset = 0;
+                 spotOffset < config_.spots.size();
+                 ++spotOffset) {
+                rootServingUpperBound += std::min(
+                    suffixPossibleClaims.front().at(spotOffset),
+                    config_.spots.at(spotOffset).stock);
+            }
+        }
         diagnostics.optimisticUpperBound = exactMetadata
-            ? optimistic_partial_score(config_, ledger, selected, ordering, 0U, orderedColumns)
+            ? suffix_upper_bound_score(0, 0U, rootServingUpperBound, 0)
             : OfficialScore{
                   config_.brand_count(),
                   ledger.totalDailyDistinct + config_.brand_count(),
@@ -2805,14 +3160,107 @@ std::vector<MasterCandidate> RouteMaster::solve(
                       0,
                       [](std::int32_t total, const Spot& spot) { return total + spot.stock; }),
               };
+        diagnostics.roundPreparationMicroseconds += std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::steady_clock::now() - roundPreparationStarted).count();
         if (resolveRound == 0 && exactMetadata && options.maximumCombinations >= 128 &&
             diagnostics.combinationsVisited < roundLimit && !deadline_expired()) {
+            const std::chrono::steady_clock::time_point beamConstructionStarted =
+                std::chrono::steady_clock::now();
             struct BeamSelection {
                 std::vector<const RouteColumn*> columns;
                 std::uint64_t brands = 0;
                 std::int32_t rankedServings = 0;
+                std::int32_t explorationRank = 0;
                 std::int64_t priority = 0;
             };
+            const auto tanker_terminal_signature =
+                [&state](const BeamSelection& selection) {
+                    std::vector<CellId> signature;
+                    for (AgentIndex agentIndex = 0;
+                         agentIndex < static_cast<AgentIndex>(selection.columns.size());
+                         ++agentIndex) {
+                        if (state.agents.at(static_cast<std::size_t>(agentIndex)).kind !=
+                            AgentKind::Tanker) {
+                            continue;
+                        }
+                        const RouteColumn* column =
+                            selection.columns.at(static_cast<std::size_t>(agentIndex));
+                        if (column != nullptr) {
+                            signature.push_back(column->terminalCell);
+                        }
+                    }
+                    return signature;
+                };
+            const auto retain_beam_diversity =
+                [&tanker_terminal_signature](
+                    std::vector<BeamSelection>& selections,
+                    std::int32_t limit) {
+                    if (limit <= 0 ||
+                        static_cast<std::int32_t>(selections.size()) <= limit) {
+                        return;
+                    }
+                    const std::size_t retainedLimit =
+                        static_cast<std::size_t>(limit);
+                    const std::size_t qualityCount =
+                        std::max<std::size_t>(1, retainedLimit * 3U / 4U);
+                    std::vector<std::size_t> retained;
+                    retained.reserve(retainedLimit);
+                    std::vector<bool> used(selections.size(), false);
+                    for (std::size_t index = 0;
+                         index < qualityCount;
+                         ++index) {
+                        retained.push_back(index);
+                        used.at(index) = true;
+                    }
+                    std::map<std::vector<CellId>, std::vector<std::size_t>>
+                        candidatesByTankerSignature;
+                    for (std::size_t index = qualityCount;
+                         index < selections.size();
+                         ++index) {
+                        const std::vector<CellId> signature =
+                            tanker_terminal_signature(selections.at(index));
+                        if (!signature.empty()) {
+                            candidatesByTankerSignature[signature].push_back(index);
+                        }
+                    }
+                    for (std::size_t round = 0;
+                         retained.size() < retainedLimit;
+                         ++round) {
+                        bool added = false;
+                        for (const auto& [signature, indices] :
+                             candidatesByTankerSignature) {
+                            static_cast<void>(signature);
+                            if (round >= indices.size()) {
+                                continue;
+                            }
+                            const std::size_t index = indices.at(round);
+                            retained.push_back(index);
+                            used.at(index) = true;
+                            added = true;
+                            if (retained.size() == retainedLimit) {
+                                break;
+                            }
+                        }
+                        if (!added) {
+                            break;
+                        }
+                    }
+                    for (std::size_t index = qualityCount;
+                         index < selections.size() &&
+                         retained.size() < retainedLimit;
+                         ++index) {
+                        if (!used.at(index)) {
+                            retained.push_back(index);
+                        }
+                    }
+                    std::sort(retained.begin(), retained.end());
+                    std::vector<BeamSelection> diversified;
+                    diversified.reserve(retained.size());
+                    for (const std::size_t index : retained) {
+                        diversified.push_back(std::move(selections.at(index)));
+                    }
+                    selections = std::move(diversified);
+                };
             std::vector<BeamSelection> beam;
             beam.push_back(BeamSelection{
                 std::vector<const RouteColumn*>(static_cast<std::size_t>(config_.agent_count()), nullptr)});
@@ -2849,16 +3297,19 @@ std::vector<MasterCandidate> RouteMaster::solve(
                         }
                         BeamSelection candidate = partial;
                         candidate.columns.at(static_cast<std::size_t>(agentIndex)) = column;
-                        if (!partial_synchronized_selection_is_feasible(
+                        if (hasSynchronizationConstraints &&
+                            !partial_synchronized_selection_is_feasible(
                                 state,
                                 candidate.columns,
-                                orderedColumns)) {
+                                synchronizationAvailability)) {
                             continue;
                         }
                         candidate.brands |= column_brand_mask(config_, *column);
                         candidate.rankedServings += options.preferStockCappedSearchOrder
                             ? marginal_stock_credits(config_, partial.columns, *column)
                             : column->estimatedServings;
+                        candidate.explorationRank +=
+                            column->harvestExtensionSourceRank;
                         candidate.priority += conflict_aware_priority(*column, cutState);
                         expanded.push_back(std::move(candidate));
                     }
@@ -2866,7 +3317,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
                 std::sort(
                     expanded.begin(),
                     expanded.end(),
-                    [&ledger](const BeamSelection& left, const BeamSelection& right) {
+                    [&ledger, &options](const BeamSelection& left, const BeamSelection& right) {
                         const std::int32_t lifetimeOrder =
                             static_cast<std::int32_t>(std::popcount(ledger.lifetimeBrands | left.brands)) -
                             static_cast<std::int32_t>(std::popcount(ledger.lifetimeBrands | right.brands));
@@ -2881,6 +3332,10 @@ std::vector<MasterCandidate> RouteMaster::solve(
                         }
                         if (left.rankedServings != right.rankedServings) {
                             return left.rankedServings > right.rankedServings;
+                        }
+                        if (options.preferBaselineHarvestSources &&
+                            left.explorationRank != right.explorationRank) {
+                            return left.explorationRank < right.explorationRank;
                         }
                         if (left.priority != right.priority) {
                             return left.priority > right.priority;
@@ -2898,26 +3353,32 @@ std::vector<MasterCandidate> RouteMaster::solve(
                         }
                         return false;
                     });
-                if (static_cast<std::int32_t>(expanded.size()) > beamWidth) {
-                    expanded.resize(static_cast<std::size_t>(beamWidth));
-                }
+                retain_beam_diversity(expanded, beamWidth);
                 beam = std::move(expanded);
                 if (beam.empty()) {
                     beamComplete = false;
                     break;
                 }
             }
+            diagnostics.beamConstructionMicroseconds += std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::steady_clock::now() - beamConstructionStarted).count();
             const std::int32_t evaluationLimit = std::min(
                 static_cast<std::int32_t>(beam.size()),
-                std::max(32, options.maximumCandidates * 4));
+                std::max(32, options.maximumCandidates * 8));
+            retain_beam_diversity(beam, evaluationLimit);
+            const std::int32_t combinationsBeforeBeam = diagnostics.combinationsVisited;
+            const std::chrono::steady_clock::time_point beamEvaluationStarted =
+                std::chrono::steady_clock::now();
             for (std::int32_t beamIndex = 0;
-                 beamComplete && beamIndex < evaluationLimit &&
+                 beamComplete &&
+                 beamIndex < static_cast<std::int32_t>(beam.size()) &&
                  diagnostics.combinationsVisited < roundLimit && !deadline_expired();
                  ++beamIndex) {
                 const std::vector<const RouteColumn*>& seedSelection =
                     beam.at(static_cast<std::size_t>(beamIndex)).columns;
                 ++diagnostics.combinationsVisited;
-                if (!synchronized_selection_is_valid(state, seedSelection)) {
+                if (hasSynchronizationConstraints &&
+                    !synchronized_selection_is_valid(state, seedSelection)) {
                     ++diagnostics.synchronizationConflicts;
                     continue;
                 }
@@ -2955,9 +3416,45 @@ std::vector<MasterCandidate> RouteMaster::solve(
                         options.diversityCandidates);
                 }
             }
+            diagnostics.beamCombinationsVisited +=
+                diagnostics.combinationsVisited - combinationsBeforeBeam;
+            diagnostics.beamEvaluationMicroseconds += std::chrono::duration_cast<std::chrono::microseconds>(
+                std::chrono::steady_clock::now() - beamEvaluationStarted).count();
         }
-        std::function<bool(std::size_t)> search;
-        search = [&](std::size_t depth) {
+        struct BranchColumnRank {
+            const RouteColumn* column = nullptr;
+            std::uint64_t brands = 0;
+            bool matchesEscort = false;
+            std::int32_t lifetimeGain = 0;
+            std::int32_t dailyGain = 0;
+            std::int32_t servingGain = 0;
+            std::int32_t preservedServingPotential = 0;
+            std::int32_t rawClaims = 0;
+        };
+        std::vector<std::vector<BranchColumnRank>> branchColumnsByDepth(ordering.size());
+        std::vector<std::vector<std::int32_t>> activeEscortGroupsByDepth(ordering.size());
+        for (std::size_t depth = 0; depth < ordering.size(); ++depth) {
+            branchColumnsByDepth.at(depth).reserve(
+                orderedColumns.at(static_cast<std::size_t>(ordering.at(depth))).size());
+            activeEscortGroupsByDepth.at(depth).reserve(ordering.size());
+        }
+        std::optional<OfficialScore> worstCandidateScore;
+        const auto refresh_worst_candidate_score = [&]() {
+            worstCandidateScore.reset();
+            for (const MasterCandidate& candidate : candidates) {
+                if (!worstCandidateScore.has_value() ||
+                    compare_lexicographic(candidate.scoreAfterToday, *worstCandidateScore) < 0) {
+                    worstCandidateScore = candidate.scoreAfterToday;
+                }
+            }
+        };
+        refresh_worst_candidate_score();
+        const auto search = [&](auto&& self,
+                                std::size_t depth,
+                std::uint64_t selectedBrands,
+                std::int32_t activeSynchronizationConstraints,
+                std::int32_t servingUpperBound,
+                std::int32_t selectedRawClaims) -> bool {
             if (diagnostics.combinationsVisited >= roundLimit) {
                 return false;
             }
@@ -2967,73 +3464,135 @@ std::vector<MasterCandidate> RouteMaster::solve(
             }
             if (options.enableLexicographicBranchAndBound && exactMetadata &&
                 static_cast<std::int32_t>(candidates.size()) >= options.maximumCandidates) {
-                const OfficialScore branchUpperBound = optimistic_partial_score(
-                    config_,
-                    ledger,
-                    selected,
-                    ordering,
-                    depth,
-                    orderedColumns);
+                ++diagnostics.upperBoundChecks;
+                const OfficialScore branchUpperBound =
+                    suffix_upper_bound_score(
+                        selectedBrands,
+                        depth,
+                        servingUpperBound,
+                        selectedRawClaims);
                 if (compare_lexicographic(
                         branchUpperBound,
-                        worst_candidate(candidates).scoreAfterToday) < 0) {
+                        *worstCandidateScore) < 0) {
                     ++diagnostics.branchesPruned;
+                    ++diagnostics.upperBoundPrunes;
                     return true;
                 }
             }
             if (depth != ordering.size()) {
                 const AgentIndex agentIndex = ordering.at(depth);
-                std::uint64_t selectedBrands = 0;
-                std::set<std::int32_t> activeEscortGroups;
+                std::vector<std::int32_t>& activeEscortGroups =
+                    activeEscortGroupsByDepth.at(depth);
+                activeEscortGroups.clear();
                 for (const RouteColumn* selectedColumn : selected) {
-                    if (selectedColumn != nullptr) {
-                        selectedBrands |= column_brand_mask(config_, *selectedColumn);
-                        if (selectedColumn->escortGroup >= 0) {
-                            activeEscortGroups.insert(selectedColumn->escortGroup);
-                        }
+                    if (selectedColumn != nullptr && selectedColumn->escortGroup >= 0 &&
+                        std::find(
+                            activeEscortGroups.begin(),
+                            activeEscortGroups.end(),
+                            selectedColumn->escortGroup) == activeEscortGroups.end()) {
+                        activeEscortGroups.push_back(selectedColumn->escortGroup);
                     }
                 }
-                std::vector<const RouteColumn*> branchColumns =
-                    orderedColumns.at(static_cast<std::size_t>(agentIndex));
+                std::vector<BranchColumnRank>& branchColumns =
+                    branchColumnsByDepth.at(depth);
+                branchColumns.clear();
+                std::int32_t servingLossWithoutClaim = 0;
+                if (exactMetadata) {
+                    for (const SpotIndex spot : claimableSpotsByDepth.at(depth)) {
+                        const std::size_t spotOffset = static_cast<std::size_t>(spot);
+                        servingLossWithoutClaim +=
+                            selectedClaimCounts.at(spotOffset) +
+                                    suffixPossibleClaims.at(depth).at(spotOffset) <=
+                                config_.spots.at(spotOffset).stock
+                            ? 1
+                            : 0;
+                    }
+                }
+                for (const RouteColumn* column :
+                     orderedColumns.at(static_cast<std::size_t>(agentIndex))) {
+                    const std::uint64_t brands = column_brand_mask(config_, *column);
+                    std::int32_t servingGain = column->estimatedServings;
+                    std::int32_t preservedServingPotential = 0;
+                    std::int32_t rawClaims = 0;
+                    if (exactMetadata && options.preferStockCappedSearchOrder) {
+                        servingGain = 0;
+                        for (const ColumnVisitEvent& event : column->firstVisits) {
+                            if (!event.claimedServing) {
+                                continue;
+                            }
+                            ++rawClaims;
+                            const std::size_t spotOffset =
+                                static_cast<std::size_t>(event.spot);
+                            servingGain += selectedClaimCounts.at(spotOffset) <
+                                    config_.spots.at(spotOffset).stock
+                                ? 1
+                                : 0;
+                            preservedServingPotential +=
+                                selectedClaimCounts.at(spotOffset) +
+                                        suffixPossibleClaims.at(depth).at(spotOffset) <=
+                                    config_.spots.at(spotOffset).stock
+                                ? 1
+                                : 0;
+                        }
+                    } else if (exactMetadata) {
+                        for (const ColumnVisitEvent& event : column->firstVisits) {
+                            if (!event.claimedServing) {
+                                continue;
+                            }
+                            ++rawClaims;
+                            const std::size_t spotOffset =
+                                static_cast<std::size_t>(event.spot);
+                            preservedServingPotential +=
+                                selectedClaimCounts.at(spotOffset) +
+                                        suffixPossibleClaims.at(depth).at(spotOffset) <=
+                                    config_.spots.at(spotOffset).stock
+                                ? 1
+                                : 0;
+                        }
+                    }
+                    branchColumns.push_back(BranchColumnRank{
+                        column,
+                        brands,
+                        column->escortGroup >= 0 &&
+                            std::find(
+                                activeEscortGroups.begin(),
+                                activeEscortGroups.end(),
+                                column->escortGroup) != activeEscortGroups.end(),
+                        static_cast<std::int32_t>(std::popcount(
+                            brands & ~(ledger.lifetimeBrands | selectedBrands))),
+                        static_cast<std::int32_t>(std::popcount(brands & ~selectedBrands)),
+                        servingGain,
+                        preservedServingPotential,
+                        rawClaims,
+                    });
+                }
+                ++diagnostics.branchOrderingCalls;
                 std::stable_sort(
                     branchColumns.begin(),
                     branchColumns.end(),
-                    [&ledger, selectedBrands, &activeEscortGroups, &selected, exactMetadata, &options, this](
-                         const RouteColumn* left,
-                         const RouteColumn* right) {
-                        const bool leftMatchesEscort = activeEscortGroups.contains(left->escortGroup);
-                        const bool rightMatchesEscort = activeEscortGroups.contains(right->escortGroup);
-                        if (leftMatchesEscort != rightMatchesEscort) {
-                            return leftMatchesEscort;
+                    [&options](const BranchColumnRank& left, const BranchColumnRank& right) {
+                        if (left.matchesEscort != right.matchesEscort) {
+                            return left.matchesEscort;
                         }
-                        const std::uint64_t leftBrands = column_brand_mask(config_, *left);
-                        const std::uint64_t rightBrands = column_brand_mask(config_, *right);
-                        const std::int32_t leftLifetimeGain = static_cast<std::int32_t>(std::popcount(
-                            leftBrands & ~(ledger.lifetimeBrands | selectedBrands)));
-                        const std::int32_t rightLifetimeGain = static_cast<std::int32_t>(std::popcount(
-                            rightBrands & ~(ledger.lifetimeBrands | selectedBrands)));
-                        if (leftLifetimeGain != rightLifetimeGain) {
-                            return leftLifetimeGain > rightLifetimeGain;
+                        if (left.lifetimeGain != right.lifetimeGain) {
+                            return left.lifetimeGain > right.lifetimeGain;
                         }
-                        const std::int32_t leftDailyGain = static_cast<std::int32_t>(
-                            std::popcount(leftBrands & ~selectedBrands));
-                        const std::int32_t rightDailyGain = static_cast<std::int32_t>(
-                            std::popcount(rightBrands & ~selectedBrands));
-                        if (leftDailyGain != rightDailyGain) {
-                            return leftDailyGain > rightDailyGain;
+                        if (left.dailyGain != right.dailyGain) {
+                            return left.dailyGain > right.dailyGain;
                         }
-                        const std::int32_t leftServingGain = exactMetadata && options.preferStockCappedSearchOrder
-                            ? marginal_stock_credits(config_, selected, *left)
-                            : left->estimatedServings;
-                        const std::int32_t rightServingGain = exactMetadata && options.preferStockCappedSearchOrder
-                            ? marginal_stock_credits(config_, selected, *right)
-                            : right->estimatedServings;
-                        if (leftServingGain != rightServingGain) {
-                            return leftServingGain > rightServingGain;
+                        if (left.servingGain != right.servingGain) {
+                            return left.servingGain > right.servingGain;
+                        }
+                        if (options.preferBaselineHarvestSources &&
+                            left.column->harvestExtensionSourceRank !=
+                            right.column->harvestExtensionSourceRank) {
+                            return left.column->harvestExtensionSourceRank <
+                                right.column->harvestExtensionSourceRank;
                         }
                         return false;
-                    });
-                for (const RouteColumn* column : branchColumns) {
+                });
+                for (const BranchColumnRank& branchColumn : branchColumns) {
+                    const RouteColumn* column = branchColumn.column;
                     bool bundleCompatible = true;
                     for (const RouteColumn* assigned : selected) {
                         if (assigned == nullptr || assigned->agent == agentIndex) {
@@ -3047,15 +3606,46 @@ std::vector<MasterCandidate> RouteMaster::solve(
                     }
                     if (!bundleCompatible) {
                         ++diagnostics.branchesPruned;
+                        ++diagnostics.bundlePrunes;
                         continue;
                     }
                     selected.at(static_cast<std::size_t>(agentIndex)) = column;
-                    if (!partial_synchronized_selection_is_feasible(state, selected, orderedColumns)) {
+                    const std::int32_t childSynchronizationConstraints =
+                        activeSynchronizationConstraints +
+                        ((column->escortGroup >= 0 || !column->requiredRefuels.empty()) ? 1 : 0);
+                    if (childSynchronizationConstraints > 0) {
+                        ++diagnostics.partialSynchronizationChecks;
+                    }
+                    if (childSynchronizationConstraints > 0 &&
+                        !partial_synchronized_selection_is_feasible(
+                            state,
+                            selected,
+                            synchronizationAvailability)) {
                         ++diagnostics.branchesPruned;
+                        ++diagnostics.partialSynchronizationPrunes;
                         selected.at(static_cast<std::size_t>(agentIndex)) = nullptr;
                         continue;
                     }
-                    if (!search(depth + 1U)) {
+                    for (const ColumnVisitEvent& event : column->firstVisits) {
+                        if (event.claimedServing) {
+                            ++selectedClaimCounts.at(static_cast<std::size_t>(event.spot));
+                        }
+                    }
+                    const bool continued =
+                        self(
+                            self,
+                            depth + 1U,
+                            selectedBrands | branchColumn.brands,
+                            childSynchronizationConstraints,
+                            servingUpperBound - servingLossWithoutClaim +
+                                branchColumn.preservedServingPotential,
+                            selectedRawClaims + branchColumn.rawClaims);
+                    for (const ColumnVisitEvent& event : column->firstVisits) {
+                        if (event.claimedServing) {
+                            --selectedClaimCounts.at(static_cast<std::size_t>(event.spot));
+                        }
+                    }
+                    if (!continued) {
                         selected.at(static_cast<std::size_t>(agentIndex)) = nullptr;
                         return false;
                     }
@@ -3064,7 +3654,8 @@ std::vector<MasterCandidate> RouteMaster::solve(
                 return true;
             }
             ++diagnostics.combinationsVisited;
-            if (!synchronized_selection_is_valid(state, selected)) {
+            if (activeSynchronizationConstraints > 0 &&
+                !synchronized_selection_is_valid(state, selected)) {
                 ++diagnostics.synchronizationConflicts;
                 return true;
             }
@@ -3120,20 +3711,42 @@ std::vector<MasterCandidate> RouteMaster::solve(
             candidate.stableId = planId;
             candidate.creditedServings = simulation.score.servings;
             candidates.push_back(std::move(candidate));
+            if (!worstCandidateScore.has_value() ||
+                compare_lexicographic(
+                    candidates.back().scoreAfterToday,
+                    *worstCandidateScore) < 0) {
+                worstCandidateScore = candidates.back().scoreAfterToday;
+            }
             if (static_cast<std::int32_t>(candidates.size()) > options.maximumCandidates * 2) {
                 retain_alns_population(
                     candidates,
                     options.maximumCandidates,
                     options.diversityCandidates);
+                refresh_worst_candidate_score();
             }
             return true;
         };
-        const bool roundCompleted = search(0U);
+        const std::int32_t combinationsBeforeDepthFirst = diagnostics.combinationsVisited;
+        const std::chrono::steady_clock::time_point depthFirstSearchStarted =
+            std::chrono::steady_clock::now();
+        const bool roundCompleted = search(
+            search,
+            0U,
+            0,
+            0,
+            rootServingUpperBound,
+            0);
+        diagnostics.depthFirstCombinationsVisited +=
+            diagnostics.combinationsVisited - combinationsBeforeDepthFirst;
+        diagnostics.depthFirstSearchMicroseconds += std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::steady_clock::now() - depthFirstSearchStarted).count();
         diagnostics.searchComplete = diagnostics.searchComplete || roundCompleted;
         if (diagnostics.deadlineReached || roundCompleted || !learnedCut) {
             break;
         }
     }
+    const std::chrono::steady_clock::time_point populationMaintenanceStarted =
+        std::chrono::steady_clock::now();
     candidates.erase(
         std::unique(
             candidates.begin(),
@@ -3144,6 +3757,8 @@ std::vector<MasterCandidate> RouteMaster::solve(
         candidates,
         options.maximumCandidates,
         options.diversityCandidates);
+    diagnostics.populationMaintenanceMicroseconds += std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::steady_clock::now() - populationMaintenanceStarted).count();
     return candidates;
 }
 
@@ -3692,11 +4307,11 @@ std::vector<MasterCandidate> AdaptiveRouteImprover::improve(
     for (const MasterCandidate& candidate : candidates) {
         seen.insert(candidate.stableId);
     }
-    std::array<std::int32_t, kAlnsOperatorCount> weights{8, 6, 5, 4, 5, 5, 4, 6};
-    std::array<std::int32_t, kAlnsOperatorCount> deficits{};
     const auto deadline_expired = [&options]() {
         return options.deadline.has_value() && std::chrono::steady_clock::now() >= *options.deadline;
     };
+    std::array<std::int32_t, kAlnsOperatorCount> weights{8, 6, 5, 4, 5, 5, 4, 6};
+    std::array<std::int32_t, kAlnsOperatorCount> deficits{};
     for (std::int32_t iteration = 0; iteration < options.maximumIterations && !deadline_expired(); ++iteration) {
         const std::int32_t totalWeight = std::accumulate(weights.begin(), weights.end(), 0);
         for (std::size_t operatorIndex = 0; operatorIndex < kAlnsOperatorCount; ++operatorIndex) {
@@ -3955,12 +4570,26 @@ std::vector<RoleAssignment> RoleAssignmentEnumerator::shortlist(
     std::vector<RoadStatus> smooth(static_cast<std::size_t>(config_.map.cell_count()), RoadStatus::Smooth);
     const std::int32_t totalSteps = std::accumulate(config_.daySteps.begin(), config_.daySteps.end(), 0);
     const std::uint32_t assignmentCount = std::uint32_t{1} << static_cast<std::uint32_t>(config_.agent_count());
-    std::vector<std::uint64_t> directReachableByAgent(static_cast<std::size_t>(config_.agent_count()), 0);
-    std::vector<std::uint64_t> escortedReachableByAgent(static_cast<std::size_t>(config_.agent_count()), 0);
+    const std::uint64_t allBrands = config_.brand_count() == 64
+        ? std::numeric_limits<std::uint64_t>::max()
+        : (std::uint64_t{1} << static_cast<std::uint32_t>(config_.brand_count())) - 1U;
+    std::vector<std::uint64_t> directReachableByAgent(
+        static_cast<std::size_t>(config_.agent_count()),
+        allBrands);
+    std::vector<std::uint64_t> escortedReachableByAgent(
+        static_cast<std::size_t>(config_.agent_count()),
+        allBrands);
+    std::vector<std::uint64_t> stationReachableByAgent(
+        static_cast<std::size_t>(config_.agent_count()),
+        allBrands);
     for (AgentIndex agentIndex = 0; agentIndex < config_.agent_count(); ++agentIndex) {
         if (deadline_expired()) {
             break;
         }
+        std::uint64_t directReachable = 0;
+        std::uint64_t escortedReachable = 0;
+        std::uint64_t stationReachable = 0;
+        bool agentScanComplete = true;
         ParetoSearchOptions options;
         options.maximumTravelSteps = totalSteps;
         options.maximumPatrolFuel = config_.fuelLimit;
@@ -3970,28 +4599,101 @@ std::vector<RoleAssignment> RoleAssignmentEnumerator::shortlist(
         options.deadline = deadline;
         for (const Spot& spot : config_.spots) {
             if (deadline_expired()) {
+                agentScanComplete = false;
                 break;
             }
+            ParetoSearchDiagnostics directDiagnostics;
             const std::vector<ParetoPath> paths = router.find_paths(
                 config_.initialAgents.at(static_cast<std::size_t>(agentIndex)),
                 spot.position,
                 smooth,
-                options);
+                options,
+                &directDiagnostics);
             if (!paths.empty()) {
-                directReachableByAgent.at(static_cast<std::size_t>(agentIndex)) |= brand_bit(spot.brandIndex);
+                directReachable |= brand_bit(spot.brandIndex);
+                if (std::any_of(
+                        paths.begin(),
+                        paths.end(),
+                        [this](const ParetoPath& path) {
+                            return path.travelSteps <= config_.steps_for_day(1);
+                        })) {
+                    stationReachable |= brand_bit(spot.brandIndex);
+                }
+            }
+            if (directDiagnostics.deadlineRejectedQueries > 0 ||
+                directDiagnostics.deadlineInterruptedQueries > 0) {
+                agentScanComplete = false;
+                break;
             }
             options.maximumPatrolFuel = std::numeric_limits<std::int32_t>::max() / 4;
+            ParetoSearchDiagnostics escortedDiagnostics;
             const std::vector<ParetoPath> escortedPaths = router.find_paths(
                 config_.initialAgents.at(static_cast<std::size_t>(agentIndex)),
                 spot.position,
                 smooth,
-                options);
+                options,
+                &escortedDiagnostics);
             if (!escortedPaths.empty()) {
-                escortedReachableByAgent.at(static_cast<std::size_t>(agentIndex)) |= brand_bit(spot.brandIndex);
+                escortedReachable |= brand_bit(spot.brandIndex);
             }
             options.maximumPatrolFuel = config_.fuelLimit;
+            if (escortedDiagnostics.deadlineRejectedQueries > 0 ||
+                escortedDiagnostics.deadlineInterruptedQueries > 0) {
+                agentScanComplete = false;
+                break;
+            }
         }
+        if (!agentScanComplete) {
+            break;
+        }
+        directReachableByAgent.at(static_cast<std::size_t>(agentIndex)) = directReachable;
+        escortedReachableByAgent.at(static_cast<std::size_t>(agentIndex)) = escortedReachable;
+        stationReachableByAgent.at(static_cast<std::size_t>(agentIndex)) = stationReachable;
     }
+    const auto maximum_matching_coverage =
+        [this](const std::vector<std::uint64_t>& reachableByAgent,
+               const std::vector<AgentKind>& roles) {
+            std::vector<AgentIndex> matchedAgentByBrand(
+                static_cast<std::size_t>(config_.brand_count()),
+                kInvalidAgent);
+            const auto augment =
+                [&](auto&& self,
+                    AgentIndex agentIndex,
+                    std::vector<bool>& visitedBrands) -> bool {
+                    const std::uint64_t reachable =
+                        reachableByAgent.at(static_cast<std::size_t>(agentIndex));
+                    for (std::int32_t brandIndex = 0;
+                         brandIndex < config_.brand_count();
+                         ++brandIndex) {
+                        if (!has_brand(reachable, brandIndex) ||
+                            visitedBrands.at(static_cast<std::size_t>(brandIndex))) {
+                            continue;
+                        }
+                        visitedBrands.at(static_cast<std::size_t>(brandIndex)) = true;
+                        AgentIndex& matched =
+                            matchedAgentByBrand.at(static_cast<std::size_t>(brandIndex));
+                        if (matched == kInvalidAgent ||
+                            self(self, matched, visitedBrands)) {
+                            matched = agentIndex;
+                            return true;
+                        }
+                    }
+                    return false;
+                };
+            std::int32_t coverage = 0;
+            for (AgentIndex agentIndex = 0;
+                 agentIndex < config_.agent_count();
+                 ++agentIndex) {
+                if (roles.at(static_cast<std::size_t>(agentIndex)) != AgentKind::Patrol) {
+                    continue;
+                }
+                std::vector<bool> visitedBrands(
+                    static_cast<std::size_t>(config_.brand_count()),
+                    false);
+                coverage += augment(augment, agentIndex, visitedBrands) ? 1 : 0;
+            }
+            return coverage;
+        };
     std::int32_t perDayServings = 0;
     for (const Spot& spot : config_.spots) {
         perDayServings += spot.stock;
@@ -4000,9 +4702,6 @@ std::vector<RoleAssignment> RoleAssignmentEnumerator::shortlist(
     std::vector<RoleAssignment> assignments;
     assignments.reserve(assignmentCount - 1U);
     for (std::uint32_t mask = 0; mask < assignmentCount; ++mask) {
-        if (deadline_expired()) {
-            break;
-        }
         RoleAssignment assignment;
         assignment.roles.resize(static_cast<std::size_t>(config_.agent_count()), AgentKind::Patrol);
         std::uint64_t reachableBrands = 0;
@@ -4031,6 +4730,15 @@ std::vector<RoleAssignment> RoleAssignmentEnumerator::shortlist(
             daily,
             servingCapPerDay * config_.day_count(),
         };
+        const bool fuelCoversWorstCaseHorizon =
+            config_.fuelLimit >= 2 * totalSteps;
+        assignment.sustainableCoverage = maximum_matching_coverage(
+            tankerCount > 0
+                ? escortedReachableByAgent
+                : (fuelCoversWorstCaseHorizon
+                    ? directReachableByAgent
+                    : stationReachableByAgent),
+            assignment.roles);
         if (compare_lexicographic(
                 assignment.cheapUpperBound,
                 feasibleSeedLowerBound) <= 0) {
@@ -4045,6 +4753,9 @@ std::vector<RoleAssignment> RoleAssignmentEnumerator::shortlist(
             const std::int32_t order = compare_lexicographic(left.cheapUpperBound, right.cheapUpperBound);
             if (order != 0) {
                 return order > 0;
+            }
+            if (left.sustainableCoverage != right.sustainableCoverage) {
+                return left.sustainableCoverage > right.sustainableCoverage;
             }
             if (left.patrolCount != right.patrolCount) {
                 return left.patrolCount > right.patrolCount;

@@ -71,6 +71,8 @@ struct RouteColumn {
     std::vector<EscortSegment> escortSegments;
     RouteTerminalFeatures terminalFeatures;
     bool hasExactTimeline = false;
+    bool harvestExtension = false;
+    std::int32_t harvestExtensionSourceRank = 0;
     std::int32_t escortGroup = -1;
     std::int32_t contingencyBundle = -1;
     bool lockstepEscort = false;
@@ -115,11 +117,33 @@ struct ColumnGenerationOptions {
     std::vector<MandatoryReservation> mandatoryReservations;
     std::vector<DayPlan> seedPlans;
     std::vector<CellId> criticalRoadHints;
+    bool enableHarvestExtensions = true;
+    bool allowUncachedHarvestTargets = true;
+    std::int32_t maximumHarvestExtensionSources = 1;
+    std::int32_t maximumHarvestExtensionDepth = 2;
     std::optional<std::chrono::steady_clock::time_point> deadline;
+};
+
+struct ColumnGenerationDiagnostics {
+    ParetoSearchDiagnostics pareto;
+    std::vector<CellId> criticalRoads;
+    std::vector<std::int64_t> agentMilliseconds;
+    std::vector<std::int32_t> agentParetoQueries;
+    std::int64_t coordinationMilliseconds = 0;
+    std::int32_t coordinationParetoQueries = 0;
+    bool deadlineReached = false;
 };
 
 struct MasterDiagnostics {
     std::int32_t combinationsVisited = 0;
+    std::int32_t beamCombinationsVisited = 0;
+    std::int32_t depthFirstCombinationsVisited = 0;
+    std::int32_t branchOrderingCalls = 0;
+    std::int32_t upperBoundChecks = 0;
+    std::int32_t upperBoundPrunes = 0;
+    std::int32_t bundlePrunes = 0;
+    std::int32_t partialSynchronizationChecks = 0;
+    std::int32_t partialSynchronizationPrunes = 0;
     std::int32_t simulatorValidCombinations = 0;
     std::int32_t branchesPruned = 0;
     std::int32_t stockCapacityConflicts = 0;
@@ -135,6 +159,11 @@ struct MasterDiagnostics {
     std::int32_t duplicatePlansSkipped = 0;
     std::int32_t invalidPlanCombinations = 0;
     std::int32_t reservationConflicts = 0;
+    std::int64_t roundPreparationMicroseconds = 0;
+    std::int64_t beamConstructionMicroseconds = 0;
+    std::int64_t beamEvaluationMicroseconds = 0;
+    std::int64_t depthFirstSearchMicroseconds = 0;
+    std::int64_t populationMaintenanceMicroseconds = 0;
     bool nativeExactStockCredits = false;
     bool stockCappedSearchOrder = false;
     bool deadlineReached = false;
@@ -193,6 +222,7 @@ struct MasterOptions {
     std::vector<MandatoryReservation> mandatoryReservations;
     bool useStockCredits = true;
     bool preferStockCappedSearchOrder = true;
+    bool preferBaselineHarvestSources = false;
     bool enableLexicographicBranchAndBound = true;
     std::optional<std::chrono::steady_clock::time_point> deadline;
 };
@@ -204,7 +234,8 @@ public:
     [[nodiscard]] RoutePortfolio generate(
         const DayState& state,
         const MatchLedger& ledger,
-        const ColumnGenerationOptions& options) const;
+        const ColumnGenerationOptions& options,
+        ColumnGenerationDiagnostics* diagnostics = nullptr) const;
 
     [[nodiscard]] RoutePoolAugmentation augment_with_candidate_routes(
         const DayState& state,
@@ -313,6 +344,7 @@ struct RoleAssignment {
     OfficialScore cheapUpperBound;
     OfficialScore rolloutScore;
     std::int32_t patrolCount = 0;
+    std::int32_t sustainableCoverage = 0;
     bool rolloutValid = false;
 };
 

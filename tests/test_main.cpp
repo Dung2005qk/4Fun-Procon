@@ -5,6 +5,8 @@
 #include <functional>
 #include <iostream>
 #include <limits>
+#include <numeric>
+#include <set>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -613,6 +615,43 @@ void test_pareto_cache_respects_full_query_key(const udon::MatchConfig& config) 
             smoothAgain.front().patrolFuel == smoothPaths.front().patrolFuel &&
             smoothAgain.front().heuristicFootprint.entries == smoothPaths.front().heuristicFootprint.entries,
         "route cache must preserve the exact baseline result after a critical-road query");
+
+    const udon::ParetoRouter observedRouter(config);
+    udon::ParetoSearchDiagnostics firstDiagnostics;
+    const std::vector<udon::ParetoPath> observedPaths =
+        observedRouter.find_paths(0, 8, smooth, options, &firstDiagnostics);
+    require(
+        !observedPaths.empty() &&
+            observedPaths.front().directions == smoothPaths.front().directions &&
+            observedPaths.front().travelSteps == smoothPaths.front().travelSteps &&
+            observedPaths.front().patrolFuel == smoothPaths.front().patrolFuel &&
+            observedPaths.front().heuristicFootprint.entries == smoothPaths.front().heuristicFootprint.entries,
+        "Pareto diagnostics must not change the returned routes");
+    require(
+        firstDiagnostics.queries == 1 && firstDiagnostics.cacheMisses == 1 &&
+            firstDiagnostics.cacheHits == 0 && firstDiagnostics.labelsGenerated > 0 &&
+            firstDiagnostics.resourceBoundCacheMisses == 1,
+        "Pareto diagnostics must account for an uncached search");
+    udon::ParetoSearchOptions alternateBudget = options;
+    alternateBudget.maximumTravelSteps = 2;
+    udon::ParetoSearchDiagnostics lowerBoundCachedDiagnostics;
+    const std::vector<udon::ParetoPath> lowerBoundCachedPaths =
+        observedRouter.find_paths(0, 8, smooth, alternateBudget, &lowerBoundCachedDiagnostics);
+    require(
+        !lowerBoundCachedPaths.empty() &&
+            lowerBoundCachedDiagnostics.cacheMisses == 1 &&
+            lowerBoundCachedDiagnostics.resourceBoundCacheHits == 1 &&
+            lowerBoundCachedDiagnostics.resourceBoundCacheMisses == 0,
+        "Pareto routing must reuse exact resource lower bounds across query budgets");
+    udon::ParetoSearchDiagnostics cachedDiagnostics;
+    const std::vector<udon::ParetoPath> cachedObservedPaths =
+        observedRouter.find_paths(0, 8, smooth, options, &cachedDiagnostics);
+    require(
+        !cachedObservedPaths.empty() &&
+            cachedObservedPaths.front().directions == observedPaths.front().directions &&
+            cachedDiagnostics.queries == 1 && cachedDiagnostics.cacheHits == 1 &&
+            cachedDiagnostics.cacheMisses == 0 && cachedDiagnostics.labelsGenerated == 0,
+        "Pareto diagnostics must distinguish cache hits without changing results");
 }
 
 void test_alns_preserves_escort_group_atomicity(const udon::MatchConfig& config, const udon::DayState& state) {
@@ -977,6 +1016,13 @@ void test_deadline_floors() {
     require(normal.meetsMinimumFloors && normal.search > std::chrono::milliseconds{0},
             "normal profile must retain a nonzero search window after floors");
     require(
+        scheduler.classify(defaults.shortThreshold).deadlineClass ==
+                udon::DeadlineClass::Short &&
+            scheduler.classify(defaults.normalThreshold).deadlineClass ==
+                udon::DeadlineClass::Normal,
+        "exact deadline thresholds must remain in the lower class so sub-millisecond "
+        "rounding cannot switch candidate limits");
+    require(
         normal.searchSoft > std::chrono::milliseconds{0} &&
             normal.searchSoft <= normal.search &&
             !normal.p99Calibrated && !normal.competitionReady,
@@ -1315,6 +1361,47 @@ void test_provisional_key_is_history_independent() {
     require(
         orderedWinner == reversedWinner && orderedWinner == "candidate-b",
         "Key0 must ignore certificate history and remain stable when candidate order changes");
+}
+
+void test_final_choice_rejects_unproven_current_regret() {
+    const auto evaluation = [](
+                                std::string stableId,
+                                udon::OfficialScore today,
+                                udon::OfficialScore projected) {
+        udon::CandidateEvaluation result;
+        result.candidate.stableId = std::move(stableId);
+        result.candidate.scoreAfterToday = today;
+        result.profile.quantiles.fill(projected);
+        result.profile.certifiedLowerBound = projected;
+        result.profile.validUpperBound = udon::OfficialScore{6, 60, 562};
+        result.profile.hasValidUpperBound = true;
+        result.profile.confidenceCoverage = 6;
+        return result;
+    };
+    std::vector<udon::CandidateEvaluation> evaluations;
+    evaluations.push_back(evaluation(
+        "higher-current-overlapping-future",
+        udon::OfficialScore{6, 6, 31},
+        udon::OfficialScore{6, 44, 204}));
+    evaluations.push_back(evaluation(
+        "lower-current-stronger-witness",
+        udon::OfficialScore{6, 6, 28},
+        udon::OfficialScore{6, 46, 203}));
+    const udon::LexicographicRiskComparator comparator(udon::RiskPolicy{});
+    require(
+        evaluations.at(comparator.choose(evaluations)).candidate.stableId ==
+            "lower-current-stronger-witness",
+        "the fixture must expose the unresolved-witness false-precision risk");
+    require(
+        evaluations.at(comparator.choose(evaluations, true)).candidate.stableId ==
+            "higher-current-overlapping-future",
+        "final selection must preserve the best undominated current score when "
+        "future valid intervals still overlap");
+    std::reverse(evaluations.begin(), evaluations.end());
+    require(
+        evaluations.at(comparator.choose(evaluations, true)).candidate.stableId ==
+            "higher-current-overlapping-future",
+        "the undominated current floor must be independent of candidate order");
 }
 
 void test_risk_policy_and_manifest_guards() {
@@ -1687,7 +1774,25 @@ void test_column_events_and_stock_cuts(const udon::MatchConfig& config, const ud
     generationOptions.maximumPathsPerTarget = 1;
     generationOptions.maximumColumnsPerAgent = 64;
     generationOptions.maximumTargetSpots = 3;
-    const udon::RoutePortfolio generated = generator.generate(state, udon::MatchLedger{}, generationOptions);
+    udon::ColumnGenerationDiagnostics generationDiagnostics;
+    const udon::RoutePortfolio generated = generator.generate(
+        state,
+        udon::MatchLedger{},
+        generationOptions,
+        &generationDiagnostics);
+    require(
+        generationDiagnostics.agentMilliseconds.size() == static_cast<std::size_t>(config.agent_count()) &&
+            generationDiagnostics.agentParetoQueries.size() == static_cast<std::size_t>(config.agent_count()),
+        "column-generation diagnostics must report every agent");
+    require(
+        generationDiagnostics.criticalRoads.empty(),
+        "smooth roads without promoted evidence must not inflate the adaptive critical set");
+    require(
+        std::accumulate(
+            generationDiagnostics.agentParetoQueries.begin(),
+            generationDiagnostics.agentParetoQueries.end(),
+            generationDiagnostics.coordinationParetoQueries) == generationDiagnostics.pareto.queries,
+        "column-generation diagnostics must attribute every Pareto query");
     bool foundInitialVisit = false;
     bool foundThreeSpotRoute = false;
     for (const udon::RouteColumn& column : generated.columnsByAgent.at(0)) {
@@ -1723,19 +1828,22 @@ void test_column_events_and_stock_cuts(const udon::MatchConfig& config, const ud
     const udon::MatchConfig fourSpotConfig = udon::parse_match_config(udon::JsonValue::parse(R"({
         "startsAt":1778227200,
         "daySeconds":[5,5,5,5],
-        "daySteps":[16,16,16,16],
-        "map":{"height":8,"width":8,"cells":[
-            [0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]
+        "daySteps":[64,64,64,64],
+        "map":{"height":8,"width":9,"cells":[
+            [0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0]
         ]},
         "spots":[
             {"brand":10,"pos":16,"stocks":1},{"brand":11,"pos":17,"stocks":1},
-            {"brand":12,"pos":24,"stocks":1},{"brand":13,"pos":25,"stocks":1}
+            {"brand":12,"pos":24,"stocks":1},{"brand":13,"pos":25,"stocks":1},
+            {"brand":14,"pos":26,"stocks":1},{"brand":15,"pos":18,"stocks":1},
+            {"brand":16,"pos":27,"stocks":1},{"brand":17,"pos":28,"stocks":1},
+            {"brand":18,"pos":29,"stocks":1}
         ],
         "agents":[8,9,10],
-        "fuelLimits":20,
+        "fuelLimits":64,
         "players":2,
         "busyThreshold":2,
         "jammedThreshold":4
@@ -1746,9 +1854,9 @@ void test_column_events_and_stock_cuts(const udon::MatchConfig& config, const ud
             "endsAt":1778227205,
             "day":1,
             "agents":[
-                {"kind":0,"pos":16,"fuel":20},
-                {"kind":0,"pos":18,"fuel":20},
-                {"kind":0,"pos":19,"fuel":20}
+                {"kind":0,"pos":16,"fuel":64},
+                {"kind":0,"pos":18,"fuel":64},
+                {"kind":0,"pos":19,"fuel":64}
             ],
             "others":[],
             "traffics":[]
@@ -1771,6 +1879,80 @@ void test_column_events_and_stock_cuts(const udon::MatchConfig& config, const ud
                 return column.estimatedServings >= 4 && column.firstVisits.size() >= 4U;
             }),
         "bounded harvest augmentation must retain a feasible exact four-spot patrol route");
+
+    fourSpotOptions.allowUncachedHarvestTargets = true;
+    fourSpotOptions.maximumHarvestExtensionSources = 3;
+    const udon::RoutePortfolio diversifiedHarvestPortfolio =
+        fourSpotGenerator.generate(
+            fourSpotState,
+            udon::MatchLedger{},
+            fourSpotOptions);
+    std::set<std::string> diversifiedHarvestRoutes;
+    std::set<std::int32_t> diversifiedSourceRanks;
+    for (const udon::RouteColumn& column :
+         diversifiedHarvestPortfolio.columnsByAgent.front()) {
+        if (!column.harvestExtension) {
+            continue;
+        }
+        std::string key;
+        for (const udon::PlanAction& action : column.actions) {
+            key += std::to_string(action.wire_value());
+            key.push_back(',');
+        }
+        diversifiedHarvestRoutes.insert(std::move(key));
+        diversifiedSourceRanks.insert(column.harvestExtensionSourceRank);
+    }
+    require(
+        diversifiedHarvestRoutes.size() >= 2U,
+        "research harvest expansion must retain multiple distinct multi-spot chains");
+    require(
+        diversifiedSourceRanks.contains(0) &&
+            diversifiedSourceRanks.size() >= 2U,
+        "research harvest expansion must preserve the baseline chain rank before extra sources");
+
+    udon::ColumnGenerationOptions depthOptions;
+    depthOptions.maximumPathsPerTarget = 1;
+    depthOptions.maximumColumnsPerAgent = 12;
+    depthOptions.maximumTargetSpots = 3;
+    depthOptions.enableHarvestExtensions = true;
+    depthOptions.allowUncachedHarvestTargets = true;
+    depthOptions.maximumHarvestExtensionSources = 1;
+    depthOptions.maximumHarvestExtensionDepth = 2;
+    const udon::RoutePortfolio depthTwoPortfolio = fourSpotGenerator.generate(
+        fourSpotState,
+        udon::MatchLedger{},
+        depthOptions);
+    const auto maximum_servings = [](const udon::RoutePortfolio& candidatePortfolio) {
+        std::int32_t maximum = 0;
+        for (const udon::RouteColumn& column :
+             candidatePortfolio.columnsByAgent.front()) {
+            maximum = std::max(maximum, column.estimatedServings);
+        }
+        return maximum;
+    };
+    const std::int32_t depthTwoMaximum = maximum_servings(depthTwoPortfolio);
+    depthOptions.maximumHarvestExtensionDepth = 3;
+    const udon::RoutePortfolio depthThreePortfolio = fourSpotGenerator.generate(
+        fourSpotState,
+        udon::MatchLedger{},
+        depthOptions);
+    const std::int32_t depthThreeMaximum = maximum_servings(depthThreePortfolio);
+    require(
+        depthThreeMaximum > depthTwoMaximum,
+        "depth-three harvest expansion must retain a strictly longer exact harvest chain: " +
+            std::to_string(depthTwoMaximum) + " -> " +
+            std::to_string(depthThreeMaximum));
+    depthOptions.maximumHarvestExtensionDepth = 4;
+    const udon::RoutePortfolio depthFourPortfolio = fourSpotGenerator.generate(
+        fourSpotState,
+        udon::MatchLedger{},
+        depthOptions);
+    const std::int32_t depthFourMaximum = maximum_servings(depthFourPortfolio);
+    require(
+        depthFourMaximum > depthThreeMaximum,
+        "depth-four harvest expansion must retain a strictly longer exact harvest chain: " +
+            std::to_string(depthThreeMaximum) + " -> " +
+            std::to_string(depthFourMaximum));
 
     udon::DayState contested = state;
     contested.agents.at(2).position = 18;
@@ -2156,6 +2338,43 @@ void test_master_stock_capped_search_order() {
 }
 
 void test_viability_reservation_and_role_seeds(const udon::MatchConfig& config, const udon::DayState& state) {
+    udon::RoleAssignment higherOfficialScore;
+    higherOfficialScore.rolloutValid = true;
+    higherOfficialScore.rolloutScore = udon::OfficialScore{6, 60, 154};
+    higherOfficialScore.sustainableCoverage = 3;
+    higherOfficialScore.cheapUpperBound = udon::OfficialScore{6, 60, 200};
+    higherOfficialScore.patrolCount = 7;
+    higherOfficialScore.roles = {
+        udon::AgentKind::Tanker,
+        udon::AgentKind::Patrol,
+    };
+    udon::RoleAssignment higherHeuristicCoverage = higherOfficialScore;
+    higherHeuristicCoverage.rolloutScore = udon::OfficialScore{6, 53, 164};
+    higherHeuristicCoverage.sustainableCoverage = 6;
+    higherHeuristicCoverage.roles = {
+        udon::AgentKind::Patrol,
+        udon::AgentKind::Tanker,
+    };
+    require(
+        udon::role_assignment_better_after_rollout(
+            higherOfficialScore,
+            higherHeuristicCoverage) &&
+            !udon::role_assignment_better_after_rollout(
+                higherHeuristicCoverage,
+                higherOfficialScore),
+        "validated role rollouts must follow official lexicographic score before "
+        "the sustainable-coverage heuristic");
+    higherHeuristicCoverage.rolloutScore = higherOfficialScore.rolloutScore;
+    higherHeuristicCoverage.sustainableCoverage =
+        higherOfficialScore.sustainableCoverage;
+    require(
+        !udon::role_assignment_better_after_rollout(
+            higherOfficialScore,
+            higherHeuristicCoverage) &&
+            !udon::role_assignment_better_after_rollout(
+                higherHeuristicCoverage,
+                higherOfficialScore),
+        "role identifiers must not displace a semantically tied central seed");
     const std::vector<udon::RoleAssignment> roles = udon::RoleAssignmentEnumerator(config).shortlist(3);
     const std::vector<udon::RoleAssignment> exhaustive =
         udon::RoleAssignmentEnumerator(config).shortlist(1 << config.agent_count());
@@ -2163,6 +2382,19 @@ void test_viability_reservation_and_role_seeds(const udon::MatchConfig& config, 
     require(
         exhaustive.size() == static_cast<std::size_t>((1 << config.agent_count()) - 1),
         "full cheap role scan must evaluate 2^N masks and prune only the zero-patrol mask against the feasible seed");
+    const std::vector<udon::RoleAssignment> deadlineFallback =
+        udon::RoleAssignmentEnumerator(config).shortlist(
+            1 << config.agent_count(),
+            std::chrono::steady_clock::now());
+    require(
+        deadlineFallback.size() == exhaustive.size() &&
+            std::all_of(
+                deadlineFallback.begin(),
+                deadlineFallback.end(),
+                [&config](const udon::RoleAssignment& assignment) {
+                    return assignment.cheapUpperBound.lifetimeDistinct == config.brand_count();
+                }),
+        "deadline-limited role scan must retain conservative all-brand upper bounds for unknown reachability");
     require(
         std::equal(
             roles.begin(),
@@ -2766,6 +2998,7 @@ int main() {
         test_fast_viability_emits_proven_unique_reservation();
         test_latest_safe_day_uses_suffix_budget();
         test_provisional_key_is_history_independent();
+        test_final_choice_rejects_unproven_current_regret();
         test_risk_policy_and_manifest_guards();
         test_confidence_gate_and_conditional_tiers();
         test_certified_stochastic_dominance();

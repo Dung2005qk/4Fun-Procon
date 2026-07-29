@@ -212,7 +212,8 @@ public:
         const RouteColumnGenerator& generator,
         const RouteMaster& master,
         const ExactStepSimulator& simulator,
-        const IndependentDayValidator& validator);
+        const IndependentDayValidator& validator,
+        std::int32_t harvestExtensionMode = 2);
 
     [[nodiscard]] CandidateProfile provisional_profile(
         const MasterCandidate& candidate,
@@ -240,6 +241,7 @@ private:
     const RouteMaster& master_;
     const ExactStepSimulator& simulator_;
     const IndependentDayValidator& validator_;
+    std::int32_t harvestExtensionMode_ = 2;
 };
 
 class LexicographicRiskComparator {
@@ -251,7 +253,9 @@ public:
         const ScenarioManifest& manifest,
         ProfileFinalizeDiagnostics* diagnostics = nullptr) const;
 
-    [[nodiscard]] std::size_t choose(const std::vector<CandidateEvaluation>& evaluations) const;
+    [[nodiscard]] std::size_t choose(
+        const std::vector<CandidateEvaluation>& evaluations,
+        bool requireUndominatedCurrentFloor = false) const;
     [[nodiscard]] std::size_t choose_provisional(const std::vector<CandidateEvaluation>& evaluations) const;
     [[nodiscard]] bool certified_dominates(
         const CandidateProfile& challenger,
@@ -364,6 +368,10 @@ struct CandidateAuditRecord {
     OfficialScore scoreAfterToday;
     OfficialScore provisionalLowerBound;
     OfficialScore validUpperBound;
+    OfficialScore finalQuantile50;
+    OfficialScore finalCertifiedLowerBound;
+    std::vector<CellId> terminalCells;
+    std::vector<std::int32_t> terminalFuel;
     bool certified = false;
     bool selected = false;
     std::string w1Role;
@@ -393,6 +401,10 @@ struct DecisionAudit {
     std::vector<CellId> privateSensitivityRoads;
     std::vector<std::int32_t> portfolioColumnsByAgent;
     std::vector<std::int32_t> portfolioBrandCountsByAgent;
+    std::vector<std::int32_t> portfolioMaximumServingsByAgent;
+    std::vector<std::int32_t> portfolioHarvestExtensionsByAgent;
+    std::vector<std::vector<CellId>> portfolioTerminalCellsByAgent;
+    ColumnGenerationDiagnostics columnGeneration;
     std::vector<CandidateAuditRecord> candidates;
     std::int32_t independentRoutesGenerated = 0;
     std::int32_t independentPlansEvaluated = 0;
@@ -407,11 +419,14 @@ struct DecisionAudit {
 struct DecisionTiming {
     std::chrono::milliseconds incumbent{};
     std::chrono::milliseconds fastPath{};
+    std::chrono::milliseconds columnGeneration{};
+    std::chrono::milliseconds initialMaster{};
     std::chrono::milliseconds search{};
     std::chrono::milliseconds independentGenerators{};
     std::chrono::milliseconds candidatePreparation{};
     std::chrono::milliseconds certification{};
     std::chrono::milliseconds alns{};
+    std::chrono::milliseconds recombination{};
     std::chrono::milliseconds total{};
 };
 
@@ -437,13 +452,20 @@ enum class RoutePoolSearch : std::uint8_t {
     Feedback,
 };
 
+[[nodiscard]] bool role_assignment_better_after_rollout(
+    const RoleAssignment& challenger,
+    const RoleAssignment& incumbent);
+
 class UdonShieldEngine {
 public:
     explicit UdonShieldEngine(
         const MatchConfig& config,
         RiskPolicy policy = {},
         DeadlineCalibration deadlineCalibration = {},
-        RoutePoolSearch routePoolSearch = RoutePoolSearch::SinglePass);
+        RoutePoolSearch routePoolSearch = RoutePoolSearch::SinglePass,
+        std::int32_t harvestExtensionMode = 5,
+        bool requireUndominatedCurrentFloor = false,
+        std::int32_t futureHarvestExtensionMode = -1);
 
     [[nodiscard]] std::vector<RoleAssignment> select_roles(
         std::int32_t beamWidth = 3) const;
@@ -502,6 +524,8 @@ private:
     LexicographicRiskComparator comparator_;
     DeadlineScheduler deadlineScheduler_;
     RoutePoolSearch routePoolSearch_;
+    std::int32_t harvestExtensionMode_ = 5;
+    bool requireUndominatedCurrentFloor_ = false;
     ResponseLedger ledger_;
     std::optional<std::int32_t> lastSubmittedDay_;
     std::optional<std::vector<AgentState>> expectedNextAgents_;

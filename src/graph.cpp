@@ -1,6 +1,7 @@
 #include "udon/graph.hpp"
 
 #include <algorithm>
+#include <array>
 #include <limits>
 #include <queue>
 #include <tuple>
@@ -9,13 +10,58 @@ namespace udon {
 
 namespace {
 
+struct LabelCriticalFootprint {
+    static constexpr std::size_t kInlineCapacity = 16;
+
+    void assign(std::size_t count, std::int32_t value) {
+        count_ = count;
+        inlineValues_.fill(value);
+        overflowValues_.assign(
+            count > kInlineCapacity ? count - kInlineCapacity : 0,
+            value);
+    }
+
+    [[nodiscard]] std::size_t size() const {
+        return count_;
+    }
+
+    [[nodiscard]] std::int32_t at(std::size_t index) const {
+        return index < kInlineCapacity
+            ? inlineValues_.at(index)
+            : overflowValues_.at(index - kInlineCapacity);
+    }
+
+    [[nodiscard]] std::int32_t& at(std::size_t index) {
+        return index < kInlineCapacity
+            ? inlineValues_.at(index)
+            : overflowValues_.at(index - kInlineCapacity);
+    }
+
+    [[nodiscard]] bool operator==(const LabelCriticalFootprint& other) const {
+        if (count_ != other.count_) {
+            return false;
+        }
+        for (std::size_t index = 0; index < count_; ++index) {
+            if (at(index) != other.at(index)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+private:
+    std::array<std::int32_t, kInlineCapacity> inlineValues_{};
+    std::vector<std::int32_t> overflowValues_;
+    std::size_t count_ = 0;
+};
+
 struct Label {
     CellId cell = kInvalidCell;
     std::int32_t travelSteps = 0;
     std::int32_t patrolFuel = 0;
     std::int32_t parent = -1;
     std::int32_t incomingDirection = -1;
-    std::vector<std::int32_t> criticalFootprint;
+    LabelCriticalFootprint criticalFootprint;
     bool active = true;
 };
 
@@ -50,8 +96,8 @@ struct QueueOrder {
 
 [[nodiscard]] std::int32_t critical_sum(const Label& label) {
     std::int32_t result = 0;
-    for (const std::int32_t count : label.criticalFootprint) {
-        result += count;
+    for (std::size_t index = 0; index < label.criticalFootprint.size(); ++index) {
+        result += label.criticalFootprint.at(index);
     }
     return result;
 }
@@ -130,11 +176,25 @@ std::size_t ParetoRouter::RouteQueryKeyHash::operator()(const RouteQueryKey& key
     return seed;
 }
 
+std::size_t ParetoRouter::ResourceLowerBoundKeyHash::operator()(
+    const ResourceLowerBoundKey& key) const {
+    std::size_t seed = std::hash<CellId>{}(key.target);
+    for (const RoadStatus status : key.roadStatuses) {
+        seed ^= std::hash<std::int32_t>{}(static_cast<std::int32_t>(status)) +
+            std::size_t{0x9e3779b9} + (seed << 6U) + (seed >> 2U);
+    }
+    return seed;
+}
+
 std::vector<ParetoPath> ParetoRouter::find_paths(
     CellId source,
     CellId target,
     const std::vector<RoadStatus>& roadStatuses,
-    const ParetoSearchOptions& options) const {
+    const ParetoSearchOptions& options,
+    ParetoSearchDiagnostics* diagnostics) const {
+    if (diagnostics != nullptr) {
+        ++diagnostics->queries;
+    }
     if (!config_.map.contains(source) || !config_.map.contains(target) ||
         roadStatuses.size() != static_cast<std::size_t>(config_.map.cell_count()) || options.maximumPaths <= 0 ||
         options.maximumLabelsPerCell <= 0) {
@@ -151,11 +211,47 @@ std::vector<ParetoPath> ParetoRouter::find_paths(
     cacheKey.useGeometricLowerBound = options.useGeometricLowerBound;
     cacheKey.roadStatuses = roadStatuses;
     cacheKey.criticalRoads = options.criticalRoads;
+    const auto cache_result = [this, diagnostics](
+                                  RouteQueryKey&& key,
+                                  const std::vector<ParetoPath>& paths) {
+        std::size_t entryBytes =
+            sizeof(RouteQueryKey) + sizeof(std::vector<ParetoPath>) +
+            key.roadStatuses.size() * sizeof(RoadStatus) +
+            key.criticalRoads.size() * sizeof(CellId) +
+            paths.size() * sizeof(ParetoPath);
+        for (const ParetoPath& path : paths) {
+            entryBytes += path.directions.size() * sizeof(std::int32_t);
+            entryBytes += path.heuristicFootprint.entries.size() *
+                sizeof(std::pair<CellId, std::int32_t>);
+        }
+        if (entryBytes > kMaximumCachedBytes) {
+            return;
+        }
+        if (routeCache_.size() >= kMaximumCachedQueries ||
+            routeCacheBytes_ > kMaximumCachedBytes - entryBytes) {
+            routeCache_.clear();
+            routeCacheBytes_ = 0;
+            if (diagnostics != nullptr) {
+                ++diagnostics->cacheClears;
+            }
+        }
+        routeCacheBytes_ += entryBytes;
+        routeCache_.emplace(std::move(key), paths);
+    };
     if (const auto cached = routeCache_.find(cacheKey); cached != routeCache_.end()) {
+        if (diagnostics != nullptr) {
+            ++diagnostics->cacheHits;
+        }
         return cached->second;
+    }
+    if (diagnostics != nullptr) {
+        ++diagnostics->cacheMisses;
     }
     if (options.deadline.has_value() &&
         std::chrono::steady_clock::now() >= *options.deadline) {
+        if (diagnostics != nullptr) {
+            ++diagnostics->deadlineRejectedQueries;
+        }
         return {};
     }
     const std::int32_t maximumSteps = options.maximumTravelSteps > 0
@@ -167,21 +263,88 @@ std::vector<ParetoPath> ParetoRouter::find_paths(
     const std::int32_t maximumFuel = options.patrol
         ? options.maximumPatrolFuel
         : std::numeric_limits<std::int32_t>::max();
+    const ResourceLowerBounds* resourceLowerBounds = nullptr;
+    if (options.useGeometricLowerBound) {
+        ResourceLowerBoundKey lowerBoundKey;
+        lowerBoundKey.target = target;
+        lowerBoundKey.roadStatuses = roadStatuses;
+        auto lowerBoundIterator = resourceLowerBoundCache_.find(lowerBoundKey);
+        if (lowerBoundIterator == resourceLowerBoundCache_.end()) {
+            if (diagnostics != nullptr) {
+                ++diagnostics->resourceBoundCacheMisses;
+            }
+            if (resourceLowerBoundCache_.size() >= kMaximumResourceLowerBounds) {
+                resourceLowerBoundCache_.clear();
+            }
+            ResourceLowerBounds bounds;
+            const auto reverse_shortest_paths =
+                [this, target, &roadStatuses](bool patrolFuel) {
+                    std::vector<std::int32_t> distances(
+                        static_cast<std::size_t>(config_.map.cell_count()),
+                        std::numeric_limits<std::int32_t>::max());
+                    using DistanceEntry = std::pair<std::int32_t, CellId>;
+                    std::priority_queue<
+                        DistanceEntry,
+                        std::vector<DistanceEntry>,
+                        std::greater<>> queue;
+                    distances.at(static_cast<std::size_t>(target)) = 0;
+                    queue.push(DistanceEntry{0, target});
+                    while (!queue.empty()) {
+                        const auto [distance, cell] = queue.top();
+                        queue.pop();
+                        if (distance != distances.at(static_cast<std::size_t>(cell))) {
+                            continue;
+                        }
+                        for (const CellId predecessor :
+                             config_.map.neighbors.at(static_cast<std::size_t>(cell))) {
+                            if (predecessor == kInvalidCell ||
+                                config_.map.terrain.at(static_cast<std::size_t>(predecessor)) ==
+                                    Terrain::Pond) {
+                                continue;
+                            }
+                            const MoveCost move = config_.move_cost(
+                                predecessor,
+                                roadStatuses.at(static_cast<std::size_t>(predecessor)));
+                            const std::int32_t edgeCost = patrolFuel
+                                ? move.patrolFuel
+                                : move.steps;
+                            const std::int32_t candidate = distance + edgeCost;
+                            std::int32_t& incumbent =
+                                distances.at(static_cast<std::size_t>(predecessor));
+                            if (candidate < incumbent) {
+                                incumbent = candidate;
+                                queue.push(DistanceEntry{candidate, predecessor});
+                            }
+                        }
+                    }
+                    return distances;
+                };
+            bounds.travelSteps = reverse_shortest_paths(false);
+            bounds.patrolFuel = reverse_shortest_paths(true);
+            lowerBoundIterator = resourceLowerBoundCache_.emplace(
+                std::move(lowerBoundKey),
+                std::move(bounds)).first;
+        } else if (diagnostics != nullptr) {
+            ++diagnostics->resourceBoundCacheHits;
+        }
+        resourceLowerBounds = &lowerBoundIterator->second;
+    }
     const auto cannot_reach_target = [&](CellId cell, std::int32_t usedSteps, std::int32_t usedFuel) {
         if (!options.useGeometricLowerBound) {
             return false;
         }
-        const std::int32_t remainingHops = config_.map.hex_distance(cell, target);
-        if (remainingHops > maximumSteps - usedSteps) {
-            return true;
+        const std::size_t cellOffset = static_cast<std::size_t>(cell);
+        const bool unreachable =
+            resourceLowerBounds->travelSteps.at(cellOffset) > maximumSteps - usedSteps ||
+            (options.patrol &&
+             resourceLowerBounds->patrolFuel.at(cellOffset) > maximumFuel - usedFuel);
+        if (unreachable && diagnostics != nullptr) {
+            ++diagnostics->labelsPrunedByResourceBound;
         }
-        return options.patrol && remainingHops > maximumFuel - usedFuel;
+        return unreachable;
     };
     if (cannot_reach_target(source, 0, 0)) {
-        if (routeCache_.size() >= kMaximumCachedQueries) {
-            routeCache_.clear();
-        }
-        routeCache_.emplace(std::move(cacheKey), std::vector<ParetoPath>{});
+        cache_result(std::move(cacheKey), {});
         return {};
     }
 
@@ -201,6 +364,9 @@ std::vector<ParetoPath> ParetoRouter::find_paths(
     root.cell = source;
     root.criticalFootprint.assign(options.criticalRoads.size(), 0);
     labels.push_back(root);
+    if (diagnostics != nullptr) {
+        ++diagnostics->labelsGenerated;
+    }
     labelsAtCell.at(static_cast<std::size_t>(source)).push_back(0);
 
     std::priority_queue<QueueItem, std::vector<QueueItem>, QueueOrder> queue;
@@ -212,10 +378,16 @@ std::vector<ParetoPath> ParetoRouter::find_paths(
         if (options.deadline.has_value() &&
             std::chrono::steady_clock::now() >= *options.deadline) {
             deadlineReached = true;
+            if (diagnostics != nullptr) {
+                ++diagnostics->deadlineInterruptedQueries;
+            }
             break;
         }
         const QueueItem item = queue.top();
         queue.pop();
+        if (diagnostics != nullptr) {
+            ++diagnostics->queuePops;
+        }
         const Label current = labels.at(static_cast<std::size_t>(item.labelIndex));
         if (!current.active || current.travelSteps != item.travelSteps || current.patrolFuel != item.patrolFuel) {
             continue;
@@ -262,26 +434,37 @@ std::vector<ParetoPath> ParetoRouter::find_paths(
                 }
             }
             if (discard) {
+                if (diagnostics != nullptr) {
+                    ++diagnostics->labelsDominanceRejected;
+                }
                 continue;
             }
             for (const std::int32_t existingIndex : existing) {
                 Label& prior = labels.at(static_cast<std::size_t>(existingIndex));
                 if (prior.active && dominates(candidate, prior)) {
                     prior.active = false;
+                    if (diagnostics != nullptr) {
+                        ++diagnostics->labelsDominated;
+                    }
                 }
             }
             const std::int32_t candidateIndex = static_cast<std::int32_t>(labels.size());
             labels.push_back(std::move(candidate));
+            if (diagnostics != nullptr) {
+                ++diagnostics->labelsGenerated;
+            }
             existing.push_back(candidateIndex);
 
-            std::vector<std::int32_t> activeLabels;
-            activeLabels.reserve(existing.size());
-            for (const std::int32_t existingIndex : existing) {
-                if (labels.at(static_cast<std::size_t>(existingIndex)).active) {
-                    activeLabels.push_back(existingIndex);
-                }
-            }
-            if (static_cast<std::int32_t>(activeLabels.size()) > options.maximumLabelsPerCell) {
+            existing.erase(
+                std::remove_if(
+                    existing.begin(),
+                    existing.end(),
+                    [&labels](std::int32_t existingIndex) {
+                        return !labels.at(static_cast<std::size_t>(existingIndex)).active;
+                    }),
+                existing.end());
+            if (static_cast<std::int32_t>(existing.size()) > options.maximumLabelsPerCell) {
+                std::vector<std::int32_t> activeLabels = existing;
                 std::sort(
                     activeLabels.begin(),
                     activeLabels.end(),
@@ -295,7 +478,18 @@ std::vector<ParetoPath> ParetoRouter::find_paths(
                      labelOffset < activeLabels.size();
                      ++labelOffset) {
                     labels.at(static_cast<std::size_t>(activeLabels.at(labelOffset))).active = false;
+                    if (diagnostics != nullptr) {
+                        ++diagnostics->labelsPrunedByCap;
+                    }
                 }
+                existing.erase(
+                    std::remove_if(
+                        existing.begin(),
+                        existing.end(),
+                        [&labels](std::int32_t existingIndex) {
+                            return !labels.at(static_cast<std::size_t>(existingIndex)).active;
+                        }),
+                    existing.end());
             }
             if (labels.at(static_cast<std::size_t>(candidateIndex)).active) {
                 const Label& accepted = labels.at(static_cast<std::size_t>(candidateIndex));
@@ -304,10 +498,7 @@ std::vector<ParetoPath> ParetoRouter::find_paths(
         }
     }
     if (!deadlineReached) {
-        if (routeCache_.size() >= kMaximumCachedQueries) {
-            routeCache_.clear();
-        }
-        routeCache_.emplace(std::move(cacheKey), results);
+        cache_result(std::move(cacheKey), results);
     }
     return results;
 }

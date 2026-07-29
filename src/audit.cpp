@@ -139,6 +139,12 @@ template <typename Value, std::size_t Count>
     JsonValue::Object object;
     object.emplace("incumbentMs", JsonValue(static_cast<std::int64_t>(timing.incumbent.count())));
     object.emplace("fastPathMs", JsonValue(static_cast<std::int64_t>(timing.fastPath.count())));
+    object.emplace(
+        "columnGenerationMs",
+        JsonValue(static_cast<std::int64_t>(timing.columnGeneration.count())));
+    object.emplace(
+        "initialMasterMs",
+        JsonValue(static_cast<std::int64_t>(timing.initialMaster.count())));
     object.emplace("searchMs", JsonValue(static_cast<std::int64_t>(timing.search.count())));
     object.emplace(
         "independentGeneratorsMs",
@@ -148,6 +154,9 @@ template <typename Value, std::size_t Count>
         JsonValue(static_cast<std::int64_t>(timing.candidatePreparation.count())));
     object.emplace("certificationMs", JsonValue(static_cast<std::int64_t>(timing.certification.count())));
     object.emplace("alnsMs", JsonValue(static_cast<std::int64_t>(timing.alns.count())));
+    object.emplace(
+        "recombinationMs",
+        JsonValue(static_cast<std::int64_t>(timing.recombination.count())));
     object.emplace("totalMs", JsonValue(static_cast<std::int64_t>(timing.total.count())));
     return JsonValue(std::move(object));
 }
@@ -386,6 +395,30 @@ template <typename Value, std::size_t Count>
 [[nodiscard]] JsonValue master_diagnostics_object(const MasterDiagnostics& diagnostics) {
     JsonValue::Object object;
     object.emplace("combinationsVisited", JsonValue(static_cast<std::int64_t>(diagnostics.combinationsVisited)));
+    object.emplace(
+        "beamCombinationsVisited",
+        JsonValue(static_cast<std::int64_t>(diagnostics.beamCombinationsVisited)));
+    object.emplace(
+        "depthFirstCombinationsVisited",
+        JsonValue(static_cast<std::int64_t>(diagnostics.depthFirstCombinationsVisited)));
+    object.emplace(
+        "branchOrderingCalls",
+        JsonValue(static_cast<std::int64_t>(diagnostics.branchOrderingCalls)));
+    object.emplace(
+        "upperBoundChecks",
+        JsonValue(static_cast<std::int64_t>(diagnostics.upperBoundChecks)));
+    object.emplace(
+        "upperBoundPrunes",
+        JsonValue(static_cast<std::int64_t>(diagnostics.upperBoundPrunes)));
+    object.emplace(
+        "bundlePrunes",
+        JsonValue(static_cast<std::int64_t>(diagnostics.bundlePrunes)));
+    object.emplace(
+        "partialSynchronizationChecks",
+        JsonValue(static_cast<std::int64_t>(diagnostics.partialSynchronizationChecks)));
+    object.emplace(
+        "partialSynchronizationPrunes",
+        JsonValue(static_cast<std::int64_t>(diagnostics.partialSynchronizationPrunes)));
     object.emplace("simulatorValidCombinations", JsonValue(static_cast<std::int64_t>(diagnostics.simulatorValidCombinations)));
     object.emplace("branchesPruned", JsonValue(static_cast<std::int64_t>(diagnostics.branchesPruned)));
     object.emplace("stockCapacityConflicts", JsonValue(static_cast<std::int64_t>(diagnostics.stockCapacityConflicts)));
@@ -409,6 +442,21 @@ template <typename Value, std::size_t Count>
     object.emplace(
         "reservationConflicts",
         JsonValue(static_cast<std::int64_t>(diagnostics.reservationConflicts)));
+    object.emplace(
+        "roundPreparationMicroseconds",
+        JsonValue(diagnostics.roundPreparationMicroseconds));
+    object.emplace(
+        "beamConstructionMicroseconds",
+        JsonValue(diagnostics.beamConstructionMicroseconds));
+    object.emplace(
+        "beamEvaluationMicroseconds",
+        JsonValue(diagnostics.beamEvaluationMicroseconds));
+    object.emplace(
+        "depthFirstSearchMicroseconds",
+        JsonValue(diagnostics.depthFirstSearchMicroseconds));
+    object.emplace(
+        "populationMaintenanceMicroseconds",
+        JsonValue(diagnostics.populationMaintenanceMicroseconds));
     object.emplace("nativeExactStockCredits", JsonValue(diagnostics.nativeExactStockCredits));
     object.emplace("stockCappedSearchOrder", JsonValue(diagnostics.stockCappedSearchOrder));
     object.emplace("deadlineReached", JsonValue(diagnostics.deadlineReached));
@@ -489,6 +537,69 @@ template <typename Value, std::size_t Count>
     object.emplace("portfolioColumnsByAgent", integer_array(audit.portfolioColumnsByAgent));
     object.emplace("portfolioBrandCountsByAgent", integer_array(audit.portfolioBrandCountsByAgent));
     object.emplace(
+        "portfolioMaximumServingsByAgent",
+        integer_array(audit.portfolioMaximumServingsByAgent));
+    object.emplace(
+        "portfolioHarvestExtensionsByAgent",
+        integer_array(audit.portfolioHarvestExtensionsByAgent));
+    JsonValue::Array terminalCellsByAgent;
+    terminalCellsByAgent.reserve(audit.portfolioTerminalCellsByAgent.size());
+    for (const std::vector<CellId>& terminalCells :
+         audit.portfolioTerminalCellsByAgent) {
+        terminalCellsByAgent.push_back(integer_array(terminalCells));
+    }
+    object.emplace(
+        "portfolioTerminalCellsByAgent",
+        JsonValue(std::move(terminalCellsByAgent)));
+    JsonValue::Object columnGeneration;
+    columnGeneration.emplace(
+        "criticalRoads",
+        integer_array(audit.columnGeneration.criticalRoads));
+    columnGeneration.emplace(
+        "agentMilliseconds",
+        integer_array(audit.columnGeneration.agentMilliseconds));
+    columnGeneration.emplace(
+        "agentParetoQueries",
+        integer_array(audit.columnGeneration.agentParetoQueries));
+    columnGeneration.emplace(
+        "coordinationMilliseconds",
+        JsonValue(audit.columnGeneration.coordinationMilliseconds));
+    columnGeneration.emplace(
+        "coordinationParetoQueries",
+        JsonValue(static_cast<std::int64_t>(audit.columnGeneration.coordinationParetoQueries)));
+    columnGeneration.emplace("deadlineReached", JsonValue(audit.columnGeneration.deadlineReached));
+    JsonValue::Object pareto;
+    pareto.emplace("queries", JsonValue(static_cast<std::int64_t>(audit.columnGeneration.pareto.queries)));
+    pareto.emplace("cacheHits", JsonValue(static_cast<std::int64_t>(audit.columnGeneration.pareto.cacheHits)));
+    pareto.emplace("cacheMisses", JsonValue(static_cast<std::int64_t>(audit.columnGeneration.pareto.cacheMisses)));
+    pareto.emplace("cacheClears", JsonValue(static_cast<std::int64_t>(audit.columnGeneration.pareto.cacheClears)));
+    pareto.emplace(
+        "resourceBoundCacheHits",
+        JsonValue(static_cast<std::int64_t>(audit.columnGeneration.pareto.resourceBoundCacheHits)));
+    pareto.emplace(
+        "resourceBoundCacheMisses",
+        JsonValue(static_cast<std::int64_t>(audit.columnGeneration.pareto.resourceBoundCacheMisses)));
+    pareto.emplace(
+        "deadlineRejectedQueries",
+        JsonValue(static_cast<std::int64_t>(audit.columnGeneration.pareto.deadlineRejectedQueries)));
+    pareto.emplace(
+        "deadlineInterruptedQueries",
+        JsonValue(static_cast<std::int64_t>(audit.columnGeneration.pareto.deadlineInterruptedQueries)));
+    pareto.emplace("queuePops", JsonValue(audit.columnGeneration.pareto.queuePops));
+    pareto.emplace("labelsGenerated", JsonValue(audit.columnGeneration.pareto.labelsGenerated));
+    pareto.emplace(
+        "labelsDominanceRejected",
+        JsonValue(audit.columnGeneration.pareto.labelsDominanceRejected));
+    pareto.emplace("labelsDominated", JsonValue(audit.columnGeneration.pareto.labelsDominated));
+    pareto.emplace(
+        "labelsPrunedByCap",
+        JsonValue(audit.columnGeneration.pareto.labelsPrunedByCap));
+    pareto.emplace(
+        "labelsPrunedByResourceBound",
+        JsonValue(audit.columnGeneration.pareto.labelsPrunedByResourceBound));
+    columnGeneration.emplace("pareto", JsonValue(std::move(pareto)));
+    object.emplace("columnGeneration", JsonValue(std::move(columnGeneration)));
+    object.emplace(
         "independentRoutesGenerated",
         JsonValue(static_cast<std::int64_t>(audit.independentRoutesGenerated)));
     object.emplace(
@@ -528,6 +639,12 @@ template <typename Value, std::size_t Count>
         candidateObject.emplace("scoreAfterToday", score_object(candidate.scoreAfterToday));
         candidateObject.emplace("provisionalLowerBound", score_object(candidate.provisionalLowerBound));
         candidateObject.emplace("validUpperBound", score_object(candidate.validUpperBound));
+        candidateObject.emplace("finalQuantile50", score_object(candidate.finalQuantile50));
+        candidateObject.emplace(
+            "finalCertifiedLowerBound",
+            score_object(candidate.finalCertifiedLowerBound));
+        candidateObject.emplace("terminalCells", integer_array(candidate.terminalCells));
+        candidateObject.emplace("terminalFuel", integer_array(candidate.terminalFuel));
         candidateObject.emplace("certified", JsonValue(candidate.certified));
         candidateObject.emplace("selected", JsonValue(candidate.selected));
         candidateObject.emplace("w1Role", JsonValue(candidate.w1Role));

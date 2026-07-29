@@ -26,6 +26,18 @@ namespace {
     return *std::max_element(config.daySteps.begin(), config.daySteps.end());
 }
 
+[[nodiscard]] std::int32_t harvest_extension_depth(
+    const MatchConfig& config,
+    std::int32_t dayNumber,
+    std::int32_t mode) {
+    if (mode > 4 &&
+        static_cast<std::int64_t>(config.fuelLimit) >=
+            3LL * config.steps_for_day(dayNumber)) {
+        return 4;
+    }
+    return mode > 3 ? 3 : 2;
+}
+
 [[nodiscard]] std::int32_t maximum_total_occupancy(const MatchConfig& config) {
     const std::int64_t value = static_cast<std::int64_t>(2) * config.players * config.agent_count() *
         maximum_day_steps(config);
@@ -674,6 +686,14 @@ namespace {
 void merge_master_diagnostics(MasterDiagnostics& target, const MasterDiagnostics& addition) {
     const bool hadSearch = target.cutRounds > 0;
     target.combinationsVisited += addition.combinationsVisited;
+    target.beamCombinationsVisited += addition.beamCombinationsVisited;
+    target.depthFirstCombinationsVisited += addition.depthFirstCombinationsVisited;
+    target.branchOrderingCalls += addition.branchOrderingCalls;
+    target.upperBoundChecks += addition.upperBoundChecks;
+    target.upperBoundPrunes += addition.upperBoundPrunes;
+    target.bundlePrunes += addition.bundlePrunes;
+    target.partialSynchronizationChecks += addition.partialSynchronizationChecks;
+    target.partialSynchronizationPrunes += addition.partialSynchronizationPrunes;
     target.simulatorValidCombinations += addition.simulatorValidCombinations;
     target.branchesPruned += addition.branchesPruned;
     target.stockCapacityConflicts += addition.stockCapacityConflicts;
@@ -685,6 +705,15 @@ void merge_master_diagnostics(MasterDiagnostics& target, const MasterDiagnostics
     target.stockCreditDenials += addition.stockCreditDenials;
     target.exactCreditMismatches += addition.exactCreditMismatches;
     target.criticalRoadPromotions += addition.criticalRoadPromotions;
+    target.synchronizationConflicts += addition.synchronizationConflicts;
+    target.duplicatePlansSkipped += addition.duplicatePlansSkipped;
+    target.invalidPlanCombinations += addition.invalidPlanCombinations;
+    target.reservationConflicts += addition.reservationConflicts;
+    target.roundPreparationMicroseconds += addition.roundPreparationMicroseconds;
+    target.beamConstructionMicroseconds += addition.beamConstructionMicroseconds;
+    target.beamEvaluationMicroseconds += addition.beamEvaluationMicroseconds;
+    target.depthFirstSearchMicroseconds += addition.depthFirstSearchMicroseconds;
+    target.populationMaintenanceMicroseconds += addition.populationMaintenanceMicroseconds;
     target.nativeExactStockCredits =
         target.nativeExactStockCredits || addition.nativeExactStockCredits;
     target.stockCappedSearchOrder =
@@ -1948,8 +1977,18 @@ FutureWitnessRepairer::FutureWitnessRepairer(
     const RouteColumnGenerator& generator,
     const RouteMaster& master,
     const ExactStepSimulator& simulator,
-    const IndependentDayValidator& validator)
-    : config_(config), generator_(generator), master_(master), simulator_(simulator), validator_(validator) {}
+    const IndependentDayValidator& validator,
+    std::int32_t harvestExtensionMode)
+    : config_(config),
+      generator_(generator),
+      master_(master),
+      simulator_(simulator),
+      validator_(validator),
+      harvestExtensionMode_(harvestExtensionMode) {
+    if (harvestExtensionMode_ < 0 || harvestExtensionMode_ > 5) {
+        throw std::invalid_argument("future harvest extension mode must be in [0,5]");
+    }
+}
 
 CandidateProfile FutureWitnessRepairer::provisional_profile(
     const MasterCandidate& candidate,
@@ -2014,6 +2053,15 @@ CandidateProfile FutureWitnessRepairer::provisional_profile(
                 generationOptions.maximumColumnsPerAgent = 3;
                 generationOptions.maximumTargetSpots = 6;
                 generationOptions.maximumEscorts = 4;
+                generationOptions.enableHarvestExtensions = harvestExtensionMode_ > 0;
+                generationOptions.allowUncachedHarvestTargets = harvestExtensionMode_ > 1;
+                generationOptions.maximumHarvestExtensionSources =
+                    harvestExtensionMode_ > 2 ? 4 : 1;
+                generationOptions.maximumHarvestExtensionDepth =
+                    harvest_extension_depth(
+                        config_,
+                        futureState.dayNumber,
+                        harvestExtensionMode_);
                 generationOptions.deadline = deadline;
                 MasterOptions masterOptions;
                 masterOptions.maximumCombinations = perDayCap;
@@ -2083,7 +2131,7 @@ void FutureWitnessRepairer::repair_profile(
             currentState);
         profile.outcomes.at(scenarioIndex) = ScenarioOutcome{
             certifiedFloor.score,
-            certifiedFloor,
+            std::move(certifiedFloor),
         };
         if (scenario.pessimisticFallback) {
             continue;
@@ -2135,6 +2183,15 @@ void FutureWitnessRepairer::repair_profile(
                 generationOptions.maximumColumnsPerAgent = 3;
                 generationOptions.maximumTargetSpots = 6;
                 generationOptions.maximumEscorts = 4;
+                generationOptions.enableHarvestExtensions = harvestExtensionMode_ > 0;
+                generationOptions.allowUncachedHarvestTargets = harvestExtensionMode_ > 1;
+                generationOptions.maximumHarvestExtensionSources =
+                    harvestExtensionMode_ > 2 ? 4 : 1;
+                generationOptions.maximumHarvestExtensionDepth =
+                    harvest_extension_depth(
+                        config_,
+                        futureState.dayNumber,
+                        harvestExtensionMode_);
                 generationOptions.deadline = deadline;
                 MasterOptions masterOptions;
                 masterOptions.maximumCombinations = perDayRepairCap;
@@ -2165,6 +2222,15 @@ void FutureWitnessRepairer::repair_profile(
                 generationOptions.maximumTargetSpots = 4;
                 generationOptions.maximumEscorts = 2;
                 generationOptions.maximumSeedPlans = 1;
+                generationOptions.enableHarvestExtensions = harvestExtensionMode_ > 0;
+                generationOptions.allowUncachedHarvestTargets = harvestExtensionMode_ > 1;
+                generationOptions.maximumHarvestExtensionSources =
+                    harvestExtensionMode_ > 2 ? 4 : 1;
+                generationOptions.maximumHarvestExtensionDepth =
+                    harvest_extension_depth(
+                        config_,
+                        futureState.dayNumber,
+                        harvestExtensionMode_);
                 generationOptions.mandatoryReservations = terminalViability.reservations;
                 generationOptions.deadline = deadline;
                 MasterOptions masterOptions;
@@ -2230,7 +2296,8 @@ void FutureWitnessRepairer::repair_profile(
                 };
             }
         } else {
-            profile.outcomes.at(scenarioIndex) = ScenarioOutcome{witness.score, std::move(witness)};
+            profile.outcomes.at(scenarioIndex) =
+                ScenarioOutcome{witness.score, std::move(witness)};
         }
     }
     profile.provisional = !all_outcomes_certified(profile);
@@ -2491,7 +2558,9 @@ void LexicographicRiskComparator::finalize_profiles(
     }
 }
 
-std::size_t LexicographicRiskComparator::choose(const std::vector<CandidateEvaluation>& evaluations) const {
+std::size_t LexicographicRiskComparator::choose(
+    const std::vector<CandidateEvaluation>& evaluations,
+    bool requireUndominatedCurrentFloor) const {
     if (evaluations.empty()) {
         throw std::invalid_argument("cannot choose from an empty candidate pool");
     }
@@ -2499,11 +2568,34 @@ std::size_t LexicographicRiskComparator::choose(const std::vector<CandidateEvalu
     for (const CandidateEvaluation& evaluation : evaluations) {
         bestConfidence = std::max(bestConfidence, evaluation.profile.confidenceCoverage);
     }
+    OfficialScore currentFloor;
+    bool hasCurrentFloor = false;
+    if (requireUndominatedCurrentFloor) {
+        for (const CandidateEvaluation& evaluation : evaluations) {
+            if (evaluation.profile.confidenceCoverage <
+                bestConfidence - policy_.safetySlack) {
+                continue;
+            }
+            if (!hasCurrentFloor ||
+                compare_lexicographic(
+                    evaluation.candidate.scoreAfterToday,
+                    currentFloor) > 0) {
+                currentFloor = evaluation.candidate.scoreAfterToday;
+                hasCurrentFloor = true;
+            }
+        }
+    }
     std::size_t selected = 0;
     bool hasSelected = false;
     for (std::size_t candidateIndex = 0; candidateIndex < evaluations.size(); ++candidateIndex) {
         const CandidateEvaluation& candidate = evaluations.at(candidateIndex);
         if (candidate.profile.confidenceCoverage < bestConfidence - policy_.safetySlack) {
+            continue;
+        }
+        if (hasCurrentFloor &&
+            compare_lexicographic(
+                candidate.candidate.scoreAfterToday,
+                currentFloor) < 0) {
             continue;
         }
         if (!hasSelected || better_evaluation(candidate, evaluations.at(selected))) {
@@ -2681,13 +2773,13 @@ DeadlineProfile DeadlineScheduler::classify(std::chrono::milliseconds available)
         profile.calibrationVersion = calibration_.version;
         return profile;
     };
-    if (available < calibration_.shortThreshold) {
+    if (available <= calibration_.shortThreshold) {
         return make_profile(
             DeadlineClass::Short,
             calibration_.shortFastViabilityPercent,
             calibration_.shortSearchSoftPercent);
     }
-    if (available < calibration_.normalThreshold) {
+    if (available <= calibration_.normalThreshold) {
         return make_profile(
             DeadlineClass::Normal,
             calibration_.normalFastViabilityPercent,
@@ -2889,7 +2981,10 @@ UdonShieldEngine::UdonShieldEngine(
     const MatchConfig& config,
     RiskPolicy policy,
     DeadlineCalibration deadlineCalibration,
-    RoutePoolSearch routePoolSearch)
+    RoutePoolSearch routePoolSearch,
+    std::int32_t harvestExtensionMode,
+    bool requireUndominatedCurrentFloor,
+    std::int32_t futureHarvestExtensionMode)
     : config_(config),
       simulator_(config_),
       validator_(config_),
@@ -2901,10 +2996,27 @@ UdonShieldEngine::UdonShieldEngine(
       belief_(config_),
       scenarioGenerator_(config_),
       viabilityAnalyzer_(config_),
-      witnessRepairer_(config_, generator_, master_, simulator_, validator_),
+      witnessRepairer_(
+          config_,
+          generator_,
+          master_,
+          simulator_,
+          validator_,
+          futureHarvestExtensionMode < 0
+              ? harvestExtensionMode
+              : futureHarvestExtensionMode),
       comparator_(std::move(policy)),
       deadlineScheduler_(std::move(deadlineCalibration)),
-      routePoolSearch_(routePoolSearch) {}
+      routePoolSearch_(routePoolSearch),
+      harvestExtensionMode_(harvestExtensionMode),
+      requireUndominatedCurrentFloor_(requireUndominatedCurrentFloor) {
+    if (harvestExtensionMode_ < 0 || harvestExtensionMode_ > 5) {
+        throw std::invalid_argument("harvest extension mode must be in [0,5]");
+    }
+    if (futureHarvestExtensionMode < -1 || futureHarvestExtensionMode > 5) {
+        throw std::invalid_argument("future harvest extension mode must be -1 or in [0,5]");
+    }
+}
 
 void UdonShieldEngine::rollout_role_assignment(
     RoleAssignment& assignment,
@@ -2971,18 +3083,54 @@ void UdonShieldEngine::rollout_role_assignment(
                     ? RoadStatus::Busy
                     : RoadStatus::Smooth);
         }
+        std::optional<std::chrono::steady_clock::time_point> daySearchDeadline = deadline;
+        std::chrono::milliseconds independentBudget{60};
+        if (deadline.has_value()) {
+            const std::chrono::steady_clock::time_point now =
+                std::chrono::steady_clock::now();
+            const std::int32_t remainingDays = finalDay - dayNumber + 1;
+            const std::chrono::milliseconds remaining =
+                std::chrono::duration_cast<std::chrono::milliseconds>(*deadline - now);
+            const std::chrono::milliseconds daySlice{
+                std::max<std::int64_t>(
+                    1,
+                    remaining.count() / std::max(1, remainingDays))};
+            const std::chrono::milliseconds simulationReserve{
+                std::min<std::int64_t>(5, std::max<std::int64_t>(1, daySlice.count() / 10))};
+            daySearchDeadline = std::min(
+                *deadline,
+                now + std::max(
+                    std::chrono::milliseconds{1},
+                    daySlice - simulationReserve));
+            independentBudget = std::min(
+                std::chrono::milliseconds{40},
+                std::max(
+                    std::chrono::milliseconds{1},
+                    daySlice / 3));
+        }
+        blank_slate::Diagnostics independentDiagnostics;
+        const DayPlan independentPlan = independentPlanner.solve_day(
+            rolloutState,
+            rolloutLedger,
+            independentBudget,
+            independentDiagnostics);
+        std::optional<MasterCandidate> selected =
+            master_.evaluate_exact_plan(
+                rolloutState,
+                rolloutLedger,
+                independentPlan);
         const bool seedPass = maximumCombinationsPerDay <= 512;
         ColumnGenerationOptions generationOptions;
         generationOptions.maximumPathsPerTarget = seedPass ? 1 : 2;
         generationOptions.maximumColumnsPerAgent = seedPass ? 4 : 10;
         generationOptions.maximumTargetSpots = seedPass ? 6 : 8;
         generationOptions.maximumEscorts = seedPass ? 4 : 8;
-        generationOptions.deadline = deadline;
+        generationOptions.deadline = daySearchDeadline;
         MasterOptions masterOptions;
         masterOptions.maximumCombinations = maximumCombinationsPerDay;
         masterOptions.maximumCandidates = 1;
         masterOptions.maximumResolveRounds = 1;
-        masterOptions.deadline = deadline;
+        masterOptions.deadline = daySearchDeadline;
         MasterDiagnostics diagnostics;
         const RoutePortfolio portfolio = generator_.generate(
             rolloutState,
@@ -2994,41 +3142,10 @@ void UdonShieldEngine::rollout_role_assignment(
             portfolio,
             masterOptions,
             diagnostics);
-        std::optional<MasterCandidate> selected;
-        if (!candidates.empty()) {
+        if (!candidates.empty() &&
+            (!selected.has_value() ||
+             better_search_candidate(candidates.front(), *selected))) {
             selected = candidates.front();
-        }
-        if (!deadline_expired()) {
-            std::chrono::milliseconds independentBudget{60};
-            if (deadline.has_value()) {
-                const std::chrono::milliseconds remaining =
-                    std::chrono::duration_cast<std::chrono::milliseconds>(
-                        *deadline - std::chrono::steady_clock::now());
-                const std::int32_t remainingDays = finalDay - dayNumber + 1;
-                independentBudget = std::min(
-                    independentBudget,
-                    std::chrono::milliseconds{
-                        std::max<std::int64_t>(
-                            1,
-                            remaining.count() /
-                                std::max<std::int32_t>(2, remainingDays + 1))});
-            }
-            blank_slate::Diagnostics independentDiagnostics;
-            const DayPlan independentPlan = independentPlanner.solve_day(
-                rolloutState,
-                rolloutLedger,
-                independentBudget,
-                independentDiagnostics);
-            const std::optional<MasterCandidate> independent =
-                master_.evaluate_exact_plan(
-                    rolloutState,
-                    rolloutLedger,
-                    independentPlan);
-            if (independent.has_value() &&
-                (!selected.has_value() ||
-                 better_search_candidate(*independent, *selected))) {
-                selected = *independent;
-            }
         }
         if (!selected.has_value()) {
             assignment.rolloutValid = false;
@@ -3053,6 +3170,35 @@ void UdonShieldEngine::rollout_role_assignment(
             detailed.roadFootprint;
     }
     assignment.rolloutScore = current_score(rolloutLedger);
+}
+
+bool role_assignment_better_after_rollout(
+    const RoleAssignment& challenger,
+    const RoleAssignment& incumbent) {
+    if (challenger.rolloutValid != incumbent.rolloutValid) {
+        return challenger.rolloutValid;
+    }
+    if (challenger.rolloutValid) {
+        const std::int32_t rolloutOrder = compare_lexicographic(
+            challenger.rolloutScore,
+            incumbent.rolloutScore);
+        if (rolloutOrder != 0) {
+            return rolloutOrder > 0;
+        }
+    }
+    if (challenger.sustainableCoverage != incumbent.sustainableCoverage) {
+        return challenger.sustainableCoverage > incumbent.sustainableCoverage;
+    }
+    const std::int32_t boundOrder = compare_lexicographic(
+        challenger.cheapUpperBound,
+        incumbent.cheapUpperBound);
+    if (boundOrder != 0) {
+        return boundOrder > 0;
+    }
+    if (challenger.patrolCount != incumbent.patrolCount) {
+        return challenger.patrolCount > incumbent.patrolCount;
+    }
+    return false;
 }
 
 std::vector<RoleAssignment> UdonShieldEngine::select_roles(std::int32_t beamWidth) const {
@@ -3165,21 +3311,29 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles(std::int32_t beamWidt
         beam.begin(),
         beam.end(),
         [](const RoleAssignment& left, const RoleAssignment& right) {
-            if (left.rolloutValid != right.rolloutValid) {
-                return left.rolloutValid;
+            if (role_assignment_better_after_rollout(left, right)) {
+                return true;
             }
-            const std::int32_t rolloutOrder =
-                compare_lexicographic(left.rolloutScore, right.rolloutScore);
-            if (rolloutOrder != 0) {
-                return rolloutOrder > 0;
-            }
-            const std::int32_t boundOrder =
-                compare_lexicographic(left.cheapUpperBound, right.cheapUpperBound);
-            if (boundOrder != 0) {
-                return boundOrder > 0;
+            if (role_assignment_better_after_rollout(right, left)) {
+                return false;
             }
             return left.roles < right.roles;
         });
+    const auto centralInBeam = std::find_if(
+        beam.begin(),
+        beam.end(),
+        [&centralRoles](const RoleAssignment& assignment) {
+            return assignment.roles == centralRoles;
+        });
+    if (centralInBeam != beam.end()) {
+        auto preferred = centralInBeam;
+        for (auto candidate = beam.begin(); candidate != beam.end(); ++candidate) {
+            if (role_assignment_better_after_rollout(*candidate, *preferred)) {
+                preferred = candidate;
+            }
+        }
+        std::rotate(beam.begin(), preferred, std::next(preferred));
+    }
     if (static_cast<std::int32_t>(beam.size()) > beamWidth) {
         beam.resize(static_cast<std::size_t>(beamWidth));
     }
@@ -3196,6 +3350,8 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
         std::chrono::steady_clock::now();
     const std::chrono::steady_clock::time_point scanDeadline =
         started + std::chrono::milliseconds{available.count() * 15 / 100};
+    const std::chrono::steady_clock::time_point probeDeadline =
+        started + std::chrono::milliseconds{available.count() * 35 / 100};
     const std::chrono::steady_clock::time_point rolloutDeadline =
         started + std::chrono::milliseconds{available.count() * 85 / 100};
     const std::int32_t fullMaskCount =
@@ -3205,8 +3361,6 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
     if (scanned.empty()) {
         return {};
     }
-    RoleAssignment bestSeed;
-    bool hasSeed = false;
     const auto allPatrol = std::find_if(
         scanned.begin(),
         scanned.end(),
@@ -3216,12 +3370,6 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
                 assignment.roles.end(),
                 [](AgentKind kind) { return kind == AgentKind::Patrol; });
         });
-    if (allPatrol != scanned.end()) {
-        bestSeed = *allPatrol;
-        bestSeed.rolloutValid = true;
-        bestSeed.rolloutScore = OfficialScore{};
-        hasSeed = true;
-    }
     const std::vector<AgentKind> centralRoles =
         blank_slate::Planner(config_, blank_slate::Method::Portfolio).select_roles();
     const auto central = std::find_if(
@@ -3230,111 +3378,192 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
         [&centralRoles](const RoleAssignment& assignment) {
             return assignment.roles == centralRoles;
         });
-    std::optional<RoleAssignment> centralSeed;
-    if (central != scanned.end() &&
-        std::chrono::steady_clock::now() < rolloutDeadline) {
-        RoleAssignment seed = *central;
-        rollout_role_assignment(seed, 1, 256, rolloutDeadline);
-        centralSeed = seed;
-        if (seed.rolloutValid &&
-            (!hasSeed || compare_lexicographic(seed.rolloutScore, bestSeed.rolloutScore) > 0)) {
-            bestSeed = seed;
-            hasSeed = true;
-        }
-    } else if (central != scanned.end()) {
-        centralSeed = *central;
-    }
-    for (RoleAssignment& assignment : scanned) {
-        if (std::chrono::steady_clock::now() >= scanDeadline) {
-            break;
-        }
-        if (assignment.roles == centralRoles) {
-            continue;
-        }
-        const std::int32_t tankerCount = config_.agent_count() - assignment.patrolCount;
-        if (tankerCount > 1) {
-            continue;
-        }
-        RoleAssignment seed = assignment;
-        rollout_role_assignment(seed, 1, 256, scanDeadline);
-        if (seed.rolloutValid &&
-            (!hasSeed || compare_lexicographic(seed.rolloutScore, bestSeed.rolloutScore) > 0)) {
-            bestSeed = std::move(seed);
-            hasSeed = true;
-        }
-    }
-    std::vector<RoleAssignment> beam;
-    beam.reserve(static_cast<std::size_t>(beamWidth + 1));
+    std::vector<RoleAssignment> probed;
+    probed.reserve(static_cast<std::size_t>(config_.agent_count() + 1));
+    std::int32_t remainingProbeAssignments = static_cast<std::int32_t>(
+        std::count_if(
+            scanned.begin(),
+            scanned.end(),
+            [this](const RoleAssignment& assignment) {
+                return config_.agent_count() - assignment.patrolCount <= 1;
+            }));
     for (const RoleAssignment& assignment : scanned) {
-        if (hasSeed &&
-            compare_lexicographic(
-                assignment.cheapUpperBound,
-                bestSeed.rolloutScore) <= 0) {
+        if (config_.agent_count() - assignment.patrolCount > 1) {
             continue;
         }
-        beam.push_back(assignment);
-        if (static_cast<std::int32_t>(beam.size()) >= beamWidth) {
+        const std::chrono::steady_clock::time_point now =
+            std::chrono::steady_clock::now();
+        if (now >= probeDeadline) {
             break;
         }
-    }
-    if (centralSeed.has_value()) {
-        beam.erase(
-            std::remove_if(
-                beam.begin(),
-                beam.end(),
-                [&centralRoles](const RoleAssignment& assignment) {
-                    return assignment.roles == centralRoles;
-                }),
-            beam.end());
-        beam.insert(beam.begin(), *centralSeed);
-        if (static_cast<std::int32_t>(beam.size()) > beamWidth) {
-            beam.pop_back();
-        }
-    }
-    if (hasSeed && std::none_of(
-            beam.begin(),
-            beam.end(),
-            [&bestSeed](const RoleAssignment& assignment) {
-                return assignment.roles == bestSeed.roles;
-            })) {
-        if (static_cast<std::int32_t>(beam.size()) >= beamWidth) {
-            beam.back() = bestSeed;
-        } else {
-            beam.push_back(bestSeed);
-        }
-    }
-    for (RoleAssignment& assignment : beam) {
+        const std::chrono::milliseconds remaining =
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                probeDeadline - now);
+        const std::chrono::steady_clock::time_point assignmentDeadline =
+            now + std::chrono::milliseconds{
+                std::max<std::int64_t>(
+                    1,
+                    remaining.count() /
+                        std::max(1, remainingProbeAssignments))};
         RoleAssignment refined = assignment;
         rollout_role_assignment(
             refined,
+            1,
+            256,
+            assignmentDeadline);
+        if (refined.rolloutValid) {
+            probed.push_back(std::move(refined));
+        }
+        --remainingProbeAssignments;
+    }
+    std::sort(
+        probed.begin(),
+        probed.end(),
+        [](const RoleAssignment& left, const RoleAssignment& right) {
+            if (role_assignment_better_after_rollout(left, right)) {
+                return true;
+            }
+            if (role_assignment_better_after_rollout(right, left)) {
+                return false;
+            }
+            return left.roles < right.roles;
+        });
+    std::vector<RoleAssignment> beam;
+    beam.reserve(static_cast<std::size_t>(beamWidth));
+    const auto append_to_beam = [&beam, beamWidth](const RoleAssignment& required) {
+        if (static_cast<std::int32_t>(beam.size()) >= beamWidth) {
+            return;
+        }
+        if (std::any_of(
+                beam.begin(),
+                beam.end(),
+                [&required](const RoleAssignment& assignment) {
+                    return assignment.roles == required.roles;
+                })) {
+            return;
+        }
+        beam.push_back(required);
+    };
+    if (!probed.empty()) {
+        append_to_beam(probed.front());
+    }
+    if (central != scanned.end()) {
+        const auto refinedCentral = std::find_if(
+            probed.begin(),
+            probed.end(),
+            [&centralRoles](const RoleAssignment& assignment) {
+                return assignment.roles == centralRoles;
+            });
+        append_to_beam(refinedCentral == probed.end() ? *central : *refinedCentral);
+    }
+    if (allPatrol != scanned.end()) {
+        const auto refinedAllPatrol = std::find_if(
+            probed.begin(),
+            probed.end(),
+            [](const RoleAssignment& assignment) {
+                return std::all_of(
+                    assignment.roles.begin(),
+                    assignment.roles.end(),
+                    [](AgentKind kind) { return kind == AgentKind::Patrol; });
+            });
+        append_to_beam(
+            refinedAllPatrol == probed.end()
+                ? *allPatrol
+                : *refinedAllPatrol);
+    }
+    for (const RoleAssignment& assignment : probed) {
+        append_to_beam(assignment);
+    }
+    for (const RoleAssignment& assignment : scanned) {
+        append_to_beam(assignment);
+    }
+    for (std::size_t index = 0; index < beam.size(); ++index) {
+        const std::chrono::steady_clock::time_point now =
+            std::chrono::steady_clock::now();
+        if (now >= rolloutDeadline) {
+            break;
+        }
+        const std::int32_t remainingAssignments =
+            static_cast<std::int32_t>(beam.size() - index);
+        const std::chrono::milliseconds remaining =
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                rolloutDeadline - now);
+        const std::chrono::steady_clock::time_point assignmentDeadline =
+            now + std::chrono::milliseconds{
+                std::max<std::int64_t>(
+                    1,
+                    remaining.count() / std::max(1, remainingAssignments))};
+        RoleAssignment refined = beam.at(index);
+        rollout_role_assignment(
+            refined,
             config_.day_count(),
-            8000,
-            rolloutDeadline);
-        if (refined.rolloutValid || !assignment.rolloutValid) {
-            assignment = std::move(refined);
+            256,
+            assignmentDeadline);
+        if (refined.rolloutValid) {
+            beam.at(index) = std::move(refined);
         }
     }
     std::sort(
         beam.begin(),
         beam.end(),
         [](const RoleAssignment& left, const RoleAssignment& right) {
-            if (left.rolloutValid != right.rolloutValid) {
-                return left.rolloutValid;
+            if (role_assignment_better_after_rollout(left, right)) {
+                return true;
             }
-            const std::int32_t rolloutOrder =
-                compare_lexicographic(left.rolloutScore, right.rolloutScore);
-            if (rolloutOrder != 0) {
-                return rolloutOrder > 0;
-            }
-            const std::int32_t boundOrder =
-                compare_lexicographic(left.cheapUpperBound, right.cheapUpperBound);
-            if (boundOrder != 0) {
-                return boundOrder > 0;
+            if (role_assignment_better_after_rollout(right, left)) {
+                return false;
             }
             return left.roles < right.roles;
         });
+    const auto centralTimedInBeam = std::find_if(
+        beam.begin(),
+        beam.end(),
+        [&centralRoles](const RoleAssignment& assignment) {
+            return assignment.roles == centralRoles;
+        });
+    if (centralTimedInBeam != beam.end()) {
+        auto preferred = centralTimedInBeam;
+        for (auto candidate = beam.begin(); candidate != beam.end(); ++candidate) {
+            if (role_assignment_better_after_rollout(*candidate, *preferred)) {
+                preferred = candidate;
+            }
+        }
+        std::rotate(beam.begin(), preferred, std::next(preferred));
+    }
     if (static_cast<std::int32_t>(beam.size()) > beamWidth) {
         beam.resize(static_cast<std::size_t>(beamWidth));
+    }
+    const std::chrono::steady_clock::time_point prewarmDeadline =
+        started + std::chrono::milliseconds{available.count() * 92 / 100};
+    if (!beam.empty() && std::chrono::steady_clock::now() < prewarmDeadline) {
+        DayState prewarmState;
+        prewarmState.dayNumber = 1;
+        prewarmState.roadStatuses.assign(
+            static_cast<std::size_t>(config_.map.cell_count()),
+            RoadStatus::Smooth);
+        prewarmState.agents.reserve(static_cast<std::size_t>(config_.agent_count()));
+        for (AgentIndex agentIndex = 0;
+             agentIndex < config_.agent_count();
+             ++agentIndex) {
+            prewarmState.agents.push_back(AgentState{
+                beam.front().roles.at(static_cast<std::size_t>(agentIndex)),
+                config_.initialAgents.at(static_cast<std::size_t>(agentIndex)),
+                config_.fuelLimit,
+            });
+        }
+        ColumnGenerationOptions prewarmOptions;
+        prewarmOptions.maximumPathsPerTarget = 4;
+        prewarmOptions.maximumColumnsPerAgent = 12;
+        prewarmOptions.maximumTargetSpots = 12;
+        prewarmOptions.maximumEscorts = 16;
+        prewarmOptions.maximumSeedPlans = 2;
+        prewarmOptions.enableHarvestExtensions = harvestExtensionMode_ > 0;
+        prewarmOptions.allowUncachedHarvestTargets = harvestExtensionMode_ > 1;
+        prewarmOptions.deadline = prewarmDeadline;
+        static_cast<void>(generator_.generate(
+            prewarmState,
+            MatchLedger{},
+            prewarmOptions));
     }
     return beam;
 }
@@ -3427,7 +3656,7 @@ DecisionResult UdonShieldEngine::solve_day(
             }
         }
     }
-    const std::string incumbentId = incumbent.stableId;
+    std::string incumbentId = incumbent.stableId;
 
     const std::chrono::steady_clock::time_point fastViabilityDeadline =
         started + result.deadline.seed + result.deadline.fastViability;
@@ -3446,10 +3675,19 @@ DecisionResult UdonShieldEngine::solve_day(
     ColumnGenerationOptions generationOptions;
     generationOptions.maximumPathsPerTarget = result.deadline.deadlineClass == DeadlineClass::Short ? 2 : 4;
     generationOptions.maximumColumnsPerAgent = result.deadline.deadlineClass == DeadlineClass::Short ? 6 :
-        (result.deadline.deadlineClass == DeadlineClass::Long ? 16 : 12);
+        16;
     generationOptions.maximumTargetSpots = result.deadline.deadlineClass == DeadlineClass::Short ? 8 : 12;
     generationOptions.maximumEscorts = result.deadline.deadlineClass == DeadlineClass::Short ? 4 : 16;
     generationOptions.maximumSeedPlans = result.deadline.deadlineClass == DeadlineClass::Short ? 1 : 2;
+    generationOptions.enableHarvestExtensions = harvestExtensionMode_ > 0;
+    generationOptions.allowUncachedHarvestTargets = harvestExtensionMode_ > 1;
+    generationOptions.maximumHarvestExtensionSources =
+        harvestExtensionMode_ > 2 ? 4 : 1;
+    generationOptions.maximumHarvestExtensionDepth =
+        harvest_extension_depth(
+            config_,
+            state.dayNumber,
+            harvestExtensionMode_);
     generationOptions.mandatoryReservations = result.viability.reservations;
     generationOptions.seedPlans.push_back(incumbent.plan);
     generationOptions.seedPlans.insert(
@@ -3498,6 +3736,10 @@ DecisionResult UdonShieldEngine::solve_day(
         feedbackRoutePool
         ? preRecombinationDeadline + routePoolReserve * 2 / 3
         : masterSearchDeadline;
+    const std::chrono::steady_clock::time_point initialAlnsDeadline =
+        feedbackRoutePool
+        ? preRecombinationDeadline
+        : preRecombinationDeadline + routePoolReserve / 2;
     const std::int32_t f0OperationCap = result.deadline.deadlineClass == DeadlineClass::Short
         ? deadlineCalibration.shortF0OperationCap
         : (result.deadline.deadlineClass == DeadlineClass::Long
@@ -3519,6 +3761,7 @@ DecisionResult UdonShieldEngine::solve_day(
     masterOptions.diversityCandidates = result.deadline.deadlineClass == DeadlineClass::Short
         ? 2
         : std::max(4, searchCandidateLimit / 4);
+    masterOptions.preferBaselineHarvestSources = harvestExtensionMode_ > 2;
     masterOptions.mandatoryReservations = result.viability.reservations;
     masterOptions.deadline = preRecombinationDeadline;
     generationOptions.deadline = masterOptions.deadline;
@@ -3570,23 +3813,141 @@ DecisionResult UdonShieldEngine::solve_day(
         result.audit.independentCandidateAccepted =
             independentCandidate.has_value();
     }
-    const RoutePortfolio portfolio = generator_.generate(state, ledger, generationOptions);
+    const std::chrono::milliseconds beforeColumnGeneration = elapsed();
+    ColumnGenerationOptions legacyGenerationOptions = generationOptions;
+    legacyGenerationOptions.allowUncachedHarvestTargets = false;
+    if (result.deadline.deadlineClass == DeadlineClass::Normal) {
+        legacyGenerationOptions.maximumColumnsPerAgent = 12;
+    }
+    RoutePortfolio portfolio = generator_.generate(
+        state,
+        ledger,
+        legacyGenerationOptions,
+        &result.audit.columnGeneration);
+    const RoutePortfolio legacyPortfolio = portfolio;
+    if (harvestExtensionMode_ > 1 &&
+        (!generationOptions.deadline.has_value() ||
+         std::chrono::steady_clock::now() < *generationOptions.deadline)) {
+        RoutePortfolio expandedPortfolio = generator_.generate(
+            state,
+            ledger,
+            generationOptions);
+        std::int32_t nextColumnId = 0;
+        for (const std::vector<RouteColumn>& columns :
+             portfolio.columnsByAgent) {
+            for (const RouteColumn& column : columns) {
+                nextColumnId = std::max(nextColumnId, column.columnId + 1);
+            }
+        }
+        const auto same_actions = [](const AgentPlan& left, const AgentPlan& right) {
+            if (left.size() != right.size()) {
+                return false;
+            }
+            for (std::size_t actionIndex = 0;
+                 actionIndex < left.size();
+                 ++actionIndex) {
+                if (left.at(actionIndex).kind != right.at(actionIndex).kind ||
+                    left.at(actionIndex).value != right.at(actionIndex).value) {
+                    return false;
+                }
+            }
+            return true;
+        };
+        for (std::size_t agentOffset = 0;
+             agentOffset < portfolio.columnsByAgent.size();
+            ++agentOffset) {
+            std::vector<RouteColumn>& retained =
+                portfolio.columnsByAgent.at(agentOffset);
+            for (RouteColumn& column :
+                 expandedPortfolio.columnsByAgent.at(agentOffset)) {
+                if (!column.harvestExtension ||
+                    std::any_of(
+                        retained.begin(),
+                        retained.end(),
+                        [&column, &same_actions](const RouteColumn& existing) {
+                            return same_actions(existing.actions, column.actions);
+                        })) {
+                    continue;
+                }
+                column.columnId = nextColumnId++;
+                retained.push_back(std::move(column));
+            }
+        }
+    }
+    result.timing.columnGeneration = elapsed() - beforeColumnGeneration;
     result.audit.portfolioColumnsByAgent.reserve(portfolio.columnsByAgent.size());
     result.audit.portfolioBrandCountsByAgent.reserve(portfolio.columnsByAgent.size());
+    result.audit.portfolioMaximumServingsByAgent.reserve(
+        portfolio.columnsByAgent.size());
+    result.audit.portfolioHarvestExtensionsByAgent.reserve(
+        portfolio.columnsByAgent.size());
+    result.audit.portfolioTerminalCellsByAgent.reserve(
+        portfolio.columnsByAgent.size());
     for (const std::vector<RouteColumn>& columns : portfolio.columnsByAgent) {
         std::uint64_t brands = 0;
+        std::int32_t maximumServings = 0;
+        std::int32_t harvestExtensions = 0;
+        std::vector<CellId> terminalCells;
+        terminalCells.reserve(columns.size());
         for (const RouteColumn& column : columns) {
             brands |= column.estimatedBrands;
+            maximumServings = std::max(maximumServings, column.estimatedServings);
+            harvestExtensions += column.harvestExtension ? 1 : 0;
+            terminalCells.push_back(column.terminalCell);
         }
         result.audit.portfolioColumnsByAgent.push_back(static_cast<std::int32_t>(columns.size()));
         result.audit.portfolioBrandCountsByAgent.push_back(static_cast<std::int32_t>(std::popcount(brands)));
+        result.audit.portfolioMaximumServingsByAgent.push_back(maximumServings);
+        result.audit.portfolioHarvestExtensionsByAgent.push_back(harvestExtensions);
+        result.audit.portfolioTerminalCellsByAgent.push_back(
+            std::move(terminalCells));
     }
+    const std::chrono::milliseconds beforeInitialMaster = elapsed();
+    std::vector<MasterCandidate> legacyCandidates;
+    if (harvestExtensionMode_ > 1 &&
+        std::chrono::steady_clock::now() < preRecombinationDeadline) {
+        MasterOptions legacyMasterOptions = masterOptions;
+        legacyMasterOptions.maximumCombinations =
+            std::max(256, masterOptions.maximumCombinations / 2);
+        legacyMasterOptions.maximumCandidates =
+            std::max(8, masterOptions.maximumCandidates / 2);
+        legacyMasterOptions.diversityCandidates =
+            std::max(2, legacyMasterOptions.maximumCandidates / 4);
+        const std::chrono::steady_clock::time_point now =
+            std::chrono::steady_clock::now();
+        legacyMasterOptions.deadline =
+            now + (preRecombinationDeadline - now) / 2;
+        MasterDiagnostics legacyDiagnostics;
+        legacyCandidates = master_.solve(
+            state,
+            ledger,
+            legacyPortfolio,
+            legacyMasterOptions,
+            legacyDiagnostics);
+        merge_master_diagnostics(result.diagnostics, legacyDiagnostics);
+    }
+    if (!legacyCandidates.empty() &&
+        better_search_candidate(legacyCandidates.front(), incumbent)) {
+        incumbent = legacyCandidates.front();
+        incumbentId = incumbent.stableId;
+    }
+    MasterDiagnostics initialDiagnostics;
     std::vector<MasterCandidate> generatedCandidates = master_.solve(
         state,
         ledger,
         portfolio,
         masterOptions,
-        result.diagnostics);
+        initialDiagnostics);
+    merge_master_diagnostics(result.diagnostics, initialDiagnostics);
+    generatedCandidates.insert(
+        generatedCandidates.end(),
+        std::make_move_iterator(legacyCandidates.begin()),
+        std::make_move_iterator(legacyCandidates.end()));
+    std::sort(
+        generatedCandidates.begin(),
+        generatedCandidates.end(),
+        better_search_candidate);
+    result.timing.initialMaster = elapsed() - beforeInitialMaster;
     if (independentCandidate.has_value()) {
         const bool duplicate = std::any_of(
             generatedCandidates.begin(),
@@ -3673,7 +4034,7 @@ DecisionResult UdonShieldEngine::solve_day(
     if (alnsOptions.criticalRoads.empty()) {
         alnsOptions.criticalRoads = baseline_critical_roads(config_, state);
     }
-    alnsOptions.deadline = masterOptions.deadline;
+    alnsOptions.deadline = initialAlnsDeadline;
     const std::chrono::milliseconds beforeAlns = elapsed();
     generatedCandidates = alns_.improve(
         state,
@@ -3684,6 +4045,7 @@ DecisionResult UdonShieldEngine::solve_day(
         result.alns);
     result.timing.alns = elapsed() - beforeAlns;
 
+    const std::chrono::milliseconds beforeRecombination = elapsed();
     if (routePoolReserve.count() > 0 && !generatedCandidates.empty()) {
         if (std::chrono::steady_clock::now() < masterSearchDeadline) {
             RoutePoolAugmentation augmentation = generator_.augment_with_candidate_routes(
@@ -3782,6 +4144,7 @@ DecisionResult UdonShieldEngine::solve_day(
             result.alns.recombinationDeadlineSkipped = true;
         }
     }
+    result.timing.recombination = elapsed() - beforeRecombination;
     result.timing.search = elapsed() - result.timing.incumbent - result.timing.fastPath;
 
     std::vector<MasterCandidate> candidates;
@@ -3934,6 +4297,15 @@ DecisionResult UdonShieldEngine::solve_day(
         record.scoreAfterToday = evaluation.candidate.scoreAfterToday;
         record.provisionalLowerBound = evaluation.profile.provisionalLowerBound;
         record.validUpperBound = evaluation.profile.validUpperBound;
+        record.terminalCells.reserve(
+            evaluation.candidate.simulation.finalAgents.size());
+        record.terminalFuel.reserve(
+            evaluation.candidate.simulation.finalAgents.size());
+        for (const AgentState& finalAgent :
+             evaluation.candidate.simulation.finalAgents) {
+            record.terminalCells.push_back(finalAgent.position);
+            record.terminalFuel.push_back(finalAgent.fuel);
+        }
         record.disposition = "not-shortlisted";
         result.audit.candidates.push_back(std::move(record));
     }
@@ -3972,10 +4344,22 @@ DecisionResult UdonShieldEngine::solve_day(
         deadlineCalibration.validationFloor);
     const std::chrono::steady_clock::time_point certificationDeadline =
         started + result.deadline.total - result.deadline.network - finalValidationFloor;
-    for (const std::size_t candidateIndex : repairIndices) {
+    for (std::size_t repairOffset = 0;
+         repairOffset < repairIndices.size();
+         ++repairOffset) {
+        const std::size_t candidateIndex = repairIndices.at(repairOffset);
         if (all_outcomes_certified(evaluations.at(candidateIndex).profile)) {
             continue;
         }
+        const std::chrono::steady_clock::time_point now =
+            std::chrono::steady_clock::now();
+        const std::int32_t remainingCandidates =
+            static_cast<std::int32_t>(repairIndices.size() - repairOffset);
+        const std::chrono::steady_clock::time_point candidateDeadline =
+            now >= certificationDeadline
+            ? certificationDeadline
+            : now + (certificationDeadline - now) /
+                  std::max(1, remainingCandidates);
         witnessRepairer_.repair_profile(
             evaluations.at(candidateIndex).profile,
             evaluations.at(candidateIndex).candidate,
@@ -3984,7 +4368,7 @@ DecisionResult UdonShieldEngine::solve_day(
             belief_,
             result.manifest,
             repairCap,
-            certificationDeadline);
+            candidateDeadline);
     }
     std::vector<CandidateEvaluation> certifiedPool;
     std::vector<std::size_t> certifiedIndices;
@@ -4033,6 +4417,16 @@ DecisionResult UdonShieldEngine::solve_day(
         certifiedPool,
         result.manifest,
         &result.audit.profileFinalization);
+    for (std::size_t candidateIndex = 0;
+         candidateIndex < certifiedPool.size();
+         ++candidateIndex) {
+        CandidateAuditRecord& record =
+            result.audit.candidates.at(certifiedIndices.at(candidateIndex));
+        record.finalQuantile50 =
+            certifiedPool.at(candidateIndex).profile.quantiles.at(2);
+        record.finalCertifiedLowerBound =
+            certifiedPool.at(candidateIndex).profile.certifiedLowerBound;
+    }
     std::vector<bool> dominated(certifiedPool.size(), false);
     for (std::size_t candidateIndex = 0; candidateIndex < certifiedPool.size(); ++candidateIndex) {
         for (std::size_t challengerIndex = 0; challengerIndex < certifiedPool.size(); ++challengerIndex) {
@@ -4062,7 +4456,9 @@ DecisionResult UdonShieldEngine::solve_day(
         throw std::runtime_error("all certified candidates were unexpectedly dominated");
     }
     certifiedPool = std::move(undominatedPool);
-    const std::size_t selected = comparator_.choose(certifiedPool);
+    const std::size_t selected = comparator_.choose(
+        certifiedPool,
+        requireUndominatedCurrentFloor_);
     for (std::size_t candidateIndex = 0; candidateIndex < undominatedIndices.size(); ++candidateIndex) {
         CandidateAuditRecord& record = result.audit.candidates.at(undominatedIndices.at(candidateIndex));
         if (candidateIndex == selected) {
@@ -4072,7 +4468,9 @@ DecisionResult UdonShieldEngine::solve_day(
             record.disposition = "certified-not-selected";
         }
     }
-    result.audit.selectionReason = "certified-lexicographic";
+    result.audit.selectionReason = requireUndominatedCurrentFloor_
+        ? "certified-undominated-current-floor"
+        : "certified-lexicographic";
     for (const ScenarioOutcome& outcome : certifiedPool.at(selected).profile.outcomes) {
         if (!outcome.witness.certified) {
             throw std::runtime_error("selected candidate lacks a certified future witness");

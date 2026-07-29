@@ -40,6 +40,12 @@ enum class Strategy {
     UdonShieldFeedback,
     UdonShieldProofExpanded,
     UdonShield,
+    UdonShieldMultiHarvest,
+    UdonShieldDeepHarvest,
+    UdonShieldAdaptiveDepth4,
+    UdonShieldDeepHarvestCentralRoles,
+    UdonShieldDeepHarvestAdaptiveRoles3,
+    UdonShieldDeepHarvestAdaptiveRoles,
     DeterministicAlns,
     DeterministicProofAlns,
     DeterministicProofAlns4x,
@@ -86,6 +92,8 @@ struct FixtureSpec {
     std::string name;
     std::string family = "fixed";
     std::uint64_t seed = 0;
+    std::int32_t width = 8;
+    std::int32_t height = 8;
     std::vector<std::int32_t> terrain;
     std::vector<SpotSpec> spots;
     std::vector<udon::CellId> starts{8, 9, 10, 11};
@@ -116,6 +124,7 @@ struct RunMetrics {
     udon::OfficialScore score;
     std::vector<std::int64_t> responseTimes;
     std::int64_t roleTime = 0;
+    std::uint32_t roleMask = 0;
     std::int32_t patrolCount = 0;
     std::int64_t combinationsVisited = 0;
     std::int64_t branchesPruned = 0;
@@ -197,6 +206,18 @@ struct RunMetrics {
         return "udon-shield-proof-8x";
     case Strategy::UdonShield:
         return "udon-shield";
+    case Strategy::UdonShieldMultiHarvest:
+        return "udon-shield-multi-harvest";
+    case Strategy::UdonShieldDeepHarvest:
+        return "udon-shield-deep-harvest";
+    case Strategy::UdonShieldAdaptiveDepth4:
+        return "udon-shield-adaptive-depth-4";
+    case Strategy::UdonShieldDeepHarvestCentralRoles:
+        return "udon-shield-deep-harvest-central-roles";
+    case Strategy::UdonShieldDeepHarvestAdaptiveRoles3:
+        return "udon-shield-deep-harvest-adaptive-roles-3";
+    case Strategy::UdonShieldDeepHarvestAdaptiveRoles:
+        return "udon-shield-deep-harvest-adaptive-roles";
     case Strategy::DeterministicAlns:
         return "deterministic-alns";
     case Strategy::DeterministicProofAlns:
@@ -240,8 +261,8 @@ struct RunMetrics {
     }
 }
 
-[[nodiscard]] std::vector<std::int32_t> plain_map() {
-    return std::vector<std::int32_t>(64U, static_cast<std::int32_t>(udon::Terrain::Plain));
+[[nodiscard]] std::vector<std::int32_t> plain_map(std::size_t cellCount = 64U) {
+    return std::vector<std::int32_t>(cellCount, static_cast<std::int32_t>(udon::Terrain::Plain));
 }
 
 void preserve_plain_cells(FixtureSpec& fixture) {
@@ -492,6 +513,124 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     return fixture;
 }
 
+[[nodiscard]] FixtureSpec generated_btc_large_fixture(std::uint64_t seed) {
+    static constexpr std::array<const char*, 6> families{
+        "balanced",
+        "rare-brand",
+        "threshold-corridor",
+        "fuel-tight",
+        "high-stock",
+        "overnight",
+    };
+    constexpr std::int32_t side = 32;
+    constexpr std::int32_t cellCount = side * side;
+    FixtureSpec fixture;
+    fixture.seed = seed;
+    fixture.family = families.at(static_cast<std::size_t>(seed % families.size()));
+    fixture.name = "btc-large-" + fixture.family + "-seed-" + std::to_string(seed);
+    fixture.width = side;
+    fixture.height = side;
+    fixture.terrain = plain_map(static_cast<std::size_t>(cellCount));
+
+    std::mt19937_64 random(seed ^ 0xd1b54a32d192ed03ULL);
+    std::vector<udon::CellId> roadCells;
+    roadCells.reserve(63U);
+    const auto add_road = [&fixture, &roadCells](std::int32_t row, std::int32_t column) {
+        const udon::CellId cell = row * side + column;
+        if (fixture.terrain.at(static_cast<std::size_t>(cell)) !=
+            static_cast<std::int32_t>(udon::Terrain::Road)) {
+            fixture.terrain.at(static_cast<std::size_t>(cell)) =
+                static_cast<std::int32_t>(udon::Terrain::Road);
+            roadCells.push_back(cell);
+        }
+    };
+    std::int32_t column = 7 + static_cast<std::int32_t>(random() % 18U);
+    for (std::int32_t row = 0; row < side; ++row) {
+        column = std::clamp(
+            column + static_cast<std::int32_t>(random() % 3U) - 1,
+            1,
+            side - 2);
+        add_road(row, column);
+    }
+    std::int32_t row = 7 + static_cast<std::int32_t>(random() % 18U);
+    for (column = 0; column < side; ++column) {
+        row = std::clamp(
+            row + static_cast<std::int32_t>(random() % 3U) - 1,
+            1,
+            side - 2);
+        add_road(row, column);
+    }
+    for (std::int32_t cell = 0;
+         roadCells.size() < 63U && cell < cellCount;
+         ++cell) {
+        const udon::CellId candidate = static_cast<udon::CellId>(
+            (cell * 37 + static_cast<std::int32_t>(seed % 31U)) % cellCount);
+        add_road(candidate / side, candidate % side);
+    }
+
+    std::vector<udon::CellId> cells(static_cast<std::size_t>(cellCount));
+    std::iota(cells.begin(), cells.end(), 0);
+    std::shuffle(cells.begin(), cells.end(), random);
+    std::int32_t mountains = 0;
+    std::int32_t ponds = 0;
+    for (const udon::CellId cell : cells) {
+        std::int32_t& terrain = fixture.terrain.at(static_cast<std::size_t>(cell));
+        if (terrain != static_cast<std::int32_t>(udon::Terrain::Plain)) {
+            continue;
+        }
+        if (mountains < 56) {
+            terrain = static_cast<std::int32_t>(udon::Terrain::Mountain);
+            ++mountains;
+        } else if (ponds < 5) {
+            terrain = static_cast<std::int32_t>(udon::Terrain::Pond);
+            ++ponds;
+        } else {
+            break;
+        }
+    }
+
+    std::shuffle(cells.begin(), cells.end(), random);
+    std::vector<udon::CellId> plainCells;
+    plainCells.reserve(cells.size());
+    for (const udon::CellId cell : cells) {
+        if (fixture.terrain.at(static_cast<std::size_t>(cell)) ==
+            static_cast<std::int32_t>(udon::Terrain::Plain)) {
+            plainCells.push_back(cell);
+        }
+    }
+    fixture.starts.assign(plainCells.begin(), plainCells.begin() + 8);
+    fixture.spots.reserve(12U);
+    for (std::int32_t spotIndex = 0; spotIndex < 12; ++spotIndex) {
+        std::int32_t brandIndex = spotIndex % 6;
+        if (fixture.family == "rare-brand" && spotIndex < 11) {
+            brandIndex = spotIndex % 5;
+        }
+        std::int32_t stock = 1 + static_cast<std::int32_t>(random() % 8U);
+        if (fixture.family == "high-stock") {
+            stock = 5 + static_cast<std::int32_t>(random() % 4U);
+        }
+        fixture.spots.push_back(SpotSpec{
+            brandIndex,
+            plainCells.at(static_cast<std::size_t>(8 + spotIndex)),
+            stock,
+        });
+    }
+    fixture.daySteps.assign(10U, 100);
+    fixture.fuelLimit = fixture.family == "fuel-tight" ? 120 : 200;
+    fixture.players = 4;
+    fixture.busyThreshold = 5;
+    fixture.jammedThreshold = 10;
+    return fixture;
+}
+
+[[nodiscard]] FixtureSpec generated_btc_highfuel_fixture(std::uint64_t seed) {
+    FixtureSpec fixture = generated_btc_large_fixture(seed);
+    fixture.family = "high-fuel-" + fixture.family;
+    fixture.name = "btc-highfuel-" + fixture.name;
+    fixture.fuelLimit = 3 * fixture.daySteps.front();
+    return fixture;
+}
+
 [[nodiscard]] std::string config_document(const FixtureSpec& fixture) {
     std::ostringstream output;
     output << "{\"startsAt\":1778227200,\"daySeconds\":[";
@@ -508,17 +647,18 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         }
         output << fixture.daySteps.at(day);
     }
-    output << "],\"map\":{\"height\":8,\"width\":8,\"cells\":[";
-    for (std::int32_t row = 0; row < 8; ++row) {
+    output << "],\"map\":{\"height\":" << fixture.height
+           << ",\"width\":" << fixture.width << ",\"cells\":[";
+    for (std::int32_t row = 0; row < fixture.height; ++row) {
         if (row != 0) {
             output << ',';
         }
         output << '[';
-        for (std::int32_t column = 0; column < 8; ++column) {
+        for (std::int32_t column = 0; column < fixture.width; ++column) {
             if (column != 0) {
                 output << ',';
             }
-            output << fixture.terrain.at(static_cast<std::size_t>(row * 8 + column));
+            output << fixture.terrain.at(static_cast<std::size_t>(row * fixture.width + column));
         }
         output << ']';
     }
@@ -739,14 +879,42 @@ public:
               deadline_calibration(strategy_),
               strategy_ == Strategy::UdonShieldFeedback
                   ? udon::RoutePoolSearch::Feedback
-                  : udon::RoutePoolSearch::SinglePass) {}
+                  : udon::RoutePoolSearch::SinglePass,
+              (strategy_ == Strategy::UdonShieldDeepHarvest ||
+               strategy_ == Strategy::UdonShieldAdaptiveDepth4 ||
+               strategy_ == Strategy::UdonShieldDeepHarvestCentralRoles ||
+               strategy_ == Strategy::UdonShieldDeepHarvestAdaptiveRoles3 ||
+               strategy_ == Strategy::UdonShieldDeepHarvestAdaptiveRoles)
+                  ? (strategy_ == Strategy::UdonShieldAdaptiveDepth4 ? 5 : 4)
+                  : (strategy_ == Strategy::UdonShieldMultiHarvest ? 3 : 2)) {}
 
     [[nodiscard]] std::vector<udon::AgentKind> select_roles(std::int64_t& elapsedMs) {
         const std::chrono::steady_clock::time_point started = std::chrono::steady_clock::now();
         std::vector<udon::AgentKind> roles;
         if (is_blank_strategy(strategy_)) {
             roles = blank_.select_roles();
+        } else if (strategy_ == Strategy::UdonShieldDeepHarvestCentralRoles) {
+            roles = blank_.select_roles();
+        } else if (strategy_ == Strategy::UdonShieldDeepHarvestAdaptiveRoles3) {
+            const std::vector<udon::RoleAssignment> assignments =
+                full_.select_roles_until(
+                    std::min(budget_, std::chrono::milliseconds{4000}),
+                    3);
+            roles = assignments.empty()
+                ? blank_.select_roles()
+                : assignments.front().roles;
+        } else if (strategy_ == Strategy::UdonShieldDeepHarvestAdaptiveRoles) {
+            const std::vector<udon::RoleAssignment> assignments =
+                full_.select_roles_until(
+                    std::min(budget_, std::chrono::milliseconds{4000}),
+                    8);
+            roles = assignments.empty()
+                ? blank_.select_roles()
+                : assignments.front().roles;
         } else if (strategy_ == Strategy::UdonShield ||
+            strategy_ == Strategy::UdonShieldMultiHarvest ||
+            strategy_ == Strategy::UdonShieldDeepHarvest ||
+            strategy_ == Strategy::UdonShieldAdaptiveDepth4 ||
             strategy_ == Strategy::UdonShieldFeedback ||
             strategy_ == Strategy::UdonShieldProofExpanded) {
             const std::vector<udon::RoleAssignment> assignments = full_.select_roles_until(
@@ -804,6 +972,12 @@ public:
         case Strategy::UdonShieldProofExpanded:
             return full_plan(state, ledger);
         case Strategy::UdonShield:
+        case Strategy::UdonShieldMultiHarvest:
+        case Strategy::UdonShieldDeepHarvest:
+        case Strategy::UdonShieldAdaptiveDepth4:
+        case Strategy::UdonShieldDeepHarvestCentralRoles:
+        case Strategy::UdonShieldDeepHarvestAdaptiveRoles3:
+        case Strategy::UdonShieldDeepHarvestAdaptiveRoles:
             return full_plan(state, ledger);
         case Strategy::DeterministicAlns:
             return alns_plan(state, ledger, AlnsPipeline::Deterministic);
@@ -1178,6 +1352,12 @@ private:
         roles.begin(),
         roles.end(),
         udon::AgentKind::Patrol));
+    for (std::size_t agentIndex = 0; agentIndex < roles.size(); ++agentIndex) {
+        if (roles.at(agentIndex) == udon::AgentKind::Tanker) {
+            metrics.roleMask |= std::uint32_t{1} <<
+                static_cast<std::uint32_t>(agentIndex);
+        }
+    }
     std::vector<udon::AgentState> agents;
     agents.reserve(static_cast<std::size_t>(config.agent_count()));
     for (udon::AgentIndex agent = 0; agent < config.agent_count(); ++agent) {
@@ -1330,6 +1510,7 @@ void print_result(const RunMetrics& metrics) {
               << ",servings=" << metrics.score.totalServings
               << ",invalid=" << metrics.invalidPlans
               << ",role_ms=" << metrics.roleTime
+              << ",role_mask=" << metrics.roleMask
               << ",patrols=" << metrics.patrolCount
               << ",mean_ms=" << meanTime
               << ",p50_ms=" << percentile(metrics.responseTimes, 50)
@@ -1628,6 +1809,7 @@ int main(int argumentCount, char** arguments) {
         std::string split = "fixed";
         std::string focus = "all";
         std::int32_t seedCount = 100;
+        std::int32_t seedOffset = 0;
         for (int argument = 1; argument < argumentCount; ++argument) {
             const std::string value = arguments[argument];
             if (value == "--smoke") {
@@ -1643,18 +1825,20 @@ int main(int argumentCount, char** arguments) {
                 focus = arguments[++argument];
             } else if (value == "--seeds" && argument + 1 < argumentCount) {
                 seedCount = std::stoi(arguments[++argument]);
+            } else if (value == "--seed-offset" && argument + 1 < argumentCount) {
+                seedOffset = std::stoi(arguments[++argument]);
             } else if (value == "--budget-ms" && argument + 1 < argumentCount) {
                 budget = std::chrono::milliseconds{std::stoll(arguments[++argument])};
             } else {
                 throw std::invalid_argument(
                     "usage: udonshield_strategy_bench [--smoke] [--summary-only] "
                     "[--split fixed|train|validation|heldout|research-train|research-validation|"
-                    "research-confirm|future-holdout|proof-holdout|proof-production-holdout|blank-train|blank-validation|blank-confirm|"
-                    "blank-holdout] [--focus all|halns-feedback|full-feedback|blank-slate|blank-champion|proof-ablation|proof-production] "
-                    "[--common-roles] [--seeds N] [--budget-ms N]");
+                    "research-confirm|future-holdout|harvest-holdout|btc-large-holdout|btc-highfuel-holdout|proof-holdout|proof-production-holdout|blank-train|blank-validation|blank-confirm|"
+                    "blank-holdout] [--focus all|halns-feedback|full-feedback|harvest-ablation|deep-harvest-ablation|depth4-ablation|role-ablation|blank-slate|blank-champion|proof-ablation|proof-production] "
+                    "[--common-roles] [--seeds N] [--seed-offset N] [--budget-ms N]");
             }
         }
-        if (budget.count() <= 0 || seedCount <= 0) {
+        if (budget.count() <= 0 || seedCount <= 0 || seedOffset < 0) {
             throw std::invalid_argument("benchmark budget and seed count must be positive");
         }
         std::vector<FixtureSpec> suite;
@@ -1662,6 +1846,8 @@ int main(int argumentCount, char** arguments) {
             suite = fixtures();
         } else {
             std::uint64_t firstSeed = 0;
+            bool btcLarge = false;
+            bool btcHighFuel = false;
             if (split == "validation") {
                 firstSeed = 10000;
             } else if (split == "heldout") {
@@ -1674,6 +1860,14 @@ int main(int argumentCount, char** arguments) {
                 firstSeed = 30000;
             } else if (split == "future-holdout") {
                 firstSeed = 200000;
+            } else if (split == "harvest-holdout") {
+                firstSeed = 600000;
+            } else if (split == "btc-large-holdout") {
+                firstSeed = 700000;
+                btcLarge = true;
+            } else if (split == "btc-highfuel-holdout") {
+                firstSeed = 800000;
+                btcHighFuel = true;
             } else if (split == "proof-holdout") {
                 firstSeed = 400000;
             } else if (split == "proof-production-holdout") {
@@ -1691,7 +1885,14 @@ int main(int argumentCount, char** arguments) {
             }
             suite.reserve(static_cast<std::size_t>(seedCount));
             for (std::int32_t offset = 0; offset < seedCount; ++offset) {
-                suite.push_back(generated_fixture(firstSeed + static_cast<std::uint64_t>(offset)));
+                const std::uint64_t seed = firstSeed +
+                    static_cast<std::uint64_t>(seedOffset) +
+                    static_cast<std::uint64_t>(offset);
+                suite.push_back(btcHighFuel
+                    ? generated_btc_highfuel_fixture(seed)
+                    : (btcLarge
+                        ? generated_btc_large_fixture(seed)
+                        : generated_fixture(seed)));
             }
         }
         if (smoke && suite.size() > 2U) {
@@ -1711,6 +1912,27 @@ int main(int argumentCount, char** arguments) {
             strategies = {
                 Strategy::UdonShieldFeedback,
                 Strategy::UdonShield,
+            };
+        } else if (focus == "harvest-ablation") {
+            strategies = {
+                Strategy::UdonShield,
+                Strategy::UdonShieldMultiHarvest,
+            };
+        } else if (focus == "deep-harvest-ablation") {
+            strategies = {
+                Strategy::UdonShieldMultiHarvest,
+                Strategy::UdonShieldDeepHarvest,
+            };
+        } else if (focus == "depth4-ablation") {
+            strategies = {
+                Strategy::UdonShieldDeepHarvest,
+                Strategy::UdonShieldAdaptiveDepth4,
+            };
+        } else if (focus == "role-ablation") {
+            strategies = {
+                Strategy::UdonShieldDeepHarvestCentralRoles,
+                Strategy::UdonShieldDeepHarvestAdaptiveRoles3,
+                Strategy::UdonShieldDeepHarvestAdaptiveRoles,
             };
         } else if (focus == "blank-slate") {
             strategies = {
@@ -1747,7 +1969,13 @@ int main(int argumentCount, char** arguments) {
             ? Strategy::DeterministicAlns
             : (focus == "proof-production"
                 ? Strategy::UdonShield
-                : Strategy::UdonShield);
+                : (focus == "deep-harvest-ablation"
+                    ? Strategy::UdonShieldMultiHarvest
+                    : (focus == "depth4-ablation"
+                        ? Strategy::UdonShieldDeepHarvest
+                        : (focus == "role-ablation"
+                            ? Strategy::UdonShieldDeepHarvestAdaptiveRoles3
+                            : Strategy::UdonShield))));
         std::cout << "schema=udon-shield-strategy-benchmark-v3"
                   << ",split=" << split
                   << ",fixtures=" << suite.size()
@@ -1813,6 +2041,54 @@ int main(int argumentCount, char** arguments) {
         if (includes(Strategy::UdonShieldFeedback) &&
             includes(Strategy::UdonShield)) {
             print_pairwise(results, Strategy::UdonShieldFeedback, Strategy::UdonShield);
+        }
+        if (includes(Strategy::UdonShieldDeepHarvestCentralRoles) &&
+            includes(Strategy::UdonShieldDeepHarvestAdaptiveRoles3)) {
+            print_pairwise(
+                results,
+                Strategy::UdonShieldDeepHarvestAdaptiveRoles3,
+                Strategy::UdonShieldDeepHarvestCentralRoles);
+        }
+        if (includes(Strategy::UdonShieldDeepHarvestAdaptiveRoles3) &&
+            includes(Strategy::UdonShieldDeepHarvestAdaptiveRoles)) {
+            print_pairwise(
+                results,
+                Strategy::UdonShieldDeepHarvestAdaptiveRoles,
+                Strategy::UdonShieldDeepHarvestAdaptiveRoles3);
+        }
+        if (includes(Strategy::UdonShieldDeepHarvestCentralRoles) &&
+            includes(Strategy::UdonShieldDeepHarvestAdaptiveRoles)) {
+            print_pairwise(
+                results,
+                Strategy::UdonShieldDeepHarvestAdaptiveRoles,
+                Strategy::UdonShieldDeepHarvestCentralRoles);
+        }
+        if (includes(Strategy::UdonShieldMultiHarvest) &&
+            includes(Strategy::UdonShield)) {
+            print_pairwise(results, Strategy::UdonShieldMultiHarvest, Strategy::UdonShield);
+            print_family_pairwise(results, Strategy::UdonShieldMultiHarvest, Strategy::UdonShield);
+        }
+        if (includes(Strategy::UdonShieldDeepHarvest) &&
+            includes(Strategy::UdonShieldMultiHarvest)) {
+            print_pairwise(
+                results,
+                Strategy::UdonShieldDeepHarvest,
+                Strategy::UdonShieldMultiHarvest);
+            print_family_pairwise(
+                results,
+                Strategy::UdonShieldDeepHarvest,
+                Strategy::UdonShieldMultiHarvest);
+        }
+        if (includes(Strategy::UdonShieldAdaptiveDepth4) &&
+            includes(Strategy::UdonShieldDeepHarvest)) {
+            print_pairwise(
+                results,
+                Strategy::UdonShieldAdaptiveDepth4,
+                Strategy::UdonShieldDeepHarvest);
+            print_family_pairwise(
+                results,
+                Strategy::UdonShieldAdaptiveDepth4,
+                Strategy::UdonShieldDeepHarvest);
         }
         if (includes(Strategy::EventConflict) &&
             includes(Strategy::UdonShield)) {

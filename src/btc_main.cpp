@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <bit>
 #include <chrono>
 #include <cctype>
 #include <cstdlib>
@@ -32,10 +33,17 @@ struct RuntimeOptions {
     std::string baseUrl = "https://procon.ptit.edu.vn";
     std::string matchId;
     std::string replayPath;
+    std::string decisionDumpPath;
     std::int32_t responseBudgetMs = 5000;
     std::int32_t pollMs = 220;
-    std::int32_t beamWidth = 3;
+    std::int32_t beamWidth = 8;
     std::int32_t dayNumber = 0;
+    std::int32_t roleMask = -1;
+    std::int32_t maximumReplayDays = std::numeric_limits<std::int32_t>::max();
+    std::int32_t harvestExtensionMode = 5;
+    std::int32_t futureHarvestExtensionMode = -1;
+    std::int32_t logicBudgetMs = 0;
+    bool requireUndominatedCurrentFloor = false;
 };
 
 struct HttpResponse {
@@ -50,9 +58,10 @@ struct HttpResponse {
 
 [[nodiscard]] udon::DeadlineCalibration btc_http_deadline_calibration() {
     udon::DeadlineCalibration calibration;
-    calibration.version = "btc-http-observed-safe-v1";
-    calibration.networkFloor = std::chrono::milliseconds{1500};
-    calibration.networkPercent = 30;
+    calibration.version = "btc-http-fair-w1-v2";
+    calibration.networkFloor = std::chrono::milliseconds{1000};
+    calibration.networkPercent = 20;
+    calibration.certificationPercent = 20;
     return calibration;
 }
 
@@ -117,14 +126,43 @@ private:
             options.matchId = value;
         } else if (key == "--replay") {
             options.replayPath = value;
+        } else if (key == "--decision-dump") {
+            options.decisionDumpPath = value;
         } else if (key == "--response-ms") {
             options.responseBudgetMs = parse_positive_integer(value, key);
+        } else if (key == "--logic-budget-ms") {
+            options.logicBudgetMs = parse_positive_integer(value, key);
+        } else if (key == "--current-floor") {
+            if (value != "0" && value != "1") {
+                throw std::invalid_argument("--current-floor must be 0 or 1");
+            }
+            options.requireUndominatedCurrentFloor = value == "1";
         } else if (key == "--poll-ms") {
             options.pollMs = parse_positive_integer(value, key);
         } else if (key == "--beam-width") {
             options.beamWidth = parse_positive_integer(value, key);
         } else if (key == "--day") {
             options.dayNumber = parse_positive_integer(value, key);
+        } else if (key == "--max-days") {
+            options.maximumReplayDays = parse_positive_integer(value, key);
+        } else if (key == "--role-mask") {
+            const long long parsed = std::stoll(value);
+            if (parsed < 0 || parsed > 255) {
+                throw std::invalid_argument("--role-mask must be in [0,255]");
+            }
+            options.roleMask = static_cast<std::int32_t>(parsed);
+        } else if (key == "--harvest-extensions") {
+            const long long parsed = std::stoll(value);
+            if (parsed < 0 || parsed > 5) {
+                throw std::invalid_argument("--harvest-extensions must be in [0,5]");
+            }
+            options.harvestExtensionMode = static_cast<std::int32_t>(parsed);
+        } else if (key == "--future-harvest-extensions") {
+            const long long parsed = std::stoll(value);
+            if (parsed < 0 || parsed > 5) {
+                throw std::invalid_argument("--future-harvest-extensions must be in [0,5]");
+            }
+            options.futureHarvestExtensionMode = static_cast<std::int32_t>(parsed);
         } else {
             throw std::invalid_argument("unsupported argument: " + key);
         }
@@ -139,16 +177,44 @@ private:
         (options.replayPath.empty() || options.dayNumber <= 0)) {
         throw std::invalid_argument("replay-solve requires --replay and --day");
     }
+    if (options.mode == "replay-roles" && options.replayPath.empty()) {
+        throw std::invalid_argument("replay-roles requires --replay");
+    }
+    if (options.mode == "replay-counterfactual" &&
+        (options.replayPath.empty() || options.roleMask < 0)) {
+        throw std::invalid_argument(
+            "replay-counterfactual requires --replay and --role-mask");
+    }
+    if (options.logicBudgetMs > 0 &&
+        options.mode != "replay-counterfactual") {
+        throw std::invalid_argument(
+            "--logic-budget-ms is only valid for replay-counterfactual");
+    }
+    if (options.requireUndominatedCurrentFloor &&
+        options.mode != "replay-counterfactual") {
+        throw std::invalid_argument(
+            "--current-floor is only valid for replay-counterfactual");
+    }
+    if (options.futureHarvestExtensionMode >= 0 &&
+        options.mode != "replay-counterfactual") {
+        throw std::invalid_argument(
+            "--future-harvest-extensions is only valid for replay-counterfactual");
+    }
     return options;
 }
 
 void print_usage() {
     std::cerr
         << "usage:\n"
-        << "  udonshield_btc sandbox [--response-ms 5000] [--beam-width 3] [--replay replay.jsonl]\n"
+        << "  udonshield_btc sandbox [--response-ms 5000] [--beam-width 8] [--replay replay.jsonl]\n"
         << "  udonshield_btc http --match MATCH_ID [--url https://procon.ptit.edu.vn] "
-           "[--response-ms 5000] [--poll-ms 220] [--beam-width 3] [--replay replay.jsonl]\n"
+           "[--response-ms 5000] [--poll-ms 220] [--beam-width 8] [--replay replay.jsonl]\n"
         << "  udonshield_btc replay-check --replay replay.jsonl [--response-ms 5000]\n"
+        << "  udonshield_btc replay-roles --replay replay.jsonl [--response-ms 5000] [--beam-width 8]\n"
+        << "  udonshield_btc replay-counterfactual --replay replay.jsonl --role-mask MASK "
+           "[--response-ms 5000] [--harvest-extensions 0|1|2|3|4|5] [--max-days N] "
+           "[--future-harvest-extensions 0|1|2|3|4|5] [--logic-budget-ms N] [--current-floor 0|1] "
+           "[--decision-dump decisions.jsonl]\n"
         << "  udonshield_btc replay-solve --replay replay.jsonl --day DAY [--response-ms 5000]\n"
         << "HTTP mode reads the bearer token only from HEXUDON_TOKEN.\n";
 }
@@ -537,7 +603,12 @@ void run_replay_solve(const RuntimeOptions& options) {
     if (!targetState.has_value()) {
         throw std::runtime_error("requested day is absent from BTC replay");
     }
-    udon::UdonShieldEngine engine(config, {}, btc_http_deadline_calibration());
+    udon::UdonShieldEngine engine(
+        config,
+        {},
+        btc_http_deadline_calibration(),
+        udon::RoutePoolSearch::SinglePass,
+        options.harvestExtensionMode);
     const auto started = std::chrono::steady_clock::now();
     const udon::DecisionResult decision = engine.solve_day(
         *targetState,
@@ -594,6 +665,7 @@ void run_replay_solve(const RuntimeOptions& options) {
               << " serving_total=" << decision.candidate.scoreAfterToday.totalServings
               << " independent_ms=" << decision.timing.independentGenerators.count()
               << " search_ms=" << decision.timing.search.count()
+              << " candidate_ms=" << decision.timing.candidatePreparation.count()
               << " certification_ms=" << decision.timing.certification.count()
               << " pool=" << decision.audit.candidates.size()
               << " pool_best_daily=" << bestPoolDailyDistinct
@@ -601,11 +673,253 @@ void run_replay_solve(const RuntimeOptions& options) {
               << " columns=" << compactIntegers(decision.audit.portfolioColumnsByAgent)
               << " brand_frontier=" << compactIntegers(decision.audit.portfolioBrandCountsByAgent)
               << " combinations=" << decision.diagnostics.combinationsVisited
+              << " beam_combinations=" << decision.diagnostics.beamCombinationsVisited
+              << " dfs_combinations=" << decision.diagnostics.depthFirstCombinationsVisited
+              << " branch_orders=" << decision.diagnostics.branchOrderingCalls
+              << " bound_checks=" << decision.diagnostics.upperBoundChecks
+              << " bound_prunes=" << decision.diagnostics.upperBoundPrunes
+              << " bundle_prunes=" << decision.diagnostics.bundlePrunes
+              << " partial_checks=" << decision.diagnostics.partialSynchronizationChecks
+              << " partial_prunes=" << decision.diagnostics.partialSynchronizationPrunes
+              << " master_prepare_us=" << decision.diagnostics.roundPreparationMicroseconds
+              << " master_beam_build_us=" << decision.diagnostics.beamConstructionMicroseconds
+              << " master_beam_eval_us=" << decision.diagnostics.beamEvaluationMicroseconds
+              << " master_dfs_us=" << decision.diagnostics.depthFirstSearchMicroseconds
+              << " master_population_us=" << decision.diagnostics.populationMaintenanceMicroseconds
+              << " alns_iterations=" << decision.alns.iterations
+              << " alns_improvements=" << decision.alns.improvements
+              << " recombination_improvements=" << decision.alns.recombinationImprovements
               << " master_deadline=" << (decision.diagnostics.deadlineReached ? 1 : 0)
               << " emergency=" << (decision.emergency ? 1 : 0)
               << " selection=" << decision.audit.selectionReason
               << '\n';
     std::cout << udon::serialize_day_plan(decision.candidate.plan).dump() << '\n';
+}
+
+void run_replay_roles(const RuntimeOptions& options) {
+    std::ifstream input(options.replayPath, std::ios::binary);
+    if (!input) {
+        throw std::runtime_error("cannot open BTC replay: " + options.replayPath);
+    }
+    std::optional<udon::JsonValue> setupDocument;
+    std::string line;
+    while (std::getline(input, line)) {
+        if (line.empty()) {
+            continue;
+        }
+        const udon::JsonValue event = udon::JsonValue::parse(line);
+        if (event.at("kind").string() == "setup") {
+            setupDocument = event.at("body");
+            break;
+        }
+    }
+    if (!setupDocument.has_value()) {
+        throw std::runtime_error("BTC replay has no setup event");
+    }
+    const udon::BtcAdapterOptions adapterOptions{options.responseBudgetMs};
+    const udon::MatchConfig config = udon::parse_btc_setup(*setupDocument, adapterOptions);
+    udon::MatchSession session(config);
+    const std::chrono::steady_clock::time_point started =
+        std::chrono::steady_clock::now();
+    const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
+        std::chrono::milliseconds{options.responseBudgetMs},
+        options.beamWidth);
+    const std::chrono::milliseconds elapsed =
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - started);
+    for (std::size_t index = 0; index < assignments.size(); ++index) {
+        const udon::RoleAssignment& assignment = assignments.at(index);
+        std::string roles;
+        roles.reserve(assignment.roles.size());
+        for (const udon::AgentKind role : assignment.roles) {
+            roles.push_back(role == udon::AgentKind::Patrol ? 'P' : 'T');
+        }
+        std::cout << "rank=" << index + 1U
+                  << " roles=" << roles
+                  << " patrols=" << assignment.patrolCount
+                  << " sustainable=" << assignment.sustainableCoverage
+                  << " rollout_valid=" << (assignment.rolloutValid ? 1 : 0)
+                  << " rollout=" << assignment.rolloutScore.lifetimeDistinct
+                  << '/' << assignment.rolloutScore.totalDailyDistinct
+                  << '/' << assignment.rolloutScore.totalServings
+                  << " upper=" << assignment.cheapUpperBound.lifetimeDistinct
+                  << '/' << assignment.cheapUpperBound.totalDailyDistinct
+                  << '/' << assignment.cheapUpperBound.totalServings
+                  << '\n';
+    }
+    std::cout << "elapsed_ms=" << elapsed.count() << '\n';
+}
+
+void run_replay_counterfactual(const RuntimeOptions& options) {
+    std::ifstream input(options.replayPath, std::ios::binary);
+    if (!input) {
+        throw std::runtime_error("cannot open BTC replay: " + options.replayPath);
+    }
+    std::vector<udon::JsonValue> events;
+    std::string line;
+    while (std::getline(input, line)) {
+        if (!line.empty()) {
+            events.push_back(udon::JsonValue::parse(line));
+        }
+    }
+    const auto setupEvent = std::find_if(
+        events.begin(),
+        events.end(),
+        [](const udon::JsonValue& event) {
+            return event.at("kind").string() == "setup";
+        });
+    if (setupEvent == events.end()) {
+        throw std::runtime_error("BTC replay has no setup event");
+    }
+    const udon::BtcAdapterOptions adapterOptions{options.responseBudgetMs};
+    const udon::MatchConfig config =
+        udon::parse_btc_setup(setupEvent->at("body"), adapterOptions);
+    if (options.roleMask >= (std::int32_t{1} << config.agent_count())) {
+        throw std::invalid_argument("--role-mask has bits outside the configured agents");
+    }
+    if (std::popcount(static_cast<std::uint32_t>(options.roleMask)) >=
+        config.agent_count()) {
+        throw std::invalid_argument("--role-mask must leave at least one patrol");
+    }
+    udon::ExactStepSimulator simulator(config);
+    udon::IndependentDayValidator validator(config);
+    udon::DeadlineCalibration deadlineCalibration =
+        btc_http_deadline_calibration();
+    const std::int32_t solveBudgetMs = options.logicBudgetMs > 0
+        ? options.logicBudgetMs
+        : options.responseBudgetMs;
+    if (options.logicBudgetMs > 0) {
+        deadlineCalibration.normalThreshold =
+            std::chrono::milliseconds{options.logicBudgetMs};
+        deadlineCalibration.version += "-logic-normal";
+    }
+    udon::UdonShieldEngine engine(
+        config,
+        {},
+        deadlineCalibration,
+        udon::RoutePoolSearch::SinglePass,
+        options.harvestExtensionMode,
+        options.requireUndominatedCurrentFloor,
+        options.futureHarvestExtensionMode);
+    static_cast<void>(engine.select_roles_until(
+        std::chrono::milliseconds{solveBudgetMs},
+        options.beamWidth));
+    udon::MatchLedger ledger;
+    std::vector<udon::AgentState> counterfactualAgents;
+    std::ofstream decisionDump;
+    if (!options.decisionDumpPath.empty()) {
+        const std::filesystem::path dumpPath(options.decisionDumpPath);
+        if (dumpPath.has_parent_path()) {
+            std::filesystem::create_directories(dumpPath.parent_path());
+        }
+        decisionDump.open(dumpPath, std::ios::binary | std::ios::trunc);
+        if (!decisionDump) {
+            throw std::runtime_error(
+                "cannot open counterfactual decision dump: " +
+                options.decisionDumpPath);
+        }
+    }
+    std::int32_t expectedDay = 1;
+    for (const udon::JsonValue& event : events) {
+        if (event.at("kind").string() != "day_state") {
+            continue;
+        }
+        const std::int64_t atUnixMs = event.at("atUnixMs").integer();
+        udon::DayState state = udon::parse_btc_day_state(
+            config,
+            event.at("body"),
+            std::chrono::system_clock::time_point{
+                std::chrono::milliseconds{atUnixMs}},
+            adapterOptions);
+        if (state.dayNumber != expectedDay) {
+            continue;
+        }
+        if (counterfactualAgents.empty()) {
+            for (udon::AgentIndex agentIndex = 0;
+                 agentIndex < config.agent_count();
+                 ++agentIndex) {
+                const bool tanker =
+                    (options.roleMask &
+                     (std::int32_t{1} << agentIndex)) != 0;
+                state.agents.at(static_cast<std::size_t>(agentIndex)).kind =
+                    tanker ? udon::AgentKind::Tanker : udon::AgentKind::Patrol;
+            }
+        } else {
+            state.agents = counterfactualAgents;
+        }
+        const std::chrono::steady_clock::time_point started =
+            std::chrono::steady_clock::now();
+        const udon::DecisionResult decision = engine.solve_day(
+            state,
+            ledger,
+            std::chrono::milliseconds{solveBudgetMs});
+        const std::chrono::milliseconds elapsed =
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - started);
+        const udon::SimulationResult simulation =
+            simulator.simulate(state, decision.candidate.plan, false);
+        const udon::SimulationResult validation =
+            validator.validate(state, decision.candidate.plan, false);
+        std::string mismatch;
+        if (!simulation.valid ||
+            !validator.agrees_with(simulation, validation, mismatch)) {
+            throw std::runtime_error(
+                "counterfactual plan failed exact validation: " + mismatch);
+        }
+        if (decisionDump) {
+            decisionDump << udon::serialize_decision_replay(
+                config,
+                state,
+                ledger,
+                decision).dump() << '\n';
+        }
+        ledger.apply(simulation.score);
+        counterfactualAgents = simulation.finalAgents;
+        engine.record_submitted(decision, elapsed);
+        const auto compact_score = [](const udon::OfficialScore& score) {
+            return std::to_string(score.lifetimeDistinct) + '/' +
+                std::to_string(score.totalDailyDistinct) + '/' +
+                std::to_string(score.totalServings);
+        };
+        std::string terminals;
+        for (udon::AgentIndex agentIndex = 0;
+             agentIndex < config.agent_count();
+             ++agentIndex) {
+            if (!terminals.empty()) {
+                terminals.push_back(',');
+            }
+            const udon::AgentState& finalAgent =
+                simulation.finalAgents.at(static_cast<std::size_t>(agentIndex));
+            terminals += 'a' + std::to_string(agentIndex) + '@' +
+                std::to_string(finalAgent.position) + '/' +
+                std::to_string(finalAgent.fuel);
+        }
+        std::cout << "day=" << state.dayNumber
+                  << " score=" << ledger.lifetime_distinct()
+                  << '/' << ledger.totalDailyDistinct
+                  << '/' << ledger.totalServings
+                  << " daily=" << simulation.score.dailyDistinct
+                  << '/' << simulation.score.servings
+                  << " profile_lb=" << compact_score(decision.profile.provisionalLowerBound)
+                  << " profile_cert=" << compact_score(decision.profile.certifiedLowerBound)
+                  << " profile_q50=" << compact_score(decision.profile.quantiles.at(2))
+                  << " candidates=" << decision.audit.candidates.size()
+                  << " candidate_ms=" << decision.timing.candidatePreparation.count()
+                  << " certification_ms=" << decision.timing.certification.count()
+                  << " terminals=" << terminals
+                  << " elapsed_ms=" << elapsed.count()
+                  << '\n';
+        ++expectedDay;
+        if (expectedDay > options.maximumReplayDays) {
+            break;
+        }
+    }
+    std::cout << "summary role_mask=" << options.roleMask
+              << " days=" << expectedDay - 1
+              << " score=" << ledger.lifetime_distinct()
+              << '/' << ledger.totalDailyDistinct
+              << '/' << ledger.totalServings
+              << '\n';
 }
 
 void run_sandbox(const RuntimeOptions& options) {
@@ -954,8 +1268,12 @@ void run_http(const RuntimeOptions& options) {
     const udon::DeadlineCalibration deadlineCalibration = btc_http_deadline_calibration();
     udon::MatchSession session(config, {}, deadlineCalibration);
     if (!resume.assignmentAccepted || !resume.assignment.has_value()) {
+        const std::chrono::milliseconds roleSelectionBudget = std::max(
+            std::chrono::milliseconds{1},
+            std::chrono::milliseconds{options.responseBudgetMs} -
+                deadlineCalibration.networkFloor);
         const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
-            std::chrono::milliseconds{options.responseBudgetMs},
+            roleSelectionBudget,
             options.beamWidth);
         if (assignments.empty()) {
             throw std::runtime_error("no role assignment survived BTC viability scan");
@@ -1137,6 +1455,14 @@ int main(int argumentCount, char** arguments) {
         }
         if (options.mode == "replay-check") {
             run_replay_check(options);
+            return EXIT_SUCCESS;
+        }
+        if (options.mode == "replay-roles") {
+            run_replay_roles(options);
+            return EXIT_SUCCESS;
+        }
+        if (options.mode == "replay-counterfactual") {
+            run_replay_counterfactual(options);
             return EXIT_SUCCESS;
         }
         if (options.mode == "replay-solve") {
