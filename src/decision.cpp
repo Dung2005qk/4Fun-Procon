@@ -1985,8 +1985,8 @@ FutureWitnessRepairer::FutureWitnessRepairer(
       simulator_(simulator),
       validator_(validator),
       harvestExtensionMode_(harvestExtensionMode) {
-    if (harvestExtensionMode_ < 0 || harvestExtensionMode_ > 5) {
-        throw std::invalid_argument("future harvest extension mode must be in [0,5]");
+    if (harvestExtensionMode_ < 0 || harvestExtensionMode_ > 6) {
+        throw std::invalid_argument("future harvest extension mode must be in [0,6]");
     }
 }
 
@@ -2055,6 +2055,10 @@ CandidateProfile FutureWitnessRepairer::provisional_profile(
                 generationOptions.maximumEscorts = 4;
                 generationOptions.enableHarvestExtensions = harvestExtensionMode_ > 0;
                 generationOptions.allowUncachedHarvestTargets = harvestExtensionMode_ > 1;
+                generationOptions.enableHarvestOrienteering =
+                    harvestExtensionMode_ > 5 &&
+                    static_cast<std::int64_t>(config_.fuelLimit) >=
+                        3LL * config_.steps_for_day(futureState.dayNumber);
                 generationOptions.maximumHarvestExtensionSources =
                     harvestExtensionMode_ > 2 ? 4 : 1;
                 generationOptions.maximumHarvestExtensionDepth =
@@ -2185,6 +2189,10 @@ void FutureWitnessRepairer::repair_profile(
                 generationOptions.maximumEscorts = 4;
                 generationOptions.enableHarvestExtensions = harvestExtensionMode_ > 0;
                 generationOptions.allowUncachedHarvestTargets = harvestExtensionMode_ > 1;
+                generationOptions.enableHarvestOrienteering =
+                    harvestExtensionMode_ > 5 &&
+                    static_cast<std::int64_t>(config_.fuelLimit) >=
+                        3LL * config_.steps_for_day(futureState.dayNumber);
                 generationOptions.maximumHarvestExtensionSources =
                     harvestExtensionMode_ > 2 ? 4 : 1;
                 generationOptions.maximumHarvestExtensionDepth =
@@ -2224,6 +2232,10 @@ void FutureWitnessRepairer::repair_profile(
                 generationOptions.maximumSeedPlans = 1;
                 generationOptions.enableHarvestExtensions = harvestExtensionMode_ > 0;
                 generationOptions.allowUncachedHarvestTargets = harvestExtensionMode_ > 1;
+                generationOptions.enableHarvestOrienteering =
+                    harvestExtensionMode_ > 5 &&
+                    static_cast<std::int64_t>(config_.fuelLimit) >=
+                        3LL * config_.steps_for_day(futureState.dayNumber);
                 generationOptions.maximumHarvestExtensionSources =
                     harvestExtensionMode_ > 2 ? 4 : 1;
                 generationOptions.maximumHarvestExtensionDepth =
@@ -3010,11 +3022,11 @@ UdonShieldEngine::UdonShieldEngine(
       routePoolSearch_(routePoolSearch),
       harvestExtensionMode_(harvestExtensionMode),
       requireUndominatedCurrentFloor_(requireUndominatedCurrentFloor) {
-    if (harvestExtensionMode_ < 0 || harvestExtensionMode_ > 5) {
-        throw std::invalid_argument("harvest extension mode must be in [0,5]");
+    if (harvestExtensionMode_ < 0 || harvestExtensionMode_ > 6) {
+        throw std::invalid_argument("harvest extension mode must be in [0,6]");
     }
-    if (futureHarvestExtensionMode < -1 || futureHarvestExtensionMode > 5) {
-        throw std::invalid_argument("future harvest extension mode must be -1 or in [0,5]");
+    if (futureHarvestExtensionMode < -1 || futureHarvestExtensionMode > 6) {
+        throw std::invalid_argument("future harvest extension mode must be -1 or in [0,6]");
     }
 }
 
@@ -3681,6 +3693,11 @@ DecisionResult UdonShieldEngine::solve_day(
     generationOptions.maximumSeedPlans = result.deadline.deadlineClass == DeadlineClass::Short ? 1 : 2;
     generationOptions.enableHarvestExtensions = harvestExtensionMode_ > 0;
     generationOptions.allowUncachedHarvestTargets = harvestExtensionMode_ > 1;
+    generationOptions.enableHarvestOrienteering =
+        harvestExtensionMode_ > 5 &&
+        result.deadline.search >= std::chrono::milliseconds{1500} &&
+        static_cast<std::int64_t>(config_.fuelLimit) >=
+            3LL * config_.steps_for_day(state.dayNumber);
     generationOptions.maximumHarvestExtensionSources =
         harvestExtensionMode_ > 2 ? 4 : 1;
     generationOptions.maximumHarvestExtensionDepth =

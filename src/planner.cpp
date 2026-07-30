@@ -2902,6 +2902,191 @@ RoutePortfolio RouteColumnGenerator::generate(
                         }
                         frontier = std::move(nextFrontier);
                     }
+                    if (options.enableHarvestOrienteering &&
+                        multiDayFuelCarry && !deadline_expired()) {
+                        const auto remaining_wait = [](const RouteColumn& column) {
+                            return !column.actions.empty() &&
+                                    column.actions.back().kind == ActionKind::Wait
+                                ? column.actions.back().value
+                                : 0;
+                        };
+                        const auto better_orienteering_column =
+                            [&ledger, &remaining_wait](
+                                const RouteColumn& left,
+                                const RouteColumn& right) {
+                                const std::int32_t leftLifetimeGain =
+                                    static_cast<std::int32_t>(std::popcount(
+                                        left.estimatedBrands &
+                                        ~ledger.lifetimeBrands));
+                                const std::int32_t rightLifetimeGain =
+                                    static_cast<std::int32_t>(std::popcount(
+                                        right.estimatedBrands &
+                                        ~ledger.lifetimeBrands));
+                                if (leftLifetimeGain != rightLifetimeGain) {
+                                    return leftLifetimeGain > rightLifetimeGain;
+                                }
+                                const std::int32_t leftBrandBreadth =
+                                    static_cast<std::int32_t>(
+                                        std::popcount(left.estimatedBrands));
+                                const std::int32_t rightBrandBreadth =
+                                    static_cast<std::int32_t>(
+                                        std::popcount(right.estimatedBrands));
+                                if (leftBrandBreadth != rightBrandBreadth) {
+                                    return leftBrandBreadth > rightBrandBreadth;
+                                }
+                                if (left.estimatedServings !=
+                                    right.estimatedServings) {
+                                    return left.estimatedServings >
+                                        right.estimatedServings;
+                                }
+                                const std::int32_t leftWait =
+                                    remaining_wait(left);
+                                const std::int32_t rightWait =
+                                    remaining_wait(right);
+                                if (leftWait != rightWait) {
+                                    return leftWait > rightWait;
+                                }
+                                if (left.terminalFuel != right.terminalFuel) {
+                                    return left.terminalFuel > right.terminalFuel;
+                                }
+                                if (left.priority != right.priority) {
+                                    return left.priority > right.priority;
+                                }
+                                return actions_key(
+                                           left.actions,
+                                           left.escortGroup,
+                                           left.contingencyBundle,
+                                           left.requiredRefuels) <
+                                    actions_key(
+                                           right.actions,
+                                           right.escortGroup,
+                                           right.contingencyBundle,
+                                           right.requiredRefuels);
+                            };
+                        constexpr std::size_t kOrienteeringBeamWidth = 6U;
+                        constexpr std::size_t kOrienteeringTargetLimit = 8U;
+                        constexpr std::size_t kOrienteeringResultLimit = 4U;
+                        std::vector<RouteColumn> orienteeringFrontier{
+                            columns.at(sourceIndex)};
+                        std::vector<RouteColumn> orienteeringCandidates;
+                        for (std::int32_t extensionDepth = 0;
+                             extensionDepth < maximumExtensionDepth &&
+                                 !deadline_expired();
+                             ++extensionDepth) {
+                            std::vector<RouteColumn> children;
+                            for (const RouteColumn& current :
+                                 orienteeringFrontier) {
+                                const std::vector<SpotIndex> targets =
+                                    ordered_extension_targets(
+                                        current,
+                                        false,
+                                        spotTransitionReady);
+                                const std::size_t targetLimit =
+                                    std::min(
+                                        kOrienteeringTargetLimit,
+                                        targets.size());
+                                for (std::size_t targetOffset = 0;
+                                     targetOffset < targetLimit &&
+                                         !deadline_expired();
+                                     ++targetOffset) {
+                                    if (std::optional<RouteColumn> extended =
+                                            extend_to_target(
+                                                current,
+                                                targets.at(targetOffset));
+                                        extended.has_value()) {
+                                        extended->harvestExtensionSourceRank =
+                                            sourceRank;
+                                        children.push_back(
+                                            std::move(*extended));
+                                    }
+                                }
+                            }
+                            if (children.empty()) {
+                                break;
+                            }
+                            std::sort(
+                                children.begin(),
+                                children.end(),
+                                better_orienteering_column);
+                            std::set<std::string> seenActions;
+                            std::set<CellId> representedTerminals;
+                            std::vector<RouteColumn> nextFrontier;
+                            nextFrontier.reserve(kOrienteeringBeamWidth);
+                            const auto retain_child = [
+                                &nextFrontier,
+                                &seenActions](const RouteColumn& child) {
+                                if (nextFrontier.size() >=
+                                    kOrienteeringBeamWidth) {
+                                    return;
+                                }
+                                const std::string key = actions_key(
+                                    child.actions,
+                                    child.escortGroup,
+                                    child.contingencyBundle,
+                                    child.requiredRefuels);
+                                if (seenActions.insert(key).second) {
+                                    nextFrontier.push_back(child);
+                                }
+                            };
+                            for (const RouteColumn& child : children) {
+                                if (representedTerminals.insert(
+                                        child.terminalCell).second) {
+                                    retain_child(child);
+                                }
+                                if (nextFrontier.size() >=
+                                    kOrienteeringBeamWidth) {
+                                    break;
+                                }
+                            }
+                            for (const RouteColumn& child : children) {
+                                retain_child(child);
+                                if (nextFrontier.size() >=
+                                    kOrienteeringBeamWidth) {
+                                    break;
+                                }
+                            }
+                            orienteeringCandidates.insert(
+                                orienteeringCandidates.end(),
+                                nextFrontier.begin(),
+                                nextFrontier.end());
+                            orienteeringFrontier =
+                                std::move(nextFrontier);
+                        }
+                        std::sort(
+                            orienteeringCandidates.begin(),
+                            orienteeringCandidates.end(),
+                            better_orienteering_column);
+                        std::set<std::string> existingActions;
+                        for (const RouteColumn& extension :
+                             harvestExtensions) {
+                            existingActions.insert(actions_key(
+                                extension.actions,
+                                extension.escortGroup,
+                                extension.contingencyBundle,
+                                extension.requiredRefuels));
+                        }
+                        std::size_t retainedOrienteering = 0;
+                        for (RouteColumn& candidate :
+                             orienteeringCandidates) {
+                            if (retainedOrienteering >=
+                                    kOrienteeringResultLimit ||
+                                deadline_expired()) {
+                                break;
+                            }
+                            const std::string key = actions_key(
+                                candidate.actions,
+                                candidate.escortGroup,
+                                candidate.contingencyBundle,
+                                candidate.requiredRefuels);
+                            if (!existingActions.insert(key).second) {
+                                continue;
+                            }
+                            harvestExtensions.push_back(
+                                std::move(candidate));
+                            extendedSource = true;
+                            ++retainedOrienteering;
+                        }
+                    }
                     if (extendedSource) {
                         ++extendedSources;
                     }

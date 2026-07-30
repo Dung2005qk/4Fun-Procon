@@ -1825,6 +1825,48 @@ void test_column_events_and_stock_cuts(const udon::MatchConfig& config, const ud
         foundThreeSpotRoute,
         "label/insertion generation must be able to emit a feasible three-spot patrol route");
 
+    udon::ColumnGenerationOptions ordinaryFuelOptions;
+    ordinaryFuelOptions.maximumPathsPerTarget = 1;
+    ordinaryFuelOptions.maximumColumnsPerAgent = 12;
+    ordinaryFuelOptions.maximumTargetSpots = 4;
+    ordinaryFuelOptions.allowUncachedHarvestTargets = true;
+    ordinaryFuelOptions.maximumHarvestExtensionSources = 4;
+    ordinaryFuelOptions.maximumHarvestExtensionDepth = 4;
+    const udon::RoutePortfolio ordinaryFuelBaseline = generator.generate(
+        state,
+        udon::MatchLedger{},
+        ordinaryFuelOptions);
+    ordinaryFuelOptions.enableHarvestOrienteering = true;
+    const udon::RoutePortfolio ordinaryFuelChallenger = generator.generate(
+        state,
+        udon::MatchLedger{},
+        ordinaryFuelOptions);
+    const auto portfolio_action_keys = [](const udon::RoutePortfolio& portfolio) {
+        std::vector<std::vector<std::string>> keys(
+            portfolio.columnsByAgent.size());
+        for (std::size_t agentOffset = 0;
+             agentOffset < portfolio.columnsByAgent.size();
+             ++agentOffset) {
+            for (const udon::RouteColumn& column :
+                 portfolio.columnsByAgent.at(agentOffset)) {
+                std::string key;
+                for (const udon::PlanAction& action : column.actions) {
+                    key += std::to_string(action.wire_value());
+                    key.push_back(',');
+                }
+                keys.at(agentOffset).push_back(std::move(key));
+            }
+            std::sort(
+                keys.at(agentOffset).begin(),
+                keys.at(agentOffset).end());
+        }
+        return keys;
+    };
+    require(
+        portfolio_action_keys(ordinaryFuelBaseline) ==
+            portfolio_action_keys(ordinaryFuelChallenger),
+        "orienteering must be byte-equivalent at ordinary fuel levels");
+
     const udon::MatchConfig fourSpotConfig = udon::parse_match_config(udon::JsonValue::parse(R"({
         "startsAt":1778227200,
         "daySeconds":[5,5,5,5],
@@ -1953,6 +1995,15 @@ void test_column_events_and_stock_cuts(const udon::MatchConfig& config, const ud
         "depth-four harvest expansion must retain a strictly longer exact harvest chain: " +
             std::to_string(depthThreeMaximum) + " -> " +
             std::to_string(depthFourMaximum));
+    depthOptions.enableHarvestOrienteering = true;
+    const udon::RoutePortfolio orienteeringPortfolio =
+        fourSpotGenerator.generate(
+            fourSpotState,
+            udon::MatchLedger{},
+            depthOptions);
+    require(
+        maximum_servings(orienteeringPortfolio) >= depthFourMaximum,
+        "orienteering challenger must not lower the best exact harvest chain in its generated portfolio");
 
     udon::DayState contested = state;
     contested.agents.at(2).position = 18;

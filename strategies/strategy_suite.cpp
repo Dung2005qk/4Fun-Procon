@@ -43,6 +43,7 @@ enum class Strategy {
     UdonShieldMultiHarvest,
     UdonShieldDeepHarvest,
     UdonShieldAdaptiveDepth4,
+    UdonShieldOrienteering,
     UdonShieldDeepHarvestCentralRoles,
     UdonShieldDeepHarvestAdaptiveRoles3,
     UdonShieldDeepHarvestAdaptiveRoles,
@@ -212,6 +213,8 @@ struct RunMetrics {
         return "udon-shield-deep-harvest";
     case Strategy::UdonShieldAdaptiveDepth4:
         return "udon-shield-adaptive-depth-4";
+    case Strategy::UdonShieldOrienteering:
+        return "udon-shield-orienteering";
     case Strategy::UdonShieldDeepHarvestCentralRoles:
         return "udon-shield-deep-harvest-central-roles";
     case Strategy::UdonShieldDeepHarvestAdaptiveRoles3:
@@ -882,11 +885,18 @@ public:
                   : udon::RoutePoolSearch::SinglePass,
               (strategy_ == Strategy::UdonShieldDeepHarvest ||
                strategy_ == Strategy::UdonShieldAdaptiveDepth4 ||
+               strategy_ == Strategy::UdonShieldOrienteering ||
                strategy_ == Strategy::UdonShieldDeepHarvestCentralRoles ||
                strategy_ == Strategy::UdonShieldDeepHarvestAdaptiveRoles3 ||
                strategy_ == Strategy::UdonShieldDeepHarvestAdaptiveRoles)
-                  ? (strategy_ == Strategy::UdonShieldAdaptiveDepth4 ? 5 : 4)
-                  : (strategy_ == Strategy::UdonShieldMultiHarvest ? 3 : 2)) {}
+                  ? (strategy_ == Strategy::UdonShieldOrienteering
+                         ? 6
+                         : (strategy_ == Strategy::UdonShieldAdaptiveDepth4
+                                ? 5
+                                : 4))
+                  : (strategy_ == Strategy::UdonShieldMultiHarvest ? 3 : 2),
+              false,
+              strategy_ == Strategy::UdonShieldOrienteering ? 5 : -1) {}
 
     [[nodiscard]] std::vector<udon::AgentKind> select_roles(std::int64_t& elapsedMs) {
         const std::chrono::steady_clock::time_point started = std::chrono::steady_clock::now();
@@ -915,6 +925,7 @@ public:
             strategy_ == Strategy::UdonShieldMultiHarvest ||
             strategy_ == Strategy::UdonShieldDeepHarvest ||
             strategy_ == Strategy::UdonShieldAdaptiveDepth4 ||
+            strategy_ == Strategy::UdonShieldOrienteering ||
             strategy_ == Strategy::UdonShieldFeedback ||
             strategy_ == Strategy::UdonShieldProofExpanded) {
             const std::vector<udon::RoleAssignment> assignments = full_.select_roles_until(
@@ -975,6 +986,7 @@ public:
         case Strategy::UdonShieldMultiHarvest:
         case Strategy::UdonShieldDeepHarvest:
         case Strategy::UdonShieldAdaptiveDepth4:
+        case Strategy::UdonShieldOrienteering:
         case Strategy::UdonShieldDeepHarvestCentralRoles:
         case Strategy::UdonShieldDeepHarvestAdaptiveRoles3:
         case Strategy::UdonShieldDeepHarvestAdaptiveRoles:
@@ -1834,7 +1846,7 @@ int main(int argumentCount, char** arguments) {
                     "usage: udonshield_strategy_bench [--smoke] [--summary-only] "
                     "[--split fixed|train|validation|heldout|research-train|research-validation|"
                     "research-confirm|future-holdout|harvest-holdout|btc-large-holdout|btc-highfuel-holdout|proof-holdout|proof-production-holdout|blank-train|blank-validation|blank-confirm|"
-                    "blank-holdout] [--focus all|halns-feedback|full-feedback|harvest-ablation|deep-harvest-ablation|depth4-ablation|role-ablation|blank-slate|blank-champion|proof-ablation|proof-production] "
+                    "blank-holdout] [--focus all|halns-feedback|full-feedback|harvest-ablation|deep-harvest-ablation|depth4-ablation|orienteering-ablation|role-ablation|blank-slate|blank-champion|proof-ablation|proof-production] "
                     "[--common-roles] [--seeds N] [--seed-offset N] [--budget-ms N]");
             }
         }
@@ -1928,6 +1940,11 @@ int main(int argumentCount, char** arguments) {
                 Strategy::UdonShieldDeepHarvest,
                 Strategy::UdonShieldAdaptiveDepth4,
             };
+        } else if (focus == "orienteering-ablation") {
+            strategies = {
+                Strategy::UdonShieldAdaptiveDepth4,
+                Strategy::UdonShieldOrienteering,
+            };
         } else if (focus == "role-ablation") {
             strategies = {
                 Strategy::UdonShieldDeepHarvestCentralRoles,
@@ -1973,9 +1990,11 @@ int main(int argumentCount, char** arguments) {
                     ? Strategy::UdonShieldMultiHarvest
                     : (focus == "depth4-ablation"
                         ? Strategy::UdonShieldDeepHarvest
-                        : (focus == "role-ablation"
-                            ? Strategy::UdonShieldDeepHarvestAdaptiveRoles3
-                            : Strategy::UdonShield))));
+                        : (focus == "orienteering-ablation"
+                            ? Strategy::UdonShieldAdaptiveDepth4
+                            : (focus == "role-ablation"
+                                ? Strategy::UdonShieldDeepHarvestAdaptiveRoles3
+                                : Strategy::UdonShield)))));
         std::cout << "schema=udon-shield-strategy-benchmark-v3"
                   << ",split=" << split
                   << ",fixtures=" << suite.size()
@@ -2089,6 +2108,17 @@ int main(int argumentCount, char** arguments) {
                 results,
                 Strategy::UdonShieldAdaptiveDepth4,
                 Strategy::UdonShieldDeepHarvest);
+        }
+        if (includes(Strategy::UdonShieldOrienteering) &&
+            includes(Strategy::UdonShieldAdaptiveDepth4)) {
+            print_pairwise(
+                results,
+                Strategy::UdonShieldOrienteering,
+                Strategy::UdonShieldAdaptiveDepth4);
+            print_family_pairwise(
+                results,
+                Strategy::UdonShieldOrienteering,
+                Strategy::UdonShieldAdaptiveDepth4);
         }
         if (includes(Strategy::EventConflict) &&
             includes(Strategy::UdonShield)) {

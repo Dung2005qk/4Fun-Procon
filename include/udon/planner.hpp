@@ -119,6 +119,7 @@ struct ColumnGenerationOptions {
     std::vector<CellId> criticalRoadHints;
     bool enableHarvestExtensions = true;
     bool allowUncachedHarvestTargets = true;
+    bool enableHarvestOrienteering = false;
     std::int32_t maximumHarvestExtensionSources = 1;
     std::int32_t maximumHarvestExtensionDepth = 2;
     std::optional<std::chrono::steady_clock::time_point> deadline;

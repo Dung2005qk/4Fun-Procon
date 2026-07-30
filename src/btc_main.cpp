@@ -153,14 +153,14 @@ private:
             options.roleMask = static_cast<std::int32_t>(parsed);
         } else if (key == "--harvest-extensions") {
             const long long parsed = std::stoll(value);
-            if (parsed < 0 || parsed > 5) {
-                throw std::invalid_argument("--harvest-extensions must be in [0,5]");
+            if (parsed < 0 || parsed > 6) {
+                throw std::invalid_argument("--harvest-extensions must be in [0,6]");
             }
             options.harvestExtensionMode = static_cast<std::int32_t>(parsed);
         } else if (key == "--future-harvest-extensions") {
             const long long parsed = std::stoll(value);
-            if (parsed < 0 || parsed > 5) {
-                throw std::invalid_argument("--future-harvest-extensions must be in [0,5]");
+            if (parsed < 0 || parsed > 6) {
+                throw std::invalid_argument("--future-harvest-extensions must be in [0,6]");
             }
             options.futureHarvestExtensionMode = static_cast<std::int32_t>(parsed);
         } else {
@@ -212,8 +212,8 @@ void print_usage() {
         << "  udonshield_btc replay-check --replay replay.jsonl [--response-ms 5000]\n"
         << "  udonshield_btc replay-roles --replay replay.jsonl [--response-ms 5000] [--beam-width 8]\n"
         << "  udonshield_btc replay-counterfactual --replay replay.jsonl --role-mask MASK "
-           "[--response-ms 5000] [--harvest-extensions 0|1|2|3|4|5] [--max-days N] "
-           "[--future-harvest-extensions 0|1|2|3|4|5] [--logic-budget-ms N] [--current-floor 0|1] "
+           "[--response-ms 5000] [--harvest-extensions 0|1|2|3|4|5|6] [--max-days N] "
+           "[--future-harvest-extensions 0|1|2|3|4|5|6] [--logic-budget-ms N] [--current-floor 0|1] "
            "[--decision-dump decisions.jsonl]\n"
         << "  udonshield_btc replay-solve --replay replay.jsonl --day DAY [--response-ms 5000]\n"
         << "HTTP mode reads the bearer token only from HEXUDON_TOKEN.\n";
