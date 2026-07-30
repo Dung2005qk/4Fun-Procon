@@ -268,15 +268,16 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
         }
         add_candidate(fastest);
         add_candidate(lowestFuel);
-        for (const Spot& target : config.spots) {
+        const auto add_nearest_terminal = [&](CellId targetCell, bool excludeTarget) {
             std::uint32_t nearest = std::numeric_limits<std::uint32_t>::max();
             for (std::uint32_t cell = 0; cell < cellCount; ++cell) {
                 const std::uint32_t id = state_id(mask, static_cast<CellId>(cell));
-                if (distance.at(id) == kUnreachable) {
+                if (distance.at(id) == kUnreachable ||
+                    (excludeTarget && static_cast<CellId>(cell) == targetCell)) {
                     continue;
                 }
                 const auto rank = std::tuple{
-                    config.map.hex_distance(static_cast<CellId>(cell), target.position),
+                    config.map.hex_distance(static_cast<CellId>(cell), targetCell),
                     patrolFuel.at(id),
                     distance.at(id),
                     id};
@@ -286,7 +287,7 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
                 }
                 const CellId nearestCell = static_cast<CellId>(nearest % cellCount);
                 const auto nearestRank = std::tuple{
-                    config.map.hex_distance(nearestCell, target.position),
+                    config.map.hex_distance(nearestCell, targetCell),
                     patrolFuel.at(nearest),
                     distance.at(nearest),
                     nearest};
@@ -295,6 +296,14 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
                 }
             }
             add_candidate(nearest);
+        };
+        for (const Spot& target : config.spots) {
+            add_nearest_terminal(target.position, false);
+        }
+        for (const AgentState& target : state.agents) {
+            if (target.kind == AgentKind::Tanker) {
+                add_nearest_terminal(target.position, true);
+            }
         }
         std::sort(candidateStates.begin(), candidateStates.end());
         candidateStates.erase(

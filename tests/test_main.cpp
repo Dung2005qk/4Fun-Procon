@@ -1017,6 +1017,15 @@ void test_exact_orienteering_terminal_frontier() {
     require(
         terminalCells.size() >= 2U,
         "terminal frontier must retain distinct end positions for the same exact harvest search");
+    require(
+        std::any_of(
+            terminalCells.begin(),
+            terminalCells.end(),
+            [&config](udon::CellId cell) {
+                return config.map.hex_distance(cell, 0) == 1 ||
+                    config.map.hex_distance(cell, 63) == 1;
+            }),
+        "terminal frontier must retain a same-mask endpoint adjacent to a reachable tanker rendezvous");
 
     udon::DayState duplicateStartState = state;
     duplicateStartState.agents.at(1) = duplicateStartState.agents.front();

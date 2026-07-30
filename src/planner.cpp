@@ -955,10 +955,13 @@ select_coordinated_exact_orienteering_routes(
 enum class ExactTerminalObjective : std::uint8_t {
     Fuel,
     BrandAccess,
+    TankerAccess,
 };
 
 [[nodiscard]] std::vector<const ExactOrienteeringRoute*>
 select_exact_terminal_variant(
+    const MatchConfig& config,
+    const DayState& state,
     const std::vector<const ExactOrienteeringRoute*>& base,
     const std::vector<ExactOrienteeringReachability>& reachability,
     ExactTerminalObjective objective) {
@@ -968,11 +971,30 @@ select_exact_terminal_variant(
         if (selected == nullptr) {
             continue;
         }
-        const auto rank = [objective](const ExactOrienteeringRoute& route) {
+        const auto tanker_distance = [&config, &state](CellId terminalCell) {
+            std::int32_t distance = std::numeric_limits<std::int32_t>::max();
+            for (const AgentState& candidate : state.agents) {
+                if (candidate.kind == AgentKind::Tanker) {
+                    distance = std::min(
+                        distance,
+                        config.map.hex_distance(terminalCell, candidate.position));
+                }
+            }
+            return distance;
+        };
+        const auto rank = [objective, &tanker_distance](const ExactOrienteeringRoute& route) {
             if (objective == ExactTerminalObjective::Fuel) {
                 return std::tuple{
                     route.patrolFuel,
                     route.terminalOnSpot ? 0 : 1,
+                    route.terminalBrandDistance,
+                    route.usedSteps,
+                    route.terminalCell};
+            }
+            if (objective == ExactTerminalObjective::TankerAccess) {
+                return std::tuple{
+                    tanker_distance(route.terminalCell),
+                    route.patrolFuel,
                     route.terminalBrandDistance,
                     route.usedSteps,
                     route.terminalCell};
@@ -2222,13 +2244,23 @@ RoutePortfolio RouteColumnGenerator::generate(
                 [](const ExactOrienteeringRoute* route) { return route != nullptr; })) {
             coordinatedExactRouteBundles.push_back(coordinatedExactRoutes);
             coordinatedExactRouteBundles.push_back(select_exact_terminal_variant(
+                config_,
+                state,
                 coordinatedExactRoutes,
                 exactOrienteering,
                 ExactTerminalObjective::Fuel));
             coordinatedExactRouteBundles.push_back(select_exact_terminal_variant(
+                config_,
+                state,
                 coordinatedExactRoutes,
                 exactOrienteering,
                 ExactTerminalObjective::BrandAccess));
+            coordinatedExactRouteBundles.push_back(select_exact_terminal_variant(
+                config_,
+                state,
+                coordinatedExactRoutes,
+                exactOrienteering,
+                ExactTerminalObjective::TankerAccess));
             std::set<std::string> seenExactPlans;
             std::erase_if(
                 coordinatedExactRouteBundles,
