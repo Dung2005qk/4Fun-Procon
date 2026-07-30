@@ -9,6 +9,7 @@
 - Simulator theo bước thời gian với thứ tự fuel, pickup/refuel, stock, servings và road-traffic đúng theo state chuyển tiếp.
 - Validator độc lập trả về lỗi có cấu trúc và footprint đường theo từng tick.
 - Router Pareto theo `(time, fuel)`; sinh route column; master set-packing native có lexicographic branch-and-bound, CAP/PREFIX cuts và luôn xác nhận tổ hợp cuối bằng exact simulator.
+- High-fuel production dùng resource-aware orienteering beam trên toàn chuỗi spot khi search window đủ lớn; budget ngắn và fuel thường giữ nguyên mode 5, còn future witness cố định mode 5 để không làm certification tranh CPU với master hiện tại.
 - ALNS destroy-repair có thể sinh route Pareto mới ngoài portfolio ban đầu cho đủ tám operator; mọi mutation được exact-evaluate và rollback nếu phá reservation đã chứng minh.
 - Phân vai pre-match, escort/refuel đồng bộ, repair deadline/fuel, traffic belief, scenario counterfactual và chọn candidate chỉ khi mọi scenario được chứng nhận bởi witness hợp lệ.
 - Proof cấp P chạy ngoài critical path sau ACK, tìm kiếm branch-and-bound trên toàn horizon còn lại dưới frozen persistent scenario và ghi rõ scope route-portfolio, UB, best score, số nhánh cắt và trạng thái complete.

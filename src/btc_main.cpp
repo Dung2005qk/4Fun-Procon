@@ -40,7 +40,7 @@ struct RuntimeOptions {
     std::int32_t dayNumber = 0;
     std::int32_t roleMask = -1;
     std::int32_t maximumReplayDays = std::numeric_limits<std::int32_t>::max();
-    std::int32_t harvestExtensionMode = 5;
+    std::int32_t harvestExtensionMode = 6;
     std::int32_t futureHarvestExtensionMode = -1;
     std::int32_t logicBudgetMs = 0;
     bool requireUndominatedCurrentFloor = false;
@@ -800,7 +800,9 @@ void run_replay_counterfactual(const RuntimeOptions& options) {
         udon::RoutePoolSearch::SinglePass,
         options.harvestExtensionMode,
         options.requireUndominatedCurrentFloor,
-        options.futureHarvestExtensionMode);
+        options.futureHarvestExtensionMode >= 0
+            ? options.futureHarvestExtensionMode
+            : (options.harvestExtensionMode > 5 ? 5 : -1));
     static_cast<void>(engine.select_roles_until(
         std::chrono::milliseconds{solveBudgetMs},
         options.beamWidth));

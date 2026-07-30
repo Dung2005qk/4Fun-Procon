@@ -463,9 +463,9 @@ public:
         RiskPolicy policy = {},
         DeadlineCalibration deadlineCalibration = {},
         RoutePoolSearch routePoolSearch = RoutePoolSearch::SinglePass,
-        std::int32_t harvestExtensionMode = 5,
+        std::int32_t harvestExtensionMode = 6,
         bool requireUndominatedCurrentFloor = false,
-        std::int32_t futureHarvestExtensionMode = -1);
+        std::int32_t futureHarvestExtensionMode = 5);
 
     [[nodiscard]] std::vector<RoleAssignment> select_roles(
         std::int32_t beamWidth = 3) const;
