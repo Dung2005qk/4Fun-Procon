@@ -3909,7 +3909,8 @@ DecisionResult UdonShieldEngine::solve_day(
         return candidates;
     };
     std::vector<MasterCandidate> legacyCandidates;
-    if (stagedDeepHarvestSearch && harvestExtensionMode_ <= 6) {
+    if (stagedDeepHarvestSearch &&
+        !generationOptions.enableExactHarvestOrienteering) {
         const std::chrono::steady_clock::time_point legacyMasterDeadline =
             portfolioPhaseStarted + portfolioPhaseWindow * 60 / 100;
         if (std::chrono::steady_clock::now() < legacyMasterDeadline) {
@@ -3925,7 +3926,8 @@ DecisionResult UdonShieldEngine::solve_day(
         if (stagedDeepHarvestSearch) {
             expandedGenerationOptions.deadline =
                 portfolioPhaseStarted + portfolioPhaseWindow *
-                    (harvestExtensionMode_ > 6 ? 95 : 85) / 100;
+                    (generationOptions.enableExactHarvestOrienteering ? 95 : 85) /
+                    100;
         }
         const std::chrono::milliseconds beforeExpandedGeneration = elapsed();
         ColumnGenerationDiagnostics expandedDiagnostics;
