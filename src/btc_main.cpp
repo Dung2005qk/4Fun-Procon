@@ -40,11 +40,22 @@ struct RuntimeOptions {
     std::int32_t dayNumber = 0;
     std::int32_t roleMask = -1;
     std::int32_t maximumReplayDays = std::numeric_limits<std::int32_t>::max();
-    std::int32_t harvestExtensionMode = 6;
+    std::int32_t harvestExtensionMode = 7;
     std::int32_t futureHarvestExtensionMode = -1;
     std::int32_t logicBudgetMs = 0;
     bool requireUndominatedCurrentFloor = false;
 };
+
+[[nodiscard]] std::int32_t resolved_future_harvest_extension_mode(
+    const RuntimeOptions& options) {
+    if (options.futureHarvestExtensionMode >= 0) {
+        return options.futureHarvestExtensionMode;
+    }
+    if (options.harvestExtensionMode > 6) {
+        return 7;
+    }
+    return options.harvestExtensionMode > 5 ? 5 : -1;
+}
 
 struct HttpResponse {
     std::int32_t status = 0;
@@ -729,9 +740,7 @@ void run_replay_roles(const RuntimeOptions& options) {
         {},
         {},
         options.harvestExtensionMode,
-        options.futureHarvestExtensionMode >= 0
-            ? options.futureHarvestExtensionMode
-            : (options.harvestExtensionMode > 5 ? 5 : -1));
+        resolved_future_harvest_extension_mode(options));
     const std::chrono::steady_clock::time_point started =
         std::chrono::steady_clock::now();
     const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
@@ -813,9 +822,7 @@ void run_replay_counterfactual(const RuntimeOptions& options) {
         udon::RoutePoolSearch::SinglePass,
         options.harvestExtensionMode,
         options.requireUndominatedCurrentFloor,
-        options.futureHarvestExtensionMode >= 0
-            ? options.futureHarvestExtensionMode
-            : (options.harvestExtensionMode > 5 ? 5 : -1));
+        resolved_future_harvest_extension_mode(options));
     static_cast<void>(engine.select_roles_until(
         std::chrono::milliseconds{solveBudgetMs},
         options.beamWidth));
@@ -955,9 +962,7 @@ void run_sandbox(const RuntimeOptions& options) {
         {},
         {},
         options.harvestExtensionMode,
-        options.futureHarvestExtensionMode >= 0
-            ? options.futureHarvestExtensionMode
-            : (options.harvestExtensionMode > 5 ? 5 : -1));
+        resolved_future_harvest_extension_mode(options));
     const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
         std::chrono::milliseconds{options.responseBudgetMs},
         options.beamWidth);
@@ -1293,9 +1298,7 @@ void run_http(const RuntimeOptions& options) {
         {},
         deadlineCalibration,
         options.harvestExtensionMode,
-        options.futureHarvestExtensionMode >= 0
-            ? options.futureHarvestExtensionMode
-            : (options.harvestExtensionMode > 5 ? 5 : -1));
+        resolved_future_harvest_extension_mode(options));
     if (!resume.assignmentAccepted || !resume.assignment.has_value()) {
         const std::chrono::milliseconds roleSelectionBudget = std::max(
             std::chrono::milliseconds{1},
