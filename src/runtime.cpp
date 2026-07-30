@@ -8,8 +8,18 @@ namespace udon {
 MatchSession::MatchSession(
     const MatchConfig& config,
     RiskPolicy policy,
-    DeadlineCalibration deadlineCalibration)
-    : config_(config), engine_(config_, std::move(policy), std::move(deadlineCalibration)) {}
+    DeadlineCalibration deadlineCalibration,
+    std::int32_t harvestExtensionMode,
+    std::int32_t futureHarvestExtensionMode)
+    : config_(config),
+      engine_(
+          config_,
+          std::move(policy),
+          std::move(deadlineCalibration),
+          RoutePoolSearch::SinglePass,
+          harvestExtensionMode,
+          true,
+          futureHarvestExtensionMode) {}
 
 std::vector<RoleAssignment> MatchSession::select_roles_until(
     std::chrono::milliseconds available,

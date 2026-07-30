@@ -15,6 +15,7 @@
 #include "udon/btc_protocol.hpp"
 #include "udon/decision.hpp"
 #include "udon/graph.hpp"
+#include "udon/orienteering.hpp"
 #include "udon/protocol.hpp"
 #include "udon/runtime.hpp"
 #include "udon/simulator.hpp"
@@ -940,6 +941,106 @@ void test_route_pool_recombines_elite_agent_routes(
         "set-packing recombination must combine complementary elite routes into a better exact plan");
 }
 
+void test_exact_orienteering_terminal_frontier() {
+    const udon::MatchConfig config = udon::parse_match_config(udon::JsonValue::parse(R"({
+        "startsAt":1778227200,
+        "daySeconds":[5,5,5,5],
+        "daySteps":[32,32,32,32],
+        "map":{"height":8,"width":8,"cells":[
+            [0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0]
+        ]},
+        "spots":[
+            {"brand":10,"pos":18,"stocks":1},
+            {"brand":11,"pos":19,"stocks":1},
+            {"brand":12,"pos":34,"stocks":1},
+            {"brand":13,"pos":35,"stocks":1}
+        ],
+        "agents":[27,0,63],
+        "fuelLimits":64,
+        "players":2,
+        "busyThreshold":2,
+        "jammedThreshold":4
+    })"));
+    const udon::DayState state = udon::parse_day_state(
+        config,
+        udon::JsonValue::parse(R"({
+            "endsAt":1778227205,
+            "day":1,
+            "agents":[
+                {"kind":0,"pos":27,"fuel":64},
+                {"kind":1,"pos":0,"fuel":64},
+                {"kind":1,"pos":63,"fuel":64}
+            ],
+            "others":[],
+            "traffics":[]
+        })"));
+    const udon::ExactOrienteeringReachability reachability =
+        udon::enumerate_exact_high_fuel_routes(config, state, 0);
+    require(
+        reachability.supported && reachability.complete &&
+            !reachability.maximalRoutes.empty() &&
+            !reachability.terminalVariants.empty(),
+        "exact high-fuel reachability must preserve terminal variants separately from maximal masks");
+    std::set<udon::CellId> terminalCells;
+    const udon::ExactStepSimulator simulator(config);
+    const auto verify_route = [&](const udon::ExactOrienteeringRoute& route) {
+        udon::DayPlan plan;
+        plan.actions = {
+            route.actions,
+            {udon::PlanAction::wait(32)},
+            {udon::PlanAction::wait(32)},
+        };
+        const udon::SimulationResult simulation = simulator.simulate(state, plan);
+        require(simulation.valid, "every exact terminal variant must pass the independent simulator");
+        require(
+            simulation.finalAgents.front().position == route.terminalCell &&
+                state.agents.front().fuel - simulation.finalAgents.front().fuel == route.patrolFuel,
+            "exact terminal metadata must equal independently simulated position and fuel");
+        std::uint32_t claimedMask = 0;
+        for (const udon::ClaimEvent& claim : simulation.claims) {
+            claimedMask |= std::uint32_t{1} << static_cast<std::uint32_t>(claim.spot);
+        }
+        require(
+            claimedMask == route.spotMask,
+            "exact route witness mask must equal independently simulated claims");
+        terminalCells.insert(route.terminalCell);
+    };
+    for (const udon::ExactOrienteeringRoute& route : reachability.maximalRoutes) {
+        verify_route(route);
+    }
+    for (const udon::ExactOrienteeringRoute& route : reachability.terminalVariants) {
+        verify_route(route);
+    }
+    require(
+        terminalCells.size() >= 2U,
+        "terminal frontier must retain distinct end positions for the same exact harvest search");
+
+    udon::DayState duplicateStartState = state;
+    duplicateStartState.agents.at(1) = duplicateStartState.agents.front();
+    const udon::ParetoRouter router(config);
+    const udon::RouteColumnGenerator generator(config, router);
+    udon::ColumnGenerationOptions options;
+    options.enableExactHarvestOrienteering = true;
+    options.allowUncachedHarvestTargets = true;
+    options.maximumPathsPerTarget = 1;
+    options.maximumColumnsPerAgent = 4;
+    options.maximumTargetSpots = 4;
+    udon::ColumnGenerationDiagnostics diagnostics;
+    static_cast<void>(generator.generate(
+        duplicateStartState,
+        udon::MatchLedger{},
+        options,
+        &diagnostics));
+    require(
+        diagnostics.exactOrienteeringSupportedAgents == 2 &&
+            diagnostics.exactOrienteeringCompleteAgents == 2 &&
+            diagnostics.exactOrienteeringCacheHits == 1,
+        "identical high-fuel patrol starts must reuse exact reachability without changing logical coverage");
+}
+
 void test_emergency_contract(const udon::MatchConfig& config, const udon::DayState& state) {
     udon::UdonShieldEngine engine(config);
     const udon::DecisionResult decision = engine.solve_day(state, udon::MatchLedger{}, std::chrono::milliseconds{1});
@@ -1837,6 +1938,7 @@ void test_column_events_and_stock_cuts(const udon::MatchConfig& config, const ud
         udon::MatchLedger{},
         ordinaryFuelOptions);
     ordinaryFuelOptions.enableHarvestOrienteering = true;
+    ordinaryFuelOptions.enableExactHarvestOrienteering = true;
     const udon::RoutePortfolio ordinaryFuelChallenger = generator.generate(
         state,
         udon::MatchLedger{},
@@ -3041,6 +3143,7 @@ int main() {
         test_alns_preserves_escort_group_atomicity(config, state);
         test_alns_synthesizes_route_outside_portfolio(config, state);
         test_route_pool_recombines_elite_agent_routes(config, state);
+        test_exact_orienteering_terminal_frontier();
         test_emergency_contract(config, state);
         test_deadline_floors();
         test_public_traffic_scenarios(config, state);

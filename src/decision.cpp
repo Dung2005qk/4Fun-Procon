@@ -692,6 +692,9 @@ void merge_master_diagnostics(MasterDiagnostics& target, const MasterDiagnostics
     target.upperBoundChecks += addition.upperBoundChecks;
     target.upperBoundPrunes += addition.upperBoundPrunes;
     target.bundlePrunes += addition.bundlePrunes;
+    target.exactBundlesDiscovered += addition.exactBundlesDiscovered;
+    target.exactBundlesEvaluated += addition.exactBundlesEvaluated;
+    target.exactBundlesAccepted += addition.exactBundlesAccepted;
     target.partialSynchronizationChecks += addition.partialSynchronizationChecks;
     target.partialSynchronizationPrunes += addition.partialSynchronizationPrunes;
     target.simulatorValidCombinations += addition.simulatorValidCombinations;
@@ -714,6 +717,9 @@ void merge_master_diagnostics(MasterDiagnostics& target, const MasterDiagnostics
     target.beamEvaluationMicroseconds += addition.beamEvaluationMicroseconds;
     target.depthFirstSearchMicroseconds += addition.depthFirstSearchMicroseconds;
     target.populationMaintenanceMicroseconds += addition.populationMaintenanceMicroseconds;
+    if (target.bestExactBundleScore < addition.bestExactBundleScore) {
+        target.bestExactBundleScore = addition.bestExactBundleScore;
+    }
     target.nativeExactStockCredits =
         target.nativeExactStockCredits || addition.nativeExactStockCredits;
     target.stockCappedSearchOrder =
@@ -1985,8 +1991,8 @@ FutureWitnessRepairer::FutureWitnessRepairer(
       simulator_(simulator),
       validator_(validator),
       harvestExtensionMode_(harvestExtensionMode) {
-    if (harvestExtensionMode_ < 0 || harvestExtensionMode_ > 6) {
-        throw std::invalid_argument("future harvest extension mode must be in [0,6]");
+    if (harvestExtensionMode_ < 0 || harvestExtensionMode_ > 7) {
+        throw std::invalid_argument("future harvest extension mode must be in [0,7]");
     }
 }
 
@@ -2059,6 +2065,10 @@ CandidateProfile FutureWitnessRepairer::provisional_profile(
                     harvestExtensionMode_ > 5 &&
                     static_cast<std::int64_t>(config_.fuelLimit) >=
                         3LL * config_.steps_for_day(futureState.dayNumber);
+                generationOptions.enableExactHarvestOrienteering =
+                    generationOptions.enableHarvestOrienteering &&
+                    (harvestExtensionMode_ > 6 ||
+                     futureState.dayNumber == config_.day_count());
                 generationOptions.maximumHarvestExtensionSources =
                     harvestExtensionMode_ > 2 ? 4 : 1;
                 generationOptions.maximumHarvestExtensionDepth =
@@ -2193,6 +2203,10 @@ void FutureWitnessRepairer::repair_profile(
                     harvestExtensionMode_ > 5 &&
                     static_cast<std::int64_t>(config_.fuelLimit) >=
                         3LL * config_.steps_for_day(futureState.dayNumber);
+                generationOptions.enableExactHarvestOrienteering =
+                    generationOptions.enableHarvestOrienteering &&
+                    (harvestExtensionMode_ > 6 ||
+                     futureState.dayNumber == config_.day_count());
                 generationOptions.maximumHarvestExtensionSources =
                     harvestExtensionMode_ > 2 ? 4 : 1;
                 generationOptions.maximumHarvestExtensionDepth =
@@ -2236,6 +2250,10 @@ void FutureWitnessRepairer::repair_profile(
                     harvestExtensionMode_ > 5 &&
                     static_cast<std::int64_t>(config_.fuelLimit) >=
                         3LL * config_.steps_for_day(futureState.dayNumber);
+                generationOptions.enableExactHarvestOrienteering =
+                    generationOptions.enableHarvestOrienteering &&
+                    (harvestExtensionMode_ > 6 ||
+                     futureState.dayNumber == config_.day_count());
                 generationOptions.maximumHarvestExtensionSources =
                     harvestExtensionMode_ > 2 ? 4 : 1;
                 generationOptions.maximumHarvestExtensionDepth =
@@ -3022,11 +3040,11 @@ UdonShieldEngine::UdonShieldEngine(
       routePoolSearch_(routePoolSearch),
       harvestExtensionMode_(harvestExtensionMode),
       requireUndominatedCurrentFloor_(requireUndominatedCurrentFloor) {
-    if (harvestExtensionMode_ < 0 || harvestExtensionMode_ > 6) {
-        throw std::invalid_argument("harvest extension mode must be in [0,6]");
+    if (harvestExtensionMode_ < 0 || harvestExtensionMode_ > 7) {
+        throw std::invalid_argument("harvest extension mode must be in [0,7]");
     }
-    if (futureHarvestExtensionMode < -1 || futureHarvestExtensionMode > 6) {
-        throw std::invalid_argument("future harvest extension mode must be -1 or in [0,6]");
+    if (futureHarvestExtensionMode < -1 || futureHarvestExtensionMode > 7) {
+        throw std::invalid_argument("future harvest extension mode must be -1 or in [0,7]");
     }
 }
 
@@ -3693,11 +3711,18 @@ DecisionResult UdonShieldEngine::solve_day(
     generationOptions.maximumSeedPlans = result.deadline.deadlineClass == DeadlineClass::Short ? 1 : 2;
     generationOptions.enableHarvestExtensions = harvestExtensionMode_ > 0;
     generationOptions.allowUncachedHarvestTargets = harvestExtensionMode_ > 1;
+    const bool highFuelOrienteering =
+        static_cast<std::int64_t>(config_.fuelLimit) >=
+        3LL * config_.steps_for_day(state.dayNumber);
     generationOptions.enableHarvestOrienteering =
         harvestExtensionMode_ > 5 &&
         result.deadline.search >= std::chrono::milliseconds{1500} &&
-        static_cast<std::int64_t>(config_.fuelLimit) >=
-            3LL * config_.steps_for_day(state.dayNumber);
+        highFuelOrienteering;
+    generationOptions.enableExactHarvestOrienteering =
+        harvestExtensionMode_ > 5 &&
+        highFuelOrienteering &&
+        result.deadline.search >= std::chrono::milliseconds{400} &&
+        (harvestExtensionMode_ > 6 || state.dayNumber == config_.day_count());
     generationOptions.maximumHarvestExtensionSources =
         harvestExtensionMode_ > 2 ? 4 : 1;
     generationOptions.maximumHarvestExtensionDepth =
@@ -3884,7 +3909,7 @@ DecisionResult UdonShieldEngine::solve_day(
         return candidates;
     };
     std::vector<MasterCandidate> legacyCandidates;
-    if (stagedDeepHarvestSearch) {
+    if (stagedDeepHarvestSearch && harvestExtensionMode_ <= 6) {
         const std::chrono::steady_clock::time_point legacyMasterDeadline =
             portfolioPhaseStarted + portfolioPhaseWindow * 60 / 100;
         if (std::chrono::steady_clock::now() < legacyMasterDeadline) {
@@ -3899,13 +3924,30 @@ DecisionResult UdonShieldEngine::solve_day(
         ColumnGenerationOptions expandedGenerationOptions = generationOptions;
         if (stagedDeepHarvestSearch) {
             expandedGenerationOptions.deadline =
-                portfolioPhaseStarted + portfolioPhaseWindow * 85 / 100;
+                portfolioPhaseStarted + portfolioPhaseWindow *
+                    (harvestExtensionMode_ > 6 ? 95 : 85) / 100;
         }
         const std::chrono::milliseconds beforeExpandedGeneration = elapsed();
+        ColumnGenerationDiagnostics expandedDiagnostics;
         RoutePortfolio expandedPortfolio = generator_.generate(
             state,
             ledger,
-            expandedGenerationOptions);
+            expandedGenerationOptions,
+            &expandedDiagnostics);
+        result.audit.columnGeneration.exactOrienteeringSupportedAgents +=
+            expandedDiagnostics.exactOrienteeringSupportedAgents;
+        result.audit.columnGeneration.exactOrienteeringCompleteAgents +=
+            expandedDiagnostics.exactOrienteeringCompleteAgents;
+        result.audit.columnGeneration.exactOrienteeringCacheHits +=
+            expandedDiagnostics.exactOrienteeringCacheHits;
+        result.audit.columnGeneration.exactOrienteeringSettledStates +=
+            expandedDiagnostics.exactOrienteeringSettledStates;
+        result.audit.columnGeneration.exactOrienteeringTerminalVariants +=
+            expandedDiagnostics.exactOrienteeringTerminalVariants;
+        result.audit.columnGeneration.exactOrienteeringBundles +=
+            expandedDiagnostics.exactOrienteeringBundles;
+        result.audit.columnGeneration.exactOrienteeringMilliseconds +=
+            expandedDiagnostics.exactOrienteeringMilliseconds;
         columnGenerationDuration += elapsed() - beforeExpandedGeneration;
         std::int32_t nextColumnId = 0;
         for (const std::vector<RouteColumn>& columns :
@@ -3940,7 +3982,10 @@ DecisionResult UdonShieldEngine::solve_day(
                         retained.begin(),
                         retained.end(),
                         [&column, &same_actions](const RouteColumn& existing) {
-                            return same_actions(existing.actions, column.actions);
+                            return same_actions(existing.actions, column.actions) &&
+                                (!column.exactOrienteering ||
+                                 (existing.exactOrienteering &&
+                                  existing.contingencyBundle == column.contingencyBundle));
                         })) {
                     continue;
                 }

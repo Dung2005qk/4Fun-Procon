@@ -414,6 +414,18 @@ template <typename Value, std::size_t Count>
         "bundlePrunes",
         JsonValue(static_cast<std::int64_t>(diagnostics.bundlePrunes)));
     object.emplace(
+        "exactBundlesDiscovered",
+        JsonValue(static_cast<std::int64_t>(diagnostics.exactBundlesDiscovered)));
+    object.emplace(
+        "exactBundlesEvaluated",
+        JsonValue(static_cast<std::int64_t>(diagnostics.exactBundlesEvaluated)));
+    object.emplace(
+        "exactBundlesAccepted",
+        JsonValue(static_cast<std::int64_t>(diagnostics.exactBundlesAccepted)));
+    object.emplace(
+        "bestExactBundleScore",
+        score_object(diagnostics.bestExactBundleScore));
+    object.emplace(
         "partialSynchronizationChecks",
         JsonValue(static_cast<std::int64_t>(diagnostics.partialSynchronizationChecks)));
     object.emplace(
@@ -567,6 +579,33 @@ template <typename Value, std::size_t Count>
     columnGeneration.emplace(
         "coordinationParetoQueries",
         JsonValue(static_cast<std::int64_t>(audit.columnGeneration.coordinationParetoQueries)));
+    columnGeneration.emplace(
+        "exactOrienteeringSupportedAgents",
+        JsonValue(static_cast<std::int64_t>(
+            audit.columnGeneration.exactOrienteeringSupportedAgents)));
+    columnGeneration.emplace(
+        "exactOrienteeringCompleteAgents",
+        JsonValue(static_cast<std::int64_t>(
+            audit.columnGeneration.exactOrienteeringCompleteAgents)));
+    columnGeneration.emplace(
+        "exactOrienteeringCacheHits",
+        JsonValue(static_cast<std::int64_t>(
+            audit.columnGeneration.exactOrienteeringCacheHits)));
+    columnGeneration.emplace(
+        "exactOrienteeringSettledStates",
+        JsonValue(static_cast<std::int64_t>(
+            audit.columnGeneration.exactOrienteeringSettledStates)));
+    columnGeneration.emplace(
+        "exactOrienteeringTerminalVariants",
+        JsonValue(static_cast<std::int64_t>(
+            audit.columnGeneration.exactOrienteeringTerminalVariants)));
+    columnGeneration.emplace(
+        "exactOrienteeringBundles",
+        JsonValue(static_cast<std::int64_t>(
+            audit.columnGeneration.exactOrienteeringBundles)));
+    columnGeneration.emplace(
+        "exactOrienteeringMilliseconds",
+        JsonValue(audit.columnGeneration.exactOrienteeringMilliseconds));
     columnGeneration.emplace("deadlineReached", JsonValue(audit.columnGeneration.deadlineReached));
     JsonValue::Object pareto;
     pareto.emplace("queries", JsonValue(static_cast<std::int64_t>(audit.columnGeneration.pareto.queries)));

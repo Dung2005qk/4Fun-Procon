@@ -1,7 +1,9 @@
 #include "udon/planner.hpp"
+#include "udon/orienteering.hpp"
 #include "udon/protocol.hpp"
 
 #include <algorithm>
+#include <array>
 #include <bit>
 #include <functional>
 #include <limits>
@@ -12,6 +14,7 @@
 #include <stdexcept>
 #include <tuple>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 
 namespace udon {
@@ -437,6 +440,562 @@ void populate_exact_escort_segments(
         }
     }
     return true;
+}
+
+struct ExactOrienteeringBeamState {
+    std::array<std::uint8_t, 16> spotCounts{};
+    std::uint64_t brands = 0;
+    std::int32_t servings = 0;
+    std::int32_t usedSteps = 0;
+    std::array<std::int16_t, kMaximumAgents> routeByAgent{};
+};
+
+[[nodiscard]] std::uint64_t exact_orienteering_brand_mask(
+    const MatchConfig& config,
+    std::uint32_t spotMask) {
+    std::uint64_t brands = 0;
+    for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+        if ((spotMask & (std::uint32_t{1} << spot)) != 0U &&
+            config.spots.at(spot).stock > 0) {
+            brands |= brand_bit(config.spots.at(spot).brandIndex);
+        }
+    }
+    return brands;
+}
+
+[[nodiscard]] OfficialScore exact_orienteering_score(
+    const MatchLedger& ledger,
+    const ExactOrienteeringBeamState& state) {
+    return OfficialScore{
+        static_cast<std::int32_t>(std::popcount(ledger.lifetimeBrands | state.brands)),
+        ledger.totalDailyDistinct + static_cast<std::int32_t>(std::popcount(state.brands)),
+        ledger.totalServings + state.servings,
+    };
+}
+
+[[nodiscard]] std::uint64_t exact_orienteering_count_key(
+    const MatchConfig& config,
+    const ExactOrienteeringBeamState& state) {
+    std::uint64_t key = 0;
+    for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+        key |= static_cast<std::uint64_t>(state.spotCounts.at(spot)) << (4U * spot);
+    }
+    return key;
+}
+
+[[nodiscard]] std::vector<const ExactOrienteeringRoute*>
+select_coordinated_exact_orienteering_routes(
+    const MatchConfig& config,
+    const MatchLedger& ledger,
+    const std::vector<ExactOrienteeringReachability>& reachability,
+    std::optional<std::chrono::steady_clock::time_point> deadline) {
+    std::vector<const ExactOrienteeringRoute*> selected(
+        static_cast<std::size_t>(config.agent_count()),
+        nullptr);
+    std::vector<AgentIndex> ordering;
+    for (AgentIndex agent = 0; agent < config.agent_count(); ++agent) {
+        const ExactOrienteeringReachability& exact =
+            reachability.at(static_cast<std::size_t>(agent));
+        if (exact.complete && !exact.maximalRoutes.empty()) {
+            ordering.push_back(agent);
+        }
+    }
+    if (ordering.empty()) {
+        return selected;
+    }
+    std::sort(
+        ordering.begin(),
+        ordering.end(),
+        [&reachability](AgentIndex left, AgentIndex right) {
+            return std::pair{
+                       reachability.at(static_cast<std::size_t>(left)).maximalRoutes.size(),
+                       left} <
+                std::pair{
+                       reachability.at(static_cast<std::size_t>(right)).maximalRoutes.size(),
+                       right};
+        });
+
+    std::vector<std::uint32_t> suffixSpots(ordering.size() + 1U, 0U);
+    std::vector<std::array<std::uint8_t, 16>> suffixReachCount(ordering.size() + 1U);
+    for (std::size_t depth = ordering.size(); depth-- > 0U;) {
+        suffixSpots.at(depth) = suffixSpots.at(depth + 1U);
+        suffixReachCount.at(depth) = suffixReachCount.at(depth + 1U);
+        std::uint32_t agentSpots = 0;
+        for (const ExactOrienteeringRoute& route :
+             reachability.at(static_cast<std::size_t>(ordering.at(depth))).maximalRoutes) {
+            agentSpots |= route.spotMask;
+        }
+        suffixSpots.at(depth) |= agentSpots;
+        for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+            if ((agentSpots & (std::uint32_t{1} << spot)) != 0U) {
+                ++suffixReachCount.at(depth).at(spot);
+            }
+        }
+    }
+
+    const auto apply_route = [&config](
+                                 ExactOrienteeringBeamState state,
+                                 AgentIndex agent,
+                                 std::int16_t routeIndex,
+                                 const ExactOrienteeringRoute& route) {
+        state.routeByAgent.at(static_cast<std::size_t>(agent)) = routeIndex;
+        state.usedSteps += route.usedSteps;
+        for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+            if ((route.spotMask & (std::uint32_t{1} << spot)) == 0U) {
+                continue;
+            }
+            const std::uint8_t capacity = static_cast<std::uint8_t>(std::clamp(
+                config.spots.at(spot).stock,
+                0,
+                config.agent_count()));
+            if (state.spotCounts.at(spot) < capacity) {
+                ++state.spotCounts.at(spot);
+                ++state.servings;
+            }
+        }
+        state.brands |= exact_orienteering_brand_mask(config, route.spotMask);
+        return state;
+    };
+    const auto optimistic_score = [&config,
+                                   &ledger,
+                                   &suffixSpots,
+                                   &suffixReachCount](
+                                      const ExactOrienteeringBeamState& state,
+                                      std::size_t depth) {
+        ExactOrienteeringBeamState optimistic = state;
+        optimistic.brands |= exact_orienteering_brand_mask(
+            config,
+            suffixSpots.at(depth));
+        for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+            const std::int32_t capacity = std::clamp(
+                config.spots.at(spot).stock,
+                0,
+                config.agent_count());
+            optimistic.servings += std::min<std::int32_t>(
+                capacity - optimistic.spotCounts.at(spot),
+                suffixReachCount.at(depth).at(spot));
+        }
+        return exact_orienteering_score(ledger, optimistic);
+    };
+
+    ExactOrienteeringBeamState root;
+    root.routeByAgent.fill(-1);
+    std::vector<ExactOrienteeringBeamState> beam{root};
+    constexpr std::size_t kExactTeamBeamWidth = 1U;
+    for (std::size_t depth = 0; depth < ordering.size(); ++depth) {
+        const AgentIndex agent = ordering.at(depth);
+        const std::vector<ExactOrienteeringRoute>& routes =
+            reachability.at(static_cast<std::size_t>(agent)).maximalRoutes;
+        std::vector<ExactOrienteeringBeamState> expanded;
+        expanded.reserve(beam.size() * routes.size());
+        for (const ExactOrienteeringBeamState& partial : beam) {
+            for (std::size_t routeIndex = 0; routeIndex < routes.size(); ++routeIndex) {
+                expanded.push_back(apply_route(
+                    partial,
+                    agent,
+                    static_cast<std::int16_t>(routeIndex),
+                    routes.at(routeIndex)));
+            }
+        }
+        const std::size_t nextDepth = depth + 1U;
+        std::sort(
+            expanded.begin(),
+            expanded.end(),
+            [&ledger, &optimistic_score, nextDepth](
+                const ExactOrienteeringBeamState& left,
+                const ExactOrienteeringBeamState& right) {
+                const OfficialScore leftUpper = optimistic_score(left, nextDepth);
+                const OfficialScore rightUpper = optimistic_score(right, nextDepth);
+                if (leftUpper != rightUpper) {
+                    return rightUpper < leftUpper;
+                }
+                const OfficialScore leftScore = exact_orienteering_score(ledger, left);
+                const OfficialScore rightScore = exact_orienteering_score(ledger, right);
+                if (leftScore != rightScore) {
+                    return rightScore < leftScore;
+                }
+                if (left.usedSteps != right.usedSteps) {
+                    return left.usedSteps < right.usedSteps;
+                }
+                return left.routeByAgent < right.routeByAgent;
+            });
+        std::unordered_set<std::uint64_t> seenCounts;
+        std::vector<ExactOrienteeringBeamState> retained;
+        retained.reserve(std::min(kExactTeamBeamWidth, expanded.size()));
+        for (ExactOrienteeringBeamState& candidate : expanded) {
+            if (!seenCounts.insert(exact_orienteering_count_key(config, candidate)).second) {
+                continue;
+            }
+            retained.push_back(std::move(candidate));
+            if (retained.size() >= kExactTeamBeamWidth) {
+                break;
+            }
+        }
+        beam = std::move(retained);
+        if (beam.empty()) {
+            return selected;
+        }
+    }
+    std::sort(
+        beam.begin(),
+        beam.end(),
+        [&ledger](
+            const ExactOrienteeringBeamState& left,
+            const ExactOrienteeringBeamState& right) {
+            const OfficialScore leftScore = exact_orienteering_score(ledger, left);
+            const OfficialScore rightScore = exact_orienteering_score(ledger, right);
+            if (leftScore != rightScore) {
+                return rightScore < leftScore;
+            }
+            if (left.usedSteps != right.usedSteps) {
+                return left.usedSteps < right.usedSteps;
+            }
+            return left.routeByAgent < right.routeByAgent;
+        });
+    const auto better_complete = [&ledger](
+                                     const ExactOrienteeringBeamState& left,
+                                     const ExactOrienteeringBeamState& right) {
+        const OfficialScore leftScore = exact_orienteering_score(ledger, left);
+        const OfficialScore rightScore = exact_orienteering_score(ledger, right);
+        if (leftScore != rightScore) {
+            return rightScore < leftScore;
+        }
+        if (left.usedSteps != right.usedSteps) {
+            return left.usedSteps < right.usedSteps;
+        }
+        return left.routeByAgent < right.routeByAgent;
+    };
+    const auto rebuild = [&ordering, &reachability, &apply_route](
+                             const std::array<std::int16_t, kMaximumAgents>& choices,
+                             AgentIndex skippedLeft,
+                             AgentIndex skippedRight) {
+        ExactOrienteeringBeamState rebuilt;
+        rebuilt.routeByAgent.fill(-1);
+        for (const AgentIndex agent : ordering) {
+            if (agent == skippedLeft || agent == skippedRight) {
+                continue;
+            }
+            const std::int16_t routeIndex =
+                choices.at(static_cast<std::size_t>(agent));
+            if (routeIndex < 0) {
+                continue;
+            }
+            rebuilt = apply_route(
+                rebuilt,
+                agent,
+                routeIndex,
+                reachability.at(static_cast<std::size_t>(agent))
+                    .maximalRoutes.at(static_cast<std::size_t>(routeIndex)));
+        }
+        return rebuilt;
+    };
+    ExactOrienteeringBeamState best = beam.front();
+    ExactOrienteeringBeamState greedy;
+    greedy.routeByAgent.fill(-1);
+    for (const AgentIndex agent : ordering) {
+        const std::vector<ExactOrienteeringRoute>& routes =
+            reachability.at(static_cast<std::size_t>(agent)).maximalRoutes;
+        std::optional<ExactOrienteeringBeamState> greedyChoice;
+        for (std::size_t routeIndex = 0; routeIndex < routes.size(); ++routeIndex) {
+            ExactOrienteeringBeamState candidate = apply_route(
+                greedy,
+                agent,
+                static_cast<std::int16_t>(routeIndex),
+                routes.at(routeIndex));
+            if (!greedyChoice.has_value() ||
+                exact_orienteering_score(ledger, *greedyChoice) <
+                    exact_orienteering_score(ledger, candidate)) {
+                greedyChoice = std::move(candidate);
+            }
+        }
+        if (greedyChoice.has_value()) {
+            greedy = std::move(*greedyChoice);
+        }
+    }
+    if (better_complete(greedy, best)) {
+        best = std::move(greedy);
+    }
+    for (std::int32_t round = 0; round < 3; ++round) {
+        bool improved = false;
+        for (const AgentIndex agent : ordering) {
+            const ExactOrienteeringBeamState base = rebuild(
+                best.routeByAgent,
+                agent,
+                kInvalidAgent);
+            ExactOrienteeringBeamState localBest = best;
+            const std::vector<ExactOrienteeringRoute>& routes =
+                reachability.at(static_cast<std::size_t>(agent)).maximalRoutes;
+            for (std::size_t routeIndex = 0; routeIndex < routes.size(); ++routeIndex) {
+                ExactOrienteeringBeamState candidate = apply_route(
+                    base,
+                    agent,
+                    static_cast<std::int16_t>(routeIndex),
+                    routes.at(routeIndex));
+                if (better_complete(candidate, localBest)) {
+                    localBest = std::move(candidate);
+                }
+            }
+            if (better_complete(localBest, best)) {
+                best = std::move(localBest);
+                improved = true;
+            }
+        }
+        for (std::size_t leftOffset = 0; leftOffset < ordering.size(); ++leftOffset) {
+            const AgentIndex leftAgent = ordering.at(leftOffset);
+            for (std::size_t rightOffset = leftOffset + 1U;
+                 rightOffset < ordering.size();
+                 ++rightOffset) {
+                const AgentIndex rightAgent = ordering.at(rightOffset);
+                const ExactOrienteeringBeamState base = rebuild(
+                    best.routeByAgent,
+                    leftAgent,
+                    rightAgent);
+                ExactOrienteeringBeamState localBest = best;
+                const std::vector<ExactOrienteeringRoute>& leftRoutes =
+                    reachability.at(static_cast<std::size_t>(leftAgent)).maximalRoutes;
+                const std::vector<ExactOrienteeringRoute>& rightRoutes =
+                    reachability.at(static_cast<std::size_t>(rightAgent)).maximalRoutes;
+                for (std::size_t leftRoute = 0; leftRoute < leftRoutes.size(); ++leftRoute) {
+                    const ExactOrienteeringBeamState withLeft = apply_route(
+                        base,
+                        leftAgent,
+                        static_cast<std::int16_t>(leftRoute),
+                        leftRoutes.at(leftRoute));
+                    for (std::size_t rightRoute = 0;
+                         rightRoute < rightRoutes.size();
+                         ++rightRoute) {
+                        ExactOrienteeringBeamState candidate = apply_route(
+                            withLeft,
+                            rightAgent,
+                            static_cast<std::int16_t>(rightRoute),
+                            rightRoutes.at(rightRoute));
+                        if (better_complete(candidate, localBest)) {
+                            localBest = std::move(candidate);
+                        }
+                    }
+                }
+                if (better_complete(localBest, best)) {
+                    best = std::move(localBest);
+                    improved = true;
+                }
+            }
+        }
+        if (!improved) {
+            break;
+        }
+    }
+    std::vector<std::vector<std::int16_t>> scarcityOrderedRoutes(
+        static_cast<std::size_t>(config.agent_count()));
+    const auto service_count = [&config](std::uint32_t mask) {
+        std::int32_t servings = 0;
+        for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+            if ((mask & (std::uint32_t{1} << spot)) != 0U &&
+                config.spots.at(spot).stock > 0) {
+                ++servings;
+            }
+        }
+        return servings;
+    };
+    for (const AgentIndex agent : ordering) {
+        const std::vector<ExactOrienteeringRoute>& routes =
+            reachability.at(static_cast<std::size_t>(agent)).maximalRoutes;
+        std::vector<std::int16_t>& routeOrder =
+            scarcityOrderedRoutes.at(static_cast<std::size_t>(agent));
+        routeOrder.reserve(routes.size());
+        for (std::size_t routeIndex = 0; routeIndex < routes.size(); ++routeIndex) {
+            routeOrder.push_back(static_cast<std::int16_t>(routeIndex));
+        }
+        std::sort(
+            routeOrder.begin(),
+            routeOrder.end(),
+            [&config, &routes, &service_count](std::int16_t left, std::int16_t right) {
+                const auto rank = [&config, &routes, &service_count](std::int16_t index) {
+                    const std::uint32_t mask =
+                        routes.at(static_cast<std::size_t>(index)).spotMask;
+                    std::int32_t scarcity = 0;
+                    for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+                        if ((mask & (std::uint32_t{1} << spot)) != 0U &&
+                            config.spots.at(spot).stock > 0) {
+                            scarcity += 10000 / config.spots.at(spot).stock;
+                        }
+                    }
+                    return std::tuple{
+                        service_count(mask),
+                        -scarcity,
+                        -routes.at(static_cast<std::size_t>(index)).usedSteps,
+                        -static_cast<std::int32_t>(index)};
+                };
+                return rank(left) > rank(right);
+            });
+    }
+    std::vector<std::int32_t> suffixMaximumServings(ordering.size() + 1U, 0);
+    std::vector<std::uint64_t> suffixBrands(ordering.size() + 1U, 0U);
+    for (std::size_t depth = ordering.size(); depth-- > 0U;) {
+        suffixMaximumServings.at(depth) = suffixMaximumServings.at(depth + 1U);
+        suffixBrands.at(depth) = suffixBrands.at(depth + 1U);
+        const AgentIndex agent = ordering.at(depth);
+        std::int32_t agentMaximum = 0;
+        for (const ExactOrienteeringRoute& route :
+             reachability.at(static_cast<std::size_t>(agent)).maximalRoutes) {
+            agentMaximum = std::max(agentMaximum, service_count(route.spotMask));
+            suffixBrands.at(depth) |= exact_orienteering_brand_mask(
+                config,
+                route.spotMask);
+        }
+        suffixMaximumServings.at(depth) += agentMaximum;
+    }
+    std::array<std::uint8_t, 16> feasibilityCounts{};
+    std::array<std::int16_t, kMaximumAgents> feasibilityChoices{};
+    feasibilityChoices.fill(-1);
+    std::array<std::int16_t, kMaximumAgents> improvedChoices{};
+    improvedChoices.fill(-1);
+    const OfficialScore incumbentExactScore = exact_orienteering_score(ledger, best);
+    std::uint64_t feasibilityNodes = 0;
+    constexpr std::uint64_t kMaximumFeasibilityNodes = 500000U;
+    const auto capacity_feasibility_search =
+        [&](auto&& self,
+            std::size_t depth,
+            std::int32_t servings,
+            std::uint64_t brands) -> bool {
+            ++feasibilityNodes;
+            if (feasibilityNodes > kMaximumFeasibilityNodes ||
+                ((feasibilityNodes & 1023U) == 0U && deadline.has_value() &&
+                 std::chrono::steady_clock::now() >= *deadline)) {
+                return false;
+            }
+            ExactOrienteeringBeamState optimistic;
+            optimistic.brands = brands | suffixBrands.at(depth);
+            optimistic.servings = servings + suffixMaximumServings.at(depth);
+            if (!(incumbentExactScore < exact_orienteering_score(ledger, optimistic))) {
+                return false;
+            }
+            if (depth == ordering.size()) {
+                improvedChoices = feasibilityChoices;
+                return true;
+            }
+            const AgentIndex agent = ordering.at(depth);
+            const std::vector<ExactOrienteeringRoute>& routes =
+                reachability.at(static_cast<std::size_t>(agent)).maximalRoutes;
+            for (const std::int16_t routeIndex :
+                 scarcityOrderedRoutes.at(static_cast<std::size_t>(agent))) {
+                const ExactOrienteeringRoute& route =
+                    routes.at(static_cast<std::size_t>(routeIndex));
+                bool feasible = true;
+                for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+                    if ((route.spotMask & (std::uint32_t{1} << spot)) != 0U &&
+                        config.spots.at(spot).stock > 0 &&
+                        feasibilityCounts.at(spot) >=
+                            static_cast<std::uint8_t>(std::min(
+                                config.spots.at(spot).stock,
+                                config.agent_count()))) {
+                        feasible = false;
+                        break;
+                    }
+                }
+                if (!feasible) {
+                    continue;
+                }
+                for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+                    if ((route.spotMask & (std::uint32_t{1} << spot)) != 0U &&
+                        config.spots.at(spot).stock > 0) {
+                        ++feasibilityCounts.at(spot);
+                    }
+                }
+                feasibilityChoices.at(static_cast<std::size_t>(agent)) = routeIndex;
+                if (self(
+                        self,
+                        depth + 1U,
+                        servings + service_count(route.spotMask),
+                        brands | exact_orienteering_brand_mask(config, route.spotMask))) {
+                    return true;
+                }
+                for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+                    if ((route.spotMask & (std::uint32_t{1} << spot)) != 0U &&
+                        config.spots.at(spot).stock > 0) {
+                        --feasibilityCounts.at(spot);
+                    }
+                }
+            }
+            return false;
+        };
+    if ((!deadline.has_value() || std::chrono::steady_clock::now() < *deadline) &&
+        capacity_feasibility_search(
+            capacity_feasibility_search,
+            0U,
+            0,
+            0U)) {
+        ExactOrienteeringBeamState improved;
+        improved.routeByAgent.fill(-1);
+        for (const AgentIndex agent : ordering) {
+            const std::int16_t routeIndex =
+                improvedChoices.at(static_cast<std::size_t>(agent));
+            improved = apply_route(
+                improved,
+                agent,
+                routeIndex,
+                reachability.at(static_cast<std::size_t>(agent))
+                    .maximalRoutes.at(static_cast<std::size_t>(routeIndex)));
+        }
+        if (better_complete(improved, best)) {
+            best = std::move(improved);
+        }
+    }
+    for (const AgentIndex agent : ordering) {
+        const std::int16_t routeIndex =
+            best.routeByAgent.at(static_cast<std::size_t>(agent));
+        if (routeIndex >= 0) {
+            selected.at(static_cast<std::size_t>(agent)) =
+                &reachability.at(static_cast<std::size_t>(agent))
+                     .maximalRoutes.at(static_cast<std::size_t>(routeIndex));
+        }
+    }
+    return selected;
+}
+
+enum class ExactTerminalObjective : std::uint8_t {
+    Fuel,
+    BrandAccess,
+};
+
+[[nodiscard]] std::vector<const ExactOrienteeringRoute*>
+select_exact_terminal_variant(
+    const std::vector<const ExactOrienteeringRoute*>& base,
+    const std::vector<ExactOrienteeringReachability>& reachability,
+    ExactTerminalObjective objective) {
+    std::vector<const ExactOrienteeringRoute*> variant = base;
+    for (std::size_t agent = 0; agent < base.size(); ++agent) {
+        const ExactOrienteeringRoute* selected = base.at(agent);
+        if (selected == nullptr) {
+            continue;
+        }
+        const auto rank = [objective](const ExactOrienteeringRoute& route) {
+            if (objective == ExactTerminalObjective::Fuel) {
+                return std::tuple{
+                    route.patrolFuel,
+                    route.terminalOnSpot ? 0 : 1,
+                    route.terminalBrandDistance,
+                    route.usedSteps,
+                    route.terminalCell};
+            }
+            return std::tuple{
+                route.terminalOnSpot ? 0 : 1,
+                route.terminalBrandDistance,
+                route.patrolFuel,
+                route.usedSteps,
+                route.terminalCell};
+        };
+        const auto consider = [&](const std::vector<ExactOrienteeringRoute>& routes) {
+            for (const ExactOrienteeringRoute& candidate : routes) {
+                if (candidate.spotMask == selected->spotMask &&
+                    rank(candidate) < rank(*variant.at(agent))) {
+                    variant.at(agent) = &candidate;
+                }
+            }
+        };
+        consider(reachability.at(agent).maximalRoutes);
+        consider(reachability.at(agent).terminalVariants);
+    }
+    return variant;
 }
 
 void prune_columns(
@@ -1607,6 +2166,92 @@ RoutePortfolio RouteColumnGenerator::generate(
     const auto deadline_expired = [&options]() {
         return options.deadline.has_value() && std::chrono::steady_clock::now() >= *options.deadline;
     };
+    std::vector<ExactOrienteeringReachability> exactOrienteering(
+        static_cast<std::size_t>(config_.agent_count()));
+    std::vector<std::vector<const ExactOrienteeringRoute*>>
+        coordinatedExactRouteBundles;
+    if (options.enableExactHarvestOrienteering &&
+        options.allowUncachedHarvestTargets) {
+        const auto exactStarted = std::chrono::steady_clock::now();
+        std::map<CellId, AgentIndex> exactByStart;
+        for (AgentIndex agent = 0;
+             agent < config_.agent_count() && !deadline_expired();
+             ++agent) {
+            const AgentState& agentState =
+                state.agents.at(static_cast<std::size_t>(agent));
+            const auto cached = exactByStart.find(agentState.position);
+            if (cached != exactByStart.end() &&
+                agentState.kind == AgentKind::Patrol &&
+                agentState.fuel >=
+                    2 * config_.steps_for_day(state.dayNumber)) {
+                exactOrienteering.at(static_cast<std::size_t>(agent)) =
+                    exactOrienteering.at(static_cast<std::size_t>(cached->second));
+                if (diagnostics != nullptr) {
+                    ++diagnostics->exactOrienteeringCacheHits;
+                }
+            } else {
+                exactOrienteering.at(static_cast<std::size_t>(agent)) =
+                    enumerate_exact_high_fuel_routes(
+                        config_,
+                        state,
+                        agent,
+                        options.deadline);
+                if (exactOrienteering.at(static_cast<std::size_t>(agent)).supported) {
+                    exactByStart.emplace(agentState.position, agent);
+                }
+            }
+            if (diagnostics != nullptr) {
+                const ExactOrienteeringReachability& exact =
+                    exactOrienteering.at(static_cast<std::size_t>(agent));
+                diagnostics->exactOrienteeringSupportedAgents += exact.supported ? 1 : 0;
+                diagnostics->exactOrienteeringCompleteAgents += exact.complete ? 1 : 0;
+                diagnostics->exactOrienteeringSettledStates += exact.settledStates;
+                diagnostics->exactOrienteeringTerminalVariants +=
+                    exact.terminalVariants.size();
+            }
+        }
+        std::vector<const ExactOrienteeringRoute*> coordinatedExactRoutes =
+            select_coordinated_exact_orienteering_routes(
+            config_,
+            ledger,
+            exactOrienteering,
+            options.deadline);
+        if (std::any_of(
+                coordinatedExactRoutes.begin(),
+                coordinatedExactRoutes.end(),
+                [](const ExactOrienteeringRoute* route) { return route != nullptr; })) {
+            coordinatedExactRouteBundles.push_back(coordinatedExactRoutes);
+            coordinatedExactRouteBundles.push_back(select_exact_terminal_variant(
+                coordinatedExactRoutes,
+                exactOrienteering,
+                ExactTerminalObjective::Fuel));
+            coordinatedExactRouteBundles.push_back(select_exact_terminal_variant(
+                coordinatedExactRoutes,
+                exactOrienteering,
+                ExactTerminalObjective::BrandAccess));
+            std::set<std::string> seenExactPlans;
+            std::erase_if(
+                coordinatedExactRouteBundles,
+                [&config = config_, &state, &seenExactPlans](
+                    const std::vector<const ExactOrienteeringRoute*>& routes) {
+                    DayPlan plan;
+                    plan.actions.reserve(routes.size());
+                    for (const ExactOrienteeringRoute* route : routes) {
+                        plan.actions.push_back(
+                            route != nullptr ? route->actions : wait_actions(config, state));
+                    }
+                    return !seenExactPlans.insert(canonical_plan_bytes(plan)).second;
+                });
+        }
+        if (diagnostics != nullptr) {
+            diagnostics->exactOrienteeringBundles =
+                static_cast<std::int32_t>(coordinatedExactRouteBundles.size());
+            diagnostics->exactOrienteeringMilliseconds =
+                std::chrono::duration_cast<std::chrono::milliseconds>(
+                    std::chrono::steady_clock::now() - exactStarted)
+                    .count();
+        }
+    }
     const auto find_paths = [this, &state, diagnostics](
                                 CellId source,
                                 CellId target,
@@ -3102,6 +3747,59 @@ RoutePortfolio RouteColumnGenerator::generate(
             std::max(1, options.maximumColumnsPerAgent),
             config_.fuelLimit >= 3 * config_.steps_for_day(state.dayNumber));
     }
+    for (const std::vector<const ExactOrienteeringRoute*>& coordinatedExactRoutes :
+         coordinatedExactRouteBundles) {
+        const std::int32_t exactBundle = nextContingencyBundle++;
+        std::vector<RouteColumn> exactBundleColumns;
+        exactBundleColumns.reserve(static_cast<std::size_t>(config_.agent_count()));
+        for (AgentIndex agentIndex = 0;
+             agentIndex < config_.agent_count();
+             ++agentIndex) {
+            const ExactOrienteeringRoute* route =
+                coordinatedExactRoutes.at(static_cast<std::size_t>(agentIndex));
+            RouteColumn exact;
+            exact.columnId = nextColumnId++;
+            exact.agent = agentIndex;
+            exact.actions = route != nullptr
+                ? route->actions
+                : wait_actions(config_, state);
+            exact.priority = 5000000;
+            exact.harvestExtension = true;
+            exact.exactOrienteering = true;
+            exact.harvestExtensionSourceRank = -1;
+            exact.contingencyBundle = exactBundle;
+            populate_first_visits(config_, state, exact);
+            if (!exact.hasExactTimeline) {
+                exactBundleColumns.clear();
+                break;
+            }
+            std::uint32_t actualMask = 0;
+            for (const ColumnVisitEvent& event : exact.firstVisits) {
+                actualMask |= std::uint32_t{1} << static_cast<std::uint32_t>(event.spot);
+                exact.estimatedBrands |= brand_bit(event.brandIndex);
+                if (event.claimedServing) {
+                    ++exact.estimatedServings;
+                }
+            }
+            if (route != nullptr && actualMask != route->spotMask) {
+                exactBundleColumns.clear();
+                break;
+            }
+            exact.heuristicFootprint = exact.fullFootprint;
+            populate_terminal_brand_feature(
+                config_,
+                ledger,
+                terminalDistancesToSpots_,
+                exact);
+            exactBundleColumns.push_back(std::move(exact));
+        }
+        if (exactBundleColumns.size() == static_cast<std::size_t>(config_.agent_count())) {
+            for (RouteColumn& exact : exactBundleColumns) {
+                portfolio.columnsByAgent.at(static_cast<std::size_t>(exact.agent))
+                    .push_back(std::move(exact));
+            }
+        }
+    }
     populate_exact_escort_segments(state, portfolio);
     if (diagnostics != nullptr) {
         diagnostics->coordinationMilliseconds =
@@ -3301,6 +3999,75 @@ std::vector<MasterCandidate> RouteMaster::solve(
     const auto deadline_expired = [&]() {
         return options.deadline.has_value() && std::chrono::steady_clock::now() >= *options.deadline;
     };
+    std::map<std::int32_t, std::vector<const RouteColumn*>> completeBundles;
+    for (AgentIndex agent = 0; agent < config_.agent_count(); ++agent) {
+        for (const RouteColumn& column :
+             portfolio.columnsByAgent.at(static_cast<std::size_t>(agent))) {
+            if (column.contingencyBundle < 0) {
+                continue;
+            }
+            std::vector<const RouteColumn*>& bundle =
+                completeBundles[column.contingencyBundle];
+            if (bundle.empty()) {
+                bundle.resize(static_cast<std::size_t>(config_.agent_count()), nullptr);
+            }
+            const RouteColumn*& assigned = bundle.at(static_cast<std::size_t>(agent));
+            if (assigned == nullptr || column.priority > assigned->priority) {
+                assigned = &column;
+            }
+        }
+    }
+    for (const auto& [bundleId, bundle] : completeBundles) {
+        static_cast<void>(bundleId);
+        if (std::any_of(
+                bundle.begin(),
+                bundle.end(),
+                [](const RouteColumn* column) { return column == nullptr; })) {
+            continue;
+        }
+        const bool exactOrienteeringBundle = std::any_of(
+            bundle.begin(),
+            bundle.end(),
+            [](const RouteColumn* column) {
+                return column != nullptr && column->exactOrienteering;
+            });
+        if (exactOrienteeringBundle) {
+            ++diagnostics.exactBundlesDiscovered;
+        }
+        if (deadline_expired() && !exactOrienteeringBundle) {
+            continue;
+        }
+        DayPlan plan;
+        plan.actions.resize(static_cast<std::size_t>(config_.agent_count()));
+        for (AgentIndex agent = 0; agent < config_.agent_count(); ++agent) {
+            plan.actions.at(static_cast<std::size_t>(agent)) =
+                bundle.at(static_cast<std::size_t>(agent))->actions;
+        }
+        const std::string planKey = canonical_plan_bytes(plan);
+        if (!evaluatedPlans.insert(planKey).second) {
+            continue;
+        }
+        if (exactOrienteeringBundle) {
+            ++diagnostics.exactBundlesEvaluated;
+        }
+        if (std::optional<MasterCandidate> candidate = evaluate_exact_plan(
+                state,
+                ledger,
+                plan,
+                options.mandatoryReservations);
+            candidate.has_value()) {
+            ++diagnostics.simulatorValidCombinations;
+            if (exactOrienteeringBundle) {
+                ++diagnostics.exactBundlesAccepted;
+                if (diagnostics.bestExactBundleScore < candidate->scoreAfterToday) {
+                    diagnostics.bestExactBundleScore = candidate->scoreAfterToday;
+                }
+            }
+            candidates.push_back(std::move(*candidate));
+        } else {
+            ++diagnostics.invalidPlanCombinations;
+        }
+    }
 
     for (std::int32_t resolveRound = 0;
          resolveRound < maximumResolveRounds && diagnostics.combinationsVisited < options.maximumCombinations;

@@ -25,7 +25,9 @@ public:
     explicit MatchSession(
         const MatchConfig& config,
         RiskPolicy policy = {},
-        DeadlineCalibration deadlineCalibration = {});
+        DeadlineCalibration deadlineCalibration = {},
+        std::int32_t harvestExtensionMode = 6,
+        std::int32_t futureHarvestExtensionMode = -1);
 
     [[nodiscard]] std::vector<RoleAssignment> select_roles_until(
         std::chrono::milliseconds available,

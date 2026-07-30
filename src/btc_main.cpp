@@ -58,8 +58,8 @@ struct HttpResponse {
 
 [[nodiscard]] udon::DeadlineCalibration btc_http_deadline_calibration() {
     udon::DeadlineCalibration calibration;
-    calibration.version = "btc-http-fair-w1-v2";
-    calibration.networkFloor = std::chrono::milliseconds{1000};
+    calibration.version = "btc-http-fair-w1-v3-guarded";
+    calibration.networkFloor = std::chrono::milliseconds{1100};
     calibration.networkPercent = 20;
     calibration.certificationPercent = 20;
     return calibration;
@@ -153,14 +153,14 @@ private:
             options.roleMask = static_cast<std::int32_t>(parsed);
         } else if (key == "--harvest-extensions") {
             const long long parsed = std::stoll(value);
-            if (parsed < 0 || parsed > 6) {
-                throw std::invalid_argument("--harvest-extensions must be in [0,6]");
+            if (parsed < 0 || parsed > 7) {
+                throw std::invalid_argument("--harvest-extensions must be in [0,7]");
             }
             options.harvestExtensionMode = static_cast<std::int32_t>(parsed);
         } else if (key == "--future-harvest-extensions") {
             const long long parsed = std::stoll(value);
-            if (parsed < 0 || parsed > 6) {
-                throw std::invalid_argument("--future-harvest-extensions must be in [0,6]");
+            if (parsed < 0 || parsed > 7) {
+                throw std::invalid_argument("--future-harvest-extensions must be in [0,7]");
             }
             options.futureHarvestExtensionMode = static_cast<std::int32_t>(parsed);
         } else {
@@ -196,9 +196,11 @@ private:
             "--current-floor is only valid for replay-counterfactual");
     }
     if (options.futureHarvestExtensionMode >= 0 &&
-        options.mode != "replay-counterfactual") {
+        options.mode != "replay-counterfactual" &&
+        options.mode != "http" &&
+        options.mode != "sandbox") {
         throw std::invalid_argument(
-            "--future-harvest-extensions is only valid for replay-counterfactual");
+            "--future-harvest-extensions is only valid for replay-counterfactual, HTTP, or sandbox");
     }
     return options;
 }
@@ -206,14 +208,18 @@ private:
 void print_usage() {
     std::cerr
         << "usage:\n"
-        << "  udonshield_btc sandbox [--response-ms 5000] [--beam-width 8] [--replay replay.jsonl]\n"
+        << "  udonshield_btc sandbox [--response-ms 5000] [--beam-width 8] "
+           "[--harvest-extensions 0|1|2|3|4|5|6|7] "
+           "[--future-harvest-extensions 0|1|2|3|4|5|6|7] [--replay replay.jsonl]\n"
         << "  udonshield_btc http --match MATCH_ID [--url https://procon.ptit.edu.vn] "
-           "[--response-ms 5000] [--poll-ms 220] [--beam-width 8] [--replay replay.jsonl]\n"
+           "[--response-ms 5000] [--poll-ms 220] [--beam-width 8] "
+           "[--harvest-extensions 0|1|2|3|4|5|6|7] "
+           "[--future-harvest-extensions 0|1|2|3|4|5|6|7] [--replay replay.jsonl]\n"
         << "  udonshield_btc replay-check --replay replay.jsonl [--response-ms 5000]\n"
         << "  udonshield_btc replay-roles --replay replay.jsonl [--response-ms 5000] [--beam-width 8]\n"
         << "  udonshield_btc replay-counterfactual --replay replay.jsonl --role-mask MASK "
-           "[--response-ms 5000] [--harvest-extensions 0|1|2|3|4|5|6] [--max-days N] "
-           "[--future-harvest-extensions 0|1|2|3|4|5|6] [--logic-budget-ms N] [--current-floor 0|1] "
+           "[--response-ms 5000] [--harvest-extensions 0|1|2|3|4|5|6|7] [--max-days N] "
+           "[--future-harvest-extensions 0|1|2|3|4|5|6|7] [--logic-budget-ms N] [--current-floor 0|1] "
            "[--decision-dump decisions.jsonl]\n"
         << "  udonshield_btc replay-solve --replay replay.jsonl --day DAY [--response-ms 5000]\n"
         << "HTTP mode reads the bearer token only from HEXUDON_TOKEN.\n";
@@ -718,7 +724,14 @@ void run_replay_roles(const RuntimeOptions& options) {
     }
     const udon::BtcAdapterOptions adapterOptions{options.responseBudgetMs};
     const udon::MatchConfig config = udon::parse_btc_setup(*setupDocument, adapterOptions);
-    udon::MatchSession session(config);
+    udon::MatchSession session(
+        config,
+        {},
+        {},
+        options.harvestExtensionMode,
+        options.futureHarvestExtensionMode >= 0
+            ? options.futureHarvestExtensionMode
+            : (options.harvestExtensionMode > 5 ? 5 : -1));
     const std::chrono::steady_clock::time_point started =
         std::chrono::steady_clock::now();
     const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
@@ -937,7 +950,14 @@ void run_sandbox(const RuntimeOptions& options) {
     }
     replay.record("setup", setupDocument);
     const udon::MatchConfig config = udon::parse_btc_setup(setupDocument, adapterOptions);
-    udon::MatchSession session(config);
+    udon::MatchSession session(
+        config,
+        {},
+        {},
+        options.harvestExtensionMode,
+        options.futureHarvestExtensionMode >= 0
+            ? options.futureHarvestExtensionMode
+            : (options.harvestExtensionMode > 5 ? 5 : -1));
     const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
         std::chrono::milliseconds{options.responseBudgetMs},
         options.beamWidth);
@@ -1268,7 +1288,14 @@ void run_http(const RuntimeOptions& options) {
     const udon::MatchConfig config = udon::parse_btc_setup(setupDocument, adapterOptions);
     const ReplayResumeState resume = load_replay_resume(options.replayPath, config, adapterOptions);
     const udon::DeadlineCalibration deadlineCalibration = btc_http_deadline_calibration();
-    udon::MatchSession session(config, {}, deadlineCalibration);
+    udon::MatchSession session(
+        config,
+        {},
+        deadlineCalibration,
+        options.harvestExtensionMode,
+        options.futureHarvestExtensionMode >= 0
+            ? options.futureHarvestExtensionMode
+            : (options.harvestExtensionMode > 5 ? 5 : -1));
     if (!resume.assignmentAccepted || !resume.assignment.has_value()) {
         const std::chrono::milliseconds roleSelectionBudget = std::max(
             std::chrono::milliseconds{1},

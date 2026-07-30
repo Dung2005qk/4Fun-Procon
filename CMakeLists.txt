@@ -13,6 +13,7 @@ add_library(udon_shield
     src/simulator.cpp
     src/validator.cpp
     src/graph.cpp
+    src/orienteering.cpp
     src/planner.cpp
     src/decision.cpp
     src/audit.cpp
@@ -55,6 +56,10 @@ if(UDONSHIELD_BUILD_BENCHMARKS)
     target_link_libraries(udonshield_strategy_bench PRIVATE udon_shield)
     add_executable(udonshield_master_oracle strategies/master_oracle.cpp)
     target_link_libraries(udonshield_master_oracle PRIVATE udon_shield)
+    add_executable(
+        udonshield_orienteering_oracle
+        strategies/orienteering_oracle.cpp)
+    target_link_libraries(udonshield_orienteering_oracle PRIVATE udon_shield)
 endif()
 
 include(CTest)

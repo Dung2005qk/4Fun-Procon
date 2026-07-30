@@ -72,6 +72,7 @@ struct RouteColumn {
     RouteTerminalFeatures terminalFeatures;
     bool hasExactTimeline = false;
     bool harvestExtension = false;
+    bool exactOrienteering = false;
     std::int32_t harvestExtensionSourceRank = 0;
     std::int32_t escortGroup = -1;
     std::int32_t contingencyBundle = -1;
@@ -120,6 +121,7 @@ struct ColumnGenerationOptions {
     bool enableHarvestExtensions = true;
     bool allowUncachedHarvestTargets = true;
     bool enableHarvestOrienteering = false;
+    bool enableExactHarvestOrienteering = false;
     std::int32_t maximumHarvestExtensionSources = 1;
     std::int32_t maximumHarvestExtensionDepth = 2;
     std::optional<std::chrono::steady_clock::time_point> deadline;
@@ -132,6 +134,13 @@ struct ColumnGenerationDiagnostics {
     std::vector<std::int32_t> agentParetoQueries;
     std::int64_t coordinationMilliseconds = 0;
     std::int32_t coordinationParetoQueries = 0;
+    std::int32_t exactOrienteeringSupportedAgents = 0;
+    std::int32_t exactOrienteeringCompleteAgents = 0;
+    std::int32_t exactOrienteeringCacheHits = 0;
+    std::uint64_t exactOrienteeringSettledStates = 0;
+    std::uint64_t exactOrienteeringTerminalVariants = 0;
+    std::int32_t exactOrienteeringBundles = 0;
+    std::int64_t exactOrienteeringMilliseconds = 0;
     bool deadlineReached = false;
 };
 
@@ -143,6 +152,9 @@ struct MasterDiagnostics {
     std::int32_t upperBoundChecks = 0;
     std::int32_t upperBoundPrunes = 0;
     std::int32_t bundlePrunes = 0;
+    std::int32_t exactBundlesDiscovered = 0;
+    std::int32_t exactBundlesEvaluated = 0;
+    std::int32_t exactBundlesAccepted = 0;
     std::int32_t partialSynchronizationChecks = 0;
     std::int32_t partialSynchronizationPrunes = 0;
     std::int32_t simulatorValidCombinations = 0;
@@ -169,6 +181,7 @@ struct MasterDiagnostics {
     bool stockCappedSearchOrder = false;
     bool deadlineReached = false;
     bool searchComplete = false;
+    OfficialScore bestExactBundleScore;
     OfficialScore optimisticUpperBound;
 };
 
