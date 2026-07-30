@@ -69,8 +69,8 @@ struct HttpResponse {
 
 [[nodiscard]] udon::DeadlineCalibration btc_http_deadline_calibration() {
     udon::DeadlineCalibration calibration;
-    calibration.version = "btc-http-fair-w1-v3-guarded";
-    calibration.networkFloor = std::chrono::milliseconds{1100};
+    calibration.version = "btc-http-fair-w1-v4-p99-guarded";
+    calibration.networkFloor = std::chrono::milliseconds{1600};
     calibration.networkPercent = 20;
     calibration.certificationPercent = 20;
     return calibration;
@@ -251,6 +251,27 @@ void print_usage() {
     }
 }
 
+[[nodiscard]] udon::SimulationResult validate_fallback_plan(
+    const udon::DayState& state,
+    const udon::DayPlan& plan,
+    const udon::ExactStepSimulator& simulator,
+    const udon::IndependentDayValidator& validator,
+    const std::string& context) {
+    const udon::SimulationResult simulation = simulator.simulate(
+        state,
+        plan,
+        false);
+    const udon::SimulationResult validation = validator.validate(
+        state,
+        plan,
+        false);
+    std::string mismatch;
+    if (!simulation.valid || !validator.agrees_with(simulation, validation, mismatch)) {
+        throw std::runtime_error(context + ": " + mismatch);
+    }
+    return simulation;
+}
+
 struct ReplayResumeState {
     std::optional<udon::JsonValue> assignment;
     bool assignmentAccepted = false;
@@ -302,7 +323,8 @@ struct ReplayResumeState {
             pendingSimulation.reset();
             continue;
         }
-        if (kind == "actions" || kind == "actions_fallback" || kind == "actions_recovery_wait") {
+        if (kind == "actions" || kind == "actions_fallback" ||
+            kind == "actions_recovery_wait" || kind == "actions_server_wait") {
             if (!currentState.has_value()) {
                 throw std::runtime_error("BTC replay resume found actions without a day state");
             }
@@ -314,6 +336,12 @@ struct ReplayResumeState {
                 throw std::runtime_error("BTC replay resume rejected a recorded plan: " + mismatch);
             }
             pendingSimulation = simulation;
+            if (kind == "actions_server_wait" &&
+                pendingWireDay > resume.lastAcceptedWireDay) {
+                resume.ledger.apply(pendingSimulation->score);
+                resume.lastAcceptedWireDay = pendingWireDay;
+                pendingSimulation.reset();
+            }
             continue;
         }
         if (kind != "action_result" && kind != "action_result_recovery") {
@@ -438,7 +466,8 @@ void run_replay_check(const RuntimeOptions& options) {
             pendingSimulation.reset();
             continue;
         }
-        if (kind != "actions" && kind != "actions_fallback" && kind != "actions_recovery_wait") {
+        if (kind != "actions" && kind != "actions_fallback" &&
+            kind != "actions_recovery_wait" && kind != "actions_server_wait") {
             continue;
         }
         if (!currentState.has_value()) {
@@ -539,7 +568,15 @@ void run_replay_check(const RuntimeOptions& options) {
         if (!simulation.valid || !agrees) {
             throw std::runtime_error("BTC replay failed exact local validation");
         }
-        pendingSimulation = simulation;
+        if (kind == "actions_server_wait") {
+            ledger.apply(simulation.score);
+            previousSimulation = simulation;
+            ++simulatedDays;
+            pendingSimulation.reset();
+            std::cout << "server_wait_applied=1\n";
+        } else {
+            pendingSimulation = simulation;
+        }
     }
     std::cout << "summary days=" << simulatedDays
               << " reconciled_transitions=" << reconciledTransitions
@@ -1332,6 +1369,8 @@ void run_http(const RuntimeOptions& options) {
 
     udon::MatchLedger ledger = resume.ledger;
     std::int32_t lastAcceptedWireDay = resume.lastAcceptedWireDay;
+    const udon::ExactStepSimulator simulator(config);
+    const udon::IndependentDayValidator validator(config);
     bool idlePostAckWorkPending = false;
     bool idleContingencyPrecompute = true;
     while (true) {
@@ -1363,7 +1402,9 @@ void run_http(const RuntimeOptions& options) {
                 planningReceivedAt);
             replay.record("decision", decision.replay);
             const std::int64_t actionDeadlineMs = state.endsAt * 1000;
-            constexpr std::int64_t minimumSubmissionWindowMs = 1000;
+            const std::int64_t minimumSubmissionWindowMs = std::max<std::int64_t>(
+                1000,
+                deadlineCalibration.networkFloor.count() - 100);
             if (unix_milliseconds() + minimumSubmissionWindowMs >= actionDeadlineMs) {
                 if (session.has_pending_submission()) {
                     session.reject_pending_submission();
@@ -1372,6 +1413,17 @@ void run_http(const RuntimeOptions& options) {
                 skipped.emplace("day", udon::JsonValue(static_cast<std::int64_t>(state.dayNumber)));
                 skipped.emplace("reason", udon::JsonValue("insufficient-authoritative-day-window"));
                 replay.record("actions_deadline_skip", udon::JsonValue(std::move(skipped)));
+                const udon::DayPlan waitPlan = udon::make_wait_plan(config, state.dayNumber);
+                const udon::SimulationResult waitSimulation = validate_fallback_plan(
+                    state,
+                    waitPlan,
+                    simulator,
+                    validator,
+                    "BTC deadline WAIT failed local validation");
+                replay.record(
+                    "actions_server_wait",
+                    udon::serialize_day_plan(waitPlan));
+                ledger.apply(waitSimulation.score);
                 lastAcceptedWireDay = wireDay;
                 continue;
             }
@@ -1392,6 +1444,25 @@ void run_http(const RuntimeOptions& options) {
             bool accepted = actionResponse.status >= 200 && actionResponse.status < 300 &&
                 udon::btc_action_result_accepted(actionResult);
             const std::optional<std::int32_t> acceptedDay = udon::btc_action_result_day(actionResult);
+            if (!accepted && acceptedDay.has_value() &&
+                *acceptedDay != wireDay + 1) {
+                if (session.has_pending_submission()) {
+                    session.reject_pending_submission();
+                }
+                const udon::DayPlan waitPlan = udon::make_wait_plan(config, state.dayNumber);
+                const udon::SimulationResult waitSimulation = validate_fallback_plan(
+                    state,
+                    waitPlan,
+                    simulator,
+                    validator,
+                    "BTC expired WAIT failed local validation");
+                replay.record(
+                    "actions_server_wait",
+                    udon::serialize_day_plan(waitPlan));
+                ledger.apply(waitSimulation.score);
+                lastAcceptedWireDay = wireDay;
+                continue;
+            }
             if (accepted && acceptedDay.has_value() && *acceptedDay != wireDay + 1) {
                 if (session.has_pending_submission()) {
                     session.reject_pending_submission();
@@ -1401,6 +1472,7 @@ void run_http(const RuntimeOptions& options) {
                     std::to_string(wireDay + 1) + ", got " + std::to_string(*acceptedDay));
             }
             bool appliedDecision = accepted && decision.maySubmit;
+            std::optional<udon::SimulationResult> appliedFallback;
             if (!accepted) {
                 if (session.has_pending_submission()) {
                     session.reject_pending_submission();
@@ -1430,6 +1502,13 @@ void run_http(const RuntimeOptions& options) {
                         "BTC rejected both certified plan and exact WAIT fallback: " +
                         udon::btc_action_result_reason(actionResult));
                 }
+                const udon::SimulationResult waitSimulation = validate_fallback_plan(
+                    state,
+                    submittedPlan,
+                    simulator,
+                    validator,
+                    "BTC recovery WAIT failed local validation");
+                appliedFallback = waitSimulation;
             }
             const std::chrono::milliseconds responseTime = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - responseStarted);
@@ -1437,6 +1516,8 @@ void run_http(const RuntimeOptions& options) {
                 static_cast<void>(session.acknowledge_submitted(responseTime));
                 ledger.apply(decision.decision.candidate.simulation.score);
                 idlePostAckWorkPending = state.dayNumber < config.day_count();
+            } else if (appliedFallback.has_value()) {
+                ledger.apply(appliedFallback->score);
             }
             lastAcceptedWireDay = wireDay;
             continue;
