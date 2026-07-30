@@ -140,6 +140,13 @@ struct ColumnGenerationDiagnostics {
     std::uint64_t exactOrienteeringSettledStates = 0;
     std::uint64_t exactOrienteeringTerminalVariants = 0;
     std::int32_t exactOrienteeringBundles = 0;
+    std::int32_t exactOrienteeringSeedServings = 0;
+    std::int32_t exactOrienteeringLocalServings = 0;
+    std::uint64_t exactOrienteeringFeasibilityNodes = 0;
+    std::uint64_t exactOrienteeringOverlapFeasibilityNodes = 0;
+    std::int32_t exactOrienteeringFeasibilityImprovements = 0;
+    bool exactOrienteeringFeasibilityImproved = false;
+    bool exactOrienteeringOverlapFeasibilityImproved = false;
     std::int64_t exactOrienteeringMilliseconds = 0;
     bool deadlineReached = false;
 };

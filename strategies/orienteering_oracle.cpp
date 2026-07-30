@@ -695,6 +695,13 @@ int main(int argumentCount, char** arguments) {
                           << std::chrono::duration_cast<std::chrono::milliseconds>(
                                  agentFinished - reachabilityStarted).count()
                           << '\n';
+                for (const udon::ExactOrienteeringRoute& route : exact.maximalRoutes) {
+                    std::cout << "agent=" << agent
+                              << ",reachable_spots=" << mask_string(
+                                  static_cast<std::uint16_t>(route.spotMask),
+                                  replay.config.spots.size())
+                              << '\n';
+                }
                 ++patrols;
             }
             const std::int64_t milliseconds =
@@ -725,10 +732,12 @@ int main(int argumentCount, char** arguments) {
             const udon::MatchLedger checkLedger = replayLedger
                 ? load_replay_ledger(replayPath, day)
                 : udon::MatchLedger{};
+            udon::ColumnGenerationDiagnostics generationDiagnostics;
             const udon::RoutePortfolio portfolio = generator.generate(
                 replay.state,
                 checkLedger,
-                options);
+                options,
+                &generationDiagnostics);
             const udon::ExactStepSimulator simulator(replay.config);
             const udon::IndependentDayValidator validator(replay.config);
             const udon::RouteMaster master(replay.config, simulator, validator);
@@ -811,6 +820,25 @@ int main(int argumentCount, char** arguments) {
                           << '/' << evaluated->scoreAfterToday.totalServings
                           << ",terminal_fuel=" << terminalFuel
                           << '\n';
+                for (udon::AgentIndex agent = 0;
+                     agent < static_cast<udon::AgentIndex>(columns.size());
+                     ++agent) {
+                    std::uint32_t spotMask = 0U;
+                    for (const udon::ColumnVisitEvent& visit :
+                         columns.at(static_cast<std::size_t>(agent))->firstVisits) {
+                        if (replay.config.spots.at(
+                                static_cast<std::size_t>(visit.spot)).stock > 0) {
+                            spotMask |= std::uint32_t{1} <<
+                                static_cast<std::uint32_t>(visit.spot);
+                        }
+                    }
+                    std::cout << "bundle=" << bundleId
+                              << ",agent=" << agent
+                              << ",spots=" << mask_string(
+                                  static_cast<std::uint16_t>(spotMask),
+                                  replay.config.spots.size())
+                              << '\n';
+                }
             }
             udon::MasterOptions masterOptions;
             masterOptions.maximumCombinations = 1;
@@ -831,6 +859,20 @@ int main(int argumentCount, char** arguments) {
                       << masterDiagnostics.bestExactBundleScore.lifetimeDistinct
                       << '/' << masterDiagnostics.bestExactBundleScore.totalDailyDistinct
                       << '/' << masterDiagnostics.bestExactBundleScore.totalServings
+                      << ",seed_servings="
+                      << generationDiagnostics.exactOrienteeringSeedServings
+                      << ",local_servings="
+                      << generationDiagnostics.exactOrienteeringLocalServings
+                      << ",feasibility_nodes="
+                      << generationDiagnostics.exactOrienteeringFeasibilityNodes
+                      << ",overlap_feasibility_nodes="
+                      << generationDiagnostics.exactOrienteeringOverlapFeasibilityNodes
+                      << ",feasibility_improvements="
+                      << generationDiagnostics.exactOrienteeringFeasibilityImprovements
+                      << ",feasibility_improved="
+                      << (generationDiagnostics.exactOrienteeringFeasibilityImproved ? 1 : 0)
+                      << ",overlap_feasibility_improved="
+                      << (generationDiagnostics.exactOrienteeringOverlapFeasibilityImproved ? 1 : 0)
                       << '\n';
             return EXIT_SUCCESS;
         }
@@ -903,8 +945,9 @@ int main(int argumentCount, char** arguments) {
                     return reachability.at(left).maximalMasks.size() <
                         reachability.at(right).maximalMasks.size();
                 });
-            std::vector<std::int32_t> suffixMaximum(ordering.size() + 1U, 0);
             std::vector<std::uint64_t> suffixBrands(ordering.size() + 1U, 0U);
+            std::vector<std::array<std::uint8_t, 16>> suffixReachCount(
+                ordering.size() + 1U);
             const auto brands_for = [&replay](std::uint16_t mask) {
                 std::uint64_t brands = 0U;
                 for (std::size_t spot = 0; spot < replay.config.spots.size(); ++spot) {
@@ -916,18 +959,30 @@ int main(int argumentCount, char** arguments) {
                 return brands;
             };
             for (std::size_t depth = ordering.size(); depth-- > 0U;) {
-                suffixMaximum.at(depth) = suffixMaximum.at(depth + 1U);
                 suffixBrands.at(depth) = suffixBrands.at(depth + 1U);
+                suffixReachCount.at(depth) = suffixReachCount.at(depth + 1U);
                 const AgentReachability& agent = reachability.at(ordering.at(depth));
+                std::uint16_t agentSpots = 0U;
                 for (const std::uint16_t mask : agent.maximalMasks) {
-                    suffixMaximum.at(depth) = std::max(
-                        suffixMaximum.at(depth),
-                        suffixMaximum.at(depth + 1U) + std::popcount(mask));
                     suffixBrands.at(depth) |= brands_for(mask);
+                    agentSpots = static_cast<std::uint16_t>(agentSpots | mask);
+                }
+                for (std::size_t spot = 0; spot < replay.config.spots.size(); ++spot) {
+                    if ((agentSpots & (std::uint16_t{1} << spot)) != 0U) {
+                        ++suffixReachCount.at(depth).at(spot);
+                    }
                 }
             }
             std::array<std::uint8_t, 16> counts{};
             std::vector<std::uint16_t> choices(ordering.size(), 0U);
+            std::vector<std::unordered_set<std::uint64_t>> memo(ordering.size() + 1U);
+            const auto count_key = [&counts, &replay]() {
+                std::uint64_t key = 0U;
+                for (std::size_t spot = 0; spot < replay.config.spots.size(); ++spot) {
+                    key |= static_cast<std::uint64_t>(counts.at(spot)) << (4U * spot);
+                }
+                return key;
+            };
             std::uint64_t nodes = 0;
             const auto started = std::chrono::steady_clock::now();
             const auto search = [&](auto&& self,
@@ -935,9 +990,21 @@ int main(int argumentCount, char** arguments) {
                                     std::int32_t servings,
                                     std::uint64_t brands) -> bool {
                 ++nodes;
-                if (servings + suffixMaximum.at(depth) < feasibleServings ||
+                std::int32_t optimisticServings = servings;
+                for (std::size_t spot = 0; spot < replay.config.spots.size(); ++spot) {
+                    const std::int32_t capacity = std::min(
+                        replay.config.spots.at(spot).stock,
+                        static_cast<std::int32_t>(ordering.size()));
+                    optimisticServings += std::min<std::int32_t>(
+                        capacity - counts.at(spot),
+                        suffixReachCount.at(depth).at(spot));
+                }
+                if (optimisticServings < feasibleServings ||
                     static_cast<std::int32_t>(std::popcount(
                         brands | suffixBrands.at(depth))) < replay.config.brand_count()) {
+                    return false;
+                }
+                if (!memo.at(depth).insert(count_key()).second) {
                     return false;
                 }
                 if (depth == ordering.size()) {
@@ -947,32 +1014,25 @@ int main(int argumentCount, char** arguments) {
                 }
                 const AgentReachability& agent = reachability.at(ordering.at(depth));
                 for (const std::uint16_t mask : agent.maximalMasks) {
-                    bool feasible = true;
+                    std::uint16_t addedSpots = 0U;
                     for (std::size_t spot = 0; spot < replay.config.spots.size(); ++spot) {
                         if ((mask & (std::uint16_t{1} << spot)) != 0U &&
-                            counts.at(spot) >= replay.config.spots.at(spot).stock) {
-                            feasible = false;
-                            break;
-                        }
-                    }
-                    if (!feasible) {
-                        continue;
-                    }
-                    for (std::size_t spot = 0; spot < replay.config.spots.size(); ++spot) {
-                        if ((mask & (std::uint16_t{1} << spot)) != 0U) {
+                            counts.at(spot) < replay.config.spots.at(spot).stock) {
                             ++counts.at(spot);
+                            addedSpots = static_cast<std::uint16_t>(
+                                addedSpots | (std::uint16_t{1} << spot));
                         }
                     }
                     choices.at(depth) = mask;
                     if (self(
                             self,
                             depth + 1U,
-                            servings + std::popcount(mask),
-                            brands | brands_for(mask))) {
+                            servings + std::popcount(addedSpots),
+                            brands | brands_for(addedSpots))) {
                         return true;
                     }
                     for (std::size_t spot = 0; spot < replay.config.spots.size(); ++spot) {
-                        if ((mask & (std::uint16_t{1} << spot)) != 0U) {
+                        if ((addedSpots & (std::uint16_t{1} << spot)) != 0U) {
                             --counts.at(spot);
                         }
                     }

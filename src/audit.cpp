@@ -604,6 +604,33 @@ template <typename Value, std::size_t Count>
         JsonValue(static_cast<std::int64_t>(
             audit.columnGeneration.exactOrienteeringBundles)));
     columnGeneration.emplace(
+        "exactOrienteeringSeedServings",
+        JsonValue(static_cast<std::int64_t>(
+            audit.columnGeneration.exactOrienteeringSeedServings)));
+    columnGeneration.emplace(
+        "exactOrienteeringLocalServings",
+        JsonValue(static_cast<std::int64_t>(
+            audit.columnGeneration.exactOrienteeringLocalServings)));
+    columnGeneration.emplace(
+        "exactOrienteeringFeasibilityNodes",
+        JsonValue(static_cast<std::int64_t>(
+            audit.columnGeneration.exactOrienteeringFeasibilityNodes)));
+    columnGeneration.emplace(
+        "exactOrienteeringOverlapFeasibilityNodes",
+        JsonValue(static_cast<std::int64_t>(
+            audit.columnGeneration.exactOrienteeringOverlapFeasibilityNodes)));
+    columnGeneration.emplace(
+        "exactOrienteeringFeasibilityImprovements",
+        JsonValue(static_cast<std::int64_t>(
+            audit.columnGeneration.exactOrienteeringFeasibilityImprovements)));
+    columnGeneration.emplace(
+        "exactOrienteeringFeasibilityImproved",
+        JsonValue(audit.columnGeneration.exactOrienteeringFeasibilityImproved));
+    columnGeneration.emplace(
+        "exactOrienteeringOverlapFeasibilityImproved",
+        JsonValue(
+            audit.columnGeneration.exactOrienteeringOverlapFeasibilityImproved));
+    columnGeneration.emplace(
         "exactOrienteeringMilliseconds",
         JsonValue(audit.columnGeneration.exactOrienteeringMilliseconds));
     columnGeneration.emplace("deadlineReached", JsonValue(audit.columnGeneration.deadlineReached));

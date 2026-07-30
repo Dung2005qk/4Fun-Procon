@@ -488,7 +488,8 @@ select_coordinated_exact_orienteering_routes(
     const MatchConfig& config,
     const MatchLedger& ledger,
     const std::vector<ExactOrienteeringReachability>& reachability,
-    std::optional<std::chrono::steady_clock::time_point> deadline) {
+    std::optional<std::chrono::steady_clock::time_point> deadline,
+    ColumnGenerationDiagnostics* diagnostics) {
     std::vector<const ExactOrienteeringRoute*> selected(
         static_cast<std::size_t>(config.agent_count()),
         nullptr);
@@ -690,6 +691,9 @@ select_coordinated_exact_orienteering_routes(
         return rebuilt;
     };
     ExactOrienteeringBeamState best = beam.front();
+    if (diagnostics != nullptr) {
+        diagnostics->exactOrienteeringSeedServings = best.servings;
+    }
     ExactOrienteeringBeamState greedy;
     greedy.routeByAgent.fill(-1);
     for (const AgentIndex agent : ordering) {
@@ -784,6 +788,9 @@ select_coordinated_exact_orienteering_routes(
             break;
         }
     }
+    if (diagnostics != nullptr) {
+        diagnostics->exactOrienteeringLocalServings = best.servings;
+    }
     std::vector<std::vector<std::int16_t>> scarcityOrderedRoutes(
         static_cast<std::size_t>(config.agent_count()));
     const auto service_count = [&config](std::uint32_t mask) {
@@ -849,16 +856,34 @@ select_coordinated_exact_orienteering_routes(
     feasibilityChoices.fill(-1);
     std::array<std::int16_t, kMaximumAgents> improvedChoices{};
     improvedChoices.fill(-1);
-    const OfficialScore incumbentExactScore = exact_orienteering_score(ledger, best);
+    OfficialScore feasibilityIncumbentScore = exact_orienteering_score(ledger, best);
+    std::vector<std::unordered_set<std::uint64_t>> feasibilityMemo(
+        ordering.size() + 1U);
+    const auto feasibility_count_key = [&config, &feasibilityCounts]() {
+        std::uint64_t key = 0U;
+        for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+            key |= static_cast<std::uint64_t>(feasibilityCounts.at(spot)) <<
+                (4U * spot);
+        }
+        return key;
+    };
     std::uint64_t feasibilityNodes = 0;
-    constexpr std::uint64_t kMaximumFeasibilityNodes = 500000U;
+    std::uint64_t overlapFeasibilityNodes = 0;
+    std::int32_t feasibilityImprovements = 0;
+    std::uint64_t feasibilityPhaseNodeEnd = 0U;
+    constexpr std::uint64_t kStrictFeasibilityNodes = 3000000U;
+    constexpr std::uint64_t kOverlapFeasibilityNodes = 500000U;
+    constexpr std::uint64_t kMaximumFeasibilityNodes =
+        kStrictFeasibilityNodes + kOverlapFeasibilityNodes;
+    constexpr std::int32_t kMaximumFeasibilityImprovements = 2;
     const auto capacity_feasibility_search =
         [&](auto&& self,
             std::size_t depth,
             std::int32_t servings,
-            std::uint64_t brands) -> bool {
+            std::uint64_t brands,
+            bool allowSaturatedOverlap) -> bool {
             ++feasibilityNodes;
-            if (feasibilityNodes > kMaximumFeasibilityNodes ||
+            if (feasibilityNodes > feasibilityPhaseNodeEnd ||
                 ((feasibilityNodes & 1023U) == 0U && deadline.has_value() &&
                  std::chrono::steady_clock::now() >= *deadline)) {
                 return false;
@@ -866,7 +891,22 @@ select_coordinated_exact_orienteering_routes(
             ExactOrienteeringBeamState optimistic;
             optimistic.brands = brands | suffixBrands.at(depth);
             optimistic.servings = servings + suffixMaximumServings.at(depth);
-            if (!(incumbentExactScore < exact_orienteering_score(ledger, optimistic))) {
+            if (allowSaturatedOverlap) {
+                optimistic.servings = servings;
+                for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+                    const std::int32_t capacity = std::clamp(
+                        config.spots.at(spot).stock,
+                        0,
+                        config.agent_count());
+                    optimistic.servings += std::min<std::int32_t>(
+                        capacity - feasibilityCounts.at(spot),
+                        suffixReachCount.at(depth).at(spot));
+                }
+            }
+            if (!(feasibilityIncumbentScore < exact_orienteering_score(ledger, optimistic))) {
+                return false;
+            }
+            if (!feasibilityMemo.at(depth).insert(feasibility_count_key()).second) {
                 return false;
             }
             if (depth == ordering.size()) {
@@ -880,50 +920,95 @@ select_coordinated_exact_orienteering_routes(
                  scarcityOrderedRoutes.at(static_cast<std::size_t>(agent))) {
                 const ExactOrienteeringRoute& route =
                     routes.at(static_cast<std::size_t>(routeIndex));
-                bool feasible = true;
-                for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
-                    if ((route.spotMask & (std::uint32_t{1} << spot)) != 0U &&
-                        config.spots.at(spot).stock > 0 &&
-                        feasibilityCounts.at(spot) >=
-                            static_cast<std::uint8_t>(std::min(
-                                config.spots.at(spot).stock,
-                                config.agent_count()))) {
-                        feasible = false;
-                        break;
-                    }
-                }
-                if (!feasible) {
-                    continue;
-                }
+                std::uint32_t addedSpots = 0U;
+                bool strictFeasible = true;
                 for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
                     if ((route.spotMask & (std::uint32_t{1} << spot)) != 0U &&
                         config.spots.at(spot).stock > 0) {
+                        const std::uint8_t capacity = static_cast<std::uint8_t>(
+                            std::min(
+                                config.spots.at(spot).stock,
+                                config.agent_count()));
+                        if (feasibilityCounts.at(spot) >= capacity) {
+                            strictFeasible = allowSaturatedOverlap;
+                            if (!allowSaturatedOverlap) {
+                                break;
+                            }
+                            continue;
+                        }
                         ++feasibilityCounts.at(spot);
+                        addedSpots |= std::uint32_t{1} << spot;
                     }
+                }
+                if (!strictFeasible) {
+                    for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+                        if ((addedSpots & (std::uint32_t{1} << spot)) != 0U) {
+                            --feasibilityCounts.at(spot);
+                        }
+                    }
+                    continue;
                 }
                 feasibilityChoices.at(static_cast<std::size_t>(agent)) = routeIndex;
                 if (self(
                         self,
                         depth + 1U,
-                        servings + service_count(route.spotMask),
-                        brands | exact_orienteering_brand_mask(config, route.spotMask))) {
+                        servings + static_cast<std::int32_t>(std::popcount(addedSpots)),
+                        brands | exact_orienteering_brand_mask(config, addedSpots),
+                        allowSaturatedOverlap)) {
                     return true;
                 }
                 for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
-                    if ((route.spotMask & (std::uint32_t{1} << spot)) != 0U &&
-                        config.spots.at(spot).stock > 0) {
+                    if ((addedSpots & (std::uint32_t{1} << spot)) != 0U) {
                         --feasibilityCounts.at(spot);
                     }
                 }
             }
             return false;
         };
-    if ((!deadline.has_value() || std::chrono::steady_clock::now() < *deadline) &&
-        capacity_feasibility_search(
+    while (feasibilityNodes < kMaximumFeasibilityNodes &&
+           feasibilityImprovements < kMaximumFeasibilityImprovements &&
+           (!deadline.has_value() || std::chrono::steady_clock::now() < *deadline)) {
+        feasibilityCounts.fill(0U);
+        feasibilityChoices.fill(-1);
+        improvedChoices.fill(-1);
+        for (std::unordered_set<std::uint64_t>& memo : feasibilityMemo) {
+            memo.clear();
+        }
+        feasibilityPhaseNodeEnd = std::min(
+            kMaximumFeasibilityNodes,
+            feasibilityNodes + kStrictFeasibilityNodes);
+        bool foundImprovement = capacity_feasibility_search(
             capacity_feasibility_search,
             0U,
             0,
-            0U)) {
+            0U,
+            false);
+        bool overlapFoundImprovement = false;
+        if (!foundImprovement &&
+            feasibilityNodes < kMaximumFeasibilityNodes &&
+            (!deadline.has_value() || std::chrono::steady_clock::now() < *deadline)) {
+            feasibilityCounts.fill(0U);
+            feasibilityChoices.fill(-1);
+            improvedChoices.fill(-1);
+            for (std::unordered_set<std::uint64_t>& memo : feasibilityMemo) {
+                memo.clear();
+            }
+            feasibilityPhaseNodeEnd = std::min(
+                kMaximumFeasibilityNodes,
+                feasibilityNodes + kOverlapFeasibilityNodes);
+            const std::uint64_t overlapStartedAt = feasibilityNodes;
+            foundImprovement = capacity_feasibility_search(
+                capacity_feasibility_search,
+                0U,
+                0,
+                0U,
+                true);
+            overlapFeasibilityNodes += feasibilityNodes - overlapStartedAt;
+            overlapFoundImprovement = foundImprovement;
+        }
+        if (!foundImprovement) {
+            break;
+        }
         ExactOrienteeringBeamState improved;
         improved.routeByAgent.fill(-1);
         for (const AgentIndex agent : ordering) {
@@ -938,7 +1023,27 @@ select_coordinated_exact_orienteering_routes(
         }
         if (better_complete(improved, best)) {
             best = std::move(improved);
+            feasibilityIncumbentScore = exact_orienteering_score(ledger, best);
+            ++feasibilityImprovements;
+            if (diagnostics != nullptr) {
+                diagnostics->exactOrienteeringFeasibilityImproved = true;
+                diagnostics->exactOrienteeringOverlapFeasibilityImproved =
+                    diagnostics->exactOrienteeringOverlapFeasibilityImproved ||
+                    overlapFoundImprovement;
+            }
+            if (feasibilityNodes >= 500000U) {
+                break;
+            }
+        } else {
+            break;
         }
+    }
+    if (diagnostics != nullptr) {
+        diagnostics->exactOrienteeringFeasibilityNodes = feasibilityNodes;
+        diagnostics->exactOrienteeringOverlapFeasibilityNodes =
+            overlapFeasibilityNodes;
+        diagnostics->exactOrienteeringFeasibilityImprovements =
+            feasibilityImprovements;
     }
     for (const AgentIndex agent : ordering) {
         const std::int16_t routeIndex =
@@ -2237,7 +2342,8 @@ RoutePortfolio RouteColumnGenerator::generate(
             config_,
             ledger,
             exactOrienteering,
-            options.deadline);
+            options.deadline,
+            diagnostics);
         if (std::any_of(
                 coordinatedExactRoutes.begin(),
                 coordinatedExactRoutes.end(),
