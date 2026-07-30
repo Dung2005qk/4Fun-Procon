@@ -2066,7 +2066,9 @@ CandidateProfile FutureWitnessRepairer::provisional_profile(
                     static_cast<std::int64_t>(config_.fuelLimit) >=
                         3LL * config_.steps_for_day(futureState.dayNumber);
                 generationOptions.enableExactHarvestOrienteering =
-                    generationOptions.enableHarvestOrienteering &&
+                    harvestExtensionMode_ > 5 &&
+                    static_cast<std::int64_t>(config_.fuelLimit) >=
+                        2LL * config_.steps_for_day(futureState.dayNumber) &&
                     (harvestExtensionMode_ > 6 ||
                      futureState.dayNumber == config_.day_count());
                 generationOptions.maximumHarvestExtensionSources =
@@ -2204,7 +2206,9 @@ void FutureWitnessRepairer::repair_profile(
                     static_cast<std::int64_t>(config_.fuelLimit) >=
                         3LL * config_.steps_for_day(futureState.dayNumber);
                 generationOptions.enableExactHarvestOrienteering =
-                    generationOptions.enableHarvestOrienteering &&
+                    harvestExtensionMode_ > 5 &&
+                    static_cast<std::int64_t>(config_.fuelLimit) >=
+                        2LL * config_.steps_for_day(futureState.dayNumber) &&
                     (harvestExtensionMode_ > 6 ||
                      futureState.dayNumber == config_.day_count());
                 generationOptions.maximumHarvestExtensionSources =
@@ -2251,7 +2255,9 @@ void FutureWitnessRepairer::repair_profile(
                     static_cast<std::int64_t>(config_.fuelLimit) >=
                         3LL * config_.steps_for_day(futureState.dayNumber);
                 generationOptions.enableExactHarvestOrienteering =
-                    generationOptions.enableHarvestOrienteering &&
+                    harvestExtensionMode_ > 5 &&
+                    static_cast<std::int64_t>(config_.fuelLimit) >=
+                        2LL * config_.steps_for_day(futureState.dayNumber) &&
                     (harvestExtensionMode_ > 6 ||
                      futureState.dayNumber == config_.day_count());
                 generationOptions.maximumHarvestExtensionSources =
@@ -3714,13 +3720,16 @@ DecisionResult UdonShieldEngine::solve_day(
     const bool highFuelOrienteering =
         static_cast<std::int64_t>(config_.fuelLimit) >=
         3LL * config_.steps_for_day(state.dayNumber);
+    const bool exactFuelOrienteering =
+        static_cast<std::int64_t>(config_.fuelLimit) >=
+        2LL * config_.steps_for_day(state.dayNumber);
     generationOptions.enableHarvestOrienteering =
         harvestExtensionMode_ > 5 &&
         result.deadline.search >= std::chrono::milliseconds{1500} &&
         highFuelOrienteering;
     generationOptions.enableExactHarvestOrienteering =
         harvestExtensionMode_ > 5 &&
-        highFuelOrienteering &&
+        exactFuelOrienteering &&
         result.deadline.search >= std::chrono::milliseconds{400} &&
         (harvestExtensionMode_ > 6 || state.dayNumber == config_.day_count());
     generationOptions.maximumHarvestExtensionSources =

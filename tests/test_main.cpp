@@ -1048,6 +1048,23 @@ void test_exact_orienteering_terminal_frontier() {
             diagnostics.exactOrienteeringCompleteAgents == 2 &&
             diagnostics.exactOrienteeringCacheHits == 1,
         "identical high-fuel patrol starts must reuse exact reachability without changing logical coverage");
+
+    udon::UdonShieldEngine officialFuelEngine(
+        config,
+        {},
+        {},
+        udon::RoutePoolSearch::SinglePass,
+        7,
+        false,
+        7);
+    const udon::DecisionResult officialFuelDecision = officialFuelEngine.solve_day(
+        state,
+        udon::MatchLedger{},
+        std::chrono::milliseconds{5000});
+    require(
+        officialFuelDecision.audit.columnGeneration.exactOrienteeringSupportedAgents == 1 &&
+            officialFuelDecision.audit.columnGeneration.exactOrienteeringCompleteAgents == 1,
+        "the runtime must enable exact reachability at its proven two-times-steps fuel threshold");
 }
 
 void test_emergency_contract(const udon::MatchConfig& config, const udon::DayState& state) {
