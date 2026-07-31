@@ -691,6 +691,10 @@ void merge_master_diagnostics(MasterDiagnostics& target, const MasterDiagnostics
     target.branchOrderingCalls += addition.branchOrderingCalls;
     target.upperBoundChecks += addition.upperBoundChecks;
     target.upperBoundPrunes += addition.upperBoundPrunes;
+    target.bundleUpperBoundChecks +=
+        addition.bundleUpperBoundChecks;
+    target.bundleUpperBoundPrunes +=
+        addition.bundleUpperBoundPrunes;
     target.bundlePrunes += addition.bundlePrunes;
     target.exactBundlesDiscovered += addition.exactBundlesDiscovered;
     target.exactBundlesEvaluated += addition.exactBundlesEvaluated;
@@ -724,6 +728,9 @@ void merge_master_diagnostics(MasterDiagnostics& target, const MasterDiagnostics
         target.nativeExactStockCredits || addition.nativeExactStockCredits;
     target.stockCappedSearchOrder =
         target.stockCappedSearchOrder || addition.stockCappedSearchOrder;
+    target.bundleAwareUpperBound =
+        target.bundleAwareUpperBound ||
+        addition.bundleAwareUpperBound;
     target.deadlineReached = target.deadlineReached || addition.deadlineReached;
     target.searchComplete = hadSearch
         ? target.searchComplete && addition.searchComplete

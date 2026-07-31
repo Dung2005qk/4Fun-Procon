@@ -2695,6 +2695,180 @@ void test_master_lexicographic_branch_and_bound(
             " score=" + std::to_string(bounded.front().scoreAfterToday.lifetimeDistinct));
 }
 
+void test_master_bundle_aware_upper_bound(
+    const udon::MatchConfig& config,
+    const udon::DayState& state) {
+    const udon::ParetoRouter router(config);
+    const udon::RouteColumnGenerator generator(config, router);
+    udon::ColumnGenerationOptions generationOptions;
+    generationOptions.maximumPathsPerTarget = 4;
+    generationOptions.maximumColumnsPerAgent = 64;
+    generationOptions.maximumTargetSpots = 3;
+    const udon::RoutePortfolio generated = generator.generate(
+        state,
+        udon::MatchLedger{},
+        generationOptions);
+
+    const auto servingRoute = std::find_if(
+        generated.columnsByAgent.at(2).begin(),
+        generated.columnsByAgent.at(2).end(),
+        [&config](const udon::RouteColumn& column) {
+            return column.hasExactTimeline &&
+                column.firstVisits.size() == 1U &&
+                column.firstVisits.front().claimedServing &&
+                config.spots.at(
+                    static_cast<std::size_t>(
+                        column.firstVisits.front().spot))
+                        .brandIndex != 0;
+        });
+    require(
+        servingRoute != generated.columnsByAgent.at(2).end(),
+        "bundle-bound fixture requires an exact single-brand route for the third agent");
+
+    std::int32_t leavingDirection = -1;
+    for (std::int32_t direction = 0;
+         direction < udon::kDirectionCount;
+         ++direction) {
+        const udon::CellId neighbor =
+            config.map.neighbors.at(16).at(
+                static_cast<std::size_t>(direction));
+        if (neighbor != udon::kInvalidCell &&
+            config.spotAtCell.at(
+                static_cast<std::size_t>(neighbor)) ==
+                udon::kInvalidSpot &&
+            config.map.terrain.at(
+                static_cast<std::size_t>(neighbor)) !=
+                udon::Terrain::Road) {
+            leavingDirection = direction;
+            break;
+        }
+    }
+    require(
+        leavingDirection >= 0,
+        "bundle-bound fixture requires a non-road route away from the initial serving spot");
+
+    const auto make_exact_column = [](
+                                       std::int32_t id,
+                                       udon::AgentIndex agent,
+                                       udon::AgentPlan actions,
+                                       std::int32_t bundle) {
+        udon::RouteColumn column;
+        column.columnId = id;
+        column.agent = agent;
+        column.actions = std::move(actions);
+        column.contingencyBundle = bundle;
+        column.hasExactTimeline = true;
+        return column;
+    };
+    const std::int32_t daySteps =
+        config.steps_for_day(state.dayNumber);
+    const std::int32_t moveSteps =
+        config.move_cost(
+                  state.agents.at(0).position,
+                  state.roadStatuses.at(
+                      static_cast<std::size_t>(
+                          state.agents.at(0).position)))
+            .steps;
+    require(
+        moveSteps > 0 && moveSteps < daySteps,
+        "bundle-bound fixture requires a feasible departure move");
+
+    udon::RoutePortfolio portfolio;
+    portfolio.columnsByAgent.resize(3U);
+
+    udon::RouteColumn bundleTenServing = make_exact_column(
+        0,
+        0,
+        {udon::PlanAction::wait(daySteps)},
+        10);
+    bundleTenServing.firstVisits = {
+        udon::ColumnVisitEvent{0, daySteps, true, 0, false},
+    };
+    portfolio.columnsByAgent.at(0).push_back(
+        std::move(bundleTenServing));
+    portfolio.columnsByAgent.at(1).push_back(
+        make_exact_column(
+            1,
+            1,
+            {udon::PlanAction::wait(daySteps)},
+            10));
+    portfolio.columnsByAgent.at(2).push_back(
+        make_exact_column(
+            2,
+            2,
+            {udon::PlanAction::wait(daySteps)},
+            10));
+
+    portfolio.columnsByAgent.at(0).push_back(
+        make_exact_column(
+            3,
+            0,
+            {
+                udon::PlanAction::move(leavingDirection),
+                udon::PlanAction::wait(daySteps - moveSteps),
+            },
+            11));
+    portfolio.columnsByAgent.at(1).push_back(
+        make_exact_column(
+            4,
+            1,
+            {udon::PlanAction::wait(daySteps)},
+            11));
+    udon::RouteColumn bundleElevenServing = *servingRoute;
+    bundleElevenServing.columnId = 5;
+    bundleElevenServing.contingencyBundle = 11;
+    portfolio.columnsByAgent.at(2).push_back(
+        std::move(bundleElevenServing));
+
+    const udon::ExactStepSimulator simulator(config);
+    const udon::IndependentDayValidator validator(config);
+    const udon::RouteMaster master(config, simulator, validator);
+    udon::MasterOptions legacyOptions;
+    legacyOptions.maximumCombinations = 32;
+    legacyOptions.maximumCandidates = 1;
+    legacyOptions.maximumResolveRounds = 1;
+    legacyOptions.enableBundleAwareUpperBound = false;
+    udon::MasterDiagnostics legacyDiagnostics;
+    const std::vector<udon::MasterCandidate> legacy =
+        master.solve(
+            state,
+            udon::MatchLedger{},
+            portfolio,
+            legacyOptions,
+            legacyDiagnostics);
+
+    udon::MasterOptions bundleOptions = legacyOptions;
+    bundleOptions.enableBundleAwareUpperBound = true;
+    udon::MasterDiagnostics bundleDiagnostics;
+    const std::vector<udon::MasterCandidate> bounded =
+        master.solve(
+            state,
+            udon::MatchLedger{},
+            portfolio,
+            bundleOptions,
+            bundleDiagnostics);
+
+    require(
+        !legacy.empty() && !bounded.empty() &&
+            legacy.front().stableId == bounded.front().stableId &&
+            legacy.front().scoreAfterToday ==
+                bounded.front().scoreAfterToday,
+        "bundle-aware upper bound must preserve the exact master optimum");
+    require(
+        legacy.front().scoreAfterToday ==
+            udon::OfficialScore{1, 1, 1},
+        "each atomic bundle must expose exactly one serving brand");
+    require(
+        legacyDiagnostics.optimisticUpperBound ==
+            udon::OfficialScore{2, 2, 2},
+        "legacy root upper bound must expose the cross-bundle overestimate");
+    require(
+        bundleDiagnostics.optimisticUpperBound ==
+                legacy.front().scoreAfterToday &&
+            bundleDiagnostics.bundleAwareUpperBound,
+        "bundle-aware root upper bound must close the incompatible-mode gap exactly");
+}
+
 void test_master_stock_capped_search_order() {
     const udon::MatchConfig config = udon::parse_match_config(
         udon::JsonValue::parse(R"({
@@ -3519,6 +3693,7 @@ int main() {
         test_column_events_and_stock_cuts(config, state);
         test_unreachable_brand_staging_column();
         test_master_lexicographic_branch_and_bound(config, state);
+        test_master_bundle_aware_upper_bound(config, state);
         test_master_stock_capped_search_order();
         test_viability_reservation_and_role_seeds(config, state);
         test_contingency_seed_bundle_is_atomic(config, state);

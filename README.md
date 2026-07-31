@@ -42,6 +42,7 @@ ctest --test-dir build-release --output-on-failure
 - `serialize_decision_replay(...)` writes a `udon-shield-replay-v1` audit artifact containing the frozen traffic manifest, risk policy, candidate dispositions, exact trace, claims, and final footprint.
 - `ParetoRouter` memoizes exact route-query results using the complete map status and Pareto constraint set as its key; cache hits never bypass validation or alter the returned path set.
 - The native set-packing master prunes with sound lexicographic bounds and preserves exact simulator/validator acceptance. Strong proof records are explicitly scoped; an incomplete deadline-bounded run is never reported as optimal.
+- Master upper bounds are computed per atomic contingency-bundle mode before taking the lexicographic maximum, so mutually incompatible cached modes cannot inflate the proof gap or alter the exact feasible set.
 
 Official BTC HTTP/authentication/action-result contract is now implemented by `udonshield_btc`. Live readiness still requires authoritative replay coverage and target-host p99 calibration; successful compilation or synthetic fixtures alone are not treated as server conformance.
 

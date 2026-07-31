@@ -732,6 +732,16 @@ void run_replay_solve(const RuntimeOptions& options) {
               << " branch_orders=" << decision.diagnostics.branchOrderingCalls
               << " bound_checks=" << decision.diagnostics.upperBoundChecks
               << " bound_prunes=" << decision.diagnostics.upperBoundPrunes
+              << " bundle_bound_checks="
+              << decision.diagnostics.bundleUpperBoundChecks
+              << " bundle_bound_prunes="
+              << decision.diagnostics.bundleUpperBoundPrunes
+              << " master_upper="
+              << decision.diagnostics.optimisticUpperBound.lifetimeDistinct
+              << '/'
+              << decision.diagnostics.optimisticUpperBound.totalDailyDistinct
+              << '/'
+              << decision.diagnostics.optimisticUpperBound.totalServings
               << " bundle_prunes=" << decision.diagnostics.bundlePrunes
               << " partial_checks=" << decision.diagnostics.partialSynchronizationChecks
               << " partial_prunes=" << decision.diagnostics.partialSynchronizationPrunes

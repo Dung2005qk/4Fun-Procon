@@ -4250,6 +4250,8 @@ std::vector<MasterCandidate> RouteMaster::solve(
     diagnostics = MasterDiagnostics{};
     diagnostics.nativeExactStockCredits = options.useStockCredits;
     diagnostics.stockCappedSearchOrder = options.preferStockCappedSearchOrder;
+    diagnostics.bundleAwareUpperBound =
+        options.enableBundleAwareUpperBound;
     if (portfolio.columnsByAgent.size() != static_cast<std::size_t>(config_.agent_count()) ||
         options.maximumCombinations <= 0 || options.maximumCandidates <= 0) {
         return {};
@@ -4499,6 +4501,111 @@ std::vector<MasterCandidate> RouteMaster::solve(
                 }
             }
         }
+        struct BundleBoundMetadata {
+            std::int32_t bundle = -1;
+            std::vector<bool> suffixFeasible;
+            std::vector<std::uint64_t> suffixPossibleBrands;
+            std::vector<std::vector<std::int32_t>>
+                suffixPossibleClaims;
+            std::vector<std::int32_t>
+                suffixMaximumAgentClaims;
+        };
+        std::vector<BundleBoundMetadata> bundleBoundMetadata;
+        std::map<std::int32_t, std::size_t> bundleBoundIndex;
+        if (exactMetadata &&
+            options.enableBundleAwareUpperBound) {
+            std::set<std::int32_t> bundleModes{-1};
+            for (const std::vector<const RouteColumn*>& columns :
+                 orderedColumns) {
+                for (const RouteColumn* column : columns) {
+                    bundleModes.insert(column->contingencyBundle);
+                }
+            }
+            bundleBoundMetadata.reserve(bundleModes.size());
+            for (const std::int32_t bundle : bundleModes) {
+                BundleBoundMetadata metadata;
+                metadata.bundle = bundle;
+                metadata.suffixFeasible.assign(
+                    ordering.size() + 1U,
+                    true);
+                metadata.suffixPossibleBrands.assign(
+                    ordering.size() + 1U,
+                    0U);
+                metadata.suffixPossibleClaims.assign(
+                    ordering.size() + 1U,
+                    std::vector<std::int32_t>(
+                        config_.spots.size(),
+                        0));
+                metadata.suffixMaximumAgentClaims.assign(
+                    ordering.size() + 1U,
+                    0);
+                for (std::size_t depth = ordering.size();
+                     depth-- > 0U;) {
+                    metadata.suffixFeasible.at(depth) =
+                        metadata.suffixFeasible.at(depth + 1U);
+                    metadata.suffixPossibleBrands.at(depth) =
+                        metadata.suffixPossibleBrands.at(
+                            depth + 1U);
+                    metadata.suffixPossibleClaims.at(depth) =
+                        metadata.suffixPossibleClaims.at(
+                            depth + 1U);
+                    metadata.suffixMaximumAgentClaims.at(depth) =
+                        metadata.suffixMaximumAgentClaims.at(
+                            depth + 1U);
+                    const AgentIndex agentIndex =
+                        ordering.at(depth);
+                    std::vector<bool> agentCanClaim(
+                        config_.spots.size(),
+                        false);
+                    std::int32_t maximumAgentClaims = 0;
+                    bool hasCompatibleColumn = false;
+                    for (const RouteColumn* column :
+                         orderedColumns.at(
+                             static_cast<std::size_t>(
+                                 agentIndex))) {
+                        if (column->contingencyBundle != bundle) {
+                            continue;
+                        }
+                        hasCompatibleColumn = true;
+                        metadata.suffixPossibleBrands.at(depth) |=
+                            column_brand_mask(config_, *column);
+                        std::int32_t columnClaims = 0;
+                        for (const ColumnVisitEvent& event :
+                             column->firstVisits) {
+                            if (!event.claimedServing) {
+                                continue;
+                            }
+                            agentCanClaim.at(
+                                static_cast<std::size_t>(
+                                    event.spot)) = true;
+                            ++columnClaims;
+                        }
+                        maximumAgentClaims = std::max(
+                            maximumAgentClaims,
+                            columnClaims);
+                    }
+                    metadata.suffixFeasible.at(depth) =
+                        metadata.suffixFeasible.at(depth) &&
+                        hasCompatibleColumn;
+                    metadata.suffixMaximumAgentClaims.at(depth) +=
+                        maximumAgentClaims;
+                    for (std::size_t spotOffset = 0;
+                         spotOffset < agentCanClaim.size();
+                         ++spotOffset) {
+                        if (!agentCanClaim.at(spotOffset)) {
+                            continue;
+                        }
+                        ++metadata.suffixPossibleClaims.at(depth)
+                              .at(spotOffset);
+                    }
+                }
+                bundleBoundIndex.emplace(
+                    bundle,
+                    bundleBoundMetadata.size());
+                bundleBoundMetadata.push_back(
+                    std::move(metadata));
+            }
+        }
         std::vector<std::int32_t> selectedClaimCounts(config_.spots.size(), 0);
         const auto suffix_upper_bound_score =
             [this, &ledger, &suffixPossibleBrands, &suffixMaximumAgentClaims](
@@ -4519,6 +4626,88 @@ std::vector<MasterCandidate> RouteMaster::solve(
                         std::min(servingUpperBound, agentServingUpperBound),
                 };
             };
+        constexpr std::int32_t kUnsetBundle =
+            std::numeric_limits<std::int32_t>::min();
+        const auto bundle_upper_bound_for_mode =
+            [this,
+             &ledger,
+             &selectedClaimCounts](
+                const BundleBoundMetadata& metadata,
+                std::uint64_t selectedBrands,
+                std::size_t depth,
+                std::int32_t selectedRawClaims)
+                -> std::optional<OfficialScore> {
+                if (!metadata.suffixFeasible.at(depth)) {
+                    return std::nullopt;
+                }
+                const std::uint64_t dailyBrands =
+                    selectedBrands |
+                    metadata.suffixPossibleBrands.at(depth);
+                std::int32_t stockUpperBound = 0;
+                for (std::size_t spotOffset = 0;
+                     spotOffset < config_.spots.size();
+                     ++spotOffset) {
+                    stockUpperBound += std::min(
+                        selectedClaimCounts.at(spotOffset) +
+                            metadata.suffixPossibleClaims.at(depth)
+                                .at(spotOffset),
+                        config_.spots.at(spotOffset).stock);
+                }
+                const std::int32_t agentUpperBound =
+                    selectedRawClaims +
+                    metadata.suffixMaximumAgentClaims.at(depth);
+                return OfficialScore{
+                    static_cast<std::int32_t>(std::popcount(
+                        ledger.lifetimeBrands | dailyBrands)),
+                    ledger.totalDailyDistinct +
+                        static_cast<std::int32_t>(
+                            std::popcount(dailyBrands)),
+                    ledger.totalServings +
+                        std::min(
+                            stockUpperBound,
+                            agentUpperBound),
+                };
+            };
+        const auto active_bundle_upper_bound =
+            [&bundleBoundMetadata,
+             &bundleBoundIndex,
+             &bundle_upper_bound_for_mode](
+                std::int32_t activeBundle,
+                std::uint64_t selectedBrands,
+                std::size_t depth,
+                std::int32_t selectedRawClaims)
+                -> std::optional<OfficialScore> {
+                if (activeBundle != kUnsetBundle) {
+                    const auto found =
+                        bundleBoundIndex.find(activeBundle);
+                    if (found == bundleBoundIndex.end()) {
+                        return std::nullopt;
+                    }
+                    return bundle_upper_bound_for_mode(
+                        bundleBoundMetadata.at(found->second),
+                        selectedBrands,
+                        depth,
+                        selectedRawClaims);
+                }
+                std::optional<OfficialScore> best;
+                for (const BundleBoundMetadata& metadata :
+                     bundleBoundMetadata) {
+                    const std::optional<OfficialScore> candidate =
+                        bundle_upper_bound_for_mode(
+                            metadata,
+                            selectedBrands,
+                            depth,
+                            selectedRawClaims);
+                    if (candidate.has_value() &&
+                        (!best.has_value() ||
+                         compare_lexicographic(
+                             *candidate,
+                             *best) > 0)) {
+                        best = candidate;
+                    }
+                }
+                return best;
+            };
         std::int32_t rootServingUpperBound = 0;
         if (exactMetadata) {
             for (std::size_t spotOffset = 0;
@@ -4530,16 +4719,36 @@ std::vector<MasterCandidate> RouteMaster::solve(
             }
         }
         diagnostics.optimisticUpperBound = exactMetadata
-            ? suffix_upper_bound_score(0, 0U, rootServingUpperBound, 0)
+            ? suffix_upper_bound_score(
+                  0,
+                  0U,
+                  rootServingUpperBound,
+                  0)
             : OfficialScore{
                   config_.brand_count(),
                   ledger.totalDailyDistinct + config_.brand_count(),
                   ledger.totalServings + std::accumulate(
                       config_.spots.begin(),
                       config_.spots.end(),
-                      0,
-                      [](std::int32_t total, const Spot& spot) { return total + spot.stock; }),
+                  0,
+                  [](std::int32_t total, const Spot& spot) { return total + spot.stock; }),
               };
+        if (exactMetadata &&
+            options.enableBundleAwareUpperBound) {
+            if (const std::optional<OfficialScore> bundleUpperBound =
+                    active_bundle_upper_bound(
+                        kUnsetBundle,
+                        0U,
+                        0U,
+                        0);
+                bundleUpperBound.has_value() &&
+                compare_lexicographic(
+                    *bundleUpperBound,
+                    diagnostics.optimisticUpperBound) < 0) {
+                diagnostics.optimisticUpperBound =
+                    *bundleUpperBound;
+            }
+        }
         diagnostics.roundPreparationMicroseconds += std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::steady_clock::now() - roundPreparationStarted).count();
         if (resolveRound == 0 && exactMetadata && options.maximumCombinations >= 128 &&
@@ -4832,6 +5041,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
         const auto search = [&](auto&& self,
                                 std::size_t depth,
                 std::uint64_t selectedBrands,
+                std::int32_t activeBundle,
                 std::int32_t activeSynchronizationConstraints,
                 std::int32_t servingUpperBound,
                 std::int32_t selectedRawClaims) -> bool {
@@ -4857,6 +5067,25 @@ std::vector<MasterCandidate> RouteMaster::solve(
                     ++diagnostics.branchesPruned;
                     ++diagnostics.upperBoundPrunes;
                     return true;
+                }
+                if (options.enableBundleAwareUpperBound) {
+                    ++diagnostics.bundleUpperBoundChecks;
+                    const std::optional<OfficialScore>
+                        bundleUpperBound =
+                            active_bundle_upper_bound(
+                                activeBundle,
+                                selectedBrands,
+                                depth,
+                                selectedRawClaims);
+                    if (!bundleUpperBound.has_value() ||
+                        compare_lexicographic(
+                            *bundleUpperBound,
+                            *worstCandidateScore) < 0) {
+                        ++diagnostics.branchesPruned;
+                        ++diagnostics.upperBoundPrunes;
+                        ++diagnostics.bundleUpperBoundPrunes;
+                        return true;
+                    }
                 }
             }
             if (depth != ordering.size()) {
@@ -5016,6 +5245,9 @@ std::vector<MasterCandidate> RouteMaster::solve(
                             self,
                             depth + 1U,
                             selectedBrands | branchColumn.brands,
+                            activeBundle == kUnsetBundle
+                                ? column->contingencyBundle
+                                : activeBundle,
                             childSynchronizationConstraints,
                             servingUpperBound - servingLossWithoutClaim +
                                 branchColumn.preservedServingPotential,
@@ -5113,6 +5345,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
             search,
             0U,
             0,
+            kUnsetBundle,
             0,
             rootServingUpperBound,
             0);

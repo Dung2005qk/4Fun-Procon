@@ -160,6 +160,8 @@ struct MasterDiagnostics {
     std::int32_t branchOrderingCalls = 0;
     std::int32_t upperBoundChecks = 0;
     std::int32_t upperBoundPrunes = 0;
+    std::int32_t bundleUpperBoundChecks = 0;
+    std::int32_t bundleUpperBoundPrunes = 0;
     std::int32_t bundlePrunes = 0;
     std::int32_t exactBundlesDiscovered = 0;
     std::int32_t exactBundlesEvaluated = 0;
@@ -188,6 +190,7 @@ struct MasterDiagnostics {
     std::int64_t populationMaintenanceMicroseconds = 0;
     bool nativeExactStockCredits = false;
     bool stockCappedSearchOrder = false;
+    bool bundleAwareUpperBound = false;
     bool deadlineReached = false;
     bool searchComplete = false;
     OfficialScore bestExactBundleScore;
@@ -247,6 +250,7 @@ struct MasterOptions {
     bool preferStockCappedSearchOrder = true;
     bool preferBaselineHarvestSources = false;
     bool enableLexicographicBranchAndBound = true;
+    bool enableBundleAwareUpperBound = true;
     std::optional<std::chrono::steady_clock::time_point> deadline;
 };
 
