@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <functional>
 #include <limits>
+#include <queue>
 #include <stdexcept>
 #include <tuple>
 #include <unordered_set>
@@ -18,6 +19,16 @@ namespace {
 
 constexpr std::uint16_t kUnreachable = std::numeric_limits<std::uint16_t>::max();
 constexpr std::size_t kMaximumExactStates = 8U * 1024U * 1024U;
+
+struct ResourceLabel {
+    std::uint32_t state = 0;
+    std::uint16_t usedSteps = 0;
+    std::uint16_t usedFuel = 0;
+    std::uint32_t parent = std::numeric_limits<std::uint32_t>::max();
+    std::int32_t nextAtState = -1;
+    std::uint8_t incoming = std::numeric_limits<std::uint8_t>::max();
+    bool active = true;
+};
 
 [[nodiscard]] std::vector<std::uint32_t> inclusion_maximal_masks(
     const std::vector<bool>& reachable,
@@ -357,6 +368,541 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
         }
     }
     result.complete = true;
+    return result;
+}
+
+namespace {
+
+ExactOrienteeringReachability enumerate_resource_routes(
+    const MatchConfig& config,
+    const DayState& state,
+    AgentIndex agentIndex,
+    std::optional<std::int32_t> minimumSpots,
+    std::size_t maximumRoutes,
+    std::uint64_t maximumSettledStates,
+    std::optional<std::chrono::steady_clock::time_point> deadline) {
+    ExactOrienteeringReachability result;
+    if (agentIndex < 0 ||
+        agentIndex >= static_cast<AgentIndex>(state.agents.size()) ||
+        state.dayNumber < 1 || state.dayNumber > config.day_count() ||
+        state.roadStatuses.size() !=
+            static_cast<std::size_t>(config.map.cell_count())) {
+        return result;
+    }
+    const AgentState& agent =
+        state.agents.at(static_cast<std::size_t>(agentIndex));
+    const std::int32_t daySteps = config.steps_for_day(state.dayNumber);
+    if (agent.kind != AgentKind::Patrol || daySteps <= 0 ||
+        daySteps >= kUnreachable || agent.fuel < 0 ||
+        agent.fuel >= kUnreachable || config.spots.size() > 16U) {
+        return result;
+    }
+    if (!minimumSpots.has_value() && agent.fuel >= 2 * daySteps) {
+        return enumerate_exact_high_fuel_routes(
+            config,
+            state,
+            agentIndex,
+            deadline);
+    }
+
+    const std::uint32_t maskCount = std::uint32_t{1} <<
+        static_cast<std::uint32_t>(config.spots.size());
+    const std::uint32_t cellCount =
+        static_cast<std::uint32_t>(config.map.cell_count());
+    const std::size_t stateCount =
+        static_cast<std::size_t>(maskCount) * cellCount;
+    if (cellCount == 0U || stateCount > kMaximumExactStates) {
+        return result;
+    }
+    result.supported = true;
+    if (deadline.has_value() &&
+        std::chrono::steady_clock::now() >= *deadline) {
+        return result;
+    }
+
+    const auto state_id = [cellCount](std::uint32_t mask, CellId cell) {
+        return mask * cellCount + static_cast<std::uint32_t>(cell);
+    };
+    using QueueEntry =
+        std::tuple<std::uint16_t, std::uint16_t, std::uint32_t>;
+    std::priority_queue<
+        QueueEntry,
+        std::vector<QueueEntry>,
+        std::greater<>> queue;
+    std::vector<std::int32_t> firstLabelAtState(stateCount, -1);
+    std::vector<ResourceLabel> labels;
+    labels.reserve(std::min<std::size_t>(stateCount, 1U << 20U));
+    const auto relax =
+        [&firstLabelAtState, &labels, &queue](
+            std::uint32_t stateId,
+            std::uint16_t candidateSteps,
+            std::uint16_t candidateFuel,
+            std::uint32_t parent,
+            std::uint8_t incoming) {
+            for (std::int32_t labelIndex = firstLabelAtState.at(stateId);
+                 labelIndex >= 0;
+                 labelIndex = labels.at(
+                     static_cast<std::size_t>(labelIndex)).nextAtState) {
+                const ResourceLabel& existing =
+                    labels.at(static_cast<std::size_t>(labelIndex));
+                if (existing.active &&
+                    existing.usedSteps <= candidateSteps &&
+                    existing.usedFuel <= candidateFuel) {
+                    return;
+                }
+            }
+            for (std::int32_t labelIndex = firstLabelAtState.at(stateId);
+                 labelIndex >= 0;
+                 labelIndex = labels.at(
+                     static_cast<std::size_t>(labelIndex)).nextAtState) {
+                ResourceLabel& existing =
+                    labels.at(static_cast<std::size_t>(labelIndex));
+                if (existing.active &&
+                    candidateSteps <= existing.usedSteps &&
+                    candidateFuel <= existing.usedFuel) {
+                    existing.active = false;
+                }
+            }
+            const std::uint32_t labelIndex =
+                static_cast<std::uint32_t>(labels.size());
+            ResourceLabel label;
+            label.state = stateId;
+            label.usedSteps = candidateSteps;
+            label.usedFuel = candidateFuel;
+            label.parent = parent;
+            label.nextAtState = firstLabelAtState.at(stateId);
+            label.incoming = incoming;
+            labels.push_back(label);
+            firstLabelAtState.at(stateId) =
+                static_cast<std::int32_t>(labelIndex);
+            queue.emplace(candidateSteps, candidateFuel, labelIndex);
+        };
+
+    const std::uint32_t rootState = state_id(0U, agent.position);
+    relax(
+        rootState,
+        0U,
+        0U,
+        std::numeric_limits<std::uint32_t>::max(),
+        std::numeric_limits<std::uint8_t>::max());
+    const std::uint32_t rootLabel = 0U;
+    const SpotIndex startSpot =
+        config.spotAtCell.at(static_cast<std::size_t>(agent.position));
+    if (startSpot != kInvalidSpot && daySteps >= 1) {
+        relax(
+            state_id(
+                std::uint32_t{1} << static_cast<std::uint32_t>(startSpot),
+                agent.position),
+            1U,
+            0U,
+            rootLabel,
+            static_cast<std::uint8_t>(kDirectionCount));
+    }
+
+    std::vector<bool> reachableMasks(maskCount, false);
+    std::unordered_set<std::uint32_t> anytimeMasks;
+    std::vector<MoveCost> moveCosts(cellCount);
+    std::vector<std::uint32_t> destinationSpotBits(cellCount, 0U);
+    for (std::uint32_t cell = 0; cell < cellCount; ++cell) {
+        moveCosts.at(cell) = config.move_cost(
+            static_cast<CellId>(cell),
+            state.roadStatuses.at(cell));
+        const SpotIndex spot = config.spotAtCell.at(cell);
+        if (spot != kInvalidSpot) {
+            destinationSpotBits.at(cell) =
+                std::uint32_t{1} << static_cast<std::uint32_t>(spot);
+        }
+    }
+
+    const auto reconstruct_route =
+        [&config, &labels, cellCount, daySteps, rootLabel](
+            std::uint32_t witness,
+            std::uint32_t mask) {
+            const ResourceLabel& terminal = labels.at(witness);
+            ExactOrienteeringRoute route;
+            route.spotMask = mask;
+            route.usedSteps = terminal.usedSteps;
+            route.patrolFuel = terminal.usedFuel;
+            route.terminalCell =
+                static_cast<CellId>(terminal.state % cellCount);
+            route.terminalOnSpot =
+                config.spotAtCell.at(
+                    static_cast<std::size_t>(route.terminalCell)) !=
+                kInvalidSpot;
+            for (std::int32_t brand = 0;
+                 brand < config.brand_count();
+                 ++brand) {
+                std::int32_t nearestBrand =
+                    std::numeric_limits<std::int32_t>::max();
+                for (const Spot& spot : config.spots) {
+                    if (spot.brandIndex == brand) {
+                        nearestBrand = std::min(
+                            nearestBrand,
+                            config.map.hex_distance(
+                                route.terminalCell,
+                                spot.position));
+                    }
+                }
+                if (nearestBrand !=
+                    std::numeric_limits<std::int32_t>::max()) {
+                    route.terminalBrandDistance += nearestBrand;
+                }
+            }
+            std::vector<PlanAction> reversed;
+            std::uint32_t current = witness;
+            while (current != rootLabel) {
+                const ResourceLabel& label = labels.at(current);
+                if (label.incoming ==
+                    static_cast<std::uint8_t>(kDirectionCount)) {
+                    reversed.push_back(PlanAction::wait(1));
+                } else if (label.incoming <
+                           static_cast<std::uint8_t>(kDirectionCount)) {
+                    reversed.push_back(
+                        PlanAction::move(label.incoming));
+                } else {
+                    throw std::runtime_error(
+                        "resource orienteering predecessor chain is broken");
+                }
+                current = label.parent;
+            }
+            std::reverse(reversed.begin(), reversed.end());
+            if (route.usedSteps < daySteps) {
+                reversed.push_back(
+                    PlanAction::wait(daySteps - route.usedSteps));
+            }
+            route.actions = std::move(reversed);
+            return route;
+        };
+
+    while (!queue.empty()) {
+        if ((result.settledStates & 4095U) == 0U &&
+            deadline.has_value() &&
+            std::chrono::steady_clock::now() >= *deadline) {
+            return result;
+        }
+        const auto [queuedSteps, queuedFuel, labelIndex] = queue.top();
+        queue.pop();
+        const ResourceLabel current =
+            labels.at(static_cast<std::size_t>(labelIndex));
+        if (!current.active || current.usedSteps != queuedSteps ||
+            current.usedFuel != queuedFuel) {
+            continue;
+        }
+        ++result.settledStates;
+        const std::uint32_t mask = current.state / cellCount;
+        const CellId cell =
+            static_cast<CellId>(current.state % cellCount);
+        reachableMasks.at(mask) = true;
+        if (minimumSpots.has_value() &&
+            static_cast<std::int32_t>(std::popcount(mask)) >=
+                *minimumSpots &&
+            config.spotAtCell.at(static_cast<std::size_t>(cell)) !=
+                kInvalidSpot &&
+            anytimeMasks.insert(mask).second) {
+            const auto rank = [](const ExactOrienteeringRoute& route) {
+                return std::tuple{
+                    static_cast<std::int32_t>(
+                        std::popcount(route.spotMask)),
+                    -route.usedSteps,
+                    -route.patrolFuel,
+                    -route.terminalBrandDistance,
+                    -route.terminalCell,
+                    -static_cast<std::int32_t>(route.spotMask)};
+            };
+            std::int32_t terminalBrandDistance = 0;
+            for (std::int32_t brand = 0;
+                 brand < config.brand_count();
+                 ++brand) {
+                std::int32_t nearestBrand =
+                    std::numeric_limits<std::int32_t>::max();
+                for (const Spot& spot : config.spots) {
+                    if (spot.brandIndex == brand) {
+                        nearestBrand = std::min(
+                            nearestBrand,
+                            config.map.hex_distance(cell, spot.position));
+                    }
+                }
+                if (nearestBrand !=
+                    std::numeric_limits<std::int32_t>::max()) {
+                    terminalBrandDistance += nearestBrand;
+                }
+            }
+            const auto candidateRank = std::tuple{
+                static_cast<std::int32_t>(std::popcount(mask)),
+                -static_cast<std::int32_t>(current.usedSteps),
+                -static_cast<std::int32_t>(current.usedFuel),
+                -terminalBrandDistance,
+                -cell,
+                -static_cast<std::int32_t>(mask)};
+            if (result.maximalRoutes.size() < maximumRoutes) {
+                result.maximalRoutes.push_back(
+                    reconstruct_route(labelIndex, mask));
+            } else {
+                const auto worst = std::min_element(
+                    result.maximalRoutes.begin(),
+                    result.maximalRoutes.end(),
+                    [&rank](
+                        const ExactOrienteeringRoute& left,
+                        const ExactOrienteeringRoute& right) {
+                        return rank(left) < rank(right);
+                    });
+                if (rank(*worst) < candidateRank) {
+                    *worst = reconstruct_route(labelIndex, mask);
+                }
+            }
+        }
+        if (minimumSpots.has_value() &&
+            result.settledStates >= maximumSettledStates) {
+            return result;
+        }
+
+        const MoveCost move =
+            moveCosts.at(static_cast<std::size_t>(cell));
+        const std::int32_t candidateSteps =
+            static_cast<std::int32_t>(current.usedSteps) + move.steps;
+        const std::int32_t candidateFuel =
+            static_cast<std::int32_t>(current.usedFuel) + move.patrolFuel;
+        if (candidateSteps > daySteps || candidateFuel > agent.fuel) {
+            continue;
+        }
+        for (std::int32_t direction = 0;
+             direction < kDirectionCount;
+             ++direction) {
+            const CellId destination = config.map.neighbors
+                .at(static_cast<std::size_t>(cell))
+                .at(static_cast<std::size_t>(direction));
+            if (destination == kInvalidCell ||
+                config.map.terrain.at(
+                    static_cast<std::size_t>(destination)) ==
+                    Terrain::Pond) {
+                continue;
+            }
+            relax(
+                state_id(
+                    mask | destinationSpotBits.at(
+                        static_cast<std::size_t>(destination)),
+                    destination),
+                static_cast<std::uint16_t>(candidateSteps),
+                static_cast<std::uint16_t>(candidateFuel),
+                labelIndex,
+                static_cast<std::uint8_t>(direction));
+        }
+    }
+
+    bool maximalComplete = true;
+    const std::vector<std::uint32_t> maximalMasks =
+        inclusion_maximal_masks(
+            reachableMasks,
+            deadline,
+            maximalComplete);
+    if (!maximalComplete) {
+        return result;
+    }
+    result.maximalRoutes.reserve(maximalMasks.size());
+    result.terminalVariants.reserve(
+        maximalMasks.size() * (config.spots.size() + 1U));
+    for (std::size_t maskOffset = 0;
+         maskOffset < maximalMasks.size();
+         ++maskOffset) {
+        if ((maskOffset & 15U) == 0U && deadline.has_value() &&
+            std::chrono::steady_clock::now() >= *deadline) {
+            return result;
+        }
+        const std::uint32_t mask = maximalMasks.at(maskOffset);
+        std::vector<std::uint32_t> candidateLabels;
+        const auto add_candidate =
+            [&candidateLabels](std::uint32_t labelIndex) {
+                if (labelIndex !=
+                    std::numeric_limits<std::uint32_t>::max()) {
+                    candidateLabels.push_back(labelIndex);
+                }
+            };
+        const auto select_label =
+            [&labels,
+             &firstLabelAtState,
+             cellCount,
+             mask,
+             &config](
+                const std::function<std::tuple<
+                    std::int32_t,
+                    std::int32_t,
+                    std::int32_t,
+                    std::uint32_t>(
+                    const ResourceLabel&,
+                    CellId,
+                    std::uint32_t)>& rank) {
+                std::uint32_t best =
+                    std::numeric_limits<std::uint32_t>::max();
+                std::tuple<
+                    std::int32_t,
+                    std::int32_t,
+                    std::int32_t,
+                    std::uint32_t> bestRank;
+                for (std::uint32_t cell = 0;
+                     cell < cellCount;
+                     ++cell) {
+                    const std::uint32_t id = mask * cellCount + cell;
+                    for (std::int32_t labelIndex =
+                             firstLabelAtState.at(id);
+                         labelIndex >= 0;
+                         labelIndex = labels.at(
+                             static_cast<std::size_t>(labelIndex))
+                                          .nextAtState) {
+                        const ResourceLabel& label = labels.at(
+                            static_cast<std::size_t>(labelIndex));
+                        if (!label.active) {
+                            continue;
+                        }
+                        const auto candidateRank = rank(
+                            label,
+                            static_cast<CellId>(cell),
+                            static_cast<std::uint32_t>(labelIndex));
+                        if (best ==
+                                std::numeric_limits<std::uint32_t>::max() ||
+                            candidateRank < bestRank) {
+                            best = static_cast<std::uint32_t>(labelIndex);
+                            bestRank = candidateRank;
+                        }
+                    }
+                }
+                return best;
+            };
+        const std::uint32_t fastest = select_label(
+            [](const ResourceLabel& label,
+               CellId,
+               std::uint32_t labelIndex) {
+                return std::tuple{
+                    static_cast<std::int32_t>(label.usedSteps),
+                    static_cast<std::int32_t>(label.usedFuel),
+                    static_cast<std::int32_t>(label.state),
+                    labelIndex};
+            });
+        add_candidate(fastest);
+        add_candidate(select_label(
+            [](const ResourceLabel& label,
+               CellId,
+               std::uint32_t labelIndex) {
+                return std::tuple{
+                    static_cast<std::int32_t>(label.usedFuel),
+                    static_cast<std::int32_t>(label.usedSteps),
+                    static_cast<std::int32_t>(label.state),
+                    labelIndex};
+            }));
+        const auto add_nearest_terminal =
+            [&select_label, &add_candidate, &config](
+                CellId targetCell,
+                bool excludeTarget) {
+                add_candidate(select_label(
+                    [&config, targetCell, excludeTarget](
+                        const ResourceLabel& label,
+                        CellId cell,
+                        std::uint32_t labelIndex) {
+                        return std::tuple{
+                            excludeTarget && cell == targetCell
+                                ? std::numeric_limits<std::int32_t>::max()
+                                : config.map.hex_distance(
+                                    cell,
+                                    targetCell),
+                            static_cast<std::int32_t>(label.usedFuel),
+                            static_cast<std::int32_t>(label.usedSteps),
+                            labelIndex};
+                    }));
+            };
+        for (const Spot& target : config.spots) {
+            add_nearest_terminal(target.position, false);
+        }
+        for (const AgentState& target : state.agents) {
+            if (target.kind == AgentKind::Tanker) {
+                add_nearest_terminal(target.position, true);
+            }
+        }
+        std::sort(candidateLabels.begin(), candidateLabels.end());
+        candidateLabels.erase(
+            std::unique(candidateLabels.begin(), candidateLabels.end()),
+            candidateLabels.end());
+        for (const std::uint32_t witness : candidateLabels) {
+            ExactOrienteeringRoute route =
+                reconstruct_route(witness, mask);
+            if (witness == fastest) {
+                result.maximalRoutes.push_back(std::move(route));
+            } else {
+                result.terminalVariants.push_back(std::move(route));
+            }
+        }
+    }
+    result.complete = true;
+    return result;
+}
+
+}
+
+ExactOrienteeringReachability enumerate_exact_resource_routes(
+    const MatchConfig& config,
+    const DayState& state,
+    AgentIndex agentIndex,
+    std::optional<std::chrono::steady_clock::time_point> deadline) {
+    return enumerate_resource_routes(
+        config,
+        state,
+        agentIndex,
+        std::nullopt,
+        0U,
+        std::numeric_limits<std::uint64_t>::max(),
+        deadline);
+}
+
+ExactOrienteeringReachability enumerate_anytime_resource_routes(
+    const MatchConfig& config,
+    const DayState& state,
+    AgentIndex agentIndex,
+    std::int32_t minimumSpots,
+    std::size_t maximumRoutes,
+    std::uint64_t maximumSettledStates,
+    std::optional<std::chrono::steady_clock::time_point> deadline) {
+    if (minimumSpots <= 0 || maximumRoutes == 0U ||
+        maximumSettledStates == 0U) {
+        return {};
+    }
+    ExactOrienteeringReachability result = enumerate_resource_routes(
+        config,
+        state,
+        agentIndex,
+        minimumSpots,
+        maximumRoutes,
+        maximumSettledStates,
+        deadline);
+    std::sort(
+        result.maximalRoutes.begin(),
+        result.maximalRoutes.end(),
+        [](const ExactOrienteeringRoute& left,
+           const ExactOrienteeringRoute& right) {
+            return std::tuple{
+                       static_cast<std::int32_t>(
+                           std::popcount(left.spotMask)),
+                       -left.usedSteps,
+                       -left.patrolFuel,
+                       -left.terminalBrandDistance,
+                       -left.terminalCell,
+                       -static_cast<std::int32_t>(left.spotMask)} >
+                std::tuple{
+                       static_cast<std::int32_t>(
+                           std::popcount(right.spotMask)),
+                       -right.usedSteps,
+                       -right.patrolFuel,
+                       -right.terminalBrandDistance,
+                       -right.terminalCell,
+                       -static_cast<std::int32_t>(right.spotMask)};
+        });
+    std::unordered_set<std::uint32_t> retainedMasks;
+    std::erase_if(
+        result.maximalRoutes,
+        [&retainedMasks](const ExactOrienteeringRoute& route) {
+            return !retainedMasks.insert(route.spotMask).second;
+        });
+    if (result.maximalRoutes.size() > maximumRoutes) {
+        result.maximalRoutes.resize(maximumRoutes);
+    }
+    result.complete = false;
     return result;
 }
 

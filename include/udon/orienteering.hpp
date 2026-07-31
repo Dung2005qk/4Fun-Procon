@@ -1,6 +1,7 @@
 #pragma once
 
 #include <chrono>
+#include <cstddef>
 #include <cstdint>
 #include <optional>
 #include <vector>
@@ -31,6 +32,21 @@ struct ExactOrienteeringReachability {
     const MatchConfig& config,
     const DayState& state,
     AgentIndex agent,
+    std::optional<std::chrono::steady_clock::time_point> deadline = std::nullopt);
+
+[[nodiscard]] ExactOrienteeringReachability enumerate_exact_resource_routes(
+    const MatchConfig& config,
+    const DayState& state,
+    AgentIndex agent,
+    std::optional<std::chrono::steady_clock::time_point> deadline = std::nullopt);
+
+[[nodiscard]] ExactOrienteeringReachability enumerate_anytime_resource_routes(
+    const MatchConfig& config,
+    const DayState& state,
+    AgentIndex agent,
+    std::int32_t minimumSpots,
+    std::size_t maximumRoutes,
+    std::uint64_t maximumSettledStates,
     std::optional<std::chrono::steady_clock::time_point> deadline = std::nullopt);
 
 }

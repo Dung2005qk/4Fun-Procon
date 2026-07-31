@@ -3723,15 +3723,31 @@ DecisionResult UdonShieldEngine::solve_day(
     const bool exactFuelOrienteering =
         static_cast<std::int64_t>(config_.fuelLimit) >=
         2LL * config_.steps_for_day(state.dayNumber);
+    const bool hasFuelConstrainedPatrol = std::any_of(
+        state.agents.begin(),
+        state.agents.end(),
+        [this, &state](const AgentState& agent) {
+            return agent.kind == AgentKind::Patrol &&
+                static_cast<std::int64_t>(agent.fuel) <
+                    2LL * config_.steps_for_day(state.dayNumber);
+        });
     generationOptions.enableHarvestOrienteering =
         harvestExtensionMode_ > 5 &&
         result.deadline.search >= std::chrono::milliseconds{1500} &&
         highFuelOrienteering;
     generationOptions.enableExactHarvestOrienteering =
         harvestExtensionMode_ > 5 &&
-        exactFuelOrienteering &&
+        (exactFuelOrienteering ||
+         (harvestExtensionMode_ > 6 &&
+          state.dayNumber == config_.day_count())) &&
         result.deadline.search >= std::chrono::milliseconds{400} &&
         (harvestExtensionMode_ > 6 || state.dayNumber == config_.day_count());
+    generationOptions.enableFuelConstrainedExactHarvestOrienteering =
+        hasFuelConstrainedPatrol &&
+        harvestExtensionMode_ > 6 &&
+        state.dayNumber == config_.day_count();
+    generationOptions.enableAnytimeFuelConstrainedHarvestOrienteering =
+        generationOptions.enableFuelConstrainedExactHarvestOrienteering;
     generationOptions.maximumHarvestExtensionSources =
         harvestExtensionMode_ > 2 ? 4 : 1;
     generationOptions.maximumHarvestExtensionDepth =

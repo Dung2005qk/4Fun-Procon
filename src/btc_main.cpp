@@ -69,7 +69,7 @@ struct HttpResponse {
 
 [[nodiscard]] udon::DeadlineCalibration btc_http_deadline_calibration() {
     udon::DeadlineCalibration calibration;
-    calibration.version = "btc-http-fair-w1-v5-p99-overrun-guarded";
+    calibration.version = "btc-http-local-budget-v6-p99-overrun-guarded";
     calibration.networkFloor = std::chrono::milliseconds{1600};
     calibration.networkPercent = 20;
     calibration.certificationPercent = 20;
@@ -1392,14 +1392,10 @@ void run_http(const RuntimeOptions& options) {
                 stateDocument,
                 receivedAt,
                 adapterOptions);
-            const std::chrono::system_clock::time_point planningReceivedAt =
-                receivedAt + std::min(
-                    std::chrono::milliseconds{800},
-                    deadlineCalibration.networkFloor / 2);
             const udon::SessionDecision decision = session.on_authoritative_state(
                 state,
                 ledger,
-                planningReceivedAt);
+                receivedAt);
             replay.record("decision", decision.replay);
             const std::int64_t actionDeadlineMs = state.endsAt * 1000;
             const std::int64_t minimumSubmissionWindowMs = std::max<std::int64_t>(

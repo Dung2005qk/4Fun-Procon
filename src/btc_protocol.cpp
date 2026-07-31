@@ -54,8 +54,6 @@ namespace {
         if (raw < 0) {
             throw ProtocolError("endsAt cannot be negative");
         }
-        constexpr std::int64_t kMillisecondsEpochBoundary = 100000000000LL;
-        return raw >= kMillisecondsEpochBoundary ? raw / 1000 : raw;
     }
     const std::int64_t receivedMs = std::chrono::duration_cast<std::chrono::milliseconds>(
         receivedAt.time_since_epoch()).count();

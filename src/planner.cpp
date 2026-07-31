@@ -3,6 +3,7 @@
 #include "udon/protocol.hpp"
 
 #include <algorithm>
+#include <atomic>
 #include <array>
 #include <bit>
 #include <functional>
@@ -12,6 +13,7 @@
 #include <queue>
 #include <set>
 #include <stdexcept>
+#include <thread>
 #include <tuple>
 #include <unordered_map>
 #include <unordered_set>
@@ -497,7 +499,7 @@ select_coordinated_exact_orienteering_routes(
     for (AgentIndex agent = 0; agent < config.agent_count(); ++agent) {
         const ExactOrienteeringReachability& exact =
             reachability.at(static_cast<std::size_t>(agent));
-        if (exact.complete && !exact.maximalRoutes.empty()) {
+        if (!exact.maximalRoutes.empty()) {
             ordering.push_back(agent);
         }
     }
@@ -2297,39 +2299,26 @@ RoutePortfolio RouteColumnGenerator::generate(
         static_cast<std::size_t>(config_.agent_count()));
     std::vector<std::vector<const ExactOrienteeringRoute*>>
         coordinatedExactRouteBundles;
-    if (options.enableExactHarvestOrienteering &&
-        options.allowUncachedHarvestTargets) {
-        const auto exactStarted = std::chrono::steady_clock::now();
-        std::map<CellId, AgentIndex> exactByStart;
-        for (AgentIndex agent = 0;
-             agent < config_.agent_count() && !deadline_expired();
-             ++agent) {
-            const AgentState& agentState =
-                state.agents.at(static_cast<std::size_t>(agent));
-            const auto cached = exactByStart.find(agentState.position);
-            if (cached != exactByStart.end() &&
-                agentState.kind == AgentKind::Patrol &&
-                agentState.fuel >=
-                    2 * config_.steps_for_day(state.dayNumber)) {
-                exactOrienteering.at(static_cast<std::size_t>(agent)) =
-                    exactOrienteering.at(static_cast<std::size_t>(cached->second));
-                if (diagnostics != nullptr) {
-                    ++diagnostics->exactOrienteeringCacheHits;
-                }
-            } else {
-                exactOrienteering.at(static_cast<std::size_t>(agent)) =
-                    enumerate_exact_high_fuel_routes(
-                        config_,
-                        state,
-                        agent,
-                        options.deadline);
-                if (exactOrienteering.at(static_cast<std::size_t>(agent)).supported) {
-                    exactByStart.emplace(agentState.position, agent);
-                }
-            }
-            if (diagnostics != nullptr) {
-                const ExactOrienteeringReachability& exact =
-                    exactOrienteering.at(static_cast<std::size_t>(agent));
+    std::vector<std::jthread> exactResourceWorkers;
+    std::vector<AgentIndex> exactResourceTasks;
+    std::vector<std::pair<AgentIndex, AgentIndex>> exactResourceAliases;
+    std::atomic<std::size_t> nextExactResourceTask{0U};
+    std::chrono::steady_clock::time_point exactStarted{};
+    bool exactDeferred = false;
+    bool exactFinalized = false;
+    const auto finalize_exact_orienteering = [&]() {
+        if (exactFinalized) {
+            return;
+        }
+        exactFinalized = true;
+        for (const auto& [agent, representative] : exactResourceAliases) {
+            exactOrienteering.at(static_cast<std::size_t>(agent)) =
+                exactOrienteering.at(static_cast<std::size_t>(representative));
+        }
+        if (diagnostics != nullptr) {
+            diagnostics->exactOrienteeringCacheHits +=
+                static_cast<std::int32_t>(exactResourceAliases.size());
+            for (const ExactOrienteeringReachability& exact : exactOrienteering) {
                 diagnostics->exactOrienteeringSupportedAgents += exact.supported ? 1 : 0;
                 diagnostics->exactOrienteeringCompleteAgents += exact.complete ? 1 : 0;
                 diagnostics->exactOrienteeringSettledStates += exact.settledStates;
@@ -2339,11 +2328,11 @@ RoutePortfolio RouteColumnGenerator::generate(
         }
         std::vector<const ExactOrienteeringRoute*> coordinatedExactRoutes =
             select_coordinated_exact_orienteering_routes(
-            config_,
-            ledger,
-            exactOrienteering,
-            options.deadline,
-            diagnostics);
+                config_,
+                ledger,
+                exactOrienteering,
+                options.deadline,
+                diagnostics);
         if (std::any_of(
                 coordinatedExactRoutes.begin(),
                 coordinatedExactRoutes.end(),
@@ -2388,6 +2377,128 @@ RoutePortfolio RouteColumnGenerator::generate(
                 std::chrono::duration_cast<std::chrono::milliseconds>(
                     std::chrono::steady_clock::now() - exactStarted)
                     .count();
+        }
+    };
+    if (options.enableExactHarvestOrienteering &&
+        options.allowUncachedHarvestTargets) {
+        exactStarted = std::chrono::steady_clock::now();
+        const bool requiresFuelConstrainedSearch =
+            (options.enableFuelConstrainedExactHarvestOrienteering ||
+             options.enableAnytimeFuelConstrainedHarvestOrienteering) &&
+            std::any_of(
+                state.agents.begin(),
+                state.agents.end(),
+                [this, &state](const AgentState& agent) {
+                    return agent.kind == AgentKind::Patrol &&
+                        agent.fuel <
+                            2 * config_.steps_for_day(state.dayNumber);
+                });
+        std::map<std::pair<CellId, std::int32_t>, AgentIndex> exactByStart;
+        if (requiresFuelConstrainedSearch) {
+            for (AgentIndex agent = 0; agent < config_.agent_count(); ++agent) {
+                const AgentState& agentState =
+                    state.agents.at(static_cast<std::size_t>(agent));
+                if (agentState.kind != AgentKind::Patrol) {
+                    continue;
+                }
+                const auto exactCacheKey =
+                    std::pair{agentState.position, agentState.fuel};
+                const auto [iterator, inserted] =
+                    exactByStart.emplace(exactCacheKey, agent);
+                if (inserted) {
+                    exactResourceTasks.push_back(agent);
+                } else {
+                    exactResourceAliases.emplace_back(agent, iterator->second);
+                }
+            }
+            constexpr std::size_t kExactResourceWorkerCount = 4U;
+            const std::size_t workerCount =
+                std::min(kExactResourceWorkerCount, exactResourceTasks.size());
+            exactResourceWorkers.reserve(workerCount);
+            for (std::size_t worker = 0; worker < workerCount; ++worker) {
+                exactResourceWorkers.emplace_back(
+                    [this,
+                     &state,
+                     &options,
+                     &exactOrienteering,
+                     &exactResourceTasks,
+                     &nextExactResourceTask]() {
+                        while (true) {
+                            const std::size_t task = nextExactResourceTask.fetch_add(
+                                1U,
+                                std::memory_order_relaxed);
+                            if (task >= exactResourceTasks.size()) {
+                                return;
+                            }
+                            const AgentIndex agent = exactResourceTasks.at(task);
+                            const AgentState& agentState =
+                                state.agents.at(static_cast<std::size_t>(agent));
+                            const bool fuelConstrained =
+                                agentState.fuel <
+                                    2 * config_.steps_for_day(state.dayNumber);
+                            exactOrienteering.at(static_cast<std::size_t>(agent)) =
+                                options.enableAnytimeFuelConstrainedHarvestOrienteering &&
+                                    fuelConstrained
+                                ? enumerate_anytime_resource_routes(
+                                      config_,
+                                      state,
+                                      agent,
+                                      std::min<std::int32_t>(
+                                          std::max(
+                                              1,
+                                              config_.brand_count() - 1),
+                                          static_cast<std::int32_t>(
+                                              config_.spots.size())),
+                                      32U,
+                                      1250000U,
+                                      options.deadline)
+                                : options.enableFuelConstrainedExactHarvestOrienteering &&
+                                      fuelConstrained
+                                ? enumerate_exact_resource_routes(
+                                      config_,
+                                      state,
+                                      agent,
+                                      options.deadline)
+                                : enumerate_exact_high_fuel_routes(
+                                      config_,
+                                      state,
+                                      agent,
+                                      options.deadline);
+                        }
+                    });
+            }
+            exactDeferred = true;
+        } else {
+            for (AgentIndex agent = 0;
+                 agent < config_.agent_count() && !deadline_expired();
+                 ++agent) {
+                const AgentState& agentState =
+                    state.agents.at(static_cast<std::size_t>(agent));
+                const auto exactCacheKey =
+                    std::pair{agentState.position, agentState.fuel};
+                const auto cached = exactByStart.find(exactCacheKey);
+                if (cached != exactByStart.end() &&
+                    agentState.kind == AgentKind::Patrol &&
+                    agentState.fuel >=
+                        2 * config_.steps_for_day(state.dayNumber)) {
+                    exactOrienteering.at(static_cast<std::size_t>(agent)) =
+                        exactOrienteering.at(static_cast<std::size_t>(cached->second));
+                    if (diagnostics != nullptr) {
+                        ++diagnostics->exactOrienteeringCacheHits;
+                    }
+                } else {
+                    exactOrienteering.at(static_cast<std::size_t>(agent)) =
+                        enumerate_exact_high_fuel_routes(
+                            config_,
+                            state,
+                            agent,
+                            options.deadline);
+                    if (exactOrienteering.at(static_cast<std::size_t>(agent)).supported) {
+                        exactByStart.emplace(exactCacheKey, agent);
+                    }
+                }
+            }
+            finalize_exact_orienteering();
         }
     }
     const auto find_paths = [this, &state, diagnostics](
@@ -3885,9 +3996,19 @@ RoutePortfolio RouteColumnGenerator::generate(
             std::max(1, options.maximumColumnsPerAgent),
             config_.fuelLimit >= 3 * config_.steps_for_day(state.dayNumber));
     }
+    if (exactDeferred) {
+        exactResourceWorkers.clear();
+        finalize_exact_orienteering();
+    }
     for (const std::vector<const ExactOrienteeringRoute*>& coordinatedExactRoutes :
          coordinatedExactRouteBundles) {
         const std::int32_t exactBundle = nextContingencyBundle++;
+        const DayPlan* exactFallbackPlan =
+            !options.seedPlans.empty() &&
+                options.seedPlans.front().actions.size() ==
+                    static_cast<std::size_t>(config_.agent_count())
+            ? &options.seedPlans.front()
+            : nullptr;
         std::vector<RouteColumn> exactBundleColumns;
         exactBundleColumns.reserve(static_cast<std::size_t>(config_.agent_count()));
         for (AgentIndex agentIndex = 0;
@@ -3900,14 +4021,17 @@ RoutePortfolio RouteColumnGenerator::generate(
             exact.agent = agentIndex;
             exact.actions = route != nullptr
                 ? route->actions
-                : wait_actions(config_, state);
+                : exactFallbackPlan != nullptr
+                    ? exactFallbackPlan->actions.at(
+                        static_cast<std::size_t>(agentIndex))
+                    : wait_actions(config_, state);
             exact.priority = 5000000;
             exact.harvestExtension = true;
             exact.exactOrienteering = true;
             exact.harvestExtensionSourceRank = -1;
             exact.contingencyBundle = exactBundle;
             populate_first_visits(config_, state, exact);
-            if (!exact.hasExactTimeline) {
+            if (route != nullptr && !exact.hasExactTimeline) {
                 exactBundleColumns.clear();
                 break;
             }

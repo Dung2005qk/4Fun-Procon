@@ -13,6 +13,7 @@
 #include <queue>
 #include <stdexcept>
 #include <string>
+#include <tuple>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -29,6 +30,7 @@
 namespace {
 
 constexpr std::uint16_t kUnreachable = std::numeric_limits<std::uint16_t>::max();
+constexpr std::size_t kMaximumExactStates = 8U * 1024U * 1024U;
 
 struct ReplayState {
     udon::MatchConfig config;
@@ -41,6 +43,11 @@ struct AgentReachability {
     std::vector<udon::AgentPlan> witnesses;
     std::int32_t maximumSpots = 0;
     std::uint64_t settledStates = 0;
+    std::uint64_t labelsGenerated = 0;
+    std::uint64_t labelsDominanceRejected = 0;
+    std::uint64_t labelsDominated = 0;
+    bool supported = false;
+    bool complete = false;
 };
 
 struct LexScore {
@@ -288,9 +295,12 @@ struct TeamSolution {
 
     AgentReachability result;
     result.agent = agentIndex;
+    result.supported = true;
+    result.complete = true;
     result.maximalMasks = inclusion_maximal_masks(reachableMasks);
     result.witnesses.reserve(result.maximalMasks.size());
     result.settledStates = settledStates;
+    result.labelsGenerated = settledStates;
     for (const std::uint16_t mask : result.maximalMasks) {
         result.maximumSpots = std::max(result.maximumSpots, std::popcount(mask));
         std::vector<udon::PlanAction> reversed;
@@ -313,6 +323,251 @@ struct TeamSolution {
         }
         result.witnesses.push_back(std::move(reversed));
     }
+    return result;
+}
+
+struct FuelConstrainedLabel {
+    std::uint32_t state = 0;
+    std::uint16_t usedSteps = 0;
+    std::uint16_t usedFuel = 0;
+    std::uint32_t parent = std::numeric_limits<std::uint32_t>::max();
+    std::int32_t nextAtState = -1;
+    std::uint8_t incoming = std::numeric_limits<std::uint8_t>::max();
+    bool active = true;
+};
+
+[[nodiscard]] AgentReachability exact_fuel_constrained_agent_reachability(
+    const udon::MatchConfig& config,
+    const udon::DayState& state,
+    udon::AgentIndex agentIndex,
+    std::optional<std::chrono::steady_clock::time_point> deadline) {
+    AgentReachability result;
+    result.agent = agentIndex;
+    const udon::AgentState& agent =
+        state.agents.at(static_cast<std::size_t>(agentIndex));
+    if (agent.kind != udon::AgentKind::Patrol) {
+        throw std::invalid_argument(
+            "fuel-constrained orienteering reachability requires a patrol");
+    }
+    const std::int32_t daySteps = config.steps_for_day(state.dayNumber);
+    if (daySteps <= 0 || daySteps >= kUnreachable ||
+        agent.fuel < 0 || agent.fuel >= kUnreachable ||
+        config.spots.size() > 16U) {
+        return result;
+    }
+
+    const std::uint32_t maskCount = std::uint32_t{1} <<
+        static_cast<std::uint32_t>(config.spots.size());
+    const std::uint32_t cellCount =
+        static_cast<std::uint32_t>(config.map.cell_count());
+    const std::size_t stateCount =
+        static_cast<std::size_t>(maskCount) * cellCount;
+    if (cellCount == 0U || stateCount > kMaximumExactStates) {
+        return result;
+    }
+    result.supported = true;
+    if (deadline.has_value() &&
+        std::chrono::steady_clock::now() >= *deadline) {
+        return result;
+    }
+
+    const auto state_id = [cellCount](std::uint32_t mask, udon::CellId cell) {
+        return mask * cellCount + static_cast<std::uint32_t>(cell);
+    };
+    using QueueEntry =
+        std::tuple<std::uint16_t, std::uint16_t, std::uint32_t>;
+    std::priority_queue<
+        QueueEntry,
+        std::vector<QueueEntry>,
+        std::greater<>> queue;
+    std::vector<std::int32_t> firstLabelAtState(stateCount, -1);
+    std::vector<FuelConstrainedLabel> labels;
+    labels.reserve(std::min<std::size_t>(stateCount, 1U << 20U));
+
+    const auto relax =
+        [&firstLabelAtState, &labels, &queue, &result](
+            std::uint32_t stateId,
+            std::uint16_t candidateSteps,
+            std::uint16_t candidateFuel,
+            std::uint32_t parent,
+            std::uint8_t incoming) {
+            for (std::int32_t labelIndex = firstLabelAtState.at(stateId);
+                 labelIndex >= 0;
+                 labelIndex = labels.at(
+                     static_cast<std::size_t>(labelIndex)).nextAtState) {
+                const FuelConstrainedLabel& existing =
+                    labels.at(static_cast<std::size_t>(labelIndex));
+                if (existing.active &&
+                    existing.usedSteps <= candidateSteps &&
+                    existing.usedFuel <= candidateFuel) {
+                    ++result.labelsDominanceRejected;
+                    return;
+                }
+            }
+            for (std::int32_t labelIndex = firstLabelAtState.at(stateId);
+                 labelIndex >= 0;
+                 labelIndex = labels.at(
+                     static_cast<std::size_t>(labelIndex)).nextAtState) {
+                FuelConstrainedLabel& existing =
+                    labels.at(static_cast<std::size_t>(labelIndex));
+                if (existing.active &&
+                    candidateSteps <= existing.usedSteps &&
+                    candidateFuel <= existing.usedFuel) {
+                    existing.active = false;
+                    ++result.labelsDominated;
+                }
+            }
+            const std::uint32_t labelIndex =
+                static_cast<std::uint32_t>(labels.size());
+            FuelConstrainedLabel label;
+            label.state = stateId;
+            label.usedSteps = candidateSteps;
+            label.usedFuel = candidateFuel;
+            label.parent = parent;
+            label.nextAtState = firstLabelAtState.at(stateId);
+            label.incoming = incoming;
+            labels.push_back(label);
+            firstLabelAtState.at(stateId) =
+                static_cast<std::int32_t>(labelIndex);
+            queue.emplace(candidateSteps, candidateFuel, labelIndex);
+            ++result.labelsGenerated;
+        };
+
+    const std::uint32_t rootState = state_id(0U, agent.position);
+    relax(
+        rootState,
+        0U,
+        0U,
+        std::numeric_limits<std::uint32_t>::max(),
+        std::numeric_limits<std::uint8_t>::max());
+    const std::uint32_t rootLabel = 0U;
+    const udon::SpotIndex startSpot =
+        config.spotAtCell.at(static_cast<std::size_t>(agent.position));
+    if (startSpot != udon::kInvalidSpot && daySteps >= 1) {
+        relax(
+            state_id(
+                std::uint32_t{1} << static_cast<std::uint32_t>(startSpot),
+                agent.position),
+            1U,
+            0U,
+            rootLabel,
+            static_cast<std::uint8_t>(udon::kDirectionCount));
+    }
+
+    std::vector<bool> reachableMasks(maskCount, false);
+    std::vector<std::uint32_t> witnessLabel(
+        maskCount,
+        std::numeric_limits<std::uint32_t>::max());
+    std::vector<udon::MoveCost> moveCosts(cellCount);
+    std::vector<std::uint32_t> destinationSpotBits(cellCount, 0U);
+    for (std::uint32_t cell = 0; cell < cellCount; ++cell) {
+        moveCosts.at(cell) = config.move_cost(
+            static_cast<udon::CellId>(cell),
+            state.roadStatuses.at(cell));
+        const udon::SpotIndex spot = config.spotAtCell.at(cell);
+        if (spot != udon::kInvalidSpot) {
+            destinationSpotBits.at(cell) =
+                std::uint32_t{1} << static_cast<std::uint32_t>(spot);
+        }
+    }
+
+    while (!queue.empty()) {
+        if ((result.settledStates & 4095U) == 0U &&
+            deadline.has_value() &&
+            std::chrono::steady_clock::now() >= *deadline) {
+            return result;
+        }
+        const auto [queuedSteps, queuedFuel, labelIndex] = queue.top();
+        queue.pop();
+        const FuelConstrainedLabel current =
+            labels.at(static_cast<std::size_t>(labelIndex));
+        if (!current.active ||
+            current.usedSteps != queuedSteps ||
+            current.usedFuel != queuedFuel) {
+            continue;
+        }
+        ++result.settledStates;
+        const std::uint32_t mask = current.state / cellCount;
+        const udon::CellId cell = static_cast<udon::CellId>(
+            current.state % cellCount);
+        reachableMasks.at(mask) = true;
+        const std::uint32_t priorWitness = witnessLabel.at(mask);
+        if (priorWitness == std::numeric_limits<std::uint32_t>::max() ||
+            std::tuple{
+                current.usedSteps,
+                current.usedFuel,
+                current.state,
+                labelIndex} <
+                std::tuple{
+                    labels.at(priorWitness).usedSteps,
+                    labels.at(priorWitness).usedFuel,
+                    labels.at(priorWitness).state,
+                    priorWitness}) {
+            witnessLabel.at(mask) = labelIndex;
+        }
+
+        const udon::MoveCost move =
+            moveCosts.at(static_cast<std::size_t>(cell));
+        const std::int32_t candidateSteps =
+            static_cast<std::int32_t>(current.usedSteps) + move.steps;
+        const std::int32_t candidateFuel =
+            static_cast<std::int32_t>(current.usedFuel) + move.patrolFuel;
+        if (candidateSteps > daySteps || candidateFuel > agent.fuel) {
+            continue;
+        }
+        for (std::int32_t direction = 0;
+             direction < udon::kDirectionCount;
+             ++direction) {
+            const udon::CellId destination = config.map.neighbors
+                .at(static_cast<std::size_t>(cell))
+                .at(static_cast<std::size_t>(direction));
+            if (destination == udon::kInvalidCell ||
+                config.map.terrain.at(static_cast<std::size_t>(destination)) ==
+                    udon::Terrain::Pond) {
+                continue;
+            }
+            relax(
+                state_id(
+                    mask | destinationSpotBits.at(
+                        static_cast<std::size_t>(destination)),
+                    destination),
+                static_cast<std::uint16_t>(candidateSteps),
+                static_cast<std::uint16_t>(candidateFuel),
+                labelIndex,
+                static_cast<std::uint8_t>(direction));
+        }
+    }
+
+    result.maximalMasks = inclusion_maximal_masks(reachableMasks);
+    result.witnesses.reserve(result.maximalMasks.size());
+    for (const std::uint16_t mask : result.maximalMasks) {
+        result.maximumSpots =
+            std::max(result.maximumSpots, std::popcount(mask));
+        std::vector<udon::PlanAction> reversed;
+        std::uint32_t current = witnessLabel.at(mask);
+        const std::uint16_t usedSteps = labels.at(current).usedSteps;
+        while (current != rootLabel) {
+            const FuelConstrainedLabel& label = labels.at(current);
+            if (label.incoming ==
+                static_cast<std::uint8_t>(udon::kDirectionCount)) {
+                reversed.push_back(udon::PlanAction::wait(1));
+            } else if (label.incoming <
+                       static_cast<std::uint8_t>(udon::kDirectionCount)) {
+                reversed.push_back(udon::PlanAction::move(label.incoming));
+            } else {
+                throw std::runtime_error(
+                    "fuel-constrained witness has a broken predecessor chain");
+            }
+            current = label.parent;
+        }
+        std::reverse(reversed.begin(), reversed.end());
+        if (usedSteps < daySteps) {
+            reversed.push_back(
+                udon::PlanAction::wait(daySteps - usedSteps));
+        }
+        result.witnesses.push_back(std::move(reversed));
+    }
+    result.complete = true;
     return result;
 }
 
@@ -592,10 +847,14 @@ int main(int argumentCount, char** arguments) {
         bool productionCheck = false;
         bool engineCheck = false;
         bool replayLedger = false;
+        bool fuelConstrained = false;
         std::int32_t budgetMilliseconds = 5000;
         bool improveOnly = false;
         std::int32_t stopServings = -1;
         std::int32_t feasibleServings = -1;
+        std::int32_t anytimeSpots = -1;
+        std::int32_t anytimeRoutes = 16;
+        std::uint64_t anytimeStates = 250000U;
         for (int argument = 1; argument < argumentCount; ++argument) {
             const std::string value = arguments[argument];
             if (value == "--replay" && argument + 1 < argumentCount) {
@@ -612,6 +871,8 @@ int main(int argumentCount, char** arguments) {
                 engineCheck = true;
             } else if (value == "--replay-ledger") {
                 replayLedger = true;
+            } else if (value == "--fuel-constrained") {
+                fuelConstrained = true;
             } else if (value == "--budget-ms" && argument + 1 < argumentCount) {
                 budgetMilliseconds = std::stoi(arguments[++argument]);
             } else if (value == "--improve-only") {
@@ -620,14 +881,20 @@ int main(int argumentCount, char** arguments) {
                 stopServings = std::stoi(arguments[++argument]);
             } else if (value == "--feasible-servings" && argument + 1 < argumentCount) {
                 feasibleServings = std::stoi(arguments[++argument]);
+            } else if (value == "--anytime-spots" && argument + 1 < argumentCount) {
+                anytimeSpots = std::stoi(arguments[++argument]);
+            } else if (value == "--anytime-routes" && argument + 1 < argumentCount) {
+                anytimeRoutes = std::stoi(arguments[++argument]);
+            } else if (value == "--anytime-states" && argument + 1 < argumentCount) {
+                anytimeStates = std::stoull(arguments[++argument]);
             } else {
                 throw std::invalid_argument(
-                    "usage: udonshield_orienteering_oracle --replay PATH [--day N] [--reach-only] [--production-reach-only] [--production-check] [--engine-check] [--budget-ms N] [--improve-only] [--stop-servings N] [--feasible-servings N]");
+                    "usage: udonshield_orienteering_oracle --replay PATH [--day N] [--reach-only] [--fuel-constrained] [--anytime-spots N] [--anytime-routes N] [--anytime-states N] [--production-reach-only] [--production-check] [--engine-check] [--budget-ms N] [--improve-only] [--stop-servings N] [--feasible-servings N]");
             }
         }
         if (replayPath.empty() || day <= 0) {
             throw std::invalid_argument(
-                "usage: udonshield_orienteering_oracle --replay PATH [--day N] [--reach-only] [--production-reach-only] [--production-check] [--engine-check] [--budget-ms N] [--improve-only] [--stop-servings N] [--feasible-servings N]");
+                "usage: udonshield_orienteering_oracle --replay PATH [--day N] [--reach-only] [--fuel-constrained] [--anytime-spots N] [--anytime-routes N] [--anytime-states N] [--production-reach-only] [--production-check] [--engine-check] [--budget-ms N] [--improve-only] [--stop-servings N] [--feasible-servings N]");
         }
 
         const ReplayState replay = load_replay(replayPath, day);
@@ -642,7 +909,7 @@ int main(int argumentCount, char** arguments) {
                 {},
                 calibration,
                 udon::RoutePoolSearch::SinglePass,
-                7,
+                fuelConstrained ? 7 : 6,
                 true,
                 7);
             const udon::DecisionResult decision = engine.solve_day(
@@ -656,6 +923,14 @@ int main(int argumentCount, char** arguments) {
                       << '/' << decision.candidate.scoreAfterToday.totalServings
                       << ",exact_generated="
                       << decision.audit.columnGeneration.exactOrienteeringBundles
+                      << ",exact_supported="
+                      << decision.audit.columnGeneration.exactOrienteeringSupportedAgents
+                      << ",exact_complete="
+                      << decision.audit.columnGeneration.exactOrienteeringCompleteAgents
+                      << ",exact_settled="
+                      << decision.audit.columnGeneration.exactOrienteeringSettledStates
+                      << ",exact_ms="
+                      << decision.audit.columnGeneration.exactOrienteeringMilliseconds
                       << ",exact_discovered="
                       << decision.diagnostics.exactBundlesDiscovered
                       << ",exact_evaluated="
@@ -681,10 +956,19 @@ int main(int argumentCount, char** arguments) {
                     continue;
                 }
                 const udon::ExactOrienteeringReachability exact =
-                    udon::enumerate_exact_high_fuel_routes(
-                        replay.config,
-                        replay.state,
-                        agent);
+                    anytimeSpots > 0
+                    ? udon::enumerate_anytime_resource_routes(
+                          replay.config,
+                          replay.state,
+                          agent,
+                          anytimeSpots,
+                          static_cast<std::size_t>(
+                              std::max(1, anytimeRoutes)),
+                          anytimeStates)
+                    : udon::enumerate_exact_high_fuel_routes(
+                          replay.config,
+                          replay.state,
+                          agent);
                 const auto agentFinished = std::chrono::steady_clock::now();
                 std::cout << "agent=" << agent
                           << ",complete=" << (exact.complete ? 1 : 0)
@@ -727,6 +1011,8 @@ int main(int argumentCount, char** arguments) {
             options.allowUncachedHarvestTargets = true;
             options.enableHarvestOrienteering = true;
             options.enableExactHarvestOrienteering = true;
+            options.enableFuelConstrainedExactHarvestOrienteering =
+                fuelConstrained;
             options.maximumHarvestExtensionSources = 4;
             options.maximumHarvestExtensionDepth = 4;
             const udon::MatchLedger checkLedger = replayLedger
@@ -869,6 +1155,14 @@ int main(int argumentCount, char** arguments) {
                       << generationDiagnostics.exactOrienteeringOverlapFeasibilityNodes
                       << ",feasibility_improvements="
                       << generationDiagnostics.exactOrienteeringFeasibilityImprovements
+                      << ",exact_supported="
+                      << generationDiagnostics.exactOrienteeringSupportedAgents
+                      << ",exact_complete="
+                      << generationDiagnostics.exactOrienteeringCompleteAgents
+                      << ",exact_settled="
+                      << generationDiagnostics.exactOrienteeringSettledStates
+                      << ",exact_ms="
+                      << generationDiagnostics.exactOrienteeringMilliseconds
                       << ",feasibility_improved="
                       << (generationDiagnostics.exactOrienteeringFeasibilityImproved ? 1 : 0)
                       << ",overlap_feasibility_improved="
@@ -878,6 +1172,13 @@ int main(int argumentCount, char** arguments) {
         }
         std::vector<AgentReachability> reachability;
         const auto reachabilityStarted = std::chrono::steady_clock::now();
+        const std::optional<std::chrono::steady_clock::time_point>
+            reachabilityDeadline = fuelConstrained && budgetMilliseconds > 0
+            ? std::optional<std::chrono::steady_clock::time_point>{
+                reachabilityStarted +
+                std::chrono::milliseconds{budgetMilliseconds}}
+            : std::nullopt;
+        bool reachabilityComplete = true;
         for (udon::AgentIndex agent = 0;
              agent < static_cast<udon::AgentIndex>(replay.state.agents.size());
              ++agent) {
@@ -885,32 +1186,54 @@ int main(int argumentCount, char** arguments) {
                 udon::AgentKind::Patrol) {
                 continue;
             }
-            AgentReachability exact = exact_agent_reachability(
-                replay.config,
-                replay.state,
-                agent);
+            AgentReachability exact = fuelConstrained
+                ? exact_fuel_constrained_agent_reachability(
+                    replay.config,
+                    replay.state,
+                    agent,
+                    reachabilityDeadline)
+                : exact_agent_reachability(
+                    replay.config,
+                    replay.state,
+                    agent);
             const auto agentFinished = std::chrono::steady_clock::now();
             std::cout << "agent=" << agent
+                      << ",supported=" << (exact.supported ? 1 : 0)
+                      << ",complete=" << (exact.complete ? 1 : 0)
                       << ",max_spots=" << exact.maximumSpots
                       << ",maximal_masks=" << exact.maximalMasks.size()
                       << ",settled_states=" << exact.settledStates
+                      << ",labels_generated=" << exact.labelsGenerated
+                      << ",dominance_rejected="
+                      << exact.labelsDominanceRejected
+                      << ",labels_dominated=" << exact.labelsDominated
                       << ",cumulative_ms="
                       << std::chrono::duration_cast<std::chrono::milliseconds>(
                              agentFinished - reachabilityStarted).count()
                       << '\n';
+            reachabilityComplete =
+                reachabilityComplete && exact.supported && exact.complete;
             reachability.push_back(std::move(exact));
         }
         const std::int64_t reachabilityMilliseconds =
             std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - reachabilityStarted).count();
         if (reachOnly) {
-            std::cout << "schema=udon-shield-orienteering-reachability-v1"
+            std::cout << "schema="
+                      << (fuelConstrained
+                          ? "udon-shield-fuel-orienteering-reachability-v1"
+                          : "udon-shield-orienteering-reachability-v1")
                       << ",day=" << day
                       << ",spots=" << replay.config.spots.size()
                       << ",patrols=" << reachability.size()
+                      << ",complete=" << (reachabilityComplete ? 1 : 0)
                       << ",milliseconds=" << reachabilityMilliseconds
                       << '\n';
             return EXIT_SUCCESS;
+        }
+        if (!reachabilityComplete) {
+            throw std::runtime_error(
+                "exact reachability did not complete within its supported domain");
         }
         if (feasibleServings >= 0) {
             for (AgentReachability& agent : reachability) {

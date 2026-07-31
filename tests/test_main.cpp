@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <bit>
 #include <chrono>
 #include <cstdlib>
 #include <exception>
@@ -118,7 +119,7 @@ void test_btc_official_wire_adapter() {
         "BTC setup frame classification failed");
 
     const udon::JsonValue stateDocument = udon::JsonValue::parse(R"({
-        "endsAt":1778227205123,
+        "endsAt":1778227208123,
         "day":0,
         "agents":[
             {"kind":0,"pos":16,"fuel":20},
@@ -142,7 +143,8 @@ void test_btc_official_wire_adapter() {
         std::chrono::system_clock::time_point{std::chrono::seconds{1778227200}},
         udon::BtcAdapterOptions{5000});
     require(state.dayNumber == 1, "BTC wire day zero must map to internal day one");
-    require(state.endsAt == 1778227205, "BTC millisecond deadline must be floored to safe internal seconds");
+    require(state.endsAt == 1778227205,
+        "BTC deadline must use the local response budget instead of an unsynchronized server clock");
     require(state.agents.at(1).fuel == config.fuelLimit,
         "BTC tanker with null fuel must normalize without affecting patrol fuel checks");
     require(state.others.at(0).agents.at(0).fuel == config.fuelLimit,
@@ -1065,6 +1067,198 @@ void test_exact_orienteering_terminal_frontier() {
         officialFuelDecision.audit.columnGeneration.exactOrienteeringSupportedAgents == 1 &&
             officialFuelDecision.audit.columnGeneration.exactOrienteeringCompleteAgents == 1,
         "the runtime must enable exact reachability at its proven two-times-steps fuel threshold");
+
+    udon::DayState depletedFinalState = state;
+    depletedFinalState.dayNumber = config.day_count();
+    depletedFinalState.agents.front().fuel = 48;
+    udon::UdonShieldEngine depletedFuelEngine(
+        config,
+        {},
+        {},
+        udon::RoutePoolSearch::SinglePass,
+        7,
+        false,
+        7);
+    const udon::DecisionResult depletedFuelDecision =
+        depletedFuelEngine.solve_day(
+            depletedFinalState,
+            udon::MatchLedger{},
+            std::chrono::milliseconds{5000});
+    require(
+        depletedFuelDecision.audit.columnGeneration
+                .exactOrienteeringSupportedAgents == 1 &&
+            depletedFuelDecision.audit.columnGeneration
+                .exactOrienteeringCompleteAgents == 0,
+        "final-day exact routing must use each patrol's current fuel rather than the match fuel limit");
+
+    udon::MatchConfig lowFuelConfig = config;
+    lowFuelConfig.fuelLimit = 48;
+    udon::DayState lowFuelFinalState = state;
+    lowFuelFinalState.dayNumber = lowFuelConfig.day_count();
+    for (udon::AgentState& agent : lowFuelFinalState.agents) {
+        agent.fuel = lowFuelConfig.fuelLimit;
+    }
+    const udon::ExactOrienteeringReachability fullLowFuel =
+        udon::enumerate_exact_resource_routes(
+            lowFuelConfig,
+            lowFuelFinalState,
+            0);
+    const udon::ExactOrienteeringReachability anytimeLowFuel =
+        udon::enumerate_anytime_resource_routes(
+            lowFuelConfig,
+            lowFuelFinalState,
+            0,
+            3,
+            8,
+            100000);
+    require(
+        fullLowFuel.supported && fullLowFuel.complete &&
+            anytimeLowFuel.supported &&
+            !anytimeLowFuel.maximalRoutes.empty(),
+        "low-fuel anytime orienteering must emit exact-feasible routes without requiring a full proof");
+    const auto maximum_spots = [](const udon::ExactOrienteeringReachability& exact) {
+        std::int32_t maximum = 0;
+        for (const udon::ExactOrienteeringRoute& route : exact.maximalRoutes) {
+            maximum = std::max(
+                maximum,
+                static_cast<std::int32_t>(
+                    std::popcount(route.spotMask)));
+        }
+        return maximum;
+    };
+    require(
+        maximum_spots(anytimeLowFuel) == maximum_spots(fullLowFuel),
+        "a sufficient anytime state budget must recover the full low-fuel spot cardinality");
+    const udon::ExactStepSimulator lowFuelSimulator(lowFuelConfig);
+    for (const udon::ExactOrienteeringRoute& route :
+         anytimeLowFuel.maximalRoutes) {
+        udon::DayPlan plan;
+        plan.actions = {
+            route.actions,
+            {udon::PlanAction::wait(32)},
+            {udon::PlanAction::wait(32)},
+        };
+        const udon::SimulationResult simulation =
+            lowFuelSimulator.simulate(lowFuelFinalState, plan);
+        require(
+            simulation.valid &&
+                simulation.finalAgents.front().position ==
+                    route.terminalCell &&
+                lowFuelFinalState.agents.front().fuel -
+                        simulation.finalAgents.front().fuel ==
+                    route.patrolFuel,
+            "every low-fuel anytime route must preserve exact terminal semantics");
+    }
+    for (std::int32_t trial = 0; trial < 16; ++trial) {
+        udon::MatchConfig trialConfig = lowFuelConfig;
+        trialConfig.roadCells.clear();
+        for (udon::CellId cell = 0;
+             cell < trialConfig.map.cell_count();
+             ++cell) {
+            udon::Terrain terrain = udon::Terrain::Plain;
+            if ((cell + trial) % 7 == 0) {
+                terrain = udon::Terrain::Mountain;
+            } else if ((3 * cell + trial) % 11 == 0) {
+                terrain = udon::Terrain::Road;
+                trialConfig.roadCells.push_back(cell);
+            }
+            trialConfig.map.terrain.at(static_cast<std::size_t>(cell)) =
+                terrain;
+        }
+        udon::DayState trialState = lowFuelFinalState;
+        trialState.agents.front().position =
+            (11 * trial + 3) % trialConfig.map.cell_count();
+        trialState.agents.front().fuel = 8 + (7 * trial) % 41;
+        for (std::size_t cell = 0;
+             cell < trialState.roadStatuses.size();
+             ++cell) {
+            trialState.roadStatuses.at(cell) =
+                static_cast<udon::RoadStatus>((cell + trial) % 3);
+        }
+        const udon::ExactOrienteeringReachability trialFull =
+            udon::enumerate_exact_resource_routes(
+                trialConfig,
+                trialState,
+                0);
+        const udon::ExactOrienteeringReachability trialAnytime =
+            udon::enumerate_anytime_resource_routes(
+                trialConfig,
+                trialState,
+                0,
+                1,
+                64,
+                1000000);
+        require(
+            trialFull.supported && trialFull.complete &&
+                trialAnytime.supported &&
+                maximum_spots(trialAnytime) ==
+                    maximum_spots(trialFull),
+            "bounded exact-state routing must match the full oracle on deterministic mixed-terrain fixtures");
+        const udon::ExactStepSimulator trialSimulator(trialConfig);
+        for (const udon::ExactOrienteeringRoute& route :
+             trialAnytime.maximalRoutes) {
+            udon::DayPlan plan;
+            plan.actions = {
+                route.actions,
+                {udon::PlanAction::wait(32)},
+                {udon::PlanAction::wait(32)},
+            };
+            const udon::SimulationResult simulation =
+                trialSimulator.simulate(trialState, plan);
+            std::uint32_t claimedMask = 0U;
+            for (const udon::ClaimEvent& claim : simulation.claims) {
+                if (claim.agent == 0) {
+                    claimedMask |= std::uint32_t{1} <<
+                        static_cast<std::uint32_t>(claim.spot);
+                }
+            }
+            require(
+                simulation.valid &&
+                    claimedMask == route.spotMask &&
+                    simulation.finalAgents.front().position ==
+                        route.terminalCell &&
+                    trialState.agents.front().fuel -
+                            simulation.finalAgents.front().fuel ==
+                        route.patrolFuel,
+                "bounded exact-state routes must match independent simulation across mixed terrain and traffic");
+        }
+    }
+    udon::UdonShieldEngine lowFuelEngine(
+        lowFuelConfig,
+        {},
+        {},
+        udon::RoutePoolSearch::SinglePass,
+        7,
+        false,
+        7);
+    const udon::DecisionResult lowFuelFinalDecision =
+        lowFuelEngine.solve_day(
+            lowFuelFinalState,
+            udon::MatchLedger{},
+            std::chrono::milliseconds{5000});
+    require(
+        lowFuelFinalDecision.audit.columnGeneration
+                .exactOrienteeringSupportedAgents == 1,
+        "mode seven must enable bounded exact-state low-fuel routes on the final day");
+    udon::DayState lowFuelNonFinalState = lowFuelFinalState;
+    lowFuelNonFinalState.dayNumber = 1;
+    udon::UdonShieldEngine lowFuelNonFinalEngine(
+        lowFuelConfig,
+        {},
+        {},
+        udon::RoutePoolSearch::SinglePass,
+        7,
+        false,
+        7);
+    const udon::DecisionResult lowFuelNonFinalDecision =
+        lowFuelNonFinalEngine.solve_day(
+            lowFuelNonFinalState,
+            udon::MatchLedger{},
+            std::chrono::milliseconds{5000});
+    require(
+        lowFuelNonFinalDecision.audit.columnGeneration
+                .exactOrienteeringSupportedAgents == 0,
+        "bounded low-fuel routes must not consume search budget before the final day");
 }
 
 void test_emergency_contract(const udon::MatchConfig& config, const udon::DayState& state) {
