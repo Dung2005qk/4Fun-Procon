@@ -1347,10 +1347,8 @@ void run_http(const RuntimeOptions& options) {
         options.harvestExtensionMode,
         resolved_future_harvest_extension_mode(options));
     if (!resume.assignmentAccepted || !resume.assignment.has_value()) {
-        const std::chrono::milliseconds roleSelectionBudget = std::max(
-            std::chrono::milliseconds{1},
-            std::chrono::milliseconds{options.responseBudgetMs} -
-                deadlineCalibration.networkFloor);
+        const std::chrono::milliseconds roleSelectionBudget{
+            options.responseBudgetMs};
         const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
             roleSelectionBudget,
             options.beamWidth);

@@ -92,6 +92,8 @@ Adapter BTC giữ solver nội bộ 1-based nhưng dịch ngày wire `0..D-1` t�
 
 HTTP production dùng deadline profile `btc-http-observed-safe-v1`: giữ cứng ít nhất `1500 ms` cho serialize/send/ACK và không gửi nếu cửa sổ authoritative còn dưới `1000 ms`. ACK có trường `day` phải đúng `wireDay + 1`; ACK lệch ngày làm runtime fail-closed thay vì cộng score hoặc tiếp tục từ state sai. `replay-check` cũng chỉ cộng plan sau ACK hợp lệ đúng ngày, không còn tính plan bị từ chối hoặc gửi trễ.
 
+Role assignment runs before `/start`, so HTTP gives it the full configured response budget. The network reserve remains exclusive to authoritative daily `/actions` decisions and is never subtracted from pre-match role rollout.
+
 Replay JSONL chứa setup, assignment, state, actions, action result và standings kèm timestamp/status nhưng không chứa header xác thực. HTTP là transport ưu tiên cho vòng nghiên cứu hiện tại theo hướng dẫn BTC; WebSocket chưa nằm trên critical path vì không thay đổi logic solver hoặc schema hành động.
 
 ## Bản đồ mã nguồn
