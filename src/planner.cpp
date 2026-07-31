@@ -2297,6 +2297,8 @@ RoutePortfolio RouteColumnGenerator::generate(
     };
     std::vector<ExactOrienteeringReachability> exactOrienteering(
         static_cast<std::size_t>(config_.agent_count()));
+    std::vector<ExactOrienteeringReachability>
+        enhancedExactOrienteering;
     std::vector<std::vector<const ExactOrienteeringRoute*>>
         coordinatedExactRouteBundles;
     std::vector<std::jthread> exactResourceWorkers;
@@ -2326,50 +2328,83 @@ RoutePortfolio RouteColumnGenerator::generate(
                     exact.terminalVariants.size();
             }
         }
-        std::vector<const ExactOrienteeringRoute*> coordinatedExactRoutes =
-            select_coordinated_exact_orienteering_routes(
-                config_,
-                ledger,
-                exactOrienteering,
-                options.deadline,
-                diagnostics);
-        if (std::any_of(
-                coordinatedExactRoutes.begin(),
-                coordinatedExactRoutes.end(),
-                [](const ExactOrienteeringRoute* route) { return route != nullptr; })) {
-            coordinatedExactRouteBundles.push_back(coordinatedExactRoutes);
-            coordinatedExactRouteBundles.push_back(select_exact_terminal_variant(
-                config_,
-                state,
-                coordinatedExactRoutes,
-                exactOrienteering,
-                ExactTerminalObjective::Fuel));
-            coordinatedExactRouteBundles.push_back(select_exact_terminal_variant(
-                config_,
-                state,
-                coordinatedExactRoutes,
-                exactOrienteering,
-                ExactTerminalObjective::BrandAccess));
-            coordinatedExactRouteBundles.push_back(select_exact_terminal_variant(
-                config_,
-                state,
-                coordinatedExactRoutes,
-                exactOrienteering,
-                ExactTerminalObjective::TankerAccess));
-            std::set<std::string> seenExactPlans;
-            std::erase_if(
-                coordinatedExactRouteBundles,
-                [&config = config_, &state, &seenExactPlans](
-                    const std::vector<const ExactOrienteeringRoute*>& routes) {
-                    DayPlan plan;
-                    plan.actions.reserve(routes.size());
-                    for (const ExactOrienteeringRoute* route : routes) {
-                        plan.actions.push_back(
-                            route != nullptr ? route->actions : wait_actions(config, state));
-                    }
-                    return !seenExactPlans.insert(canonical_plan_bytes(plan)).second;
-                });
+        const auto append_exact_bundles =
+            [&](const std::vector<ExactOrienteeringReachability>&
+                    reachability) {
+                std::vector<const ExactOrienteeringRoute*> routes =
+                    select_coordinated_exact_orienteering_routes(
+                        config_,
+                        ledger,
+                        reachability,
+                        options.deadline,
+                        diagnostics);
+                if (!std::any_of(
+                        routes.begin(),
+                        routes.end(),
+                        [](const ExactOrienteeringRoute* route) {
+                            return route != nullptr;
+                        })) {
+                    return;
+                }
+                coordinatedExactRouteBundles.push_back(routes);
+                coordinatedExactRouteBundles.push_back(
+                    select_exact_terminal_variant(
+                        config_,
+                        state,
+                        routes,
+                        reachability,
+                        ExactTerminalObjective::Fuel));
+                coordinatedExactRouteBundles.push_back(
+                    select_exact_terminal_variant(
+                        config_,
+                        state,
+                        routes,
+                        reachability,
+                        ExactTerminalObjective::BrandAccess));
+                coordinatedExactRouteBundles.push_back(
+                    select_exact_terminal_variant(
+                        config_,
+                        state,
+                        routes,
+                        reachability,
+                        ExactTerminalObjective::TankerAccess));
+            };
+        append_exact_bundles(exactOrienteering);
+        const bool hasSupplementalRoutes = std::any_of(
+            exactOrienteering.begin(),
+            exactOrienteering.end(),
+            [](const ExactOrienteeringReachability& exact) {
+                return !exact.supplementalRoutes.empty();
+            });
+        if (hasSupplementalRoutes) {
+            enhancedExactOrienteering = exactOrienteering;
+            for (ExactOrienteeringReachability& exact :
+                 enhancedExactOrienteering) {
+                exact.maximalRoutes.insert(
+                    exact.maximalRoutes.end(),
+                    exact.supplementalRoutes.begin(),
+                    exact.supplementalRoutes.end());
+            }
+            append_exact_bundles(enhancedExactOrienteering);
         }
+        std::set<std::string> seenExactPlans;
+        std::erase_if(
+            coordinatedExactRouteBundles,
+            [&config = config_, &state, &seenExactPlans](
+                const std::vector<const ExactOrienteeringRoute*>&
+                    routes) {
+                DayPlan plan;
+                plan.actions.reserve(routes.size());
+                for (const ExactOrienteeringRoute* route : routes) {
+                    plan.actions.push_back(
+                        route != nullptr
+                            ? route->actions
+                            : wait_actions(config, state));
+                }
+                return !seenExactPlans
+                            .insert(canonical_plan_bytes(plan))
+                            .second;
+            });
         if (diagnostics != nullptr) {
             diagnostics->exactOrienteeringBundles =
                 static_cast<std::int32_t>(coordinatedExactRouteBundles.size());
@@ -2393,6 +2428,14 @@ RoutePortfolio RouteColumnGenerator::generate(
                         agent.fuel <
                             2 * config_.steps_for_day(state.dayNumber);
                 });
+        std::uint64_t missingLifetimeBrands = 0U;
+        for (std::int32_t brand = 0;
+             brand < config_.brand_count();
+             ++brand) {
+            if (!has_brand(ledger.lifetimeBrands, brand)) {
+                missingLifetimeBrands |= brand_bit(brand);
+            }
+        }
         std::map<std::pair<CellId, std::int32_t>, AgentIndex> exactByStart;
         if (requiresFuelConstrainedSearch) {
             for (AgentIndex agent = 0; agent < config_.agent_count(); ++agent) {
@@ -2419,6 +2462,7 @@ RoutePortfolio RouteColumnGenerator::generate(
                 exactResourceWorkers.emplace_back(
                     [this,
                      &state,
+                     missingLifetimeBrands,
                      &options,
                      &exactOrienteering,
                      &exactResourceTasks,
@@ -2443,15 +2487,18 @@ RoutePortfolio RouteColumnGenerator::generate(
                                       config_,
                                       state,
                                       agent,
-                                      std::min<std::int32_t>(
-                                          std::max(
-                                              1,
-                                              config_.brand_count() - 1),
-                                          static_cast<std::int32_t>(
-                                              config_.spots.size())),
+                                      missingLifetimeBrands != 0U
+                                        ? 1
+                                        : std::min<std::int32_t>(
+                                            std::max(
+                                                1,
+                                                config_.brand_count() - 1),
+                                            static_cast<std::int32_t>(
+                                                config_.spots.size())),
                                       32U,
                                       1250000U,
-                                      options.deadline)
+                                      options.deadline,
+                                      missingLifetimeBrands)
                                 : options.enableFuelConstrainedExactHarvestOrienteering &&
                                       fuelConstrained
                                 ? enumerate_exact_resource_routes(

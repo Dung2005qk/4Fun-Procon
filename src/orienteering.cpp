@@ -380,6 +380,7 @@ ExactOrienteeringReachability enumerate_resource_routes(
     std::optional<std::int32_t> minimumSpots,
     std::size_t maximumRoutes,
     std::uint64_t maximumSettledStates,
+    std::uint64_t preferredBrands,
     std::optional<std::chrono::steady_clock::time_point> deadline) {
     ExactOrienteeringReachability result;
     if (agentIndex < 0 ||
@@ -503,6 +504,23 @@ ExactOrienteeringReachability enumerate_resource_routes(
     std::unordered_set<std::uint32_t> anytimeMasks;
     std::vector<MoveCost> moveCosts(cellCount);
     std::vector<std::uint32_t> destinationSpotBits(cellCount, 0U);
+    std::vector<std::uint64_t> brandMaskBySpotMask;
+    std::vector<std::int32_t> servingPotentialBySpotMask;
+    if (preferredBrands != 0U) {
+        brandMaskBySpotMask.assign(maskCount, 0U);
+        servingPotentialBySpotMask.assign(maskCount, 0);
+        for (std::uint32_t mask = 1U; mask < maskCount; ++mask) {
+            const std::uint32_t bit = std::countr_zero(mask);
+            const std::uint32_t prior = mask & (mask - 1U);
+            const Spot& spot = config.spots.at(bit);
+            brandMaskBySpotMask.at(mask) =
+                brandMaskBySpotMask.at(prior) |
+                brand_bit(spot.brandIndex);
+            servingPotentialBySpotMask.at(mask) =
+                servingPotentialBySpotMask.at(prior) +
+                (spot.stock > 0 ? 1 : 0);
+        }
+    }
     for (std::uint32_t cell = 0; cell < cellCount; ++cell) {
         moveCosts.at(cell) = config.move_cost(
             static_cast<CellId>(cell),
@@ -599,16 +617,6 @@ ExactOrienteeringReachability enumerate_resource_routes(
             config.spotAtCell.at(static_cast<std::size_t>(cell)) !=
                 kInvalidSpot &&
             anytimeMasks.insert(mask).second) {
-            const auto rank = [](const ExactOrienteeringRoute& route) {
-                return std::tuple{
-                    static_cast<std::int32_t>(
-                        std::popcount(route.spotMask)),
-                    -route.usedSteps,
-                    -route.patrolFuel,
-                    -route.terminalBrandDistance,
-                    -route.terminalCell,
-                    -static_cast<std::int32_t>(route.spotMask)};
-            };
             std::int32_t terminalBrandDistance = 0;
             for (std::int32_t brand = 0;
                  brand < config.brand_count();
@@ -627,7 +635,43 @@ ExactOrienteeringReachability enumerate_resource_routes(
                     terminalBrandDistance += nearestBrand;
                 }
             }
-            const auto candidateRank = std::tuple{
+            const auto lexicographic_rank =
+                [&brandMaskBySpotMask,
+                 &servingPotentialBySpotMask,
+                 preferredBrands](
+                    std::uint32_t routeMask,
+                    std::int32_t usedSteps,
+                    std::int32_t usedFuel,
+                    std::int32_t brandDistance,
+                    CellId terminalCell) {
+                    const std::uint64_t brands =
+                        brandMaskBySpotMask.at(routeMask);
+                    return std::tuple{
+                        static_cast<std::int32_t>(
+                            std::popcount(brands & preferredBrands)),
+                        static_cast<std::int32_t>(
+                            std::popcount(brands)),
+                        servingPotentialBySpotMask.at(routeMask),
+                        static_cast<std::int32_t>(
+                            std::popcount(routeMask)),
+                        -usedSteps,
+                        -usedFuel,
+                        -brandDistance,
+                        -terminalCell,
+                        -static_cast<std::int32_t>(routeMask)};
+                };
+            const auto legacy_rank =
+                [](const ExactOrienteeringRoute& route) {
+                    return std::tuple{
+                        static_cast<std::int32_t>(
+                            std::popcount(route.spotMask)),
+                        -route.usedSteps,
+                        -route.patrolFuel,
+                        -route.terminalBrandDistance,
+                        -route.terminalCell,
+                        -static_cast<std::int32_t>(route.spotMask)};
+                };
+            const auto legacyCandidateRank = std::tuple{
                 static_cast<std::int32_t>(std::popcount(mask)),
                 -static_cast<std::int32_t>(current.usedSteps),
                 -static_cast<std::int32_t>(current.usedFuel),
@@ -641,13 +685,129 @@ ExactOrienteeringReachability enumerate_resource_routes(
                 const auto worst = std::min_element(
                     result.maximalRoutes.begin(),
                     result.maximalRoutes.end(),
-                    [&rank](
+                    [&legacy_rank](
                         const ExactOrienteeringRoute& left,
                         const ExactOrienteeringRoute& right) {
-                        return rank(left) < rank(right);
+                        return legacy_rank(left) < legacy_rank(right);
                     });
-                if (rank(*worst) < candidateRank) {
+                if (legacy_rank(*worst) < legacyCandidateRank) {
                     *worst = reconstruct_route(labelIndex, mask);
+                }
+            }
+            if (preferredBrands != 0U) {
+                const auto candidateRank = lexicographic_rank(
+                    mask,
+                    current.usedSteps,
+                    current.usedFuel,
+                    terminalBrandDistance,
+                    cell);
+                if (result.supplementalRoutes.size() < maximumRoutes) {
+                    result.supplementalRoutes.push_back(
+                        reconstruct_route(labelIndex, mask));
+                } else {
+                    std::vector<std::int32_t> retainedBrandCounts(
+                        static_cast<std::size_t>(config.brand_count()),
+                        0);
+                    std::uint64_t retainedBrands = 0U;
+                    for (const ExactOrienteeringRoute& route :
+                         result.supplementalRoutes) {
+                        const std::uint64_t brands =
+                            brandMaskBySpotMask.at(route.spotMask);
+                        retainedBrands |= brands;
+                        for (std::int32_t brand = 0;
+                             brand < config.brand_count();
+                             ++brand) {
+                            if (has_brand(brands, brand)) {
+                                ++retainedBrandCounts.at(
+                                    static_cast<std::size_t>(brand));
+                            }
+                        }
+                    }
+                    const std::uint64_t candidateBrands =
+                        brandMaskBySpotMask.at(mask);
+                    const bool expandsCoverage =
+                        (candidateBrands & ~retainedBrands) != 0U;
+                    auto worstSafe = result.supplementalRoutes.end();
+                    for (auto existing =
+                             result.supplementalRoutes.begin();
+                         existing != result.supplementalRoutes.end();
+                         ++existing) {
+                        const std::uint64_t existingBrands =
+                            brandMaskBySpotMask.at(existing->spotMask);
+                        bool safe = true;
+                        for (std::int32_t brand = 0;
+                             brand < config.brand_count();
+                             ++brand) {
+                            if (has_brand(existingBrands, brand) &&
+                                retainedBrandCounts.at(
+                                    static_cast<std::size_t>(brand)) == 1 &&
+                                !has_brand(candidateBrands, brand)) {
+                                safe = false;
+                                break;
+                            }
+                        }
+                        if (!safe) {
+                            continue;
+                        }
+                        if (worstSafe ==
+                                result.supplementalRoutes.end() ||
+                            lexicographic_rank(
+                                existing->spotMask,
+                                existing->usedSteps,
+                                existing->patrolFuel,
+                                existing->terminalBrandDistance,
+                                existing->terminalCell) <
+                                lexicographic_rank(
+                                    worstSafe->spotMask,
+                                    worstSafe->usedSteps,
+                                    worstSafe->patrolFuel,
+                                    worstSafe->terminalBrandDistance,
+                                    worstSafe->terminalCell)) {
+                            worstSafe = existing;
+                        }
+                    }
+                    if (worstSafe !=
+                            result.supplementalRoutes.end() &&
+                        (expandsCoverage ||
+                         lexicographic_rank(
+                             worstSafe->spotMask,
+                             worstSafe->usedSteps,
+                             worstSafe->patrolFuel,
+                             worstSafe->terminalBrandDistance,
+                             worstSafe->terminalCell) < candidateRank)) {
+                        *worstSafe =
+                            reconstruct_route(labelIndex, mask);
+                    } else if (worstSafe ==
+                               result.supplementalRoutes.end()) {
+                        const auto worst = std::min_element(
+                            result.supplementalRoutes.begin(),
+                            result.supplementalRoutes.end(),
+                            [&lexicographic_rank](
+                                const ExactOrienteeringRoute& left,
+                                const ExactOrienteeringRoute& right) {
+                                return lexicographic_rank(
+                                           left.spotMask,
+                                           left.usedSteps,
+                                           left.patrolFuel,
+                                           left.terminalBrandDistance,
+                                           left.terminalCell) <
+                                    lexicographic_rank(
+                                           right.spotMask,
+                                           right.usedSteps,
+                                           right.patrolFuel,
+                                           right.terminalBrandDistance,
+                                           right.terminalCell);
+                            });
+                        if (lexicographic_rank(
+                                worst->spotMask,
+                                worst->usedSteps,
+                                worst->patrolFuel,
+                                worst->terminalBrandDistance,
+                                worst->terminalCell) < candidateRank) {
+                            *worst =
+                                reconstruct_route(labelIndex, mask);
+                        }
+                    }
                 }
             }
         }
@@ -848,6 +1008,7 @@ ExactOrienteeringReachability enumerate_exact_resource_routes(
         std::nullopt,
         0U,
         std::numeric_limits<std::uint64_t>::max(),
+        0U,
         deadline);
 }
 
@@ -858,7 +1019,8 @@ ExactOrienteeringReachability enumerate_anytime_resource_routes(
     std::int32_t minimumSpots,
     std::size_t maximumRoutes,
     std::uint64_t maximumSettledStates,
-    std::optional<std::chrono::steady_clock::time_point> deadline) {
+    std::optional<std::chrono::steady_clock::time_point> deadline,
+    std::uint64_t preferredBrands) {
     if (minimumSpots <= 0 || maximumRoutes == 0U ||
         maximumSettledStates == 0U) {
         return {};
@@ -870,28 +1032,69 @@ ExactOrienteeringReachability enumerate_anytime_resource_routes(
         minimumSpots,
         maximumRoutes,
         maximumSettledStates,
+        preferredBrands,
         deadline);
+    const auto route_brand_mask =
+        [&config](std::uint32_t spotMask) {
+            std::uint64_t brands = 0U;
+            for (std::size_t spot = 0;
+                 spot < config.spots.size();
+                 ++spot) {
+                if ((spotMask & (std::uint32_t{1} << spot)) != 0U) {
+                    brands |= brand_bit(config.spots.at(spot).brandIndex);
+                }
+            }
+            return brands;
+        };
+    const auto serving_potential =
+        [&config](std::uint32_t spotMask) {
+            std::int32_t servings = 0;
+            for (std::size_t spot = 0;
+                 spot < config.spots.size();
+                 ++spot) {
+                if ((spotMask & (std::uint32_t{1} << spot)) != 0U &&
+                    config.spots.at(spot).stock > 0) {
+                    ++servings;
+                }
+            }
+            return servings;
+        };
+    const auto legacy_rank =
+        [](const ExactOrienteeringRoute& route) {
+            return std::tuple{
+                static_cast<std::int32_t>(
+                    std::popcount(route.spotMask)),
+                -route.usedSteps,
+                -route.patrolFuel,
+                -route.terminalBrandDistance,
+                -route.terminalCell,
+                -static_cast<std::int32_t>(route.spotMask)};
+        };
+    const auto supplemental_rank =
+        [&route_brand_mask,
+         &serving_potential,
+         preferredBrands](const ExactOrienteeringRoute& route) {
+            const std::uint64_t brands =
+                route_brand_mask(route.spotMask);
+            return std::tuple{
+                static_cast<std::int32_t>(
+                    std::popcount(brands & preferredBrands)),
+                static_cast<std::int32_t>(std::popcount(brands)),
+                serving_potential(route.spotMask),
+                static_cast<std::int32_t>(
+                    std::popcount(route.spotMask)),
+                -route.usedSteps,
+                -route.patrolFuel,
+                -route.terminalBrandDistance,
+                -route.terminalCell,
+                -static_cast<std::int32_t>(route.spotMask)};
+        };
     std::sort(
         result.maximalRoutes.begin(),
         result.maximalRoutes.end(),
-        [](const ExactOrienteeringRoute& left,
-           const ExactOrienteeringRoute& right) {
-            return std::tuple{
-                       static_cast<std::int32_t>(
-                           std::popcount(left.spotMask)),
-                       -left.usedSteps,
-                       -left.patrolFuel,
-                       -left.terminalBrandDistance,
-                       -left.terminalCell,
-                       -static_cast<std::int32_t>(left.spotMask)} >
-                std::tuple{
-                       static_cast<std::int32_t>(
-                           std::popcount(right.spotMask)),
-                       -right.usedSteps,
-                       -right.patrolFuel,
-                       -right.terminalBrandDistance,
-                       -right.terminalCell,
-                       -static_cast<std::int32_t>(right.spotMask)};
+        [&legacy_rank](const ExactOrienteeringRoute& left,
+                       const ExactOrienteeringRoute& right) {
+            return legacy_rank(left) > legacy_rank(right);
         });
     std::unordered_set<std::uint32_t> retainedMasks;
     std::erase_if(
@@ -901,6 +1104,29 @@ ExactOrienteeringReachability enumerate_anytime_resource_routes(
         });
     if (result.maximalRoutes.size() > maximumRoutes) {
         result.maximalRoutes.resize(maximumRoutes);
+    }
+    retainedMasks.clear();
+    for (const ExactOrienteeringRoute& route : result.maximalRoutes) {
+        retainedMasks.insert(route.spotMask);
+    }
+    std::sort(
+        result.supplementalRoutes.begin(),
+        result.supplementalRoutes.end(),
+        [&supplemental_rank](
+            const ExactOrienteeringRoute& left,
+            const ExactOrienteeringRoute& right) {
+            return supplemental_rank(left) >
+                supplemental_rank(right);
+        });
+    std::unordered_set<std::uint32_t> supplementalMasks =
+        retainedMasks;
+    std::erase_if(
+        result.supplementalRoutes,
+        [&supplementalMasks](const ExactOrienteeringRoute& route) {
+            return !supplementalMasks.insert(route.spotMask).second;
+        });
+    if (result.supplementalRoutes.size() > maximumRoutes) {
+        result.supplementalRoutes.resize(maximumRoutes);
     }
     result.complete = false;
     return result;

@@ -1261,6 +1261,143 @@ void test_exact_orienteering_terminal_frontier() {
         "bounded low-fuel routes must not consume search budget before the final day");
 }
 
+void test_anytime_orienteering_preserves_lexicographic_brands() {
+    const udon::MatchConfig config = udon::parse_match_config(
+        udon::JsonValue::parse(R"({
+            "startsAt":1778227200,
+            "daySeconds":[5,5,5,5],
+            "daySteps":[18,18,18,18],
+            "map":{"height":8,"width":8,"cells":[
+                [0,2,2,2,2,2,2,2],
+                [2,2,2,2,2,2,2,2],
+                [2,2,2,2,2,2,2,2],
+                [2,2,2,0,0,0,2,2],
+                [2,2,2,0,0,2,2,2],
+                [2,2,2,2,2,2,2,2],
+                [2,2,2,2,2,2,2,2],
+                [0,2,2,2,2,2,2,2]
+            ]},
+            "spots":[
+                {"brand":10,"pos":28,"stocks":3},
+                {"brand":10,"pos":29,"stocks":3},
+                {"brand":11,"pos":56,"stocks":3}
+            ],
+            "agents":[27,35,36],
+            "fuelLimits":20,
+            "players":2,
+            "busyThreshold":2,
+            "jammedThreshold":4
+        })"));
+    const udon::DayState state = udon::parse_day_state(
+        config,
+        udon::JsonValue::parse(R"({
+            "endsAt":1778227205,
+            "day":4,
+            "agents":[
+                {"kind":0,"pos":27,"fuel":20},
+                {"kind":0,"pos":35,"fuel":20},
+                {"kind":0,"pos":36,"fuel":20}
+            ],
+            "others":[],
+            "traffics":[]
+        })"));
+    const auto route_brands = [&config](
+                                  const udon::ExactOrienteeringRoute& route) {
+        std::uint64_t brands = 0U;
+        for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+            if ((route.spotMask & (std::uint32_t{1} << spot)) != 0U) {
+                brands |= udon::brand_bit(config.spots.at(spot).brandIndex);
+            }
+        }
+        return brands;
+    };
+    const udon::ExactOrienteeringReachability diverse =
+        udon::enumerate_anytime_resource_routes(
+            config,
+            state,
+            0,
+            1,
+            2,
+            100000,
+            std::nullopt,
+            udon::brand_bit(0) | udon::brand_bit(1));
+    std::uint64_t retainedBrands = 0U;
+    for (const udon::ExactOrienteeringRoute& route :
+         diverse.maximalRoutes) {
+        retainedBrands |= route_brands(route);
+    }
+    for (const udon::ExactOrienteeringRoute& route :
+         diverse.supplementalRoutes) {
+        retainedBrands |= route_brands(route);
+    }
+    require(
+        diverse.supported &&
+            diverse.maximalRoutes.size() == 2U &&
+            udon::has_brand(retainedBrands, 0) &&
+            udon::has_brand(retainedBrands, 1),
+        "the legacy-plus-supplemental frontier must preserve every reachable brand");
+
+    const udon::ExactOrienteeringReachability legacy =
+        udon::enumerate_anytime_resource_routes(
+            config,
+            state,
+            0,
+            1,
+            1,
+            100000);
+    const udon::ExactOrienteeringReachability preferred =
+        udon::enumerate_anytime_resource_routes(
+            config,
+            state,
+            0,
+            1,
+            1,
+            100000,
+            std::nullopt,
+            udon::brand_bit(1));
+    require(
+        preferred.supported &&
+            preferred.maximalRoutes.size() == 1U &&
+            preferred.supplementalRoutes.size() == 1U &&
+            udon::has_brand(
+                route_brands(preferred.supplementalRoutes.front()),
+                1) &&
+            legacy.maximalRoutes.size() == 1U &&
+            preferred.maximalRoutes.front().spotMask ==
+                legacy.maximalRoutes.front().spotMask &&
+            preferred.maximalRoutes.front().usedSteps ==
+                legacy.maximalRoutes.front().usedSteps &&
+            preferred.maximalRoutes.front().patrolFuel ==
+                legacy.maximalRoutes.front().patrolFuel &&
+            preferred.maximalRoutes.front().terminalCell ==
+                legacy.maximalRoutes.front().terminalCell &&
+            preferred.maximalRoutes.front().actions.size() ==
+                legacy.maximalRoutes.front().actions.size() &&
+            std::equal(
+                preferred.maximalRoutes.front().actions.begin(),
+                preferred.maximalRoutes.front().actions.end(),
+                legacy.maximalRoutes.front().actions.begin(),
+                [](const udon::PlanAction& left,
+                   const udon::PlanAction& right) {
+                    return left.kind == right.kind &&
+                        left.value == right.value;
+                }),
+        "a one-slot supplemental frontier must preserve the missing lifetime brand without replacing the legacy route");
+    const udon::ExactStepSimulator simulator(config);
+    for (const udon::ExactOrienteeringRoute& route :
+         preferred.supplementalRoutes) {
+        udon::DayPlan plan;
+        plan.actions = {
+            route.actions,
+            {udon::PlanAction::wait(18)},
+            {udon::PlanAction::wait(18)},
+        };
+        require(
+            simulator.simulate(state, plan).valid,
+            "lexicographic route retention must not alter exact action feasibility");
+    }
+}
+
 void test_emergency_contract(const udon::MatchConfig& config, const udon::DayState& state) {
     udon::UdonShieldEngine engine(config);
     const udon::DecisionResult decision = engine.solve_day(state, udon::MatchLedger{}, std::chrono::milliseconds{1});
@@ -3364,6 +3501,7 @@ int main() {
         test_alns_synthesizes_route_outside_portfolio(config, state);
         test_route_pool_recombines_elite_agent_routes(config, state);
         test_exact_orienteering_terminal_frontier();
+        test_anytime_orienteering_preserves_lexicographic_brands();
         test_emergency_contract(config, state);
         test_deadline_floors();
         test_public_traffic_scenarios(config, state);

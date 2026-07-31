@@ -25,6 +25,7 @@ struct ExactOrienteeringReachability {
     bool complete = false;
     std::uint64_t settledStates = 0;
     std::vector<ExactOrienteeringRoute> maximalRoutes;
+    std::vector<ExactOrienteeringRoute> supplementalRoutes;
     std::vector<ExactOrienteeringRoute> terminalVariants;
 };
 
@@ -47,6 +48,7 @@ struct ExactOrienteeringReachability {
     std::int32_t minimumSpots,
     std::size_t maximumRoutes,
     std::uint64_t maximumSettledStates,
-    std::optional<std::chrono::steady_clock::time_point> deadline = std::nullopt);
+    std::optional<std::chrono::steady_clock::time_point> deadline = std::nullopt,
+    std::uint64_t preferredBrands = 0);
 
 }
