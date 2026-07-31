@@ -736,12 +736,22 @@ void run_replay_solve(const RuntimeOptions& options) {
               << decision.diagnostics.bundleUpperBoundChecks
               << " bundle_bound_prunes="
               << decision.diagnostics.bundleUpperBoundPrunes
+              << " bundle_brand_states="
+              << decision.diagnostics.bundleBrandFrontierStates
+              << " bundle_brand_fallbacks="
+              << decision.diagnostics.bundleBrandFrontierFallbacks
               << " master_upper="
               << decision.diagnostics.optimisticUpperBound.lifetimeDistinct
               << '/'
               << decision.diagnostics.optimisticUpperBound.totalDailyDistinct
               << '/'
               << decision.diagnostics.optimisticUpperBound.totalServings
+              << " guidance_upper="
+              << decision.diagnostics.searchGuidanceUpperBound.lifetimeDistinct
+              << '/'
+              << decision.diagnostics.searchGuidanceUpperBound.totalDailyDistinct
+              << '/'
+              << decision.diagnostics.searchGuidanceUpperBound.totalServings
               << " bundle_prunes=" << decision.diagnostics.bundlePrunes
               << " partial_checks=" << decision.diagnostics.partialSynchronizationChecks
               << " partial_prunes=" << decision.diagnostics.partialSynchronizationPrunes

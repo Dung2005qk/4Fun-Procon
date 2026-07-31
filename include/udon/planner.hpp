@@ -162,6 +162,8 @@ struct MasterDiagnostics {
     std::int32_t upperBoundPrunes = 0;
     std::int32_t bundleUpperBoundChecks = 0;
     std::int32_t bundleUpperBoundPrunes = 0;
+    std::int32_t bundleBrandFrontierStates = 0;
+    std::int32_t bundleBrandFrontierFallbacks = 0;
     std::int32_t bundlePrunes = 0;
     std::int32_t exactBundlesDiscovered = 0;
     std::int32_t exactBundlesEvaluated = 0;
@@ -195,6 +197,7 @@ struct MasterDiagnostics {
     bool searchComplete = false;
     OfficialScore bestExactBundleScore;
     OfficialScore optimisticUpperBound;
+    OfficialScore searchGuidanceUpperBound;
 };
 
 struct TrafficSafety {

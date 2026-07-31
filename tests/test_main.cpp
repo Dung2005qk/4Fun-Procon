@@ -2865,8 +2865,120 @@ void test_master_bundle_aware_upper_bound(
     require(
         bundleDiagnostics.optimisticUpperBound ==
                 legacy.front().scoreAfterToday &&
+            bundleDiagnostics.searchGuidanceUpperBound ==
+                legacyDiagnostics.optimisticUpperBound &&
             bundleDiagnostics.bundleAwareUpperBound,
         "bundle-aware root upper bound must close the incompatible-mode gap exactly");
+}
+
+void test_master_agent_brand_frontier_upper_bound(
+    const udon::MatchConfig& config,
+    const udon::DayState& state) {
+    const std::int32_t daySteps =
+        config.steps_for_day(state.dayNumber);
+    const std::int32_t moveSteps =
+        config.move_cost(
+                  state.agents.at(0).position,
+                  state.roadStatuses.at(
+                      static_cast<std::size_t>(
+                          state.agents.at(0).position)))
+            .steps;
+    require(
+        config.map.neighbors.at(16).at(2) == 17 &&
+            moveSteps > 0 && moveSteps < daySteps,
+        "agent-frontier fixture requires the adjacent second brand");
+    const auto make_exact_column = [](
+                                       std::int32_t id,
+                                       udon::AgentIndex agent,
+                                       udon::AgentPlan actions) {
+        udon::RouteColumn column;
+        column.columnId = id;
+        column.agent = agent;
+        column.actions = std::move(actions);
+        column.hasExactTimeline = true;
+        return column;
+    };
+
+    udon::RoutePortfolio portfolio;
+    portfolio.columnsByAgent.resize(3U);
+    udon::RouteColumn firstBrand = make_exact_column(
+        0,
+        0,
+        {udon::PlanAction::wait(daySteps)});
+    firstBrand.firstVisits = {
+        udon::ColumnVisitEvent{0, daySteps, true, 0, false},
+    };
+    portfolio.columnsByAgent.at(0).push_back(
+        std::move(firstBrand));
+    udon::RouteColumn secondBrand = make_exact_column(
+        1,
+        0,
+        {
+            udon::PlanAction::move(2),
+            udon::PlanAction::wait(daySteps - moveSteps),
+        });
+    secondBrand.firstVisits = {
+        udon::ColumnVisitEvent{1, moveSteps, true, 1, false},
+    };
+    portfolio.columnsByAgent.at(0).push_back(
+        std::move(secondBrand));
+    portfolio.columnsByAgent.at(1).push_back(
+        make_exact_column(
+            2,
+            1,
+            {udon::PlanAction::wait(daySteps)}));
+    portfolio.columnsByAgent.at(2).push_back(
+        make_exact_column(
+            3,
+            2,
+            {udon::PlanAction::wait(daySteps)}));
+
+    const udon::ExactStepSimulator simulator(config);
+    const udon::IndependentDayValidator validator(config);
+    const udon::RouteMaster master(config, simulator, validator);
+    udon::MasterOptions legacyOptions;
+    legacyOptions.maximumCombinations = 8;
+    legacyOptions.maximumCandidates = 1;
+    legacyOptions.maximumResolveRounds = 1;
+    legacyOptions.enableBundleAwareUpperBound = false;
+    udon::MasterDiagnostics legacyDiagnostics;
+    const std::vector<udon::MasterCandidate> legacy =
+        master.solve(
+            state,
+            udon::MatchLedger{},
+            portfolio,
+            legacyOptions,
+            legacyDiagnostics);
+
+    udon::MasterOptions frontierOptions = legacyOptions;
+    frontierOptions.enableBundleAwareUpperBound = true;
+    udon::MasterDiagnostics frontierDiagnostics;
+    const std::vector<udon::MasterCandidate> bounded =
+        master.solve(
+            state,
+            udon::MatchLedger{},
+            portfolio,
+            frontierOptions,
+            frontierDiagnostics);
+
+    require(
+        !legacy.empty() && !bounded.empty() &&
+            legacy.front().stableId == bounded.front().stableId &&
+            legacy.front().scoreAfterToday ==
+                bounded.front().scoreAfterToday,
+        "agent brand frontier must preserve the exact master optimum");
+    require(
+        legacyDiagnostics.optimisticUpperBound ==
+            udon::OfficialScore{2, 2, 1},
+        "legacy upper bound must expose same-agent route mixing");
+    require(
+        frontierDiagnostics.optimisticUpperBound ==
+                udon::OfficialScore{1, 1, 1} &&
+            frontierDiagnostics.searchGuidanceUpperBound ==
+                legacyDiagnostics.optimisticUpperBound &&
+            frontierDiagnostics.bundleBrandFrontierStates > 0 &&
+            frontierDiagnostics.bundleBrandFrontierFallbacks == 0,
+        "agent brand antichain must remove same-agent route mixing without fallback");
 }
 
 void test_master_stock_capped_search_order() {
@@ -3694,6 +3806,7 @@ int main() {
         test_unreachable_brand_staging_column();
         test_master_lexicographic_branch_and_bound(config, state);
         test_master_bundle_aware_upper_bound(config, state);
+        test_master_agent_brand_frontier_upper_bound(config, state);
         test_master_stock_capped_search_order();
         test_viability_reservation_and_role_seeds(config, state);
         test_contingency_seed_bundle_is_atomic(config, state);

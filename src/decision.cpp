@@ -695,6 +695,10 @@ void merge_master_diagnostics(MasterDiagnostics& target, const MasterDiagnostics
         addition.bundleUpperBoundChecks;
     target.bundleUpperBoundPrunes +=
         addition.bundleUpperBoundPrunes;
+    target.bundleBrandFrontierStates +=
+        addition.bundleBrandFrontierStates;
+    target.bundleBrandFrontierFallbacks +=
+        addition.bundleBrandFrontierFallbacks;
     target.bundlePrunes += addition.bundlePrunes;
     target.exactBundlesDiscovered += addition.exactBundlesDiscovered;
     target.exactBundlesEvaluated += addition.exactBundlesEvaluated;
@@ -737,6 +741,12 @@ void merge_master_diagnostics(MasterDiagnostics& target, const MasterDiagnostics
         : addition.searchComplete;
     if (compare_lexicographic(addition.optimisticUpperBound, target.optimisticUpperBound) > 0) {
         target.optimisticUpperBound = addition.optimisticUpperBound;
+    }
+    if (compare_lexicographic(
+            addition.searchGuidanceUpperBound,
+            target.searchGuidanceUpperBound) > 0) {
+        target.searchGuidanceUpperBound =
+            addition.searchGuidanceUpperBound;
     }
 }
 
@@ -4169,7 +4179,8 @@ DecisionResult UdonShieldEngine::solve_day(
     alnsOptions.criticalRoads = result.audit.promotedCriticalRoads;
     alnsOptions.brandSlack = result.viability.slackByBrand;
     alnsOptions.latestSafeDayByBrand = result.viability.latestSafeDayByBrand;
-    alnsOptions.proofUpperBound = result.diagnostics.optimisticUpperBound;
+    alnsOptions.proofUpperBound =
+        result.diagnostics.searchGuidanceUpperBound;
     if (alnsOptions.criticalRoads.empty()) {
         alnsOptions.criticalRoads = baseline_critical_roads(config_, state);
     }

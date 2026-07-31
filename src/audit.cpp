@@ -419,6 +419,14 @@ template <typename Value, std::size_t Count>
         JsonValue(static_cast<std::int64_t>(
             diagnostics.bundleUpperBoundPrunes)));
     object.emplace(
+        "bundleBrandFrontierStates",
+        JsonValue(static_cast<std::int64_t>(
+            diagnostics.bundleBrandFrontierStates)));
+    object.emplace(
+        "bundleBrandFrontierFallbacks",
+        JsonValue(static_cast<std::int64_t>(
+            diagnostics.bundleBrandFrontierFallbacks)));
+    object.emplace(
         "bundlePrunes",
         JsonValue(static_cast<std::int64_t>(diagnostics.bundlePrunes)));
     object.emplace(
@@ -485,6 +493,9 @@ template <typename Value, std::size_t Count>
     object.emplace("deadlineReached", JsonValue(diagnostics.deadlineReached));
     object.emplace("searchComplete", JsonValue(diagnostics.searchComplete));
     object.emplace("optimisticUpperBound", score_object(diagnostics.optimisticUpperBound));
+    object.emplace(
+        "searchGuidanceUpperBound",
+        score_object(diagnostics.searchGuidanceUpperBound));
     return JsonValue(std::move(object));
 }
 

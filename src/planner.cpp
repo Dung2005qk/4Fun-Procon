@@ -4509,6 +4509,10 @@ std::vector<MasterCandidate> RouteMaster::solve(
                 suffixPossibleClaims;
             std::vector<std::int32_t>
                 suffixMaximumAgentClaims;
+            std::vector<std::vector<std::uint64_t>>
+                suffixMaximalBrandMasks;
+            std::vector<bool>
+                suffixExactBrandFrontier;
         };
         std::vector<BundleBoundMetadata> bundleBoundMetadata;
         std::map<std::int32_t, std::size_t> bundleBoundIndex;
@@ -4539,6 +4543,12 @@ std::vector<MasterCandidate> RouteMaster::solve(
                 metadata.suffixMaximumAgentClaims.assign(
                     ordering.size() + 1U,
                     0);
+                metadata.suffixMaximalBrandMasks.resize(
+                    ordering.size() + 1U);
+                metadata.suffixMaximalBrandMasks.back().push_back(0U);
+                metadata.suffixExactBrandFrontier.assign(
+                    ordering.size() + 1U,
+                    true);
                 for (std::size_t depth = ordering.size();
                      depth-- > 0U;) {
                     metadata.suffixFeasible.at(depth) =
@@ -4557,6 +4567,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
                     std::vector<bool> agentCanClaim(
                         config_.spots.size(),
                         false);
+                    std::vector<std::uint64_t> agentBrandMasks;
                     std::int32_t maximumAgentClaims = 0;
                     bool hasCompatibleColumn = false;
                     for (const RouteColumn* column :
@@ -4567,8 +4578,11 @@ std::vector<MasterCandidate> RouteMaster::solve(
                             continue;
                         }
                         hasCompatibleColumn = true;
-                        metadata.suffixPossibleBrands.at(depth) |=
+                        const std::uint64_t columnBrands =
                             column_brand_mask(config_, *column);
+                        metadata.suffixPossibleBrands.at(depth) |=
+                            columnBrands;
+                        agentBrandMasks.push_back(columnBrands);
                         std::int32_t columnClaims = 0;
                         for (const ColumnVisitEvent& event :
                              column->firstVisits) {
@@ -4597,6 +4611,101 @@ std::vector<MasterCandidate> RouteMaster::solve(
                         }
                         ++metadata.suffixPossibleClaims.at(depth)
                               .at(spotOffset);
+                    }
+                    constexpr std::size_t
+                        kMaximumRawBrandFrontier = 32768U;
+                    constexpr std::size_t
+                        kMaximumRetainedBrandFrontier = 4096U;
+                    if (!hasCompatibleColumn ||
+                        !metadata.suffixExactBrandFrontier.at(
+                            depth + 1U)) {
+                        metadata.suffixExactBrandFrontier.at(depth) =
+                            hasCompatibleColumn &&
+                            metadata.suffixExactBrandFrontier.at(
+                                depth + 1U);
+                        continue;
+                    }
+                    std::sort(
+                        agentBrandMasks.begin(),
+                        agentBrandMasks.end());
+                    agentBrandMasks.erase(
+                        std::unique(
+                            agentBrandMasks.begin(),
+                            agentBrandMasks.end()),
+                        agentBrandMasks.end());
+                    const std::vector<std::uint64_t>& suffixMasks =
+                        metadata.suffixMaximalBrandMasks.at(
+                            depth + 1U);
+                    if (agentBrandMasks.empty() ||
+                        suffixMasks.size() >
+                            kMaximumRawBrandFrontier /
+                                agentBrandMasks.size()) {
+                        metadata.suffixExactBrandFrontier.at(depth) =
+                            false;
+                        ++diagnostics.bundleBrandFrontierFallbacks;
+                        continue;
+                    }
+                    std::vector<std::uint64_t> brandCandidates;
+                    brandCandidates.reserve(
+                        agentBrandMasks.size() *
+                        suffixMasks.size());
+                    for (const std::uint64_t agentMask :
+                         agentBrandMasks) {
+                        for (const std::uint64_t suffixMask :
+                             suffixMasks) {
+                            brandCandidates.push_back(
+                                agentMask | suffixMask);
+                        }
+                    }
+                    std::sort(
+                        brandCandidates.begin(),
+                        brandCandidates.end());
+                    brandCandidates.erase(
+                        std::unique(
+                            brandCandidates.begin(),
+                            brandCandidates.end()),
+                        brandCandidates.end());
+                    std::stable_sort(
+                        brandCandidates.begin(),
+                        brandCandidates.end(),
+                        [](std::uint64_t left,
+                           std::uint64_t right) {
+                            return std::popcount(left) >
+                                std::popcount(right);
+                        });
+                    std::vector<std::uint64_t>& retained =
+                        metadata.suffixMaximalBrandMasks.at(depth);
+                    retained.reserve(std::min(
+                        brandCandidates.size(),
+                        kMaximumRetainedBrandFrontier));
+                    for (const std::uint64_t candidate :
+                         brandCandidates) {
+                        const bool dominated = std::any_of(
+                            retained.begin(),
+                            retained.end(),
+                            [candidate](std::uint64_t existing) {
+                                return (candidate & existing) ==
+                                    candidate;
+                            });
+                        if (dominated) {
+                            continue;
+                        }
+                        retained.push_back(candidate);
+                        if (retained.size() >
+                            kMaximumRetainedBrandFrontier) {
+                            retained.clear();
+                            metadata.suffixExactBrandFrontier.at(
+                                depth) = false;
+                            ++diagnostics
+                                  .bundleBrandFrontierFallbacks;
+                            break;
+                        }
+                    }
+                    if (metadata.suffixExactBrandFrontier.at(
+                            depth)) {
+                        diagnostics.bundleBrandFrontierStates +=
+                            static_cast<std::int32_t>(
+                                retained.size());
                     }
                 }
                 bundleBoundIndex.emplace(
@@ -4640,9 +4749,46 @@ std::vector<MasterCandidate> RouteMaster::solve(
                 if (!metadata.suffixFeasible.at(depth)) {
                     return std::nullopt;
                 }
-                const std::uint64_t dailyBrands =
-                    selectedBrands |
-                    metadata.suffixPossibleBrands.at(depth);
+                std::int32_t lifetimeDistinct = -1;
+                std::int32_t dailyDistinct = -1;
+                if (metadata.suffixExactBrandFrontier.at(depth)) {
+                    for (const std::uint64_t suffixBrands :
+                         metadata.suffixMaximalBrandMasks.at(
+                             depth)) {
+                        const std::uint64_t dailyBrands =
+                            selectedBrands | suffixBrands;
+                        const std::int32_t candidateLifetime =
+                            static_cast<std::int32_t>(
+                                std::popcount(
+                                    ledger.lifetimeBrands |
+                                    dailyBrands));
+                        const std::int32_t candidateDaily =
+                            static_cast<std::int32_t>(
+                                std::popcount(dailyBrands));
+                        if (candidateLifetime >
+                                lifetimeDistinct ||
+                            (candidateLifetime ==
+                                 lifetimeDistinct &&
+                             candidateDaily >
+                                 dailyDistinct)) {
+                            lifetimeDistinct =
+                                candidateLifetime;
+                            dailyDistinct = candidateDaily;
+                        }
+                    }
+                } else {
+                    const std::uint64_t dailyBrands =
+                        selectedBrands |
+                        metadata.suffixPossibleBrands.at(depth);
+                    lifetimeDistinct =
+                        static_cast<std::int32_t>(
+                            std::popcount(
+                                ledger.lifetimeBrands |
+                                dailyBrands));
+                    dailyDistinct =
+                        static_cast<std::int32_t>(
+                            std::popcount(dailyBrands));
+                }
                 std::int32_t stockUpperBound = 0;
                 for (std::size_t spotOffset = 0;
                      spotOffset < config_.spots.size();
@@ -4657,11 +4803,9 @@ std::vector<MasterCandidate> RouteMaster::solve(
                     selectedRawClaims +
                     metadata.suffixMaximumAgentClaims.at(depth);
                 return OfficialScore{
-                    static_cast<std::int32_t>(std::popcount(
-                        ledger.lifetimeBrands | dailyBrands)),
+                    lifetimeDistinct,
                     ledger.totalDailyDistinct +
-                        static_cast<std::int32_t>(
-                            std::popcount(dailyBrands)),
+                        dailyDistinct,
                     ledger.totalServings +
                         std::min(
                             stockUpperBound,
@@ -4733,6 +4877,8 @@ std::vector<MasterCandidate> RouteMaster::solve(
                   0,
                   [](std::int32_t total, const Spot& spot) { return total + spot.stock; }),
               };
+        diagnostics.searchGuidanceUpperBound =
+            diagnostics.optimisticUpperBound;
         if (exactMetadata &&
             options.enableBundleAwareUpperBound) {
             if (const std::optional<OfficialScore> bundleUpperBound =

@@ -43,6 +43,7 @@ ctest --test-dir build-release --output-on-failure
 - `ParetoRouter` memoizes exact route-query results using the complete map status and Pareto constraint set as its key; cache hits never bypass validation or alter the returned path set.
 - The native set-packing master prunes with sound lexicographic bounds and preserves exact simulator/validator acceptance. Strong proof records are explicitly scoped; an incomplete deadline-bounded run is never reported as optimal.
 - Master upper bounds are computed per atomic contingency-bundle mode before taking the lexicographic maximum, so mutually incompatible cached modes cannot inflate the proof gap or alter the exact feasible set.
+- Each bundle mode retains a capped antichain of suffix brand masks, preventing one agent's mutually exclusive routes from being combined inside the proof bound. Frontier overflow falls back to the prior sound union bound, while a separate loose guidance bound preserves ALNS exploration outside the frozen portfolio.
 
 Official BTC HTTP/authentication/action-result contract is now implemented by `udonshield_btc`. Live readiness still requires authoritative replay coverage and target-host p99 calibration; successful compilation or synthetic fixtures alone are not treated as server conformance.
 
