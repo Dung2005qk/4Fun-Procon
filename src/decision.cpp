@@ -3267,6 +3267,26 @@ bool role_assignment_better_after_rollout(
     return false;
 }
 
+std::int32_t role_comparison_beam_width(
+    const MatchConfig& config,
+    std::int32_t requestedWidth) {
+    if (requestedWidth <= 0 || config.day_count() <= 5 ||
+        config.agent_count() - 2 < config.brand_count()) {
+        return requestedWidth;
+    }
+    const std::int32_t maximumDaySteps = *std::max_element(
+        config.daySteps.begin(),
+        config.daySteps.end());
+    if (config.fuelLimit > maximumDaySteps) {
+        return requestedWidth;
+    }
+    const std::int32_t fullMaskCount =
+        std::int32_t{1} << config.agent_count();
+    return std::max(
+        requestedWidth,
+        std::min(fullMaskCount, 2 * config.agent_count()));
+}
+
 bool apply_incomplete_long_horizon_role_fallback(
     const MatchConfig& config,
     bool fullHorizonComparisonComplete,
@@ -3275,24 +3295,45 @@ bool apply_incomplete_long_horizon_role_fallback(
         return false;
     }
     auto bestSingleTanker = beam.end();
+    auto bestDoubleTanker = beam.end();
     for (auto candidate = beam.begin(); candidate != beam.end(); ++candidate) {
-        if (candidate->patrolCount != config.agent_count() - 1) {
-            continue;
-        }
-        if (bestSingleTanker == beam.end() ||
-            role_assignment_better_after_rollout(
-                *candidate,
-                *bestSingleTanker)) {
-            bestSingleTanker = candidate;
+        if (candidate->patrolCount == config.agent_count() - 1) {
+            if (bestSingleTanker == beam.end() ||
+                role_assignment_better_after_rollout(
+                    *candidate,
+                    *bestSingleTanker)) {
+                bestSingleTanker = candidate;
+            }
+        } else if (candidate->patrolCount == config.agent_count() - 2) {
+            if (bestDoubleTanker == beam.end() ||
+                role_assignment_better_after_rollout(
+                    *candidate,
+                    *bestDoubleTanker)) {
+                bestDoubleTanker = candidate;
+            }
         }
     }
-    if (bestSingleTanker == beam.end() || bestSingleTanker == beam.begin()) {
+    if (bestSingleTanker == beam.end()) {
+        return false;
+    }
+    auto fallback = bestSingleTanker;
+    if (role_comparison_beam_width(config, 1) > 1 &&
+        bestDoubleTanker != beam.end() &&
+        bestSingleTanker->rolloutValid &&
+        bestDoubleTanker->rolloutValid &&
+        bestDoubleTanker->rolloutScore.lifetimeDistinct ==
+            bestSingleTanker->rolloutScore.lifetimeDistinct &&
+        bestDoubleTanker->rolloutScore.totalDailyDistinct ==
+            bestSingleTanker->rolloutScore.totalDailyDistinct) {
+        fallback = bestDoubleTanker;
+    }
+    if (fallback == beam.begin()) {
         return false;
     }
     std::rotate(
         beam.begin(),
-        bestSingleTanker,
-        std::next(bestSingleTanker));
+        fallback,
+        std::next(fallback));
     return true;
 }
 
@@ -3449,6 +3490,8 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
         started + std::chrono::milliseconds{available.count() * 35 / 100};
     const std::chrono::steady_clock::time_point rolloutDeadline =
         started + std::chrono::milliseconds{available.count() * 85 / 100};
+    const std::int32_t comparisonBeamWidth =
+        role_comparison_beam_width(config_, beamWidth);
     const std::int32_t fullMaskCount =
         std::int32_t{1} << config_.agent_count();
     std::vector<RoleAssignment> scanned =
@@ -3524,9 +3567,10 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
             return left.roles < right.roles;
         });
     std::vector<RoleAssignment> beam;
-    beam.reserve(static_cast<std::size_t>(beamWidth));
-    const auto append_to_beam = [&beam, beamWidth](const RoleAssignment& required) {
-        if (static_cast<std::int32_t>(beam.size()) >= beamWidth) {
+    beam.reserve(static_cast<std::size_t>(comparisonBeamWidth));
+    const auto append_to_beam =
+        [&beam, comparisonBeamWidth](const RoleAssignment& required) {
+        if (static_cast<std::int32_t>(beam.size()) >= comparisonBeamWidth) {
             return;
         }
         if (std::any_of(
@@ -3631,13 +3675,16 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
         }
         std::rotate(beam.begin(), preferred, std::next(preferred));
     }
-    if (static_cast<std::int32_t>(beam.size()) > beamWidth) {
-        beam.resize(static_cast<std::size_t>(beamWidth));
+    if (static_cast<std::int32_t>(beam.size()) > comparisonBeamWidth) {
+        beam.resize(static_cast<std::size_t>(comparisonBeamWidth));
     }
     static_cast<void>(apply_incomplete_long_horizon_role_fallback(
         config_,
         fullHorizonComparisonComplete,
         beam));
+    if (static_cast<std::int32_t>(beam.size()) > beamWidth) {
+        beam.resize(static_cast<std::size_t>(beamWidth));
+    }
     const std::chrono::steady_clock::time_point prewarmDeadline =
         started + std::chrono::milliseconds{available.count() * 92 / 100};
     if (!beam.empty() && std::chrono::steady_clock::now() < prewarmDeadline) {

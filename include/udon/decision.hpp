@@ -456,6 +456,10 @@ enum class RoutePoolSearch : std::uint8_t {
     const RoleAssignment& challenger,
     const RoleAssignment& incumbent);
 
+[[nodiscard]] std::int32_t role_comparison_beam_width(
+    const MatchConfig& config,
+    std::int32_t requestedWidth);
+
 [[nodiscard]] bool apply_incomplete_long_horizon_role_fallback(
     const MatchConfig& config,
     bool fullHorizonComparisonComplete,

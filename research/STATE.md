@@ -78,6 +78,71 @@ time was 2845 ms, replayed role selection 3956 ms, and exact deadline overrun,
 submission skip, server WAIT and emergency were all zero. Replay SHA256 is
 `2811EC26C075829D63F61B7949394470B568CFDA72F6B30A51838CF9ACD4540A`.
 
+`SCORE-ROLE-022` investigated fresh BTC `m-1264`, which selected one-tanker
+mask128 and scored `6/60/261`, while same-budget production counterfactuals on the
+same replay reached `6/60/326` with two-tanker mask192 and `6/60/330` with mask144.
+The live mask counterfactual exactly reproduced `261`, so this is not a budget
+artifact. On independent low-fuel replay `m-1255`, current one-tanker mask64 scored
+`6/60/286`, while two-tanker masks80 and48 scored `313` and `305`. A blanket
+two-tanker rule is false: on `m-1241`, one-tanker mask32 scored `331` and the best
+two-tanker rollout mask96 scored only `282`.
+
+The preregistered discriminator is visible before exact counterfactual score. On
+`m-1264` and `m-1255`, the best one- and two-tanker incomplete rollouts tie on
+lifetime and daily distinct; on `m-1241`, two tankers already lose daily distinct
+`56` versus `58`. `SCORE-ROLE-022` may prefer the best existing two-tanker beam
+member only for long-horizon low-fuel matches when evidence is incomplete, at
+least one patrol remains per brand, and its rollout ties the best one-tanker on
+the first two official tiers. It preserved all other paths and did not inspect
+seed, match ID or map family, but it is rejected because the production
+`beam-width 8` never retained a two-tanker assignment. The apparently successful
+development attribution used beam width 16. On the frozen screen, all six short
+horizons were exact role/score ties; all four low-fuel cases kept the same role
+mask, with two raw local tier-3 cutoff deltas of -4 and -2 but causal `0/4/0`.
+The unopened archive probes `m-1252`, `m-1138` and `m-1134` likewise contained no
+two-tanker member at width 8. The source and unit-test candidate were fully
+reverted; no production change is retained.
+
+The next gap is therefore beam diversity, not the fallback comparator. Timed role
+selection spends its probe phase only on all-patrol and at-most-one-tanker masks;
+those refined masks fill the eight production slots before scanned two-tanker
+masks can enter. Any successor must preserve the caller-visible beam width and the
+same 5000 ms deadline while giving a bounded comparison pool enough tanker-count
+diversity for the already demonstrated m-1264/m-1255 counterfactual. It must still
+reject m-1241 through a pre-score lifetime/daily discriminator.
+
+The active candidate is `SCORE-ROLE-023`, preregistered before source changes at
+holdout SHA256 `B2F0A6E8532F0CEFA8408BAF5A6378133FBCFE441943D6C99D9091799081676A`.
+For only long-horizon low-fuel configurations where two tankers leave at least one
+patrol per brand, the internal comparison pool may expand to at most the smaller
+of all masks and `max(requested width, 2 * agent count)`. It receives no extra
+time: the existing rollout deadline is divided across the larger pool. After the
+same tier-preserving fallback, the vector is reduced to the caller's requested
+width before return. This composes the causal beam16 evidence with the rejected
+candidate's strict lifetime/daily equality guard without changing public width or
+the 5000 ms hard cap.
+
+`SCORE-ROLE-023` passed its frozen matrix and the BTC final gate. Fresh low-fuel
+results were `4/1/3`, all at tier 3: gains `+9,+1,+46,+5` totaled 61, losses
+`-3,-23,-8` totaled 34, with tails `+46/-23` and zero invalid/emergency. The six
+short-horizon cases were five exact ties plus one raw timed crossover gaining one
+serving while the candidate branch was disabled. All eight default/high cases
+kept the exact parent role masks with the candidate branches disabled; their raw
+local cutoff deltas are retained in the experiment log but the causal result is
+`0/8/0`. No protected case regressed lifetime or daily distinct.
+
+Fresh explicit-advanced BTC `m-1266` used hard difficulty, three bots, ten days,
+32x32, 100 steps/day, 5000 ms, eight agents, 12 spots, six brands and low fuel.
+The candidate selected mask1 and finished rank1 at `6/60/228`; the next bot was
+`6/59/158`. Parent `5599e76` selected mask4 on the same setup, whose exact
+counterfactual was `6/60/220`, so the live candidate gain is causal `+8` at tier3
+in addition to the tier2 victory over bots. Target role wall time was 4641 ms;
+action p95/p99/max was 3178 ms and maximum recorded decision time was 3105 ms.
+All 10 submissions were HTTP 200 valid, all nine transitions reconciled, and
+emergency count was zero. Replay SHA256 is
+`11F037E67D344D14D0E9A8AA9230D4DC482D3A5272DA764732C340980F690649`.
+The candidate is accepted as the new global production champion.
+
 BTC `m-1228` (hard, 3 bots, 32x32, 10 days, 100 steps/day, 8 agents,
 12 spots, 6 brands, fuel 200, response 5000 ms) is the authoritative new
 counterexample. SCORE-ROLE-016 selected mask `2`, but day 1 column generation

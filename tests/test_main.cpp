@@ -266,6 +266,100 @@ void test_incomplete_long_horizon_role_fallback() {
             shortHorizonBeam) &&
             shortHorizonBeam.front().roles == allPatrol.roles,
         "protected 4/5-day horizons must preserve the parent role selection");
+
+    udon::MatchConfig lowFuelConfig = longHorizonConfig;
+    lowFuelConfig.initialAgents = {8, 9, 10, 11, 12};
+    lowFuelConfig.fuelLimit = 16;
+    require(
+        udon::role_comparison_beam_width(lowFuelConfig, 8) == 10,
+        "long low-fuel comparison width must admit tanker-count diversity");
+    require(
+        udon::role_comparison_beam_width(longHorizonConfig, 8) == 8 &&
+            udon::role_comparison_beam_width(shortHorizonConfig, 8) == 8,
+        "high-fuel and protected short horizons must preserve requested beam width");
+
+    udon::RoleAssignment fivePatrol;
+    fivePatrol.roles.assign(5U, udon::AgentKind::Patrol);
+    fivePatrol.patrolCount = 5;
+    fivePatrol.rolloutValid = true;
+    fivePatrol.rolloutScore = udon::OfficialScore{3, 30, 320};
+    udon::RoleAssignment oneTanker;
+    oneTanker.roles = {
+        udon::AgentKind::Tanker,
+        udon::AgentKind::Patrol,
+        udon::AgentKind::Patrol,
+        udon::AgentKind::Patrol,
+        udon::AgentKind::Patrol,
+    };
+    oneTanker.patrolCount = 4;
+    oneTanker.rolloutValid = true;
+    oneTanker.rolloutScore = udon::OfficialScore{3, 30, 300};
+    udon::RoleAssignment weakerTwoTanker;
+    weakerTwoTanker.roles = {
+        udon::AgentKind::Tanker,
+        udon::AgentKind::Tanker,
+        udon::AgentKind::Patrol,
+        udon::AgentKind::Patrol,
+        udon::AgentKind::Patrol,
+    };
+    weakerTwoTanker.patrolCount = 3;
+    weakerTwoTanker.rolloutValid = true;
+    weakerTwoTanker.rolloutScore = udon::OfficialScore{3, 30, 240};
+    udon::RoleAssignment betterTwoTanker = weakerTwoTanker;
+    betterTwoTanker.roles = {
+        udon::AgentKind::Tanker,
+        udon::AgentKind::Patrol,
+        udon::AgentKind::Tanker,
+        udon::AgentKind::Patrol,
+        udon::AgentKind::Patrol,
+    };
+    betterTwoTanker.rolloutScore = udon::OfficialScore{3, 30, 250};
+    std::vector<udon::RoleAssignment> tierPreservingBeam{
+        fivePatrol,
+        oneTanker,
+        weakerTwoTanker,
+        betterTwoTanker,
+    };
+    require(
+        udon::apply_incomplete_long_horizon_role_fallback(
+            lowFuelConfig,
+            false,
+            tierPreservingBeam) &&
+            tierPreservingBeam.front().roles == betterTwoTanker.roles,
+        "low-fuel incomplete evidence must select the best tier-preserving two-tanker assignment");
+
+    udon::RoleAssignment dailyRegressingTwoTanker = betterTwoTanker;
+    dailyRegressingTwoTanker.rolloutScore = udon::OfficialScore{3, 29, 400};
+    std::vector<udon::RoleAssignment> dailyProtectedBeam{
+        fivePatrol,
+        oneTanker,
+        dailyRegressingTwoTanker,
+    };
+    require(
+        udon::apply_incomplete_long_horizon_role_fallback(
+            lowFuelConfig,
+            false,
+            dailyProtectedBeam) &&
+            dailyProtectedBeam.front().roles == oneTanker.roles,
+        "a two-tanker daily regression must preserve the one-tanker fallback");
+
+    udon::MatchConfig insufficientPatrolConfig = lowFuelConfig;
+    insufficientPatrolConfig.brandValues.push_back(99);
+    require(
+        udon::role_comparison_beam_width(insufficientPatrolConfig, 8) == 8,
+        "two tankers must not expand the comparison pool when patrols cannot cover every brand");
+    std::vector<udon::RoleAssignment> insufficientPatrolBeam{
+        fivePatrol,
+        oneTanker,
+        betterTwoTanker,
+    };
+    require(
+        udon::apply_incomplete_long_horizon_role_fallback(
+            insufficientPatrolConfig,
+            false,
+            insufficientPatrolBeam) &&
+            insufficientPatrolBeam.front().roles == oneTanker.roles,
+        "capacity-infeasible two-tanker assignments must preserve one tanker");
 }
 
 void test_even_row_geometry(const udon::MatchConfig& config) {

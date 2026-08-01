@@ -1,0 +1,8 @@
+lane,source,cases,budget_ms,role_mode,fuel,horizon,gate
+unit,synthetic-branch,8,5000,direct,mixed,4-10,"comparison width expands only for long low-fuel capacity-feasible cases; returned width unchanged; two-tanker requires rollout tier1-tier2 tie"
+general-short,fresh-generated-seeds-850000-850005,6,5000,deadline,mixed,4-5,"exact same role/action/score; zero invalid/emergency"
+btc-low,fresh-generated-seeds-851000-851007,8,5000,deadline,low,10,"paired W/T/L; first differing tier; role flip attribution; tail downside"
+btc-default,fresh-generated-seeds-852000-852003,4,5000,deadline,default,10,"candidate branches disabled; causal equivalence"
+btc-high,fresh-generated-seeds-853000-853003,4,5000,deadline,high,10,"candidate branches disabled; causal equivalence"
+archive-development,"m-1264;m-1255;m-1241;m-1252;m-1138;m-1134",6,5000,deadline,low,10,"mechanism sanity only; exact counterfactuals; no promotion authority"
+btc-fresh,explicit-advanced-new-match,1,5000,deadline,low,10,"target-host role diversity, rank, validity, p95/p99 and exact replay"

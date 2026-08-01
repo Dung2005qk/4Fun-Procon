@@ -1,0 +1,8 @@
+lane,source,cases,budget_ms,role_mode,fuel,horizon,gate
+unit,synthetic-branch,6,5000,direct,mixed,4-10,"two-tanker only on incomplete long low-fuel tier1-tier2 tie with enough patrols"
+general-short,fresh-generated-seeds-840000-840005,6,5000,deadline,mixed,4-5,"exact same role/action/score; zero invalid/emergency"
+btc-low,fresh-generated-seeds-841000-841003,4,5000,deadline,low,10,"paired W/T/L; first differing tier; tail downside"
+btc-default,fresh-generated-seeds-842000-842003,4,5000,deadline,default,10,"candidate branch disabled; causal equivalence"
+btc-high,fresh-generated-seeds-843000-843003,4,5000,deadline,high,10,"candidate branch disabled; causal equivalence"
+archive-low,"m-1252;m-1138;m-1134",3,5000,deadline,low,10,"same-budget one-vs-two tanker exact counterfactual after selector prediction"
+btc-fresh,explicit-advanced-new-match,1,5000,deadline,low,10,"target-host rank/validity/runtime and exact replay"
