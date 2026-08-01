@@ -29,6 +29,7 @@
 namespace {
 
 constexpr std::int64_t btcSubmissionFloorMs = 800;
+constexpr std::int32_t btcActionAckSliceMs = 750;
 
 struct RuntimeOptions {
     std::string mode;
@@ -38,6 +39,7 @@ struct RuntimeOptions {
     std::string decisionDumpPath;
     std::int32_t responseBudgetMs = 5000;
     std::int32_t pollMs = 220;
+    std::int32_t actionAckTimeoutMs = btcActionAckSliceMs;
     std::int32_t beamWidth = 8;
     std::int32_t dayNumber = 0;
     std::int32_t roleMask = -1;
@@ -62,6 +64,7 @@ struct RuntimeOptions {
 struct HttpResponse {
     std::int32_t status = 0;
     std::string body;
+    std::int32_t transportRetries = 0;
 };
 
 [[nodiscard]] std::int64_t unix_milliseconds() {
@@ -71,7 +74,7 @@ struct HttpResponse {
 
 [[nodiscard]] udon::DeadlineCalibration btc_http_deadline_calibration() {
     udon::DeadlineCalibration calibration;
-    calibration.version = "btc-http-local-budget-v7-p99-submit-floor-800";
+    calibration.version = "btc-http-local-budget-v8-idempotent-ack-resend";
     calibration.networkFloor = std::chrono::milliseconds{1600};
     calibration.networkPercent = 20;
     calibration.certificationPercent = 20;
@@ -152,6 +155,8 @@ private:
             options.requireUndominatedCurrentFloor = value == "1";
         } else if (key == "--poll-ms") {
             options.pollMs = parse_positive_integer(value, key);
+        } else if (key == "--action-ack-ms") {
+            options.actionAckTimeoutMs = parse_positive_integer(value, key);
         } else if (key == "--beam-width") {
             options.beamWidth = parse_positive_integer(value, key);
         } else if (key == "--day") {
@@ -182,6 +187,9 @@ private:
     }
     if (options.pollMs < 200) {
         throw std::invalid_argument("--poll-ms must be at least 200 for the BTC rate limit");
+    }
+    if (options.actionAckTimeoutMs > 5000) {
+        throw std::invalid_argument("--action-ack-ms must not exceed the 5000 ms hard cap");
     }
     if (options.mode == "http" && options.matchId.empty()) {
         throw std::invalid_argument("HTTP mode requires --match");
@@ -225,7 +233,7 @@ void print_usage() {
            "[--harvest-extensions 0|1|2|3|4|5|6|7] "
            "[--future-harvest-extensions 0|1|2|3|4|5|6|7] [--replay replay.jsonl]\n"
         << "  udonshield_btc http --match MATCH_ID [--url https://procon.ptit.edu.vn] "
-           "[--response-ms 5000] [--poll-ms 220] [--beam-width 8] "
+           "[--response-ms 5000] [--poll-ms 220] [--action-ack-ms 750] [--beam-width 8] "
            "[--harvest-extensions 0|1|2|3|4|5|6|7] "
            "[--future-harvest-extensions 0|1|2|3|4|5|6|7] [--replay replay.jsonl]\n"
         << "  udonshield_btc replay-check --replay replay.jsonl [--response-ms 5000]\n"
@@ -1199,6 +1207,44 @@ private:
     HINTERNET handle_ = nullptr;
 };
 
+enum class WinHttpRequestStage {
+    Send,
+    Receive,
+    QueryBody,
+    ReadBody,
+};
+
+class WinHttpRequestError final : public std::runtime_error {
+public:
+    WinHttpRequestError(WinHttpRequestStage stage, DWORD code)
+        : std::runtime_error(
+              "BTC HTTP request failed during " + stage_name(stage) +
+              " with WinHTTP error " + std::to_string(code)),
+          code_(code) {}
+
+    [[nodiscard]] bool retryable_resend() const noexcept {
+        return code_ == ERROR_WINHTTP_TIMEOUT ||
+            code_ == ERROR_WINHTTP_RESEND_REQUEST;
+    }
+
+private:
+    [[nodiscard]] static std::string stage_name(WinHttpRequestStage stage) {
+        switch (stage) {
+        case WinHttpRequestStage::Send:
+            return "send";
+        case WinHttpRequestStage::Receive:
+            return "receive";
+        case WinHttpRequestStage::QueryBody:
+            return "response-body query";
+        case WinHttpRequestStage::ReadBody:
+            return "response-body read";
+        }
+        return "unknown stage";
+    }
+
+    DWORD code_;
+};
+
 class WinHttpClient {
 public:
     WinHttpClient(const std::string& baseUrl, const std::string& bearerToken) {
@@ -1244,7 +1290,8 @@ public:
     [[nodiscard]] HttpResponse request(
         const std::string& method,
         const std::string& path,
-        const std::optional<std::string>& body = std::nullopt) const {
+        const std::optional<std::string>& body = std::nullopt,
+        std::int32_t ioTimeoutMs = 0) const {
         const std::wstring wideMethod = utf8_to_wide(method);
         const std::wstring widePath = basePath_ + utf8_to_wide(path);
         const DWORD flags = secure_ ? WINHTTP_FLAG_SECURE : 0;
@@ -1263,6 +1310,15 @@ public:
         if (!WinHttpSetOption(request.get(), WINHTTP_OPTION_REDIRECT_POLICY, &redirectPolicy, sizeof(redirectPolicy))) {
             throw std::runtime_error("WinHttpSetOption redirect policy failed");
         }
+        if (ioTimeoutMs > 0 &&
+            !WinHttpSetTimeouts(
+                request.get(),
+                5000,
+                5000,
+                ioTimeoutMs,
+                ioTimeoutMs)) {
+            throw std::runtime_error("WinHttpSetTimeouts request override failed");
+        }
         const std::wstring headers = L"Authorization: Bearer " + token_ +
             L"\r\nContent-Type: application/json\r\nAccept: application/json\r\n";
         const std::string emptyBody;
@@ -1274,9 +1330,11 @@ public:
                 payload.empty() ? WINHTTP_NO_REQUEST_DATA : const_cast<char*>(payload.data()),
                 static_cast<DWORD>(payload.size()),
                 static_cast<DWORD>(payload.size()),
-                0) ||
-            !WinHttpReceiveResponse(request.get(), nullptr)) {
-            throw std::runtime_error("BTC HTTP request failed with WinHTTP error " + std::to_string(GetLastError()));
+                0)) {
+            throw WinHttpRequestError(WinHttpRequestStage::Send, GetLastError());
+        }
+        if (!WinHttpReceiveResponse(request.get(), nullptr)) {
+            throw WinHttpRequestError(WinHttpRequestStage::Receive, GetLastError());
         }
         DWORD status = 0;
         DWORD statusSize = sizeof(status);
@@ -1293,7 +1351,7 @@ public:
         while (true) {
             DWORD available = 0;
             if (!WinHttpQueryDataAvailable(request.get(), &available)) {
-                throw std::runtime_error("cannot query BTC HTTP response body");
+                throw WinHttpRequestError(WinHttpRequestStage::QueryBody, GetLastError());
             }
             if (available == 0) {
                 break;
@@ -1302,7 +1360,7 @@ public:
             responseBody.resize(offset + available);
             DWORD read = 0;
             if (!WinHttpReadData(request.get(), responseBody.data() + offset, available, &read)) {
-                throw std::runtime_error("cannot read BTC HTTP response body");
+                throw WinHttpRequestError(WinHttpRequestStage::ReadBody, GetLastError());
             }
             responseBody.resize(offset + read);
         }
@@ -1328,9 +1386,36 @@ private:
     const std::string& path,
     const std::string& body,
     std::int32_t pollMs,
+    std::int32_t actionAckTimeoutMs,
     std::int64_t deadlineUnixMs) {
+    std::int32_t transportRetries = 0;
     while (true) {
-        const HttpResponse response = client.request("POST", path, body);
+        const std::int64_t remainingMs = deadlineUnixMs - unix_milliseconds();
+        if (remainingMs <= 0) {
+            throw std::runtime_error("BTC action ACK deadline expired before an HTTP attempt");
+        }
+        const std::int64_t retryReserveMs = remainingMs > pollMs
+            ? pollMs
+            : 0;
+        const std::int32_t requestTimeoutMs = static_cast<std::int32_t>(
+            std::max<std::int64_t>(
+                1,
+                std::min<std::int64_t>(
+                    actionAckTimeoutMs,
+                    remainingMs - retryReserveMs)));
+        HttpResponse response;
+        try {
+            response = client.request("POST", path, body, requestTimeoutMs);
+        } catch (const WinHttpRequestError& error) {
+            if (!error.retryable_resend() ||
+                unix_milliseconds() + pollMs >= deadlineUnixMs) {
+                throw;
+            }
+            ++transportRetries;
+            std::this_thread::sleep_for(std::chrono::milliseconds{pollMs});
+            continue;
+        }
+        response.transportRetries = transportRetries;
         if (!transient_http_status(response.status) || unix_milliseconds() + pollMs >= deadlineUnixMs) {
             return response;
         }
@@ -1482,13 +1567,27 @@ void run_http(const RuntimeOptions& options) {
                 : udon::make_wait_plan(config, state.dayNumber);
             udon::JsonValue wirePlan = udon::serialize_day_plan(submittedPlan);
             replay.record(decision.maySubmit ? "actions" : "actions_fallback", wirePlan);
+            const std::string wireBody = wirePlan.dump();
 
             HttpResponse actionResponse = post_until_deadline(
                 client,
                 root + "/actions",
-                wirePlan.dump(),
+                wireBody,
                 options.pollMs,
+                options.actionAckTimeoutMs,
                 actionDeadlineMs);
+            if (actionResponse.transportRetries > 0) {
+                udon::JsonValue::Object retryTelemetry;
+                retryTelemetry.emplace(
+                    "day",
+                    udon::JsonValue(static_cast<std::int64_t>(state.dayNumber)));
+                retryTelemetry.emplace(
+                    "transportRetries",
+                    udon::JsonValue(static_cast<std::int64_t>(actionResponse.transportRetries)));
+                replay.record(
+                    "action_transport_retry",
+                    udon::JsonValue(std::move(retryTelemetry)));
+            }
             udon::JsonValue actionResult = parse_tolerant_http_body(actionResponse.body);
             replay.record("action_result", actionResult, actionResponse.status);
             bool accepted = actionResponse.status >= 200 && actionResponse.status < 300 &&
@@ -1535,7 +1634,20 @@ void run_http(const RuntimeOptions& options) {
                     root + "/actions",
                     wirePlan.dump(),
                     options.pollMs,
+                    options.actionAckTimeoutMs,
                     actionDeadlineMs);
+                if (actionResponse.transportRetries > 0) {
+                    udon::JsonValue::Object retryTelemetry;
+                    retryTelemetry.emplace(
+                        "day",
+                        udon::JsonValue(static_cast<std::int64_t>(state.dayNumber)));
+                    retryTelemetry.emplace(
+                        "transportRetries",
+                        udon::JsonValue(static_cast<std::int64_t>(actionResponse.transportRetries)));
+                    replay.record(
+                        "action_recovery_transport_retry",
+                        udon::JsonValue(std::move(retryTelemetry)));
+                }
                 actionResult = parse_tolerant_http_body(actionResponse.body);
                 replay.record("action_result_recovery", actionResult, actionResponse.status);
                 accepted = actionResponse.status >= 200 && actionResponse.status < 300 &&

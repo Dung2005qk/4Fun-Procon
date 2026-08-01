@@ -26,7 +26,7 @@ WebSocket và sandbox gửi khung theo thứ tự `setup -> assignment -> day_st
 - `POST /api/v1/matches/{id}/assignment`
 - `GET /api/v1/matches/{id}/start`
 - `GET /api/v1/matches/{id}/state`
-- `POST /api/v1/matches/{id}/actions`
+- `POST /api/v1/matches/{id}/actions` — có thể gửi lại cùng body khi mất ACK; runtime không được tái lập kế hoạch hoặc cập nhật ledger giữa các lần gửi lại
 - `GET /api/v1/matches/{id}/result`
 
 Setup chứa `daySteps`, `map`, `spots`, `agents`, `fuelLimits` và các tham số trận. Assignment là mảng phẳng với `0=patrol`, `1=tanker`, cố định cả trận.

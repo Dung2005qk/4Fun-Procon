@@ -1,0 +1,6 @@
+lane,evidence,configuration,gate
+btc-counterexample,artifacts/btc/m-1278-score-role-029-live.jsonl,"hard;3bot;10day;32x32;100step;5000ms;8agent;12spot;6brand;fuel1x","preserve six valid 3121..3130 ms ACKs and prove the day-7 receive timeout is transport-only, not a solver overrun"
+synthetic-resend-contract,controlled-http-server,"first identical actions POST accepted but its response delayed beyond one action ACK slice; resend returns the authoritative ACK","identical body on every attempt; accepted day matches wire day plus one; ledger applied exactly once; zero invalid/stale acceptance"
+fresh-btc-forced-retry,explicit-advanced-new-match,"5000 ms response; action ACK slice deliberately below observed ordinary RTT for protocol falsification only","at least one recorded transport retry; complete lifecycle; all accepted ACK days exact; zero invalid/emergency"
+fresh-btc-production,explicit-advanced-new-match,"hard;3bot;10day;32x32;100step;5000ms;8agent;12spot;6brand;fuel varied; production action ACK slice","10/10 valid; zero stale ACK/skip/server WAIT/emergency; per-day response below 5000 ms; BTC score reported lexicographically"
+no-timeout-equivalence,frozen-replay-suite,"normal response path without injected transport errors","byte-identical action body and exact score/state/validator result; retry count zero"

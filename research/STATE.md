@@ -4,9 +4,12 @@ Updated: 2026-08-01
 
 ## Current phase
 
-Minimal governance bootstrap followed by forward research from frozen parent
-`6f84a06`. Re-running or rebuilding every historical checkpoint is not a research
-objective; old checkpoints remain lane champions for targeted A/B only.
+Forward research starts from the current global champion `08771f1`. Re-running or
+rebuilding every historical checkpoint is not a research objective; old
+checkpoints remain lane champions for targeted A/B only. `PERF-DEADLINE-003` is
+accepted as a semantics-preserving BTC transport repair on top of that champion;
+the next score axis must start from its committed descendant and a new unopened
+BTC counterexample.
 
 ## Authoritative budget evidence
 
@@ -38,16 +41,12 @@ the 5000 ms internal cap remain hard blocks. Every match is still compared by th
 official lexicographic vector; the global verdict reports W/T/L, first differing
 tier, gain/loss magnitude and downside distribution without a weighted sum.
 
-`SCORE-ROLE-018` and the first measurement definition in `SCORE-ROLE-019` are
-closed. `SCORE-ROLE-020` passed its scoped low-fuel screen without causal downside,
-but the same evidence exposed long-horizon timed role instability outside low fuel.
-`SCORE-ROLE-021` passed its frozen local score screen. Fresh BTC high-fuel match
-`m-1257` then exposed a hard lifecycle/runtime block, and performance-only
-`PERF-DEADLINE-002` repaired that block without changing solver, role, comparator
-or action semantics. The combined candidate passed the preregistered fresh
-high-fuel BTC target in `m-1258`; it is now frozen for final scoped-diff review and
-promotion/commit gating. No further role or submission-floor tuning is permitted
-against these opened fixtures.
+The current score champion is `08771f1` (`SCORE-ROLE-023`). SCORE-ROLE-024 through
+029 are closed or inconclusive and absent from source; their opened evidence may
+not be retuned. `PERF-DEADLINE-003` fixes the independent ACK-loss counterexample
+from `m-1278` without changing role selection, planner, comparator or action JSON.
+Its normal and forced-resend BTC gates both completed 10/10 valid days and ranked
+first. No further ACK-slice tuning is permitted against these opened fixtures.
 
 The read-only semantics attribution `SEM-REFUEL-001` is accepted. On
 `m-1258`, transitions to days 9 and 10 reported a patrol at the simulator-predicted
@@ -142,6 +141,187 @@ All 10 submissions were HTTP 200 valid, all nine transitions reconciled, and
 emergency count was zero. Replay SHA256 is
 `11F037E67D344D14D0E9A8AA9230D4DC482D3A5272DA764732C340980F690649`.
 The candidate is accepted as the new global production champion.
+
+`SCORE-ROLE-024` started from parent `08771f1`. On BTC
+`m-1266`, the best retained two-tanker mask192 scores exact `6/60/275`, which is
+47 servings above the live champion mask1, even though its incomplete rollout is
+`6/48/176` versus `6/51/192`. A daily-gap threshold alone is unsafe: on m-1241
+the best two-tanker rollout is only two daily distinct behind (`56` versus `58`)
+but loses 49 exact servings. The pre-score discriminator is patrol-normalized
+tier-3 productivity. Cross-multiplication gives `176*7 > 192*6` on m-1266 and
+`160*7 < 193*6` on m-1241; it also preserves the accepted equal-daily m-1264 and
+m-1255 cases. The candidate may relax exact daily equality by at most one full
+brand-day only when two-tanker servings per patrol are no worse. This is a
+conditional comparison inside official tiers, not a weighted score.
+
+`SCORE-ROLE-024` is rejected and not present in source. Its fresh short-horizon
+lane was `0/6/0` exact. All 12 low-fuel cases reached `6/60` with zero
+invalid/emergency; seven retained the same mask and revealed local cutoff noise as
+large as -83. Seed861001's flip was unstable across fixed repeats and was excluded
+from causal verdict. Stable same-binary fixed attribution on the other four flips
+was `2/0/2`: gains `+6,+5` versus losses `-54,-15`, tails `+6/-54`. The high-stock
+and threshold losses dominate the overnight and rare-brand gains. This is a
+material global defeat even though m-1266 is positive, so default/high and BTC
+were not opened. Patrol-normalized early productivity cannot protect total
+late-horizon capacity. Source and tests are byte-identical to champion `08771f1`;
+the opened masks may not be used to retune this axis.
+
+`SCORE-ROLE-025` tested terminal patrol fuel per patrol as an independent
+late-horizon discriminator. It is rejected before holdout and absent from source.
+On m-1266 it would select mask192, whose terminal patrol fuel is `600/6` versus
+one-tanker `486/7`, and whose exact score gains 47 servings. But on the development
+counterexample m-1241 it selects mask96: rollout `6/56/211`, terminal patrol fuel
+`466/6`, over one-tanker mask32 at rollout `6/57/195` and fuel `328/7`. Exact
+counterfactual mask96 is only `6/60/302` versus the previously measured mask32
+`6/60/331`, a 29-serving loss with the first two tiers tied. Terminal fuel is
+therefore surplus after under-serving, not a safe capacity signal. The frozen
+holdout remained unopened and may be reused only for a mechanism independently
+derived from new telemetry.
+
+`SCORE-ROLE-026`, parent `08771f1`, tested the measured structural
+gap is budget allocation, not another terminal proxy: the expanded low-fuel beam
+coarsely rolls all 16 masks only through 85% of the role budget, while the interval
+to the established 92% role wall is used only to prewarm the already selected
+mask. The preregistered mechanism spends that interval on a paired richer rerun of
+the current best one-tanker and best two-tanker, with equal deadline slices and
+the same exact simulator/validator. Each mask retains the lexicographic maximum
+of its old and new evidence, then the unchanged lifetime/daily equality guard is
+applied. There is no daily relaxation or new feature threshold. Development must
+first had to admit profitable m-1266 mask192. A loaded-local run left mask192 at
+`6/48/176` behind mask1 at `6/51/192`, but this deadline-sensitive result has no
+performance authority because the local host was contended. The candidate is
+inconclusive and absent from source; m-1241 and fresh holdout SHA256
+`A785F6F89FA8AEBD7BA4924CF1FA4FDFA529798F5C3B9D9507C0F6D67B65D238` remained
+unopened. It may be resolved only by a BTC live run at the explicit 5000 ms cap.
+
+Temporary per-day attribution identified that mismatch. On m-1266 mask192, the
+role rollout selected the master plan on all ten days and patrol fuel reached the
+full `600/600` by day 4, yet cumulative daily coverage advanced by only four or
+five brands on most later days while servings repeated at 18 per day. On m-1241,
+the same evaluator usually retained five or six brands and fuel was not saturated.
+`RouteColumnGenerator` orders target spots by lifetime rarity and stock, then its
+anytime query and seed caps retain distinct spots, not distinct brands. With six
+target slots and two spots per brand, duplicate high-stock brands can therefore
+erase lower-stock brands before the official master sees them.
+
+`SCORE-ROLE-027`, parent `08771f1`, tested a preregistered change that
+promotes the first target of each brand ahead of duplicate-brand targets in both
+query order and retained-seed order, then fills remaining capacity with the
+unchanged priority/spot rules. Query counts, seed counts, deadline and official
+comparison remained unchanged. It is rejected and absent from source. On m-1266
+it raised one-tanker mask2's rollout to `6/60/169` and selected that mask, while
+the best visible two-tanker was still only `6/52/179`. Frozen exact development
+scores are mask2 `6/60/206` versus mask1 `6/60/228`, so the apparently improved
+coverage chose a role with a known 22-serving loss and still hid mask192's gain.
+Fresh holdout SHA256
+`4CFF75E3D849C82466BBCCB1FEC1ED2FFB8ADAE98C800083474877C1BAF763D8` remained
+unopened. Rollout coverage is not promotion evidence unless the retained columns
+also improve the actual day solver under exact attribution.
+
+Exact day-level attribution now shows why two-tanker capacity is invisible. A
+fresh champion counterfactual for m-1266 mask192 scored `6/60/267` (the same
+positive direction as the prior `275`) versus live mask1 `6/60/228`. Mask192's
+daily servings were `29,29,27,25,27,25,25,25,26,29`; mask1 was
+`31,32,30,23,23,15,17,18,21,18`. The benefit begins after day 3 and comes from
+maintaining harvest throughput, not from a first-tier or second-tier trade. The
+role evaluator instead saturates all six patrols at fuel 100 but remains near 18
+servings/day. Code attribution confirms full `solve_day` enables production
+harvest extensions and conditional orienteering, while `rollout_role_assignment`
+leaves every harvest-extension option disabled.
+
+`SCORE-ROLE-028`, parent `08771f1`, enabled long-horizon low-fuel
+full role rollouts only, it will reuse the canonical production harvest-extension
+configuration: enabled extensions, uncached target allowance, configured source
+count and day-dependent depth. One-day probes and short/default/high lanes remain
+unchanged; all work stays inside the current 85% rollout wall and 5000 ms hard cap.
+configuration inside the existing slices. It is inconclusive and absent from
+source. A loaded-local m-1266 run kept one tanker ahead and showed mask192 at
+`6/46/164`, but neither score nor elapsed time is authoritative on the contended
+host. Fresh holdout SHA256
+`0EF4FBFEA6850208765A92E5772849A08D52EC8A28544E8E9DBC7B55F850EA1D` remained
+unopened. Resolve only with a BTC live run at 5000 ms.
+
+The exact terminal day itself provides a causal discriminator. On m-1266, live
+one-tanker day 10 served 18 while mask192 served 29 in the current exact
+counterfactual. On m-1241, live one-tanker day 10 served 37 while the exact
+two-tanker mask96 served 30. Both comparisons cover all six brands, so this is a
+tier-3 late-capacity difference inside an official single-day score, not a
+weighted aggregate or a fuel proxy.
+
+`SCORE-ROLE-029`, parent `08771f1`, shortens coarse full-horizon work
+to 75% instead of 85% and preserves the state/ledger at the start of its
+final day. Best one-tanker and best two-tanker then split the interval to the
+existing 92% role wall and re-solve that day with production-like columns,
+harvest extensions and conditional exact orienteering. Two tankers may relax the
+coarse daily gap only when lifetime ties and their executable terminal official
+score is no worse in its first two components and lexicographically better. The
+mechanism is inconclusive and absent from source. A loaded-local diagnostic
+returned only `4/4/9` for the best one-tanker and `3/3/10` for mask192, but that
+deadline-sensitive score cannot reject the candidate. Fresh holdout SHA256 is
+`61BE95EAB2FCDA6886CF8EB68CC3009C42F39B55DE3FEDC3B320F8C993C8A6DB`.
+
+Two explicit-advanced BTC runs used the frozen candidate binary SHA256
+`ABC213A7F21A11C3C9CFD5AC94FB8B5CA77560470EB9F8F9062F0BF3255C81ED`.
+`m-1278` exercised the two-tanker branch (mask192), but the HTTP client stopped
+after sending day 7 with WinHTTP `12002`; only six action results were received,
+all valid at `3121..3130 ms`, and days 8--10 were lost. The final `6/44/196`
+rank4 result is therefore a lifecycle failure, not a role-score verdict. Replay
+SHA256 is `4D538FD15E3545848191F1803B40BE32CBB4D5E5172AD5CACECFA89639236E4B`.
+`m-1279` completed 10/10 valid acknowledgements and ranked first at `6/60/310`
+over `6/60/220`, `6/59/201` and `6/55/198`; response total was `29190 ms` and
+per-day maximum `3061 ms`. It selected the existing one-tanker mask1, so it
+validates BTC runtime but does not attribute a gain to the new terminal probe.
+Replay SHA256 is `79E964C81D16C11604C3EF8BF9B706C409CA46FCB2F6DD6B61BA9920390E56E1`.
+`m-1280` completed 10/10 valid acknowledgements with two-tanker mask192 and ranked
+first at `6/60/300`, response maximum `3131 ms`. Replay SHA256 is
+`FAB35645B9FEBA89E4A2DC0DEF0C864B24F8172D2DBB5542E97875CF65E86F44`.
+However, replay-role attribution showed all leading one- and two-tanker coarse
+rollouts tied on lifetime/daily (`6/51` on m-1280, `6/60` on m-1278), so the
+already-accepted SCORE-ROLE-023 equality fallback can select two tankers without
+the terminal probe. The probe itself saw only `4/4` on m-1280 and did not recover
+the production trajectory's `6/6`; m-1266 likewise returned one/double terminal
+scores `4/4/9` and `3/3/10`. SCORE-ROLE-029 is rejected and absent from source:
+re-solving only the last day from an already-diverged coarse trajectory does not
+measure the multi-day state that creates the known m-1266 gain. Reopen only with
+a trajectory-consistent multi-day finalist witness inside the same 5000 ms cap.
+
+`PERF-DEADLINE-003`, parent `08771f1`, is accepted. BTC
+`m-1278` proved that a single WinHTTP receive timeout can terminate the client
+after an action is sent, discard three remaining days and turn a live lead into
+rank4. The six earlier ACKs were valid at `3121..3130 ms`; this is a transport
+lifecycle failure, not a solver overrun. The official BTC API page states that
+`POST /actions` may be resent. The frozen mechanism therefore keeps the solver,
+role selection, action body, comparator and 5000 ms cap unchanged; it gives each
+action ACK a bounded request-level receive slice and resends the identical body
+only for retryable WinHTTP timeout/resend errors while the authoritative day
+deadline still permits another attempt. Ledger state advances exactly once and
+only after an accepted ACK whose day equals `wireDay + 1`. Frozen holdout SHA256
+is `AEF7B9C72F08FEAA2E79BE69CAFB6C16AC8D6FAC6942AD1A598C91DEFE680A6A`.
+
+A controlled semantic probe first delayed the initial ACK beyond a `250 ms`
+request slice and confirmed two byte-identical POST bodies, one applied ACK and
+one retry telemetry event. This probe is not local performance evidence. Fresh
+explicit-advanced BTC production match `m-1283` used hard difficulty, three bots,
+10 days, 32x32, 100 steps/day, 5000 ms, eight agents, 12 spots, six brands and
+fuel 1x. It completed 10/10 valid ACKs, reconciled 9/9 transitions and ranked
+first at `6/60/312`; maximum server-reported response was `2958 ms` and maximum
+solver time was `2925 ms`. No transport retry was needed. Replay SHA256 is
+`E085ACA345C2361FBBD05142905FF64EC4341D27EB6AF2795A3C6A965CF6A173`.
+
+Fresh BTC conformance match `m-1284` used the same explicit advanced class and a
+temporary probe binary that discarded the first valid day-1 ACK, then resent the
+exact frozen body. BTC accepted both submissions for day 1; the runtime applied
+only the second ACK, completed 10/10 valid applied days, reconciled 9/9 transitions
+and ranked first at `6/60/277`. Maximum server-reported response was `3060 ms` and
+maximum solver time was `2848 ms`. Replay SHA256 is
+`F0454045E278E7D696FBA365335CB41764971D0E5EC0587A2808DBDE9EEBAAA9`.
+The temporary forced-resend flag was removed before the final production rebuild.
+The final executable SHA256 is
+`ACA63DCC68DA5339DF98A7D5BCC792AF168D97CF09F382861540A1341B4BF7E0`;
+that binary replay-checks both matches to their exact `6/60/312` and `6/60/277`
+summaries. The candidate therefore closes a catastrophic lifecycle downside while
+the no-timeout production path preserves action/score semantics and the 5000 ms
+cap.
 
 BTC `m-1228` (hard, 3 bots, 32x32, 10 days, 100 steps/day, 8 agents,
 12 spots, 6 brands, fuel 200, response 5000 ms) is the authoritative new
