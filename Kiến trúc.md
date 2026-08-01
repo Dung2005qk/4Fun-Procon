@@ -13,7 +13,7 @@ Ba ý tưởng trước đều có mảnh ghép tốt, đặc biệt là mô ph�
 5. Sinh nhiều **cột lộ trình** cho từng xe bằng tìm đường đa tài nguyên; sau đó dùng CP-SAT/set-packing chọn tổ hợp xe tuần tra - xe tiếp nhiên liệu đồng bộ theo thời gian. ALNS chỉ là máy sinh và cải tiến lộ trình, không được phép phá thứ tự mục tiêu hay tính hợp lệ.
 6. Khai thác hai hiệu ứng mạnh nhưng phải trả đúng chi phí của luật step:
    - **Explicit overnight harvest:** kết thúc ngày trên một spot, rồi đầu ngày sau phát `WAIT(1)` để hoàn thành một action tại spot và nhận udon trước khi rời đi. Không có pickup tự động ở đầu ngày và chi phí là đúng một step.
-   - **Sustained end-day docking:** patrol và tanker phải đồng vị trí liên tục qua ít nhất hai snapshot liên tiếp, tức trọn một step. Chỉ cùng đến một ô ở step cuối không đủ; rendezvous phải hình thành muộn nhất ở step áp chót và còn đồng vị trí ở step cuối.
+   - **End-day docking:** refuel dùng được trong cùng ngày vẫn cần đồng vị trí liên tục qua hai snapshot liên tiếp. Riêng transition sang ngày kế tiếp, BTC đã xác nhận patrol chỉ cần cùng terminal cell với tanker ở snapshot cuối; fuel đầy này không được dùng hồi tố cho action của ngày vừa kết thúc.
 
 Điểm hơn cốt lõi không phải là “thuật toán phức tạp hơn”, mà là: **không tối ưu sai mục tiêu, không hi sinh loại udon hiếm một cách vô thức, luôn có phương án ngày hiện tại hợp lệ qua mô phỏng, và phân biệt rõ future bound với future certificate**.
 
@@ -93,7 +93,7 @@ Chuỗi xử lý cốt lõi là: tiêu thụ fuel của movement hoàn thành, p
 - Patrol chỉ được nạp khi có tanker cùng ô ở snapshot hiện tại **và** snapshot ngay trước đó. Cùng vừa đến một ô trong một snapshot chưa đủ.
 - Fuel vừa được nạp chỉ dùng cho movement được nhận sau thời điểm nạp; movement đã được nhận vẫn phải đủ fuel tại lúc nhận lệnh.
 - Nếu patrol và tanker xuất phát cùng ô và đi cùng timeline, co-location được duy trì nên patrol có thể được nạp sau movement. Đây là **escort thật sự**, không phải chỉ là rendezvous rời rạc.
-- Rendezvous mới hình thành đúng step cuối không nạp fuel. End-day dock hợp lệ phải duy trì đồng vị trí trọn bước cuối.
+- Rendezvous mới hình thành đúng step cuối không cấp fuel cho action nào trong ngày hiện tại, nhưng server BTC cấp fuel đầy trong state đầu ngày kế tiếp. Conformance tự nhiên `m-1258` và probe cô lập `m-1261` xác nhận boundary rule này.
 - Nếu nhiều patrol cùng lấy spot khi kho không đủ, thứ tự agent trong cấu hình quyết định xe nào lấy trước. Đây không phải suy đoán: Q&A phần 2, câu 26 quy định agent đứng trước trong danh sách map lấy trước; phụ lục Q6 còn minh họa hai patrol đến cùng step, stock bằng 1 và agent có thứ tự thấp hơn nhận udon. Bộ mô phỏng và master solver phải bảo toàn thứ tự này. Adapter Việt Nam vẫn cần một conformance test với server tập luyện để phát hiện nếu BTC địa phương thay format hoặc semantics.
 
 ### 1.6. Mọi action plan phải dùng đúng toàn bộ số step
@@ -658,7 +658,7 @@ Trong master nhiều ngày, mô hình trực tiếp biến \(visit_{i,s,d+1}\), 
 
 ### 7.3. End-step dock
 
-Dịch timeline của patrol và tanker để cùng ô từ step áp chót đến hết step cuối. Chỉ nếu exact simulator xác nhận co-location liên tục và không làm mất brand/serving thì patrol mới bắt đầu ngày sau đầy fuel; cùng đến ô ở đúng step cuối không có hiệu lực.
+Dịch timeline của patrol và tanker để cùng terminal cell khi ngày kết thúc. Co-location liên tục từ step áp chót vẫn mạnh hơn vì có thể nạp fuel ngay trong ngày; tuy nhiên BTC xác nhận cùng đến ở đúng step cuối cũng làm patrol bắt đầu ngày sau đầy fuel. Exact simulator phải áp dụng refill boundary sau khi đã xác nhận mọi movement và score ngày hiện tại, để fuel đó không thể cứu một action vốn thiếu nhiên liệu.
 
 ### 7.4. Escort merge/split
 

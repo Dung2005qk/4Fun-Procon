@@ -439,6 +439,44 @@ void test_refuel_requires_full_colocation_step(
         lockstepResult.trace.position_at(2, 0) == 25 &&
             lockstepResult.finalAgents.at(0).fuel == config.fuelLimit,
         "continuous lockstep movement from an existing rendezvous must refuel");
+
+    udon::DayState terminalArrival = sourceState;
+    terminalArrival.agents.at(0) = udon::AgentState{
+        udon::AgentKind::Patrol,
+        8,
+        1,
+    };
+    terminalArrival.agents.at(1) = udon::AgentState{
+        udon::AgentKind::Tanker,
+        9,
+        config.fuelLimit,
+    };
+    terminalArrival.agents.at(2) = udon::AgentState{
+        udon::AgentKind::Patrol,
+        18,
+        5,
+    };
+    const udon::DayPlan terminalArrivalPlan = udon::parse_day_plan(
+        config,
+        udon::JsonValue::parse(R"([
+            [-14,2],
+            [-16],
+            [-16]
+        ])"));
+    const udon::SimulationResult terminalArrivalResult = verify(
+        terminalArrival,
+        terminalArrivalPlan);
+    require(
+        terminalArrivalResult.trace.position_at(15, 0) == 8 &&
+            terminalArrivalResult.trace.fuel_at(15, 0) == 1 &&
+            terminalArrivalResult.trace.position_at(16, 0) == 9 &&
+            terminalArrivalResult.trace.fuel_at(16, 0) == config.fuelLimit &&
+            terminalArrivalResult.finalAgents.at(0).fuel == config.fuelLimit,
+        "terminal co-location must refill only the next-day boundary state");
+    require(
+        terminalArrivalResult.finalAgents.at(2).position == 18 &&
+            terminalArrivalResult.finalAgents.at(2).fuel == 5,
+        "a non-colocated patrol must carry its remaining fuel across the day boundary");
 }
 
 void test_invalid_duration_rejected(const udon::MatchConfig& config, const udon::DayState& state) {

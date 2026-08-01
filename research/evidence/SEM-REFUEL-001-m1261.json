@@ -1,0 +1,37 @@
+{
+  "match": "m-1261",
+  "config": {
+    "difficulty": "hard",
+    "bots": 3,
+    "days": 4,
+    "map": "8x8",
+    "stepsPerDay": 20,
+    "responseMs": 5000,
+    "agents": 3,
+    "spots": 3,
+    "brands": 3,
+    "fuelLimit": 20
+  },
+  "assignment": [1, 0, 0],
+  "day1Starts": [
+    {"kind": 1, "position": 63, "fuel": 20},
+    {"kind": 0, "position": 60, "fuel": 20},
+    {"kind": 0, "position": 39, "fuel": 20}
+  ],
+  "day1Actions": [
+    [-20],
+    [-8, 1, 1, 2, 2, 3, 4],
+    [-13, 4, 3, 4, -1]
+  ],
+  "day1Ack": {"valid": true, "day": 1, "responseMs": 293},
+  "day2AuthoritativeAgents": [
+    {"kind": 1, "position": 63, "fuel": 20},
+    {"kind": 0, "position": 63, "fuel": 20},
+    {"kind": 0, "position": 63, "fuel": 20}
+  ],
+  "localBeforeCandidate": {
+    "terminalArrivalPatrol": {"position": 63, "fuel": 14},
+    "sustainedControlPatrol": {"position": 63, "fuel": 20}
+  },
+  "verdict": "BTC applies terminal co-location as full fuel in the next-day state"
+}

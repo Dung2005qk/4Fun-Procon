@@ -49,6 +49,35 @@ high-fuel BTC target in `m-1258`; it is now frozen for final scoped-diff review 
 promotion/commit gating. No further role or submission-floor tuning is permitted
 against these opened fixtures.
 
+The read-only semantics attribution `SEM-REFUEL-001` is accepted. On
+`m-1258`, transitions to days 9 and 10 reported a patrol at the simulator-predicted
+terminal position but with full fuel `300` instead of predicted `185` and `194`.
+In both cases the patrol first arrived on the tanker cell at step 100; the local
+trace did not count a completed full co-location step. A scan of all 37 archived
+live replays found no second match with this exact terminal-arrival/full-refuel
+pattern. Therefore neither the documented sustained-docking rule nor a server
+day-boundary refuel rule is yet established. No simulator or planner change is
+authorized until a preregistered BTC conformance match isolates this boundary.
+That match, `m-1261`, did so: assignment `[tanker, patrol, patrol]` was accepted;
+one patrol first reached the stationary tanker at terminal step 20 and another
+arrived at step 19 then waited one step. Both began day 2 on the tanker cell with
+full fuel 20. The terminal-arrival patrol would have retained fuel 14 under both
+local engines. The active candidate is now `SEM-REFUEL-002`, which may change only
+the next-day terminal fuel transition after all current-day semantics are complete.
+It must not grant fuel to an action within the day or alter score/traffic/claims.
+
+`SEM-REFUEL-002` is accepted. Both engines implement the boundary independently;
+unit tests pass, and rescanning all 37 live replays improves `m-1258` transition
+agreement from 7/9 to 9/9 without introducing any mismatch. Its frozen paired
+score matrix is 8 wins, 11 ties and 5 losses with zero invalid/emergency. Every
+loss is tier 3 and at most five servings; the candidate has one tier-2 win and
+low-fuel tier-3 gains of 86, 24 and 1. Fresh explicit-advanced BTC `m-1264`
+selected mask128, submitted ten HTTP-2xx valid plans, reconciled all 9/9 state
+transitions and ranked first at `6/60/261` versus `6/60/202` next. Maximum solver
+time was 2845 ms, replayed role selection 3956 ms, and exact deadline overrun,
+submission skip, server WAIT and emergency were all zero. Replay SHA256 is
+`2811EC26C075829D63F61B7949394470B568CFDA72F6B30A51838CF9ACD4540A`.
+
 BTC `m-1228` (hard, 3 bots, 32x32, 10 days, 100 steps/day, 8 agents,
 12 spots, 6 brands, fuel 200, response 5000 ms) is the authoritative new
 counterexample. SCORE-ROLE-016 selected mask `2`, but day 1 column generation

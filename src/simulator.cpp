@@ -350,14 +350,36 @@ SimulationResult ExactStepSimulator::simulate(
     }
 
     for (AgentIndex agentIndex = 0; agentIndex < agentCount; ++agentIndex) {
-        const RuntimeAgent& runtime = runtimeAgents.at(static_cast<std::size_t>(agentIndex));
-        if (runtime.pending.has_value() || runtime.actionCursor != plan.actions.at(static_cast<std::size_t>(agentIndex)).size()) {
+        const RuntimeAgent& runtime = runtimeAgents.at(
+            static_cast<std::size_t>(agentIndex));
+        if (runtime.pending.has_value() ||
+            runtime.actionCursor !=
+                plan.actions.at(static_cast<std::size_t>(agentIndex)).size()) {
             return failed(
                 SimulationErrorCode::DurationMismatch,
                 agentIndex,
                 stepCount,
                 "agent action durations do not exactly fill the day");
         }
+    }
+
+    for (const RuntimeAgent& runtime : runtimeAgents) {
+        if (runtime.state.kind == AgentKind::Tanker) {
+            tankerPresent.at(static_cast<std::size_t>(runtime.state.position)) = true;
+        }
+    }
+    for (RuntimeAgent& runtime : runtimeAgents) {
+        if (runtime.state.kind == AgentKind::Patrol &&
+            tankerPresent.at(static_cast<std::size_t>(runtime.state.position))) {
+            runtime.state.fuel = config_.fuelLimit;
+        }
+    }
+    if (captureTrace) {
+        record_trace(result.trace, stepCount, runtimeAgents);
+    }
+
+    for (AgentIndex agentIndex = 0; agentIndex < agentCount; ++agentIndex) {
+        const RuntimeAgent& runtime = runtimeAgents.at(static_cast<std::size_t>(agentIndex));
         result.finalAgents.push_back(runtime.state);
     }
     result.score.dailyDistinct = static_cast<std::int32_t>(std::popcount(result.score.brands));

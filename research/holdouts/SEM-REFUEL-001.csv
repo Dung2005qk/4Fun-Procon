@@ -1,0 +1,4 @@
+case_id,difficulty,bots,days,map,steps,response_ms,agents,spots,brands,fuel,assignment,probe,authoritative_measurement
+terminal_arrival,hard,3,4,8x8,20,5000,3,3,3,1x,one_tanker,"patrol first reaches stationary tanker cell exactly at final step; not co-located at previous snapshot","next-day patrol position and fuel"
+sustained_control,hard,3,4,8x8,20,5000,3,3,3,1x,one_tanker,"patrol reaches stationary tanker at least one step before final step and remains co-located","next-day patrol position and fuel"
+carry_control,hard,3,4,8x8,20,5000,3,3,3,1x,one_tanker,"patrol never co-locates with tanker","next-day patrol position and fuel"

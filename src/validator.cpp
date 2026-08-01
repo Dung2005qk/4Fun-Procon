@@ -340,14 +340,38 @@ SimulationResult IndependentDayValidator::validate(
     }
 
     for (AgentIndex agentIndex = 0; agentIndex < agentCount; ++agentIndex) {
-        const ValidationAgent& agent = agents.at(static_cast<std::size_t>(agentIndex));
-        if (agent.active.has_value() || agent.nextAction != plan.actions.at(static_cast<std::size_t>(agentIndex)).size()) {
+        const ValidationAgent& agent = agents.at(
+            static_cast<std::size_t>(agentIndex));
+        if (agent.active.has_value() ||
+            agent.nextAction !=
+                plan.actions.at(static_cast<std::size_t>(agentIndex)).size()) {
             return reject(
                 SimulationErrorCode::DurationMismatch,
                 agentIndex,
                 finalStep,
                 "validator found a plan that does not exactly consume the day");
         }
+    }
+
+    std::fill(hasTanker.begin(), hasTanker.end(), std::uint8_t{0});
+    for (const ValidationAgent& agent : agents) {
+        if (agent.state.kind == AgentKind::Tanker) {
+            hasTanker.at(static_cast<std::size_t>(agent.state.position)) =
+                std::uint8_t{1};
+        }
+    }
+    for (ValidationAgent& agent : agents) {
+        if (agent.state.kind == AgentKind::Patrol &&
+            hasTanker.at(static_cast<std::size_t>(agent.state.position)) != 0U) {
+            agent.state.fuel = config_.fuelLimit;
+        }
+    }
+    if (captureTrace) {
+        write_snapshot(result.trace, finalStep, agents);
+    }
+
+    for (AgentIndex agentIndex = 0; agentIndex < agentCount; ++agentIndex) {
+        const ValidationAgent& agent = agents.at(static_cast<std::size_t>(agentIndex));
         result.finalAgents.push_back(agent.state);
     }
     result.score.dailyDistinct = static_cast<std::int32_t>(std::popcount(result.score.brands));
