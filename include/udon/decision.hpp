@@ -456,6 +456,11 @@ enum class RoutePoolSearch : std::uint8_t {
     const RoleAssignment& challenger,
     const RoleAssignment& incumbent);
 
+[[nodiscard]] bool apply_incomplete_long_horizon_role_fallback(
+    const MatchConfig& config,
+    bool fullHorizonComparisonComplete,
+    std::vector<RoleAssignment>& beam);
+
 class UdonShieldEngine {
 public:
     explicit UdonShieldEngine(

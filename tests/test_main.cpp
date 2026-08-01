@@ -192,6 +192,82 @@ void test_btc_official_wire_adapter() {
         "BTC adapter must fail closed when own patrol fuel is absent");
 }
 
+void test_incomplete_long_horizon_role_fallback() {
+    udon::MatchConfig longHorizonConfig = udon::parse_match_config(
+        udon::JsonValue::parse(fixture_config()));
+    longHorizonConfig.daySeconds.assign(10U, 5);
+    longHorizonConfig.daySteps.assign(10U, 16);
+    longHorizonConfig.fuelLimit = 160;
+
+    udon::RoleAssignment allPatrol;
+    allPatrol.roles.assign(3U, udon::AgentKind::Patrol);
+    allPatrol.patrolCount = 3;
+    allPatrol.rolloutValid = true;
+    allPatrol.rolloutScore = udon::OfficialScore{3, 12, 40};
+
+    udon::RoleAssignment weakerSingleTanker;
+    weakerSingleTanker.roles = {
+        udon::AgentKind::Tanker,
+        udon::AgentKind::Patrol,
+        udon::AgentKind::Patrol,
+    };
+    weakerSingleTanker.patrolCount = 2;
+    weakerSingleTanker.rolloutValid = true;
+    weakerSingleTanker.rolloutScore = udon::OfficialScore{3, 10, 30};
+
+    udon::RoleAssignment betterSingleTanker = weakerSingleTanker;
+    betterSingleTanker.roles = {
+        udon::AgentKind::Patrol,
+        udon::AgentKind::Tanker,
+        udon::AgentKind::Patrol,
+    };
+    betterSingleTanker.rolloutScore = udon::OfficialScore{3, 11, 20};
+
+    std::vector<udon::RoleAssignment> incompleteBeam{
+        allPatrol,
+        weakerSingleTanker,
+        betterSingleTanker,
+    };
+    require(
+        udon::apply_incomplete_long_horizon_role_fallback(
+            longHorizonConfig,
+            false,
+            incompleteBeam),
+        "incomplete long-horizon comparison must apply the one-tanker fallback");
+    require(
+        incompleteBeam.front().roles == betterSingleTanker.roles,
+        "fallback must select the best existing one-tanker assignment by the official comparator");
+
+    std::vector<udon::RoleAssignment> completeBeam{
+        allPatrol,
+        weakerSingleTanker,
+        betterSingleTanker,
+    };
+    require(
+        !udon::apply_incomplete_long_horizon_role_fallback(
+            longHorizonConfig,
+            true,
+            completeBeam) &&
+            completeBeam.front().roles == allPatrol.roles,
+        "complete full-horizon evidence must preserve the selected all-patrol assignment");
+
+    udon::MatchConfig shortHorizonConfig = longHorizonConfig;
+    shortHorizonConfig.daySeconds.assign(5U, 5);
+    shortHorizonConfig.daySteps.assign(5U, 16);
+    std::vector<udon::RoleAssignment> shortHorizonBeam{
+        allPatrol,
+        weakerSingleTanker,
+        betterSingleTanker,
+    };
+    require(
+        !udon::apply_incomplete_long_horizon_role_fallback(
+            shortHorizonConfig,
+            false,
+            shortHorizonBeam) &&
+            shortHorizonBeam.front().roles == allPatrol.roles,
+        "protected 4/5-day horizons must preserve the parent role selection");
+}
+
 void test_even_row_geometry(const udon::MatchConfig& config) {
     const udon::CellId origin = 16;
     require(config.map.neighbors.at(static_cast<std::size_t>(origin)).at(0) == 8, "even row upper-left is wrong");
@@ -1040,16 +1116,80 @@ void test_exact_orienteering_terminal_frontier() {
     options.maximumColumnsPerAgent = 4;
     options.maximumTargetSpots = 4;
     udon::ColumnGenerationDiagnostics diagnostics;
-    static_cast<void>(generator.generate(
+    const udon::RoutePortfolio unboundedPortfolio = generator.generate(
         duplicateStartState,
         udon::MatchLedger{},
         options,
-        &diagnostics));
+        &diagnostics);
     require(
         diagnostics.exactOrienteeringSupportedAgents == 2 &&
             diagnostics.exactOrienteeringCompleteAgents == 2 &&
             diagnostics.exactOrienteeringCacheHits == 1,
         "identical high-fuel patrol starts must reuse exact reachability without changing logical coverage");
+    const auto portfolio_action_keys = [](const udon::RoutePortfolio& portfolio) {
+        std::vector<std::multiset<std::string>> keys(
+            portfolio.columnsByAgent.size());
+        for (std::size_t agent = 0;
+             agent < portfolio.columnsByAgent.size();
+             ++agent) {
+            for (const udon::RouteColumn& column :
+                 portfolio.columnsByAgent.at(agent)) {
+                std::string key;
+                for (const udon::PlanAction& action : column.actions) {
+                    key += std::to_string(action.wire_value());
+                    key.push_back(',');
+                }
+                keys.at(agent).insert(std::move(key));
+            }
+        }
+        return keys;
+    };
+    udon::ColumnGenerationOptions generousDeadlineOptions = options;
+    generousDeadlineOptions.deadline =
+        std::chrono::steady_clock::now() + std::chrono::seconds{10};
+    udon::ColumnGenerationDiagnostics generousDeadlineDiagnostics;
+    const udon::RoutePortfolio generousDeadlinePortfolio = generator.generate(
+        duplicateStartState,
+        udon::MatchLedger{},
+        generousDeadlineOptions,
+        &generousDeadlineDiagnostics);
+    require(
+        !generousDeadlineDiagnostics.deadlineReached &&
+            portfolio_action_keys(generousDeadlinePortfolio) ==
+                portfolio_action_keys(unboundedPortfolio),
+        "cooperative deadline checks must preserve the byte-equivalent action portfolio when exact work completes in time");
+
+    udon::ColumnGenerationOptions expiredOptions = options;
+    expiredOptions.deadline = std::chrono::steady_clock::now();
+    udon::ColumnGenerationDiagnostics expiredDiagnostics;
+    const auto expiredStarted = std::chrono::steady_clock::now();
+    const udon::RoutePortfolio expiredPortfolio = generator.generate(
+        duplicateStartState,
+        udon::MatchLedger{},
+        expiredOptions,
+        &expiredDiagnostics);
+    const std::chrono::milliseconds expiredElapsed =
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - expiredStarted);
+    require(
+        expiredDiagnostics.deadlineReached &&
+            expiredDiagnostics.exactOrienteeringBundles == 0 &&
+            expiredElapsed < std::chrono::milliseconds{500},
+        "an expired exact-orienteering deadline must cancel finalization promptly without materializing a partial team bundle");
+    require(
+        std::all_of(
+            expiredPortfolio.columnsByAgent.begin(),
+            expiredPortfolio.columnsByAgent.end(),
+            [](const std::vector<udon::RouteColumn>& columns) {
+                return !columns.empty() &&
+                    std::none_of(
+                        columns.begin(),
+                        columns.end(),
+                        [](const udon::RouteColumn& column) {
+                            return column.exactOrienteering;
+                        });
+            }),
+        "deadline cancellation must retain the exact-valid regular fallback portfolio and omit unfinished exact bundles");
 
     udon::UdonShieldEngine officialFuelEngine(
         config,
@@ -3773,6 +3913,7 @@ int main() {
         const udon::MatchConfig config = udon::parse_match_config(udon::JsonValue::parse(fixture_config()));
         const udon::DayState state = fixture_state(config);
         test_btc_official_wire_adapter();
+        test_incomplete_long_horizon_role_fallback();
         test_even_row_geometry(config);
         test_cube_distance_and_pareto_pruning_equivalence(config);
         test_protocol_fail_closed_schema(config);

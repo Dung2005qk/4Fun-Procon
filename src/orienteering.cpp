@@ -118,7 +118,11 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
         return result;
     }
     result.supported = true;
-    if (deadline.has_value() && std::chrono::steady_clock::now() >= *deadline) {
+    const auto deadline_expired = [&deadline]() {
+        return deadline.has_value() &&
+            std::chrono::steady_clock::now() >= *deadline;
+    };
+    if (deadline_expired()) {
         return result;
     }
 
@@ -186,13 +190,58 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
                 std::uint32_t{1} << static_cast<std::uint32_t>(spot);
         }
     }
+    std::vector<std::vector<std::uint16_t>> spotTerminalDistances(
+        config.spots.size(),
+        std::vector<std::uint16_t>(cellCount, 0U));
+    for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+        for (std::uint32_t cell = 0; cell < cellCount; ++cell) {
+            spotTerminalDistances.at(spot).at(cell) =
+                static_cast<std::uint16_t>(config.map.hex_distance(
+                    static_cast<CellId>(cell),
+                    config.spots.at(spot).position));
+        }
+    }
+    std::vector<std::int32_t> terminalBrandDistanceByCell(cellCount, 0);
+    for (std::uint32_t cell = 0; cell < cellCount; ++cell) {
+        for (std::int32_t brand = 0; brand < config.brand_count(); ++brand) {
+            std::uint16_t nearestBrand = kUnreachable;
+            for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+                if (config.spots.at(spot).brandIndex == brand) {
+                    nearestBrand = std::min(
+                        nearestBrand,
+                        spotTerminalDistances.at(spot).at(cell));
+                }
+            }
+            if (nearestBrand != kUnreachable) {
+                terminalBrandDistanceByCell.at(cell) += nearestBrand;
+            }
+        }
+    }
+    std::vector<std::pair<CellId, std::vector<std::uint16_t>>>
+        tankerTerminalDistances;
+    for (const AgentState& target : state.agents) {
+        if (target.kind != AgentKind::Tanker) {
+            continue;
+        }
+        std::vector<std::uint16_t> distances(cellCount, 0U);
+        for (std::uint32_t cell = 0; cell < cellCount; ++cell) {
+            distances.at(cell) = static_cast<std::uint16_t>(
+                config.map.hex_distance(
+                    static_cast<CellId>(cell),
+                    target.position));
+        }
+        tankerTerminalDistances.emplace_back(
+            target.position,
+            std::move(distances));
+    }
+    std::uint64_t processedBucketEntries = 0U;
     for (std::uint16_t usedSteps = 0;
          usedSteps <= static_cast<std::uint16_t>(daySteps);
          ++usedSteps) {
         std::vector<std::uint64_t>& bucket = buckets.at(usedSteps);
         for (std::size_t offset = 0; offset < bucket.size(); ++offset) {
-            if ((result.settledStates & 4095U) == 0U && deadline.has_value() &&
-                std::chrono::steady_clock::now() >= *deadline) {
+            if ((processedBucketEntries++ & 4095U) == 0U &&
+                deadline_expired()) {
                 return result;
             }
             const std::uint64_t entry = bucket.at(offset);
@@ -246,7 +295,11 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
     }
     result.maximalRoutes.reserve(maximalMasks.size());
     result.terminalVariants.reserve(maximalMasks.size() * (config.spots.size() + 1U));
-    for (const std::uint32_t mask : maximalMasks) {
+    for (std::size_t maskOffset = 0; maskOffset < maximalMasks.size(); ++maskOffset) {
+        if ((maskOffset & 15U) == 0U && deadline_expired()) {
+            return result;
+        }
+        const std::uint32_t mask = maximalMasks.at(maskOffset);
         std::vector<std::uint32_t> candidateStates;
         const auto add_candidate = [&candidateStates](std::uint32_t id) {
             if (id != std::numeric_limits<std::uint32_t>::max()) {
@@ -256,6 +309,9 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
         std::uint32_t fastest = std::numeric_limits<std::uint32_t>::max();
         std::uint32_t lowestFuel = std::numeric_limits<std::uint32_t>::max();
         for (std::uint32_t cell = 0; cell < cellCount; ++cell) {
+            if ((cell & 255U) == 0U && deadline_expired()) {
+                return result;
+            }
             const std::uint32_t id = state_id(mask, static_cast<CellId>(cell));
             if (distance.at(id) == kUnreachable) {
                 continue;
@@ -279,48 +335,64 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
         }
         add_candidate(fastest);
         add_candidate(lowestFuel);
-        const auto add_nearest_terminal = [&](CellId targetCell, bool excludeTarget) {
+        const auto add_nearest_terminal = [&](
+                CellId targetCell,
+                const std::vector<std::uint16_t>& terminalDistances,
+                bool excludeTarget) {
             std::uint32_t nearest = std::numeric_limits<std::uint32_t>::max();
+            std::tuple<std::int32_t, std::uint16_t, std::uint16_t, std::uint32_t>
+                nearestRank;
             for (std::uint32_t cell = 0; cell < cellCount; ++cell) {
+                if ((cell & 255U) == 0U && deadline_expired()) {
+                    return false;
+                }
                 const std::uint32_t id = state_id(mask, static_cast<CellId>(cell));
                 if (distance.at(id) == kUnreachable ||
                     (excludeTarget && static_cast<CellId>(cell) == targetCell)) {
                     continue;
                 }
                 const auto rank = std::tuple{
-                    config.map.hex_distance(static_cast<CellId>(cell), targetCell),
+                    static_cast<std::int32_t>(terminalDistances.at(cell)),
                     patrolFuel.at(id),
                     distance.at(id),
                     id};
-                if (nearest == std::numeric_limits<std::uint32_t>::max()) {
+                if (nearest == std::numeric_limits<std::uint32_t>::max() ||
+                    rank < nearestRank) {
                     nearest = id;
-                    continue;
-                }
-                const CellId nearestCell = static_cast<CellId>(nearest % cellCount);
-                const auto nearestRank = std::tuple{
-                    config.map.hex_distance(nearestCell, targetCell),
-                    patrolFuel.at(nearest),
-                    distance.at(nearest),
-                    nearest};
-                if (rank < nearestRank) {
-                    nearest = id;
+                    nearestRank = rank;
                 }
             }
             add_candidate(nearest);
+            return true;
         };
-        for (const Spot& target : config.spots) {
-            add_nearest_terminal(target.position, false);
+        for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+            if (!add_nearest_terminal(
+                    config.spots.at(spot).position,
+                    spotTerminalDistances.at(spot),
+                    false)) {
+                return result;
+            }
         }
-        for (const AgentState& target : state.agents) {
-            if (target.kind == AgentKind::Tanker) {
-                add_nearest_terminal(target.position, true);
+        for (const auto& [targetCell, terminalDistances] :
+             tankerTerminalDistances) {
+            if (!add_nearest_terminal(
+                    targetCell,
+                    terminalDistances,
+                    true)) {
+                return result;
             }
         }
         std::sort(candidateStates.begin(), candidateStates.end());
         candidateStates.erase(
             std::unique(candidateStates.begin(), candidateStates.end()),
             candidateStates.end());
-        for (std::uint32_t witness : candidateStates) {
+        for (std::size_t witnessOffset = 0;
+             witnessOffset < candidateStates.size();
+             ++witnessOffset) {
+            if ((witnessOffset & 15U) == 0U && deadline_expired()) {
+                return result;
+            }
+            const std::uint32_t witness = candidateStates.at(witnessOffset);
             ExactOrienteeringRoute route;
             route.spotMask = mask;
             route.usedSteps = distance.at(witness);
@@ -329,19 +401,8 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
             route.terminalOnSpot =
                 config.spotAtCell.at(static_cast<std::size_t>(route.terminalCell)) !=
                 kInvalidSpot;
-            for (std::int32_t brand = 0; brand < config.brand_count(); ++brand) {
-                std::int32_t nearestBrand = std::numeric_limits<std::int32_t>::max();
-                for (const Spot& spot : config.spots) {
-                    if (spot.brandIndex == brand) {
-                        nearestBrand = std::min(
-                            nearestBrand,
-                            config.map.hex_distance(route.terminalCell, spot.position));
-                    }
-                }
-                if (nearestBrand != std::numeric_limits<std::int32_t>::max()) {
-                    route.terminalBrandDistance += nearestBrand;
-                }
-            }
+            route.terminalBrandDistance = terminalBrandDistanceByCell.at(
+                static_cast<std::size_t>(route.terminalCell));
             std::vector<PlanAction> reversed;
             std::uint32_t current = witness;
             while (current != root) {
@@ -416,8 +477,11 @@ ExactOrienteeringReachability enumerate_resource_routes(
         return result;
     }
     result.supported = true;
-    if (deadline.has_value() &&
-        std::chrono::steady_clock::now() >= *deadline) {
+    const auto deadline_expired = [&deadline]() {
+        return deadline.has_value() &&
+            std::chrono::steady_clock::now() >= *deadline;
+    };
+    if (deadline_expired()) {
         return result;
     }
 
@@ -592,10 +656,10 @@ ExactOrienteeringReachability enumerate_resource_routes(
             return route;
         };
 
+    std::uint64_t processedQueueEntries = 0U;
     while (!queue.empty()) {
-        if ((result.settledStates & 4095U) == 0U &&
-            deadline.has_value() &&
-            std::chrono::steady_clock::now() >= *deadline) {
+        if ((processedQueueEntries++ & 4095U) == 0U &&
+            deadline_expired()) {
             return result;
         }
         const auto [queuedSteps, queuedFuel, labelIndex] = queue.top();
@@ -864,8 +928,7 @@ ExactOrienteeringReachability enumerate_resource_routes(
     for (std::size_t maskOffset = 0;
          maskOffset < maximalMasks.size();
          ++maskOffset) {
-        if ((maskOffset & 15U) == 0U && deadline.has_value() &&
-            std::chrono::steady_clock::now() >= *deadline) {
+        if ((maskOffset & 15U) == 0U && deadline_expired()) {
             return result;
         }
         const std::uint32_t mask = maximalMasks.at(maskOffset);
@@ -877,12 +940,15 @@ ExactOrienteeringReachability enumerate_resource_routes(
                     candidateLabels.push_back(labelIndex);
                 }
             };
+        bool terminalDeadlineReached = false;
         const auto select_label =
             [&labels,
              &firstLabelAtState,
              cellCount,
              mask,
-             &config](
+             &config,
+             &deadline_expired,
+             &terminalDeadlineReached](
                 const std::function<std::tuple<
                     std::int32_t,
                     std::int32_t,
@@ -901,6 +967,10 @@ ExactOrienteeringReachability enumerate_resource_routes(
                 for (std::uint32_t cell = 0;
                      cell < cellCount;
                      ++cell) {
+                    if ((cell & 255U) == 0U && deadline_expired()) {
+                        terminalDeadlineReached = true;
+                        return std::numeric_limits<std::uint32_t>::max();
+                    }
                     const std::uint32_t id = mask * cellCount + cell;
                     for (std::int32_t labelIndex =
                              firstLabelAtState.at(id);
@@ -937,6 +1007,9 @@ ExactOrienteeringReachability enumerate_resource_routes(
                     static_cast<std::int32_t>(label.state),
                     labelIndex};
             });
+        if (terminalDeadlineReached) {
+            return result;
+        }
         add_candidate(fastest);
         add_candidate(select_label(
             [](const ResourceLabel& label,
@@ -948,6 +1021,9 @@ ExactOrienteeringReachability enumerate_resource_routes(
                     static_cast<std::int32_t>(label.state),
                     labelIndex};
             }));
+        if (terminalDeadlineReached) {
+            return result;
+        }
         const auto add_nearest_terminal =
             [&select_label, &add_candidate, &config](
                 CellId targetCell,
@@ -970,17 +1046,29 @@ ExactOrienteeringReachability enumerate_resource_routes(
             };
         for (const Spot& target : config.spots) {
             add_nearest_terminal(target.position, false);
+            if (terminalDeadlineReached) {
+                return result;
+            }
         }
         for (const AgentState& target : state.agents) {
             if (target.kind == AgentKind::Tanker) {
                 add_nearest_terminal(target.position, true);
+                if (terminalDeadlineReached) {
+                    return result;
+                }
             }
         }
         std::sort(candidateLabels.begin(), candidateLabels.end());
         candidateLabels.erase(
             std::unique(candidateLabels.begin(), candidateLabels.end()),
             candidateLabels.end());
-        for (const std::uint32_t witness : candidateLabels) {
+        for (std::size_t witnessOffset = 0;
+             witnessOffset < candidateLabels.size();
+             ++witnessOffset) {
+            if ((witnessOffset & 15U) == 0U && deadline_expired()) {
+                return result;
+            }
+            const std::uint32_t witness = candidateLabels.at(witnessOffset);
             ExactOrienteeringRoute route =
                 reconstruct_route(witness, mask);
             if (witness == fastest) {
@@ -1034,6 +1122,10 @@ ExactOrienteeringReachability enumerate_anytime_resource_routes(
         maximumSettledStates,
         preferredBrands,
         deadline);
+    if (deadline.has_value() &&
+        std::chrono::steady_clock::now() >= *deadline) {
+        return result;
+    }
     const auto route_brand_mask =
         [&config](std::uint32_t spotMask) {
             std::uint64_t brands = 0U;

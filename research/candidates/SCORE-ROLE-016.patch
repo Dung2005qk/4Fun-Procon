@@ -1,0 +1,74 @@
+diff --git a/include/udon/decision.hpp b/include/udon/decision.hpp
+--- a/include/udon/decision.hpp
++++ b/include/udon/decision.hpp
+@@
+         RoleAssignment& assignment,
+         std::int32_t maximumDays,
+         std::int32_t maximumCombinationsPerDay,
+-        std::optional<std::chrono::steady_clock::time_point> deadline) const;
++        std::optional<std::chrono::steady_clock::time_point> deadline,
++        bool productionWidth = false) const;
+diff --git a/src/decision.cpp b/src/decision.cpp
+--- a/src/decision.cpp
++++ b/src/decision.cpp
+@@
+     RoleAssignment& assignment,
+     std::int32_t maximumDays,
+     std::int32_t maximumCombinationsPerDay,
+-    std::optional<std::chrono::steady_clock::time_point> deadline) const {
++    std::optional<std::chrono::steady_clock::time_point> deadline,
++    bool productionWidth) const {
+@@
+         const bool seedPass = maximumCombinationsPerDay <= 512;
++        const bool fullHorizonProductionWidth =
++            productionWidth && maximumDays > 1;
+         ColumnGenerationOptions generationOptions;
+         generationOptions.maximumPathsPerTarget = seedPass ? 1 : 2;
+         generationOptions.maximumColumnsPerAgent = seedPass ? 4 : 10;
+         generationOptions.maximumTargetSpots = seedPass ? 6 : 8;
+         generationOptions.maximumEscorts = seedPass ? 4 : 8;
++        if (fullHorizonProductionWidth) {
++            generationOptions.maximumPathsPerTarget = 4;
++            generationOptions.maximumColumnsPerAgent = 16;
++            generationOptions.maximumTargetSpots = 12;
++            generationOptions.maximumEscorts = 16;
++            generationOptions.enableHarvestExtensions =
++                harvestExtensionMode_ > 0;
++            generationOptions.allowUncachedHarvestTargets =
++                harvestExtensionMode_ > 1;
++            generationOptions.maximumHarvestExtensionSources =
++                harvestExtensionMode_ > 2 ? 4 : 1;
++            generationOptions.maximumHarvestExtensionDepth =
++                harvest_extension_depth(
++                    config_,
++                    dayNumber,
++                    harvestExtensionMode_);
++            generationOptions.seedPlans.push_back(independentPlan);
++        }
+         generationOptions.deadline = daySearchDeadline;
+@@
+-        RoleAssignment refined = beam.at(index);
++        const RoleAssignment unrefined = beam.at(index);
++        RoleAssignment refined = unrefined;
+         rollout_role_assignment(
+             refined,
+             config_.day_count(),
+             256,
+             assignmentDeadline);
++        if (std::chrono::steady_clock::now() < assignmentDeadline) {
++            RoleAssignment productionWidth = unrefined;
++            rollout_role_assignment(
++                productionWidth,
++                config_.day_count(),
++                256,
++                assignmentDeadline,
++                true);
++            if (productionWidth.rolloutValid &&
++                (!refined.rolloutValid ||
++                 role_assignment_better_after_rollout(
++                     productionWidth,
++                     refined))) {
++                refined = std::move(productionWidth);
++            }
++        }
+         if (refined.rolloutValid) {

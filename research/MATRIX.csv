@@ -1,0 +1,12 @@
+lane,enabled,verdict_class,suite,role_mode,role_mask,budget_ms,role_ms,first_seed,screen_seeds,full_seeds,description
+competition-general-fixed,1,primary,general,fixed,8,5000,5000,300000,6,120,"Outer window may be 60000 ms; internal hard cap 5000 ms; paired fixed roles; six traffic/map families"
+competition-general-native,1,primary,general,exhaustive,0,5000,5000,310000,6,60,"Deterministic exhaustive-role control; does not exercise the production timed selector"
+competition-general-deadline,1,primary,general,deadline,0,5000,5000,315000,6,60,"Production timed role selection; outer window may be 60000 ms but internal hard cap is 5000 ms"
+competition-btc-default,1,primary,btc-large,fixed,128,5000,5000,700000,1,12,"BTC-scale 32x32 default fuel; internal hard cap 5000 ms"
+competition-btc-lowfuel,1,primary,btc-lowfuel,fixed,128,5000,5000,710000,1,12,"BTC-scale 32x32 low fuel; internal hard cap 5000 ms"
+competition-btc-highfuel,1,primary,btc-highfuel,fixed,128,5000,5000,720000,1,12,"BTC-scale 32x32 high fuel; internal hard cap 5000 ms"
+preflight-general-fixed,1,preflight,general,fixed,8,5000,5000,400000,6,60,"BTC preflight budget; protocol/runtime safety and score diagnostic"
+preflight-general-native,1,preflight,general,exhaustive,0,5000,5000,410000,6,60,"BTC preflight budget with native roles"
+degradation-500-fixed,1,diagnostic,general,fixed,8,500,500,500000,6,60,"Non-production degradation diagnostic"
+degradation-1200-fixed,1,diagnostic,general,fixed,8,1200,1200,510000,6,60,"Non-production degradation diagnostic"
+degradation-2500-fixed,1,diagnostic,general,fixed,8,2500,2500,520000,6,60,"Non-production degradation diagnostic"

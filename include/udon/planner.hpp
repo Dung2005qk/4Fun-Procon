@@ -150,6 +150,10 @@ struct ColumnGenerationDiagnostics {
     bool exactOrienteeringFeasibilityImproved = false;
     bool exactOrienteeringOverlapFeasibilityImproved = false;
     std::int64_t exactOrienteeringMilliseconds = 0;
+    std::int64_t exactOrienteeringEnumerationMilliseconds = 0;
+    std::int64_t exactOrienteeringFinalizationMilliseconds = 0;
+    std::int64_t exactOrienteeringDeadlineRemainingAtStartMilliseconds = -1;
+    std::int64_t exactOrienteeringDeadlineOverrunMilliseconds = 0;
     bool deadlineReached = false;
 };
 
@@ -376,6 +380,7 @@ struct RoleAssignment {
     std::int32_t patrolCount = 0;
     std::int32_t sustainableCoverage = 0;
     bool rolloutValid = false;
+    bool rolloutComplete = false;
 };
 
 class RoleAssignmentEnumerator {

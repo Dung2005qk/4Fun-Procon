@@ -655,6 +655,26 @@ template <typename Value, std::size_t Count>
     columnGeneration.emplace(
         "exactOrienteeringMilliseconds",
         JsonValue(audit.columnGeneration.exactOrienteeringMilliseconds));
+    columnGeneration.emplace(
+        "exactOrienteeringEnumerationMilliseconds",
+        JsonValue(
+            audit.columnGeneration
+                .exactOrienteeringEnumerationMilliseconds));
+    columnGeneration.emplace(
+        "exactOrienteeringFinalizationMilliseconds",
+        JsonValue(
+            audit.columnGeneration
+                .exactOrienteeringFinalizationMilliseconds));
+    columnGeneration.emplace(
+        "exactOrienteeringDeadlineRemainingAtStartMilliseconds",
+        JsonValue(
+            audit.columnGeneration
+                .exactOrienteeringDeadlineRemainingAtStartMilliseconds));
+    columnGeneration.emplace(
+        "exactOrienteeringDeadlineOverrunMilliseconds",
+        JsonValue(
+            audit.columnGeneration
+                .exactOrienteeringDeadlineOverrunMilliseconds));
     columnGeneration.emplace("deadlineReached", JsonValue(audit.columnGeneration.deadlineReached));
     JsonValue::Object pareto;
     pareto.emplace("queries", JsonValue(static_cast<std::int64_t>(audit.columnGeneration.pareto.queries)));

@@ -1,0 +1,5 @@
+lane,suite,first_seed,screen_seeds,full_seeds,role_mode,budget_ms,role_ms,reason
+general-guard-native,general,320000,6,60,exhaustive,5000,5000,"Independent small-input guard holdout; spot_count is at most 8"
+btc-default-native,btc-large,730000,2,12,exhaustive,5000,5000,"Independent 32x32 default-fuel role holdout; 12 spots exceed narrow cap"
+btc-low-native,btc-lowfuel,731000,2,12,exhaustive,5000,5000,"Independent 32x32 low-fuel role holdout; 12 spots exceed narrow cap"
+btc-high-native,btc-highfuel,732000,2,12,exhaustive,5000,5000,"Independent 32x32 high-fuel role holdout; 12 spots exceed narrow cap"

@@ -28,6 +28,8 @@
 
 namespace {
 
+constexpr std::int64_t btcSubmissionFloorMs = 800;
+
 struct RuntimeOptions {
     std::string mode;
     std::string baseUrl = "https://procon.ptit.edu.vn";
@@ -69,7 +71,7 @@ struct HttpResponse {
 
 [[nodiscard]] udon::DeadlineCalibration btc_http_deadline_calibration() {
     udon::DeadlineCalibration calibration;
-    calibration.version = "btc-http-local-budget-v6-p99-overrun-guarded";
+    calibration.version = "btc-http-local-budget-v7-p99-submit-floor-800";
     calibration.networkFloor = std::chrono::milliseconds{1600};
     calibration.networkPercent = 20;
     calibration.certificationPercent = 20;
@@ -721,6 +723,37 @@ void run_replay_solve(const RuntimeOptions& options) {
               << " search_ms=" << decision.timing.search.count()
               << " candidate_ms=" << decision.timing.candidatePreparation.count()
               << " certification_ms=" << decision.timing.certification.count()
+              << " exact_ms="
+              << decision.audit.columnGeneration.exactOrienteeringMilliseconds
+              << " exact_enumeration_ms="
+              << decision.audit.columnGeneration
+                     .exactOrienteeringEnumerationMilliseconds
+              << " exact_finalization_ms="
+              << decision.audit.columnGeneration
+                     .exactOrienteeringFinalizationMilliseconds
+              << " exact_deadline_start_ms="
+              << decision.audit.columnGeneration
+                     .exactOrienteeringDeadlineRemainingAtStartMilliseconds
+              << " exact_deadline_overrun_ms="
+              << decision.audit.columnGeneration
+                     .exactOrienteeringDeadlineOverrunMilliseconds
+              << " exact_supported="
+              << decision.audit.columnGeneration.exactOrienteeringSupportedAgents
+              << " exact_complete="
+              << decision.audit.columnGeneration.exactOrienteeringCompleteAgents
+              << " exact_terminal_variants="
+              << decision.audit.columnGeneration.exactOrienteeringTerminalVariants
+              << " exact_bundles="
+              << decision.audit.columnGeneration.exactOrienteeringBundles
+              << " exact_seed_servings="
+              << decision.audit.columnGeneration.exactOrienteeringSeedServings
+              << " exact_local_servings="
+              << decision.audit.columnGeneration.exactOrienteeringLocalServings
+              << " exact_feasibility_nodes="
+              << decision.audit.columnGeneration
+                     .exactOrienteeringFeasibilityNodes
+              << " column_deadline="
+              << (decision.audit.columnGeneration.deadlineReached ? 1 : 0)
               << " pool=" << decision.audit.candidates.size()
               << " pool_best_daily=" << bestPoolDailyDistinct
               << " certified=" << certifiedCandidates
@@ -818,6 +851,7 @@ void run_replay_roles(const RuntimeOptions& options) {
                   << " patrols=" << assignment.patrolCount
                   << " sustainable=" << assignment.sustainableCoverage
                   << " rollout_valid=" << (assignment.rolloutValid ? 1 : 0)
+                  << " rollout_complete=" << (assignment.rolloutComplete ? 1 : 0)
                   << " rollout=" << assignment.rolloutScore.lifetimeDistinct
                   << '/' << assignment.rolloutScore.totalDailyDistinct
                   << '/' << assignment.rolloutScore.totalServings
@@ -1416,9 +1450,11 @@ void run_http(const RuntimeOptions& options) {
                 receivedAt);
             replay.record("decision", decision.replay);
             const std::int64_t actionDeadlineMs = state.endsAt * 1000;
-            const std::int64_t minimumSubmissionWindowMs = std::max<std::int64_t>(
-                1000,
-                deadlineCalibration.networkFloor.count() - 100);
+            const std::int64_t minimumSubmissionWindowMs = std::min<std::int64_t>(
+                btcSubmissionFloorMs,
+                std::max<std::int64_t>(
+                    200,
+                    deadlineCalibration.networkFloor.count() - 100));
             if (unix_milliseconds() + minimumSubmissionWindowMs >= actionDeadlineMs) {
                 if (session.has_pending_submission()) {
                     session.reject_pending_submission();

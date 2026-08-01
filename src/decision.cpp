@@ -3077,6 +3077,7 @@ void UdonShieldEngine::rollout_role_assignment(
     std::int32_t maximumCombinationsPerDay,
     std::optional<std::chrono::steady_clock::time_point> deadline) const {
     assignment.rolloutValid = false;
+    assignment.rolloutComplete = false;
     assignment.rolloutScore = OfficialScore{};
     if (maximumDays <= 0 || maximumCombinationsPerDay <= 0 ||
         assignment.roles.size() != static_cast<std::size_t>(config_.agent_count())) {
@@ -3108,10 +3109,12 @@ void UdonShieldEngine::rollout_role_assignment(
         config_,
         blank_slate::Method::Portfolio);
     assignment.rolloutValid = true;
+    bool completedWithoutDeadline = true;
     const std::int32_t finalDay = std::min(config_.day_count(), maximumDays);
     for (std::int32_t dayNumber = 1; dayNumber <= finalDay; ++dayNumber) {
         if (deadline_expired()) {
             assignment.rolloutValid = false;
+            completedWithoutDeadline = false;
             break;
         }
         rolloutState.dayNumber = dayNumber;
@@ -3167,6 +3170,8 @@ void UdonShieldEngine::rollout_role_assignment(
             rolloutLedger,
             independentBudget,
             independentDiagnostics);
+        completedWithoutDeadline =
+            completedWithoutDeadline && !independentDiagnostics.deadlineReached;
         std::optional<MasterCandidate> selected =
             master_.evaluate_exact_plan(
                 rolloutState,
@@ -3184,17 +3189,23 @@ void UdonShieldEngine::rollout_role_assignment(
         masterOptions.maximumCandidates = 1;
         masterOptions.maximumResolveRounds = 1;
         masterOptions.deadline = daySearchDeadline;
+        ColumnGenerationDiagnostics generationDiagnostics;
         MasterDiagnostics diagnostics;
         const RoutePortfolio portfolio = generator_.generate(
             rolloutState,
             rolloutLedger,
-            generationOptions);
+            generationOptions,
+            &generationDiagnostics);
         std::vector<MasterCandidate> candidates = master_.solve(
             rolloutState,
             rolloutLedger,
             portfolio,
             masterOptions,
             diagnostics);
+        completedWithoutDeadline =
+            completedWithoutDeadline &&
+            !generationDiagnostics.deadlineReached &&
+            !diagnostics.deadlineReached;
         if (!candidates.empty() &&
             (!selected.has_value() ||
              better_search_candidate(candidates.front(), *selected))) {
@@ -3223,6 +3234,8 @@ void UdonShieldEngine::rollout_role_assignment(
             detailed.roadFootprint;
     }
     assignment.rolloutScore = current_score(rolloutLedger);
+    assignment.rolloutComplete =
+        assignment.rolloutValid && completedWithoutDeadline;
 }
 
 bool role_assignment_better_after_rollout(
@@ -3252,6 +3265,35 @@ bool role_assignment_better_after_rollout(
         return challenger.patrolCount > incumbent.patrolCount;
     }
     return false;
+}
+
+bool apply_incomplete_long_horizon_role_fallback(
+    const MatchConfig& config,
+    bool fullHorizonComparisonComplete,
+    std::vector<RoleAssignment>& beam) {
+    if (fullHorizonComparisonComplete || beam.empty() || config.day_count() <= 5) {
+        return false;
+    }
+    auto bestSingleTanker = beam.end();
+    for (auto candidate = beam.begin(); candidate != beam.end(); ++candidate) {
+        if (candidate->patrolCount != config.agent_count() - 1) {
+            continue;
+        }
+        if (bestSingleTanker == beam.end() ||
+            role_assignment_better_after_rollout(
+                *candidate,
+                *bestSingleTanker)) {
+            bestSingleTanker = candidate;
+        }
+    }
+    if (bestSingleTanker == beam.end() || bestSingleTanker == beam.begin()) {
+        return false;
+    }
+    std::rotate(
+        beam.begin(),
+        bestSingleTanker,
+        std::next(bestSingleTanker));
+    return true;
 }
 
 std::vector<RoleAssignment> UdonShieldEngine::select_roles(std::int32_t beamWidth) const {
@@ -3530,6 +3572,7 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
     for (const RoleAssignment& assignment : scanned) {
         append_to_beam(assignment);
     }
+    std::vector<bool> fullHorizonEvidence(beam.size(), false);
     for (std::size_t index = 0; index < beam.size(); ++index) {
         const std::chrono::steady_clock::time_point now =
             std::chrono::steady_clock::now();
@@ -3554,8 +3597,13 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
             assignmentDeadline);
         if (refined.rolloutValid) {
             beam.at(index) = std::move(refined);
+            fullHorizonEvidence.at(index) = beam.at(index).rolloutComplete;
         }
     }
+    const bool fullHorizonComparisonComplete = std::all_of(
+        fullHorizonEvidence.begin(),
+        fullHorizonEvidence.end(),
+        [](bool complete) { return complete; });
     std::sort(
         beam.begin(),
         beam.end(),
@@ -3586,6 +3634,10 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
     if (static_cast<std::int32_t>(beam.size()) > beamWidth) {
         beam.resize(static_cast<std::size_t>(beamWidth));
     }
+    static_cast<void>(apply_incomplete_long_horizon_role_fallback(
+        config_,
+        fullHorizonComparisonComplete,
+        beam));
     const std::chrono::steady_clock::time_point prewarmDeadline =
         started + std::chrono::milliseconds{available.count() * 92 / 100};
     if (!beam.empty() && std::chrono::steady_clock::now() < prewarmDeadline) {
@@ -3990,8 +4042,51 @@ DecisionResult UdonShieldEngine::solve_day(
             expandedDiagnostics.exactOrienteeringTerminalVariants;
         result.audit.columnGeneration.exactOrienteeringBundles +=
             expandedDiagnostics.exactOrienteeringBundles;
+        result.audit.columnGeneration.exactOrienteeringSeedServings =
+            expandedDiagnostics.exactOrienteeringSeedServings;
+        result.audit.columnGeneration.exactOrienteeringLocalServings =
+            expandedDiagnostics.exactOrienteeringLocalServings;
+        result.audit.columnGeneration.exactOrienteeringFeasibilityNodes +=
+            expandedDiagnostics.exactOrienteeringFeasibilityNodes;
+        result.audit.columnGeneration
+            .exactOrienteeringOverlapFeasibilityNodes +=
+            expandedDiagnostics
+                .exactOrienteeringOverlapFeasibilityNodes;
+        result.audit.columnGeneration
+            .exactOrienteeringFeasibilityImprovements +=
+            expandedDiagnostics
+                .exactOrienteeringFeasibilityImprovements;
+        result.audit.columnGeneration.exactOrienteeringFeasibilityImproved =
+            result.audit.columnGeneration
+                .exactOrienteeringFeasibilityImproved ||
+            expandedDiagnostics.exactOrienteeringFeasibilityImproved;
+        result.audit.columnGeneration
+            .exactOrienteeringOverlapFeasibilityImproved =
+            result.audit.columnGeneration
+                .exactOrienteeringOverlapFeasibilityImproved ||
+            expandedDiagnostics
+                .exactOrienteeringOverlapFeasibilityImproved;
         result.audit.columnGeneration.exactOrienteeringMilliseconds +=
             expandedDiagnostics.exactOrienteeringMilliseconds;
+        result.audit.columnGeneration
+            .exactOrienteeringEnumerationMilliseconds +=
+            expandedDiagnostics
+                .exactOrienteeringEnumerationMilliseconds;
+        result.audit.columnGeneration
+            .exactOrienteeringFinalizationMilliseconds +=
+            expandedDiagnostics
+                .exactOrienteeringFinalizationMilliseconds;
+        result.audit.columnGeneration
+            .exactOrienteeringDeadlineRemainingAtStartMilliseconds =
+            expandedDiagnostics
+                .exactOrienteeringDeadlineRemainingAtStartMilliseconds;
+        result.audit.columnGeneration
+            .exactOrienteeringDeadlineOverrunMilliseconds =
+            expandedDiagnostics
+                .exactOrienteeringDeadlineOverrunMilliseconds;
+        result.audit.columnGeneration.deadlineReached =
+            result.audit.columnGeneration.deadlineReached ||
+            expandedDiagnostics.deadlineReached;
         columnGenerationDuration += elapsed() - beforeExpandedGeneration;
         std::int32_t nextColumnId = 0;
         for (const std::vector<RouteColumn>& columns :
