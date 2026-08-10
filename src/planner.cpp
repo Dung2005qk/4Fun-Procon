@@ -966,6 +966,7 @@ select_coordinated_exact_orienteering_routes(
     std::uint64_t overlapFeasibilityNodes = 0;
     std::int32_t feasibilityImprovements = 0;
     std::uint64_t feasibilityPhaseNodeEnd = 0U;
+    bool feasibilityDeadlineReached = false;
     constexpr std::uint64_t kStrictFeasibilityNodes = 3000000U;
     constexpr std::uint64_t kOverlapFeasibilityNodes = 500000U;
     constexpr std::uint64_t kMaximumFeasibilityNodes =
@@ -977,9 +978,15 @@ select_coordinated_exact_orienteering_routes(
             std::int32_t servings,
             std::uint64_t brands,
             bool allowSaturatedOverlap) -> bool {
+            if (feasibilityDeadlineReached) {
+                return false;
+            }
             ++feasibilityNodes;
-            if (feasibilityNodes > feasibilityPhaseNodeEnd ||
-                ((feasibilityNodes & 1023U) == 0U && deadline_expired())) {
+            if (feasibilityNodes > feasibilityPhaseNodeEnd) {
+                return false;
+            }
+            if ((feasibilityNodes & 1023U) == 0U && deadline_expired()) {
+                feasibilityDeadlineReached = true;
                 return false;
             }
             ExactOrienteeringBeamState optimistic;
@@ -1012,6 +1019,9 @@ select_coordinated_exact_orienteering_routes(
                 reachability.at(static_cast<std::size_t>(agent)).maximalRoutes;
             for (const std::int16_t routeIndex :
                  scarcityOrderedRoutes.at(static_cast<std::size_t>(agent))) {
+                if (feasibilityDeadlineReached) {
+                    return false;
+                }
                 const ExactOrienteeringRoute& route =
                     routes.at(static_cast<std::size_t>(routeIndex));
                 std::uint32_t addedSpots = 0U;
@@ -1056,11 +1066,15 @@ select_coordinated_exact_orienteering_routes(
                         --feasibilityCounts.at(spot);
                     }
                 }
+                if (feasibilityDeadlineReached) {
+                    return false;
+                }
             }
             return false;
         };
     while (feasibilityNodes < kMaximumFeasibilityNodes &&
            feasibilityImprovements < kMaximumFeasibilityImprovements &&
+           !feasibilityDeadlineReached &&
            (!deadline.has_value() || std::chrono::steady_clock::now() < *deadline)) {
         feasibilityCounts.fill(0U);
         feasibilityChoices.fill(-1);
@@ -1077,8 +1091,12 @@ select_coordinated_exact_orienteering_routes(
             0,
             0U,
             false);
+        if (feasibilityDeadlineReached) {
+            break;
+        }
         bool overlapFoundImprovement = false;
         if (!foundImprovement &&
+            !feasibilityDeadlineReached &&
             feasibilityNodes < kMaximumFeasibilityNodes &&
             (!deadline.has_value() || std::chrono::steady_clock::now() < *deadline)) {
             feasibilityCounts.fill(0U);
@@ -1099,6 +1117,9 @@ select_coordinated_exact_orienteering_routes(
                 true);
             overlapFeasibilityNodes += feasibilityNodes - overlapStartedAt;
             overlapFoundImprovement = foundImprovement;
+            if (feasibilityDeadlineReached) {
+                break;
+            }
         }
         if (!foundImprovement) {
             break;

@@ -126,14 +126,40 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
         return result;
     }
 
-    std::vector<std::uint16_t> distance(stateCount, kUnreachable);
-    std::vector<std::uint16_t> patrolFuel(stateCount, kUnreachable);
-    std::vector<std::uint32_t> parent(
-        stateCount,
-        std::numeric_limits<std::uint32_t>::max());
-    std::vector<std::uint8_t> incoming(
-        stateCount,
-        std::numeric_limits<std::uint8_t>::max());
+    std::vector<std::uint16_t> distance;
+    distance.reserve(stateCount);
+    if (deadline_expired()) {
+        return result;
+    }
+    std::vector<std::uint16_t> patrolFuel;
+    patrolFuel.reserve(stateCount);
+    if (deadline_expired()) {
+        return result;
+    }
+    std::vector<std::uint32_t> parent;
+    parent.reserve(stateCount);
+    if (deadline_expired()) {
+        return result;
+    }
+    std::vector<std::uint8_t> incoming;
+    incoming.reserve(stateCount);
+    constexpr std::size_t kInitializationChunkStates = 65536U;
+    while (distance.size() < stateCount) {
+        if (deadline_expired()) {
+            return result;
+        }
+        const std::size_t initialized = std::min(
+            stateCount,
+            distance.size() + kInitializationChunkStates);
+        distance.resize(initialized, kUnreachable);
+        patrolFuel.resize(initialized, kUnreachable);
+        parent.resize(
+            initialized,
+            std::numeric_limits<std::uint32_t>::max());
+        incoming.resize(
+            initialized,
+            std::numeric_limits<std::uint8_t>::max());
+    }
     std::vector<std::vector<std::uint64_t>> buckets(
         static_cast<std::size_t>(daySteps) + 1U);
     const auto state_id = [cellCount](std::uint32_t mask, CellId cell) {
@@ -488,8 +514,12 @@ ExactOrienteeringReachability enumerate_resource_routes(
     const auto state_id = [cellCount](std::uint32_t mask, CellId cell) {
         return mask * cellCount + static_cast<std::uint32_t>(cell);
     };
-    using QueueEntry =
-        std::tuple<std::uint16_t, std::uint16_t, std::uint32_t>;
+    const bool cardinalityFirst = minimumSpots.has_value();
+    using QueueEntry = std::tuple<
+        std::uint8_t,
+        std::uint16_t,
+        std::uint16_t,
+        std::uint32_t>;
     std::priority_queue<
         QueueEntry,
         std::vector<QueueEntry>,
@@ -498,7 +528,11 @@ ExactOrienteeringReachability enumerate_resource_routes(
     std::vector<ResourceLabel> labels;
     labels.reserve(std::min<std::size_t>(stateCount, 1U << 20U));
     const auto relax =
-        [&firstLabelAtState, &labels, &queue](
+        [&firstLabelAtState,
+         &labels,
+         &queue,
+         cardinalityFirst,
+         cellCount](
             std::uint32_t stateId,
             std::uint16_t candidateSteps,
             std::uint16_t candidateFuel,
@@ -540,7 +574,15 @@ ExactOrienteeringReachability enumerate_resource_routes(
             labels.push_back(label);
             firstLabelAtState.at(stateId) =
                 static_cast<std::int32_t>(labelIndex);
-            queue.emplace(candidateSteps, candidateFuel, labelIndex);
+            const std::uint8_t cardinalityPriority = cardinalityFirst
+                ? static_cast<std::uint8_t>(
+                    16U - std::popcount(stateId / cellCount))
+                : 0U;
+            queue.emplace(
+                cardinalityPriority,
+                candidateSteps,
+                candidateFuel,
+                labelIndex);
         };
 
     const std::uint32_t rootState = state_id(0U, agent.position);
@@ -662,8 +704,13 @@ ExactOrienteeringReachability enumerate_resource_routes(
             deadline_expired()) {
             return result;
         }
-        const auto [queuedSteps, queuedFuel, labelIndex] = queue.top();
+        const auto [
+            queuedCardinality,
+            queuedSteps,
+            queuedFuel,
+            labelIndex] = queue.top();
         queue.pop();
+        static_cast<void>(queuedCardinality);
         const ResourceLabel current =
             labels.at(static_cast<std::size_t>(labelIndex));
         if (!current.active || current.usedSteps != queuedSteps ||

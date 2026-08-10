@@ -1,0 +1,12 @@
+lane,source,cases,budget_ms,role_mode,fuel,horizon,gate
+unit,anytime-queue-retention-alignment,16,5000,fixed,mixed,4-10,"capped resource exploration prioritizes greater spot cardinality before used steps/fuel while full-completion reachability and every reconstructed route remain exact-valid"
+development-positive,"m-1285 day10 archived replay",1,5000,fixed,low,10,"parent capped frontier omits feasible seven-spot masks and exact bundle34/final35; candidate must expose deeper masks and improve exact bundle or final score toward dual-valid 36 without increasing 1250000-state cap"
+development-negative,"m-1286 day10 archived replay",1,5000,fixed,high,10,"high-fuel enumerator is a separate path and must remain byte-equivalent at closed score 6/60/412"
+general-fixed,fresh-generated-seeds-954000-954017,18,5000,fixed,mixed,4-10,"paired W/T/L by official lexicographic score, first differing tier, gain/loss tails and zero invalid/emergency across six families"
+general-native,fresh-generated-seeds-955000-955017,18,5000,exhaustive,mixed,4-10,"paired official score and role mask; queue change must not hide role regressions"
+general-deadline,fresh-generated-seeds-956000-956017,18,5000,deadline,mixed,4-10,"production timed selector; role drift requires attribution and performance claims remain BTC-only"
+btc-like-low,fresh-generated-seeds-957000-957007,8,5000,fixed,low,10,"32x32, 100 steps, 8 agents, 12 spots, 6 brands; paired score, exact frontier cardinality and downside tail"
+btc-like-default,fresh-generated-seeds-958000-958007,8,5000,fixed,default,10,"32x32, 100 steps, 8 agents, 12 spots, 6 brands; paired score and downside tail"
+btc-like-high,fresh-generated-seeds-959000-959007,8,5000,fixed,high,10,"separate high-fuel path must be byte-equivalent with zero score drift"
+archive-protected,"m-0929;m-1138;m-1252;m-1255;m-1257;m-1264;m-1266;m-1283;m-1285;m-1286",10,5000,counterfactual,mixed,10,"no tier1/tier2 regression; quantify tier3 W/T/L and tails; preserve validity/refuel/transport champions"
+btc-fresh,explicit-advanced-unopened,2,5000,live,"low;high",10,"target-host final after paired gates only: p95/p99/max under hard cap, exact validity, transitions and official score; rank is a failure gate only"

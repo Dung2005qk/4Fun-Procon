@@ -38,6 +38,11 @@ public:
         const MatchLedger& ledger,
         std::chrono::system_clock::time_point receivedAt = std::chrono::system_clock::now());
 
+    [[nodiscard]] SessionDecision on_authoritative_state_for(
+        const DayState& state,
+        const MatchLedger& ledger,
+        std::chrono::milliseconds available);
+
     [[nodiscard]] PostAckWork acknowledge_submitted(
         std::chrono::milliseconds responseTime,
         std::chrono::milliseconds postAckBudget = std::chrono::milliseconds{0});

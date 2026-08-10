@@ -1,0 +1,5 @@
+split,lane,replicates,difficulty,bots,days,width,height,steps_per_day,response_ms,agents,spots,brands,fuel_profile,expected_decisions,gate
+development,m-1796-existing,1,hard,3,10,32,32,100,5000,8,12,6,low,10,"existing frozen-binary field/runner proof only; not counted toward fresh calibration sample"
+holdout,fresh-low,10,hard,3,10,32,32,100,5000,8,12,6,low,100,"fresh matches only; 100/100 accepted valid decisions, transition reconciliation, exact replay agreement, zero skip/retry/emergency/overrun/hard-cap breach"
+holdout,fresh-default,10,hard,3,10,32,32,100,5000,8,12,6,default,100,"fresh matches only; same gates; rank is failure signal only and never quality evidence"
+holdout,fresh-high,10,hard,3,10,32,32,100,5000,8,12,6,high,100,"fresh matches only; same gates; policy-independent and depleted-terminal paths both retained in telemetry"

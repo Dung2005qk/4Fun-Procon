@@ -1,0 +1,12 @@
+lane,source,cases,budget_ms,role_mode,fuel,horizon,gate
+unit,incremental-partial-synchronization,12,5000,fixed,mixed,4-10,"incremental push/pop predicate agrees with the previous full rescan for escort membership, exactly one tanker, selected/unassigned refuel providers and rollback; exact simulator and independent validator agree"
+development-positive,"m-1285 archived replay",10,5000,fixed,low,10,"same public portfolio and branch order; zero invalid/emergency; no lexicographic regression; record partial checks, prunes, combinations and exact score by day; local duration has no authority"
+development-negative,"m-1286 archived replay",10,5000,fixed,high,10,"closed-bound control remains exact at every first differing tier; zero invalid/emergency; no route, score or role special case"
+equivalence-fixed,fresh-generated-seeds-936000-936023,24,5000,fixed,mixed,4-5,"paired exact action bytes under operation-complete fixtures, otherwise exact score/state/validator equivalence; zero invalid/emergency"
+general-native,fresh-generated-seeds-937000-937017,18,5000,exhaustive,mixed,4-5,"paired official score and role mask; report W/T/L and first differing tier; no systematic family/fuel downside"
+general-deadline,fresh-generated-seeds-938000-938017,18,5000,deadline,mixed,4-5,"paired official score; zero invalid/emergency; local timing cannot promote or reject target-host performance"
+btc-like-low,fresh-generated-seeds-939000-939007,8,5000,fixed,low,10,"32x32, 100 steps, 8 agents, 12 spots, 6 brands; paired W/T/L, tier and downside tail"
+btc-like-default,fresh-generated-seeds-940000-940007,8,5000,fixed,default,10,"32x32, 100 steps, 8 agents, 12 spots, 6 brands; paired W/T/L, tier and downside tail"
+btc-like-high,fresh-generated-seeds-941000-941007,8,5000,fixed,high,10,"32x32, 100 steps, 8 agents, 12 spots, 6 brands; paired W/T/L, tier and downside tail"
+archive-protected,"m-0929;m-1138;m-1252;m-1255;m-1257;m-1264;m-1266;m-1285;m-1286",9,5000,counterfactual,mixed,10,"no tier1/tier2 regression; quantify tier3 gains/losses; preserve accepted role and refuel counterexamples"
+btc-fresh,explicit-advanced-unopened,2,5000,live,"low;high",10,"target-host paired telemetry: p50/p95/p99/max, hard cap, validity, transition reconciliation and official score; rank is failure gate only"

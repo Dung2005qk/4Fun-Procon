@@ -1,0 +1,12 @@
+lane,source,cases,budget_ms,role_mode,fuel,horizon,gate
+unit,proof-guided-priority-schedule,12,5000,fixed,mixed,4-10,"when a valid official-score upper gap exists, one bounded proof sweep executes before generic ALNS; exact simulator/validator and unchanged total deadline remain mandatory"
+development-positive,"m-1285 day10 archived replay",1,5000,fixed,low,10,"parent exact seed/local 34, final 35, guidance 36 and proof-guided iterations zero; candidate must execute the preregistered proof prefix and improve or preserve 35 with an attributable route"
+development-negative,"m-1286 day10 archived replay",1,5000,fixed,high,10,"selected score already equals guidance at 6/60/412; proof prefix must not run and plan/score must remain unchanged"
+general-fixed,fresh-generated-seeds-948000-948017,18,5000,fixed,mixed,4-10,"paired W/T/L by official lexicographic score, first differing tier, gain/loss tails and zero invalid/emergency across six families"
+general-native,fresh-generated-seeds-949000-949017,18,5000,exhaustive,mixed,4-10,"paired official score and role mask; quantify any planner-induced role evidence change"
+general-deadline,fresh-generated-seeds-950000-950017,18,5000,deadline,mixed,4-10,"production timed role selector; target-host required for performance claims and role drift must be attributed"
+btc-like-low,fresh-generated-seeds-951000-951007,8,5000,fixed,low,10,"32x32, 100 steps, 8 agents, 12 spots, 6 brands; paired score and downside tail"
+btc-like-default,fresh-generated-seeds-952000-952007,8,5000,fixed,default,10,"32x32, 100 steps, 8 agents, 12 spots, 6 brands; paired score and downside tail"
+btc-like-high,fresh-generated-seeds-953000-953007,8,5000,fixed,high,10,"closed-bound control; no proof prefix when score equals valid upper bound and no systematic plan drift"
+archive-protected,"m-0929;m-1138;m-1252;m-1255;m-1257;m-1264;m-1266;m-1283;m-1285;m-1286",10,5000,counterfactual,mixed,10,"no tier1/tier2 regression; report tier3 gains/losses and preserve validity/refuel/transport champions"
+btc-fresh,explicit-advanced-unopened,2,5000,live,"low;high",10,"target-host final only after local paired gates: p95/p99/max under internal cap, exact validity, transitions and paired official score; rank is only a failure gate"

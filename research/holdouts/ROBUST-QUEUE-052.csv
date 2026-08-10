@@ -1,0 +1,9 @@
+split,lane,first_seed,count,width,height,horizon,day_steps,agent_count,spot_count,brand_count,role_mask,fuel_limit,current_fuel_profile,traffic_profile,stock_profile,lifetime_profile,maximum_routes,maximum_settled_states,gate
+development,small-proof-balanced,980000,6,8,8,4,32,4,8,4,8,64,tight,mixed,balanced,complete,32,1250000,"same-binary shallow/cardinality A/B in both orders; complete resource oracle and dual validation required"
+development,small-proof-duplicate-brand,980100,6,8,8,5,32,4,8,4,8,64,tight,mixed,duplicate-brand,complete,32,1250000,"same-binary A/B; quantify retained-mask recall and team official score against complete oracle"
+development,small-proof-stock-contention,980200,6,8,8,5,32,4,8,4,8,64,tight,mixed,stock-contention,complete,32,1250000,"same-binary A/B; require exact stock-capped team witness and independent validator agreement"
+holdout,btc-low-one-tanker,981000,24,32,32,10,100,8,12,6,128,100,tight,mixed,mixed,complete,32,1250000,"six families; unopened seeds; official terminal W/T/L, first tier, gain/loss tails and frontier recall"
+holdout,btc-low-two-tanker,982000,12,32,32,10,100,8,12,6,192,100,tight,mixed,mixed,complete,32,1250000,"independent role composition; stock-contention and duplicate-brand downside gate"
+holdout,btc-default-depleted,983000,12,32,32,10,100,8,12,6,128,200,depleted,mixed,mixed,complete,32,1250000,"default match fuel with terminal patrol fuel below two day-steps; no fuel-family dispatcher"
+holdout,btc-missing-lifetime,984000,12,32,32,10,100,8,12,6,128,100,tight,mixed,mixed,missing-one,32,1250000,"minimumSpots=1 and preferred missing brand; tier1/tier2 structural loss is an immediate reject"
+holdout,btc-high-fuel-control,985000,12,32,32,10,100,8,12,6,128,300,high,mixed,mixed,complete,32,1250000,"production high-fuel path control; shallow/cardinality switch must be unreachable and exact outputs identical"

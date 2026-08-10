@@ -1,0 +1,11 @@
+lane,source,cases,budget_ms,role_mode,fuel,horizon,gate
+unit,final-day-exact-profile,8,5000,direct,mixed,4-10,"current-day plan already exact-simulated and independently validated; every scenario witness equals scoreAfterToday; expired future deadline cannot make final-day profile provisional"
+development-positive,"m-1285 day10",1,5000,fixed,low,10,"parent selected 6/60/320 with guidance upper 6/60/322; master deadline reached; candidate must close or reduce the tier3 gap without changing days1-9"
+development-negative,"m-1286 day10",1,5000,fixed,high,10,"parent selected equals guidance at 6/60/412; reject any score regression or unnecessary plan drift"
+general-fixed,fresh-generated-seeds-922000-922011,12,5000,fixed,mixed,4-10,"paired exact score/action/validator; days before terminal day byte-equivalent; final-day W/T/L and tail downside"
+general-native,fresh-generated-seeds-923000-923011,12,5000,native,mixed,4-10,"paired official lexicographic result; role selection unchanged; zero invalid/emergency"
+btc-like-low,fresh-generated-seeds-924000-924007,8,5000,fixed,low,10,"32x32, 100 steps, 8 agents, 12 spots, 6 brands; paired final-day score and optimality gap"
+btc-like-default,fresh-generated-seeds-925000-925007,8,5000,fixed,default,10,"32x32, 100 steps, 8 agents, 12 spots, 6 brands; paired final-day score and optimality gap"
+btc-like-high,fresh-generated-seeds-926000-926007,8,5000,fixed,high,10,"32x32, 100 steps, 8 agents, 12 spots, 6 brands; paired final-day score and optimality gap"
+archive-protected,"m-0929;m-1138;m-1235;m-1258;m-1283;m-1284;m-1285;m-1286",8,5000,counterfactual,mixed,10,"no tier1/tier2 regression; quantify tier3 gains/losses; days1-9 exact action equivalence where replay state is identical"
+btc-fresh,explicit-advanced-unopened,2,5000,live,"low;high",10,"target-host final: hard, 3 bots, 32x32, 100 steps, 8 agents, 12 spots, 6 brands; p95/p99/max solver and response, rank, validity, no hard-cap breach"

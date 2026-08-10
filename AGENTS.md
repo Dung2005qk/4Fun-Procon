@@ -17,6 +17,71 @@ các bằng chứng được dẫn bên dưới.
   che giấu tier thua bằng weighted sum.
 - Tổng quát quan trọng hơn tối ưu theo seed, bot hoặc một map family.
 
+## Luật phát triển bắt buộc rút ra từ vận hành thực tế
+
+### Hạng 1 trước bot BTC không phải bằng chứng sức mạnh
+
+- Thống kê `54/108` là số trận hạng 1 trên **toàn bộ lịch sử của đội kể từ
+  khi tham gia**, không phải thành tích của một commit riêng. Nó chứng minh hạng
+  1 trước bot BTC đã là kết quả thường xuyên từ nhiều phiên bản cũ.
+- Hạng 1 trong trận luyện tập với bot BTC là mức tối thiểu/failure gate, không
+  phải promotion evidence và không được dùng để gọi candidate là "mạnh",
+  "champion tổng quát" hoặc "đã cải thiện". Kể cả nhiều trận liên tiếp hạng 1
+  cũng không chứng minh solver tốt hơn parent nếu đối thủ bot không đủ khả năng
+  phân giải.
+- Gate này bất đối xứng: mất hạng 1 có thể mở một regression/counterexample cần
+  điều tra; đạt hạng 1 không tự tạo bằng chứng cải tiến.
+- BTC bot chỉ có thẩm quyền xác minh token/protocol/lifecycle, exact validity,
+  transition reconciliation, hard cap và telemetry target-host, đồng thời cung
+  cấp replay/counterexample. Không được dùng thứ hạng trước bot làm metric chất
+  lượng hay làm lý do commit.
+- Bằng chứng sức mạnh phải là paired candidate-vs-parent/lane-champion trên cùng
+  fixture bằng score từ điển chính thức, holdout đóng băng đa dạng và cuối cùng
+  là đối thủ người thật đa dạng. Phải báo W/T/L, tier khác đầu tiên, gain/loss và
+  tail downside; cấm thay bằng số trận hạng 1 hoặc weighted sum.
+
+### Định nghĩa top 1 tổng quát và hội tụ thực tế
+
+- Mục tiêu là top 1 tổng quát thực sự trong giới hạn kiến trúc hiện tại, không
+  phải tối đa hóa tỷ lệ thắng bot luyện tập. Candidate phải mạnh toàn diện trên
+  map, fuel, horizon, role mode, traffic family và opponent khác nhau.
+- Một replay BTC đã mở chỉ được dùng làm development counterexample và
+  attribution; không được tune ngưỡng hoặc dispatcher để thắng riêng replay,
+  map, seed, match ID hay bot đó.
+- Một plateau trên tournament/holdout cũ không phải bằng chứng đạt trần. Mọi
+  exact counterfactual tốt hơn incumbent, mọi optimality/guidance gap còn mở và
+  mọi mismatch giữa evaluator với production planner đều bác bỏ tuyên bố hội tụ.
+- Chỉ được ghi practical ceiling khi mọi gap telemetry đã biết được đóng hoặc
+  chứng minh không thể khai thác trong hard cap, hai sweep nghiên cứu độc lập
+  không tìm được candidate qua gate, protected matrix vẫn giữ ưu thế tổng quát
+  với downside bị giới hạn, và đối thủ thật không mở phản ví dụ mới.
+- Không overengineer để che gap: ưu tiên làm các tầng hiện có nhất quán về hàm
+  giá trị và capability. Không tạo hai solver low/high trùng lặp, không thêm
+  heuristic/dispatcher riêng cho fixture; dùng chung master/simulator/validator
+  và chỉ phân nhánh bằng đại lượng công khai, tổng quát như `fuel/daySteps`,
+  horizon, agent count và terminal day.
+
+### Phục hồi provenance và toolchain sau compact
+
+- Không được suy luận commit nào là của người dùng hay Codex từ Git author, vì
+  toàn bộ commit có thể dùng cùng cấu hình author. Mỗi commit nghiên cứu phải
+  được ánh xạ rõ trong `research/EXPERIMENTS.csv` và `research/STATE.md` tới
+  experiment, parent, verdict và ngày tạo; khi không có bằng chứng provenance
+  phải nói là chưa xác định, không tự gán sở hữu.
+- Khi người dùng hỏi "có cải thiện từ commit nào", phải xác định rõ hai mốc so
+  sánh trước khi trả lời. Cấm đánh đồng "chưa có champion mới sau HEAD" với
+  "không có cải tiến sau commit gốc".
+- Trước khi build, đọc toolchain có thẩm quyền từ
+  `build-release/CMakeCache.txt`. Không giả định `cmake` có trong `PATH`. Cache
+  hiện tại ghi `CMAKE_COMMAND` tại Visual Studio Build Tools và
+  `CMAKE_MAKE_PROGRAM` là Ninja; nếu cache thay đổi thì dùng giá trị mới trong
+  cache, không ghi nhớ cứng đường dẫn cũ.
+- Mỗi experiment chính thức phải được ghi ngay khi mở vào
+  `research/EXPERIMENTS.csv`, có frozen holdout hash trước source change và được
+  cập nhật verdict khi đóng. Probe tạm có ảnh hưởng tới attribution hoặc quyết
+  định reopen phải được chuẩn hóa vào `research/STATE.md`/`research/evidence/`;
+  không để kết luận chỉ tồn tại trong hội thoại hoặc file `.tmp-*`.
+
 ## Trình tự khôi phục context bắt buộc
 
 ### Gate đọc tài liệu tuyệt đối

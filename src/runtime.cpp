@@ -1,5 +1,6 @@
 #include "udon/runtime.hpp"
 
+#include <algorithm>
 #include <stdexcept>
 #include <utility>
 
@@ -31,10 +32,27 @@ SessionDecision MatchSession::on_authoritative_state(
     const DayState& state,
     const MatchLedger& ledger,
     std::chrono::system_clock::time_point receivedAt) {
+    const std::chrono::system_clock::time_point endsAt =
+        std::chrono::system_clock::time_point{std::chrono::seconds{state.endsAt}};
+    return on_authoritative_state_for(
+        state,
+        ledger,
+        std::max(
+            std::chrono::milliseconds{0},
+            std::chrono::duration_cast<std::chrono::milliseconds>(endsAt - receivedAt)));
+}
+
+SessionDecision MatchSession::on_authoritative_state_for(
+    const DayState& state,
+    const MatchLedger& ledger,
+    std::chrono::milliseconds available) {
     if (pendingDecision_.has_value()) {
         throw std::logic_error("an authoritative acknowledgement is required before planning another state");
     }
-    DecisionResult decision = engine_.solve_day_until(state, ledger, receivedAt);
+    DecisionResult decision = engine_.solve_day(
+        state,
+        ledger,
+        std::max(std::chrono::milliseconds{0}, available));
     const bool maySubmit = engine_.may_submit(decision);
     SessionDecision result;
     result.replay = serialize_decision_replay(config_, state, ledger, decision);

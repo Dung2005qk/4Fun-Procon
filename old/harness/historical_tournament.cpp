@@ -17,6 +17,9 @@
 
 namespace {
 
+constexpr std::int32_t kHarnessHarvestMode = 7;
+constexpr std::int32_t kHarnessFutureHarvestMode = 7;
+
 struct SpotSpec {
     std::int32_t brand = 0;
     udon::CellId position = udon::kInvalidCell;
@@ -66,6 +69,10 @@ struct Metrics {
     std::vector<udon::DayScore> exactDayScores;
     std::vector<std::uint64_t> planHashes;
     std::vector<bool> deadlineDays;
+    std::vector<std::int32_t> exactSupportedAgents;
+    std::vector<std::uint64_t> exactSettledStates;
+    std::vector<std::int32_t> exactSeedServings;
+    std::vector<std::int32_t> exactLocalServings;
 };
 
 [[nodiscard]] std::uint64_t plan_hash(const udon::DayPlan& plan) {
@@ -491,7 +498,14 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     const Options& options) {
     const udon::MatchConfig config = udon::parse_match_config(
         udon::JsonValue::parse(config_document(fixture)));
-    udon::UdonShieldEngine engine(config);
+    udon::UdonShieldEngine engine(
+        config,
+        {},
+        {},
+        udon::RoutePoolSearch::SinglePass,
+        kHarnessHarvestMode,
+        false,
+        kHarnessFutureHarvestMode);
     const auto roleStarted = std::chrono::steady_clock::now();
     Metrics metrics;
     std::vector<udon::AgentKind> roles;
@@ -586,6 +600,14 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         });
         metrics.planHashes.push_back(plan_hash(decision.candidate.plan));
         metrics.deadlineDays.push_back(decision.diagnostics.deadlineReached);
+        metrics.exactSupportedAgents.push_back(
+            decision.audit.columnGeneration.exactOrienteeringSupportedAgents);
+        metrics.exactSettledStates.push_back(
+            decision.audit.columnGeneration.exactOrienteeringSettledStates);
+        metrics.exactSeedServings.push_back(
+            decision.audit.columnGeneration.exactOrienteeringSeedServings);
+        metrics.exactLocalServings.push_back(
+            decision.audit.columnGeneration.exactOrienteeringLocalServings);
         agents = detailed.finalAgents;
         ownFootprints.at(static_cast<std::size_t>(day - 1)) =
             detailed.roadFootprint;
@@ -665,6 +687,8 @@ void print_result(
               << ",track=" << options.track
               << ",suite=" << options.suite
               << ",budget_ms=" << options.dayBudget.count()
+              << ",harvest_mode=" << kHarnessHarvestMode
+              << ",future_harvest_mode=" << kHarnessFutureHarvestMode
               << ",role_mode=" << options.roleMode
               << ",fixture=" << fixture.name
               << ",family=" << fixture.family
@@ -678,6 +702,16 @@ void print_result(
               << ",search_deadline_days=" << metrics.searchDeadlineDays
               << ",combinations=" << metrics.combinationsVisited
               << ",role_mask=" << metrics.roleMask
+              << ",exact_supported_agent_days="
+              << std::accumulate(
+                     metrics.exactSupportedAgents.begin(),
+                     metrics.exactSupportedAgents.end(),
+                     std::int64_t{0})
+              << ",exact_settled="
+              << std::accumulate(
+                     metrics.exactSettledStates.begin(),
+                     metrics.exactSettledStates.end(),
+                     std::uint64_t{0})
               << ",role_ms=" << metrics.roleMilliseconds
               << ",mean_ms=" << meanMilliseconds
               << ",p95_ms=" << percentile(metrics.responseTimes, 95)
@@ -701,6 +735,14 @@ void print_result(
                       << ",plan_hash=" << metrics.planHashes.at(day)
                       << ",response_ms=" << metrics.responseTimes.at(day)
                       << ",deadline=" << (metrics.deadlineDays.at(day) ? 1 : 0)
+                      << ",exact_supported="
+                      << metrics.exactSupportedAgents.at(day)
+                      << ",exact_settled="
+                      << metrics.exactSettledStates.at(day)
+                      << ",exact_seed_servings="
+                      << metrics.exactSeedServings.at(day)
+                      << ",exact_local_servings="
+                      << metrics.exactLocalServings.at(day)
                       << '\n';
         }
     }

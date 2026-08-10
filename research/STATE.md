@@ -1,15 +1,45 @@
 # UDON-SHIELD Research State
 
-Updated: 2026-08-01
+Updated: 2026-08-10
 
 ## Current phase
 
-Forward research starts from the current global champion `08771f1`. Re-running or
+Forward research starts from the current global champion `afcd2da`. Re-running or
 rebuilding every historical checkpoint is not a research objective; old
 checkpoints remain lane champions for targeted A/B only. `PERF-DEADLINE-003` is
-accepted as a semantics-preserving BTC transport repair on top of that champion;
-the next score axis must start from its committed descendant and a new unopened
-BTC counterexample.
+accepted as a semantics-preserving BTC transport repair. `SCORE-ROLE-030`, 031
+and `SCORE-FINAL-001` are rejected and no opened holdout may be retuned. Source
+and tests are restored to the `afcd2da` planner/decision line. `SCORE-ROLE-032`
+is also rejected: deterministic work stabilized an evaluator that still selected
+the losing role. `PERF-SYNC-033` and `SCORE-EXACT-034` are rejected as well and
+fully absent from source. No implementation axis is currently open.
+`ATTR-MASTER-035` and `ATTR-ROUTE-036` have closed the exact claim-mask and
+frontier-membership ambiguities. `ATTR-POOL-037` and `ATTR-ALNS-038` narrowed the
+remaining source to regular one-agent ALNS but cannot distinguish portfolio from
+synthesized route. `SCORE-ALNS-039` is rejected and absent from source. No
+implementation candidate is active. `ATTR-DENIAL-040` falsified exchange over
+the retained production frontiers. `ATTR-OPTIMAL-041` proves complete
+one-patrol infeasibility and `ATTR-TEAM-042` proves a dual-valid multi-patrol
+score of `6/60/322`. `SCORE-QUEUE-043` is rejected and absent from source. No
+production implementation candidate is currently active. `ATTR-QUEUE-044`
+localized the observed -72 tail to a trajectory that changes action bytes on
+day 1 and loses score from day 2, before the intended terminal anytime queue is
+directly enabled. `ATTR-QUEUE-045` exposed a protected-harness wiring flaw:
+`exact_supported=0` because the harness used default harvest mode 6 while BTC
+production uses mode 7. `ATTR-QUEUE-046` then closed the causal comparison:
+cardinality-first improved exact-local evidence but tied the final official
+score on the alleged negative state. No production candidate is active; the
+temporary switch/probe must be reverted before a new mode-7 holdout is frozen.
+The temporary attribution source/probe is fully reverted. `EVAL-PARITY-047` is
+accepted: the forward harness now declares harvest/future mode 7 and exposes
+terminal exact wiring telemetry; historical reports remain untouched mode-6
+artifacts. `SCORE-QUEUE-048` supplied the frozen score mechanism for accepted
+final candidate `FINAL-QUEUE-065`. The final source combines only its
+canonical cardinality-first capped queue with exact HTTP deadline alignment,
+identical chunked exact-state initialization and recursive feasibility
+cancellation. Rejected HTTP retry/header experiments and attribution-only
+decision telemetry are absent. `FINAL-QUEUE-065` is closed accepted and no
+implementation or score axis remains active.
 
 ## Authoritative budget evidence
 
@@ -47,6 +77,1064 @@ not be retuned. `PERF-DEADLINE-003` fixes the independent ACK-loss counterexampl
 from `m-1278` without changing role selection, planner, comparator or action JSON.
 Its normal and forced-resend BTC gates both completed 10/10 valid days and ranked
 first. No further ACK-slice tuning is permitted against these opened fixtures.
+
+Fresh discovery matches from transport champion `afcd2da` used explicit advanced
+configuration and the 5000 ms hard cap. Low-fuel `m-1285` selected two-tanker
+mask96, completed 10/10 valid days and ranked first at `6/60/320`; exact
+counterfactual mask160 reached `6/60/319` while one-tanker mask64 lost tier 2 at
+`6/57/238`, so that map does not open a score mechanism. Replay SHA256 is
+`D638BE3D0E136EF94542BBCE58AA6B086D6A7C872732EF27188392D5D19D2F77`.
+
+High-fuel `m-1286` selected one-tanker mask4, completed 10/10 valid days and
+ranked first at `6/60/412`; maximum server-reported response was `2725 ms` and
+maximum solver time was `2619 ms`. Replay SHA256 is
+`8C3F6D8A975EA4263C921438517307478B66F8174700F1A3970666B512C45122`.
+Same-binary exact counterfactuals reproduced mask4 at `6/60/412` and mask1 at
+`6/60/422` in both run orders. The incomplete role rollout instead ranked them
+`6/60/231` and `6/60/230`. Day 1 ties at 41 servings; the exact gain develops on
+days 2, 4, 5, 7 and 10, so a central-tanker heuristic or another day-1 probe is
+falsified.
+
+`SCORE-ROLE-030`, parent `afcd2da`, targets only this measured resolution gap.
+For horizons above five days with fuel strictly above twice the maximum daily
+steps and incomplete full-horizon role evidence, it will take the top two
+assignments having the leader's patrol count, split a bounded refinement window
+equally, rerun the canonical exact rollout with the existing 8000-combination
+portfolio and retain each mask's lexicographic maximum old/new evidence. It does
+not use centrality, facility score, seed, map family or a tier trade. Short,
+low/default/medium fuel paths remain unchanged, returned width is unchanged and
+the role wall is at most 96% of 5000 ms. Frozen holdout SHA256 is
+`4F399B26E148A0B58DAEB44551C12BF7502711D987B24C7DBFE73126EA2D859C`.
+
+The candidate failed its first causal gate and is absent from source. The richer
+paired refinement consumed the available role window through `4794 ms` but left
+mask4 at rollout `6/60/231` and mask1 at `6/60/230`; it therefore did not expose
+the stable exact +10. The frozen holdout remained unopened and no BTC candidate
+was run. Wider or longer variants of the same coarse rollout are now closed.
+Reopen this gap only after trajectory-consistent attribution explains why the
+roles tie at 41 on day 1 but mask1 gains on days 2, 4, 5, 7 and 10. Source and
+tests are byte-identical to `afcd2da`.
+
+Further exact attribution rejects two easy proxies. In an all-patrol production
+solve, agent0 served 6 on day 1 and 18 over days 1--3 while agent2 served only 5
+and 16; a marginal-patrol rule would therefore choose agent2 as tanker, exactly
+the losing mask4. Tanker centrality also chooses mask4 and was already falsified
+on `m-0929`. The causal difference is the multi-day joint trajectory: mask1 moves
+its tanker through hubs 790 then 593 and keeps the team at 43--44 servings on
+several later days, while mask4 begins at hub712 and loses coordinated servings
+on days 4--5 despite identical day-1 score. A static placement proxy is not an
+admissible successor.
+
+`SCORE-ROLE-031`, parent `afcd2da`, changes allocation rather than scoring. For
+only long horizons whose fuel is strictly above twice the maximum daily steps,
+the independent full-horizon rollouts for the existing beam run concurrently in
+isolated engines after the common one-day probe. Every assignment uses the same
+canonical 256-combination/day exact rollout and the same absolute 85% deadline;
+there is no shared mutable router/master cache and merge order remains the
+official comparator. This exploits the mathematical independence of role
+subproblems to replace eight serial fragments with equal wall-clock evidence,
+without a proxy or more than 5000 ms wall time. Low/default/medium and short paths
+are unchanged. Frozen holdout SHA256 is
+`BAEC90234791109009D56D10402C5DD720B2399DB0A1A67DFF38036A14144EA2`.
+
+The parallel candidate is rejected and absent from source. Isolated tasks did
+remove serial wall allocation, but their ranked evidence became a function of CPU
+competition: on the contended development host mask4 remained first at rollout
+`6/60/228` while exact-better mask1 fell to `6/55/218`. The observed `2947 ms`
+elapsed value has no performance authority; the rejection is that the causal rank
+remained wrong and scheduling/load now changed evidence quality, violating the
+requirement that production quality not depend on the local host. The frozen
+holdout remained unopened and no live candidate was run. Parallel role evaluation
+may reopen only with fixed operation counts per assignment and deterministic
+evidence independent of CPU scheduling. Source is byte-identical to `afcd2da`.
+
+Planner telemetry opens a separate, non-role gap on terminal day. In `m-1285`
+day 10, the selected exact score was `6/60/320`, guidance/optimistic upper score
+was `6/60/322`, the master hit its deadline, and certification consumed zero
+measured milliseconds. In the negative control `m-1286` day 10, selected and
+guidance scores were both `6/60/412`. Code tracing shows why: every master
+candidate has already passed the exact simulator and independent validator;
+there are no future days, so every traffic-scenario witness is exactly
+`scoreAfterToday`, and the final selected plan is independently validated again.
+Nevertheless the BTC schedule reserves 20 percent for future-witness
+certification and the F0 phase reserves another 25 percent of its window for
+future profiles.
+
+`SCORE-FINAL-001`, parent `afcd2da`, may act only when
+`state.dayNumber == config.day_count()`. It certifies each provisional scenario
+profile directly from the already independently validated current-day candidate,
+collapses the certification bucket to the existing 25 ms validation floor,
+transfers only the released duration to search, and sets the F0 future-profile
+reserve to zero. It retains the existing 150 ms F0 boundary guard, 1600 ms BTC
+network reserve, official lexicographic comparator, exact final validation and
+total 5000 ms cap. Non-terminal deadlines, profiles, actions and search must be
+byte-equivalent. Frozen holdout SHA256 is
+`CDBC63E7AF1FFA22E0B6C9CD5342CA3C0BC8A2E269B668C18567DACDC0116E66`.
+
+`SCORE-FINAL-001` passed its direct development gate: the unit suite passed,
+`m-1285` day 10 improved from `6/60/320` to `6/60/321`, and the `m-1286`
+negative control tied `6/60/412`, all with zero invalid/emergency output. The
+frozen general-fixed lane then tied `0/12/0`. In the native lane, seed `923007`
+changed from parent mask `8` and `6/24/38` to candidate mask `4` and `6/24/32`.
+An exact parent rebuilt from `08771f1` reproduced mask `8`; planner/decision are
+byte-identical between `08771f1` and transport parent `afcd2da`. The role rollout
+attribution is causal within the candidate binary: fixed mask `8` reproduces
+`6/24/38`, while fixed mask `4` reproduces `6/24/32`. The role rollout
+does not execute the terminal mechanism, but its independent planner is bounded
+by 60 ms wall time even in `select_roles`, so a changed binary layout/local
+schedule can change rollout evidence and the selected mask. Local duration is
+not a performance verdict; the decisive failure is that the claimed unchanged
+role surface was not invariant and its observed downside of six servings was
+larger than the one-serving causal gain. The remaining holdout and BTC gate were
+not run. Candidate source/tests were fully reverted. Reopen only after role
+evidence is operation-bounded and independent of code layout and host load.
+
+`SCORE-ROLE-032`, parent `afcd2da`, is preregistered before source change at
+holdout SHA256
+`FAB2F1E71CC90185AB56D11ADF7FBD604F1FD1331AD77C528C8F3C9E8BDDA44E`.
+It retains EventConflict, MacroMCTS, the route master, exact simulator and
+independent validator. Each role assignment/day receives the same fixed work
+allowance derived only from the existing `maximumCombinationsPerDay`; wall-clock
+is an outer hard abort, not a ranking budget, and partial unequal-depth evidence
+cannot outrank completed equal-depth evidence. There is one shared implementation
+for low/default/high fuel and short/long horizons; no seed, map, match or bot
+dispatcher is allowed. Development must first recover mask `8` on seed `923007`
+and preserve the `m-1285`/`m-1286` role controls. Local timing has no promotion
+authority; BTC target-host telemetry remains the final performance gate.
+
+The unit suite passed, but the first causal development gate rejected
+`SCORE-ROLE-032`. In the paired run both parent and candidate selected mask `4`
+and scored `6/24/32`; fixed mask attribution already proves mask `8` reaches
+`6/24/38`. Thus equal operation counts remove one noise source but merely make
+the wrong coarse evaluator reproducible. The holdout stayed unopened and no BTC
+candidate ran. Work-limit, equal-depth and test changes were fully reverted.
+This also confirms that retrying wider/longer/fixed-count versions of the same
+role rollout would be circular; reopen only for a newly attributed capability
+mismatch not already falsified by `SCORE-ROLE-008`, 012, 030, 031 and 032.
+
+`PERF-SYNC-033`, parent `afcd2da`, is preregistered before source change at
+holdout SHA256
+`C40DD7A1FDA69FEA54ABE1ED3B374506C56B82628386855465F30664C9B74CA1`.
+The causal telemetry is not the leaderboard rank: low-fuel `m-1285` leaves a
+2--5-serving master guidance gap on every day and performs 80 to 116625 partial
+synchronization checks per day while deadline-bound; high-fuel `m-1286` is the
+closed-bound control. The current DFS predicate reconstructs assigned-agent,
+escort and refuel coverage state by scanning the entire partial selection on
+every node. The candidate may replace only that DFS rescan with reversible
+push/pop state implementing the identical predicate. Portfolio construction,
+branch order, beam search, complete synchronization validation, simulator,
+independent validator, official comparator and the 5000 ms internal work cap
+remain unchanged. Local runs may establish equivalence and falsify the mechanism,
+but only fresh BTC target-host telemetry may establish performance or promotion.
+
+The candidate passed the unit suite and matched all 27 day plan hashes, official
+scores and combination counts on fresh fixed-role seeds `936000..936005`. Its
+final causal gate nevertheless failed: on `m-1285` day 10 the exact frozen parent
+reached `6/60/321` with 5119 combinations and 195961 partial checks, while the
+candidate reached `6/60/320` with 1129 combinations and 9685 checks. Both were
+exact-valid, deadline-bound and retained guidance `6/60/322`. Local elapsed time
+has no performance authority; the official-score regression and failure to create
+useful search headroom reject this implementation before BTC or the remaining
+holdout. Source and tests are restored byte-identical to `afcd2da`. Do not retune
+incremental containers against this replay; reopen synchronization performance
+only from a different target-host-profiled bottleneck.
+
+Exact-route attribution opens `SCORE-EXACT-034`, parent `afcd2da`, at frozen
+holdout SHA256
+`6A9D06F06DBB49FDE8B3EAC1CA983C3CD8D2C33683CD012DADFEB775A7D2655B`.
+On `m-1285` day 10 the accepted exact bundle serves 34; coordinated exact search
+visits 504176 feasibility nodes, including 500129 overlap nodes, and records zero
+improvements. The canonical master/ALNS can reach 35 while the root guidance is
+36. Source tracing shows the low-fuel anytime enumerator retains only its 32
+`maximalRoutes` once lifetime coverage is complete: `preferredBrands == 0`
+disables the separately capped `supplementalRoutes` frontier, although daily
+distinct and servings are still live official tiers. The candidate changes only
+the existing anytime call: when no lifetime brand is missing, all public config
+brands become the preferred set, activating the existing supplemental frontier
+and enhanced coordination pass. Incomplete-lifetime behavior, high-fuel exact
+enumeration, route semantics, settled-state and per-frontier caps, simulator,
+validator and the 5000 ms cap remain unchanged. Development must first improve
+the exact bundle or final selected score on `m-1285` day 10 and preserve the
+closed high-fuel `m-1286` control before any holdout or BTC run.
+
+The first causal gate rejected `SCORE-EXACT-034`. The unit suite passed, and the
+candidate did activate the intended path: exact bundles increased from one to
+two and each patrol portfolio gained one exact column. Nevertheless the exact
+seed/local bundle remained at 34 servings and the final selected score remained
+`6/60/320`, with guidance `6/60/322`, zero invalid/emergency and zero exact
+deadline overrun. The high-fuel control, remaining holdout and BTC were not run.
+Source/tests are restored byte-identical to `afcd2da`. Supplemental rank/cap may
+not be tuned against `m-1285`; the next admissible step is to extract the exact
+per-agent/per-spot claim masks from the already observed 35-serving canonical
+witness and compare them to the 34-serving exact bundle.
+
+`ATTR-MASTER-035` freezes the authoritative replay at SHA256
+`D638BE3D0E136EF94542BBCE58AA6B086D6A7C872732EF27188392D5D19D2F77`
+and the exact-valid parent `6/60/321` day-10 plan at SHA256
+`787F2C1774D11D08125115FD3F75488A222572CB0CB79692F14A877F5EB81DA4`.
+A research-only probe may reconstruct the accepted ledger and day-10 state,
+parse that frozen plan and print exact served/denied claims by agent/spot. It may
+not call search, alter planner/decision source, infer performance from local time
+or tune a successor directly against action bytes.
+
+The attribution completed with exact simulator/validator agreement. Both plans
+start day 10 from ledger `6/54/286`; the exact bundle ends at `6/60/320` and the
+canonical witness at `6/60/321`. Agents 1 through 7 are byte-identical. Agent 0
+alone replaces mask `0x999 = {0,3,4,7,8,11}` with
+`0x9D8 = {3,4,6,7,8,11}`. Both routes claim and serve six spots. The exchange
+removes one excess claim from spot 0 (stock two, four claims in the exact bundle)
+and adds one claim to spot 6 (stock six, four claims), removing exactly one
+denial. Evidence is `research/evidence/ATTR-MASTER-035.md`.
+
+`ATTR-ROUTE-036` may now reconstruct the same frozen day-10 state and call only
+the canonical agent-0 anytime resource enumerator with the production semantic
+parameters: minimum five spots, 32 retained routes, 1250000 settled states and
+zero preferred-brand mask. It uses no wall deadline because local elapsed time
+has no authority; the fixed work cap is the deterministic boundary. It may
+report membership and ranks for `0x999` and `0x9D8` but may not change a rank,
+cap, planner or coordinator. This membership result must close before any new
+implementation candidate or holdout is opened.
+
+The membership result is decisive. The canonical no-deadline fixed-work probe
+is supported but incomplete at exactly 1250000 settled states, with 32 maximal
+routes and no supplemental/terminal routes. `0x999` is present at index 1;
+`0x9D8` is absent. Because eight retained masks have only five spots, a discovered
+six-spot `0x9D8` could not have been evicted by the cardinality-first rank. Its
+frozen action path consumes 96 movement steps plus wait four and raw fuel 73
+from initial fuel 100, so it is not refuel-dependent. The omission is therefore
+cap-limited queue exploration before discovery. Evidence is
+`research/evidence/ATTR-ROUTE-036.md`.
+
+`ATTR-POOL-037` must now trace where the unchanged canonical pipeline obtained
+the exact-valid `0x9D8` route: initial portfolio, independent candidate, ALNS
+candidate-route augmentation or recombination. It permits current source
+tracing and one frozen-parent replay-solve attribution run, but no repeated
+sampling, local performance inference, source change or enumerator-cap variant.
+Any successor must reuse a public, exact-valid route surface and must not route
+on `m-1285`, agent 0 or mask bytes.
+
+The one permitted frozen-parent provenance run reproduced the exact 321 witness.
+Exact seed/local stayed at 34, exact feasibility made zero improvements over
+504176 nodes, final score reached 35, ALNS recorded one improvement and late
+recombination recorded zero. This narrows the gain to the one-agent ALNS interval,
+but `btc_main` does not print pre-ALNS best, per-operator accepted counts,
+synthesized counters or proof-guided counters. `ATTR-POOL-037` is therefore
+inconclusive only at the portfolio-column versus synthesized-repair substage;
+evidence is `research/evidence/ATTR-POOL-037.md`.
+
+`ATTR-ALNS-038` may extend only the untracked research probe and link it against
+the unchanged frozen parent library. It must perform one solve at the canonical
+5000 ms cap, require byte equality with the frozen 321 plan, and print the
+already existing `AlnsDiagnostics` fields. Local elapsed time is ignored. If the
+plan differs or the counters remain ambiguous, the attribution closes
+inconclusive and no implementation assumption is allowed.
+
+The wrapper reproduced the exact witness bytes and score `6/60/321`. Regular
+ALNS ran 35 iterations, accepted 25 candidates and recorded one improvement;
+it generated 66 synthesized routes and accepted 11. `StockMultiVisit` (operator
+index 4) was attempted and accepted five times. Proof-guided iterations and
+recombination improvements were both zero. These aggregate counters do not
+identify whether the winning route was an existing column or synthesized, so
+`ATTR-ALNS-038` closes inconclusive on that narrow provenance question. They do
+prove a separate schedule gap: guidance remained `6/60/322` while the existing
+proof-guided phase, placed after generic ALNS, received no iteration. Evidence
+is `research/evidence/ATTR-ALNS-038.md`.
+
+`SCORE-ALNS-039` may open only after hashing
+`research/holdouts/SCORE-ALNS-039.csv`. Its sole mechanism is schedule priority:
+when the valid official upper bound is lexicographically above the current best,
+execute at most one existing proof-guided patrol sweep before generic ALNS, then
+continue the unchanged generic loop under the same absolute deadline and
+iteration caps. When the score is already at the valid bound, behavior must be
+unchanged. No new operator, route rank, map/fuel dispatcher, cap increase or
+fixture-derived mask is allowed.
+
+The holdout is now frozen at SHA256
+`83CB73EF1A1EB78C841E2AFB966E12FEF511A1F85EB3680EBD14E71428F43E18`.
+The first causal gate is only `m-1285` day 10, followed immediately by the
+closed-bound `m-1286` day-10 control. The fresh generated and protected lanes
+remain unopened until both gates pass. No BTC candidate may run before the
+paired local semantic/score gates establish a promotable opportunity.
+
+The first causal gate rejected `SCORE-ALNS-039`. Unit tests passed and the proof
+prefix executed as intended: six proof iterations produced 36 routes and
+accepted six exact candidates, but improved none. Generic ALNS then fell from
+the frozen parent's 35 iterations with one improvement to 31 iterations with
+zero improvements; selected score regressed from `6/60/321` to `6/60/320`.
+Exact seed/local remained 34 and recombination remained unchanged. The high-fuel
+control, all frozen holdout lanes and BTC stayed unopened. Source is restored
+byte-identical to `afcd2da`; evidence is
+`research/evidence/SCORE-ALNS-039.md`. Do not tune prefix length or placement on
+this replay. Proof scheduling may reopen only from a new diverse counterexample
+where a specific existing proof repair is already shown to improve before
+generic ALNS.
+
+`ATTR-DENIAL-040` freezes the 35-serving witness and enumerates the unchanged
+canonical 32-route anytime frontier for every patrol at the fixed 1250000-state
+cap, without a wall deadline. Each route may replace only the corresponding
+agent path in the frozen plan and must pass both exact engines. The result is an
+official-score feasibility oracle, not a performance benchmark. It may not
+change caps/ranks or synthesize a target route. No new implementation candidate
+may open until this probe proves or falsifies a 36-serving one-exchange.
+
+The canonical-frontier oracle evaluated 192 exact-valid, independently agreed
+mutations: all 32 routes for each patrol `0,1,2,3,4,7`. Every per-agent and
+global best remained `6/60/321`. Thus no retained exact route can close 35 to
+the guidance value 36, and an exchange layer over the current 32-route frontiers
+is closed. Evidence is `research/evidence/ATTR-DENIAL-040.md`.
+
+`ATTR-OPTIMAL-041` may run `enumerate_exact_resource_routes` to completion only
+for the two unique start/fuel states among agents 2, 4 and 7, the agents claiming
+oversubscribed spot 0, with no wall deadline. The initial method call through the
+anytime wrapper was not interpreted because that wrapper deliberately forces
+`complete=false`; it settled 3148570 states but produced no proof verdict. The
+proof API must return `complete=true`, and every inclusion-maximal route must
+pass dual exact validation after substitution. Inclusion-maximal masks suffice
+for servings because adding a first-visit claim cannot reduce the team total
+`min(claimCount, stock)` at any spot. This remains a local mathematical oracle;
+elapsed time and work are forbidden as production performance or cap evidence.
+
+The corrected proof run returned `supported=1, complete=1`, 3148570 settled
+states and 78 inclusion-maximal routes for each of the two unique claimant
+states. All 156 substitutions passed both engines; every best remained
+`6/60/321`. The 35-to-36 gap is therefore impossible through any one-patrol
+resource-feasible exchange. Evidence is
+`research/evidence/ATTR-OPTIMAL-041.md`.
+
+`ATTR-TEAM-042` may enumerate complete frontiers for all unique patrol
+start/fuel states and run a deterministic DP keyed only by per-spot claim counts
+capped at public stock. It must retain an exact route-choice witness, reconstruct
+the full plan with unchanged tanker paths and pass both exact engines. The DP
+uses official daily brands then servings; no weighted sum or local timing claim
+is allowed. No production candidate may open before this multi-agent feasibility
+question closes.
+
+The complete team DP found the guidance score after 38 nodes and seven memo
+states. All six patrol frontiers were proof-complete; the reconstructed masks
+were agent 3 `0xB59`, agents 0/1/2/4 `0x9D9`, and agent 7 `0x1EC`. The exact
+simulator and independent validator agreed on `6/60/322`. This proves a genuine
+multi-agent capability gap rather than a loose upper bound. Evidence is
+`research/evidence/ATTR-TEAM-042.md`.
+
+`SCORE-QUEUE-043` may open only after hashing its frozen holdout. Its sole
+mechanism is to align the capped resource-search priority with the existing
+retention objective: greater visited-spot cardinality first, then lower used
+steps/fuel and stable label order. The state graph, Pareto dominance, route
+reconstruction, 32-route retention, 1250000-state cap, coordinator, exact
+engines and high-fuel path remain unchanged. No replay mask, agent identity,
+map/fuel dispatcher or cap increase is allowed.
+
+The frozen holdout SHA256 is
+`BFFB6312262CC28A21D8131968BF5A603CB37B12EB087472F1D0E2CBDE8AE48B`.
+The first gate is the attributed `m-1285` day-10 route/frontier score, followed
+by the separate high-fuel `m-1286` closed-bound control. All fresh and protected
+lanes remain unopened until those gates pass; BTC is prohibited until paired
+local semantic/score evidence is promotable.
+
+`SCORE-QUEUE-043` proved the deep-route mechanism but failed global downside.
+On `m-1285` day 10 it changed the representative capped frontier from 24
+six-spot plus eight five-spot routes to 24 seven-spot plus eight six-spot routes;
+exact seed/local rose from 34 to 37 and final score rose from `6/60/321` to
+`6/60/323`. High-fuel `m-1286` tied `6/60/412`, and the fresh general-fixed lane
+was `0/18/0`. On the first four BTC-like low-fuel cases, however, seed 957002
+threshold-corridor regressed from 346 to 274 while the other three tied. A
+tier-3 tail loss of 72 is not bounded relative to a gain of two, so the candidate
+is rejected without opening remaining lanes or BTC. Source is restored
+byte-identical to `afcd2da`; evidence is
+`research/evidence/SCORE-QUEUE-043.md`. Do not tune a mixed priority or weight
+against the opened positive and negative fixtures.
+
+`ATTR-QUEUE-044` may run one parent/candidate paired fixture for frozen
+BTC-like low-fuel seed 957002 with day details. It may report cumulative/day
+official scores, plan hashes and the first differing day only. Frozen binaries
+must be used; no queue variation, source change or local timing conclusion is
+allowed. Any successor must preserve parent route evidence by construction and
+use a new unopened holdout.
+
+The single paired run reproduced parent `6/60/346` and candidate `6/60/274`
+with zero invalid/emergency. The plan hash already differs on day 1 while both
+score `6/36`; the first official-score difference is day 2 at cumulative
+`6/12/74` versus `6/12/72`. Day 3 adds a further 13-serving loss and the
+candidate remains lower every later day. This is a full-trajectory divergence,
+not a terminal-day localization. Source tracing confirms the production
+current-day anytime low-fuel queue is guarded to the terminal day, so the -72
+cross-binary tail cannot be assigned directly to the intended queue mechanism.
+Evidence is `research/evidence/ATTR-QUEUE-044.md`.
+
+`ATTR-QUEUE-045` may add a temporary research-only queue-policy switch and one
+attribution harness. In one binary, generate a shallow-policy prefix through day
+9, retain the exact submitted decisions, then instantiate fresh engines and
+replay those identical decisions into both so belief/response-ledger history is
+equal and route caches are equally cold. On the identical day-10 state, ledger
+and traffic, compare shallow versus cardinality-first capped anytime queues in
+both execution orders. Only official score, exact plan hash and existing
+orienteering diagnostics may decide causality; local elapsed values are ignored.
+The 1,250,000-state/32-route caps, exact full-proof path and both validators must
+remain unchanged. The research switch must be fully reverted when the probe
+closes; no holdout or BTC is authorized.
+
+The same-binary result used state hash `2130807422699737667` and prefix ledger
+`6/54/244`. Forward shallow, forward cardinality, reverse cardinality and reverse
+shallow all returned exact day score `6/30`, cumulative `6/60/274` and plan hash
+`14218929452539799733`, with zero invalid/emergency. This equality is not queue
+equivalence: every run reported `exact_supported=0`, `exact_settled=0` and zero
+exact bundles. The historical harness constructs `UdonShieldEngine(config)`,
+whose default harvest mode is 6; BTC runtime explicitly defaults to mode 7. The
+terminal fuel-constrained anytime path requires mode greater than 6. Therefore
+the `SCORE-QUEUE-043` generated protected lanes never executed the candidate
+mechanism, and their -72 cross-binary tail is not causal downside. Evidence is
+`research/evidence/ATTR-QUEUE-045.md`.
+
+`ATTR-QUEUE-046` may change only the two research-harness engine constructors to
+explicit harvest mode 7 and future mode 7. It then repeats the already frozen
+prefix/fresh-engine terminal fork once. `exact_supported` and settled states must
+be nonzero before any policy comparison is interpreted. This remains opened-seed
+attribution only; it cannot promote the prior candidate or authorize BTC. Any
+successor logic requires a new production-parity holdout because every
+`SCORE-QUEUE-043` generated seed has already been opened.
+
+The explicit mode-7 probe used state hash `7024081118606904448` and prefix
+ledger `6/54/312`. Both shallow runs selected exact `6/39`, cumulative
+`6/60/351` and plan hash `3450257480091618005`; both cardinality runs selected
+the same official score with plan hash `108925725917910114`. All four were
+dual-valid with zero invalid/emergency and `exact_supported=7`. Cardinality
+raised exact local servings from 38 to 39, but shallow's full planner already
+found 39 through another path, so the causal official delta on this state is
+zero. This disproves the prior -72 attribution without promoting the mechanism.
+Evidence is `research/evidence/ATTR-QUEUE-046.md`.
+
+The next admissible implementation experiment must begin from restored
+`afcd2da`, correct the research evaluator to explicit production mode 7, freeze
+a completely new diverse holdout before queue source changes, and compare
+same-terminal-state paired official outcomes. The old mode-6 matrix has no
+promotion authority for this axis, and no opened SCORE-QUEUE-043 fixture may
+serve as tuning evidence.
+
+`EVAL-PARITY-047` may change only `old/harness/historical_tournament.cpp` and the
+stale budget wording in `old/README.md`. The harness must instantiate production
+harvest mode 7 and future mode 7 explicitly and print those values together
+with exact-orienteering supported/settled/seed/local counters. One already-opened
+seed 957002 may be used only to prove the runtime path is entered. Existing
+historical score reports remain mode-6 artifacts and must not be relabeled or
+rerun as a substitute for forward research. No solver source, candidate score,
+holdout or BTC action is permitted in this experiment.
+
+The wiring gate passed. The harness emitted harvest/future mode `7/7`; days 1--9
+reported zero exact-supported agents, matching the terminal-only guard, while
+day 10 reported seven supported agents, 711197 settled states and exact
+seed/local servings `31/32`. Both exact engines agreed and invalid/emergency
+were zero. Local score and elapsed values have no performance authority.
+
+`SCORE-QUEUE-048` is frozen at holdout SHA256
+`13EC4F536FA573AA3158D35D93CDC5A5D6F0DEBF6572E1D2BDEADDA471122231`.
+Its only logic change is cardinality-first pending-label order inside the capped
+anytime resource path: greater visited-spot count, then lower steps/fuel and
+stable label ID. The exact full-proof path, state graph, dominance, 1,250,000
+settled-state cap, 32-route retention, coordinator, current terminal/fuel guard,
+simulator and validator remain unchanged. A temporary same-binary policy switch
+is allowed only for causal evaluation and must be removed from a final candidate.
+Development first compares archived `m-1285` day 10 and the already-opened neutral
+957002 control. The frozen screen then covers six general families, deadline and
+fixed roles, one/two-tanker low fuel and default/high controls on fresh seeds.
+No BTC run is allowed before both screen and full paired gates pass.
+
+The development gate passed causally in one temporary binary. On archived
+`m-1285` day 10, shallow runs in both execution positions selected
+`6/60/320` with exact seed/local `34/34`; cardinality-first runs in both
+positions selected `6/60/323` with exact seed/local `37/37`. All four runs had
+six supported agents, exact validation and zero emergency. The official tier-3
+gain is therefore `+3` and policy-stable. Local elapsed is ignored. This opens
+only the frozen screen; BTC, promotion and commit remain prohibited.
+
+The frozen screen closed at `3/24/0`, with only tier-3 differences, three
+independent `+1` gains and no loss tail. Gains span low/default fuel,
+one/two-tanker compositions and fuel-tight/threshold-corridor/balanced
+families. General fixed/deadline lanes were `0/12/0`; high fuel was `0/3/0`
+with identical exact settled counts across policies. Invalid and emergency were
+zero. The already frozen full rows are now opened exactly once. BTC and commit
+remain blocked until the full gate closes.
+
+The first full general deadline-role execution for seeds 971010--971015 lost
+its raw result lines because a PowerShell summary expression was malformed and
+printed empty `//` fields. Those synthetic fields have no evidence value. With
+the candidate and binary frozen unchanged, the same six already-opened seeds
+may be repeated once solely to recapture raw output. No source or gate tuning is
+allowed from this instrumentation recovery.
+
+The full frozen matrix is complete at `4/74/0` over 78 unique terminal states.
+All first differences are tier 3; gain tail is `+1`, observed loss tail is zero,
+and invalid/emergency are zero. Lane results are general `0/36/0`, low fuel
+one tanker `2/10/0`, low fuel two tankers `1/5/0`, default fuel `1/11/0` and
+high fuel `0/12/0`. Gains span two independent fuel-tight seeds plus separate
+threshold-corridor and balanced seeds across one/two-tanker and low/default
+fuel. Together with the archived causal `m-1285` gain `+3`, the local semantic
+gate supports canonicalization. The temporary switch must be removed and the
+single cardinality-first capped-anytime order rebuilt before BTC. No commit is
+authorized until BTC target-host validity, telemetry and real-opponent gates
+pass.
+
+Canonicalization is complete. The temporary policy API, replay switch and A/B
+harness scaffolding are removed. The only production logic delta from `afcd2da`
+is 31 lines in `src/orienteering.cpp`; it makes cardinality-first the single
+pending-label order only when `minimumSpots` is present. The canonical unit suite
+passes, and one canonical `m-1285` replay reproduces `6/60/323`, exact-local 37,
+six supported agents, exact validity and zero emergency. Its BTC executable
+SHA256 is `CE37B6D06F5AD92CDB3921DCCA6CAE21A4D6E688431232A78A7E25DDEF2EE6CF`.
+Local elapsed output is not performance evidence.
+
+The BTC admin statement supplied on 2026-08-09 confirms that response time may
+vary by round. Therefore each fresh match configuration remains authoritative
+for its outer response window, while the solver's internal compute cap stays at
+5000 ms. `POST /practice` with the bot match token returned HTTP 401 because it
+cannot create matches; an authenticated BTC UI then created fresh advanced match
+`m-1796`: hard, three bots, 10 days, 32x32, 100 steps/day, 5000 ms response,
+eight agents, 12 spots, six franchises and low fuel 1x. The frozen canonical
+binary ran with harvest/future mode 7/7 and no rebuild or source change.
+
+`m-1796` completed 10/10 valid applied days, reconciled 9/9 authoritative
+transitions and independently validated every decision. Final score was
+`6/60/312`; zero deadline skip, retry, emergency, exact overrun or hard-cap breach
+occurred. Server response p95/p99/max were `2759/2759/2759 ms`, and decision
+`totalMs` max was `2699 ms`. Day 10 exercised the candidate mechanism on six
+supported agents: seed/local exact route servings were `39/40`, settled states
+were `7,500,000`, enumeration plus finalization used `655 ms`, and overrun was
+zero. The selected `6/60/312` equalled the master's optimistic upper bound even
+though its separate search-guidance bound remained loose at 314. Replay SHA256
+is `DCC0A6D36DFB7C2EFECB382ED220B977E37EBA145B25EF291DAF879C079EF272`.
+Rank 1 over practice bots is only the asymmetric BTC failure gate. Target-host
+validity/lifecycle/hard-cap evidence passes for this match, but the manifest still
+reports `competitionReady=false` because `p99Calibrated=false`; this ten-day
+sample does not replace calibration or real-opponent evidence. SCORE-QUEUE-048
+remains frozen, active and uncommitted.
+
+`ATTR-QUEUE-049` compiled clean parent `afcd2da` in an isolated worktree at
+executable SHA256
+`AB2556D6436C8AB14F53D6657E2C28FBA9E504DFD4BDF477A80C6CEC960D618A` and solved
+only authoritative `m-1796` day 10 with its recorded prefix ledger/state.
+Reverse-order repetitions were stable: candidate `6/60/312` with exact seed/local
+`39/40`, parent `6/60/307` with `35/35`. Both sides supported six agents and had
+zero emergency, overrun or validation failure. This is a fresh `+5` tier-3
+development gain, not a new frozen-holdout row; local elapsed is ignored. Only
+the terminal state is paired because the prior authoritative trajectory was
+generated by the candidate, so no whole-match parent claim is made.
+
+`ATTR-REAL-050` inspected the only two complete archived team-vs-team replays as
+non-tunable observational controls. Both are two-team, four-day, 8x8, 32-step,
+60-second-outer-window, fuel-64 fixtures with four agents, eight spots and four
+brands. Live `m-1038` was `4/16/60` versus `4/16/52`; live `m-1042` was
+`4/16/59` versus `4/16/53`. Candidate and clean parent replay-solve terminal
+states tied `4/16/60` and `4/16/59` respectively with byte-identical plans,
+closed optimistic/guidance bounds, exact validity and zero emergency/overrun.
+This `0/2/0` control finds no short/small-map regression but is too narrow to
+promote the low-fuel long-horizon queue change. Fresh competition-configuration
+real-opponent evidence remains open.
+
+`ATTR-GAP-051` checked whether fresh `m-1796` opens the next current-day score
+axis. Days 1--8 have incumbent-to-optimistic serving gaps
+`+1,+3,+5,+2,+1,+2,+3,+3`, but every exact-evaluated audit candidate ties the
+selected current-day official score; no better feasible witness exists in the
+pool. Day 9 optimistic/guidance are closed. Day 10 selected and optimistic are
+`6/60/312`, while guidance `6/60/314` is only a loose unwitnessed bound. The
+master deadline flag therefore cannot justify another master-width/search tuning
+cycle. A post-QUEUE score axis requires an exact-valid higher bundle or another
+first-differing feasible counterexample; this is not a ceiling claim.
+
+`ROBUST-QUEUE-052` is the preregistered independent structural-downside audit of
+the still-frozen `SCORE-QUEUE-048` candidate. Its manifest was frozen before any
+harness change at `research/holdouts/ROBUST-QUEUE-052.csv`, SHA256
+`D017068D6F47C73D22164265A235D545A24C2EB3396463264CB7D30AF8AA5359`.
+Development contains 18 unopened small-map proof cases across balanced,
+duplicate-brand and stock-contention profiles. The one-time holdout contains 72
+unopened terminal cases covering low-fuel one/two-tanker roles, depleted default
+fuel, a missing-lifetime tier guard and a high-fuel control. A research-only
+same-binary policy switch must run shallow and cardinality-first in both orders
+on identical state and caps; an exact stock-capped team DP reports official
+lexicographic score, while small development cases also compare against complete
+resource enumeration. Local elapsed has no authority. Any tier-1/tier-2 loss,
+invalid or validator disagreement rejects the candidate; material/systematic
+tier-3 downside also rejects it. The holdout may be opened once only after the
+harness proves these invariants, and it cannot be retuned.
+
+The `ROBUST-QUEUE-052` development proof passed `0/18/0`. Every capped shallow
+and cardinality frontier yielded the same official team optimum as complete
+resource enumeration; all repetitions were stable across reversed call order,
+and every selected witness agreed between the exact simulator and independent
+validator. Cardinality recall of complete maximal masks was never lower than
+shallow and was strictly higher on 6/18 cases, without changing the optimum on
+these small maps. This proves the harness/oracle is coherent but is not promotion
+evidence. The 72-case holdout remains unopened at this point; local elapsed was
+not recorded or used.
+
+The `ROBUST-QUEUE-052` holdout was then opened exactly once and closed accepted
+at `4/67/1` over 72 independent terminal fixtures. All five differences were
+tier 3: gains `+1,+2,+1,+4`, with one `-1` loss. Low-one-tanker was `2/22/0`,
+low-two-tanker `0/11/1`, depleted-default `2/10/0`, missing-lifetime `0/12/0`,
+and high-fuel control `0/12/0` with identical frontier signatures. All 72 cases
+were stable across reversed call order and dual-valid. The evidence file
+`research/evidence/ROBUST-QUEUE-052-holdout.csv` has SHA256
+`6B1DF3B756BF54EE00C25A595623F6814819AD957266F472FE137B4BACDA2EFD`.
+The sole regression is bounded and not repeated across the second balanced
+two-tanker seed; the larger and more diverse positive tail retains
+`SCORE-QUEUE-048`, but does not authorize commit or replace BTC/real-opponent
+final gates.
+
+`ATTR-QUEUE-053` was opened as a bounded attribution. It inspected only the
+already-opened low-two-tanker balanced seed `982008` and reported the shallow,
+cardinality and union-frontier exact team witnesses. It did not change queue
+priority, retention, caps, fixture or metric, and cannot tune against this loss.
+
+`ATTR-QUEUE-053` closed accepted. Shallow's `6/60/96` witness requires patrol 4
+mask `0x27C`, which is absent from that patrol's cardinality frontier; the
+cardinality witness therefore stops at `6/60/95`. The union of both frozen
+frontiers restores exactly `6/60/96` using the same shallow-only patrol-4 mask
+and does not exceed it. Thus the one-serving loss is a real capped-frontier
+trade-off, not DP or validation noise, but one isolated opened seed cannot
+justify a mixed queue or dispatcher. Evidence is in
+`research/evidence/ATTR-QUEUE-053.txt`.
+
+`ARCHIVE-QUEUE-054` is the sole active non-opponent logic audit. Before any
+replay-adapter change, one complete replay per unique 32x32, 10-day, 8-agent,
+12-spot, six-brand BTC match was frozen in
+`research/holdouts/ARCHIVE-QUEUE-054.csv`, SHA256
+`FC874C1CCDC9785EE3D178AE31C3E4262B4B54913CB421E6B856D30A3655FB3D`.
+The manifest contains 75 exact file hashes: already-opened `m-1285` and
+`m-1796` are development, while the 73-case holdout contains 17 low-fuel, 36
+default-fuel and 20 high-config matches. Ten high-config terminal states have no
+fuel-constrained patrol and are whole-policy controls; the other ten contain one
+or two depleted patrols, so only their per-agent high-fuel paths are controls.
+This classification was derived from manifest metadata before source change.
+Selection did not inspect score or rank.
+The adapter must reconstruct every accepted prefix ledger and the terminal
+authoritative state with dual validation before the existing same-binary
+shallow/cardinality team oracle may run. Rank and local elapsed have no
+authority; high-fuel policy signatures must be identical. The holdout opens
+once only after both development replays reproduce coherent terminal evidence.
+
+The `ARCHIVE-QUEUE-054` adapter proof passed `2/0/0` and reproduced the two
+previously established independent deltas exactly: `m-1285` shallow/candidate
+`6/60/320 -> 6/60/323` (`+3`) and `m-1796` `6/60/307 -> 6/60/312` (`+5`).
+Both were stable under reversed policy order and dual-valid after reconstructing
+the accepted nine-day prefix ledger. This is an adapter/oracle gate, not new
+promotion evidence. The 73 replay holdout remains unopened at this point.
+
+The `ARCHIVE-QUEUE-054` holdout was then opened exactly once and closed accepted
+at `18/55/0` over 73 unique authoritative BTC terminal states. All differences
+were tier 3 and every delta was positive: gains ranged from `+1` to `+4`, with
+no loss. Low fuel was `5/12/0`, default fuel `12/24/0`, and high-config
+`1/19/0`; wins span role masks `1,4,16,32,64,128,192` and terminal constrained
+patrol counts `1..7`. All 73 cases were stable and dual-valid. The ten states
+where the queue policy was unreachable had byte-identical signatures and score.
+Evidence SHA256 is
+`B8C3F78B702BB84BCE47592C6CD91F41D56329EBB464C7946875025B2B4B0776`.
+
+Across the three independent frozen non-development matrices,
+`SCORE-QUEUE-048` now has aggregate `26/196/1` over 223 same-state pairs. Every
+difference is tier 3; frozen gain tail is `+1..+4` and the only loss is `-1`.
+This is broad non-opponent evidence with bounded downside, not a weighted-sum
+promotion and not proof against real opponents. The candidate remains frozen,
+active and uncommitted because target-host p99 calibration and diverse fresh
+real-opponent evidence are still final gates.
+
+`PERF-P99-055` is the sole active non-opponent final gate. Its manifest was
+frozen before creating a match at `research/holdouts/PERF-P99-055.csv`, SHA256
+`52ADA0B0ECBF3ADE92381D2B4AF8926578D21FFF9433795B71A25A94BC4F225B`.
+It preregisters 30 fresh explicit-advanced BTC practice matches: ten each at
+low, default and high fuel, all hard/three-bot/10-day/32x32/100-step/5000-ms/
+8-agent/12-spot/six-brand. The unchanged executable SHA256 must remain
+`CE37B6D06F5AD92CDB3921DCCA6CAE21A4D6E688431232A78A7E25DDEF2EE6CF`.
+Exactly 300 fresh decisions are required. With zero hard-cap breaches, the
+one-sided 95% binomial upper bound on breach probability is
+`1 - 0.05^(1/300) = 0.994%`, which is below 1%. Any invalidity, transition or
+validator mismatch, skip/retry/emergency/overrun, hard-cap breach or binary drift
+rejects calibration. Bot rank is not quality evidence. Interrupted work may
+resume only the still-unfilled preregistered replicate count; failed matches are
+not replaced or hidden.
+
+`PERF-P99-055` progress: all ten preregistered low-fuel replicates `m-1803` to
+`m-1812` are complete. The 100/100 decisions were HTTP-valid and dual-valid,
+90/90 observable transitions reconciled, and every explicit advanced config
+matched the manifest. There were zero fallback actions, emergencies, exact
+overruns or hard-cap breaches. The worst per-match server-response maximum was
+`3965 ms` and the worst decision timing was `3358 ms`; final quantiles remain
+deferred until all 300 samples are complete. Per-replay hashes and summaries are
+in `research/evidence/PERF-P99-055-progress.csv`. This is progress only; the
+calibration gate remains open at 100/300 fresh decisions.
+
+All ten preregistered default-fuel replicates `m-1813` to `m-1822` are also
+complete. BTC materialized the UI default profile as `fuelLimits=200`; all
+other explicit advanced fields matched the manifest. The 100/100 decisions
+were HTTP-valid and dual-valid, 90/90 transitions reconciled, with zero
+fallback, emergency, exact overrun or hard-cap breach. The worst per-match
+server-response maximum was `3574 ms` and the worst decision timing was
+`3514 ms`. The high-fuel lane then completed all ten frozen matches, but exposed
+three submission skips: `m-1827` day 6 and `m-1832` days 6-7 recorded
+`actions_deadline_skip` plus `actions_server_wait` and never POSTed the valid
+plans. Consequently high fuel returned only 97/100 accepted action results and
+BTC exposed tier-2 daily sums 57 and 52 in those two matches. Across the 297
+accepted responses, p50/p95/p99/max was `2989/3575/3965/4328 ms`, but these are
+censored by the skipped submissions and cannot calibrate p99. `PERF-P99-055` is
+closed rejected. Progress evidence SHA256 is
+`8DCDAE465FB065FA0E0CEACFB78B906BA43BE82F37C950B9B7E963136B90976A`;
+attribution evidence SHA256 is
+`7F8628EC949D36F50E685F8BC719C1B0D189A4226B2EFF7F34DD4BBFDF81A7AF`.
+
+The confirmed non-opponent gap has two aligned deadline defects. First,
+`deadline_seconds` validates but ignores raw server `endsAt` and floors
+`(receivedMs + responseBudgetMs) / 1000`; the affected raw windows
+`5030/5198/5032 ms` became only `4030/4198/4032 ms`, losing
+`970/802/968 ms` against the configured 5000 ms cap. Second, certification did
+not consistently stop at the compute boundary implied by its existing 1600 ms
+network reserve: planner timing consumed `3264/4171/3678 ms`, leaving only
+`760/25/349 ms` at the 800 ms submission guard. Full decision replay recording
+took only 2-3 ms and is not the material cause. The next experiment must align
+planner and POST to one exact millisecond deadline capped by both the configured
+5000 ms and raw server deadline, then enforce the existing reserve without
+reducing solver logic or hiding skips.
+
+`DEADLINE-ALIGN-056` froze exact deadline plumbing before source change. Its manifest
+was frozen before source change at `research/holdouts/DEADLINE-ALIGN-056.csv`,
+SHA256 `6D6270CEBBD12D96ACDBF779A8298466A0378793F2173C25D8514A3E843DAC3F`.
+The candidate may only plumb one exact HTTP deadline equal to
+`min(raw server endsAt, receivedAt + configured response budget)` into both the
+planner and POST path. It may not change search/certification logic, the 1600 ms
+network reserve, the 800 ms submission floor, action durability or recovery.
+Exact alignment is tested first as the minimal general fix. If any of five fresh
+high-fuel development matches still skips, this candidate is rejected rather
+than weakening the guard; certification boundedness must then be a new,
+separately frozen mechanism.
+
+The candidate is frozen as BTC executable SHA256
+`4636C380578F1AB79973A25E03AAE26E20809F8A5720F914D7DB7F38D1C3EFD6`.
+The unit suite passed once. The parent and candidate replay-check outputs were
+byte-identical across all 30 `PERF-P99-055` replays and all 300 recorded days,
+with zero failure or mismatch. This establishes offline action/state/validator
+equivalence only; local elapsed time is deliberately excluded. Evidence SHA256
+is `54F2C1EE87964495ACA50F317A400072CBA75829D5C0554FF27E3D34D561D854`.
+No fresh `DEADLINE-ALIGN-056` BTC development sample was consumed. The
+candidate is closed inconclusive rather than promoted or rejected: exact
+deadline alignment is a necessary protocol/runtime component and passed offline
+equivalence, but `ATTR-CERT-058` proved a separate certification boundary hole
+that this candidate deliberately leaves unchanged.
+
+While BTC practice creation was unavailable, `ATTR-SELECT-057` completed an
+independent read-only attribution over the already-opened 30-replay
+`PERF-P99-055` set. The scan found zero non-selected candidate with a higher
+`scoreAfterToday` and zero accepted exact bundle above the selected current-day
+score. Two apparent lower-bound improvements (`m-1803` day 8 and `m-1804` day
+9) lose current official score and are correctly excluded by the production
+current-floor gate. The remaining q50 improvements tie current score and lower
+bound but q50 is only third in the full q95/q80/q50/q20/q05 comparator (or the
+candidate is outside the relative confidence gate). None is a complete-tuple
+domination witness. This closes the evaluator axis without a source change;
+evidence SHA256 is
+`DAEF6B1842D8EDE357FA23BE2DA7DBD68CBFDE3DE572641C2718C83C8CC01F8F`.
+
+`ATTR-CERT-058` is an accepted independent read-only target-host attribution and
+does not modify the frozen `DEADLINE-ALIGN-056` candidate. In all 42/300
+decisions that crossed the scheduler compute boundary, pre-certification still
+ended before the boundary; certification alone crossed it. Counts by
+low/default/high fuel are `0/5/37`; overrun p95/max is `405/1574 ms`, and the
+three submission skips are the three largest tails. The first boundary hole is
+dense initialization in `enumerate_exact_high_fuel_routes`: after one deadline
+poll, each worker initializes at least 36 MiB over 4,194,304 states before the
+next poll, and four joined workers can touch at least 144 MiB. The general
+semantics-equivalent successor is same-sentinel chunked initialization with the
+existing absolute deadline polled between chunks. Evidence SHA256 is
+`6DF72E0342AA141A39DD8DA1D030D72FFB05293BBCD8E0FACF08D5E81C9151C8`.
+
+`PERF-CERT-059` is now the sole active implementation experiment. It retains
+the frozen exact-deadline plumbing and changes only dense exact-state
+initialization to construct identical sentinels in fixed 65,536-state chunks,
+polling the existing absolute deadline between chunks. At BTC scale this bounds
+state initialization between polls to 576 KiB per worker and 2.25 MiB across
+four workers, without changing graph/order/caps/worker count or the result of a
+completed search. Its manifest was frozen before source change at
+`research/holdouts/PERF-CERT-059.csv`, SHA256
+`E9A6BF19348A1AE04325E59F9CAEC1552FE4690A5506C2EC2040F018D66D2B20`.
+Local elapsed time has no promotion authority.
+
+The implementation is frozen as BTC executable SHA256
+`83EF15BE2139705ACE27B08727ED18074C8B9305E8FBD52566000BCC207B47E0`.
+The authoritative cached toolchain built the candidate once and the full unit
+suite passed. Against the frozen `DEADLINE-ALIGN-056` executable, replay-check
+stdout is byte-identical for all 30 `PERF-P99-055` replays and all 300 recorded
+day states: 10/10 low, 10/10 default and 10/10 high replay files matched, all
+replay hashes matched the frozen progress evidence, all processes exited zero,
+and there were zero invalid actions or validator disagreements. This clears the
+offline semantic gate only; it says nothing about local performance. Evidence
+SHA256 is
+`394FF66499700E060B09BCFD299109045CCE8CA8610B794CBB87DE2F7CE54C75`.
+The follow-up source-boundedness audit proves that sentinel construction between
+polls is now at most 576 KiB per worker (2.25 MiB across four workers) at both
+BTC scale and the architecture state limit. Main traversal and terminal scans
+already poll by bounded entry/mask/cell intervals. Individual allocator calls,
+the small pre-traversal metadata pass and bounded simulator/validator calls
+remain explicit observation points rather than speculative patch targets.
+Boundedness evidence SHA256 is
+`51856B408CE1A5C63FE9CEEA22BB0C6615E2F3AFBD80CB58578106E132946CDD`.
+BTC practice creation recovered and the first frozen high-fuel development
+fixture was consumed as `m-1836`. It used hard/3 bots/10 days/32x32/100 steps/
+5000 ms/8 agents/12 spots/6 brands/high fuel. The binary produced 10/10 valid
+actions, replay-check confirmed 9/9 authoritative transitions and exact score
+`6/60/407`, and there were zero emergency decisions. Rank 1 is ignored.
+Nevertheless, certification crossed the `total - 1600 ms network` compute
+boundary on days 3, 6, 8 and 9 by `363/47/307/218 ms`; pre-certification stayed
+inside the boundary on every day. Current-day exact orienteering also overran
+its own supplied deadline by 42 ms on day 4. This fails the preregistered zero-
+crossing development gate, so the balanced BTC holdout remains unopened and
+`PERF-CERT-059` is rejected as a promotable candidate. Replay SHA256 is
+`B866ACB6A63C548D8BE05FBED03DDBD355422F78566CAC436A1C2E5BD6AC6676`;
+BTC evidence SHA256 is
+`DCD0C051D782B247CD3ADABA241DF0417CB1ABD003C8B3AFD09D6A26197A4419`.
+The chunk mechanism remains only as a frozen diagnostic parent: offline
+semantics are byte-identical and the first large initialization interval is
+removed, but no successor may be promoted until the next crossing operation is
+independently attributed. Do not tune chunk size or deadline guards from this
+single match.
+
+`ATTR-CERT-060` was opened as the sole certification-attribution experiment. The
+separate frozen score candidate `SCORE-QUEUE-048` remains active pending its
+runtime/real-opponent gates; `ATTR-CERT-060` neither changes nor reevaluates its
+score evidence. This experiment is audit-only telemetry on the frozen rejected
+`PERF-CERT-059` diagnostic parent, not another solver candidate.
+It will time the existing future-witness phases and record the first operation
+ending after both its candidate slice and the shared global certification
+deadline, including nested exact-orienteering diagnostics. It may not change
+control flow, deadlines, caps, candidate/scenario order, actions or score logic.
+The manifest was frozen before source instrumentation at
+`research/holdouts/ATTR-CERT-060.csv`, SHA256
+`FA868D82D6880A408DC5C146293A4194EDCD59E716347787024C6D27CF78D402`;
+design evidence SHA256 is
+`4CC31C75472D5D51DDE481B3F3B1F8BD7526C536FD5250A111771C5200AF915B`.
+Before any BTC diagnostic run, replay-check stdout must remain byte-identical to
+the frozen `PERF-CERT-059` binary on all 300 states. A logic successor requires
+a new manifest after attribution; no threshold or reserve change is allowed.
+The audit binary is frozen at SHA256
+`2A1BDA4F9E67FC3EC70F3A4144AA14145B9DA5DF64F5DBE29C5B45CC3F203C04`.
+The full unit suite passed and replay-check stdout is byte-identical to the
+frozen `PERF-CERT-059` binary on all 30 low/default/high replays and all 300
+states, with correct replay hashes, exit zero, zero invalid and zero validator
+disagreement. Offline diagnostic-integrity evidence SHA256 is
+`183043B7992E1DA2359C965CE7D96DEE05B42F9C446FAFA9FD1236B2578D77BA`.
+The three fresh high-fuel BTC diagnostic fixtures were consumed without
+replacement; their ranks are irrelevant. `m-1837` and `m-1838` each completed
+10/10 HTTP 200 valid actions and 9/9 reconciled transitions. Replay-check rebuilt
+`6/60/440` and `6/60/384`; replay SHA256 values are
+`7325885ADEDC16356CF1D4A694C563A994EE532335B9A30872564B5DA56E4C85` and
+`C2D84D6A48132EDD8208C133A8EB0F858321FBC177F1CF6AE0CAA34A91AD2017`.
+`m-1839` stopped after setup with no day state/decision/action and was not
+replaced. Across the 20 complete decisions, every action was accepted and no
+solver total exceeded either its exact authoritative deadline or the 5000 ms
+hard cap. The diagnosed events are crossings of the earlier 1600 ms network-
+reserve boundary, not invalid responses or hard-cap breaches.
+
+Every certification-caused global crossing ended in column generation.
+Material `m-1838` days 4/5/6/9 spent `1394/879/802/791 ms` in nested exact
+orienteering and crossed globally by `381/250/23/69 ms`; maximum nested exact
+overruns were `609/250/254/69 ms`. Days 1 and 7 first crossed in monotone-floor,
+but certification consumed only 1/0 ms because pre-certification had already
+used the reserve; they are not certification regressions. Current-day day 1
+independently spent 252 ms enumerating and 2485 ms finalizing exact routes,
+overran its supplied exact deadline by 1756 ms and visited 3,000,173 feasibility
+nodes.
+
+The source cause is exact: `capacity_feasibility_search` polls every 1024 nodes,
+but deadline expiry returns ordinary `false`, indistinguishable from an
+infeasible subtree. Parent recursion then continues sibling routes, so repeated
+expiry polls prune only one subtree at a time and traversal can reach the
+3,000,000-node phase cap. `ATTR-CERT-060` is accepted attribution. Evidence
+SHA256 is
+`6D762D6C3D19DEF3B77B08ABB4F4BD404D228A83D79ECCBE0F693DAE108B47A1`.
+
+`PERF-CERT-061` is the sole active runtime implementation experiment. Its
+manifest was frozen before source change at
+`research/holdouts/PERF-CERT-061.csv`, SHA256
+`D798DD62F7AFA090F2E2801200336B8A44768554569F7AAD50D792EA9057CD9E`;
+design evidence SHA256 is
+`FF42323F9C88D56967899695E92AEEA8483AD73F80957AB55E50320D41726C78`.
+It may add only explicit cancellation propagation after the existing absolute-
+deadline poll, restoring recursion state while unwinding and retaining the best
+completed incumbent. It may not change poll cadence, route order, bounds,
+memoization, node caps, beam, worker count, reserve, submission guard or score
+logic. This does not remove, disable, defer or reduce designed functionality;
+no code is deleted. It repairs the designed deadline contract and preserves all
+exact work before expiry.
+
+The candidate is now frozen as BTC executable SHA256
+`F452AA3936801A68C7E1209D95B5E1724AF8484F480BE44F6475B8677A22039F`.
+The cached MSVC/CMake/Ninja toolchain built the test and BTC targets and the full
+unit suite passed once. Against the frozen `ATTR-CERT-060` audit parent,
+replay-check stdout is byte-identical on all 30 preregistered low/default/high
+replays and all 300 states; every process exited zero with zero invalid action
+and zero validator disagreement. Local elapsed time is excluded. Offline
+evidence SHA256 is
+`F8AB1787E4400C72416D860A1F854FE87EF88E00C91EB2AE3BCFDA3CB0BCC4EA`.
+The next and only open gate is one fresh high-fuel BTC development fixture with
+this exact binary. The balanced target-host holdout remains closed until that
+development fixture has zero material certification crossing, no POST skip,
+zero hard-cap breach, zero emergency and complete transition reconciliation.
+
+Fresh high-fuel BTC development fixture `m-1862` used the exact registered
+hard/three-bot/10-day/32x32/100-step/5000-ms/eight-agent/12-spot/six-brand/high-
+fuel configuration. The frozen candidate produced 10/10 HTTP 200 valid actions,
+reconciled 9/9 transitions and replay-check rebuilt `6/60/410`; rank is ignored.
+Maximum solver total was 2339 ms, remaining authoritative window at POST was at
+least 1604 ms, and there were zero emergency, retry, server WAIT, no-POST or
+hard-cap events.
+
+The prior material future-certification tail did not recur. Days 1--9 ended
+their global certification boundary by only 2--7 ms, and maximum nested exact
+overrun was 1--9 ms, structurally bounded by the existing 1024-node poll block
+plus recursive restoration/unwind. Current-day exact separately overran its
+own slice by up to 166 ms, but the whole planner still retained the complete
+1600 ms network reserve; this remains observable rather than being mislabeled
+as fully closed. Replay SHA256 is
+`693DC792B9419937DA455BFCDEEFF89684BB8EED2C529F082DD8BC29AF6ADEC8`;
+development evidence SHA256 is
+`9D4E1D7F40C1863EE9F6575FF98B3A4B959DA8C302E9FE19FCBF8C0EF4978187`.
+The development gate passes and the unchanged binary may now open the frozen
+balanced low/default/high BTC holdout exactly once.
+
+The balanced holdout was opened once without replacement. Low-fuel `m-1863`
+passed 10/10 valid and 9/9 reconciled with zero emergency/crossing/no-POST,
+solver max 1915 ms and at least 1618 ms remaining at POST. Default-fuel
+`m-1864` produced seven valid decisions, then the HTTP client terminated during
+receive with WinHTTP 12002. Immediate same-match resume retrieved only the final
+result, so days 8--10 were lost. High-fuel `m-1865` produced ten decisions and
+nine accepted actions; authoritative day 2 arrived with only a 1380 ms exact
+window, already below the unchanged 1600 ms reserve, causing one emergency and
+one `insufficient-authoritative-day-window` server WAIT.
+
+Aggregate holistic result is 26/30 accepted actions, 24/24 reconciled observed
+transitions, one emergency and four missing POSTs. Replays for low/default/high
+are `BE7E3753B95C3A566EA03DAC2592CBF02A36D9059A7FDDC5655EFD1F11198C2E`,
+`B4F187FD1D1B98DAD4FF8A6016131528A64DE2B497639AF03AA0DBD8E7834880`
+and `F2F28156A9CA2F84A427E61F333017ADEE9766466454C924D5FA92917808C9FC`.
+The cancellation mechanism itself remained clean on all 27 decisions reaching
+the solver: global certification overrun max 6 ms and nested exact max 10 ms,
+with no tail moved to another future-witness phase.
+
+`PERF-CERT-061` is therefore rejected as a promotable composite and cannot be
+committed. Its cancellation repair is retained only as the frozen
+semantics-equivalent research parent because the causal target passed. The new
+independent gap is HTTP state reception: a receive timeout can terminate the
+whole match, and a state can arrive after the solver's 1600 ms reserve is already
+unavailable. Holdout evidence SHA256 is
+`53541BE0FD0ED26EAB77DBD0A94BBF67AB7CFBD6B27CC49AA7F12A6F58E82745`.
+No reserve, submission floor, map, fuel or bot threshold may be tuned from these
+fixtures.
+
+`ATTR-HTTP-062` is accepted read-only attribution. `WinHttpClient` gives every
+request a session-default 5000 ms receive timeout unless the caller supplies a
+shorter slice. The accepted action path supplies a bounded slice and catches
+retryable timeout/resend exceptions, but `wait_for_get` catches no transport
+exception and the main `/state` and `/result` callers use raw default-timeout
+GETs. Therefore one receive 12002 escapes `run_http` and terminates the process,
+exactly matching `m-1864`. All `/setup`, `/start`, `/state` and `/result`
+operations are idempotent GETs but are not wired to a common retry contract.
+
+`m-1865` wire day 1 was recorded with exactly 1379 ms before raw `endsAt`, which
+proves the late-state counterexample but not its exact transport cause because
+request-start telemetry is absent. It is only consistent with the same unbounded
+GET receive interval. Evidence is `research/evidence/ATTR-HTTP-062.md`.
+No source, solver, reserve, submission floor or timeout changed in this
+attribution. A separately frozen successor may add bounded retry across every
+idempotent GET caller; it may not lower the 1600 ms reserve or 800 ms guard, tune
+against `m-1864`/`m-1865`, or suppress idle post-ACK work.
+
+`PERF-HTTP-063` is preregistered before source change. Its frozen holdout is
+`research/holdouts/PERF-HTTP-063.csv`, SHA256
+`FB5C49FF5CCDC2AAD89C56099BFE4F17ED0731920AC59E131DAA783EAD1F6F40`;
+design evidence SHA256 is
+`C1748922EC660E514CF55280F03F765CE7C2B0D09113B953B446DF29974F3DCE`.
+The candidate may reuse only the pre-existing 750 ms transport slice and the
+existing timeout/resend classification. It must wire `/setup`, `/start`,
+`/state` and `/result`, preserve transient-status handling and idle post-ACK
+work, and leave every POST, solver, action, ledger, reserve and guard unchanged.
+The first gates are source proof, frozen replay equivalence and one controlled
+localhost receive-timeout recovery. Only then may one fresh default-fuel BTC
+development match be consumed; the low/default/high holdout remains unopened.
+
+`PERF-HTTP-063` passed the unit suite and the frozen 30-replay/300-state
+byte-equivalence gate. Its frozen BTC executable SHA256 is
+`21D9C7E6BC606C80E1B12A3886745006DE524380612E2235306C372B4EE07B6B`.
+The corrected controlled fixture completed exactly one action, one accepted ACK
+and one result, but a 3000 ms first-state response-header stall produced zero
+`state_transport_retry`. Therefore `WinHttpSetTimeouts` alone did not implement
+the declared header-wait bound, and the candidate is rejected before BTC or its
+holdout. Evidence SHA256 is
+`00FF3AFF0F7AB2E0B518A20F2B31A2A1EC3A420D559A2909DF4D0554869FAE12`.
+
+Official WinHTTP documentation identifies
+`WINHTTP_OPTION_RECEIVE_RESPONSE_TIMEOUT` as the request option that specifically
+bounds receipt of all response headers; its default is 90 seconds.
+`PERF-HTTP-064` is preregistered before adding that option. Its sole new mechanism
+sets the option to the same already-frozen positive `ioTimeoutMs` on requests
+that already have a bounded slice. Assignment POST remains unchanged at timeout
+zero; existing action ACK recovery still permits only identical-body resend, and
+GET recovery remains idempotent. Frozen holdout SHA256 is
+`517A3CAFE052C25E1340ECA0C46A2601130FF02789DF97174679B93201C08781`;
+design evidence SHA256 is
+`841D56D3B63A8CF7A5F1FF6E569949BA8C820EE0B4E06285F4CC3E24451416A8`.
+No 750/1600/800 ms value, poll interval, solver, action or ledger logic may
+change. The corrected controlled header-timeout fixture is the first gate; BTC
+development and the balanced holdout remain unopened.
+
+`PERF-HTTP-064` is rejected. Its frozen binary SHA256 is
+`ECB20530412264CF5C4DCCC1340A163D447272A9AB28610FF7ED87A1C5AF6E85`.
+The unit suite passed once and all 30 frozen replays/300 states were
+byte-identical to 063, but the corrected 3000 ms silent-header fixture again
+produced zero `state_transport_retry` while completing exactly one action, one
+accepted ACK and one result. No BTC match was opened. The GET retry and header
+option are removed from final source. The natural WinHTTP 12002 remains one
+sample after 30 prior fresh BTC matches on the same GET path produced none;
+transport may reopen only after repeated target-host evidence under a stable
+network, not another synthetic timeout variation.
+
+`FINAL-QUEUE-065` is preregistered as the only final candidate before its clean
+binary is built. Frozen manifest SHA256 is
+`05BCA7A18146284615B367AE84EA687BBA37557A25336950F34A20C409CD0AF3`.
+Its score authority remains the 223 independent frozen pairs from
+`SCORE-QUEUE-048`: aggregate `26/196/1`, every first difference tier 3, gain
+tail `+1..+4`, only loss `-1`, zero invalid/emergency. The final cumulative
+runtime changes must be byte-identical to frozen SCORE-QUEUE-048 on all 30
+PERF-P99 replays/300 states before opening exactly twelve fresh BTC recurrence
+matches: four low, four default and four high fuel, with no replacement. Local
+elapsed is excluded. No additional score research is permitted during closure.
+
+The clean final build and unit suite passed once. Frozen BTC executable SHA256
+is `8A8AD48AD5A9227AA43C9FF685D20CE7CA1EF657EBCDFC2A675C6FEA9A16816D`.
+Against frozen canonical `SCORE-QUEUE-048`, replay-check stdout was
+byte-identical on all 30 preregistered replays and all 300 states with zero
+failure. Design/offline evidence SHA256 values are
+`ED27742A75F4C67199803D7ED8EF9838EB6B2ABCFF114DFBDC2294936E37B180` and
+`6DA98FC48FEB2103778CF4E7DC7AE77F33DC493733470A222999C4B0A7317BA0`.
+This opens only the frozen twelve-match BTC recurrence row; source and binary
+must not change during it.
+
+The twelve-match target-host row is complete and accepted. All twelve explicit
+advanced setups matched the frozen manifest. Aggregate results are 120/120
+HTTP-valid accepted actions and 108/108 independently replay-reconciled
+transitions, with zero emergency, deadline skip, server WAIT, fallback,
+transport retry, WinHTTP 12002 and 5000 ms breach. Maximum decision `totalMs`
+was 2753 ms. Maximum exact-orienteering deadline overrun was one bounded 6 ms
+tail in high fuel with no submission effect; all other matches recorded zero.
+BTC evidence CSV/MD SHA256 values are
+`92990A8D7113CA9CA72597A6750504196E4F6DDFB10F2D00ADD7B294143060FF` and
+`8F8511E305405703D44B439F461D04676055A10E05BCC138C0AB0DE1BEDD6B21`.
+Rank is ignored. The same frozen binary entered the real-opponent queue once;
+no second queue entry or new logic axis is authorized during closure.
+
+The fresh real-opponent queue entry expired with no other team and created no
+match, so no live human result was lost or silently omitted. Archived human
+terminal controls remain `0/2/0`. This unavailable non-paired sample cannot
+promote the candidate, but it also cannot override the causal promotion
+authority: 223 frozen paired rows at `26/196/1`, broad tier-3 gain `+1..+4`,
+only one `-1` loss, zero invalid/emergency, 300-state cumulative semantic
+equivalence and the clean twelve-match target-host gate. `FINAL-QUEUE-065` is
+therefore accepted and commit-authorized. This is a practical promotion, not a
+claim that diverse fresh human opponents or the entire architecture have
+reached a mathematical ceiling.
 
 The read-only semantics attribution `SEM-REFUEL-001` is accepted. On
 `m-1258`, transitions to days 9 and 10 reported a patrol at the simulator-predicted
@@ -503,21 +1591,25 @@ boundary is the next read-only attribution target.
 
 ## Next actions
 
-1. Freeze the composed `PERF-DEADLINE-001 + SCORE-ROLE-021 +
-   PERF-DEADLINE-002` candidate. Do not tune it on any opened seed or BTC match.
-2. Complete a file-by-file diff audit, remove only nonessential research scaffolding,
-   rerun the exact/equivalence tests and verify no token or research switch can enter
-   the staged scope.
-3. If the scoped candidate remains canonical and all gates stay clean, commit it as
-   the new champion with explicit files only; never stage `.gitignore`, temporary
-   artifacts, generated probe strategies or the broad untracked `old/` tree.
-4. After freezing the champion, open exactly one new gap from authoritative BTC
-   telemetry. The first candidate is the conservative replay/server fuel-state
-   divergence observed on later `m-1258` days; trace API and simulator semantics
-   read-only before proposing any logic change.
-5. Continue development locally but require a new frozen holdout and fresh BTC
-   target-host gate for every subsequent promotion. The internal cap remains
-   5000 ms even when the outer server window is 60000 ms.
+1. Keep SCORE-QUEUE-048 frozen at canonical executable SHA256
+   `CE37B6D06F5AD92CDB3921DCCA6CAE21A4D6E688431232A78A7E25DDEF2EE6CF`;
+   do not rebuild, retune or reopen its local holdout.
+2. Treat fresh advanced BTC `m-1796` as a passed target-host validity/lifecycle/
+   hard-cap gate only. Do not use its rank 1 as quality evidence and do not rewrite
+   `p99Calibrated=false` from one ten-day sample.
+3. Join the official real-opponent queue with only the same frozen binary and
+   internal 5000 ms cap. Record the authoritative match configuration first because
+   the outer response window may vary by round.
+4. Use real-opponent matches to seek counterexamples across opponent behavior and
+   report official score, first differing tier and downside. A non-paired match
+   cannot prove parent superiority; paired candidate-vs-parent evidence remains the
+   promotion authority whenever an identical fixture can be obtained.
+5. While the real-opponent queue is deferred, complete preregistered
+   `ROBUST-QUEUE-052` without changing production source: prove its same-binary
+   oracle on development, then open its structural holdout exactly once.
+6. Close SCORE-QUEUE-048 accepted or rejected before opening another score axis.
+   Commit only after broad global benefit, bounded downside, zero invalid/emergency,
+   no hard-cap violation and all BTC/real-opponent gates pass.
 
 The frozen `SCORE-ROLE-016` archive holdout was opened only after its 22-row
 manifest was written and hashed as

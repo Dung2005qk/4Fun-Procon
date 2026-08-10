@@ -1,0 +1,9 @@
+lane,source,cases,budget_ms,role_mode,fuel,horizon,gate
+unit,isolated-parallel-role-rollouts,10,5000,direct,mixed,4-10,"independent engine per assignment; common global deadline; deterministic merge; no shared mutable cache; exceptions fail closed"
+general-short,fresh-generated-seeds-918000-918005,6,5000,deadline,mixed,4-5,"parallel branch disabled; exact role/action/score; zero invalid/emergency"
+btc-low,fresh-generated-seeds-919000-919007,8,5000,deadline,low,10,"parallel branch disabled; exact role/action/score; zero invalid/emergency"
+btc-default,fresh-generated-seeds-920000-920007,8,5000,deadline,default,10,"parallel branch disabled; exact role/action/score; zero invalid/emergency"
+btc-high,fresh-generated-seeds-921000-921011,12,5000,deadline,high,10,"paired W/T/L, first differing tier, selected-mask attribution, role wall and tail downside"
+archive-development,"m-1286 masks 4/1",2,5000,counterfactual,high,10,"stable exact 6/60/412 versus 6/60/422; candidate must change causal rank without a proxy"
+archive-protected,"m-0929;m-1138;m-1235;m-1258;m-1285",5,5000,counterfactual,mixed,10,"protect central-role counterexamples, prior BTC champions and disabled low-fuel path"
+btc-fresh,explicit-advanced-unopened,2,5000,live,"high;low",10,"target-host final: hard, 3 bots, 32x32, 100 steps, 8 agents, 12 spots, 6 brands; rank, validity, role elapsed p95, exact replay"

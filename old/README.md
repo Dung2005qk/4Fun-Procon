@@ -27,9 +27,13 @@ The durable evidence surface is:
 - `results/HISTORICAL_TOURNAMENT.md`: final comparison and verdict.
 
 The executable protected matrix is defined in `research/MATRIX.csv` and launched
-by `research/run_checkpoint_matrix.ps1`. The primary production-selection lane
-uses the observed standard competition budget of `60000 ms`; the BTC preflight
-lane uses `5000 ms`. Shorter budgets remain degradation diagnostics only.
+by `research/run_checkpoint_matrix.ps1`. Every forward research lane uses the
+`5000 ms` internal solver/role hard cap. A match may advertise an outer window
+such as `60000 ms`, but that window is lifecycle/network evidence only and never
+authorizes more than 5000 ms of compute. Shorter budgets remain degradation
+diagnostics only. The shared forward harness explicitly uses production harvest
+mode `7`; historical reports generated before `EVAL-PARITY-047` remain mode-6
+artifacts and are not silently relabeled.
 
 Regenerate the report after raw files are present:
 

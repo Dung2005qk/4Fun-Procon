@@ -1,0 +1,7 @@
+lane,source,first_seed,screen_seeds,full_seeds,suite,role_mode,role_mask,budget_ms,horizon,fuel,gate
+general-fixed-terminal-fork,fresh-generated,970002,6,24,general,fixed,8,5000,4-5,mixed,"six families; one shallow mode7 prefix; same-state A/B/A/B terminal policy; official W/T/L and tails"
+general-deadline-terminal-fork,fresh-generated,971004,6,12,general,deadline,0,5000,4-5,mixed,"production timed role composition is selected once and shared by both terminal policies; local role time has no authority"
+btc-low-one-tanker-terminal-fork,fresh-generated,972000,6,12,btc-lowfuel,fixed,128,5000,10,low,"six families; one-tanker terminal states; require exact support telemetry and dual validation"
+btc-low-two-tanker-terminal-fork,fresh-generated,973002,3,6,btc-lowfuel,fixed,192,5000,10,low,"independent multi-tanker composition; screen covers balanced rare-brand threshold-corridor"
+btc-default-terminal-fork,fresh-generated,974004,3,12,btc-large,fixed,128,5000,10,default,"balanced rare-brand threshold-corridor screen; candidate acts only when public current fuel is constrained"
+btc-high-terminal-fork,fresh-generated,975000,3,12,btc-highfuel,fixed,128,5000,10,high,"separate high-fuel control; any constrained terminal patrol remains governed by the same public fuel/daySteps guard"

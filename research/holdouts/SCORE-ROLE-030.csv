@@ -1,0 +1,9 @@
+lane,source,cases,budget_ms,role_mode,fuel,horizon,gate
+unit,synthetic-same-count-finalists,8,5000,direct,mixed,4-10,"only long high-fuel incomplete comparisons refine; exact official comparator; equal finalist slices; returned width unchanged"
+general-short,fresh-generated-seeds-914000-914005,6,5000,deadline,mixed,4-5,"candidate branch disabled; exact role/action/score; zero invalid/emergency"
+btc-low,fresh-generated-seeds-915000-915005,6,5000,deadline,low,10,"candidate branch disabled; exact role/action/score; zero invalid/emergency"
+btc-default,fresh-generated-seeds-916000-916005,6,5000,deadline,default,10,"candidate branch disabled; exact role/action/score; zero invalid/emergency"
+btc-high,fresh-generated-seeds-917000-917007,8,5000,deadline,high,10,"paired parent/candidate W/T/L, first differing tier, gain/loss tails, selected-mask attribution"
+archive-development,"m-1286 masks 4/1",2,5000,counterfactual,high,10,"stable exact 6/60/412 versus 6/60/422; mechanism development only"
+archive-protected,"m-0929;m-1138;m-1235;m-1258;m-1285",5,5000,counterfactual,mixed,10,"no central-role override; no tier1/tier2 regression; m-1285 low branch disabled"
+btc-fresh,explicit-advanced-unopened,2,5000,live,"high;low",10,"target-host final: hard, 3 bots, 32x32, 100 steps, 8 agents, 12 spots, 6 brands; rank, validity, role time, exact replay"

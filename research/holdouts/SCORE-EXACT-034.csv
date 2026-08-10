@@ -1,0 +1,12 @@
+lane,source,cases,budget_ms,role_mode,fuel,horizon,gate
+unit,anytime-supplemental-after-lifetime-complete,12,5000,fixed,mixed,4-10,"when lifetime brands are complete, supplemental exact routes remain exact-valid and add distinct spot masks under the existing cap; incomplete-lifetime ordering remains unchanged"
+development-positive,"m-1285 day10 archived replay",1,5000,fixed,low,10,"exact bundle or final selected score must improve beyond 6/60/320 without invalid/emergency; attribute whether 35-serving master witness enters exact route set"
+development-negative,"m-1286 day10 archived replay",1,5000,fixed,high,10,"high-fuel exact path is byte-equivalent and remains closed at 6/60/412"
+general-fixed,fresh-generated-seeds-942000-942017,18,5000,fixed,mixed,4-5,"paired W/T/L, first differing tier, gain/loss tails; zero invalid/emergency; six families"
+general-native,fresh-generated-seeds-943000-943017,18,5000,exhaustive,mixed,4-5,"paired official score and role mask; no systematic family/fuel downside"
+general-deadline,fresh-generated-seeds-944000-944017,18,5000,deadline,mixed,4-5,"paired official score; role changes must be attributed, not hidden by fixed-role results"
+btc-like-low,fresh-generated-seeds-945000-945007,8,5000,fixed,low,10,"32x32, 100 steps, 8 agents, 12 spots, 6 brands; paired score and downside tail"
+btc-like-default,fresh-generated-seeds-946000-946007,8,5000,fixed,default,10,"32x32, 100 steps, 8 agents, 12 spots, 6 brands; paired score and downside tail"
+btc-like-high,fresh-generated-seeds-947000-947007,8,5000,fixed,high,10,"must remain byte-equivalent because high-fuel enumerator is outside the mechanism"
+archive-protected,"m-0929;m-1138;m-1252;m-1255;m-1257;m-1264;m-1266;m-1283;m-1285;m-1286",10,5000,counterfactual,mixed,10,"no tier1/tier2 regression; quantify tier3 gain/loss; preserve role/refuel/transport champions"
+btc-fresh,explicit-advanced-unopened,2,5000,live,"low;high",10,"target-host final: p95/p99/max, exact enumeration/finalization, hard cap, validity, transitions and paired official score; rank is failure gate only"

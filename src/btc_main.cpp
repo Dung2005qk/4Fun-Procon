@@ -1529,12 +1529,25 @@ void run_http(const RuntimeOptions& options) {
                 stateDocument,
                 receivedAt,
                 adapterOptions);
-            const udon::SessionDecision decision = session.on_authoritative_state(
+            const std::int64_t receivedAtUnixMs =
+                std::chrono::duration_cast<std::chrono::milliseconds>(
+                    receivedAt.time_since_epoch()).count();
+            const std::int64_t configuredDeadlineMs =
+                receivedAtUnixMs + options.responseBudgetMs;
+            const std::int64_t serverDeadlineMs = stateDocument.contains("endsAt")
+                ? stateDocument.at("endsAt").integer() * 1000
+                : configuredDeadlineMs;
+            const std::int64_t actionDeadlineMs = std::min(
+                configuredDeadlineMs,
+                serverDeadlineMs);
+            const udon::SessionDecision decision = session.on_authoritative_state_for(
                 state,
                 ledger,
-                receivedAt);
+                std::chrono::milliseconds{
+                    std::max<std::int64_t>(
+                        0,
+                        actionDeadlineMs - receivedAtUnixMs)});
             replay.record("decision", decision.replay);
-            const std::int64_t actionDeadlineMs = state.endsAt * 1000;
             const std::int64_t minimumSubmissionWindowMs = std::min<std::int64_t>(
                 btcSubmissionFloorMs,
                 std::max<std::int64_t>(
@@ -1692,8 +1705,10 @@ void run_http(const RuntimeOptions& options) {
             std::cout << result.dump() << '\n';
             return;
         }
-        if (!transient_http_status(stateResponse.status) && stateResponse.status != 404 && stateResponse.status != 409) {
-            throw std::runtime_error("BTC state returned HTTP " + std::to_string(stateResponse.status));
+        if (!transient_http_status(stateResponse.status) &&
+            stateResponse.status != 404 && stateResponse.status != 409) {
+            throw std::runtime_error(
+                "BTC state returned HTTP " + std::to_string(stateResponse.status));
         }
         const auto idleStarted = std::chrono::steady_clock::now();
         if (idlePostAckWorkPending) {
