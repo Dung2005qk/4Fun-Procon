@@ -1889,6 +1889,27 @@ void test_public_traffic_scenarios(const udon::MatchConfig& config, const udon::
                         left.opponentCarryFootprint == right.opponentCarryFootprint;
                 }),
         "private sensitivity must not mutate the frozen public scenario manifest");
+
+    udon::MatchConfig roadlessConfig = config;
+    for (const udon::CellId road : roadlessConfig.roadCells) {
+        roadlessConfig.map.terrain.at(static_cast<std::size_t>(road)) = udon::Terrain::Plain;
+    }
+    roadlessConfig.roadCells.clear();
+    udon::TrafficBelief roadlessBelief(roadlessConfig);
+    roadlessBelief.observe(state);
+    const udon::ScenarioManifest roadless = udon::ScenarioGenerator(roadlessConfig).freeze_manifest(
+        state,
+        roadlessBelief);
+    require(
+        roadless.scenarios.size() == 1U && roadless.totalWeight == 10000U &&
+            !roadless.usedStaticFallback && !roadless.survivalSignatureEnabled,
+        "a roadless map must freeze one complete deterministic manifest without a false fallback");
+    require(
+        roadless.scenarios.front().scenarioClass == "deterministic-no-road" &&
+            roadless.scenarios.front().weight == 10000U &&
+            !roadless.scenarios.front().pessimisticFallback &&
+            roadless.scenarios.front().jointFeasible,
+        "the roadless scenario must be exact public state, not missing-adversary uncertainty");
 }
 
 void test_same_day_resend_preserves_prior_traffic_memory(
@@ -1974,6 +1995,62 @@ void test_fast_viability_bounds(const udon::MatchConfig& config, const udon::Day
         expired.deadlineReached && expired.reservations.empty() &&
             expired.upperBound.lifetimeDistinct == config.brand_count(),
         "a timed-out fast viability pass must return conservative bounds without reservations");
+}
+
+void test_fast_viability_no_tanker_claim_upper() {
+    const udon::MatchConfig config = udon::parse_match_config(udon::JsonValue::parse(R"({
+        "startsAt":1,
+        "daySeconds":[5,5,5,5],
+        "daySteps":[16,16,16,16],
+        "map":{"height":8,"width":8,"cells":[
+            [0,0,3,3,3,3,3,3],
+            [3,3,3,3,3,3,3,3],
+            [0,0,0,0,0,0,0,3],
+            [3,3,3,3,3,3,3,3],
+            [3,3,3,3,3,3,3,3],
+            [3,3,3,3,3,3,3,3],
+            [3,3,3,3,3,3,3,3],
+            [3,3,3,3,3,3,3,3]
+        ]},
+        "spots":[
+            {"brand":10,"pos":16,"stocks":8},
+            {"brand":11,"pos":17,"stocks":8},
+            {"brand":12,"pos":18,"stocks":8},
+            {"brand":13,"pos":19,"stocks":8},
+            {"brand":14,"pos":20,"stocks":8},
+            {"brand":15,"pos":21,"stocks":8}
+        ],
+        "agents":[22,0,1],
+        "fuelLimits":1,
+        "players":1,
+        "busyThreshold":2,
+        "jammedThreshold":4
+    })"));
+    const udon::DayState noTanker = udon::parse_day_state(config, udon::JsonValue::parse(R"({
+        "endsAt":6,
+        "day":1,
+        "agents":[
+            {"kind":0,"pos":16,"fuel":0},
+            {"kind":0,"pos":0,"fuel":0},
+            {"kind":0,"pos":1,"fuel":0}
+        ],
+        "others":[],
+        "traffics":[]
+    })"));
+    const udon::FastViabilityAnalyzer analyzer(config);
+    const udon::ViabilityBounds capped = analyzer.analyze(noTanker, udon::MatchLedger{});
+    require(
+        capped.upperBound.totalDailyDistinct == config.day_count() &&
+            capped.upperBound.totalServings == config.day_count(),
+        "without a tanker, one fuel-zero patrol at a spot can claim at most once per remaining day");
+
+    udon::DayState withTanker = noTanker;
+    withTanker.agents.at(1).kind = udon::AgentKind::Tanker;
+    const udon::ViabilityBounds relaxed = analyzer.analyze(withTanker, udon::MatchLedger{});
+    require(
+        relaxed.upperBound.totalDailyDistinct == config.brand_count() * config.day_count() &&
+            relaxed.upperBound.totalServings > capped.upperBound.totalServings,
+        "the no-tanker claim cap must not tighten the established tanker relaxation");
 }
 
 void test_fast_viability_emits_proven_unique_reservation() {
@@ -4066,6 +4143,7 @@ int main() {
         test_public_traffic_scenarios(config, state);
         test_same_day_resend_preserves_prior_traffic_memory(config, state);
         test_fast_viability_bounds(config, state);
+        test_fast_viability_no_tanker_claim_upper();
         test_fast_viability_emits_proven_unique_reservation();
         test_latest_safe_day_uses_suffix_budget();
         test_provisional_key_is_history_independent();

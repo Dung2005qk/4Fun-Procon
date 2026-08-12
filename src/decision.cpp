@@ -1414,6 +1414,17 @@ ScenarioManifest ScenarioGenerator::freeze_manifest(
     likely.construction = "public-endpoint-shortest-path-bundle";
     likely.opponentCurrentFootprint = likely_public_footprint(config_, state, belief);
     likely.opponentCarryFootprint = midpoint_carry(belief);
+    if (config_.roadCells.empty()) {
+        manifest.version = "public-exposure-v3-deterministic-no-road";
+        manifest.usedStaticFallback = false;
+        manifest.survivalSignatureEnabled = false;
+        likely.scenarioClass = "deterministic-no-road";
+        likely.weight = 10000;
+        likely.construction = "traffic-invariant-no-road";
+        manifest.scenarios.push_back(std::move(likely));
+        manifest.totalWeight = 10000;
+        return manifest;
+    }
 
     struct Exposure {
         CellId road = kInvalidCell;
@@ -1780,6 +1791,7 @@ ViabilityBounds FastViabilityAnalyzer::analyze(
         state.agents.begin(),
         state.agents.end(),
         [](const AgentState& agent) { return agent.kind == AgentKind::Tanker; });
+    std::int64_t noTankerClaimCapacity = 0;
     std::int32_t maximumPatrolFuelCost = 0;
     for (CellId cell = 0; cell < config_.map.cell_count(); ++cell) {
         if (deadline_reached()) {
@@ -1820,6 +1832,19 @@ ViabilityBounds FastViabilityAnalyzer::analyze(
             agent,
             RoadStatus::Smooth,
             optimisticFuelBudget);
+        if (!hasTanker) {
+            const bool canReachSpot = std::any_of(
+                config_.spots.begin(),
+                config_.spots.end(),
+                [&optimisticCells, unreachable](const Spot& spot) {
+                    return optimisticCells.at(
+                        static_cast<std::size_t>(spot.position)) != unreachable;
+                });
+            if (canReachSpot) {
+                noTankerClaimCapacity +=
+                    static_cast<std::int64_t>(remainingDays) + agent.fuel;
+            }
+        }
         const std::vector<std::int32_t> pessimisticCells = fuel_aware_travel_times(
             config_,
             agent,
@@ -1935,15 +1960,30 @@ ViabilityBounds FastViabilityAnalyzer::analyze(
         }
     }
     result.matchingRelaxationFeasible = optimisticAdditional >= missingBrands;
+    std::int32_t dailyDistinctGainUpper =
+        config_.brand_count() * remainingDays;
+    std::int32_t servingsGainUpper = perDayServings * remainingDays;
+    if (!hasTanker) {
+        const std::int32_t resourceClaimUpper =
+            static_cast<std::int32_t>(std::min<std::int64_t>(
+                noTankerClaimCapacity,
+                std::numeric_limits<std::int32_t>::max()));
+        dailyDistinctGainUpper = std::min(
+            dailyDistinctGainUpper,
+            resourceClaimUpper);
+        servingsGainUpper = std::min(
+            servingsGainUpper,
+            resourceClaimUpper);
+    }
     result.upperBound = OfficialScore{
         result.coverageCap,
-        ledger.totalDailyDistinct + config_.brand_count() * remainingDays,
-        ledger.totalServings + perDayServings * remainingDays,
+        ledger.totalDailyDistinct + dailyDistinctGainUpper,
+        ledger.totalServings + servingsGainUpper,
     };
     result.pessimisticUpperBound = OfficialScore{
         result.coverageSafe,
-        ledger.totalDailyDistinct + config_.brand_count() * remainingDays,
-        ledger.totalServings + perDayServings * remainingDays,
+        ledger.totalDailyDistinct + dailyDistinctGainUpper,
+        ledger.totalServings + servingsGainUpper,
     };
     for (std::int32_t coverage = collected; coverage <= result.coverageCap; ++coverage) {
         const OfficialScore& conditionalUpper = coverage <= result.coverageSafe

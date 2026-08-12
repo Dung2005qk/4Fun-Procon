@@ -60,6 +60,14 @@ if(UDONSHIELD_BUILD_BENCHMARKS)
         udonshield_orienteering_oracle
         strategies/orienteering_oracle.cpp)
     target_link_libraries(udonshield_orienteering_oracle PRIVATE udon_shield)
+    add_executable(
+        udonshield_ceiling_oracle
+        research/probes/ceiling_oracle.cpp)
+    target_link_libraries(udonshield_ceiling_oracle PRIVATE udon_shield)
+    add_executable(
+        udonshield_full_match_oracle
+        research/probes/full_match_oracle.cpp)
+    target_link_libraries(udonshield_full_match_oracle PRIVATE udon_shield)
 endif()
 
 include(CTest)

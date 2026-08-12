@@ -1,8 +1,311 @@
 # UDON-SHIELD Research State
 
-Updated: 2026-08-10
+Updated: 2026-08-12
 
 ## Current phase
+
+The committed global champion is `7ef3694` (`FINAL-QUEUE-065`). The working tree
+retains only the combined `SCORE-HORIZON-072` and `SCORE-SCENARIO-073` production
+source diff. `PROMOTE-HORIZON-SCENARIO-083` and its protected successor
+`PROTECT-HORIZON-SCENARIO-084` have now cleared every registered promotion gate;
+the candidate is eligible to become the next canonical champion after final
+diff/provenance review and commit. Later witness successors failed cleanly and
+are absent from production source.
+`CEILING-ORACLE-070` is now closed accepted as a read-only capability audit:
+all 36 development fixtures and all 108 one-time holdout fixtures tied a
+complete terminal oracle. Oracle wins, HEAD wins, incomplete frontiers and
+invalid plans were all zero in every one of the 18 family x fuel strata. The
+development result hash is `151496ca6d63ee47`; the holdout result hash is
+`6b4fecc3cc1eec37`.
+
+`CEILING-MATCH-071` is now the sole active research axis. It uses 18 fresh
+development matches and a sealed 54-match holdout from
+`research/holdouts/CEILING-MATCH-071.csv`, SHA256
+`6329ADA27BCEF1EF6210D984C866309120AD2E9057D09D50F3A02BA300304C24`.
+Each road-free 8x8 match lasts 4 or 5 days and has three fixed patrols: one in
+the connected spot component and two in isolated no-score components. This
+makes a proof-complete full-match DP over the active patrol's position, fuel,
+lifetime mask and accumulated official score tractable without altering or
+simplifying production logic. Low/default/high fuel and six independently
+generated structural families are frozen. HEAD remains capped at 5000 ms per
+day; local elapsed is ignored. Any development oracle win opens attribution and
+keeps the holdout sealed. A complete tie can close only this road-free,
+one-active-patrol multi-day value axis.
+
+Development has now exposed a repeatable exact gap, so the 54-match holdout
+remains sealed. HEAD versus full-match oracle is `7/11/0` losses/ties/wins from
+HEAD's perspective (`oracle W/T/L 7/11/0`); all seven gaps are tier 2, with
+daily-distinct improvements of `+2..+6`, zero lifetime loss and zero invalid.
+The gaps span low fuel (2/6) and default fuel (5/6); all six high-fuel matches
+tie. On mountain-detour default seed `1310500`, HEAD and oracle tie after day 1
+at `5/5/5`, then diverge on day 2: HEAD takes `5` current distinct and falls to
+fuel `4`, while the oracle takes `4` and preserves fuel `8`; final scores are
+`5/14/14` versus exact `5/20/20`. This reproduced identically three times. A
+verification run checked all `42036` retained daily outcomes from `939`
+physical-day enumerations against both independent engines. The current task is
+code-level attribution of this finite-fuel horizon-value error; production
+source must remain unchanged until that path is proven.
+
+Attribution is now exact: on target day 2, the oracle action is already in the
+16-candidate F0 set at current score `5/9/9`, active terminal `29@fuel8`, and
+coarse valid upper `5/24/24`; it is marked `not-shortlisted`. The selected action
+is `5/10/10`, `26@fuel4`, upper `5/25/25`. `candidate_valid_upper_bound` applies
+the same remaining-day brand allowance after each candidate, so the one-point
+current gain dominates before candidate-specific resource value can be
+certified. Route generation and master capability are therefore exonerated.
+
+`SCORE-HORIZON-072` is the active implementation candidate. It tightens only
+the existing `FastViabilityAnalyzer` upper bound when no tanker exists. In `D`
+remaining days, a patrol can receive at most `D` no-movement day-start claims;
+every additional claim follows a completed movement, and every official
+movement consumes at least one fuel. A patrol whose current fuel-feasible
+component contains a spot therefore contributes at most `D + currentFuel`
+future claims; a no-spot component contributes zero. Summing this capacity and
+capping the existing `D * brandCount` / per-day-stock allowances is admissible
+for both daily distinct and servings. Any tanker retains the old coarse bound
+because refuel invalidates a current-fuel cap. The bound does not select a plan:
+unchanged upside shortlist, witness certification and final risk comparator
+remain authoritative. On seed `1310500` this worked exactly as designed: greedy
+upper tightened from `5/25/25` to `5/17/17`, oracle-action upper became
+`5/20/20`, and the oracle action entered W1 and certified. It was nevertheless
+not selected because a separate false pessimistic scenario pinned its certified
+lower bound to current score. `SCORE-HORIZON-072` is therefore inconclusive as a
+standalone score candidate and is retained only as a proven prerequisite.
+
+`SCORE-SCENARIO-073` is now active. Audit shows every road-free day receives
+`likely:5000` plus `fallback-pessimistic-bound:5000`. With zero road cells,
+traffic footprints and carry cannot change any movement cost or state
+transition, so the fallback is not a distinct possible world. The successor
+collapses only this semantically deterministic domain to one 10000-weight
+scenario and leaves every road-containing manifest unchanged. Combined with
+the resource-admissible upper, unchanged W1 repair/comparator must produce the
+gain; otherwise both source diffs are rejected. The sealed holdout remains
+unopened.
+
+The combined 072+073 development result is oracle W/T/L `3/15/0`, improved
+from `7/11/0`, with no invalid or new loss; result hash
+`6c9c4ac2e6aee047`. It closes four gaps, including seed `1310500`, but is
+not declared complete: the three remaining gaps expose the next
+canonical mismatch: `FutureWitnessRepairer::repair_profile` asks the future
+master for exactly one candidate and commits `candidates.front()` independently
+each day. On fuel-allocation/default and terminal-position/default, the exact
+first-day resource state is already certified, but the greedy continuation
+proves only `5/12` vs exact `5/16` and `4/12` vs exact `4/15`.
+
+`PROMOTE-HORIZON-SCENARIO-083` now evaluates the combined candidate by the
+correct practical rule rather than requiring all exact gaps to disappear. A
+clean parent `7ef3694` is built in an isolated external worktree and compared
+with the unchanged candidate using the same score-only oracle probe. Paired
+development passed at candidate-vs-parent W/T/L `5/13/0`; every gain is tier 2,
+ranges from `+1` to `+6`, spans low/default fuel and three families, and both
+binaries were valid 18/18. The parent oracle result was `7/11/0`, while candidate
+was `3/15/0`. The 54-case frozen holdout may now open exactly once. Frozen
+binary SHA256 values are parent
+`F495E4ED86BF3A233CBBB5A259B1A8113759981D639E518C17FD02623599B9DF` and candidate
+`71B4895170D6213E2CC987E64B71E018D64F3A039E21AF6AF77B2CBAA14AEC95`;
+the shared probe is
+`784ED885908E7B4D522C5DCEF4D14A1C958713B656D77D355796B527ACCC0AA1`.
+The 54-case holdout was opened exactly once and closed as a score-gate win.
+Candidate-vs-parent W/T/L is `22/30/2`; 21 gains are tier 2 and one is tier 3,
+first-tier gain sum is `51`, and maximum gain is `+6`. The two losses are both
+only `-1`: terminal-position/default seed `1310403` at tier 3 and
+terminal-position/high seed `1320401` at tier 2. Parent remained below exact
+oracle on 30/54 fixtures, candidate on only 16/54; both had zero invalid.
+Candidate oracle hash is `468afde7057cf112`, parent hash `d6db972a0f27cdd4`.
+This is a broad practical win with bounded downside, not absolute dominance.
+The holdout is consumed and may not be reopened. Commit is still forbidden until
+the unchanged candidate clears road-containing fixed/native protected lanes and
+BTC target-host at the 5000-ms internal cap; terminal-position downside is an
+explicit protected tail.
+
+`PROTECT-HORIZON-SCENARIO-084` is active with the unchanged 083 source. Its
+frozen matrix uses 36 new road-containing 8x8 horizon-4/5 fixtures across all six
+historical traffic families, under both fixed all-patrol and native exhaustive
+roles. If that screen has no material/systematic regression, six BTC-scale lanes
+run 12 new 32x32 horizon-10 fixtures each: low/default/high fuel crossed with
+fixed/native roles. Every day budget is 5000 ms. Fixed mask 0 directly exercises
+072's no-tanker path; native protects role selection. Exact simulator and
+independent validator remain mandatory. Local latency is ignored and BTC retains
+final performance authority.
+The frozen 084 manifest SHA256 is
+`A00548DF115C09CDED7530A7268153091354EFBDB38C57B89D9B130FE97BA1BE`.
+External harness SHA256 values are parent
+`7EF7143531B5280826709D7EE8018C5526B73E06277994A67F25FCD6A8415AF0` and
+candidate `D0DC94ECC238808DEBBB7A4EEB3436A45069A7B56DBCD645F176E20360A7A7E6`.
+Phase A closed as an acceptable bounded tradeoff: general fixed W/T/L
+`4/30/2`, gain/loss sums `9/4`, maximum tails `+3/-3`; native exhaustive
+`3/31/2`, sums `13/2`, tails `+11/-1`, with 8/36 role-mask changes. Combined
+is `7/61/4`, zero invalid/emergency. No family loses systematically, although
+rare-brand seed `830017` loses in both role lanes and remains an explicit tail.
+Phase B now opens one BTC-scale lane at a time, starting with low-fuel fixed.
+
+Phase B low-fuel fixed closed as a clean causal win: candidate-vs-parent W/T/L
+`4/8/0`, first-tier gain sum `18`, maximum `+8`, zero invalid/emergency, with
+gains in four of six traffic families. Low-fuel native then returned `3/1/8`
+with large tier-3 spread, but this is not causal logic evidence: all 12 role masks
+matched exactly and every mask contained a tanker. Therefore 072 preserved the
+old upper bound and 073 preserved the road-containing scenario manifest on every
+case. Cross-binary score differences under local wall-clock cutoff are
+compile-layout/performance noise, precisely the class local is forbidden to
+judge. Invalid/emergency remained zero. The native lane is closed
+performance-inconclusive; remaining default/high native local rows stay unopened.
+The unchanged candidate passed its direct unit/semantic gate. A roadless-map
+theorem test freezes exactly one `deterministic-no-road` scenario at total
+weight 10000 without a false fallback. A no-tanker theorem test isolates one
+fuel-zero patrol at a spot for four remaining days and obtains an exact claim
+upper of four; changing an isolated agent to tanker restores the old coarse
+relaxation. The complete unit suite passed. The candidate now advances only to
+BTC target-host validity, lifecycle and hard-cap telemetry at 5000 ms, where
+performance authority resides.
+
+The authoritative toolchain built `udonshield_tests` and `udonshield_btc` once;
+the full unit suite passed. The frozen BTC candidate SHA256 is
+`784E0E8F5156E063AD572F9946BBDA7EB158C00D62D267EEB35812A434993032`.
+It was unchanged by the test-only rebuild and remained the exact target-host
+artifact. Fresh explicit-advanced BTC match `m-1986` used hard/three bots/ten
+days/32x32/100 steps/5000 ms/eight agents/twelve spots/six brands/low fuel. The
+candidate selected mask 8, returned 10/10 HTTP 200 valid actions, had zero
+emergency, skip, server WAIT, invalid, hard-cap breach or reconciliation
+mismatch, and scored `6/60/219`. Target-host decision `totalMs` maxed at 3376 ms
+and end-to-end response at 3458 ms; setup-to-assignment was 4623 ms. Independent
+replay-check accepted all ten actions and all nine transitions. Replay SHA256 is
+`7B0B83411B21550F20C4691B0EC9077FCB6E553212722BA70A3E1F1EEF706F53`.
+Rank 1 is not promotion evidence. The causal paired score, semantic and
+target-host gates together authorize the canonical commit.
+
+`SCORE-WITNESS-074` is rejected and fully absent from source. Its two-branch W1
+repair split the existing per-day combination cap across live branches. That
+changed the route portfolio available to the exact-score branch, so the claimed
+dominance over the old greedy lower witness was false. On the same 18-case
+development split, oracle W/T/L worsened from the combined 072+073 result
+`3/15/0` to `6/12/0`; none of the three residual gaps closed,
+terminal-position/default widened from tier-2 `+3` to `+4`, and three previously
+closed gaps reopened. There were zero invalid plans, but this is still a direct
+logic regression. Result hash: `4c781fad088b38f5`. The 54-case holdout was not
+opened. A future witness candidate may reopen only if the complete old greedy
+witness is computed with its original portfolio/cap and retained as an exact
+fallback before any separately bounded recourse work; merely retuning beam width
+or the three development seeds is forbidden.
+
+`SCORE-WITNESS-075` is rejected and fully absent from source. It correctly ran
+the complete old scenario pass before an optional resource-upper-guided rollout,
+so exact dominance held: no old gap reopened and no invalid appeared. However,
+it changed no selected action or final score on any of the 18 development
+matches. Oracle W/T/L and result hash remained exactly `3/15/0` and
+`6c9c4ac2e6aee047`. The additional 278 source lines and W1 work therefore had
+zero demonstrated value. It may not be retuned by candidate cap or tie-break on
+these opened fixtures. The next permitted action is read-only attribution of
+whether exact continuation actions are absent from the future route portfolio,
+absent from retained master candidates, or merely misvalued after retention.
+
+`ATTR-WITNESS-076` is closed accepted as read-only attribution. All exact oracle
+continuation plans were dual-valid. At all eight first/middle days where the
+oracle continuation was not retained, the active patrol route itself was absent
+from the W1 portfolio (`portfolio_mask=011`) and no semantically equivalent team
+outcome survived even with `maximumCandidates=32`. Seven of those eight active
+routes reappeared when only `maximumColumnsPerAgent` was widened, at first caps
+`12,12,8,8,16,4,12`; the terminal-position final-day route remained absent even
+at cap 32 and four paths per target. This proves the primary gap is future route
+capability/pruning before master ranking. It also exposes dead designed wiring:
+W1 sets `enableHarvestExtensions`, but generator harvest extensions require a
+column cap in `12..16`, while W1 supplies 3 detailed / 2 terminal; triple routes
+also require cap 12 and quadruple routes cap 16. Evidence is in
+`research/evidence/ATTR-WITNESS-076.md`; holdout stayed sealed.
+
+`SCORE-WITNESS-COLUMNS-077` is rejected and fully absent from source. Raising the
+two W1 column caps to 16 activated the missing designed sources, but the unchanged
+greedy repair then replaced prior lower witnesses. Development worsened from
+oracle W/T/L `3/15/0` to `4/14/0`: all three residual gaps remained and
+rare-late/low reopened at tier-2 `+2`; invalid stayed zero. Result hash:
+`a4b38642a336b758`. The holdout was not opened. Cap widening may not be applied
+as an in-place replacement again; it can be reconsidered only as optional work
+after the complete old witness is retained, and only if a read-only probe first
+shows a strictly better full trajectory.
+
+`ATTR-WIDE-078` is closed accepted as read-only attribution. Starting from exact
+oracle day-1 candidates, cap-16 greedy reached the daily-choice oracle exactly
+(`3/9/10` vs baseline witness `3/7/8`), cap-16 resource-upper guidance reached
+the fuel-allocation oracle exactly (`5/16/16` vs `5/12/12`), and guided terminal
+position improved `4/12/13` to `4/13/13` though the oracle remains `4/15/16`.
+All trajectories were complete and dual-valid. Thus wide capability plus the two
+existing canonical selection views contains actionable horizon value; neither
+view alone dominates the other. Evidence is in
+`research/evidence/ATTR-WIDE-078.md`; holdout stayed sealed.
+
+`SCORE-WITNESS-DUAL-079` was rejected at its preregistered development gate. W1 first computed
+all original scenario witnesses unchanged. Only afterward, within the same
+candidate deadline and fixed cap16, it attempts one current-score-greedy and one
+candidate-valid-upper-guided full future rollout per non-fallback scenario. A
+scenario outcome is replaced only by the lexicographically best complete,
+dual-valid final witness, so the old exact lower bound is retained by
+construction. No cap, width, map/fuel threshold or risk policy is tuned. The
+18-case development remained byte-identical to 072+073 at oracle W/T/L
+`3/15/0`, invalid 0, hash `6c9c4ac2e6aee047`: the optional trajectories proved
+offline did not complete/change a profile in the production-deadline engine.
+Local timing cannot decide target-host feasibility, while BTC ranking cannot
+causally prove completion of optional work when no exact output changed. The
+registered improvement gate therefore failed, the holdout stayed sealed, and all
+079 source was removed while its attribution evidence was retained.
+
+`SCORE-WITNESS-UPPER-SKIP-080` was also rejected and removed. Before optional work for a scenario,
+it checks the already-authoritative `scenarioValidUpperBounds`. If the retained
+baseline score is at least that upper, it skips both rollouts. This is exactly
+equivalent to 079 because 079 accepts only a strictly higher official score, which
+the valid upper proves impossible; the same baseline witness bytes and profile
+remain. Nevertheless the one allowed 18-case development run remained exactly
+`3/15/0`, invalid 0, tier2 3, hash `6c9c4ac2e6aee047`. It exposed no actionable
+completion or exact-score change, so the holdout was not opened and the guard was
+removed with 079. No cap, beam or skip retuning on these opened residual fixtures
+is permitted without a new independent counterexample.
+
+`ATTR-ROUTE-CLOSURE-081` is closed as accepted read-only attribution. It did not
+retry 079 or tune seed `1310400`. Across every oracle transition in all 18 opened
+development fixtures, it classifies exact active-route membership through one
+fixed ordered lattice of existing generator capabilities: production W1,
+cap16, cap32/paths4, cap128/paths8, uncached harvest, harvest orienteering, exact
+orienteering, fuel-constrained exact and anytime enumeration. The order is
+attribution precedence, not a set-monotonicity claim across algorithm switches.
+Across 81 dual-valid transitions the first membership stage was W1 25, cap16 23,
+cap32/paths4 4, cap128/paths8 2, fuel-exact 6 and absent 21. The six fuel-exact
+routes occur in four independent fixtures and span balanced-low,
+rare-late-default, terminal-position-default and fuel-allocation-high; this
+includes seed `1310400` day 5. Thus the target is a repeated public capability
+class, not a unique terminal-position exception. The 21 routes absent from the
+whole lattice mostly occur in score ties and authorize no source work. Holdout
+remained sealed and no production source changed.
+
+`SCORE-FUTURE-FUEL-EXACT-082` was rejected and fully removed. Current-day production already enables
+the canonical fuel-constrained exact/anytime resource enumerator when a terminal
+day patrol has less than two day-step fuel budgets. All three provisional/W1
+future-generation blocks omit both the terminal exact-search exception and the
+fuel-constrained flags, so the evaluator can rank candidate states with less
+capability than the planner it is supposed to model. 082 wires the identical
+public conditions into those three blocks without changing caps, deadlines,
+master selection or any solver. The one registered 18-case development run was
+exactly unchanged at oracle W/T/L `3/15/0`, invalid 0, tier2 3 and hash
+`6c9c4ac2e6aee047`. Route availability alone did not change a retained witness,
+shortlisted candidate or final score. The holdout stayed sealed, all 082 source
+was removed, and cap/order retuning on the 081 cohort is forbidden.
+
+The frozen manifest is `research/holdouts/CEILING-ORACLE-070.csv`, SHA256
+`6C738A9E9B811C27A2AA7A25405BFFDBED971B0E929B330C330ABE99AC45B0B5`.
+The proof scope is deliberately narrow: official-valid 8x8 terminal states,
+four fixed patrols, six structural families and low/default/high fuel. Complete
+per-agent resource enumeration plus exact stock-capped team DP proves the
+terminal optimum because score is monotone in terminal spot claims and no
+tanker/refuel coupling exists. Every HEAD/oracle plan agreed under the exact
+simulator and independent validator. This closes the fixed-role terminal
+resource/team-allocation axis only; it does not establish multi-day, native-role
+or whole-architecture convergence. Local elapsed time was discarded. The next
+permitted score research is a separately registered and frozen full-match
+small-instance oracle. These 144 opened fixtures may not be tuned or reused as
+its holdout.
+
+## Historical experiment log
+
+The text below is chronological provenance. Any older statement about the
+"current" champion or an open axis is superseded by the current-phase block
+above.
 
 Forward research starts from the current global champion `afcd2da`. Re-running or
 rebuilding every historical checkpoint is not a research objective; old
@@ -40,6 +343,117 @@ identical chunked exact-state initialization and recursive feasibility
 cancellation. Rejected HTTP retry/header experiments and attribution-only
 decision telemetry are absent. `FINAL-QUEUE-065` is closed accepted and no
 implementation or score axis remains active.
+
+`ATTR-OPPONENT-066` is a separate read-only external comparison against the
+frozen `thing-or-think/hexudon-procon` clone at `1f0d22e`. It does not reopen a
+production implementation axis, cannot justify a source commit, and is not a
+BTC performance claim. Its frozen manifest is
+`research/holdouts/ATTR-OPPONENT-066.csv` SHA256
+`D9FD6CA08AC94C985B308AB759367C174CEA3C711FBACBA27135DE8135D6AD53`:
+24 structural official-valid fixtures across six families, including all three
+BTC-like fuel regimes, evaluated in fixed-role and native-role lanes at the
+same 5000 ms cap. Both solvers must pass the UDON exact simulator and
+independent validator; an adapter parity pilot is a prerequisite to scoring.
+
+That `ATTR-OPPONENT-066` pilot is closed rejected before the full holdout: the
+peer's own simulator and validator credit a patrol already standing on a spot
+at day start, while both independent UDON engines credit only a completed
+move. On the pilot's day 2 the peer self-score was `7/7`; the common score was
+`6/6`. Direction encoding, movement terminals and road occupancy agreed, so
+this is a scoring-transition divergence rather than an adapter defect. The
+pilot fixture is consumed and must not be used for comparative aggregate
+evidence. `ATTR-OPPONENT-067` is the successor action-output comparison: it
+uses the remaining 23 frozen fixtures, preserves each solver's source exactly,
+and scores emitted peer actions by the common official engines without
+repairing peer behavior. Its manifest is
+`research/holdouts/ATTR-OPPONENT-067.csv` SHA256
+`EDA237490DC2C94239ECE93B85CE3DCE2B2EC459374FC68D34D6E776C1F8F47A`.
+
+`ATTR-OPPONENT-067` is now closed and accepted as external comparative evidence,
+not as a production candidate. Across 46 fresh paired matches, UDON recorded
+`40/0/6` overall and `33/0/6` among the 39 both-valid pairs; fixed/native splits
+were `19/0/4` and `21/0/2`. UDON produced zero invalid outputs. The peer produced
+seven invalid outputs in the frozen run; six reproduced as insufficient-fuel
+movement acceptance, while the seventh high-fuel threshold sample did not recur
+and is classified as cutoff-sensitive local behavior. At the first differing
+official tier, UDON won six pairs at tier 2 and 27 at tier 3; all six peer wins
+were tier-3-only. UDON won all 12 high-fuel pairs, while the peer's real but
+narrow strength concentrated in overnight and selected low/default-fuel lanes.
+Peer self-semantic parity failed in 45/46 runs across 338 mismatch-days.
+
+The durable report is `research/evidence/ATTR-OPPONENT-067.md` SHA256
+`EC4B5DE0BB3D7BF4A7111DE29251DA63156EB3B1522F39FA4540D3A41A845A07`;
+raw, paired and invalid-attribution evidence hashes are recorded in
+`research/EXPERIMENTS.csv`. Local cutoff/elapsed observations are deliberately
+excluded from the strength verdict and have no BTC performance authority. No
+solver source changed, no production commit is authorized and no optimization
+axis is opened from opponent behavior; any future source research still requires
+an independent UDON telemetry gap and the full protected gate.
+
+`ATTR-OPPONENT-068` is an explicitly peer-favorable compute-ceiling attribution,
+not a new general holdout. It replays only the already opened strongest peer
+counterexample from ATTR-OPPONENT-067: low-fuel BTC-like overnight seed `72005`,
+fixed one-tanker-last roles, where the 5000 ms comparison favored the peer by 59
+servings at tier 3. UDON remains hard-capped at 5000 ms. The peer receives its
+documented 45000 ms daily profile under production-default, whole-match-MLNS
+fuel-aware, and release-b-all configurations; the best common-evaluator-valid
+peer score is treated as an oracle upper bound. This deliberately answers whether
+the prior loss was mainly peer cutoff, but cannot support general promotion,
+performance claims or a UDON source change. The frozen manifest is
+`research/holdouts/ATTR-OPPONENT-068.csv`, SHA256
+`627BA277755FF9D11D988E92C5C80220E9700985FD6ADACA41D67CA8EE12E72E`.
+
+`ATTR-OPPONENT-068` is closed accepted as external attribution evidence. The
+contemporaneous UDON result was valid `6/60/418`. Peer production-default and
+whole-match-MLNS-fuel-aware were both valid `6/60/462`; whole-match completed
+all `9/9` robust epochs on days with future horizon but did not improve the
+default actions/score. The peer oracle therefore wins this known counterexample
+by 44 servings at tier 3. Release-b-all was ineligible: the common evaluator
+rejected day 8 at agent 2 step 47 for accepting a patrol movement without enough
+fuel. Both valid peer profiles disagreed with common authoritative semantics on
+all ten days.
+
+The previous 5000 ms raw row was UDON `6/60/379` versus peer `6/60/438`. Because
+both solvers changed score across separate local wall-clock runs, the score delta
+cannot be causally assigned to additional peer compute. The controlled conclusion
+is only that UDON does not win this deliberately selected overnight/low-fuel
+counterexample on the peer's 45000 ms field, while whole-match search does not
+beat the peer default result. The report is
+`research/evidence/ATTR-OPPONENT-068.md` SHA256
+`21705C0F4A84A5928FAD768CB9E052822F6AD2C4629A436618FF14E30A75F63C`;
+raw and profile telemetry hashes are recorded in `research/EXPERIMENTS.csv`.
+No solver source changed, no general aggregate is overturned, and no UDON
+optimization axis or commit is authorized.
+
+`ATTR-OPPONENT-069` corrects the question tested by 068. It selects the closest
+both-valid BTC-like fixture that UDON won in ATTR-OPPONENT-067: low-fuel
+high-stock seed `72004`, fixed one-tanker-last roles, where the opened score was
+UDON `6/60/416` versus peer `6/60/404`. UDON remains capped at `5000 ms`; the
+unchanged peer receives `45000 ms` under production-default,
+whole-match-MLNS-fuel-aware and release-b-all profiles. The test asks whether
+the best common-evaluator-valid long-compute peer profile can reverse that prior
+UDON win. Its frozen manifest is `research/holdouts/ATTR-OPPONENT-069.csv`,
+SHA256 `B469189A5B192772A352A48C54F47183D956FA51721AC04ED390D52D02A8740D`.
+No implementation axis is opened and no source change is allowed from this
+single opponent-attribution fixture.
+
+`ATTR-OPPONENT-069` is closed accepted as corrected external attribution
+evidence. The contemporaneous UDON result was valid `6/60/489`. All three peer
+profiles were common-evaluator valid: production-default `6/60/448`,
+whole-match-MLNS-fuel-aware `6/60/448`, and release-b-all `6/60/414`. Thus the
+best valid peer profile did not reverse the prior UDON win; UDON retained a
+41-serving tier-3 advantage. Whole-match robust search completed on `7/9`
+future-bearing days and did not improve default. All peer profiles mismatched
+their private semantics against the common transition on `9/10` days.
+
+The prior opened row was UDON `6/60/416` versus peer `6/60/404`. Because both
+scores moved across separate local wall-clock runs, no causal compute delta is
+claimed. The controlled result is the contemporaneous `489` versus best-valid
+`448` comparison. The report is `research/evidence/ATTR-OPPONENT-069.md`,
+SHA256 `DC211EE245E9D0517359F0BE940BD54A0AB8E4FE04BE1D2B837F6C40C766D59B`;
+raw and profile telemetry hashes are recorded in `research/EXPERIMENTS.csv`.
+No solver source changed, no implementation axis is opened and no commit is
+authorized.
 
 ## Authoritative budget evidence
 
