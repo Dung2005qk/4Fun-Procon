@@ -4,13 +4,112 @@ Updated: 2026-08-12
 
 ## Current phase
 
-The committed global champion is `7ef3694` (`FINAL-QUEUE-065`). The working tree
-retains only the combined `SCORE-HORIZON-072` and `SCORE-SCENARIO-073` production
-source diff. `PROMOTE-HORIZON-SCENARIO-083` and its protected successor
-`PROTECT-HORIZON-SCENARIO-084` have now cleared every registered promotion gate;
-the candidate is eligible to become the next canonical champion after final
-diff/provenance review and commit. Later witness successors failed cleanly and
-are absent from production source.
+Canonical champion is now `00711ba`, the accepted combined 072+073 promotion
+from parent `7ef3694`. Its paired score, protected semantic and BTC target-host
+gates are closed; the consumed 071/083/084 fixtures may not be tuned further.
+
+The next independent axis is `CEILING-MULTI-PATROL-085`. Existing exact evidence
+covers a four-patrol terminal day and a one-active-patrol full match, but not
+multi-day allocation between two simultaneously active patrols. A new manifest
+freezes 18 development and 54 holdout fixtures across balanced,
+duplicate-brand, stock-contention, coverage-trap, fuel-allocation and
+terminal-separation families under low/default/high fuel. Every fixture has a
+seven-cell roadless active component, two interchangeable active patrols, one
+isolated control, five spots and four days. The research-only oracle must be a
+complete joint DP over positions, fuels, lifetime mask and official score, with
+stock-aware daily composition and exact simulator/independent-validator replay.
+Production source stays unchanged. The holdout remains sealed unless the exact
+oracle beats `00711ba` on development. Manifest SHA256 is
+`A0EA8A417B4F63B4B5F2E0069A1948EB2C7CB9C827DC6C80A31DC1D6EE188D7B`.
+
+The complete 085 development sweep found a recurrent exact gap: oracle-vs-
+champion W/T/L `4/14/0`, zero invalid, all four gains at tier 2 under low fuel.
+Balanced improved `5/17/24` to `5/20/26` (+3 daily distinct); duplicate-brand,
+fuel-allocation and terminal-separation each gained +1 daily distinct. Low-fuel
+stock-contention/coverage-trap and every default/high fixture tied. Maximum
+exact frontier was 6399 states and result hash was `c7324c01ff35e2e8`.
+The holdout remains sealed. Read-only attribution is now closed. Every exact
+winning trajectory has a candidate-specific admissible upper tied for best, but
+the candidate is lost earlier: `RouteMaster` reserves a quarter of its beam for
+terminal diversity while its signature contains tanker terminal cells only.
+On the all-patrol 085 fixtures that signature is empty, so diversity slots
+degenerate into current-score continuation. Exact outcomes required arbitrary
+master caps from 32 through 96; widening a cap is therefore rejected. The one
+shared capability loss is missing patrol terminal position/fuel diversity in
+the existing beam lane.
+
+`SCORE-STATE-DIVERSITY-086` is rejected and fully absent from production. Its
+generalized all-agent terminal position/fuel signature left the 18-case result
+exactly unchanged at oracle W/T/L `4/14/0`, four tier-2 gaps and result hash
+`c7324c01ff35e2e8`; the first divergent oracle plan remained absent from every
+16-candidate F0 audit. The holdout stayed sealed. This proves the tanker-only
+signature is not the earliest causal loss on 085, and forbids more signature,
+slot-count or beam-width tuning without a new causal counterexample.
+
+`SCORE-F0-UPPER-087` is active. It keeps the existing 12 of 16 current-quality
+F0 slots unchanged. For the remaining four existing diversity slots, it ranks
+all unchanged master outputs first by the already-authoritative candidate-
+specific admissible future upper, then uses the existing max-min plan distance
+and current comparator as tie-breaks. Candidate count, master search, W1 count,
+simulator, validator, ALNS, roles and hard cap remain unchanged. The purpose is
+to make F0 intake consistent with the horizon value function without replacing
+or weakening designed plan diversity. Development passed: candidate-vs-parent
+W/T/L `4/14/0`, zero invalid, with tier-2 gains `+2,+1,+1,+1` across all four
+opened low-fuel winning families. Three exact tier-2 gaps became tier 3 and the
+balanced gap shrank from +3 to +1; all other 14 fixtures tied. Candidate oracle
+gap hash is `6e4072b927d9fa2a` versus parent `c7324c01ff35e2e8`. The frozen
+54-case 085 holdout may now open once for a paired candidate/parent gate using
+the identical frozen probe binaries; local elapsed is ignored. That gate is now
+closed: candidate-vs-parent W/T/L `8/42/4`, zero invalid, first-tier gain/loss
+sums `18/4`, maximum gain `+4`, and all four losses exactly `-1`. Wins span
+duplicate-brand, fuel-allocation, terminal-separation and balanced low fuel;
+every default/high and the remaining two low families tie. Frozen binaries were
+candidate `8B184AC3B32E20309F98D3CF5A2CF1A71C5D15ECA374EE8A8B99063D7ACC762D`
+and parent `C8D68941D6317D207811D3C3C7BC60CC30420E3034055803E48BB0B4545A81E6`.
+The four losses are immutable tails and may not be tuned. The unchanged 087
+candidate then failed the road-containing fixed protected lane at `1/32/3`,
+gain/loss sums `2/6`, tails `+2/-4`, zero invalid/emergency. Losses crossed
+rare-brand, overnight and threshold-corridor, including one tier-2 loss. Direct
+day traces showed active plan changes without deadlines on three of four changed
+fixtures; this is a causal domain mismatch, not merely local performance noise.
+087 is rejected and fully absent from production; native/BTC were not run.
+
+`SCORE-F0-DETERMINISTIC-088` is accepted from clean `00711ba`. It reuses 087's
+12-quality/4-upper-then-distance intake only when `config.roadCells` is empty,
+the exact domain where 073 already proves a single deterministic traffic world.
+Road-containing maps execute the parent intake and do not compute the additional
+upper bounds. No seed, family, fuel or opponent route exists. The already opened
+085 development/holdout establish the candidate lane; an independent consumed
+but untuned roadless one-active-patrol matrix is used only as a protected gate.
+Any general loss rejects 088 without adapting the condition or queue ratio.
+The independent roadless one-active-patrol protection passed byte-for-byte at
+the score/result level: 18-case development hash `6c9c4ac2e6aee047` and 54-case
+holdout hash `468afde7057cf112`, both identical to `00711ba`, zero invalid.
+Together with the frozen multi-patrol development `4/14/0` and holdout
+`8/42/4` (gain/loss `18/4`, all losses -1), 088 passes score/protected gates.
+The full unit/validator suite passed and the frozen BTC executable SHA256 is
+`B6DF85B0410EF81E77454DBE5BCE9BF0650A0558014185EE6C1124EF1F9E1E1F`.
+Fresh explicit-advanced BTC runs `m-2029` and `m-2034` exercised the exact binary
+at 5000 ms. They recorded respectively 10/10 and 10/10 HTTP-200 valid actions,
+10/10 independent-validator agreement, 9/9 reconciled transitions, zero
+emergency and maximum solver times 2988 ms and 2454 ms. Replay-check rebuilt
+`6/60/214` and `6/60/345`; replay SHA256 values are
+`0ADE1C005720A4D2525E49200A38D1F6697D09786740711DC474A0904229D7A9` and
+`0B3320FAC779AD5B97328974FF7F352861C0451B8CF8BABC01BB52108E263E04`.
+The authoritative setups contained 63 and eight road cells, so 088's new branch
+was inactive in both runs. BTC exposes no terrain editor in its advanced match
+configuration; these runs therefore authorize unchanged-road-path lifecycle,
+validity and hard-cap evidence, not active-branch score or latency. Bot rank is
+ignored. The roadless quality claim remains confined to the frozen paired
+matrices and no local elapsed is used as target-host performance evidence.
+
+## Closed 070-084 history
+
+The parent champion for this closed batch was `7ef3694` (`FINAL-QUEUE-065`).
+The combined `SCORE-HORIZON-072` and `SCORE-SCENARIO-073` production diff cleared
+`PROMOTE-HORIZON-SCENARIO-083` and `PROTECT-HORIZON-SCENARIO-084`, then became
+canonical commit `00711ba`. Later witness successors failed cleanly and are
+absent from production source.
 `CEILING-ORACLE-070` is now closed accepted as a read-only capability audit:
 all 36 development fixtures and all 108 one-time holdout fixtures tied a
 complete terminal oracle. Oracle wins, HEAD wins, incomplete frontiers and
@@ -18,7 +117,7 @@ invalid plans were all zero in every one of the 18 family x fuel strata. The
 development result hash is `151496ca6d63ee47`; the holdout result hash is
 `6b4fecc3cc1eec37`.
 
-`CEILING-MATCH-071` is now the sole active research axis. It uses 18 fresh
+`CEILING-MATCH-071` was the predecessor exact multi-day axis. It used 18 fresh
 development matches and a sealed 54-match holdout from
 `research/holdouts/CEILING-MATCH-071.csv`, SHA256
 `6329ADA27BCEF1EF6210D984C866309120AD2E9057D09D50F3A02BA300304C24`.

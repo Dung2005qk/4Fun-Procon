@@ -4533,6 +4533,21 @@ DecisionResult UdonShieldEngine::solve_day(
             }
             return left.stableId < right.stableId;
         });
+    const bool deterministicNoRoad = config_.roadCells.empty();
+    std::map<std::string, OfficialScore> f0UpperBounds;
+    if (deterministicNoRoad) {
+        for (const MasterCandidate& candidate : candidates) {
+            f0UpperBounds.emplace(
+                candidate.stableId,
+                candidate_valid_upper_bound(
+                    viabilityAnalyzer_,
+                    config_,
+                    state,
+                    ledger,
+                    candidate,
+                    f0Deadline));
+        }
+    }
     std::set<std::string> f0Ids;
     f0Ids.insert(incumbentId);
     if (lastSentId.has_value()) {
@@ -4550,6 +4565,7 @@ DecisionResult UdonShieldEngine::solve_day(
     }
     while (static_cast<std::int32_t>(f0Ids.size()) < f0CandidateLimit) {
         const MasterCandidate* selectedDiverse = nullptr;
+        OfficialScore selectedUpper;
         std::int32_t bestMinimumDistance = -1;
         for (const MasterCandidate& candidate : candidates) {
             if (f0Ids.contains(candidate.stableId)) {
@@ -4567,10 +4583,21 @@ DecisionResult UdonShieldEngine::solve_day(
                         candidate,
                         selectedCandidate));
             }
-            if (minimumDistance > bestMinimumDistance ||
-                (minimumDistance == bestMinimumDistance &&
+            const std::int32_t upperOrder = !deterministicNoRoad ||
+                    selectedDiverse == nullptr
+                ? 0
+                : compare_lexicographic(
+                    f0UpperBounds.at(candidate.stableId),
+                    selectedUpper);
+            if ((deterministicNoRoad && selectedDiverse == nullptr) ||
+                upperOrder > 0 ||
+                (upperOrder == 0 && minimumDistance > bestMinimumDistance) ||
+                (upperOrder == 0 && minimumDistance == bestMinimumDistance &&
                  (selectedDiverse == nullptr ||
                   better_search_candidate(candidate, *selectedDiverse)))) {
+                if (deterministicNoRoad) {
+                    selectedUpper = f0UpperBounds.at(candidate.stableId);
+                }
                 bestMinimumDistance = minimumDistance;
                 selectedDiverse = &candidate;
             }
@@ -4598,13 +4625,15 @@ DecisionResult UdonShieldEngine::solve_day(
     std::vector<CandidateEvaluation> evaluations;
     evaluations.reserve(candidates.size());
     for (MasterCandidate& candidate : candidates) {
-        const OfficialScore validUpperBound = candidate_valid_upper_bound(
-            viabilityAnalyzer_,
-            config_,
-            state,
-            ledger,
-            candidate,
-            f0Deadline);
+        const OfficialScore validUpperBound = deterministicNoRoad
+            ? f0UpperBounds.at(candidate.stableId)
+            : candidate_valid_upper_bound(
+                viabilityAnalyzer_,
+                config_,
+                state,
+                ledger,
+                candidate,
+                f0Deadline);
         CandidateProfile provisional = witnessRepairer_.provisional_profile(
             candidate,
             state,

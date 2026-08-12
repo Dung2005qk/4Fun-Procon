@@ -68,6 +68,10 @@ if(UDONSHIELD_BUILD_BENCHMARKS)
         udonshield_full_match_oracle
         research/probes/full_match_oracle.cpp)
     target_link_libraries(udonshield_full_match_oracle PRIVATE udon_shield)
+    add_executable(
+        udonshield_multi_patrol_oracle
+        research/probes/multi_patrol_oracle.cpp)
+    target_link_libraries(udonshield_multi_patrol_oracle PRIVATE udon_shield)
 endif()
 
 include(CTest)
