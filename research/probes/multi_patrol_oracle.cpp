@@ -28,6 +28,7 @@ constexpr std::int32_t kHarvestMode = 7;
 constexpr std::int32_t kFutureHarvestMode = 7;
 
 struct ManifestRow {
+    std::string experimentId;
     std::string family;
     std::string fuelProfile;
     std::int32_t horizon = 0;
@@ -167,7 +168,7 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
     std::string line;
     if (!std::getline(input, line) ||
         line != "experiment_id,split,family,fuel_profile,horizon,first_seed,count,active_agents,total_agents,spot_count,role_mode,oracle_scope") {
-        throw std::runtime_error("unexpected CEILING-MULTI-PATROL-085 manifest schema");
+        throw std::runtime_error("unexpected multi-patrol oracle manifest schema");
     }
     std::vector<ManifestRow> rows;
     while (std::getline(input, line)) {
@@ -175,18 +176,25 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
             continue;
         }
         const std::vector<std::string> fields = split_csv(line);
-        if (fields.size() != 12U || fields.at(0) != "CEILING-MULTI-PATROL-085") {
+        if (fields.size() != 12U ||
+            (fields.at(0) != "CEILING-MULTI-PATROL-085" &&
+             fields.at(0) != "CEILING-BRANCH-PATROL-089")) {
             throw std::runtime_error("invalid manifest row: " + line);
         }
         if (fields.at(1) != split) {
             continue;
         }
-        if (fields.at(7) != "2" || fields.at(8) != "3" || fields.at(9) != "5" ||
+        const std::string expectedSpots = fields.at(0) == "CEILING-MULTI-PATROL-085"
+            ? "5"
+            : "6";
+        if (fields.at(7) != "2" || fields.at(8) != "3" ||
+            fields.at(9) != expectedSpots ||
             fields.at(10) != "all-patrol" ||
             fields.at(11) != "complete-two-active-patrol-full-match-dp") {
             throw std::runtime_error("manifest row violates oracle scope: " + line);
         }
         rows.push_back(ManifestRow{
+            fields.at(0),
             fields.at(2),
             fields.at(3),
             std::stoi(fields.at(4)),
@@ -214,6 +222,19 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
         family == "fuel-allocation") {
         return {100, 200, 300, 400, 500};
     }
+    if (family == "branched-duplicate") {
+        return {100, 100, 200, 300, 400, 500};
+    }
+    if (family == "rare-fork") {
+        return {100, 100, 200, 200, 300, 999};
+    }
+    if (family == "terminal-fork") {
+        return {100, 200, 300, 300, 400, 900};
+    }
+    if (family == "branched-balanced" || family == "stock-race" ||
+        family == "fuel-split") {
+        return {100, 200, 300, 400, 500, 600};
+    }
     throw std::invalid_argument("unknown family: " + family);
 }
 
@@ -224,12 +245,22 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
         static_cast<std::size_t>(cells),
         static_cast<std::int32_t>(udon::Terrain::Pond));
     terrain.at(0) = static_cast<std::int32_t>(udon::Terrain::Plain);
-    for (udon::CellId cell = 16; cell <= 22; ++cell) {
-        terrain.at(static_cast<std::size_t>(cell)) =
-            static_cast<std::int32_t>(udon::Terrain::Plain);
+    const bool branched = row.experimentId == "CEILING-BRANCH-PATROL-089";
+    std::vector<udon::CellId> spotCells;
+    if (branched) {
+        for (const udon::CellId cell : {10, 11, 16, 17, 18, 19, 20, 21, 26}) {
+            terrain.at(static_cast<std::size_t>(cell)) =
+                static_cast<std::int32_t>(udon::Terrain::Plain);
+        }
+        terrain.at(11) = static_cast<std::int32_t>(udon::Terrain::Mountain);
+        spotCells = {10, 17, 18, 19, 20, 26};
+    } else {
+        for (udon::CellId cell = 16; cell <= 22; ++cell) {
+            terrain.at(static_cast<std::size_t>(cell)) =
+                static_cast<std::int32_t>(udon::Terrain::Plain);
+        }
+        spotCells = {17, 18, 19, 20, 21};
     }
-
-    std::vector<udon::CellId> spotCells{17, 18, 19, 20, 21};
     std::sort(
         spotCells.begin(),
         spotCells.end(),
@@ -238,8 +269,12 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
                 mix64(seed ^ (static_cast<std::uint64_t>(right) << 17U));
         });
     std::vector<std::int32_t> brands = base_brands(row.family);
-    if (row.family == "terminal-separation") {
-        const auto center = std::find(spotCells.begin(), spotCells.end(), 19);
+    if (row.family == "terminal-separation" || row.family == "terminal-fork") {
+        const udon::CellId protectedTerminal = branched ? 26 : 19;
+        const auto center = std::find(
+            spotCells.begin(),
+            spotCells.end(),
+            protectedTerminal);
         if (center != spotCells.end()) {
             std::iter_swap(center, spotCells.end() - 1);
         }
@@ -250,9 +285,9 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
         daySteps.push_back(16 + static_cast<std::int32_t>(
             mix64(seed ^ (static_cast<std::uint64_t>(day) << 39U)) % 3U));
     }
-    std::int32_t fuelLimit = 20;
+    std::int32_t fuelLimit = branched ? 24 : 20;
     if (row.fuelProfile == "low") {
-        fuelLimit = 10;
+        fuelLimit = branched ? 12 : 10;
     } else if (row.fuelProfile == "high") {
         fuelLimit = 8 * row.horizon;
     } else if (row.fuelProfile != "default") {
@@ -294,16 +329,18 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
             document << ',';
         }
         std::int32_t stock = 2;
-        if (row.family == "stock-contention" || row.family == "coverage-trap") {
+        if (row.family == "stock-contention" || row.family == "coverage-trap" ||
+            row.family == "stock-race" || row.family == "rare-fork") {
             stock = 1;
-        } else if (row.family == "fuel-allocation") {
+        } else if (row.family == "fuel-allocation" || row.family == "fuel-split") {
             stock = 1 + static_cast<std::int32_t>((spot + seed) % 2U);
         }
         document << "{\"brand\":" << brands.at(spot)
                  << ",\"pos\":" << spotCells.at(spot)
                  << ",\"stocks\":" << stock << '}';
     }
-    document << "],\"agents\":[16,22,0],\"fuelLimits\":" << fuelLimit
+    document << "],\"agents\":[16," << (branched ? 21 : 22)
+             << ",0],\"fuelLimits\":" << fuelLimit
              << ",\"players\":4,\"busyThreshold\":2,\"jammedThreshold\":4}";
 
     Fixture fixture;
@@ -514,18 +551,26 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
 
 [[nodiscard]] std::vector<LayerEntry> prune_layer(std::vector<LayerEntry> entries) {
     std::vector<bool> dominated(entries.size(), false);
-    for (std::size_t left = 0; left < entries.size(); ++left) {
-        const auto [leftP0, leftF0, leftP1, leftF1, leftLifetime] = entries.at(left).key;
-        for (std::size_t right = 0; right < entries.size(); ++right) {
+    using PhysicalKey = std::tuple<
+        udon::CellId,
+        std::int32_t,
+        udon::CellId,
+        std::int32_t>;
+    std::map<PhysicalKey, std::vector<std::size_t>> groups;
+    for (std::size_t index = 0; index < entries.size(); ++index) {
+        const auto [p0, f0, p1, f1, lifetime] = entries.at(index).key;
+        static_cast<void>(lifetime);
+        groups[{p0, f0, p1, f1}].push_back(index);
+    }
+    for (const auto& [physical, indices] : groups) {
+        static_cast<void>(physical);
+        for (const std::size_t left : indices) {
+            const std::uint64_t leftLifetime = std::get<4>(entries.at(left).key);
+            for (const std::size_t right : indices) {
             if (left == right) {
                 continue;
             }
-            const auto [rightP0, rightF0, rightP1, rightF1, rightLifetime] =
-                entries.at(right).key;
-            if (leftP0 != rightP0 || leftF0 != rightF0 ||
-                leftP1 != rightP1 || leftF1 != rightF1) {
-                continue;
-            }
+            const std::uint64_t rightLifetime = std::get<4>(entries.at(right).key);
             const bool lifetimeSuperset =
                 (rightLifetime | leftLifetime) == rightLifetime;
             const bool scoreNoWorse =
@@ -538,6 +583,7 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
                 dominated.at(left) = true;
                 break;
             }
+        }
         }
     }
     std::vector<LayerEntry> frontier;

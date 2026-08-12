@@ -1,12 +1,88 @@
 # UDON-SHIELD Research State
 
-Updated: 2026-08-12
+Updated: 2026-08-13
 
 ## Current phase
 
-Canonical champion is now `00711ba`, the accepted combined 072+073 promotion
-from parent `7ef3694`. Its paired score, protected semantic and BTC target-host
-gates are closed; the consumed 071/083/084 fixtures may not be tuned further.
+Canonical champion is now `f574d4e`, the accepted deterministic F0 intake
+promotion from parent `00711ba`. Its paired score, protected semantic and BTC
+target-host gates are closed; all consumed 071/083/084/085/087/088 fixtures may
+not be tuned further.
+
+The most recent closed performance axis is `PERF-MASTER-BUNDLE-092`. It is independent of
+the consumed roadless score fixtures and is rooted only in frozen BTC target
+telemetry. Every recorded day in `m-2029` and `m-2034` ended the master before
+search completion. The bundle-aware score upper checked/pruned `45691/29` and
+`221991/2` branches respectively, while the direct bundle-compatibility gate
+rejected `24239` and `183322` route columns. The direct gate currently constructs
+and stable-sorts those certainly incompatible columns, then rescans the selected
+prefix for each rejection even though the recursion already carries
+`activeBundle`. Experiment 091 will filter them before rank construction using
+the exact existing compatibility relation: root accepts every column; otherwise
+equal bundle ids are compatible, as are two negative ids. Filtering retains the
+source sequence of all compatible columns, so the unchanged stable sort and DFS
+order are identical whenever work completes. No search, bound, cap or capability
+is removed. The frozen manifest is
+`research/holdouts/PERF-MASTER-BUNDLE-092.csv`, SHA256
+`47A01C938522D5382D83D10FCA5B3B329C7C555733273C44301C544F8395A5E6`.
+Local elapsed time has no authority. Its predecessor 091 was stopped before
+opening a replay holdout when the preregistered 30 `PERF-P99-055` replay files
+proved absent: their hashes remain, but raw inputs do not. The source was restored
+byte-identical to `f574d4e`; 092 then froze the three extant hash-authoritative BTC
+replays (`m-1986`, `m-2029`, `m-2034`, 30 recorded days) before the identical patch
+could be reapplied. No 091 replay result was claimed. Candidate executable SHA256
+is `247C143CBB6FE09AF4479DD23A472F4A3DFF5161CF5C3EEE4B828C584871CB7D`.
+The source predicate proof covered 24 valid negative/positive bundle-prefix cases
+with zero mismatch and the full unit suite passed. The first local deadline screen
+was `0/26/4`, actions equal `23/30`, with four tier-3-only differences and all
+three replay final totals tied. A targeted A/B/B/A reproduction showed none of
+the four losses followed the candidate binary: two became exact ties, one crossed
+with run order, and the last varied `299..304` within both binaries. This is local
+cutoff noise, not performance evidence or a causal regression. Source/binary are
+now frozen. BTC target-host then passed the full preregistered matrix: low,
+default and high fuel on easy 8x8/64-step and hard 32x32/100-step maps, all at
+5000 ms. Across `m-2077`, `m-2078`, `m-2081`, `m-2082`, `m-2084` and `m-2085`,
+all 60 decisions received HTTP 2xx, all 54 transitions reconciled, replay-check
+agreed on every day, and emergency/hard-cap failures were zero. Maximum solver
+time was 3383 ms; all six final scores retained lifetime 6 and daily 60. The one
+`bundlePrunes` site counted 610522 incompatible columns rejected before rank/sort
+on BTC, a direct mathematical work reduction independent of random-map latency.
+Bot ranks and cross-map timing are ignored. `PERF-MASTER-BUNDLE-092` is accepted
+as a semantics-preserving global performance improvement.
+
+The active independent axis is `CEILING-BRANCH-PATROL-089`. The accepted 088
+evidence is confined to one seven-cell line component, while exact residual
+gaps remain and no evidence yet establishes multi-day value quality on a
+branched component with mixed plain/mountain movement and six spots. A new
+research-only suite freezes 18 development and 54 holdout matches across six
+new structural families and low/default/high fuel. It keeps two active patrols
+plus one isolated control so the same complete joint DP remains proof-capable,
+but uses a new branched topology, brands, stock patterns and seed range. No
+production source changes are authorized. Holdout SHA256 is
+`1A826B829284C7AD7CB6938C7DB18AE1C2179CCDC75687EB1DD20BD94906955E`.
+The research oracle first replaced a redundant global `O(N^2)` dominance scan
+with identical comparisons grouped by joint physical state; it reproduced the
+consumed 085 development result and hash `6e4072b927d9fa2a` exactly. The one
+valid 089 development sweep then found oracle-vs-champion `4/14/0`, zero
+invalid, no tier-1/tier-2 gap and four tier-3 serving gaps: +5 branched-
+duplicate low, +5 fuel-split low, +2 terminal-fork low and +1 branched-
+duplicate high. Result hash is `33080960367d1631`; maximum exact frontier was
+39489. Holdout remains sealed. Read-only attribution on branched-duplicate/low
+seed 1500100 found the exact day-1 plan absent at the 16-column portfolio and
+present at 32; injecting only its missing routes makes the exact outcome survive
+the unchanged master cap 32 and its full-match upper ranks joint first. The
+earliest loss is therefore column retention before F0. `prune_columns` already
+implements spot diversity but the caller enables it only at fuel at least three
+day-step budgets; every 089 gap is below that threshold. This opens
+`SCORE-ROADLESS-SPOT-DIVERSITY-090`, limited to enabling the existing lane on
+deterministic roadless maps with unchanged cap and untouched road behavior.
+That candidate is now rejected and fully absent from production. Direct
+candidate-vs-parent development W/T/L was `2/15/1`, zero invalid: terminal-fork
+low and fuel-split low gained +2 servings each at tier 3, but branched-duplicate
+low lost one daily distinct at tier 2 (`5/20/25` to `5/19/29`). Candidate
+oracle-gap hash was `28a37d0058be368e` versus parent `33080960367d1631`.
+The 089 holdout stayed sealed. Spot-diversity ranking, slots and thresholds may
+not be tuned on this consumed cohort.
 
 The next independent axis is `CEILING-MULTI-PATROL-085`. Existing exact evidence
 covers a four-patrol terminal day and a one-active-patrol full match, but not

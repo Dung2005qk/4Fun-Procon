@@ -5418,6 +5418,16 @@ std::vector<MasterCandidate> RouteMaster::solve(
                 }
                 for (const RouteColumn* column :
                      orderedColumns.at(static_cast<std::size_t>(agentIndex))) {
+                    const bool bundleCompatible =
+                        activeBundle == kUnsetBundle ||
+                        column->contingencyBundle == activeBundle ||
+                        (activeBundle < 0 &&
+                         column->contingencyBundle < 0);
+                    if (!bundleCompatible) {
+                        ++diagnostics.branchesPruned;
+                        ++diagnostics.bundlePrunes;
+                        continue;
+                    }
                     const std::uint64_t brands = column_brand_mask(config_, *column);
                     std::int32_t servingGain = column->estimatedServings;
                     std::int32_t preservedServingPotential = 0;
@@ -5501,22 +5511,6 @@ std::vector<MasterCandidate> RouteMaster::solve(
                 });
                 for (const BranchColumnRank& branchColumn : branchColumns) {
                     const RouteColumn* column = branchColumn.column;
-                    bool bundleCompatible = true;
-                    for (const RouteColumn* assigned : selected) {
-                        if (assigned == nullptr || assigned->agent == agentIndex) {
-                            continue;
-                        }
-                        if (assigned->contingencyBundle != column->contingencyBundle &&
-                            (assigned->contingencyBundle >= 0 || column->contingencyBundle >= 0)) {
-                            bundleCompatible = false;
-                            break;
-                        }
-                    }
-                    if (!bundleCompatible) {
-                        ++diagnostics.branchesPruned;
-                        ++diagnostics.bundlePrunes;
-                        continue;
-                    }
                     selected.at(static_cast<std::size_t>(agentIndex)) = column;
                     const std::int32_t childSynchronizationConstraints =
                         activeSynchronizationConstraints +
