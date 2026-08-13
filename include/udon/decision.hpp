@@ -339,6 +339,7 @@ struct ResponseLedger {
         std::int32_t scenarioId = 0;
         std::string scenarioClass;
         DayPlan plan;
+        std::optional<FutureWitness> certifiedSuffix;
     };
     struct StrongProofRecord {
         std::int32_t dayNumber = 0;

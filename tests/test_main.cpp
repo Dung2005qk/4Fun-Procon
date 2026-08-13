@@ -1225,6 +1225,18 @@ void test_exact_orienteering_terminal_frontier() {
         verify_route(route);
     }
     require(
+        reachability.servedSpotFuelRoutes.size() == config.spots.size(),
+        "complete exact reachability must expose one fuel-first route for every reachable served spot");
+    std::set<udon::CellId> servedSpotTerminals;
+    for (const udon::ExactOrienteeringRoute& route :
+         reachability.servedSpotFuelRoutes) {
+        verify_route(route);
+        require(
+            route.terminalOnSpot &&
+                servedSpotTerminals.insert(route.terminalCell).second,
+            "served-spot fuel frontier routes must end on distinct public spot cells");
+    }
+    require(
         terminalCells.size() >= 2U,
         "terminal frontier must retain distinct end positions for the same exact harvest search");
     require(
@@ -1388,6 +1400,11 @@ void test_exact_orienteering_terminal_frontier() {
             anytimeLowFuel.supported &&
             !anytimeLowFuel.maximalRoutes.empty(),
         "low-fuel anytime orienteering must emit exact-feasible routes without requiring a full proof");
+    require(
+        !fullLowFuel.servedSpotFuelRoutes.empty() &&
+            fullLowFuel.servedSpotFuelRoutes.size() <=
+                lowFuelConfig.spots.size(),
+        "complete low-fuel reachability must keep the served-spot frontier within the public spot bound");
     const auto maximum_spots = [](const udon::ExactOrienteeringReachability& exact) {
         std::int32_t maximum = 0;
         for (const udon::ExactOrienteeringRoute& route : exact.maximalRoutes) {
@@ -1402,6 +1419,25 @@ void test_exact_orienteering_terminal_frontier() {
         maximum_spots(anytimeLowFuel) == maximum_spots(fullLowFuel),
         "a sufficient anytime state budget must recover the full low-fuel spot cardinality");
     const udon::ExactStepSimulator lowFuelSimulator(lowFuelConfig);
+    for (const udon::ExactOrienteeringRoute& route :
+         fullLowFuel.servedSpotFuelRoutes) {
+        udon::DayPlan plan;
+        plan.actions = {
+            route.actions,
+            {udon::PlanAction::wait(32)},
+            {udon::PlanAction::wait(32)},
+        };
+        const udon::SimulationResult simulation =
+            lowFuelSimulator.simulate(lowFuelFinalState, plan);
+        require(
+            simulation.valid && route.terminalOnSpot &&
+                simulation.finalAgents.front().position ==
+                    route.terminalCell &&
+                lowFuelFinalState.agents.front().fuel -
+                        simulation.finalAgents.front().fuel ==
+                    route.patrolFuel,
+            "every complete low-fuel served-spot route must preserve exact terminal semantics");
+    }
     for (const udon::ExactOrienteeringRoute& route :
          anytimeLowFuel.maximalRoutes) {
         udon::DayPlan plan;

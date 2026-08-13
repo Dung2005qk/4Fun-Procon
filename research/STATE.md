@@ -4,10 +4,151 @@ Updated: 2026-08-13
 
 ## Current phase
 
-Canonical champion is now `f574d4e`, the accepted deterministic F0 intake
-promotion from parent `00711ba`. Its paired score, protected semantic and BTC
-target-host gates are closed; all consumed 071/083/084/085/087/088 fixtures may
-not be tuned further.
+Canonical committed parent is `f77c101`, which composes the accepted deterministic
+F0 intake promotion `f574d4e` with the accepted semantics-preserving master
+bundle prefilter `PERF-MASTER-BUNDLE-092`. `SCORE-W1-CLOSED-LOOP-114` has now
+cleared every promotion gate and is the accepted canonical successor included in
+the commit containing this recorded state. All consumed
+071/083/084/085/087/088/092/109/110/113/114 fixtures may not be tuned further.
+
+`ATTR-W1-TERMINAL-RANK-108` is closed as accepted attribution. On the consumed
+095 seed1600000 day-2 state, six nondominated served outcomes end at the missing
+patrol's oracle terminal cell 26. The exact mask-4/fuel-6 outcome occurs once:
+it is current-score rank 6/6, but unique remaining-fuel-first rank 1 and unique
+conditional FastViability-upper rank 1 at `6/24/30` when the other patrol keeps
+its exact route. Evidence is in
+`research/evidence/ATTR-W1-TERMINAL-RANK-108.md`. This rejects an arbitrary
+one-route-per-cell projection, but authorizes a fresh candidate that exposes at
+most one maximum-remaining-fuel route ending on every served spot. The public
+spot bound is 16 routes per agent. Existing maximal-mask routes and bundles must
+remain unchanged; the new lane is additive and requires a fresh frozen split.
+
+The active candidate is `SCORE-W1-TERMINAL-FRONTIER-109`, parent `f77c101`.
+Its frozen manifest contains 18 development and 54 sealed holdout fixtures over
+the six branched structural families with low/default/high fuel; new seed ranges
+start at 1800000/1810000/1820000. SHA256 is
+`2864E9070E03DC031469CEA1309D035ED9BAB38148EF19EAA6F18459C713CBFB`.
+The candidate may only add a bounded exact capability: each complete exact
+enumerator exposes at most one route ending on each public spot cell, ranked by
+least fuel used before exact current contribution and deterministic resource
+ties. The planner adds at most one aligned complete bundle per spot and retains
+all old bundles unchanged. W1 must finish its unchanged certified baseline
+first; optional work may then build one full dual-valid exact-bundle witness,
+guided only by the unchanged candidate-state FastViability upper. A scenario is
+replaced only by strictly better final official score; timeout, invalid, tie or
+worse preserves the old witness. No cap, threshold, beam or dispatcher changes.
+Development compares directly with source-frozen `f77c101` at 5000 ms; local
+elapsed is not performance evidence. The source-frozen A/B/B/A development gate
+is candidate-vs-parent `3/15/0`, invalid 0, reproduced exactly in both orders:
+branched-duplicate/low and fuel-split/low gain one daily distinct, and
+terminal-fork/low gains one serving. Day-1 audits attribute all three gains to
+selection of a W1 `upside-challenger` while parent selects `floor-leader`.
+Evidence is in
+`research/evidence/SCORE-W1-TERMINAL-FRONTIER-109-development.md`. The immutable
+54-fixture holdout opened once with no retuning and rejected the candidate at
+`4/46/4`, invalid 0. Tier-2 gain/loss sums were `5/2`, tier-3 `2/2`, but the
+downside was systematic: fuel-split/low was `0/1/2`, and low fuel was
+net-negative by case. All four losses reproduced exactly in reverse-order
+A/B/B/A, so they are causal rather than local cutoff noise. Evidence is in
+`research/evidence/SCORE-W1-TERMINAL-FRONTIER-109-holdout.md`. 109 is closed;
+no terminal-rank, fuel-gate or dispatcher tuning is allowed on its opened data.
+BTC and protected matrices remained sealed. Production source is restored to
+`f77c101`.
+
+`ATTR-W0-CACHE-RETENTION-110` is closed as accepted negative attribution. On
+18 fresh development matches, 54/54 next-day cached plans were eligible,
+exact-reused and never rejected; 51 survived F0 and 14 were selected. The three
+evictions were harmless: two were strictly current-and-upper dominated by the
+selected candidate and one was exactly current-and-upper equivalent. Evidence
+is in `research/evidence/ATTR-W0-CACHE-RETENTION-110.md`; its holdout remains
+sealed and no F0 identity-protection candidate is authorized.
+
+`ATTR-W0-CACHE-SUFFIX-111` is closed as accepted attribution. On consumed 110
+development, 36/54 next-day transitions truncate a multi-day certified
+witness: 18 contain three plans and 18 contain two. Every source final score is
+strictly above the current score retained by cache repair. Evidence is in
+`research/evidence/ATTR-W0-CACHE-SUFFIX-111.md`.
+
+`ATTR-W0-SUFFIX-REVALIDATE-112` is closed as accepted attribution: all 36/36
+roadless suffixes are dual-valid from the actual next-day state and reproduce
+their source final official score exactly, mismatch 0. Evidence is in
+`research/evidence/ATTR-W0-SUFFIX-REVALIDATE-112.md`.
+
+The rejected candidate `SCORE-W0-SUFFIX-PRESERVE-113`, parent `f77c101`, used a
+fresh cyclic manifest has 18 development and 54 sealed holdout fixtures over
+six families and low/default/high fuel, with new seeds
+2000000/2010000/2020000. SHA256 is
+`429C56F8A336B969AF27AF96DABA4EC2BDA4C055038CE37C01568D598B0484C1`.
+It retained and whole-suffix revalidated roadless certificates before exposing
+them to the unchanged comparator. Unit tests passed and four plan hashes
+changed, proving the mechanism was active, but development candidate-vs-parent
+was `0/18/0`, invalid 0. Holdout and BTC stayed sealed. Evidence is in
+`research/evidence/SCORE-W0-SUFFIX-PRESERVE-113.md`; all candidate source is
+restored to `f77c101` and this split may not be tuned.
+
+The accepted candidate is `SCORE-W1-CLOSED-LOOP-114`, parent `f77c101`. It is the
+single final composition of two frozen, independently attributed capabilities:
+109's bounded served-spot exact frontier creates the missing stronger W1
+certificate, while 113's roadless whole-suffix revalidation keeps that exact
+certificate authoritative across replanning. Neither rank, cap nor acceptance
+rule may change. Existing maximal bundles and W1 baseline execute first; the
+new witness must be complete, dual-valid and strictly better, and every cached
+suffix must reproduce its official final score from the authoritative state.
+No plan is forced. The fresh diamond manifest contains 18 development and 54
+sealed holdout fixtures across six new families and low/default/high fuel, seeds
+2100000/2110000/2120000; SHA256 is
+`EF74321329127E4B34B45C74386B4EC6464EAFE3EF0EADDF8F454FEE19D46DCB`.
+This is the final representation/persistence attempt: failure closes the axis
+without tuning. The source-frozen development gate passed identically in both
+execution orders at `10/8/0`, invalid 0. Two first differences were tier 2 with
+total gain `+2`; eight were tier 3 with total gain `+13`; no fixture lost. Gains
+span low/default/high fuel and four diamond families. On seed 2100000, cached
+whole-suffix replays at authoritative days 2 and 3 were dual-valid and exactly
+matched their source final scores (`6/17/25`, then `6/19/22`), while the unchanged
+comparator remained in control. Evidence is in
+`research/evidence/SCORE-W1-CLOSED-LOOP-114-development.md`. The candidate is
+frozen. Its immutable holdout has now passed at `26/25/3`, invalid 0. There was
+no tier-1 difference; tier-2 gain/loss was `11/1`, tier-3 gain/loss `42/2`, and
+every loss was only one unit at the first differing tier. Gains span all three
+fuel strata and five diamond families; no stratum is systematically losing. The
+three losses reproduced in candidate-first order. The preregistered four-run
+collection completed but its report parser failed after collection; with source
+unchanged, a paired rerun recovered the score table and is disclosed in
+`research/evidence/SCORE-W1-CLOSED-LOOP-114-holdout.md`. This clears the global
+score holdout under the bounded-downside rule, not absolute dominance. Promotion
+remains blocked on protected semantic/score matrices and BTC target-host hard-cap
+validation; no candidate tuning is permitted.
+
+The frozen protected matrix is now closed as passed; detailed evidence is in
+`research/evidence/SCORE-W1-CLOSED-LOOP-114-protected.md`. Fixed general 120 was
+`31/77/12`, with no tier-1 difference, tier-2 gain/loss `14/1` and tier-3
+`43/24`; all twelve losses reproduced candidate-first and remain disclosed.
+Conservative exhaustive-role 60 was `13/38/9`, tier-2 `4/1`, tier-3 `15/14`;
+reverse order converted two apparent losses to ties and one to a win. Conservative
+production-deadline 60 was `16/37/7`; reverse attribution removed the apparent
+tier-2 loss of 3 and one tier-3 loss, leaving an order-attributed result around
+`17/38/5` and tier-2 gain/loss `6/1`. All lanes had zero invalid/emergency and no
+tier-1 loss. A 32x32 low/default/high screen was valid throughout; low changed
+from candidate -2 servings to +1 when order reversed, so local cutoff variation
+has no performance authority. Candidate source remains unchanged. The sole
+remaining promotion gate is BTC target-host hard-cap/lifecycle/exact validity.
+The final BTC target-host gate passed on fresh explicit advanced match `m-2120`:
+hard, three bots, ten days, 32x32, 100 steps/day, 5000-ms response, eight agents,
+twelve spots, six brands and high fuel 3x. Frozen executable SHA256 is
+`4A285FF58BA845C699C03048CDDDAB1FA276DA8AE500FF99A12AC2DC96C33A98`; replay
+SHA256 is `40B85BD5D1C448A4444A1F7EAE507C718106A34583BB0F2DEB070639C67D6A12`.
+All 10 action responses were HTTP 200 and valid, replay-check accepted 10/10 with
+simulator/validator agreement, 9/9 transitions reconciled, and there were zero
+WAIT, skip, emergency, invalid, exact overrun or hard-cap breach. Target-host
+decision p95/p99/max was `2714/2714/2714 ms`; end-to-end action response was
+`2771/2771/2771 ms`. Exact frontier supported/completed 64/62 agent-days with
+zero overrun and cache exact-reused on nine days. Final `6/60/415` and rank 1 are
+only the asymmetric bot failure gate, not promotion evidence. The unchanged
+`competitionReady=false` reflects the separate uncalibrated persistent p99 flag,
+not this match's runtime; one ten-day match does not rewrite calibration. Evidence
+is in `research/evidence/SCORE-W1-CLOSED-LOOP-114-btc.md`. Candidate 114 is the
+accepted canonical successor on the paired holdout plus protected matrix and this
+final BTC target-host gate.
 
 The most recent closed performance axis is `PERF-MASTER-BUNDLE-092`. It is independent of
 the consumed roadless score fixtures and is rooted only in frozen BTC target
@@ -50,7 +191,231 @@ on BTC, a direct mathematical work reduction independent of random-map latency.
 Bot ranks and cross-map timing are ignored. `PERF-MASTER-BUNDLE-092` is accepted
 as a semantics-preserving global performance improvement.
 
-The active independent axis is `CEILING-BRANCH-PATROL-089`. The accepted 088
+The rejected independent performance axis `PERF-MASTER-STOCK-093`, parent
+`f77c101`. The six frozen 092 BTC replays contain 574509 bundle upper checks but
+only 81 bundle upper prunes. Each feasible check currently scans all spots to
+recompute stock capacity, although the recursion already maintains the exact
+generic stock upper. For each bundle/depth, 093 will precompute only offsets where
+`bundleSuffixClaims` differs from `genericSuffixClaims`, initialize from the
+generic upper, and subtract the exact difference of the two capped contributions
+at those offsets. This is an algebraic identity because bundle-compatible columns
+are a subset of generic columns. It neither disables nor weakens the bundle bound.
+showed reference/difference visits `119936/45` on one state and passed the full
+unit suite, but failed the frozen 60-state deadline-equivalence gate at `6/47/7`,
+action-equal `36/60`, tier-3 gain/loss sums `32/52`. A/B/B/A attribution removed
+or crossed six losses; `m-2077` day 4 remained binary-causal with parent servings
+`155/164` versus candidate `142/141`. The target matrix stayed sealed. All source
+and telemetry fields are restored to `f77c101`; do not retune on consumed 093.
+Frozen manifest SHA256 is
+`DAB0096E18863B8AC753AD06EEB808FB11DB9ED5CE48558486533BD7BF715F1B`.
+
+The rejected score axis `SCORE-MASTER-PRESERVE-094`, parent `f77c101`, used the 092
+target matrix ended master search incomplete on 59/60 days. DFS already computes
+`preservedServingPotential`, the exact amount of the child stock upper retained by
+choosing a column, but does not use it after ties on escort, lifetime, daily and
+current serving gain. 094 adds only descending preserved potential at that tie;
+stable source order remains final. No branch, bound, cap or completed-search result
+changes. Fresh fixed-role development and holdout seeds span all six generated
+families, short horizons and BTC-like low/default/high lanes. Holdout SHA256 is
+`E35CFBF193EBB3B4C7C5AA953FE18CA9F59F0651D9854A7092AA7E2DFF15CCE4`.
+The fresh general development result was `0/18/0`, exact score ties with zero
+invalid/emergency across all six families. The mechanism was reachable because
+operation counts changed, but it created no score benefit. BTC-like development
+and all holdouts stayed sealed; source is restored to `f77c101`. Do not tune more
+ordering keys on consumed 094.
+
+The accepted independent exact-gap axis is `CEILING-CYCLE-PATROL-095`, parent `f77c101`.
+It does not reuse the consumed 085 line or 089 branch topology, families or seed
+ranges. Its new 3x3 cyclic roadless component has two active patrols, six spots,
+multiple approaches and mixed plain/mountain movement; an isolated third patrol
+preserves the complete two-active-patrol proof scope. The unchanged complete
+joint DP will compare exact official score against HEAD at the 5000-ms hard cap
+on 18 development fixtures across six new structural families and low/default/
+high fuel. Its 54-fixture holdout is sealed. Manifest SHA256 is
+`C20467B8E28226710D6F310A3E24B166A8BD1582B955FD5B5E9F102BA8E4C866`.
+Its complete development result is exact-vs-HEAD `4/14/0`, zero invalid, with
+three tier-2 gaps and one tier-3 gap across cycle-balanced low, cycle-duplicate
+low/default and fuel-circuit low. Result hash is `6c160390445423ed`; maximum
+exact frontier is 42282. On seed 1600000, all exact day-1 agent routes exist in
+the 16-column portfolio and its admissible full-match upper is joint-best, but
+the normal 32-candidate master population with eight diversity slots discards
+the exact outcome. The same unchanged master at 48 candidates and twelve
+diversity slots retains it. The holdout remains sealed.
+
+The rejected candidate `SCORE-MASTER-PORTFOLIO-096` changed only the Normal deadline
+class changes master population retention from 32 to 48; the one-quarter
+diversity ratio is preserved. Search combinations remain 40000, downstream F0
+remains 16 candidates/24 operations, and no route generation, harvest extension,
+bundle, bound, simulator, validator, ALNS, role or hard-cap logic changes. It will
+first faced the four 095 development gaps, then all 18 development fixtures.
+
+The development gate passed candidate-vs-parent `2/15/1`, zero invalid. It
+improved cycle-duplicate low from `5/17/29` to `5/19/29` and fuel-circuit low
+from `6/22/25` to `6/24/28`, both at tier 2. Terminal-loop low regressed only
+one tier-3 serving, `5/20/30` to `5/20/29`. The two higher-tier gains outweigh
+the isolated small downside under the global promotion rule, so the immutable
+54-fixture 095 holdout opened exactly once. No parameter was retuned. Direct
+paired holdout was `8/43/3` in both P/C orders, zero invalid, with tier-2
+gain/loss `14/1` and tier-3 `0/5`.
+
+The candidate nevertheless failed the road-containing fixed protected lane on
+seeds `830000..830035`: `2/27/7`, zero invalid/emergency, tier-2 gain/loss `0/6`
+and tier-3 `4/7`. Reverse-order reproduction kept seven losses, including
+overnight seed 830021 at tier 2 `-1` and rare-brand seed 830029 at tier 2 `-4`.
+This systematic road/traffic downside dominates the roadless gain for global
+promotion. Native and BTC gates stayed unopened. The one-line production change
+is fully restored to `f77c101`; do not tune cap 32/48, fuel/road guards or
+diversity ratios on consumed 095/096.
+
+The attempted independent axis `CEILING-TRAFFIC-PATROL-097`, parent
+`f77c101`. The contradiction exposed by 096 cannot be resolved with another
+road guard or population-cap tune: roadless future-value gains and road/traffic
+losses are both causal. Existing exact multi-patrol suites omit the two-day own
+traffic state, so they cannot derive a globally safe retention relation. The new
+research-only complete DP uses a distinct cyclic topology with two road cells,
+frozen deterministic opponent load, and carries both previous exact own
+footprints in every physical state. Daily Smooth/Busy/Jammed costs follow the
+official players-times-threshold rule, and every witness must agree with the
+exact simulator and independent validator. The frozen 18-development/54-holdout
+manifest hash is
+`6027B078DA6BB80D9B613FB57210C55B10DCB012B67185BDD9C5F62F044B1263`.
+No production change or holdout opening was authorized. The first exact state
+representation reached about 6.8 GB private allocation. Exact compaction from
+64 cells to the two actual roads, byte storage, saturation at the jam threshold
+and componentwise traffic dominance reduced intermediate cost but the first
+fixture still reached about 5.8 GB before producing a score. It was stopped to
+protect the shared local host; development and holdout remain unopened and no
+score is claimed. 097 is infrastructure-inconclusive, not evidence of convergence
+or of solver quality. Reopen only with a mathematically exact quotient or a
+bounded external proof host; do not simplify traffic semantics to force it.
+
+`ATTR-MASTER-NESTED-098` is closed as accepted attribution. On overnight seed
+830021, the parent-selected hash `12994778012826007410` is absent from all 16
+candidate48 F0 records: the wider upstream population erased the parent witness.
+On rare-brand seed 830029, parent hash `9046975828446139618` survives and is
+certified, but is left `certified-not-selected` for hash
+`16946503130334369313`. Both report identical current, provisional lower, valid
+upper and certified lower scores on day 1; the replacement later loses tier 2.
+The comparator removes strict certified dominance first, then may break an
+unresolved tie by terminal slack, traffic fields and stable ID. Existing
+certification therefore does not make the 48-population path additive or prove
+the replacement globally better. Evidence is in
+`research/evidence/ATTR-MASTER-NESTED-098.md`; temporary harness output was
+removed. A successor requires a fresh split and must preserve the canonical
+parent reservoir/ALNS/F0 lane, allowing supplemental takeover only under strict
+certified dominance. Consumed 830021/830029 remain attribution-only.
+
+`ATTR-MASTER-EVICTION-099` is closed as accepted attribution. On consumed 095
+seed 1600000 day 1, canonical 32/8 reports
+`target_evaluated=1,target_retained=0`: the exact joint plan was already evaluated
+and then evicted. Cap32 quality-only retains it while 8 diversity slots do not,
+identically with branch-and-bound enabled and disabled. Temporary target audit
+bits were removed. Evidence is in
+`research/evidence/ATTR-MASTER-EVICTION-099.md`. This proves a future successor
+can observe the same evaluated stream in an independent quality reservoir while
+leaving canonical 32/8 branch pruning, ALNS and baseline F0 untouched; it does
+not require a second search. Supplemental takeover must still require strict
+certified dominance, and a fresh split is mandatory.
+
+`SCORE-MASTER-ADDITIVE-100`, parent `f77c101`, is rejected. Its frozen
+manifest is `research/holdouts/SCORE-MASTER-ADDITIVE-100.csv`, SHA256
+`AE7269ED4F73429C04128AFEABE50E105E55B743695852D05F76ADB6DAB39E4C`:
+18 development and 54 sealed holdout fixtures across a new 3x4 perimeter
+topology, six new families and low/default/high fuel. The additive 32/0 observer
+left canonical 32/8 BnB, ALNS and F0 unchanged and permitted takeover only after
+strict certified dominance. The exact full-match oracle exceeded the 120-second
+probe limit before any score and was stopped without semantic reduction. Direct
+source-frozen candidate-vs-parent development was `0/18/0`, invalid `0/0`; all
+18 full-match action hashes were identical and strict takeover days were zero.
+Holdout, protected/native and BTC lanes remained unopened. All production/test
+changes were removed. Evidence is in
+`research/evidence/SCORE-MASTER-ADDITIVE-100.md`. Reopen only from fresh telemetry
+proving strict supplemental dominance is achievable inside the remaining
+5000-ms window; do not weaken dominance or tune on consumed 095/100.
+
+`CEILING-LADDER-PATROL-101`, parent `f77c101`, is closed as
+infrastructure-inconclusive.
+Its frozen manifest is
+`research/holdouts/CEILING-LADDER-PATROL-101.csv`, SHA256
+`B9D1D990CDBE224AA848C92175B3ACDDA94E83D2B7F73F3EDA2EE1A3F72DD4A3`:
+18 development and 54 sealed holdout fixtures on a new 2x4 plain ladder with
+three linked cycles, six new families and low/default/high fuel. The unchanged
+complete two-active-patrol DP will compare exact full-match score with unchanged
+HEAD at the logical 5000-ms budget. The first development fixture exceeded the
+180-second exact-probe limit before producing a score; the lingering child was
+stopped by verified executable path. No semantics were reduced and holdout
+remained sealed. This is not evidence of solver convergence. Reopen only with an
+exact quotient or bounded external proof host; do not shrink the frozen suite.
+
+`ATTR-PROFILE-DOMINANCE-102` is closed as accepted attribution. It uses only
+consumed 095 cycle-balanced/low seed 1600000 day 1. The exact oracle plan and
+the parent-selected plan will each be evaluated with the same frozen production
+belief, manifest, candidate-specific viability upper, W1 repair and risk
+comparator, with an independent 5000-ms proof window. It reports all scenario
+outcomes/uppers and both strict dominance directions. This peer-favorable probe
+has attribution authority only; it cannot promote a candidate or make a local
+performance claim. Exact current/lower/upper are `6/6/9`, `6/20/29`,
+`6/24/30`; parent values are `6/6/12`, `6/19/29`, `6/23/29`. Both profiles are
+certified and neither dominates. Exact-to-parent first fails at threshold
+`6/23/29` with certified/possible weight `0/10000`. Valid uppers already
+distinguish the states; the blocker is the exact W1 lower, four daily distinct
+below the known exact result. Evidence is in
+`research/evidence/ATTR-PROFILE-DOMINANCE-102.md`. The next gap is W1
+continuation availability/retention/selection, not dominance or master cap.
+
+`ATTR-W1-CONTINUATION-103` is closed as accepted attribution. On consumed 095
+seed 1600000, it replays the exact day-1 plan and then reconstructs W1 with the
+production repair settings: days 2-3 use three columns per agent and one retained
+candidate with the 200 cap split evenly; day 4 uses the smaller terminal lane.
+At the first plan divergence it reports the oracle per-agent route mask, joint
+outcome retention, chosen/exact score, portfolio widths and master nodes, then
+stops causal comparison because later states differ. No production candidate or
+cap change is authorized. Day 2 is the first divergence: W1 portfolio widths
+are `3|3|1`, oracle route mask is `001`, master nodes are 1, and chosen/exact
+current scores are `6/12/20` versus `6/12/16`; neither exact plan nor equivalent
+outcome is retained. Evidence is in
+`research/evidence/ATTR-W1-CONTINUATION-103.md`. This is route availability,
+not master selection. Prior cap16/dual/terminal-fuel candidates 077/079/082 stay
+closed; only nonterminal fuel-anytime membership remains untested.
+
+`ATTR-W1-NONTERMINAL-FUEL-104` is closed as accepted negative attribution. At consumed 095
+seed 1600000 day 2, it keeps W1 cap3 and every ordinary generation setting, but
+enables the existing exact-harvest/fuel-constrained-anytime enumerator with its
+unchanged 32-route and 1,250,000-node bounds. It reports whether the oracle mask
+moves from `001` to `111` and whether exact enumeration completes. It does not
+run a candidate, widen caps or tune the enumerator. The result is mask `011`,
+widths `5|5|3`, supported/complete `3/0`, 863 settled states, nine variants, two
+bundles and no deadline. One patrol route remains absent, so no candidate opens.
+Evidence is in `research/evidence/ATTR-W1-NONTERMINAL-FUEL-104.md`.
+
+`ATTR-W1-NONTERMINAL-EXACT-105` is closed as accepted negative attribution. It repeats only
+the membership query with the distinct complete fuel-constrained exact
+enumerator, anytime disabled and cap3 unchanged. Mask `111` plus complete
+enumeration is required; otherwise the nonterminal fuel axis closes. Complete
+exact returned mask `011`, widths `5|5|3`, supported/complete `3/3`, 570 states,
+eight variants, two bundles and no deadline. The fuel-flag axis is closed.
+Evidence is in `research/evidence/ATTR-W1-NONTERMINAL-EXACT-105.md`.
+
+`ATTR-W1-MASK-DOMINANCE-106` is closed as accepted attribution. It inspects the
+complete per-agent reachability before RouteColumn pruning on the same day-2
+state: oracle spot mask, terminal/fuel, membership in maximal/terminal routes
+and strict reachable supersets. No generator option or candidate changes. Agent
+0 oracle mask `4`, terminal 26, fuel 6 is absent from maximal/terminal routes;
+one strict superset exists but zero preserve terminal+fuel. Agent 1 mask `63` is
+present. This proves invalid single-agent horizon projection. Evidence is in
+`research/evidence/ATTR-W1-MASK-DOMINANCE-106.md`.
+
+`ATTR-W1-UPPER-FRONTIER-107` is closed as accepted attribution. On the same exact
+day-2 state it composes the complete two-patrol day-outcome frontier and ranks
+unique joint terminal states by the unchanged candidate-specific FastViability
+upper for day 3. The per-agent frontiers are 53 and 72 outcomes, composing 3324
+unique joint states. The oracle class exists and its upper `6/24/30` equals the
+maximum, rank 1 with 39 ties. Evidence is in
+`research/evidence/ATTR-W1-UPPER-FRONTIER-107.md`. This authorizes only a fresh
+candidate with a structurally bounded served-terminal route per cell and an
+additive bundle lane; baseline W1 must remain an exact fallback.
+
+The closed exact-gap axis `CEILING-BRANCH-PATROL-089` used parent `f574d4e`. The accepted 088
 evidence is confined to one seven-cell line component, while exact residual
 gaps remain and no evidence yet establishes multi-day value quality on a
 branched component with mixed plain/mountain movement and six spots. A new

@@ -27,6 +27,7 @@ struct ExactOrienteeringReachability {
     std::vector<ExactOrienteeringRoute> maximalRoutes;
     std::vector<ExactOrienteeringRoute> supplementalRoutes;
     std::vector<ExactOrienteeringRoute> terminalVariants;
+    std::vector<ExactOrienteeringRoute> servedSpotFuelRoutes;
 };
 
 [[nodiscard]] ExactOrienteeringReachability enumerate_exact_high_fuel_routes(

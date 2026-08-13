@@ -311,6 +311,48 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
         }
     }
 
+    const auto reconstruct_high_fuel_route =
+        [&config,
+         &distance,
+         &patrolFuel,
+         &parent,
+         &incoming,
+         &terminalBrandDistanceByCell,
+         cellCount,
+         daySteps,
+         root](std::uint32_t witness, std::uint32_t mask) {
+            ExactOrienteeringRoute route;
+            route.spotMask = mask;
+            route.usedSteps = distance.at(witness);
+            route.patrolFuel = patrolFuel.at(witness);
+            route.terminalCell = static_cast<CellId>(witness % cellCount);
+            route.terminalOnSpot =
+                config.spotAtCell.at(static_cast<std::size_t>(route.terminalCell)) !=
+                kInvalidSpot;
+            route.terminalBrandDistance = terminalBrandDistanceByCell.at(
+                static_cast<std::size_t>(route.terminalCell));
+            std::vector<PlanAction> reversed;
+            std::uint32_t current = witness;
+            while (current != root) {
+                const std::uint8_t action = incoming.at(current);
+                if (action == static_cast<std::uint8_t>(kDirectionCount)) {
+                    reversed.push_back(PlanAction::wait(1));
+                } else if (action < static_cast<std::uint8_t>(kDirectionCount)) {
+                    reversed.push_back(PlanAction::move(action));
+                } else {
+                    throw std::runtime_error(
+                        "exact orienteering predecessor chain is broken");
+                }
+                current = parent.at(current);
+            }
+            std::reverse(reversed.begin(), reversed.end());
+            if (route.usedSteps < daySteps) {
+                reversed.push_back(PlanAction::wait(daySteps - route.usedSteps));
+            }
+            route.actions = std::move(reversed);
+            return route;
+        };
+
     bool maximalComplete = true;
     const std::vector<std::uint32_t> maximalMasks = inclusion_maximal_masks(
         reachableMasks,
@@ -419,39 +461,71 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
                 return result;
             }
             const std::uint32_t witness = candidateStates.at(witnessOffset);
-            ExactOrienteeringRoute route;
-            route.spotMask = mask;
-            route.usedSteps = distance.at(witness);
-            route.patrolFuel = patrolFuel.at(witness);
-            route.terminalCell = static_cast<CellId>(witness % cellCount);
-            route.terminalOnSpot =
-                config.spotAtCell.at(static_cast<std::size_t>(route.terminalCell)) !=
-                kInvalidSpot;
-            route.terminalBrandDistance = terminalBrandDistanceByCell.at(
-                static_cast<std::size_t>(route.terminalCell));
-            std::vector<PlanAction> reversed;
-            std::uint32_t current = witness;
-            while (current != root) {
-                const std::uint8_t action = incoming.at(current);
-                if (action == static_cast<std::uint8_t>(kDirectionCount)) {
-                    reversed.push_back(PlanAction::wait(1));
-                } else if (action < static_cast<std::uint8_t>(kDirectionCount)) {
-                    reversed.push_back(PlanAction::move(action));
-                } else {
-                    throw std::runtime_error("exact orienteering predecessor chain is broken");
-                }
-                current = parent.at(current);
-            }
-            std::reverse(reversed.begin(), reversed.end());
-            if (route.usedSteps < daySteps) {
-                reversed.push_back(PlanAction::wait(daySteps - route.usedSteps));
-            }
-            route.actions = std::move(reversed);
+            ExactOrienteeringRoute route =
+                reconstruct_high_fuel_route(witness, mask);
             if (witness == fastest) {
                 result.maximalRoutes.push_back(std::move(route));
             } else {
                 result.terminalVariants.push_back(std::move(route));
             }
+        }
+    }
+    result.servedSpotFuelRoutes.reserve(config.spots.size());
+    for (std::size_t targetSpot = 0;
+         targetSpot < config.spots.size();
+         ++targetSpot) {
+        if (deadline_expired()) {
+            return result;
+        }
+        const CellId targetCell = config.spots.at(targetSpot).position;
+        const std::uint32_t targetBit =
+            std::uint32_t{1} << static_cast<std::uint32_t>(targetSpot);
+        std::uint32_t best = std::numeric_limits<std::uint32_t>::max();
+        std::tuple<
+            std::int32_t,
+            std::int32_t,
+            std::int32_t,
+            std::int32_t,
+            std::int32_t,
+            std::uint32_t,
+            std::uint32_t> bestRank;
+        for (std::uint32_t mask = 1U; mask < maskCount; ++mask) {
+            if ((mask & 1023U) == 0U && deadline_expired()) {
+                return result;
+            }
+            if ((mask & targetBit) == 0U) {
+                continue;
+            }
+            const std::uint32_t id = state_id(mask, targetCell);
+            if (distance.at(id) == kUnreachable) {
+                continue;
+            }
+            std::uint64_t brands = 0U;
+            std::int32_t servingPotential = 0;
+            for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+                if ((mask & (std::uint32_t{1} << spot)) == 0U) {
+                    continue;
+                }
+                brands |= brand_bit(config.spots.at(spot).brandIndex);
+                servingPotential += config.spots.at(spot).stock > 0 ? 1 : 0;
+            }
+            const auto rank = std::tuple{
+                static_cast<std::int32_t>(patrolFuel.at(id)),
+                -static_cast<std::int32_t>(std::popcount(brands)),
+                -servingPotential,
+                -static_cast<std::int32_t>(std::popcount(mask)),
+                static_cast<std::int32_t>(distance.at(id)),
+                mask,
+                id};
+            if (best == std::numeric_limits<std::uint32_t>::max() ||
+                rank < bestRank) {
+                best = id;
+                bestRank = rank;
+            }
+        }
+        if (best != std::numeric_limits<std::uint32_t>::max()) {
+            result.servedSpotFuelRoutes.push_back(
+                reconstruct_high_fuel_route(best, best / cellCount));
         }
     }
     result.complete = true;
@@ -1123,6 +1197,73 @@ ExactOrienteeringReachability enumerate_resource_routes(
             } else {
                 result.terminalVariants.push_back(std::move(route));
             }
+        }
+    }
+    result.servedSpotFuelRoutes.reserve(config.spots.size());
+    for (std::size_t targetSpot = 0;
+         targetSpot < config.spots.size();
+         ++targetSpot) {
+        if (deadline_expired()) {
+            return result;
+        }
+        const CellId targetCell = config.spots.at(targetSpot).position;
+        const std::uint32_t targetBit =
+            std::uint32_t{1} << static_cast<std::uint32_t>(targetSpot);
+        std::uint32_t best = std::numeric_limits<std::uint32_t>::max();
+        std::tuple<
+            std::int32_t,
+            std::int32_t,
+            std::int32_t,
+            std::int32_t,
+            std::int32_t,
+            std::uint32_t,
+            std::uint32_t> bestRank;
+        for (std::uint32_t mask = 1U; mask < maskCount; ++mask) {
+            if ((mask & 1023U) == 0U && deadline_expired()) {
+                return result;
+            }
+            if ((mask & targetBit) == 0U) {
+                continue;
+            }
+            const std::uint32_t id = state_id(mask, targetCell);
+            std::uint64_t brands = 0U;
+            std::int32_t servingPotential = 0;
+            for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+                if ((mask & (std::uint32_t{1} << spot)) == 0U) {
+                    continue;
+                }
+                brands |= brand_bit(config.spots.at(spot).brandIndex);
+                servingPotential += config.spots.at(spot).stock > 0 ? 1 : 0;
+            }
+            for (std::int32_t labelIndex = firstLabelAtState.at(id);
+                 labelIndex >= 0;
+                 labelIndex = labels.at(static_cast<std::size_t>(labelIndex))
+                                  .nextAtState) {
+                const ResourceLabel& label = labels.at(
+                    static_cast<std::size_t>(labelIndex));
+                if (!label.active) {
+                    continue;
+                }
+                const auto rank = std::tuple{
+                    static_cast<std::int32_t>(label.usedFuel),
+                    -static_cast<std::int32_t>(std::popcount(brands)),
+                    -servingPotential,
+                    -static_cast<std::int32_t>(std::popcount(mask)),
+                    static_cast<std::int32_t>(label.usedSteps),
+                    mask,
+                    static_cast<std::uint32_t>(labelIndex)};
+                if (best == std::numeric_limits<std::uint32_t>::max() ||
+                    rank < bestRank) {
+                    best = static_cast<std::uint32_t>(labelIndex);
+                    bestRank = rank;
+                }
+            }
+        }
+        if (best != std::numeric_limits<std::uint32_t>::max()) {
+            const std::uint32_t mask =
+                labels.at(static_cast<std::size_t>(best)).state / cellCount;
+            result.servedSpotFuelRoutes.push_back(
+                reconstruct_route(best, mask));
         }
     }
     result.complete = true;

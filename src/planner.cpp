@@ -2505,6 +2505,38 @@ RoutePortfolio RouteColumnGenerator::generate(
             }
             append_exact_bundles(enhancedExactOrienteering);
         }
+        for (const Spot& target : config_.spots) {
+            if (deadline_expired()) {
+                if (diagnostics != nullptr) {
+                    diagnostics->deadlineReached = true;
+                }
+                break;
+            }
+            std::vector<const ExactOrienteeringRoute*> aligned(
+                static_cast<std::size_t>(config_.agent_count()),
+                nullptr);
+            bool hasAlignedRoute = false;
+            for (AgentIndex agent = 0;
+                 agent < config_.agent_count();
+                 ++agent) {
+                const std::vector<ExactOrienteeringRoute>& routes =
+                    exactOrienteering.at(static_cast<std::size_t>(agent))
+                        .servedSpotFuelRoutes;
+                const auto found = std::find_if(
+                    routes.begin(),
+                    routes.end(),
+                    [&target](const ExactOrienteeringRoute& route) {
+                        return route.terminalCell == target.position;
+                    });
+                if (found != routes.end()) {
+                    aligned.at(static_cast<std::size_t>(agent)) = &*found;
+                    hasAlignedRoute = true;
+                }
+            }
+            if (hasAlignedRoute) {
+                coordinatedExactRouteBundles.push_back(std::move(aligned));
+            }
+        }
         std::set<std::string> seenExactPlans;
         std::erase_if(
             coordinatedExactRouteBundles,

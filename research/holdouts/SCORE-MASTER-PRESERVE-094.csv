@@ -1,0 +1,8 @@
+split,suite,seed_start,count,budget_ms,role_mode,role_mask,fuel,horizon,families,gate
+development,general,3410000,18,5000,fixed,0,mixed,4-5,"balanced;rare-brand;threshold-corridor;fuel-tight;high-stock;overnight","candidate-vs-parent official W/T/L; zero invalid/emergency; no tier1/tier2 loss; tier3 gain/loss tails; holdout sealed unless broad net positive"
+development,btc-lowfuel,3411000,6,5000,fixed,0,low,10,"same six families on 32x32","open only after general development passes; causal fixed-role score screen; local elapsed excluded"
+holdout,general,3420000,54,5000,fixed,0,mixed,4-5,"nine fresh seeds per family","open once only after both development lanes pass; systematic family downside rejects"
+holdout,btc-lowfuel,3430000,6,5000,fixed,0,low,10,"one fresh seed per family","paired score and tail downside; zero invalid/emergency"
+holdout,btc-default,3431000,6,5000,fixed,0,default,10,"one fresh seed per family","paired score and tail downside; zero invalid/emergency"
+holdout,btc-highfuel,3432000,6,5000,fixed,0,high,10,"one fresh seed per family","paired score and tail downside; zero invalid/emergency; exact/high path protection"
+target-host,sealed-matrix,fresh,6,5000,native,native,"low;default;high",10,"easy 8x8 and hard 32x32 crossed with fuel","only after frozen holdout passes; 60/60 valid; 54/54 transitions; hard cap; rank ignored"

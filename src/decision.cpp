@@ -2196,6 +2196,196 @@ void FutureWitnessRepairer::repair_profile(
     if (profile.outcomes.size() != manifest.scenarios.size()) {
         throw std::invalid_argument("profile does not align with the frozen scenario manifest");
     }
+    const auto build_exact_bundle_witness =
+        [this,
+         &candidate,
+         &currentState,
+         &ledger,
+         &belief,
+         deadline](const TrafficScenario& scenario)
+            -> std::optional<FutureWitness> {
+            if (currentState.dayNumber >= config_.day_count() ||
+                std::chrono::steady_clock::now() >= deadline) {
+                return std::nullopt;
+            }
+            MatchLedger futureLedger = ledger;
+            futureLedger.apply(candidate.simulation.score);
+            FutureWitness witness;
+            witness.score = candidate.scoreAfterToday;
+            witness.certified = true;
+            DayState futureState;
+            futureState.dayNumber = currentState.dayNumber + 1;
+            futureState.agents = candidate.simulation.finalAgents;
+            futureState.others = currentState.others;
+            std::vector<std::int32_t> previousOwn =
+                belief.previous_own_footprint();
+            std::vector<std::int32_t> currentOwn =
+                candidate.simulation.roadFootprint;
+            std::vector<std::int32_t> opponentCarry =
+                scenario.opponentCarryFootprint;
+            std::vector<std::int32_t> opponentCurrent =
+                scenario.opponentCurrentFootprint;
+            futureState.roadStatuses = predict_with_components(
+                config_,
+                previousOwn,
+                currentOwn,
+                opponentCarry,
+                opponentCurrent);
+            const FastViabilityAnalyzer viability(config_);
+            for (std::int32_t dayNumber = futureState.dayNumber;
+                 dayNumber <= config_.day_count();
+                 ++dayNumber) {
+                if (std::chrono::steady_clock::now() >= deadline) {
+                    return std::nullopt;
+                }
+                futureState.dayNumber = dayNumber;
+                ColumnGenerationOptions generationOptions;
+                generationOptions.maximumPathsPerTarget = 1;
+                generationOptions.maximumColumnsPerAgent = 3;
+                generationOptions.maximumTargetSpots = 6;
+                generationOptions.maximumEscorts = 4;
+                generationOptions.enableHarvestExtensions =
+                    harvestExtensionMode_ > 0;
+                generationOptions.allowUncachedHarvestTargets = true;
+                generationOptions.enableExactHarvestOrienteering =
+                    harvestExtensionMode_ > 5;
+                generationOptions
+                    .enableFuelConstrainedExactHarvestOrienteering =
+                    harvestExtensionMode_ > 6;
+                generationOptions
+                    .enableAnytimeFuelConstrainedHarvestOrienteering = false;
+                generationOptions.maximumHarvestExtensionSources =
+                    harvestExtensionMode_ > 2 ? 4 : 1;
+                generationOptions.maximumHarvestExtensionDepth =
+                    harvest_extension_depth(
+                        config_,
+                        futureState.dayNumber,
+                        harvestExtensionMode_);
+                generationOptions.deadline = deadline;
+                ColumnGenerationDiagnostics generationDiagnostics;
+                const RoutePortfolio portfolio = generator_.generate(
+                    futureState,
+                    futureLedger,
+                    generationOptions,
+                    &generationDiagnostics);
+                if (generationDiagnostics.exactOrienteeringSupportedAgents == 0 ||
+                    generationDiagnostics.exactOrienteeringCompleteAgents !=
+                        generationDiagnostics.exactOrienteeringSupportedAgents) {
+                    return std::nullopt;
+                }
+                struct ExactBundlePlan {
+                    DayPlan plan;
+                    std::vector<bool> assigned;
+                    bool duplicateAgent = false;
+                };
+                std::map<std::int32_t, ExactBundlePlan> bundles;
+                for (std::size_t agent = 0;
+                     agent < portfolio.columnsByAgent.size();
+                     ++agent) {
+                    for (const RouteColumn& column :
+                         portfolio.columnsByAgent.at(agent)) {
+                        if (!column.exactOrienteering ||
+                            column.contingencyBundle < 0) {
+                            continue;
+                        }
+                        ExactBundlePlan& bundle =
+                            bundles[column.contingencyBundle];
+                        if (bundle.plan.actions.empty()) {
+                            bundle.plan.actions.resize(
+                                static_cast<std::size_t>(
+                                    config_.agent_count()));
+                            bundle.assigned.assign(
+                                static_cast<std::size_t>(
+                                    config_.agent_count()),
+                                false);
+                        }
+                        if (bundle.assigned.at(agent)) {
+                            bundle.duplicateAgent = true;
+                            continue;
+                        }
+                        bundle.plan.actions.at(agent) = column.actions;
+                        bundle.assigned.at(agent) = true;
+                    }
+                }
+                std::optional<MasterCandidate> selected;
+                OfficialScore selectedUpper;
+                bool hasSelectedUpper = false;
+                for (auto& [bundleId, bundle] : bundles) {
+                    static_cast<void>(bundleId);
+                    if (bundle.duplicateAgent ||
+                        bundle.assigned.size() !=
+                            static_cast<std::size_t>(config_.agent_count()) ||
+                        !std::all_of(
+                            bundle.assigned.begin(),
+                            bundle.assigned.end(),
+                            [](bool assigned) { return assigned; })) {
+                        continue;
+                    }
+                    std::optional<MasterCandidate> exact =
+                        master_.evaluate_exact_plan(
+                            futureState,
+                            futureLedger,
+                            bundle.plan);
+                    if (!exact.has_value()) {
+                        continue;
+                    }
+                    MatchLedger nextLedger = futureLedger;
+                    nextLedger.apply(exact->simulation.score);
+                    OfficialScore upper = exact->scoreAfterToday;
+                    if (dayNumber < config_.day_count()) {
+                        DayState nextState = futureState;
+                        nextState.dayNumber = dayNumber + 1;
+                        nextState.agents = exact->simulation.finalAgents;
+                        nextState.roadStatuses = predict_with_components(
+                            config_,
+                            currentOwn,
+                            exact->simulation.roadFootprint,
+                            opponentCurrent,
+                            std::vector<std::int32_t>(
+                                opponentCurrent.size(),
+                                0));
+                        upper = viability.analyze(
+                            nextState,
+                            nextLedger,
+                            deadline).upperBound;
+                    }
+                    if (!selected.has_value() ||
+                        selectedUpper < upper ||
+                        (selectedUpper == upper &&
+                         selected->scoreAfterToday < exact->scoreAfterToday) ||
+                        (selectedUpper == upper &&
+                         selected->scoreAfterToday == exact->scoreAfterToday &&
+                         exact->stableId < selected->stableId)) {
+                        selected = std::move(exact);
+                        selectedUpper = upper;
+                        hasSelectedUpper = true;
+                    }
+                }
+                if (!selected.has_value() || !hasSelectedUpper) {
+                    return std::nullopt;
+                }
+                witness.futurePlans.push_back(selected->plan);
+                futureLedger.apply(selected->simulation.score);
+                witness.score = current_score(futureLedger);
+                previousOwn = currentOwn;
+                currentOwn = selected->simulation.roadFootprint;
+                opponentCarry = opponentCurrent;
+                std::fill(
+                    opponentCurrent.begin(),
+                    opponentCurrent.end(),
+                    0);
+                futureState.agents = selected->simulation.finalAgents;
+                if (dayNumber < config_.day_count()) {
+                    futureState.roadStatuses = predict_with_components(
+                        config_,
+                        previousOwn,
+                        currentOwn,
+                        opponentCarry,
+                        opponentCurrent);
+                }
+            }
+            return witness;
+        };
     for (std::size_t scenarioIndex = 0; scenarioIndex < manifest.scenarios.size(); ++scenarioIndex) {
         const TrafficScenario& scenario = manifest.scenarios.at(scenarioIndex);
         FutureWitness certifiedFloor = build_monotone_wait_floor(
@@ -2389,6 +2579,12 @@ void FutureWitnessRepairer::repair_profile(
                 };
             }
         } else {
+            const std::optional<FutureWitness> exactBundleWitness =
+                build_exact_bundle_witness(scenario);
+            if (exactBundleWitness.has_value() &&
+                witness.score < exactBundleWitness->score) {
+                witness = *exactBundleWitness;
+            }
             profile.outcomes.at(scenarioIndex) =
                 ScenarioOutcome{witness.score, std::move(witness)};
         }
@@ -2897,10 +3093,12 @@ namespace {
 struct CacheRepairResult {
     std::vector<MasterCandidate> candidates;
     std::vector<DayPlan> seedPlans;
+    std::map<std::string, FutureWitness> certifiedSuffixes;
     CacheRepairDiagnostics diagnostics;
 };
 
 [[nodiscard]] CacheRepairResult repair_cached_contingencies(
+    const MatchConfig& config,
     const ResponseLedger& responseLedger,
     const DayState& state,
     const MatchLedger& ledger,
@@ -2967,10 +3165,61 @@ struct CacheRepairResult {
         FutureWitness repairedWitness;
         repairedWitness.score = candidate->scoreAfterToday;
         repairedWitness.certified = true;
+        if (config.roadCells.empty() &&
+            contingency.certifiedSuffix.has_value() &&
+            !contingency.certifiedSuffix->futurePlans.empty() &&
+            canonical_plan_bytes(
+                contingency.certifiedSuffix->futurePlans.front()) ==
+                canonical_plan_bytes(contingency.plan)) {
+            MatchLedger suffixLedger = ledger;
+            DayState suffixState = state;
+            bool suffixValid = true;
+            for (std::size_t planOffset = 0;
+                 planOffset <
+                     contingency.certifiedSuffix->futurePlans.size();
+                 ++planOffset) {
+                std::optional<MasterCandidate> suffixDay =
+                    planOffset == 0U
+                    ? std::optional<MasterCandidate>{*candidate}
+                    : master.evaluate_exact_plan(
+                          suffixState,
+                          suffixLedger,
+                          contingency.certifiedSuffix->futurePlans.at(
+                              planOffset));
+                if (!suffixDay.has_value()) {
+                    suffixValid = false;
+                    break;
+                }
+                suffixLedger.apply(suffixDay->simulation.score);
+                if (planOffset + 1U <
+                    contingency.certifiedSuffix->futurePlans.size()) {
+                    suffixState.dayNumber += 1;
+                    suffixState.agents = suffixDay->simulation.finalAgents;
+                    suffixState.roadStatuses.assign(
+                        static_cast<std::size_t>(
+                            config.map.cell_count()),
+                        RoadStatus::Smooth);
+                }
+            }
+            const OfficialScore suffixScore = current_score(suffixLedger);
+            if (suffixValid &&
+                suffixScore == contingency.certifiedSuffix->score) {
+                repairedWitness = *contingency.certifiedSuffix;
+                repairedWitness.futurePlans.erase(
+                    repairedWitness.futurePlans.begin());
+                const auto found = result.certifiedSuffixes.find(
+                    candidate->stableId);
+                if (found == result.certifiedSuffixes.end() ||
+                    found->second.score < repairedWitness.score) {
+                    result.certifiedSuffixes[candidate->stableId] =
+                        repairedWitness;
+                }
+            }
+        }
         viability.frontier.push_back(ViabilityFrontierPoint{
-            candidate->scoreAfterToday.lifetimeDistinct,
+            repairedWitness.score.lifetimeDistinct,
             0,
-            candidate->scoreAfterToday,
+            repairedWitness.score,
             viability.upperBound,
             std::move(repairedWitness),
             contingency.scenarioId,
@@ -3855,6 +4104,7 @@ DecisionResult UdonShieldEngine::solve_day(
     result.viability = viabilityAnalyzer_.analyze(state, ledger, fastViabilityDeadline);
     result.timing.incumbent = elapsed();
     CacheRepairResult cacheRepair = repair_cached_contingencies(
+        config_,
         ledger_,
         state,
         ledger,
@@ -4643,6 +4893,30 @@ DecisionResult UdonShieldEngine::solve_day(
             validUpperBound,
             f0OperationCap,
             f0Deadline);
+        const auto cachedSuffix = cacheRepair.certifiedSuffixes.find(
+            candidate.stableId);
+        if (cachedSuffix != cacheRepair.certifiedSuffixes.end()) {
+            for (std::size_t outcomeIndex = 0;
+                 outcomeIndex < provisional.outcomes.size();
+                 ++outcomeIndex) {
+                const OfficialScore scenarioUpper =
+                    provisional.scenarioValidUpperBounds.at(outcomeIndex);
+                ScenarioOutcome& outcome =
+                    provisional.outcomes.at(outcomeIndex);
+                if (compare_lexicographic(
+                        cachedSuffix->second.score,
+                        scenarioUpper) <= 0 &&
+                    (!outcome.witness.certified ||
+                     outcome.score < cachedSuffix->second.score)) {
+                    outcome = ScenarioOutcome{
+                        cachedSuffix->second.score,
+                        cachedSuffix->second,
+                    };
+                }
+            }
+            provisional.provisional =
+                !all_outcomes_certified(provisional);
+        }
         evaluations.push_back(CandidateEvaluation{std::move(candidate), std::move(provisional)});
     }
     comparator_.finalize_profiles(
@@ -4959,6 +5233,9 @@ void UdonShieldEngine::record_submitted(
             ResponseLedger::CachedContingency contingency;
             contingency.dayNumber = decision.dayNumber + 1;
             contingency.plan = plan;
+            if (config_.roadCells.empty()) {
+                contingency.certifiedSuffix = witness;
+            }
             if (outcomeIndex < decision.manifest.scenarios.size()) {
                 contingency.scenarioId = decision.manifest.scenarios.at(outcomeIndex).scenarioId;
                 contingency.scenarioClass = decision.manifest.scenarios.at(outcomeIndex).scenarioClass;
