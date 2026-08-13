@@ -30,6 +30,7 @@ constexpr std::int32_t kHarvestMode = 7;
 constexpr std::int32_t kFutureHarvestMode = 7;
 constexpr std::size_t kTrackedRoadCapacity = 2U;
 using TrafficFootprint = std::array<std::uint8_t, kTrackedRoadCapacity>;
+using TrafficStatusKey = std::array<std::uint8_t, kTrackedRoadCapacity>;
 
 struct ManifestRow {
     std::string experimentId;
@@ -47,6 +48,8 @@ struct Options {
     std::uint64_t onlySeed = 0;
     bool details = false;
     bool headOnly = false;
+    std::string inspectPlan;
+    std::string inspectParentPlan;
 };
 
 struct Fixture {
@@ -73,7 +76,7 @@ using MatchKey = std::tuple<
     std::int32_t,
     std::uint64_t,
     TrafficFootprint,
-    TrafficFootprint>;
+    TrafficStatusKey>;
 
 struct LayerEntry {
     MatchKey key{};
@@ -189,6 +192,10 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
             options.details = true;
         } else if (argument == "--head-only") {
             options.headOnly = true;
+        } else if (argument == "--inspect-plan" && index + 1 < argc) {
+            options.inspectPlan = argv[++index];
+        } else if (argument == "--inspect-parent-plan" && index + 1 < argc) {
+            options.inspectParentPlan = argv[++index];
         } else {
             throw std::invalid_argument("unknown or incomplete option: " + argument);
         }
@@ -198,6 +205,13 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
     }
     if (options.maximumMatches < 0) {
         throw std::invalid_argument("maximum matches cannot be negative");
+    }
+    if (!options.inspectPlan.empty() && options.onlySeed == 0U) {
+        throw std::invalid_argument("inspect-plan requires only-seed");
+    }
+    if (!options.inspectParentPlan.empty() && options.inspectPlan.empty()) {
+        throw std::invalid_argument(
+            "inspect-parent-plan requires inspect-plan");
     }
     return options;
 }
@@ -225,12 +239,16 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
              fields.at(0) != "CEILING-BRANCH-PATROL-089" &&
              fields.at(0) != "CEILING-CYCLE-PATROL-095" &&
              fields.at(0) != "CEILING-TRAFFIC-PATROL-097" &&
+             fields.at(0) != "CEILING-TRAFFIC-INDEPENDENT-124" &&
              fields.at(0) != "SCORE-MASTER-ADDITIVE-100" &&
              fields.at(0) != "CEILING-LADDER-PATROL-101" &&
              fields.at(0) != "SCORE-W1-TERMINAL-FRONTIER-109" &&
              fields.at(0) != "ATTR-W0-CACHE-RETENTION-110" &&
              fields.at(0) != "SCORE-W0-SUFFIX-PRESERVE-113" &&
-             fields.at(0) != "SCORE-W1-CLOSED-LOOP-114")) {
+              fields.at(0) != "SCORE-W1-CLOSED-LOOP-114" &&
+              fields.at(0) != "SCORE-TRAFFIC-F0-UPPER-126" &&
+              fields.at(0) != "SCORE-TRAFFIC-UPPER-LANE-119" &&
+              fields.at(0) != "CEILING-BOTTLENECK-PATROL-135")) {
             throw std::runtime_error("invalid manifest row: " + line);
         }
         if (fields.at(1) != split) {
@@ -240,7 +258,10 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
             ? "5"
             : "6";
         const std::string expectedScope =
-            fields.at(0) == "CEILING-TRAFFIC-PATROL-097"
+            fields.at(0) == "CEILING-TRAFFIC-PATROL-097" ||
+                fields.at(0) == "CEILING-TRAFFIC-INDEPENDENT-124" ||
+                fields.at(0) == "SCORE-TRAFFIC-F0-UPPER-126" ||
+                fields.at(0) == "SCORE-TRAFFIC-UPPER-LANE-119"
             ? "complete-two-active-patrol-own-traffic-full-match-dp"
             : "complete-two-active-patrol-full-match-dp";
         if (fields.at(7) != "2" || fields.at(8) != "3" ||
@@ -353,6 +374,20 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
         family == "fuel-diamond") {
         return {100, 200, 300, 400, 500, 600};
     }
+    if (family == "bottleneck-duplicate") {
+        return {100, 100, 200, 300, 400, 500};
+    }
+    if (family == "rare-bottleneck") {
+        return {100, 100, 200, 200, 300, 999};
+    }
+    if (family == "terminal-bottleneck") {
+        return {100, 200, 300, 300, 400, 900};
+    }
+    if (family == "bottleneck-balanced" ||
+        family == "stock-bottleneck" ||
+        family == "fuel-bottleneck") {
+        return {100, 200, 300, 400, 500, 600};
+    }
     throw std::invalid_argument("unknown family: " + family);
 }
 
@@ -370,12 +405,26 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
     const bool cyclic =
         row.experimentId == "CEILING-CYCLE-PATROL-095" ||
         row.experimentId == "SCORE-W0-SUFFIX-PRESERVE-113";
-    const bool trafficAware = row.experimentId == "CEILING-TRAFFIC-PATROL-097";
+    const bool trafficAware =
+        row.experimentId == "CEILING-TRAFFIC-PATROL-097" ||
+        row.experimentId == "CEILING-TRAFFIC-INDEPENDENT-124" ||
+        row.experimentId == "SCORE-TRAFFIC-F0-UPPER-126" ||
+        row.experimentId == "SCORE-TRAFFIC-UPPER-LANE-119";
     const bool perimeter = row.experimentId == "SCORE-MASTER-ADDITIVE-100";
     const bool ladder = row.experimentId == "CEILING-LADDER-PATROL-101";
     const bool diamond = row.experimentId == "SCORE-W1-CLOSED-LOOP-114";
+    const bool bottleneck =
+        row.experimentId == "CEILING-BOTTLENECK-PATROL-135";
     std::vector<udon::CellId> spotCells;
-    if (diamond) {
+    if (bottleneck) {
+        for (const udon::CellId cell :
+             {17, 18, 20, 21, 25, 26, 27, 28, 29, 36}) {
+            terrain.at(static_cast<std::size_t>(cell)) =
+                static_cast<std::int32_t>(udon::Terrain::Plain);
+        }
+        terrain.at(27) = static_cast<std::int32_t>(udon::Terrain::Mountain);
+        spotCells = {17, 18, 20, 21, 26, 29};
+    } else if (diamond) {
         for (const udon::CellId cell :
              {17, 18, 19, 20, 25, 26, 27, 28, 34, 35, 36}) {
             terrain.at(static_cast<std::size_t>(cell)) =
@@ -437,10 +486,19 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
     if (row.family == "terminal-separation" || row.family == "terminal-fork" ||
         row.family == "terminal-loop" || row.family == "traffic-terminal" ||
         row.family == "terminal-perimeter" || row.family == "terminal-ladder" ||
-        row.family == "terminal-diamond") {
+        row.family == "terminal-diamond" ||
+        row.family == "terminal-bottleneck") {
         const udon::CellId protectedTerminal = trafficAware
             ? 33
-            : (diamond ? 36 : (ladder ? 28 : (perimeter ? 36 : (cyclic ? 35 : (branched ? 26 : 19)))));
+            : (bottleneck
+                   ? 29
+                   : (diamond
+                          ? 36
+                          : (ladder
+                                 ? 28
+                                 : (perimeter
+                                        ? 36
+                                        : (cyclic ? 35 : (branched ? 26 : 19))))));
         const auto center = std::find(
             spotCells.begin(),
             spotCells.end(),
@@ -456,10 +514,16 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
             mix64(seed ^ (static_cast<std::uint64_t>(day) << 39U)) % 3U));
     }
     std::int32_t fuelLimit =
-        (branched || cyclic || trafficAware || perimeter || diamond) ? 24 : 20;
+        (branched || cyclic || trafficAware || perimeter || diamond ||
+         bottleneck)
+        ? 24
+        : 20;
     if (row.fuelProfile == "low") {
         fuelLimit =
-            (branched || cyclic || trafficAware || perimeter || diamond) ? 12 : 10;
+            (branched || cyclic || trafficAware || perimeter || diamond ||
+             bottleneck)
+            ? 12
+            : 10;
     } else if (row.fuelProfile == "high") {
         fuelLimit = 8 * row.horizon;
     } else if (row.fuelProfile != "default") {
@@ -507,19 +571,22 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
             row.family == "traffic-stock" || row.family == "stock-perimeter" ||
             row.family == "rare-perimeter" || row.family == "stock-ladder" ||
             row.family == "rare-ladder" || row.family == "stock-diamond" ||
-            row.family == "rare-diamond") {
+            row.family == "rare-diamond" ||
+            row.family == "stock-bottleneck" ||
+            row.family == "rare-bottleneck") {
             stock = 1;
         } else if (row.family == "fuel-allocation" || row.family == "fuel-split" ||
             row.family == "fuel-circuit" || row.family == "fuel-perimeter" ||
-            row.family == "fuel-ladder" || row.family == "fuel-diamond") {
+            row.family == "fuel-ladder" || row.family == "fuel-diamond" ||
+            row.family == "fuel-bottleneck") {
             stock = 1 + static_cast<std::int32_t>((spot + seed) % 2U);
         }
         document << "{\"brand\":" << brands.at(spot)
                  << ",\"pos\":" << spotCells.at(spot)
                  << ",\"stocks\":" << stock << '}';
     }
-    document << "],\"agents\":[" << (diamond ? 18 : (trafficAware ? 25 : (ladder ? 18 : (perimeter ? 18 : (cyclic ? 18 : 16))))) << ','
-             << (diamond ? 35 : (trafficAware ? 28 : (ladder ? 29 : (perimeter ? 37 : (cyclic ? 36 : (branched ? 21 : 22))))))
+    document << "],\"agents\":[" << (bottleneck ? 25 : (diamond ? 18 : (trafficAware ? 25 : (ladder ? 18 : (perimeter ? 18 : (cyclic ? 18 : 16)))))) << ','
+             << (bottleneck ? 36 : (diamond ? 35 : (trafficAware ? 28 : (ladder ? 29 : (perimeter ? 37 : (cyclic ? 36 : (branched ? 21 : 22)))))))
              << ",0],\"fuelLimits\":" << fuelLimit
              << ",\"players\":4,\"busyThreshold\":2,\"jammedThreshold\":4}";
 
@@ -654,6 +721,36 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
             saturation));
     }
     return compact;
+}
+
+[[nodiscard]] TrafficStatusKey compact_road_statuses(
+    const udon::MatchConfig& config,
+    const std::vector<udon::RoadStatus>& statuses) {
+    TrafficStatusKey compact{};
+    for (std::size_t roadIndex = 0;
+         roadIndex < config.roadCells.size();
+         ++roadIndex) {
+        compact.at(roadIndex) = static_cast<std::uint8_t>(
+            statuses.at(static_cast<std::size_t>(
+                config.roadCells.at(roadIndex))));
+    }
+    return compact;
+}
+
+[[nodiscard]] std::vector<udon::RoadStatus> expand_road_statuses(
+    const udon::MatchConfig& config,
+    const TrafficStatusKey& compact) {
+    std::vector<udon::RoadStatus> statuses(
+        static_cast<std::size_t>(config.map.cell_count()),
+        udon::RoadStatus::Smooth);
+    for (std::size_t roadIndex = 0;
+         roadIndex < config.roadCells.size();
+         ++roadIndex) {
+        statuses.at(static_cast<std::size_t>(
+            config.roadCells.at(roadIndex))) =
+            static_cast<udon::RoadStatus>(compact.at(roadIndex));
+    }
+    return statuses;
 }
 
 void add_traffic_stays(
@@ -926,17 +1023,17 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
     std::vector<bool> dominated(entries.size(), false);
     using PhysicalKey = std::tuple<
         udon::CellId,
-        std::int32_t,
-        udon::CellId,
-        std::int32_t>;
+        udon::CellId>;
     std::map<PhysicalKey, std::vector<std::size_t>> groups;
     for (std::size_t index = 0; index < entries.size(); ++index) {
-        const auto& [p0, f0, p1, f1, lifetime, previousOwn, priorOwn] =
+        const auto& [p0, f0, p1, f1, lifetime, previousOwn, roadStatuses] =
             entries.at(index).key;
+        static_cast<void>(f0);
+        static_cast<void>(f1);
         static_cast<void>(lifetime);
         static_cast<void>(previousOwn);
-        static_cast<void>(priorOwn);
-        groups[{p0, f0, p1, f1}].push_back(index);
+        static_cast<void>(roadStatuses);
+        groups[{p0, p1}].push_back(index);
     }
     for (const auto& [physical, indices] : groups) {
         static_cast<void>(physical);
@@ -947,13 +1044,18 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
                 continue;
             }
             const std::uint64_t rightLifetime = std::get<4>(entries.at(right).key);
+            const bool fuelNoWorse =
+                std::get<1>(entries.at(right).key) >=
+                    std::get<1>(entries.at(left).key) &&
+                std::get<3>(entries.at(right).key) >=
+                    std::get<3>(entries.at(left).key);
             const TrafficFootprint& leftPrevious =
                 std::get<5>(entries.at(left).key);
             const TrafficFootprint& rightPrevious =
                 std::get<5>(entries.at(right).key);
-            const TrafficFootprint& leftPrior =
+            const TrafficStatusKey& leftStatuses =
                 std::get<6>(entries.at(left).key);
-            const TrafficFootprint& rightPrior =
+            const TrafficStatusKey& rightStatuses =
                 std::get<6>(entries.at(right).key);
             const bool lifetimeSuperset =
                 (rightLifetime | leftLifetime) == rightLifetime;
@@ -965,19 +1067,26 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
                     leftPrevious.end(),
                     std::less_equal<std::uint8_t>{}) &&
                 std::equal(
-                    rightPrior.begin(),
-                    rightPrior.end(),
-                    leftPrior.begin(),
-                    leftPrior.end(),
+                    rightStatuses.begin(),
+                    rightStatuses.end(),
+                    leftStatuses.begin(),
+                    leftStatuses.end(),
                     std::less_equal<std::uint8_t>{});
             const bool scoreNoWorse =
                 entries.at(right).totalDailyDistinct >= entries.at(left).totalDailyDistinct &&
                 entries.at(right).totalServings >= entries.at(left).totalServings;
             const bool strict = rightLifetime != leftLifetime ||
-                rightPrevious != leftPrevious || rightPrior != leftPrior ||
+                rightPrevious != leftPrevious ||
+                rightStatuses != leftStatuses ||
                 entries.at(right).totalDailyDistinct > entries.at(left).totalDailyDistinct ||
                 entries.at(right).totalServings > entries.at(left).totalServings;
-            if (lifetimeSuperset && trafficNoWorse && scoreNoWorse && strict) {
+            const bool resourceStrict =
+                std::get<1>(entries.at(right).key) >
+                    std::get<1>(entries.at(left).key) ||
+                std::get<3>(entries.at(right).key) >
+                    std::get<3>(entries.at(left).key);
+            if (fuelNoWorse && lifetimeSuperset && trafficNoWorse &&
+                scoreNoWorse && (strict || resourceStrict)) {
                 dominated.at(left) = true;
                 break;
             }
@@ -1009,6 +1118,13 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
 
     std::vector<std::vector<LayerEntry>> layers;
     const TrafficFootprint emptyFootprint{};
+    const TrafficStatusKey initialRoadStatuses = compact_road_statuses(
+        fixture.config,
+        exact_road_statuses(
+            fixture,
+            1,
+            emptyFootprint,
+            emptyFootprint));
     layers.push_back(std::vector<LayerEntry>{LayerEntry{
         MatchKey{
             first.first,
@@ -1017,7 +1133,7 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
             second.second,
             0U,
             emptyFootprint,
-            emptyFootprint},
+            initialRoadStatuses},
     }});
     using DayCacheKey = std::tuple<
         std::int32_t,
@@ -1039,12 +1155,11 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
                 secondFuel,
                 lifetime,
                 previousOwn,
-                priorOwn] = parent.key;
-            const std::vector<udon::RoadStatus> roadStatuses = exact_road_statuses(
-                fixture,
-                day,
-                previousOwn,
-                priorOwn);
+                roadStatusKey] = parent.key;
+            const std::vector<udon::RoadStatus> roadStatuses =
+                expand_road_statuses(
+                    fixture.config,
+                    roadStatusKey);
             const DayCacheKey firstCacheKey{
                 day,
                 firstPosition,
@@ -1106,8 +1221,14 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
                         nextP1,
                         nextF1,
                         lifetime | dailyBrands,
-                        std::move(currentOwn),
-                        previousOwn,
+                        currentOwn,
+                        compact_road_statuses(
+                            fixture.config,
+                            exact_road_statuses(
+                                fixture,
+                                day + 1,
+                                currentOwn,
+                                previousOwn)),
                     };
                     const std::int32_t nextDaily = parent.totalDailyDistinct +
                         static_cast<std::int32_t>(std::popcount(dailyBrands));
@@ -1196,7 +1317,7 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
         : std::array<std::size_t, 2>{0U, 1U};
     udon::MatchLedger ledger;
     TrafficFootprint previousOwn = emptyFootprint;
-    TrafficFootprint priorOwn = emptyFootprint;
+    TrafficStatusKey roadStatusKey = initialRoadStatuses;
     for (std::int32_t day = 1; day <= fixture.config.day_count(); ++day) {
         const AbstractDay& abstract = abstractDays.at(static_cast<std::size_t>(day - 1));
         udon::DayPlan plan;
@@ -1206,11 +1327,10 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
         plan.actions.at(2) = udon::AgentPlan{
             udon::PlanAction::wait(fixture.config.steps_for_day(day)),
         };
-        const std::vector<udon::RoadStatus> roadStatuses = exact_road_statuses(
-            fixture,
-            day,
-            previousOwn,
-            priorOwn);
+        const std::vector<udon::RoadStatus> roadStatuses =
+            expand_road_statuses(
+                fixture.config,
+                roadStatusKey);
         const udon::DayState state = day_state(
             fixture.config,
             day,
@@ -1233,21 +1353,28 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
             expectedF1,
             expectedLifetime,
             expectedPreviousOwn,
-            expectedPriorOwn] = abstract.terminal;
+            expectedNextRoadStatuses] = abstract.terminal;
+        const TrafficFootprint actualCurrentOwn = compact_road_footprint(
+            fixture.config,
+            simulation.roadFootprint);
+        const TrafficStatusKey actualNextRoadStatuses = compact_road_statuses(
+            fixture.config,
+            exact_road_statuses(
+                fixture,
+                day + 1,
+                actualCurrentOwn,
+                previousOwn));
         if (agents.at(abstractToPhysical.at(0)).position != expectedP0 ||
             agents.at(abstractToPhysical.at(0)).fuel != expectedF0 ||
             agents.at(abstractToPhysical.at(1)).position != expectedP1 ||
             agents.at(abstractToPhysical.at(1)).fuel != expectedF1 ||
             ledger.lifetimeBrands != expectedLifetime ||
-            compact_road_footprint(fixture.config, simulation.roadFootprint) !=
-                expectedPreviousOwn ||
-            previousOwn != expectedPriorOwn) {
+            actualCurrentOwn != expectedPreviousOwn ||
+            actualNextRoadStatuses != expectedNextRoadStatuses) {
             throw std::runtime_error("oracle witness disagrees with canonical DP state");
         }
-        priorOwn = previousOwn;
-        previousOwn = compact_road_footprint(
-            fixture.config,
-            simulation.roadFootprint);
+        previousOwn = actualCurrentOwn;
+        roadStatusKey = actualNextRoadStatuses;
         result.plans.push_back(std::move(plan));
         result.cumulative.push_back(udon::OfficialScore{
             ledger.lifetime_distinct(),
@@ -1586,6 +1713,40 @@ void record_summary(
     return output.str();
 }
 
+[[nodiscard]] udon::DayPlan parse_plan_text(
+    const std::string& text,
+    std::int32_t agentCount) {
+    udon::DayPlan plan;
+    std::stringstream agents{text};
+    std::string agentText;
+    while (std::getline(agents, agentText, '|')) {
+        udon::AgentPlan actions;
+        std::stringstream tokens{agentText};
+        std::string token;
+        while (std::getline(tokens, token, '.')) {
+            if (token.empty()) {
+                throw std::invalid_argument("inspect plan contains an empty action");
+            }
+            const std::int32_t wire = std::stoi(token);
+            if (wire < 0) {
+                actions.push_back(udon::PlanAction::wait(-wire));
+            } else if (wire < udon::kDirectionCount) {
+                actions.push_back(udon::PlanAction::move(wire));
+            } else {
+                throw std::invalid_argument("inspect plan contains an invalid wire action");
+            }
+        }
+        if (actions.empty()) {
+            throw std::invalid_argument("inspect plan contains an empty agent plan");
+        }
+        plan.actions.push_back(std::move(actions));
+    }
+    if (static_cast<std::int32_t>(plan.actions.size()) != agentCount) {
+        throw std::invalid_argument("inspect plan agent count mismatch");
+    }
+    return plan;
+}
+
 [[nodiscard]] std::uint64_t plan_sequence_hash(
     const std::vector<udon::DayPlan>& plans) {
     std::uint64_t hash = 1469598103934665603ULL;
@@ -1671,6 +1832,902 @@ void record_summary(
             }
             return true;
         });
+}
+
+void inspect_exact_bundle_capability(
+    const Fixture& fixture,
+    const udon::DayPlan& plan) {
+    std::vector<udon::AgentState> agents;
+    for (const udon::CellId start : fixture.config.initialAgents) {
+        agents.push_back(udon::AgentState{
+            udon::AgentKind::Patrol,
+            start,
+            fixture.config.fuelLimit,
+        });
+    }
+    const TrafficFootprint emptyFootprint{};
+    const udon::DayState state = day_state(
+        fixture.config,
+        1,
+        agents,
+        exact_road_statuses(
+            fixture,
+            1,
+            emptyFootprint,
+            emptyFootprint));
+    const udon::ExactStepSimulator simulator(fixture.config);
+    const udon::IndependentDayValidator validator(fixture.config);
+    const udon::ParetoRouter router(fixture.config);
+    const udon::RouteColumnGenerator generator(fixture.config, router);
+    const udon::RouteMaster master(fixture.config, simulator, validator);
+    const udon::GreedyPlanner greedy(fixture.config, generator, master);
+    const udon::FastViabilityAnalyzer viabilityAnalyzer(fixture.config);
+    const udon::MatchLedger ledger;
+    const std::optional<udon::MasterCandidate> exact =
+        master.evaluate_exact_plan(state, ledger, plan);
+    if (!exact.has_value()) {
+        throw std::runtime_error("inspect plan is not dual-valid on day 1");
+    }
+
+    udon::ColumnGenerationOptions seedGeneration;
+    seedGeneration.maximumPathsPerTarget = 1;
+    seedGeneration.maximumColumnsPerAgent = 2;
+    seedGeneration.maximumTargetSpots = 4;
+    seedGeneration.maximumEscorts = 2;
+    udon::MasterOptions seedMaster;
+    seedMaster.maximumCombinations = 512;
+    seedMaster.maximumCandidates = 1;
+    udon::MasterDiagnostics seedDiagnostics;
+    const udon::MasterCandidate incumbent = greedy.build_incumbent(
+        state,
+        ledger,
+        seedGeneration,
+        seedMaster,
+        seedDiagnostics);
+    const udon::ViabilityBounds viability = viabilityAnalyzer.analyze(
+        state,
+        ledger);
+
+    udon::ColumnGenerationOptions generation;
+    generation.maximumPathsPerTarget = 4;
+    generation.maximumColumnsPerAgent = 16;
+    generation.maximumTargetSpots = 12;
+    generation.maximumEscorts = 16;
+    generation.maximumSeedPlans = 2;
+    generation.enableHarvestExtensions = true;
+    generation.allowUncachedHarvestTargets = true;
+    generation.enableHarvestOrienteering = false;
+    generation.enableExactHarvestOrienteering = true;
+    generation.enableFuelConstrainedExactHarvestOrienteering = true;
+    generation.enableAnytimeFuelConstrainedHarvestOrienteering = false;
+    generation.maximumHarvestExtensionSources = 4;
+    generation.maximumHarvestExtensionDepth = 3;
+    generation.mandatoryReservations = viability.reservations;
+    generation.seedPlans.push_back(incumbent.plan);
+    udon::ColumnGenerationDiagnostics generationDiagnostics;
+    const udon::RoutePortfolio portfolio = generator.generate(
+        state,
+        ledger,
+        generation,
+        &generationDiagnostics);
+
+    udon::MasterOptions masterOptions;
+    masterOptions.maximumCombinations = 40000;
+    masterOptions.maximumCandidates = 32;
+    masterOptions.diversityCandidates = 8;
+    masterOptions.preferBaselineHarvestSources = true;
+    masterOptions.mandatoryReservations = viability.reservations;
+    udon::MasterDiagnostics masterDiagnostics;
+    const std::vector<udon::MasterCandidate> candidates = master.solve(
+        state,
+        ledger,
+        portfolio,
+        masterOptions,
+        masterDiagnostics);
+
+    std::ostringstream widths;
+    for (std::size_t agent = 0; agent < portfolio.columnsByAgent.size(); ++agent) {
+        if (agent != 0U) {
+            widths << '|';
+        }
+        widths << portfolio.columnsByAgent.at(agent).size();
+    }
+    std::cout << "exact_bundle_inspect,seed=" << fixture.seed
+              << ",day=1"
+              << ",score=" << score_text(exact->scoreAfterToday)
+              << ",agents=" << agents_text(exact->simulation.finalAgents)
+              << ",route_mask=" << portfolio_plan_mask(portfolio, plan)
+              << ",columns=" << widths.str()
+              << ",supported="
+              << generationDiagnostics.exactOrienteeringSupportedAgents
+              << ",complete="
+              << generationDiagnostics.exactOrienteeringCompleteAgents
+              << ",states="
+              << generationDiagnostics.exactOrienteeringSettledStates
+              << ",variants="
+              << generationDiagnostics.exactOrienteeringTerminalVariants
+              << ",bundles="
+              << generationDiagnostics.exactOrienteeringBundles
+              << ",deadline=" << generationDiagnostics.deadlineReached
+              << ",master_exact=" << contains_candidate(candidates, *exact)
+              << ",master_outcome=" << contains_outcome(candidates, *exact)
+              << ",master_candidates=" << candidates.size()
+              << ",master_nodes=" << masterDiagnostics.combinationsVisited
+              << ",master_exact_bundles="
+              << masterDiagnostics.exactBundlesEvaluated
+              << '\n';
+    for (std::size_t agent = 0; agent < plan.actions.size(); ++agent) {
+        const std::vector<udon::RouteColumn>& columns =
+            portfolio.columnsByAgent.at(agent);
+        std::int32_t matches = 0;
+        for (std::size_t columnIndex = 0;
+             columnIndex < columns.size();
+             ++columnIndex) {
+            const udon::RouteColumn& column = columns.at(columnIndex);
+            if (!same_agent_plan(column.actions, plan.actions.at(agent))) {
+                continue;
+            }
+            ++matches;
+            std::cout << "exact_bundle_route,seed=" << fixture.seed
+                      << ",day=1"
+                      << ",agent=" << agent
+                      << ",rank=" << (columnIndex + 1U)
+                      << ",priority=" << column.priority
+                      << ",terminal=" << column.terminalCell
+                      << ",fuel=" << column.terminalFuel
+                      << ",brands=" << column.estimatedBrands
+                      << ",servings=" << column.estimatedServings
+                      << ",bundle=" << column.contingencyBundle
+                      << ",exact=" << column.exactOrienteering
+                      << ",footprint=";
+            for (std::size_t road = 0;
+                 road < fixture.config.roadCells.size();
+                 ++road) {
+                if (road != 0U) {
+                    std::cout << '|';
+                }
+                const udon::CellId cell = fixture.config.roadCells.at(road);
+                std::cout << cell << ':' << column.fullFootprint.at(cell);
+            }
+            std::cout << '\n';
+        }
+        if (matches == 0) {
+            std::cout << "exact_bundle_route,seed=" << fixture.seed
+                      << ",day=1,agent=" << agent
+                      << ",matches=0\n";
+        }
+    }
+
+    udon::ColumnGenerationOptions genericGeneration = generation;
+    genericGeneration.maximumColumnsPerAgent = 64;
+    genericGeneration.enableExactHarvestOrienteering = false;
+    genericGeneration.enableFuelConstrainedExactHarvestOrienteering = false;
+    const udon::RoutePortfolio genericWide = generator.generate(
+        state,
+        ledger,
+        genericGeneration);
+    const auto traffic_projection = [&fixture](
+                                        const udon::RoutePortfolio& sourcePortfolio) {
+        udon::RoutePortfolio output;
+        output.columnsByAgent.resize(sourcePortfolio.columnsByAgent.size());
+        for (std::size_t agent = 0;
+             agent < sourcePortfolio.columnsByAgent.size();
+             ++agent) {
+            const std::vector<udon::RouteColumn>& source =
+                sourcePortfolio.columnsByAgent.at(agent);
+            std::vector<udon::RouteColumn>& projected =
+                output.columnsByAgent.at(agent);
+            const auto append = [&projected](const udon::RouteColumn& column) {
+                if (std::none_of(
+                        projected.begin(),
+                        projected.end(),
+                        [&column](const udon::RouteColumn& existing) {
+                            return same_agent_plan(
+                                existing.actions,
+                                column.actions);
+                        })) {
+                    projected.push_back(column);
+                }
+            };
+            const auto safeWait = std::find_if(
+                source.begin(),
+                source.end(),
+                [](const udon::RouteColumn& column) {
+                    return column.escortGroup < 0 &&
+                        column.contingencyBundle < 0 &&
+                        column.requiredRefuels.empty() &&
+                        column.actions.size() == 1U &&
+                        column.actions.front().kind == udon::ActionKind::Wait;
+                });
+            if (safeWait != source.end()) {
+                append(*safeWait);
+            }
+            const auto rank = [&fixture](const udon::RouteColumn& column) {
+                std::int32_t totalRoadStays = 0;
+                std::int32_t maximumRoadStays = 0;
+                for (const udon::CellId road : fixture.config.roadCells) {
+                    const std::int32_t stays = column.fullFootprint.at(road);
+                    totalRoadStays += stays;
+                    maximumRoadStays = std::max(maximumRoadStays, stays);
+                }
+                return std::tuple{
+                    totalRoadStays,
+                    maximumRoadStays,
+                    -column.terminalFuel,
+                    -static_cast<std::int32_t>(
+                        std::popcount(column.estimatedBrands)),
+                    -column.estimatedServings,
+                    column.columnId};
+            };
+            for (const udon::Spot& terminal : fixture.config.spots) {
+                const udon::RouteColumn* best = nullptr;
+                for (const udon::RouteColumn& column : source) {
+                    if (column.terminalCell != terminal.position ||
+                        column.estimatedServings <= 0 ||
+                        column.estimatedServings > 3 ||
+                        column.escortGroup >= 0 ||
+                        column.contingencyBundle >= 0 ||
+                        !column.requiredRefuels.empty() ||
+                        !column.hasExactTimeline) {
+                        continue;
+                    }
+                    if (best == nullptr || rank(column) < rank(*best)) {
+                        best = &column;
+                    }
+                }
+                if (best != nullptr) {
+                    append(*best);
+                }
+            }
+        }
+        return output;
+    };
+    udon::ColumnGenerationOptions productionProjection = genericGeneration;
+    productionProjection.maximumColumnsPerAgent = 16;
+    const udon::RoutePortfolio productionProjected = generator.generate(
+        state,
+        ledger,
+        productionProjection);
+    const udon::RoutePortfolio productionSidecar =
+        traffic_projection(productionProjected);
+    udon::MasterDiagnostics productionSidecarDiagnostics;
+    const std::vector<udon::MasterCandidate> productionSidecarCandidates =
+        master.solve(
+            state,
+            ledger,
+            productionSidecar,
+            masterOptions,
+            productionSidecarDiagnostics);
+    std::ostringstream productionSidecarWidths;
+    for (std::size_t agent = 0;
+         agent < productionSidecar.columnsByAgent.size();
+         ++agent) {
+        if (agent != 0U) {
+            productionSidecarWidths << '|';
+        }
+        productionSidecarWidths <<
+            productionSidecar.columnsByAgent.at(agent).size();
+    }
+    std::cout << "production_sidecar,seed=" << fixture.seed
+              << ",day=1"
+              << ",route_mask="
+              << portfolio_plan_mask(productionSidecar, plan)
+              << ",columns=" << productionSidecarWidths.str()
+              << ",exact="
+              << contains_candidate(productionSidecarCandidates, *exact)
+              << ",outcome="
+              << contains_outcome(productionSidecarCandidates, *exact)
+              << ",candidates=" << productionSidecarCandidates.size()
+              << ",nodes="
+              << productionSidecarDiagnostics.combinationsVisited
+              << '\n';
+    for (const std::int32_t structuralWidth :
+         std::array<std::int32_t, 5>{16, 24, 32, 48, 64}) {
+        udon::RoutePortfolio source;
+        if (structuralWidth == 16) {
+            source = productionProjected;
+        } else if (structuralWidth == 64) {
+            source = genericWide;
+        } else {
+            udon::ColumnGenerationOptions sweepGeneration = genericGeneration;
+            sweepGeneration.maximumColumnsPerAgent = structuralWidth;
+            source = generator.generate(state, ledger, sweepGeneration);
+        }
+        const udon::RoutePortfolio projected = traffic_projection(source);
+        std::ostringstream widths;
+        for (std::size_t agent = 0;
+             agent < projected.columnsByAgent.size();
+             ++agent) {
+            if (agent != 0U) {
+                widths << '|';
+            }
+            widths << projected.columnsByAgent.at(agent).size();
+        }
+        std::cout << "traffic_construction_sweep,seed=" << fixture.seed
+                  << ",day=1,width=" << structuralWidth
+                  << ",route_mask=" << portfolio_plan_mask(projected, plan)
+                  << ",columns=" << widths.str()
+                  << '\n';
+    }
+    const auto claimed_spots = [](const udon::RouteColumn& column) {
+        std::uint32_t mask = 0U;
+        for (const udon::ColumnVisitEvent& visit : column.firstVisits) {
+            if (visit.claimedServing) {
+                mask |= std::uint32_t{1} <<
+                    static_cast<std::uint32_t>(visit.spot);
+            }
+        }
+        return mask;
+    };
+    for (std::size_t agent = 0;
+         agent < productionSidecar.columnsByAgent.size();
+         ++agent) {
+        for (const udon::RouteColumn& column :
+             productionSidecar.columnsByAgent.at(agent)) {
+            std::ostringstream actions;
+            for (std::size_t action = 0;
+                 action < column.actions.size();
+                 ++action) {
+                if (action != 0U) {
+                    actions << '.';
+                }
+                actions << column.actions.at(action).wire_value();
+            }
+            std::int32_t totalRoadStays = 0;
+            std::int32_t maximumRoadStays = 0;
+            for (const udon::CellId road : fixture.config.roadCells) {
+                const std::int32_t stays = column.fullFootprint.at(road);
+                totalRoadStays += stays;
+                maximumRoadStays = std::max(maximumRoadStays, stays);
+            }
+            std::cout << "production_sidecar_route,seed=" << fixture.seed
+                      << ",day=1,agent=" << agent
+                      << ",terminal=" << column.terminalCell
+                      << ",fuel=" << column.terminalFuel
+                      << ",spots=" << claimed_spots(column)
+                      << ",brands=" << column.estimatedBrands
+                      << ",servings=" << column.estimatedServings
+                      << ",total_road_stays=" << totalRoadStays
+                      << ",max_road_stays=" << maximumRoadStays
+                      << ",column_id=" << column.columnId
+                      << ",actions=" << actions.str()
+                      << '\n';
+        }
+    }
+    const auto resource_dominates = [
+                                        &fixture,
+                                        &claimed_spots](
+                                        const udon::RouteColumn& challenger,
+                                        const udon::RouteColumn& candidate) {
+        if (challenger.terminalCell != candidate.terminalCell ||
+            challenger.escortGroup >= 0 ||
+            challenger.contingencyBundle >= 0 ||
+            candidate.escortGroup >= 0 ||
+            candidate.contingencyBundle >= 0) {
+            return false;
+        }
+        const std::uint32_t challengerSpots = claimed_spots(challenger);
+        const std::uint32_t candidateSpots = claimed_spots(candidate);
+        if ((challengerSpots | candidateSpots) != challengerSpots ||
+            challenger.terminalFuel < candidate.terminalFuel) {
+            return false;
+        }
+        bool strict = challengerSpots != candidateSpots ||
+            challenger.terminalFuel > candidate.terminalFuel;
+        for (const udon::CellId road : fixture.config.roadCells) {
+            const std::int32_t challengerStays =
+                challenger.fullFootprint.at(road);
+            const std::int32_t candidateStays =
+                candidate.fullFootprint.at(road);
+            if (challengerStays > candidateStays) {
+                return false;
+            }
+            strict = strict || challengerStays < candidateStays;
+        }
+        return strict;
+    };
+    const auto traffic_rank = [&fixture](
+                                      const udon::RouteColumn& candidate,
+                                      std::size_t index) {
+        std::int32_t totalStays = 0;
+        std::int32_t maximumStays = 0;
+        for (const udon::CellId road : fixture.config.roadCells) {
+            const std::int32_t stays = candidate.fullFootprint.at(road);
+            totalStays += stays;
+            maximumStays = std::max(maximumStays, stays);
+        }
+        return std::tuple{
+            totalStays,
+            maximumStays,
+            -candidate.terminalFuel,
+            -static_cast<std::int32_t>(
+                std::popcount(candidate.estimatedBrands)),
+            -candidate.estimatedServings,
+            index};
+    };
+    for (std::size_t agent = 0; agent < plan.actions.size(); ++agent) {
+        const std::vector<udon::RouteColumn>& columns =
+            genericWide.columnsByAgent.at(agent);
+        std::int32_t projected = 0;
+        std::int32_t maximumTerminalFrontier = 0;
+        for (const udon::Spot& terminal : fixture.config.spots) {
+            std::int32_t terminalFrontier = 0;
+            for (std::size_t candidateIndex = 0;
+                 candidateIndex < columns.size();
+                 ++candidateIndex) {
+                const udon::RouteColumn& candidate = columns.at(candidateIndex);
+                if (candidate.terminalCell != terminal.position ||
+                    claimed_spots(candidate) == 0U ||
+                    candidate.escortGroup >= 0 ||
+                    candidate.contingencyBundle >= 0) {
+                    continue;
+                }
+                const bool dominated = std::any_of(
+                    columns.begin(),
+                    columns.end(),
+                    [&candidate, &resource_dominates](
+                        const udon::RouteColumn& challenger) {
+                        return resource_dominates(challenger, candidate);
+                    });
+                if (!dominated) {
+                    ++terminalFrontier;
+                }
+            }
+            projected += terminalFrontier;
+            maximumTerminalFrontier = std::max(
+                maximumTerminalFrontier,
+                terminalFrontier);
+        }
+        std::int32_t sameTerminalRank = 0;
+        std::int32_t sameTerminalCount = 0;
+        std::int32_t matches = 0;
+        for (std::size_t columnIndex = 0;
+             columnIndex < columns.size();
+             ++columnIndex) {
+            const udon::RouteColumn& column = columns.at(columnIndex);
+            if (!same_agent_plan(column.actions, plan.actions.at(agent))) {
+                continue;
+            }
+            ++matches;
+            sameTerminalRank = 0;
+            sameTerminalCount = 0;
+            for (std::size_t otherIndex = 0;
+                 otherIndex < columns.size();
+                 ++otherIndex) {
+                if (columns.at(otherIndex).terminalCell == column.terminalCell) {
+                    ++sameTerminalCount;
+                    if (otherIndex <= columnIndex) {
+                        ++sameTerminalRank;
+                    }
+                }
+            }
+            const bool dominated = std::any_of(
+                columns.begin(),
+                columns.end(),
+                [&column, &resource_dominates](
+                    const udon::RouteColumn& challenger) {
+                    return resource_dominates(challenger, column);
+                });
+            std::size_t trafficSelector = columns.size();
+            std::int32_t trafficSelectorRank = 1;
+            const auto oracleTrafficRank = traffic_rank(column, columnIndex);
+            for (std::size_t otherIndex = 0;
+                 otherIndex < columns.size();
+                 ++otherIndex) {
+                const udon::RouteColumn& other = columns.at(otherIndex);
+                if (other.terminalCell != column.terminalCell ||
+                    claimed_spots(other) == 0U ||
+                    other.escortGroup >= 0 ||
+                    other.contingencyBundle >= 0) {
+                    continue;
+                }
+                const auto otherRank = traffic_rank(other, otherIndex);
+                if (trafficSelector == columns.size() ||
+                    otherRank < traffic_rank(
+                        columns.at(trafficSelector),
+                        trafficSelector)) {
+                    trafficSelector = otherIndex;
+                }
+                if (otherRank < oracleTrafficRank) {
+                    ++trafficSelectorRank;
+                }
+            }
+            std::cout << "terminal_projection_route,seed=" << fixture.seed
+                      << ",day=1"
+                      << ",agent=" << agent
+                      << ",global_rank=" << (columnIndex + 1U)
+                      << ",same_terminal_rank=" << sameTerminalRank
+                      << ",same_terminal_count=" << sameTerminalCount
+                      << ",terminal=" << column.terminalCell
+                      << ",fuel=" << column.terminalFuel
+                      << ",spots=" << claimed_spots(column)
+                      << ",brands=" << column.estimatedBrands
+                      << ",servings=" << column.estimatedServings
+                      << ",dominated=" << dominated
+                      << ",traffic_selector_rank=" << trafficSelectorRank
+                      << ",traffic_selected="
+                      << (trafficSelector == columnIndex)
+                      << ",column_id=" << column.columnId
+                      << ",harvest_extension=" << column.harvestExtension
+                      << ",exact_orienteering=" << column.exactOrienteering
+                      << ",priority=" << column.priority
+                      << ",escort=" << column.escortGroup
+                      << ",bundle=" << column.contingencyBundle
+                      << ",footprint=";
+            for (std::size_t road = 0;
+                 road < fixture.config.roadCells.size();
+                 ++road) {
+                if (road != 0U) {
+                    std::cout << '|';
+                }
+                const udon::CellId cell = fixture.config.roadCells.at(road);
+                std::cout << cell << ':' << column.fullFootprint.at(cell);
+            }
+            std::cout << '\n';
+        }
+        std::cout << "terminal_projection_summary,seed=" << fixture.seed
+                  << ",day=1"
+                  << ",agent=" << agent
+                  << ",columns=" << columns.size()
+                  << ",matches=" << matches
+                  << ",projected=" << projected
+                  << ",max_terminal_frontier=" << maximumTerminalFrontier
+                  << '\n';
+    }
+
+    udon::RoutePortfolio projectedPortfolio;
+    projectedPortfolio.columnsByAgent.resize(
+        genericWide.columnsByAgent.size());
+    std::int32_t nextProjectedId = 0;
+    for (std::size_t agent = 0;
+         agent < genericWide.columnsByAgent.size();
+         ++agent) {
+        const std::vector<udon::RouteColumn>& source =
+            genericWide.columnsByAgent.at(agent);
+        std::vector<udon::RouteColumn>& projected =
+            projectedPortfolio.columnsByAgent.at(agent);
+        const auto append = [&projected, &nextProjectedId](
+                                const udon::RouteColumn& sourceColumn) {
+            if (std::any_of(
+                    projected.begin(),
+                    projected.end(),
+                    [&sourceColumn](const udon::RouteColumn& existing) {
+                        return same_agent_plan(
+                            existing.actions,
+                            sourceColumn.actions);
+                    })) {
+                return;
+            }
+            udon::RouteColumn copy = sourceColumn;
+            copy.columnId = nextProjectedId++;
+            projected.push_back(std::move(copy));
+        };
+        const auto safeWait = std::find_if(
+            source.begin(),
+            source.end(),
+            [](const udon::RouteColumn& column) {
+                return column.escortGroup < 0 &&
+                    column.contingencyBundle < 0 &&
+                    column.actions.size() == 1U &&
+                    column.actions.front().kind == udon::ActionKind::Wait;
+            });
+        if (safeWait != source.end()) {
+            append(*safeWait);
+        }
+        for (const udon::Spot& terminal : fixture.config.spots) {
+            std::size_t selected = source.size();
+            for (std::size_t index = 0; index < source.size(); ++index) {
+                const udon::RouteColumn& column = source.at(index);
+                if (column.terminalCell != terminal.position ||
+                    claimed_spots(column) == 0U ||
+                    column.escortGroup >= 0 ||
+                    column.contingencyBundle >= 0) {
+                    continue;
+                }
+                if (selected == source.size() ||
+                    traffic_rank(column, index) <
+                        traffic_rank(source.at(selected), selected)) {
+                    selected = index;
+                }
+            }
+            if (selected != source.size()) {
+                append(source.at(selected));
+            }
+        }
+    }
+    udon::MasterDiagnostics projectedDiagnostics;
+    const std::vector<udon::MasterCandidate> projectedCandidates =
+        master.solve(
+            state,
+            ledger,
+            projectedPortfolio,
+            masterOptions,
+            projectedDiagnostics);
+    const auto candidate_upper = [
+                                     &fixture,
+                                     &ledger,
+                                     &state,
+                                     &viabilityAnalyzer](
+                                     const udon::MasterCandidate& candidate) {
+        if (state.dayNumber >= fixture.config.day_count()) {
+            return candidate.scoreAfterToday;
+        }
+        udon::MatchLedger futureLedger = ledger;
+        futureLedger.apply(candidate.simulation.score);
+        udon::DayState futureState;
+        futureState.dayNumber = state.dayNumber + 1;
+        futureState.agents = candidate.simulation.finalAgents;
+        futureState.roadStatuses = state.roadStatuses;
+        return viabilityAnalyzer.analyze(
+            futureState,
+            futureLedger).upperBound;
+    };
+    const udon::OfficialScore exactUpper = candidate_upper(*exact);
+    udon::OfficialScore bestUpper;
+    const udon::MasterCandidate* bestUpperCandidate = nullptr;
+    std::int32_t exactUpperRank = 1;
+    for (const udon::MasterCandidate& candidate : projectedCandidates) {
+        const udon::OfficialScore upper = candidate_upper(candidate);
+        if (exactUpper < upper) {
+            ++exactUpperRank;
+        }
+        if (bestUpperCandidate == nullptr || bestUpper < upper ||
+            (bestUpper == upper &&
+             bestUpperCandidate->scoreAfterToday <
+                 candidate.scoreAfterToday)) {
+            bestUpper = upper;
+            bestUpperCandidate = &candidate;
+        }
+    }
+    std::ostringstream projectedWidths;
+    for (std::size_t agent = 0;
+         agent < projectedPortfolio.columnsByAgent.size();
+         ++agent) {
+        if (agent != 0U) {
+            projectedWidths << '|';
+        }
+        projectedWidths <<
+            projectedPortfolio.columnsByAgent.at(agent).size();
+    }
+    std::cout << "traffic_upper_lane,seed=" << fixture.seed
+              << ",day=1"
+              << ",route_mask="
+              << portfolio_plan_mask(projectedPortfolio, plan)
+              << ",columns=" << projectedWidths.str()
+              << ",master_candidates=" << projectedCandidates.size()
+              << ",master_nodes=" << projectedDiagnostics.combinationsVisited
+              << ",exact=" << contains_candidate(projectedCandidates, *exact)
+              << ",outcome=" << contains_outcome(projectedCandidates, *exact)
+              << ",exact_upper=" << score_text(exactUpper)
+              << ",exact_upper_rank=" << exactUpperRank
+              << ",best_upper="
+              << (bestUpperCandidate == nullptr
+                      ? std::string{"none"}
+                      : score_text(bestUpper))
+              << ",best_current="
+              << (bestUpperCandidate == nullptr
+                      ? std::string{"none"}
+                      : score_text(
+                            bestUpperCandidate->scoreAfterToday))
+              << ",best_agents="
+               << (bestUpperCandidate == nullptr
+                       ? std::string{"none"}
+                       : agents_text(
+                             bestUpperCandidate->simulation.finalAgents))
+               << '\n';
+
+    udon::RoutePortfolio endpointPortfolio;
+    endpointPortfolio.columnsByAgent.resize(
+        genericWide.columnsByAgent.size());
+    std::int32_t nextEndpointId = 0;
+    for (std::size_t agent = 0;
+         agent < genericWide.columnsByAgent.size();
+         ++agent) {
+        const std::vector<udon::RouteColumn>& source =
+            genericWide.columnsByAgent.at(agent);
+        std::vector<udon::RouteColumn>& retained =
+            endpointPortfolio.columnsByAgent.at(agent);
+        const auto append = [&retained, &nextEndpointId](
+                                const udon::RouteColumn& sourceColumn) {
+            if (std::any_of(
+                    retained.begin(),
+                    retained.end(),
+                    [&sourceColumn](const udon::RouteColumn& existing) {
+                        return same_agent_plan(
+                            existing.actions,
+                            sourceColumn.actions);
+                    })) {
+                return;
+            }
+            udon::RouteColumn copy = sourceColumn;
+            copy.columnId = nextEndpointId++;
+            retained.push_back(std::move(copy));
+        };
+        for (const udon::RouteColumn& column : source) {
+            if (column.contingencyBundle >= 0) {
+                append(column);
+            }
+        }
+        const auto safeWait = std::find_if(
+            source.begin(),
+            source.end(),
+            [](const udon::RouteColumn& column) {
+                return column.escortGroup < 0 &&
+                    column.contingencyBundle < 0 &&
+                    column.requiredRefuels.empty() &&
+                    column.actions.size() == 1U &&
+                    column.actions.front().kind == udon::ActionKind::Wait;
+            });
+        if (safeWait != source.end()) {
+            append(*safeWait);
+        }
+        const auto current_rank = [&ledger](
+                                      const udon::RouteColumn& column,
+                                      std::size_t index) {
+            return std::tuple{
+                static_cast<std::int32_t>(std::popcount(
+                    column.estimatedBrands & ~ledger.lifetimeBrands)),
+                static_cast<std::int32_t>(
+                    std::popcount(column.estimatedBrands)),
+                column.estimatedServings,
+                column.terminalFuel,
+                column.priority,
+                -static_cast<std::int32_t>(index)};
+        };
+        const auto fuel_rank = [&current_rank](
+                                   const udon::RouteColumn& column,
+                                   std::size_t index) {
+            const auto current = current_rank(column, index);
+            return std::tuple{
+                column.terminalFuel,
+                std::get<0>(current),
+                std::get<1>(current),
+                std::get<2>(current),
+                std::get<4>(current),
+                std::get<5>(current)};
+        };
+        for (const udon::Spot& terminal : fixture.config.spots) {
+            std::size_t bestCurrent = source.size();
+            std::size_t bestFuel = source.size();
+            for (std::size_t index = 0; index < source.size(); ++index) {
+                const udon::RouteColumn& column = source.at(index);
+                if (column.terminalCell != terminal.position ||
+                    claimed_spots(column) == 0U ||
+                    column.escortGroup >= 0 ||
+                    column.contingencyBundle >= 0 ||
+                    !column.requiredRefuels.empty() ||
+                    !column.hasExactTimeline) {
+                    continue;
+                }
+                if (bestCurrent == source.size() ||
+                    current_rank(source.at(bestCurrent), bestCurrent) <
+                        current_rank(column, index)) {
+                    bestCurrent = index;
+                }
+                if (bestFuel == source.size() ||
+                    fuel_rank(source.at(bestFuel), bestFuel) <
+                        fuel_rank(column, index)) {
+                    bestFuel = index;
+                }
+            }
+            if (bestCurrent != source.size()) {
+                append(source.at(bestCurrent));
+            }
+            if (bestFuel != source.size()) {
+                append(source.at(bestFuel));
+            }
+        }
+    }
+    udon::MasterDiagnostics endpointDiagnostics;
+    const std::vector<udon::MasterCandidate> endpointCandidates = master.solve(
+        state,
+        ledger,
+        endpointPortfolio,
+        masterOptions,
+        endpointDiagnostics);
+    std::ostringstream endpointWidths;
+    for (std::size_t agent = 0;
+         agent < endpointPortfolio.columnsByAgent.size();
+         ++agent) {
+        if (agent != 0U) {
+            endpointWidths << '|';
+        }
+        endpointWidths << endpointPortfolio.columnsByAgent.at(agent).size();
+    }
+    for (std::size_t agent = 0; agent < plan.actions.size(); ++agent) {
+        const udon::AgentState& exactTerminal =
+            exact->simulation.finalAgents.at(agent);
+        std::uint32_t exactClaimed = 0U;
+        for (const udon::RouteColumn& column :
+             genericWide.columnsByAgent.at(agent)) {
+            if (same_agent_plan(column.actions, plan.actions.at(agent))) {
+                exactClaimed = claimed_spots(column);
+                break;
+            }
+        }
+        std::int32_t stateClassMatches = 0;
+        for (const udon::RouteColumn& column :
+             endpointPortfolio.columnsByAgent.at(agent)) {
+            stateClassMatches +=
+                column.terminalCell == exactTerminal.position &&
+                    column.terminalFuel == exactTerminal.fuel &&
+                    claimed_spots(column) == exactClaimed
+                ? 1
+                : 0;
+        }
+        std::cout << "terminal_endpoint_class,seed=" << fixture.seed
+                  << ",day=1,agent=" << agent
+                  << ",terminal=" << exactTerminal.position
+                  << ",fuel=" << exactTerminal.fuel
+                  << ",spots=" << exactClaimed
+                  << ",matches=" << stateClassMatches
+                  << '\n';
+    }
+    std::cout << "terminal_endpoint_union,seed=" << fixture.seed
+              << ",day=1,route_mask="
+              << portfolio_plan_mask(endpointPortfolio, plan)
+              << ",columns=" << endpointWidths.str()
+              << ",master_candidates=" << endpointCandidates.size()
+              << ",master_nodes=" << endpointDiagnostics.combinationsVisited
+              << ",exact=" << contains_candidate(endpointCandidates, *exact)
+              << ",outcome=" << contains_outcome(endpointCandidates, *exact)
+              << '\n';
+
+    udon::RoutePortfolio additivePortfolio = productionProjected;
+    std::int32_t nextAdditiveId = 0;
+    for (const std::vector<udon::RouteColumn>& columns :
+         additivePortfolio.columnsByAgent) {
+        for (const udon::RouteColumn& column : columns) {
+            nextAdditiveId = std::max(nextAdditiveId, column.columnId + 1);
+        }
+    }
+    for (std::size_t agent = 0;
+         agent < endpointPortfolio.columnsByAgent.size();
+         ++agent) {
+        std::vector<udon::RouteColumn>& retained =
+            additivePortfolio.columnsByAgent.at(agent);
+        for (const udon::RouteColumn& endpoint :
+             endpointPortfolio.columnsByAgent.at(agent)) {
+            if (std::any_of(
+                    retained.begin(),
+                    retained.end(),
+                    [&endpoint](const udon::RouteColumn& existing) {
+                        return same_agent_plan(
+                            existing.actions,
+                            endpoint.actions);
+                    })) {
+                continue;
+            }
+            udon::RouteColumn copy = endpoint;
+            copy.columnId = nextAdditiveId++;
+            retained.push_back(std::move(copy));
+        }
+    }
+    udon::MasterDiagnostics additiveDiagnostics;
+    const std::vector<udon::MasterCandidate> additiveCandidates = master.solve(
+        state,
+        ledger,
+        additivePortfolio,
+        masterOptions,
+        additiveDiagnostics);
+    std::ostringstream additiveWidths;
+    for (std::size_t agent = 0;
+         agent < additivePortfolio.columnsByAgent.size();
+         ++agent) {
+        if (agent != 0U) {
+            additiveWidths << '|';
+        }
+        additiveWidths << additivePortfolio.columnsByAgent.at(agent).size();
+    }
+    std::cout << "terminal_endpoint_additive,seed=" << fixture.seed
+              << ",day=1,route_mask="
+              << portfolio_plan_mask(additivePortfolio, plan)
+              << ",columns=" << additiveWidths.str()
+              << ",master_candidates=" << additiveCandidates.size()
+              << ",master_nodes=" << additiveDiagnostics.combinationsVisited
+              << ",exact=" << contains_candidate(additiveCandidates, *exact)
+              << ",outcome=" << contains_outcome(additiveCandidates, *exact)
+              << '\n';
 }
 
 [[nodiscard]] std::string best_candidate_score(
@@ -1917,6 +2974,59 @@ void attribute_oracle_day(
         masterOptions,
         mergedDiagnostics);
 
+    if (day == 1) {
+        udon::ColumnGenerationOptions completeCurrent = generation;
+        completeCurrent.enableExactHarvestOrienteering = true;
+        completeCurrent.enableFuelConstrainedExactHarvestOrienteering = true;
+        completeCurrent.enableAnytimeFuelConstrainedHarvestOrienteering = false;
+        udon::ColumnGenerationDiagnostics completeCurrentDiagnostics;
+        const udon::RoutePortfolio completeCurrentPortfolio = generator.generate(
+            state,
+            ledger,
+            completeCurrent,
+            &completeCurrentDiagnostics);
+        udon::MasterDiagnostics completeCurrentMasterDiagnostics;
+        const std::vector<udon::MasterCandidate> completeCurrentCandidates =
+            master.solve(
+                state,
+                ledger,
+                completeCurrentPortfolio,
+                masterOptions,
+                completeCurrentMasterDiagnostics);
+        std::ostringstream completeCurrentWidths;
+        for (std::size_t agent = 0;
+             agent < completeCurrentPortfolio.columnsByAgent.size();
+             ++agent) {
+            if (agent != 0U) {
+                completeCurrentWidths << '|';
+            }
+            completeCurrentWidths <<
+                completeCurrentPortfolio.columnsByAgent.at(agent).size();
+        }
+        std::cout << "current_exact_fuel_attribute,seed=" << fixture.seed
+                  << ",day=" << day
+                  << ",oracle_mask="
+                  << portfolio_plan_mask(completeCurrentPortfolio, oraclePlan)
+                  << ",columns=" << completeCurrentWidths.str()
+                  << ",supported="
+                  << completeCurrentDiagnostics.exactOrienteeringSupportedAgents
+                  << ",complete="
+                  << completeCurrentDiagnostics.exactOrienteeringCompleteAgents
+                  << ",states="
+                  << completeCurrentDiagnostics.exactOrienteeringSettledStates
+                  << ",variants="
+                  << completeCurrentDiagnostics.exactOrienteeringTerminalVariants
+                  << ",bundles="
+                  << completeCurrentDiagnostics.exactOrienteeringBundles
+                  << ",nodes="
+                  << completeCurrentMasterDiagnostics.combinationsVisited
+                  << ",master_exact="
+                  << contains_candidate(completeCurrentCandidates, *exact)
+                  << ",master_outcome="
+                  << contains_outcome(completeCurrentCandidates, *exact)
+                  << '\n';
+    }
+
     udon::RoutePortfolio forcedBundle = merged;
     bool completeForcedBundle = true;
     constexpr std::int32_t forcedBundleId = 1000000000;
@@ -1987,6 +3097,7 @@ void attribute_oracle_day(
                                     &fixture,
                                     day,
                                     &ledger,
+                                    &state,
                                     &viabilityAnalyzer](
                                     const udon::MasterCandidate& candidate) {
         if (day == fixture.config.day_count()) {
@@ -1994,13 +3105,178 @@ void attribute_oracle_day(
         }
         udon::MatchLedger futureLedger = ledger;
         futureLedger.apply(candidate.simulation.score);
-        const udon::DayState futureState = day_state(
-            fixture.config,
-            day + 1,
-            candidate.simulation.finalAgents);
+        udon::DayState futureState;
+        futureState.dayNumber = day + 1;
+        futureState.agents = candidate.simulation.finalAgents;
+        futureState.roadStatuses = state.roadStatuses;
         return viabilityAnalyzer.analyze(futureState, futureLedger).upperBound;
     };
     const udon::OfficialScore exactUpper = candidateUpper(*exact);
+    if (day == 1) {
+        std::vector<udon::MasterCandidate> f0Source;
+        f0Source.reserve(mergedCandidates.size() + 1U);
+        f0Source.push_back(incumbent);
+        std::set<std::string> sourceIds{incumbent.stableId};
+        for (const udon::MasterCandidate& candidate : mergedCandidates) {
+            if (sourceIds.insert(candidate.stableId).second) {
+                f0Source.push_back(candidate);
+            }
+        }
+        const auto better = [](const udon::MasterCandidate& left,
+                               const udon::MasterCandidate& right) {
+            const std::int32_t scoreOrder = udon::compare_lexicographic(
+                left.scoreAfterToday,
+                right.scoreAfterToday);
+            if (scoreOrder != 0) {
+                return scoreOrder > 0;
+            }
+            const std::int32_t slackOrder = udon::compare_terminal_slack(
+                left.terminalSlack,
+                right.terminalSlack);
+            if (slackOrder != 0) {
+                return slackOrder > 0;
+            }
+            return left.stableId < right.stableId;
+        };
+        std::sort(f0Source.begin(), f0Source.end(), better);
+        const auto plan_distance = [](
+                                       const udon::MasterCandidate& left,
+                                       const udon::MasterCandidate& right) {
+            const std::size_t agentCount = std::max(
+                left.plan.actions.size(),
+                right.plan.actions.size());
+            std::int32_t distance = 0;
+            for (std::size_t agent = 0; agent < agentCount; ++agent) {
+                if (agent >= left.plan.actions.size() ||
+                    agent >= right.plan.actions.size()) {
+                    const udon::AgentPlan& existing =
+                        agent < left.plan.actions.size()
+                        ? left.plan.actions.at(agent)
+                        : right.plan.actions.at(agent);
+                    distance += std::max(
+                        1,
+                        static_cast<std::int32_t>(existing.size()));
+                    continue;
+                }
+                const udon::AgentPlan& leftActions =
+                    left.plan.actions.at(agent);
+                const udon::AgentPlan& rightActions =
+                    right.plan.actions.at(agent);
+                const std::size_t actionCount = std::max(
+                    leftActions.size(),
+                    rightActions.size());
+                for (std::size_t action = 0;
+                     action < actionCount;
+                     ++action) {
+                    if (action >= leftActions.size() ||
+                        action >= rightActions.size() ||
+                        leftActions.at(action).wire_value() !=
+                            rightActions.at(action).wire_value()) {
+                        ++distance;
+                    }
+                }
+            }
+            return distance;
+        };
+        constexpr std::int32_t f0Limit = 16;
+        constexpr std::int32_t diversitySlots = f0Limit / 4;
+        constexpr std::int32_t qualityTarget =
+            f0Limit - diversitySlots;
+        std::set<std::string> qualityIds{incumbent.stableId};
+        for (const udon::MasterCandidate& candidate : f0Source) {
+            if (static_cast<std::int32_t>(qualityIds.size()) >=
+                qualityTarget) {
+                break;
+            }
+            qualityIds.insert(candidate.stableId);
+        }
+        std::map<std::string, udon::OfficialScore> uppers;
+        for (const udon::MasterCandidate& candidate : f0Source) {
+            uppers.emplace(candidate.stableId, candidateUpper(candidate));
+        }
+        const auto select_f0 = [
+                                   &f0Source,
+                                   &qualityIds,
+                                   &uppers,
+                                   &plan_distance,
+                                   &better](bool upperAware) {
+            std::set<std::string> selected = qualityIds;
+            while (static_cast<std::int32_t>(selected.size()) < f0Limit) {
+                const udon::MasterCandidate* best = nullptr;
+                udon::OfficialScore bestUpper;
+                std::int32_t bestMinimumDistance = -1;
+                for (const udon::MasterCandidate& candidate : f0Source) {
+                    if (selected.contains(candidate.stableId)) {
+                        continue;
+                    }
+                    std::int32_t minimumDistance =
+                        std::numeric_limits<std::int32_t>::max();
+                    for (const udon::MasterCandidate& retained : f0Source) {
+                        if (selected.contains(retained.stableId)) {
+                            minimumDistance = std::min(
+                                minimumDistance,
+                                plan_distance(candidate, retained));
+                        }
+                    }
+                    const std::int32_t upperOrder =
+                        !upperAware || best == nullptr
+                        ? 0
+                        : udon::compare_lexicographic(
+                            uppers.at(candidate.stableId),
+                            bestUpper);
+                    if ((upperAware && best == nullptr) ||
+                        upperOrder > 0 ||
+                        (upperOrder == 0 &&
+                         minimumDistance > bestMinimumDistance) ||
+                        (upperOrder == 0 &&
+                         minimumDistance == bestMinimumDistance &&
+                         (best == nullptr || better(candidate, *best)))) {
+                        best = &candidate;
+                        bestMinimumDistance = minimumDistance;
+                        if (upperAware) {
+                            bestUpper = uppers.at(candidate.stableId);
+                        }
+                    }
+                }
+                if (best == nullptr) {
+                    break;
+                }
+                selected.insert(best->stableId);
+            }
+            return selected;
+        };
+        const std::set<std::string> currentF0 = select_f0(false);
+        const std::set<std::string> upperF0 = select_f0(true);
+        const std::int32_t qualityEvictions = static_cast<std::int32_t>(
+            std::count_if(
+                qualityIds.begin(),
+                qualityIds.end(),
+                [&upperF0](const std::string& id) {
+                    return !upperF0.contains(id);
+                }));
+        std::int32_t changedDiversity = 0;
+        for (const std::string& id : currentF0) {
+            if (!qualityIds.contains(id) && !upperF0.contains(id)) {
+                ++changedDiversity;
+            }
+        }
+        std::cout << "f0_upper_attribute,seed=" << fixture.seed
+                  << ",day=1"
+                  << ",source_candidates=" << f0Source.size()
+                  << ",quality=" << qualityIds.size()
+                  << ",current_size=" << currentF0.size()
+                  << ",upper_size=" << upperF0.size()
+                  << ",oracle_quality="
+                  << qualityIds.contains(exact->stableId)
+                  << ",oracle_current="
+                  << currentF0.contains(exact->stableId)
+                  << ",oracle_upper="
+                  << upperF0.contains(exact->stableId)
+                  << ",quality_evictions=" << qualityEvictions
+                  << ",changed_diversity=" << changedDiversity
+                  << ",oracle_upper_score=" << score_text(exactUpper)
+                  << '\n';
+    }
     if (day == 1 && parent.has_value()) {
         udon::TrafficBelief belief(fixture.config);
         belief.observe(state);
@@ -2387,6 +3663,159 @@ void attribute_w1_continuation(
                         static_cast<std::uint32_t>(claim.spot);
                 }
             }
+            const auto terminal_frontier_text = [&fixture](
+                                                        const std::vector<DayOutcome>& outcomes) {
+                std::map<udon::CellId, std::int32_t> counts;
+                for (const DayOutcome& outcome : outcomes) {
+                    if (outcome.spotMask == 0U ||
+                        fixture.config.spotAtCell.at(
+                            static_cast<std::size_t>(outcome.position)) ==
+                            udon::kInvalidSpot) {
+                        continue;
+                    }
+                    ++counts[outcome.position];
+                }
+                std::ostringstream text;
+                bool first = true;
+                for (const auto& [terminal, count] : counts) {
+                    if (!first) {
+                        text << '|';
+                    }
+                    first = false;
+                    text << terminal << ':' << count;
+                }
+                return text.str();
+            };
+            const auto maximum_terminal_frontier = [&fixture](
+                                                           const std::vector<DayOutcome>& outcomes) {
+                std::map<udon::CellId, std::int32_t> counts;
+                for (const DayOutcome& outcome : outcomes) {
+                    if (outcome.spotMask != 0U &&
+                        fixture.config.spotAtCell.at(
+                            static_cast<std::size_t>(outcome.position)) !=
+                            udon::kInvalidSpot) {
+                        ++counts[outcome.position];
+                    }
+                }
+                std::int32_t maximum = 0;
+                for (const auto& [terminal, count] : counts) {
+                    static_cast<void>(terminal);
+                    maximum = std::max(maximum, count);
+                }
+                return maximum;
+            };
+            std::vector<udon::MasterCandidate> exactFrontierCandidates;
+            std::set<std::string> exactFrontierIds;
+            for (const DayOutcome& firstOutcome : firstOutcomes) {
+                for (const DayOutcome& secondOutcome : secondOutcomes) {
+                    udon::DayPlan plan;
+                    plan.actions.resize(
+                        static_cast<std::size_t>(fixture.config.agent_count()));
+                    plan.actions.at(0) = firstOutcome.actions;
+                    plan.actions.at(1) = secondOutcome.actions;
+                    for (std::size_t agent = 2U;
+                         agent < plan.actions.size();
+                         ++agent) {
+                        plan.actions.at(agent) = udon::AgentPlan{
+                            udon::PlanAction::wait(
+                                fixture.config.steps_for_day(day)),
+                        };
+                    }
+                    std::optional<udon::MasterCandidate> candidate =
+                        master.evaluate_exact_plan(state, ledger, plan);
+                    if (candidate.has_value() &&
+                        exactFrontierIds.insert(candidate->stableId).second) {
+                        exactFrontierCandidates.push_back(std::move(*candidate));
+                    }
+                }
+            }
+            const std::int32_t fullFrontierColumnCap =
+                static_cast<std::int32_t>(std::max(
+                    firstOutcomes.size(),
+                    secondOutcomes.size())) + 8;
+            const udon::RoutePoolAugmentation frontierAugmentation =
+                generator.augment_with_candidate_routes(
+                    state,
+                    portfolio,
+                    exactFrontierCandidates,
+                    fullFrontierColumnCap);
+            udon::MasterDiagnostics frontierW1Diagnostics;
+            const std::vector<udon::MasterCandidate> frontierW1Candidates =
+                master.solve(
+                    state,
+                    ledger,
+                    frontierAugmentation.portfolio,
+                    masterOptions,
+                    frontierW1Diagnostics);
+            udon::MasterOptions frontierNormalOptions;
+            frontierNormalOptions.maximumCombinations = 40000;
+            frontierNormalOptions.maximumCandidates = 32;
+            frontierNormalOptions.diversityCandidates = 8;
+            udon::MasterDiagnostics frontierNormalDiagnostics;
+            const std::vector<udon::MasterCandidate> frontierNormalCandidates =
+                master.solve(
+                    state,
+                    ledger,
+                    frontierAugmentation.portfolio,
+                    frontierNormalOptions,
+                    frontierNormalDiagnostics);
+            std::int32_t frontierFirstCap = -1;
+            for (const std::int32_t cap : {32, 48, 64, 96, 128, 192, 256}) {
+                udon::MasterOptions capOptions = frontierNormalOptions;
+                capOptions.maximumCandidates = cap;
+                capOptions.diversityCandidates = std::max(1, cap / 4);
+                udon::MasterDiagnostics capDiagnostics;
+                const std::vector<udon::MasterCandidate> capCandidates =
+                    master.solve(
+                        state,
+                        ledger,
+                        frontierAugmentation.portfolio,
+                        capOptions,
+                        capDiagnostics);
+                if (contains_outcome(capCandidates, *exact)) {
+                    frontierFirstCap = cap;
+                    break;
+                }
+            }
+            std::ostringstream frontierWidths;
+            for (std::size_t agent = 0;
+                 agent < frontierAugmentation.portfolio.columnsByAgent.size();
+                 ++agent) {
+                if (agent != 0U) {
+                    frontierWidths << '|';
+                }
+                frontierWidths <<
+                    frontierAugmentation.portfolio.columnsByAgent.at(agent).size();
+            }
+            std::cout << "w1_resource_frontier,seed=" << fixture.seed
+                      << ",day=" << day
+                      << ",first_terminal_counts="
+                      << terminal_frontier_text(firstOutcomes)
+                      << ",second_terminal_counts="
+                      << terminal_frontier_text(secondOutcomes)
+                      << ",first_max_terminal="
+                      << maximum_terminal_frontier(firstOutcomes)
+                      << ",second_max_terminal="
+                      << maximum_terminal_frontier(secondOutcomes)
+                      << ",joint_candidates="
+                      << exactFrontierCandidates.size()
+                      << ",portfolio_widths=" << frontierWidths.str()
+                      << ",novel_routes="
+                      << frontierAugmentation.retainedNovelRoutes
+                      << ",w1_nodes="
+                      << frontierW1Diagnostics.combinationsVisited
+                      << ",w1_exact="
+                      << contains_candidate(frontierW1Candidates, *exact)
+                      << ",w1_outcome="
+                      << contains_outcome(frontierW1Candidates, *exact)
+                      << ",normal_nodes="
+                      << frontierNormalDiagnostics.combinationsVisited
+                      << ",normal_exact="
+                      << contains_candidate(frontierNormalCandidates, *exact)
+                      << ",normal_outcome="
+                      << contains_outcome(frontierNormalCandidates, *exact)
+                      << ",first_cap=" << frontierFirstCap
+                      << '\n';
             const DayOutcome* exactSecondOutcome = nullptr;
             for (const DayOutcome& outcome : secondOutcomes) {
                 if (outcome.position == exact->simulation.finalAgents.at(1).position &&
@@ -2735,6 +4164,47 @@ int main(int argc, char** argv) {
                     break;
                 }
                 const Fixture fixture = make_fixture(row, seed);
+                if (!options.inspectPlan.empty()) {
+                    if (!options.inspectParentPlan.empty()) {
+                        std::vector<udon::AgentState> agents;
+                        for (const udon::CellId start :
+                             fixture.config.initialAgents) {
+                            agents.push_back(udon::AgentState{
+                                udon::AgentKind::Patrol,
+                                start,
+                                fixture.config.fuelLimit,
+                            });
+                        }
+                        const TrafficFootprint emptyFootprint{};
+                        const udon::DayState state = day_state(
+                            fixture.config,
+                            1,
+                            agents,
+                            exact_road_statuses(
+                                fixture,
+                                1,
+                                emptyFootprint,
+                                emptyFootprint));
+                        attribute_oracle_day(
+                            fixture,
+                            1,
+                            state,
+                            udon::MatchLedger{},
+                            parse_plan_text(
+                                options.inspectPlan,
+                                fixture.config.agent_count()),
+                            parse_plan_text(
+                                options.inspectParentPlan,
+                                fixture.config.agent_count()));
+                        return 0;
+                    }
+                    inspect_exact_bundle_capability(
+                        fixture,
+                        parse_plan_text(
+                            options.inspectPlan,
+                            fixture.config.agent_count()));
+                    return 0;
+                }
                 if (options.headOnly) {
                     const HeadResult head = solve_head(fixture);
                     const std::int32_t strictTakeoverDays =

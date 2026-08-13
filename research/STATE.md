@@ -4,6 +4,358 @@ Updated: 2026-08-13
 
 ## Current phase
 
+`SCORE-TANKER-TERMINAL-ONLY-144` is accepted in the checkpoint commit that
+contains this recorded state.
+Its fresh 18-case development and sealed 54-case holdout were frozen before
+source at `research/holdouts/SCORE-TANKER-TERMINAL-ONLY-144.csv`, SHA256
+`ED0860B586E447C9CC3E9DB8BCFC261974F694870864308973AAB3765A0F7398`.
+It keeps days before terminal byte-equivalent to parent and enables the bounded
+post-parent mobile EventConflict phase only when
+`state.dayNumber == config.day_count()`. With a fixed role assignment there is
+no suffix after that decision, so terminal lexicographic dominance is whole-match
+dominance. Role selection remains an independent acceptance gate.
+
+Its fixed-role fresh development scored `4/14/0`, then its sealed holdout was
+opened once and scored `12/42/0`, invalid zero; all twelve gains were tier-3
+`+1..+3` in the same four low-fuel families independently identified by the
+exact oracle. `SCORE-TANKER-TERMINAL-ROLE-145` is now the active same-binary
+role-layer gate. Its fresh/holdout manifest was frozen before score at
+`research/holdouts/SCORE-TANKER-TERMINAL-ROLE-145.csv`, SHA256
+`F26CECA60375253BB1F787E210FCA7F6B2D42E752A6AD34A81BEE917D29B6C96`.
+Fresh deadline-role was `0/6/0`; sealed deadline-role `1/11/0`; sealed
+exhaustive-role `0/12/0`, all invalid/emergency zero. BTC-scale local initially
+showed a low-fuel tier-3 loss of one under the same mask, but the single
+preregistered reversed-order repeat crossed to a candidate gain of four. Every
+day was deadline-limited and action hashes diverged before terminal mobile logic
+could execute, proving local timed-search noise. The role gate is accepted
+locally; BTC 5000-ms target-host telemetry is now the only performance authority.
+
+BTC gate `m-2159` passed on the explicit hard/3-bot/10-day/32x32/100-step/
+5000-ms/8-agent/12-spot/6-brand/low-fuel configuration. Assignment and all ten
+day actions were accepted and exact-valid; emergency zero; maximum solver total
+was `3398 ms`, maximum server response `3706 ms`. Replay-check independently
+validated all ten days and reconstructed `6/60/285`. Replay SHA256 is
+`AECD94B9EA033CB0642C483673CA8306BF9DA116427B97FD2C8FD477021DB790`.
+Bot rank is not strength evidence; paired matrices plus the terminal no-suffix
+dominance proof supply promotion evidence. From this checkpoint, run one
+independent convergence sweep using it as the new parent; do not reopen
+non-terminal mobile rendezvous without exact suffix protection.
+
+`ATTR-TANKER-CAUSAL-GENERALIZATION-143` is closed rejected. The first protected deadline-role screen was `1/4/1`:
+fuel-tight gained tier 2, rare-brand lost tier 3. An identical-layout runtime
+switch proved both effects can be causal and that mobile day-plan improvements
+can change cross-assignment role ranking. A new untouched screen spanning
+deadline/fixed roles, map scale and low/default/high fuel was frozen at
+`research/holdouts/ATTR-TANKER-CAUSAL-GENERALIZATION-143.csv`, SHA256
+`7BE1AFB44BC7440AA150BFAC44CE158BAD7970C00B2C5CA4668C9FBE804CFE76`.
+Its first same-binary block was `2/8/2`; two tier-2 losses in twelve included
+one loss with unchanged role mask. The preregistered rejection condition fired,
+so remaining blocks were not opened and 142 was rejected without tuning.
+
+`SCORE-TANKER-POST-PARENT-142` is closed rejected. Its fresh
+18-case development and sealed 54-case holdout were frozen before source at
+`research/holdouts/SCORE-TANKER-POST-PARENT-142.csv`, SHA256
+`6E2D858D719DAABF128357FF0EDCA03642AC26C43236F984489CB2F331F32DBB`.
+It leaves `hub_plans`, backward and MCTS static-only. The exact parent
+EventConflict phase runs unchanged first; only if it returns before deadline
+does a second mobile-only EventConflict phase start from the protected parent
+incumbent. Attribution proved EventConflict alone reaches exact on 138.
+
+`SCORE-TANKER-PARENT-FIRST-141` is closed rejected-proof-insufficient. Its fresh
+18-case development and sealed 54-case holdout were frozen before source at
+`research/holdouts/SCORE-TANKER-PARENT-FIRST-141.csv`, SHA256
+`EF5CC5F838CAB3215DF81B07094D2DFFF17D3601913330258B86437B5B95BCD5`.
+It scored fresh `4/14/0`, holdout `12/42/0`, and changed protected seed 300005
+from a 140 loss to a tier-3 gain. However, mobile hubs still changed MacroMcts
+root cardinality and RNG sampling. Since EventConflict alone reached the exact
+138 witness, 141 was rejected rather than relying on empirical green scores
+without a genuine parent-computation proof.
+
+`SCORE-TANKER-MOBILE-WINDOWS-140` is closed rejected. Its fresh
+18-case development and sealed 54-case holdout were frozen before source at
+`research/holdouts/SCORE-TANKER-MOBILE-WINDOWS-140.csv`, SHA256
+`859D233298AFAB22A7AD58BB3FA9E4F69C921F72E258054730A5AFE0EDDE53B3`.
+The candidate completes designed multi-window `HubPlan` wiring inside the
+existing independent planner: add bounded two-window mobile tanker plans while
+retaining every static hub, and make rendezvous waiting match official
+consecutive-step refuel. No terminal solver or seed/map routing is allowed.
+Fresh development was candidate-vs-parent `4/14/0`; sealed holdout was opened
+once and returned `12/42/0`, zero invalid. Every gain was tier 3 in the same
+four low-fuel families, while every default/high and other low case tied. The
+candidate then failed protected fixed-role screening at `3/2/1`: seed 300005
+lost tier 2 from `7/35/51` to `7/33/54`. The implementation had jointly
+resorted all static/mobile hubs and globally changed static refuel timing, so
+it did not preserve the parent search prefix. It was rejected rather than
+calling this an acceptable trade-off.
+
+`ATTR-TANKER-TERMINAL-LOSS-139` is closed accepted attribution. On consumed
+seed 2800000 the production-width portfolio had widths `21|14|21` and exact
+route mask `000`; unchanged master search completed at HEAD score. Injecting
+the exact atomic bundle made the same complete master retain and select exact
+`+2`. The independent portfolio completed 1600 rollouts without deadline but
+scored below HEAD because every `HubPlan` contains one static window. Thus the
+earliest loss is repeated mobile rendezvous generation, not master selection.
+
+`CEILING-TANKER-TERMINAL-138` is closed `accepted-gap-no-candidate`. Its
+canonical connected-3x3 development sweep was exact-vs-HEAD `4/14/0`, invalid
+0, incomplete 0. Low fuel was `4/2/0`: rendezvous, stock-contention,
+rare-brand and delayed-claim each gained tier-3 `+2`; default and high fuel were
+each `0/6/0`. Exact witnesses agreed between simulator and independent
+validator including trace, claims and final state. An earlier eight-cell
+corridor diagnostic was discarded before attribution because it violated the
+preregistered 3x3 geometry. The frozen 54-case holdout remains sealed until a
+fixture-independent candidate exists.
+
+`ATTR-BOTTLENECK-ADDITIVE-ENDPOINTS-137` is closed rejected on consumed seed 2700400.
+136 retained the exact state class for agent 1 but omitted agent 0, whose exact
+route is already in the ordinary width16 portfolio. 137 therefore preserves
+the complete non-exact parent width16 portfolio and adds the unchanged two
+public endpoints per terminal, deduplicated, before one unchanged master solve.
+The additive union reached route mask `111` at widths `25|24|2`, but the
+unchanged master retained neither exact nor equivalent outcome among 32
+candidates after 498 nodes. No parent route was evicted. This closes the
+terminal-endpoint axis; no third endpoint, cap increase or supplemental solver
+may be derived from 135.
+
+`ATTR-BOTTLENECK-TERMINAL-ENDPOINTS-136` is a closed consumed-witness
+capability attribution under 135. Seed 2700400 day 1 proves the exact team plan
+needs two missing independent direct three-serving routes; adding only those
+routes lets the unchanged master retain exact plan/outcome. Before any planner
+change, 136 tests the fixture-independent union of two public endpoints per
+served terminal (official current contribution first and remaining fuel first)
+from the research-wide generated set. It is bounded by two times public spot
+count per agent. Passing requires route mask `111` and unchanged-master exact or
+equivalent outcome; it still does not prove normal width16 constructs the routes.
+The result was route mask `011`, widths `14|13|1`, one retained exact state-class
+match for agents 1 and 2 but zero for agent 0, and no exact/equivalent master
+outcome. 136 is rejected and its two endpoint definitions are frozen; no third
+endpoint or rank tuning is allowed.
+
+`CEILING-BOTTLENECK-PATROL-135` is closed as an accepted exact gap with no
+admissible candidate; its holdout remains sealed.
+Production remains source-clean at `5dccb0f`; 135 changes only the research
+oracle adapter. Its manifest was frozen before the adapter change at
+`research/holdouts/CEILING-BOTTLENECK-PATROL-135.csv`, SHA256
+`8C262075B9CFEDE8C4270F024C7D50EE93047393EE92C2CF668CC7DB810BFF31`.
+It contains 18 development and 54 sealed holdout fixtures across six new
+two-lobe/one-bottleneck structural families and low/default/high fuel. The
+accepted exact resource-dominance quotient from 129 remains unchanged. The
+development sweep completed exact-vs-HEAD `6/12/0`, invalid 0: two tier-2 `+1`
+wins at low fuel and four tier-3 `+1` wins across low/default fuel. Result hash
+is `e84fb672427b32bd`. The strongest counterexample is fuel-bottleneck/low seed
+`2700400`, exact `6/24/24` versus HEAD `6/23/24`. Attribution must determine
+whether its earliest loss is a bounded existing stage different from the closed
+traffic/ladder causes. No production source candidate may open before that
+causal proof; holdout stays sealed and local elapsed has no performance authority.
+
+`CUMULATIVE-LINEAGE-134` is closed `inconclusive-partial`. Four
+accepted commits follow `7ef3694` linearly, but bounded trade-off acceptance is
+not transitive, so parent-by-parent evidence alone cannot exclude `HEAD <
+7ef3694`. The fresh direct A/C manifest was frozen before either binary ran at
+`research/holdouts/CUMULATIVE-LINEAGE-134.csv`, SHA256
+`3AD728B698D9A207DC30D7C3649700854D24FB7F75C54E2138A3D36579FB6664`.
+It covers balanced six-family 8x8 road and roadless maps plus 32x32 low,
+default and high fuel, each in fixed all-patrol and exhaustive-role lanes at
+the internal `5000 ms` cap. Only official score/validity has local authority;
+elapsed/throughput does not. Differences must be rerun in reverse order, and
+the manifest may not be tuned after opening. The completed 30 fixtures produced
+HEAD-versus-`7ef3694` `6/19/5`, zero invalid/emergency. The 24 8x8 rows were
+`5/14/5`, with tier-2 gain/loss `2/4` and tier-3 gain/loss `10/2`; six
+32x32 low-fuel fixed rows were `1/5/0` with one tier-3 `+2` gain. Low-fuel
+native was interrupted and discarded; default/high lanes were never opened.
+This is a mixed bounded trade-off, not proof that HEAD globally loses or
+dominates the ancestor. No source candidate follows, and no remaining local
+lane has enough information value to justify continued execution now.
+
+The first opened lane, fresh 8x8 road-containing fixed all-patrol, was
+`HEAD` versus `7ef3694 = 0/4/2`, invalid/emergency `0/0`. Threshold-corridor
+seed `2601002` reproduced `6/19/30` versus `6/20/30` (tier-2 `-1`) and
+high-stock seed `2601004` reproduced `5/16/37` versus `5/18/37` (tier-2
+`-2`) in reverse execution order. Neither reproduced difference hit a search
+deadline; this is a real logic regression, not local performance noise. The
+remaining frozen lanes stay unopened while the exact introducing commit is
+attributed across the existing linear checkpoints. These consumed seeds may
+only diagnose the regression; no mechanism may be tuned on them.
+
+`OPPONENT-BTC-REAL-133` is closed `inconclusive-user-timed`. A canonical
+`5dccb0f` BTC executable was rebuilt from source-clean production at SHA256
+`6838A95B3AA9C015930C631201B7506463E68223583AF4C70DBB8EB439394096`, the
+authenticated queue was entered once, and no match appeared before the UI
+returned to the idle `Find opponent` state. No solver connection, score or
+performance sample exists. Per user instruction, fresh human-opponent testing
+is deferred until the user announces the appropriate time; do not reopen or
+enter another queue before that instruction.
+
+There is currently no open production score candidate or attribution; canonical
+production remains `5dccb0f`. `ATTR-LADDER-CURRENT-EXACT-132` closed negative:
+existing complete current-day fuel-exact enumeration finished 3/3 agents but
+reached only oracle route mask `011`, and unchanged normal master retained no
+exact/equivalent outcome. The ladder axis has no bounded candidate: flags alone
+fail, while full frontier plus a second upper-aware solver is overengineered and
+forbidden. Reopen only from an independent bounded representation or a fresh
+counterexample with a different earliest cause.
+
+`ATTR-LADDER-RESOURCE-FRONTIER-131` closed negative. The complete day-2
+frontiers were 55/44 routes, with up to 11/7 routes at one terminal and 95 novel
+routes total. Exact outcome remained absent under W1, normal32/8 and every cap
+through256. Full frontier plus a new upper-aware master would duplicate search
+and is not an admissible candidate from this witness.
+
+`ATTR-LADDER-EARLIEST-LOSS-130` closed the exact gap at route representation.
+Day 1 exact routes had mask `001` in every ordinary portfolio through wide64;
+only oracle-seeded augmentation restored mask `111`. Current accepted 114 is
+still insufficient: day-2 exact routes end at different terminals, the missing
+agent-0 route is rank2 by both fuel and current score but rank1 by joint upper,
+and complete fuel-exact W1 reaches only mask `011`. Do not tune one terminal
+rank, flags, global caps, F0 or comparator from this witness.
+
+`PERF-ORACLE-RESOURCE-DOMINANCE-129` is accepted research infrastructure. Its
+pre-ladder gate preserved 085, 089 and 095 each at 18/18
+exact oracle scores, for 54/54 total with every reconstructed result valid. The
+four recorded 095 exact wins matched directly; its fourteen oracle=HEAD ties
+matched a detached `f77c101` head-only reference on the exact 095 fixture
+adapter. Its one authorized ladder run produced the exact gap above; all other
+101 development and holdout rows remain sealed.
+
+`ATTR-TRAFFIC-INFORMATION-128` closed the exact Markov traffic
+gap as non-actionable under the current public information set. On consumed
+seed `2300200` day 1, exact and parent profiles each won only one 5000-weight
+scenario and neither certified-dominated the other. The exact match DP obtained
+its realized `+7` tier-2 result while reading the fixture's frozen future opponent
+footprints; production observes only current public state/history/belief. Traffic
+score research may reopen only from independent public predictive evidence or a
+candidate that robustly improves the unchanged public scenario profile.
+
+`ATTR-TRAFFIC-F0-NO-GAIN-127` closed the sole reproducible
+plan-hash change from rejected candidate 126. Candidate and source-frozen parent
+had identical current/lower/upper envelopes on all four days and both ended at
+`6/24/24`; only day-2 plan identity/disposition changed (candidate W1 incumbent
+versus parent upside challenger). No downstream stage suppressed a score gain.
+The road F0 membership/order/subwindow axis is closed unless independent evidence
+shows a retained challenger with different certified value or exact final score.
+
+Governance reconciliation found and closed two stale `active` labels without any
+source or evidence change. `CEILING-MATCH-071` was resolved by the accepted
+072+073 successor, protected as 083/084 and committed in `00711ba`.
+`SCORE-QUEUE-048` was integrated through accepted `FINAL-QUEUE-065` and committed
+in `7ef3694`. Neither predecessor is an open research axis at current HEAD.
+
+`SCORE-TRAFFIC-F0-UPPER-126` is
+closed as rejected and all candidate production/test/telemetry source is restored
+to the canonical parent. Source-frozen A/B/B/A development was `0/18/0`, invalid
+0 in both orders. The road-upper sweep attempted and completed on all 72 decision
+days with zero fallback, proving activation; only high/traffic-stock seed2420400
+changed plan reproducibly, but both scores were `6/24/24`. Holdout SHA256
+`6BE6AA5E3B3A5A63B98A325562BA368E1479900D41BBFD0023460077918084FA`
+remains sealed. Evidence is in
+`research/evidence/SCORE-TRAFFIC-F0-UPPER-126.md`. Do not tune F0 upper order or
+deadline on this split; F0 membership alone is insufficient to improve score.
+
+`ATTR-TRAFFIC-F0-UPPER-125` is closed as accepted attribution. Of 33
+source candidates on consumed seed2300200 day1, the exact oracle was outside the
+12 frozen quality ids and current distance-only F0 excluded it. Ranking the same
+four diversity slots by unchanged valid upper then distance retained the oracle,
+kept F0 size16, and evicted zero quality ids; two diversity ids changed. Evidence
+is in `research/evidence/ATTR-TRAFFIC-F0-UPPER-125.md`.
+
+`CEILING-TRAFFIC-INDEPENDENT-124`
+is closed as accepted attribution after its causal question resolved in two
+distinct low-fuel development families. Traffic-duplicate seed2300100 produced
+exact `5/20/22` versus HEAD `5/13/21`; threshold-loop seed2300200 produced
+`6/22/22` versus `6/15/20`. Both are valid tier-2 gains of 7. On threshold-loop
+day1 the exact route mask was `111`, the unchanged merged master retained exact
+plan/outcome, and its candidate-specific upper `6/24/28` ranked first at
+cap32/diversity8, yet it matched none of the 16 final audited candidates. This
+localizes the repeated gap after master retention, not route generation. The
+remaining 124 development and all holdout fixtures remain sealed; SHA256 is
+`B8E5EBA30D76198628CE6DBCB09504027C56E24D15250E4994D0C7D2EA90B401`.
+Evidence is in `research/evidence/CEILING-TRAFFIC-INDEPENDENT-124.md`.
+
+`ATTR-TRAFFIC-PARETO-ENDPOINTS-
+123` is closed as rejected and the terminal-sidecar axis is exhausted. Its
+two-endpoint portfolio naturally reached route mask `111` at widths `10|12|1`,
+but unchanged master cap32/diversity8 retained neither the exact nor equivalent
+joint outcome among 32 candidates after 240 nodes. Per its frozen gate, no cap,
+diversity or endpoint tuning is allowed; all capability source is restored to
+canonical `5dccb0f`. A future traffic attempt requires an independent master-
+aware pricing/value mechanism rather than post-hoc terminal projection.
+
+`ATTR-TRAFFIC-TERMINAL-VALUE-122` is closed as rejected. It produced the exact
+opposite collapse from 121: score-first retained patrol1's three-serving route,
+but at patrol0 terminal34 replaced the oracle two-serving/fuel10 route with a
+three-serving/fuel8 route under equal zero traffic. Sidecar mask became `011`;
+exact/equivalent outcome remained absent. Evidence is in
+`research/evidence/ATTR-TRAFFIC-TERMINAL-VALUE-122.md`.
+
+`ATTR-TRAFFIC-STRATIFIED-CONSTRUCTION-121` is closed as rejected. It completed
+the finite direct-triple loop without changing canonical columns, yet sidecar
+mask remained `101` and exact/equivalent outcome remained absent. Patrol1's
+terminal19 winner was a zero-traffic one-serving route at fuel11; the zero-
+traffic three-serving oracle route at fuel8 lost solely because the selector
+ranked fuel before official contribution. Evidence is in
+`research/evidence/ATTR-TRAFFIC-STRATIFIED-CONSTRUCTION-121.md`.
+
+`ATTR-TRAFFIC-TRIPLE-STRATA-120` is closed as accepted attribution. Its
+post-prune route masks at structural widths `16/24/32/48/64` were respectively
+`001/011/011/111/111`. Combined with 119's pre-prune width16 mask `101`, this
+proves patrol0 is constructed then pruned, while patrol1 is not constructed at
+16 but appears by 24. Patrol1's wide route is a direct three-serving triple,
+not a harvest extension or exact-orienteering artifact. Evidence is in
+`research/evidence/ATTR-TRAFFIC-TRIPLE-STRATA-120.md`.
+
+`SCORE-TRAFFIC-UPPER-LANE-119` was rejected before opening its first
+development score seed. Its width16 production sidecar had widths `7|7|1` but
+route mask `101`, so patrol 1's required route was never generated and the
+unchanged master retained neither the exact plan nor an equivalent outcome. The
+earlier width64 attribution lane remained `111`, proving that 119 confused
+post-generation projection with bounded route construction. Its manifest SHA256
+`E5E2E7ABB40F7584A016837EEF1AAD6DE5D80832E367F86EE6E6C9085ED99F76`
+remains sealed and may not be reused. Production candidate source was removed;
+evidence is in `research/evidence/SCORE-TRAFFIC-UPPER-LANE-119.md`. The next
+permitted action is consumed-witness attribution of bounded terminal-stratified
+triple enumeration. No fresh score split may open until that mechanism exposes
+all required routes without widening the canonical portfolio or reducing any
+existing deadline work.
+
+`ATTR-TRAFFIC-UPPER-LANE-118` is closed as accepted attribution. Its public
+`7|7|1` sub-portfolio retained the exact oracle plan/outcome under unchanged
+master cap32/diversity8 in 98 nodes; oracle upper `6/23/29` ranked fifth and lane
+best was `6/24/26`. Evidence is in
+`research/evidence/ATTR-TRAFFIC-UPPER-LANE-118.md`.
+
+`ATTR-TRAFFIC-TERMINAL-PROJECTION-117` is closed as accepted attribution. Both
+missing routes exist in generic width64, are independent/resource-undominated,
+and are rank 1 under the public minimum-traffic terminal selector despite global
+ranks 54 and 14. The full nondominated frontier is rejected as too large at
+51/46 routes; the successful selector is bounded to one route per public spot per
+agent. Evidence is in
+`research/evidence/ATTR-TRAFFIC-TERMINAL-PROJECTION-117.md`.
+
+`ATTR-TRAFFIC-EXACT-BUNDLE-116` is closed as accepted negative attribution. The
+existing exact-resource enumerator completed 3/3 agents, 578 states, two terminal
+variants and seven bundles; the unchanged master evaluated all seven. It still
+produced route mask `101`: agent 1's oracle route was absent, and neither the
+joint plan nor equivalent outcome appeared among 32 candidates. Evidence is in
+`research/evidence/ATTR-TRAFFIC-EXACT-BUNDLE-116.md`. Nonterminal low-fuel exact
+activation is therefore not a candidate.
+
+`ATTR-TRAFFIC-MARKOV-115` is closed as accepted attribution; production remains
+the accepted champion `5dccb0f`. Its mathematically exact quotient keeps physical
+state, lifetime and accumulated score, `F[d-1]`, and the already-derived current
+road statuses `R[d]`; reconstruction recomputes every `R[d+1]` from exact plans.
+The first permitted 097 development fixture completed with dual-valid oracle
+`6/22/22` against HEAD `6/14/19`, a tier-2 gain of 8 and result hash
+`5d2f3c73d5d99dbf`. The first divergence is day 1: oracle accepts `5/5/5`
+instead of HEAD's `6/6/11`, and its plan is absent from all 16 audited runtime
+candidates. Attribution proves the exact routes and joint outcome appear through
+existing wide/additive capabilities, while the unchanged candidate upper
+`6/23/29` is stronger than the selected path's `6/16/21`. This is a real
+generation/retention wiring gap, not comparator blindness and not authority to
+raise caps globally. Evidence is in `research/evidence/ATTR-TRAFFIC-MARKOV-115.md`.
+The 097 holdout remains sealed. Architecture convergence is disproved; any score
+candidate now requires a fresh split and a public bounded structural projection
+that preserves every existing route/candidate and the 5000-ms hard cap.
+
 Canonical committed parent is `f77c101`, which composes the accepted deterministic
 F0 intake promotion `f574d4e` with the accepted semantics-preserving master
 bundle prefilter `PERF-MASTER-BUNDLE-092`. `SCORE-W1-CLOSED-LOOP-114` has now

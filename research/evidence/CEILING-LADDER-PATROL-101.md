@@ -24,3 +24,14 @@ it shows that unrestricted complete joint enumeration on cyclic components is
 no longer an economical general sweep at this state size. Reopen only with a
 mathematically exact quotient or bounded external proof host; do not shrink this
 frozen suite after observing its computational cost.
+
+## Reopen resolution (2026-08-13)
+
+`PERF-ORACLE-RESOURCE-DOMINANCE-129` supplied the required mathematically exact
+quotient and preserved all 54 previously completed 085/089/095 oracle scores.
+Without shrinking topology, horizon, fuel, action space or transitions, the
+first frozen ladder development fixture seed `1800000` completed dual-valid at
+oracle `6/24/26` versus HEAD `6/23/25`, tier-2 gain `+1`, result hash
+`94088825f11f84c5`. CEILING-LADDER-PATROL-101 is now an accepted exact gap via
+129. Remaining development and holdout fixtures stay sealed for a separately
+justified candidate.

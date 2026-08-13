@@ -29,6 +29,7 @@ struct RendezvousWindow {
     CellId cell = kInvalidCell;
     std::int32_t startsAt = 0;
     std::int32_t endsAt = 0;
+    bool requiresRefuelStep = false;
 };
 
 struct HubPlan {
@@ -343,7 +344,12 @@ void append_path(
     }
     append_path(route, best->path, true);
     route.terminalCell = best->window.cell;
-    const std::int32_t wait = best->completion - route.elapsed;
+    const std::int32_t refuelStep =
+        best->completion + (best->window.requiresRefuelStep ? 1 : 0);
+    if (refuelStep > best->window.endsAt || refuelStep > daySteps) {
+        return false;
+    }
+    const std::int32_t wait = refuelStep - route.elapsed;
     if (wait > 0) {
         route.actions.push_back(PlanAction::wait(wait));
         route.elapsed += wait;
@@ -458,7 +464,8 @@ void append_path(
     const MatchLedger& ledger,
     ParetoRouter& router,
     std::int32_t limit,
-    std::chrono::steady_clock::time_point deadline) {
+    std::chrono::steady_clock::time_point deadline,
+    bool mobileOnly = false) {
     AgentIndex tanker = kInvalidAgent;
     for (AgentIndex agentIndex = 0; agentIndex < config.agent_count(); ++agentIndex) {
         if (state.agents.at(static_cast<std::size_t>(agentIndex)).kind == AgentKind::Tanker) {
@@ -467,6 +474,9 @@ void append_path(
         }
     }
     if (tanker == kInvalidAgent) {
+        if (mobileOnly) {
+            return {};
+        }
         return {HubPlan{}};
     }
     std::vector<CellId> cells;
@@ -524,22 +534,129 @@ void append_path(
             return left.cell < right.cell;
         });
     std::vector<HubPlan> plans;
-    plans.reserve(candidates.size() + 16U);
-    for (const HubCandidate& candidate : candidates) {
+    plans.reserve(candidates.size() +
+        static_cast<std::size_t>(std::max(0, limit)));
+    if (!mobileOnly) {
+        for (const HubCandidate& candidate : candidates) {
+            HubPlan plan;
+            plan.tanker = tanker;
+            plan.centrality = candidate.centrality;
+            for (const std::int32_t direction : candidate.fromStart.directions) {
+                plan.actions.push_back(PlanAction::move(direction));
+            }
+            if (candidate.fromStart.travelSteps < daySteps) {
+                plan.actions.push_back(
+                    PlanAction::wait(daySteps - candidate.fromStart.travelSteps));
+            }
+            plan.windows.push_back(RendezvousWindow{
+                candidate.cell,
+                candidate.fromStart.travelSteps,
+                daySteps,
+                false,
+            });
+            plans.push_back(std::move(plan));
+        }
+        if (static_cast<std::int32_t>(plans.size()) > limit) {
+            plans.resize(static_cast<std::size_t>(limit));
+        }
+        if (plans.empty()) {
+            return {HubPlan{}};
+        }
+        return plans;
+    }
+    struct MobileHubCandidate {
+        std::size_t first = 0U;
+        std::size_t second = 0U;
+        ParetoPath transition;
+        std::int32_t centrality = 0;
+    };
+    std::vector<MobileHubCandidate> mobileCandidates;
+    for (std::size_t first = 0; first < candidates.size(); ++first) {
+        for (std::size_t second = 0; second < candidates.size(); ++second) {
+            if (first == second ||
+                candidates.at(first).cell == candidates.at(second).cell ||
+                std::chrono::steady_clock::now() >= deadline) {
+                continue;
+            }
+            const std::int32_t firstArrival =
+                candidates.at(first).fromStart.travelSteps;
+            const std::optional<ParetoPath> transition = shortest_path(
+                router,
+                state,
+                candidates.at(first).cell,
+                candidates.at(second).cell,
+                daySteps - firstArrival - 1,
+                0,
+                false,
+                deadline);
+            if (!transition.has_value()) {
+                continue;
+            }
+            const std::int32_t secondArrival =
+                firstArrival + 1 + transition->travelSteps;
+            if (secondArrival >= daySteps) {
+                continue;
+            }
+            mobileCandidates.push_back(MobileHubCandidate{
+                first,
+                second,
+                *transition,
+                candidates.at(first).centrality +
+                    candidates.at(second).centrality +
+                    transition->travelSteps * 8,
+            });
+        }
+    }
+    std::sort(
+        mobileCandidates.begin(),
+        mobileCandidates.end(),
+        [&candidates](
+            const MobileHubCandidate& left,
+            const MobileHubCandidate& right) {
+            if (left.centrality != right.centrality) {
+                return left.centrality < right.centrality;
+            }
+            return std::tie(
+                candidates.at(left.first).cell,
+                candidates.at(left.second).cell) <
+                std::tie(
+                    candidates.at(right.first).cell,
+                    candidates.at(right.second).cell);
+        });
+    const std::size_t mobileLimit = std::min<std::size_t>(
+        mobileCandidates.size(),
+        static_cast<std::size_t>(std::max(0, limit)));
+    for (std::size_t mobile = 0; mobile < mobileLimit; ++mobile) {
+        const MobileHubCandidate& candidate = mobileCandidates.at(mobile);
+        const HubCandidate& first = candidates.at(candidate.first);
+        const HubCandidate& second = candidates.at(candidate.second);
         HubPlan plan;
         plan.tanker = tanker;
         plan.centrality = candidate.centrality;
-        for (const std::int32_t direction : candidate.fromStart.directions) {
+        for (const std::int32_t direction : first.fromStart.directions) {
             plan.actions.push_back(PlanAction::move(direction));
         }
-        if (candidate.fromStart.travelSteps < daySteps) {
-            plan.actions.push_back(
-                PlanAction::wait(daySteps - candidate.fromStart.travelSteps));
+        plan.actions.push_back(PlanAction::wait(1));
+        for (const std::int32_t direction : candidate.transition.directions) {
+            plan.actions.push_back(PlanAction::move(direction));
+        }
+        const std::int32_t firstArrival = first.fromStart.travelSteps;
+        const std::int32_t secondArrival =
+            firstArrival + 1 + candidate.transition.travelSteps;
+        if (secondArrival < daySteps) {
+            plan.actions.push_back(PlanAction::wait(daySteps - secondArrival));
         }
         plan.windows.push_back(RendezvousWindow{
-            candidate.cell,
-            candidate.fromStart.travelSteps,
+            first.cell,
+            firstArrival,
+            secondArrival - 1,
+            true,
+        });
+        plan.windows.push_back(RendezvousWindow{
+            second.cell,
+            secondArrival,
             daySteps,
+            true,
         });
         plans.push_back(std::move(plan));
     }
@@ -569,11 +686,8 @@ void append_path(
             }
             return window_key(left, 1) < window_key(right, 1);
         });
-    if (static_cast<std::int32_t>(plans.size()) > limit) {
-        plans.resize(static_cast<std::size_t>(limit));
-    }
     if (plans.empty()) {
-        return {HubPlan{}};
+        return {};
     }
     return plans;
 }
@@ -825,10 +939,11 @@ void append_path(
     const std::vector<AgentIndex> patrols = patrol_agents(config, state);
     const std::vector<HubPlan> hubs = hub_plans(config, state, ledger, router, 5, deadline);
     diagnostics.hubsConsidered = static_cast<std::int32_t>(hubs.size());
+    const auto evaluate_hubs = [&](const std::vector<HubPlan>& phaseHubs) {
     for (std::size_t hubIndex = 0;
-         hubIndex < hubs.size() && std::chrono::steady_clock::now() < deadline;
+         hubIndex < phaseHubs.size() && std::chrono::steady_clock::now() < deadline;
          ++hubIndex) {
-        const HubPlan& hub = hubs.at(hubIndex);
+        const HubPlan& hub = phaseHubs.at(hubIndex);
         std::vector<std::vector<RouteOption>> routes;
         routes.reserve(patrols.size());
         for (const AgentIndex patrol : patrols) {
@@ -936,6 +1051,16 @@ void append_path(
                 }
             }
         }
+    }
+    };
+    evaluate_hubs(hubs);
+    if (state.dayNumber == config.day_count() &&
+        std::chrono::steady_clock::now() < deadline) {
+        const std::vector<HubPlan> mobileHubs =
+            hub_plans(config, state, ledger, router, 5, deadline, true);
+        diagnostics.hubsConsidered +=
+            static_cast<std::int32_t>(mobileHubs.size());
+        evaluate_hubs(mobileHubs);
     }
     diagnostics.deadlineReached = std::chrono::steady_clock::now() >= deadline;
     return incumbent.plan;

@@ -299,6 +299,17 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     if (options.suite == "general") {
         return generated_fixture(seed);
     }
+    if (options.suite == "general-roadless") {
+        FixtureSpec fixture = generated_fixture(seed);
+        fixture.family = "roadless-" + fixture.family;
+        fixture.name = "roadless-" + fixture.name;
+        for (std::int32_t& terrain : fixture.terrain) {
+            if (terrain == static_cast<std::int32_t>(udon::Terrain::Road)) {
+                terrain = static_cast<std::int32_t>(udon::Terrain::Plain);
+            }
+        }
+        return fixture;
+    }
     FixtureSpec fixture = generated_btc_large_fixture(seed);
     if (options.suite == "btc-highfuel") {
         fixture.family = "high-fuel-" + fixture.family;
