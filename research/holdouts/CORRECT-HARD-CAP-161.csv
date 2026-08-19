@@ -1,0 +1,13 @@
+experiment_id,split,lane,requested_ms,expected_effective_ms,authority
+CORRECT-HARD-CAP-161,development,engine-solve-oversized,60000,5000,unit-semantic
+CORRECT-HARD-CAP-161,development,engine-until-oversized,60000,5000,unit-semantic
+CORRECT-HARD-CAP-161,development,role-selection-oversized,60000,5000,unit-semantic
+CORRECT-HARD-CAP-161,development,session-state-oversized,60000,5000,unit-semantic
+CORRECT-HARD-CAP-161,development,http-outer-window-oversized,60000,5000,integration-semantic
+CORRECT-HARD-CAP-161,development,post-ack-cumulative,60000,5000,unit-semantic
+CORRECT-HARD-CAP-161,holdout,emergency,1,1,protected-equivalence
+CORRECT-HARD-CAP-161,holdout,diagnostic-short,500,500,protected-equivalence
+CORRECT-HARD-CAP-161,holdout,diagnostic-medium,1200,1200,protected-equivalence
+CORRECT-HARD-CAP-161,holdout,diagnostic-primary-old,2500,2500,protected-equivalence
+CORRECT-HARD-CAP-161,holdout,competition,5000,5000,protected-equivalence
+CORRECT-HARD-CAP-161,btc,competition-target-host,5000,5000,target-host

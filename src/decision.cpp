@@ -3626,7 +3626,8 @@ bool apply_incomplete_long_horizon_role_fallback(
     return true;
 }
 
-std::vector<RoleAssignment> UdonShieldEngine::select_roles(std::int32_t beamWidth) const {
+std::vector<RoleAssignment> UdonShieldEngine::select_roles_exhaustive_oracle(
+    std::int32_t beamWidth) const {
     if (beamWidth <= 0) {
         return {};
     }
@@ -3768,6 +3769,7 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles(std::int32_t beamWidt
 std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
     std::chrono::milliseconds available,
     std::int32_t beamWidth) const {
+    available = competition_compute_budget(available);
     if (available.count() <= 0 || beamWidth <= 0) {
         return {};
     }
@@ -4013,6 +4015,7 @@ DecisionResult UdonShieldEngine::solve_day(
     const DayState& state,
     const MatchLedger& ledger,
     std::chrono::milliseconds available) {
+    available = competition_compute_budget(available);
     const std::chrono::steady_clock::time_point started = std::chrono::steady_clock::now();
     const auto elapsed = [started]() {
         return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - started);
@@ -5250,15 +5253,35 @@ void UdonShieldEngine::record_submitted(
     belief_.record_own_footprint(decision.dayNumber, decision.candidate.simulation.roadFootprint);
     lastSubmittedDay_ = decision.dayNumber;
     expectedNextAgents_ = decision.candidate.simulation.finalAgents;
+    remainingPostAckComputeBudget_ =
+        kCompetitionComputeHardCap -
+        competition_compute_budget(decision.timing.total);
 }
+
+namespace {
+
+void consume_background_compute_budget(
+    std::chrono::milliseconds& remaining,
+    std::chrono::steady_clock::time_point started) {
+    const std::chrono::milliseconds elapsed = std::chrono::ceil<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - started);
+    remaining -= std::min(remaining, std::max(std::chrono::milliseconds{0}, elapsed));
+}
+
+} // namespace
 
 std::int32_t UdonShieldEngine::precompute_next_day_contingencies(
     const DayState& state,
     const MatchLedger& ledger,
     const DecisionResult& decision,
     std::chrono::steady_clock::time_point deadline) {
+    const std::chrono::steady_clock::time_point started =
+        std::chrono::steady_clock::now();
+    deadline = std::min(
+        deadline,
+        started + remainingPostAckComputeBudget_);
     if (state.dayNumber != decision.dayNumber || decision.dayNumber >= config_.day_count() ||
-        std::chrono::steady_clock::now() >= deadline) {
+        remainingPostAckComputeBudget_.count() <= 0 || started >= deadline) {
         return 0;
     }
     if (!ledger_.lastCandidate.has_value() || !ledger_.lastProfileDay.has_value() ||
@@ -5355,6 +5378,7 @@ std::int32_t UdonShieldEngine::precompute_next_day_contingencies(
         ledger_.cachedContingencies.push_back(std::move(contingency));
         ++added;
     }
+    consume_background_compute_budget(remainingPostAckComputeBudget_, started);
     return added;
 }
 
@@ -5363,8 +5387,13 @@ std::int32_t UdonShieldEngine::prove_remaining_horizon(
     const MatchLedger& ledger,
     const DecisionResult& decision,
     std::chrono::steady_clock::time_point deadline) {
+    const std::chrono::steady_clock::time_point started =
+        std::chrono::steady_clock::now();
+    deadline = std::min(
+        deadline,
+        started + remainingPostAckComputeBudget_);
     if (state.dayNumber != decision.dayNumber || decision.dayNumber >= config_.day_count() ||
-        std::chrono::steady_clock::now() >= deadline) {
+        remainingPostAckComputeBudget_.count() <= 0 || started >= deadline) {
         return 0;
     }
     if (!ledger_.lastCandidate.has_value() || !ledger_.lastProfileDay.has_value() ||
@@ -5536,11 +5565,16 @@ std::int32_t UdonShieldEngine::prove_remaining_horizon(
             break;
         }
     }
+    consume_background_compute_budget(remainingPostAckComputeBudget_, started);
     return completed;
 }
 
 const ResponseLedger& UdonShieldEngine::response_ledger() const {
     return ledger_;
+}
+
+std::chrono::milliseconds UdonShieldEngine::remaining_post_ack_compute_budget() const {
+    return remainingPostAckComputeBudget_;
 }
 
 }

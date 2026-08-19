@@ -50,6 +50,12 @@ struct RuntimeOptions {
     bool requireUndominatedCurrentFloor = false;
 };
 
+[[nodiscard]] std::int32_t effective_response_budget_ms(
+    const RuntimeOptions& options) {
+    return static_cast<std::int32_t>(udon::competition_compute_budget(
+        std::chrono::milliseconds{options.responseBudgetMs}).count());
+}
+
 [[nodiscard]] std::int32_t resolved_future_harvest_extension_mode(
     const RuntimeOptions& options) {
     if (options.futureHarvestExtensionMode >= 0) {
@@ -394,7 +400,7 @@ void run_replay_check(const RuntimeOptions& options) {
     if (setupEvent == events.end()) {
         throw std::runtime_error("BTC replay has no setup event");
     }
-    const udon::BtcAdapterOptions adapterOptions{options.responseBudgetMs};
+    const udon::BtcAdapterOptions adapterOptions{effective_response_budget_ms(options)};
     const udon::MatchConfig config = udon::parse_btc_setup(setupEvent->at("body"), adapterOptions);
     const udon::ExactStepSimulator simulator(config);
     const udon::IndependentDayValidator validator(config);
@@ -613,7 +619,7 @@ void run_replay_solve(const RuntimeOptions& options) {
     if (setupEvent == events.end()) {
         throw std::runtime_error("BTC replay has no setup event");
     }
-    const udon::BtcAdapterOptions adapterOptions{options.responseBudgetMs};
+    const udon::BtcAdapterOptions adapterOptions{effective_response_budget_ms(options)};
     const udon::MatchConfig config = udon::parse_btc_setup(setupEvent->at("body"), adapterOptions);
     const udon::ExactStepSimulator simulator(config);
     const udon::IndependentDayValidator validator(config);
@@ -677,7 +683,7 @@ void run_replay_solve(const RuntimeOptions& options) {
     const udon::DecisionResult decision = engine.solve_day(
         *targetState,
         ledger,
-        std::chrono::milliseconds{options.responseBudgetMs});
+        std::chrono::milliseconds{effective_response_budget_ms(options)});
     const std::chrono::milliseconds elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::steady_clock::now() - started);
     const udon::SimulationResult simulation = simulator.simulate(*targetState, decision.candidate.plan, false);
@@ -719,7 +725,7 @@ void run_replay_solve(const RuntimeOptions& options) {
         return result;
     };
     std::cout << "day=" << options.dayNumber
-              << " budget_ms=" << options.responseBudgetMs
+              << " budget_ms=" << effective_response_budget_ms(options)
               << " elapsed_ms=" << elapsed.count()
               << " class=" << deadlineClass
               << " daily_distinct=" << simulation.score.dailyDistinct
@@ -831,7 +837,7 @@ void run_replay_roles(const RuntimeOptions& options) {
     if (!setupDocument.has_value()) {
         throw std::runtime_error("BTC replay has no setup event");
     }
-    const udon::BtcAdapterOptions adapterOptions{options.responseBudgetMs};
+    const udon::BtcAdapterOptions adapterOptions{effective_response_budget_ms(options)};
     const udon::MatchConfig config = udon::parse_btc_setup(*setupDocument, adapterOptions);
     udon::MatchSession session(
         config,
@@ -842,7 +848,7 @@ void run_replay_roles(const RuntimeOptions& options) {
     const std::chrono::steady_clock::time_point started =
         std::chrono::steady_clock::now();
     const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
-        std::chrono::milliseconds{options.responseBudgetMs},
+        std::chrono::milliseconds{effective_response_budget_ms(options)},
         options.beamWidth);
     const std::chrono::milliseconds elapsed =
         std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -892,7 +898,7 @@ void run_replay_counterfactual(const RuntimeOptions& options) {
     if (setupEvent == events.end()) {
         throw std::runtime_error("BTC replay has no setup event");
     }
-    const udon::BtcAdapterOptions adapterOptions{options.responseBudgetMs};
+    const udon::BtcAdapterOptions adapterOptions{effective_response_budget_ms(options)};
     const udon::MatchConfig config =
         udon::parse_btc_setup(setupEvent->at("body"), adapterOptions);
     if (options.roleMask >= (std::int32_t{1} << config.agent_count())) {
@@ -906,12 +912,14 @@ void run_replay_counterfactual(const RuntimeOptions& options) {
     udon::IndependentDayValidator validator(config);
     udon::DeadlineCalibration deadlineCalibration =
         btc_http_deadline_calibration();
-    const std::int32_t solveBudgetMs = options.logicBudgetMs > 0
-        ? options.logicBudgetMs
-        : options.responseBudgetMs;
+    const std::int32_t solveBudgetMs = static_cast<std::int32_t>(
+        udon::competition_compute_budget(std::chrono::milliseconds{
+            options.logicBudgetMs > 0
+                ? options.logicBudgetMs
+                : options.responseBudgetMs}).count());
     if (options.logicBudgetMs > 0) {
         deadlineCalibration.normalThreshold =
-            std::chrono::milliseconds{options.logicBudgetMs};
+            std::chrono::milliseconds{solveBudgetMs};
         deadlineCalibration.version += "-logic-normal";
     }
     udon::UdonShieldEngine engine(
@@ -1045,7 +1053,7 @@ void run_replay_counterfactual(const RuntimeOptions& options) {
 
 void run_sandbox(const RuntimeOptions& options) {
     ReplayWriter replay(options.replayPath);
-    const udon::BtcAdapterOptions adapterOptions{options.responseBudgetMs};
+    const udon::BtcAdapterOptions adapterOptions{effective_response_budget_ms(options)};
     std::string line;
     if (!std::getline(std::cin, line)) {
         throw std::runtime_error("sandbox ended before setup");
@@ -1063,7 +1071,7 @@ void run_sandbox(const RuntimeOptions& options) {
         options.harvestExtensionMode,
         resolved_future_harvest_extension_mode(options));
     const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
-        std::chrono::milliseconds{options.responseBudgetMs},
+        std::chrono::milliseconds{effective_response_budget_ms(options)},
         options.beamWidth);
     if (assignments.empty()) {
         throw std::runtime_error("no role assignment survived BTC viability scan");
@@ -1461,7 +1469,7 @@ void run_http(const RuntimeOptions& options) {
     const WinHttpClient client(options.baseUrl, token);
     const std::string root = "/api/v1/matches/" + options.matchId;
     ReplayWriter replay(options.replayPath);
-    const udon::BtcAdapterOptions adapterOptions{options.responseBudgetMs};
+    const udon::BtcAdapterOptions adapterOptions{effective_response_budget_ms(options)};
 
     const HttpResponse setupResponse = wait_for_get(client, root + "/setup", options.pollMs);
     const udon::JsonValue setupDocument = parse_optional_json(setupResponse.body);
@@ -1477,7 +1485,7 @@ void run_http(const RuntimeOptions& options) {
         resolved_future_harvest_extension_mode(options));
     if (!resume.assignmentAccepted || !resume.assignment.has_value()) {
         const std::chrono::milliseconds roleSelectionBudget{
-            options.responseBudgetMs};
+            effective_response_budget_ms(options)};
         const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
             roleSelectionBudget,
             options.beamWidth);
@@ -1533,7 +1541,7 @@ void run_http(const RuntimeOptions& options) {
                 std::chrono::duration_cast<std::chrono::milliseconds>(
                     receivedAt.time_since_epoch()).count();
             const std::int64_t configuredDeadlineMs =
-                receivedAtUnixMs + options.responseBudgetMs;
+                receivedAtUnixMs + effective_response_budget_ms(options);
             const std::int64_t serverDeadlineMs = stateDocument.contains("endsAt")
                 ? stateDocument.at("endsAt").integer() * 1000
                 : configuredDeadlineMs;

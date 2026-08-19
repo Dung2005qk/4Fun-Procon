@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <bit>
 #include <array>
+#include <chrono>
 #include <cstdint>
 #include <cstdlib>
 #include <limits>
@@ -25,6 +26,16 @@ constexpr std::int32_t kDirectionCount = 6;
 constexpr std::int32_t kMaximumAgents = 8;
 constexpr std::int32_t kMaximumMapSide = 32;
 constexpr std::int32_t kMaximumCells = kMaximumMapSide * kMaximumMapSide;
+inline constexpr std::chrono::milliseconds kCompetitionComputeHardCap{5000};
+
+[[nodiscard]] constexpr std::chrono::milliseconds competition_compute_budget(
+    std::chrono::milliseconds requested) noexcept {
+    return requested <= std::chrono::milliseconds{0}
+        ? std::chrono::milliseconds{0}
+        : (requested < kCompetitionComputeHardCap
+               ? requested
+               : kCompetitionComputeHardCap);
+}
 
 enum class Terrain : std::uint8_t {
     Plain = 0,

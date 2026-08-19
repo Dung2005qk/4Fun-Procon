@@ -115,6 +115,13 @@ void test_btc_official_wire_adapter() {
         udon::BtcAdapterOptions{5000});
     require(config.daySeconds == std::vector<std::int32_t>({5, 5, 5, 5}),
         "BTC setup must synthesize only missing response seconds without changing day steps");
+    const udon::MatchConfig oversizedWindowConfig = udon::parse_btc_setup(
+        setup,
+        udon::BtcAdapterOptions{60000});
+    require(
+        oversizedWindowConfig.daySeconds ==
+            std::vector<std::int32_t>({5, 5, 5, 5}),
+        "a 60000-ms server window must not enlarge the BTC adapter compute budget");
     require(udon::classify_btc_frame(setup) == udon::BtcFrameKind::Setup,
         "BTC setup frame classification failed");
 
@@ -145,6 +152,15 @@ void test_btc_official_wire_adapter() {
     require(state.dayNumber == 1, "BTC wire day zero must map to internal day one");
     require(state.endsAt == 1778227205,
         "BTC deadline must use the local response budget instead of an unsynchronized server clock");
+    const udon::DayState oversizedWindowState = udon::parse_btc_day_state(
+        oversizedWindowConfig,
+        stateDocument,
+        std::chrono::system_clock::time_point{
+            std::chrono::seconds{1778227200}},
+        udon::BtcAdapterOptions{60000});
+    require(
+        oversizedWindowState.endsAt == 1778227205,
+        "the BTC day adapter must retain the 5000-ms hard cap under an oversized outer window");
     require(state.agents.at(1).fuel == config.fuelLimit,
         "BTC tanker with null fuel must normalize without affecting patrol fuel checks");
     require(state.others.at(0).agents.at(0).fuel == config.fuelLimit,
@@ -1755,6 +1771,70 @@ void test_emergency_contract(const udon::MatchConfig& config, const udon::DaySta
     require(
         engine.response_ledger().totalResponse == std::chrono::milliseconds{70},
         "response ledger must sum the last valid response time of each day");
+}
+
+void test_competition_compute_hard_cap(
+    const udon::MatchConfig& config,
+    const udon::DayState& state) {
+    require(
+        udon::competition_compute_budget(std::chrono::milliseconds{-1}) ==
+                std::chrono::milliseconds{0} &&
+            udon::competition_compute_budget(std::chrono::milliseconds{1}) ==
+                std::chrono::milliseconds{1} &&
+            udon::competition_compute_budget(std::chrono::milliseconds{500}) ==
+                std::chrono::milliseconds{500} &&
+            udon::competition_compute_budget(std::chrono::milliseconds{1200}) ==
+                std::chrono::milliseconds{1200} &&
+            udon::competition_compute_budget(std::chrono::milliseconds{2500}) ==
+                std::chrono::milliseconds{2500} &&
+            udon::competition_compute_budget(std::chrono::milliseconds{5000}) ==
+                udon::kCompetitionComputeHardCap &&
+            udon::competition_compute_budget(std::chrono::milliseconds{60000}) ==
+                udon::kCompetitionComputeHardCap,
+        "the canonical compute budget must preserve every protected lane and clamp only oversized requests");
+
+    udon::UdonShieldEngine directEngine(config);
+    const udon::DecisionResult direct = directEngine.solve_day(
+        state,
+        udon::MatchLedger{},
+        std::chrono::milliseconds{60000});
+    require(
+        direct.deadline.total == udon::kCompetitionComputeHardCap,
+        "direct solver callers must not turn a 60000-ms outer window into extra compute");
+
+    udon::DayState outerWindowState = state;
+    const std::chrono::system_clock::time_point receivedAt =
+        std::chrono::system_clock::time_point{
+            std::chrono::seconds{outerWindowState.endsAt}} -
+        std::chrono::milliseconds{60000};
+    udon::UdonShieldEngine absoluteEngine(config);
+    const udon::DecisionResult absolute = absoluteEngine.solve_day_until(
+        outerWindowState,
+        udon::MatchLedger{},
+        receivedAt);
+    require(
+        absolute.deadline.total == udon::kCompetitionComputeHardCap,
+        "absolute server deadlines must retain the same 5000-ms internal cap");
+
+    udon::MatchSession session(config);
+    const udon::SessionDecision sessionDecision = session.on_authoritative_state_for(
+        state,
+        udon::MatchLedger{},
+        std::chrono::milliseconds{60000});
+    require(
+        sessionDecision.decision.deadline.total == udon::kCompetitionComputeHardCap,
+        "the canonical match session must enforce the engine cap for every transport");
+    static_cast<void>(session.acknowledge_submitted(std::chrono::milliseconds{10}));
+    const std::chrono::milliseconds backgroundBudget =
+        session.remaining_post_ack_compute_budget();
+    require(
+        backgroundBudget >= std::chrono::milliseconds{0} &&
+            backgroundBudget <= udon::kCompetitionComputeHardCap &&
+            backgroundBudget +
+                    udon::competition_compute_budget(
+                        sessionDecision.decision.timing.total) ==
+                udon::kCompetitionComputeHardCap,
+        "post-ACK search must receive only the unused part of the same daily compute cap");
 }
 
 void test_deadline_floors() {
@@ -4052,6 +4132,10 @@ void test_match_session_ack_and_precompute(const udon::MatchConfig& config, cons
             !deferredSession.has_pending_submission(),
         "a zero-budget ACK must close submission immediately without running synchronous idle work");
     static_cast<void>(deferredSession.precompute_until(std::chrono::milliseconds{50}));
+    require(
+        deferredSession.remaining_post_ack_compute_budget() <=
+            udon::kCompetitionComputeHardCap,
+        "incremental post-ACK work must never increase the remaining compute budget");
 
     udon::MatchSession session(config);
     const udon::SessionDecision pending = session.on_authoritative_state(
@@ -4175,6 +4259,7 @@ int main() {
         test_exact_orienteering_terminal_frontier();
         test_anytime_orienteering_preserves_lexicographic_brands();
         test_emergency_contract(config, state);
+        test_competition_compute_hard_cap(config, state);
         test_deadline_floors();
         test_public_traffic_scenarios(config, state);
         test_same_day_resend_preserves_prior_traffic_memory(config, state);

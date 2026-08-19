@@ -104,7 +104,7 @@ int main() {
         udon::UdonShieldEngine roleEngine(config);
         std::vector<udon::RoleAssignment> roleRollouts;
         const std::chrono::milliseconds roleRolloutTime = measure([&] {
-            roleRollouts = roleEngine.select_roles(3);
+            roleRollouts = roleEngine.select_roles_exhaustive_oracle(3);
         });
 
         const udon::ParetoRouter router(config);

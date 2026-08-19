@@ -1,0 +1,9 @@
+experiment_id,split,gate,expected
+CORRECT-HARD-CAP-WIRING-163,development,production-call-graph,no-select-roles-exhaustive-oracle-caller
+CORRECT-HARD-CAP-WIRING-163,development,cli-roles,select-roles-until-5000
+CORRECT-HARD-CAP-WIRING-163,development,http-role,select-roles-until-effective-cap
+CORRECT-HARD-CAP-WIRING-163,development,sandbox-role,select-roles-until-effective-cap
+CORRECT-HARD-CAP-WIRING-163,protected,exhaustive-oracle-general-100000-100005,parent-score-and-mask-equivalent
+CORRECT-HARD-CAP-WIRING-163,protected,fixed-deadline-solvers,unchanged-at-or-below-5000
+CORRECT-HARD-CAP-WIRING-163,protected,unit-validator,all-pass
+CORRECT-HARD-CAP-WIRING-163,btc,target-host,5000-valid-zero-emergency-zero-overrun

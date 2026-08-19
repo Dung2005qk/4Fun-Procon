@@ -76,6 +76,14 @@ if(UDONSHIELD_BUILD_BENCHMARKS)
         udonshield_tanker_terminal_oracle
         research/probes/tanker_terminal_oracle.cpp)
     target_link_libraries(udonshield_tanker_terminal_oracle PRIVATE udon_shield)
+    add_executable(
+        udonshield_tanker_match_oracle
+        research/probes/tanker_match_oracle.cpp)
+    target_link_libraries(udonshield_tanker_match_oracle PRIVATE udon_shield)
+    add_executable(
+        udonshield_historical_tournament
+        old/harness/historical_tournament.cpp)
+    target_link_libraries(udonshield_historical_tournament PRIVATE udon_shield)
 endif()
 
 include(CTest)

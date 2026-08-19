@@ -1,8 +1,485 @@
 # UDON-SHIELD Research State
 
-Updated: 2026-08-13
+Updated: 2026-08-19
 
 ## Current phase
+
+`CORRECT-HARD-CAP-WIRING-163` is closed accepted from the restored 162 source and the
+proven 161 core prerequisite. The rejected exhaustive deadline policy is not
+retained. Instead, the unchanged no-budget role algorithm will be named
+`select_roles_exhaustive_oracle` and remain available only to the benchmark and
+historical research harness. Generic CLI, HTTP and sandbox production callers must use
+the existing `select_roles_until(kCompetitionComputeHardCap)` path. No wrapper
+or second production selector is allowed. The frozen call-graph/equivalence
+manifest is `research/holdouts/CORRECT-HARD-CAP-WIRING-163.csv`, SHA256
+`8F8FA420C5129AE28D9FBC5B3C8CF81A8B2A2F9E9A8CF515EE76BC81378B0EC1`.
+Git diff proves the exhaustive body unchanged outside its explicit oracle name;
+only research benchmark/harness callers use it, while CLI/HTTP/sandbox/session
+use the bounded selector. The final all-target build and unit/simulator/validator
+gate passed. Parent repeated different masks/scores on the
+same consumed seeds, so local oracle output lacks causal equivalence authority.
+
+BTC `m-3573` then passed the authoritative target-host runtime gate: hard,
+three bots, 10 days, 32x32, 100 steps/day, 5000 ms/day, eight agents, 12 spots,
+six brands and low fuel 1x; 10/10 HTTP submissions valid, 9/9 transitions
+reconciled, validator agreement, max response 2556 ms and max solver decision
+time 2447 ms. Replay SHA256 is
+`7878AB5DC19B401F59D97DE077AA1C997A6E213C455ACF3092628427E5535ACA`.
+The live result `6/59/296` missed one brand on day 10. `ATTR-BTC-SELECTION-165`
+corrected the first diagnostic run, which omitted the production current-score
+floor. With the floor enabled, current reached `6/60/266` and frozen parent
+`cf7e4b4` reached `6/60/267`; both retained `6/60` through day 9 and the final
+one-serving difference is local timed-search noise. The replay-preferred day-1
+plan already existed as a certified live challenger, but tied the selected plan
+on lower/upper bounds and had q50 lower by one serving. It therefore did not
+dominate before the suffix was known; policy changes based on the realized
+suffix would overfit. `ATTR-TANKER-STATE-DOMINANCE-164` independently closed the
+known exact-witness insertion: exact and parent road footprints are both empty,
+but their terminal positions/fuel differ, so no same-state monotonic certificate
+exists without a forbidden dual suffix evaluator. No source candidate remains
+from either attribution. 161/163 is accepted and promoted in the canonical
+commit titled `Enforce canonical competition compute cap`.
+
+`CORRECT-HARD-CAP-ROLE-162` is closed rejected. The core 161 cap passed unit and
+explicit-budget semantic gates, but bounding the legacy no-budget
+`select_roles()` API is a real role-policy change: even a hard-stop-only
+deadline changed consumed general seed `100002` from mask 8 and `5/20/31` to
+mask 2 and `5/20/35`. The first proportional-deadline implementation was
+candidate-vs-parent `3/2/1` on the consumed six-family development set, all at
+tier 3, gain/loss `8/1`, invalid/emergency zero. This is development evidence,
+not promotion authority.
+
+The mechanism retains the existing exhaustive algorithm and all masks/stages,
+but partitions one canonical 5000-ms deadline across its existing seed and
+full-horizon passes. The frozen general and BTC-like low/default/high exhaustive
+holdout plus fixed/deadline controls is
+`research/holdouts/CORRECT-HARD-CAP-ROLE-162.csv`, SHA256
+`8868A31FD90EE8D5D548C49DADDC03CCABB6AB497B89778D85216FAC88391288`.
+The sealed general/exhaustive block was candidate `2/28/6`, gain/loss `2/12`,
+with two tier-2 losses and fuel-tight `0/3/3`; invalid/emergency were zero.
+Remaining blocks stayed unopened. The exhaustive algorithm must be restored
+unchanged and explicitly kept as a research oracle. Production callers must
+use the existing bounded `select_roles_until` path. Local elapsed is excluded.
+
+`CORRECT-HARD-CAP-161` is closed rejected-superseded as a complete candidate
+but retained as the core prerequisite to 162. Runtime
+tracing proved the documented 5000-ms rule is not enforced at the canonical
+engine boundary: `--response-ms`, `solve_day`, `solve_day_until` and
+`select_roles_until` accept an oversized caller budget unchanged, while
+post-ACK precompute/proof can consume unlimited repeated idle slices. Thus a
+60000-ms server lifecycle window can silently become extra search time.
+
+The registered repair defines one canonical 5000-ms competition compute cap,
+clamps solver and role selection at the engine boundary, derives BTC adapter
+and action deadlines from the same effective budget, and accounts cumulative
+post-ACK search against the unused part of that day's cap. It removes or
+disables no designed component; requests at or below 5000 ms must remain
+byte/score/state/validator equivalent, and oversized calls may differ only by
+enforcing the pre-existing contract. The frozen manifest is
+`research/holdouts/CORRECT-HARD-CAP-161.csv`, SHA256
+`380D32C32768FC71A5204DB4CF3340CE6631F502FEB030AF0F4FF7E988B12311`.
+Local elapsed has no performance authority; BTC target-host remains the final
+hard-cap/performance gate.
+
+`SCORE-TANKER-PARENT-TIE-PROTECTION-160` is closed rejected before fresh
+development. It retained 159's empty-footprint certificate, snapshotted the
+canonical portfolio before the extension, solved parent first under the same
+absolute deadline and wired tie protection through master and production
+comparators. On consumed complete-search seed `3760032`, direct provenance left
+`5/20/41`; the parent snapshot plus end-to-end flags improved it to `5/20/45`,
+still below frozen parent `5/20/47`. The remaining divergence is whole-pipeline
+budget/order and W1 profile state, not one missing comparator. Exact equivalence
+would require running the complete decision pipeline twice or a shadow solver,
+violating single-path/non-overengineering and the same 5000 ms cap. No fresh
+160 row or holdout opened. Runtime source was restored byte-identical to
+`cf7e4b4`. Frozen manifest SHA256 is
+`0DC2CF8314D224CB52AF232E03039DF12324C19CD3A47EC2B01B4FDA89F38E22`;
+protected matrix SHA256 is
+`4DE14CD78844356901062E2DA7CCF030645B71BF4D14525A4B7813CA7095EA72`.
+
+`SCORE-TANKER-TRAFFIC-NEUTRAL-159` is closed rejected. It keeps
+158's canonical caravan but requires every new multi-waypoint tanker provider
+to have an exact empty `fullFootprint` before admission. Existing parent road
+rendezvous, escort and tanker columns remain active; only the speculative
+extension must prove traffic neutrality. This is a per-route certificate, not
+a map/seed/family/fuel/role dispatcher.
+
+Consumed general seed `300030` gives causal attribution: 158 tied day 1, gained
+one serving day 2, then lost a daily brand day 4 after changing the road
+footprint, ending `6/23/36` versus parent `6/24/38` with full search. Fresh
+manifests are `research/holdouts/SCORE-TANKER-TRAFFIC-NEUTRAL-159.csv`, SHA256
+`8B9F8EB2232ECD89EF7A8AEE16E28FA28B274D903327F16548F719D65080F2FA`,
+and `research/holdouts/SCORE-TANKER-TRAFFIC-NEUTRAL-159-MATRIX.csv`, SHA256
+`5EF08D907E76DD17E3A234D05B8EF49BD2922A7DF6065B27C1D01B1866F70F82`.
+The consumed anchor must retain `3/12/16`; then fresh tanker and general
+development must pass before any sealed holdout opens. Both development gates
+passed: tanker `2/10/0`, gain/loss `4/0`, and road-containing fixed
+`3/9/0`, gain/loss `7/0` (one tier-2 `+2`, two tier-3 `+1/+4`), with zero
+invalid/emergency/deadline. Tanker holdout was `6/30/0`, gain/loss `11/0`,
+invalid `0`. Road-containing fixed holdout rejected 159 at `6/25/5`, all tier 3,
+gain/loss `18/11`; balanced was systematically `0/3/3`, loss `9`. Consumed
+seed `3760032` reproduced with both searches complete: the extension changed a
+day-1 score tie, then lost four servings day 3 and two day 4. Remaining lanes
+were not opened. Reopen only through the parent-tie invariant now isolated in
+160, never by family routing.
+
+`SCORE-TANKER-CANONICAL-CARAVAN-158` is closed rejected. It
+combines the already-attributed bounded provider construction from 152--156
+with 157's canonical timestamped refuel representation: enumerate stable
+permutations of at most four public-priority spot endpoints for each tanker,
+materialize every dual-exact feasible multi-waypoint route as an independent
+`RouteColumn`, then generate patrol join/follow/detach columns whose required
+events are covered by that provider. The unchanged master chooses across these
+joint columns; there is no atomic whole-plan candidate or separate comparator.
+
+All parent columns remain after unchanged pruning and are not re-pruned. The
+provider endpoint bound is inherited unchanged from the previously attributed
+construction, not tuned on 157. Generation is bounded by existing
+`maximumEscorts`; exact simulator, independent validator and master certification
+remain final. Frozen manifest and SHA256:
+`research/holdouts/SCORE-TANKER-CANONICAL-CARAVAN-158.csv`,
+`F9FC8A1962CCE1B6C7F5408273087F7C91418B08F9D7F4BC2A50B78982E98473`.
+The consumed 156 anchor is activation-only; 12 fresh development rows and the
+disjoint sealed 36-row holdout were initially unopened. Anchor activation passed:
+final `3/12/15 -> 3/12/16` and day 1 `3/3/3 -> 3/3/4`, with the chosen plan
+coming through normal certified route/master selection. Fresh development is
+`3/9/0`, invalid `0`. The gains are rendezvous-chain/low `3/12/15 -> 16`,
+stock-cycle/low `2/8/18 -> 20`, and rare-return/low `2/8/20 -> 24`; each
+candidate result equals the public sum-of-stock ceiling across four days.
+Holdout remains sealed until the recorded parent/candidate pair is ready.
+
+The holdout was opened exactly once with frozen parent/candidate binaries on the
+same registered rows. Candidate versus parent is `8/28/0`, invalid `0`; every
+difference is tier 3, gains are `+1..+4`, total first-tier gain `15`, loss `0`.
+Wins span rendezvous-chain, split-duty, stock-cycle and rare-return at low fuel;
+default/high rows tie. Stock-cycle winners reach `20` and the strongest
+rare-return winner reaches `24`, their public stock ceilings. Protected fixed,
+native/exhaustive and deadline-role lanes are now required, including the exact
+role regression fixture that rejected 156. BTC remains unopened.
+
+Roadless protection was strongly positive: fixed `98/106/12` with gain/loss
+`319/18`, exhaustive `27/41/4` with `96/5`, and deadline-role `32/38/2` with
+`90/2`; invalid/emergency zero and every family net positive. Full
+road-containing fixed rejected 158 at `23/68/29`, gain/loss `61/70`; four of
+six families were net negative, including high-stock and overnight.
+Road-containing native/deadline lanes were not opened after the blocker. Do not
+rescue 158 with a map dispatcher or accept this as a bounded global trade-off.
+
+`SCORE-TANKER-SHARED-REFUEL-COLUMNS-157` is closed rejected before fresh
+development. Its exact shared-refuel columns activated, but each patrol reached
+at most one serving. A read-only no-deadline master audit enumerated 278
+combinations and still had best day-1 `3/3/3`. Eligible independent tanker
+providers were only one route leg plus waiting (`2.-14`, `0.-14`, `5.-14`,
+`WAIT(16)`), so no multi-waypoint timeline existed for the working event
+constraints to share. Unit tests passed; no fresh row or holdout row opened.
+Do not reopen 157 by changing provider count, join boundary or detach ranking.
+
+`SCORE-TANKER-CARAVAN-OVERNIGHT-156` is closed rejected. It
+reuses the exact day-1-closing preseed from 155 and adds only the already-designed
+explicit overnight harvest: if the tanker starts a nonterminal day on a spot,
+every convoy member performs `WAIT(1)` before the unchanged route/join logic.
+No endpoint, order, cap, join, guard or comparator changes. Outer parent/main
+candidates stay intact and replacement still requires a strict official gain
+behind the roadless/all-brand/all-stock/full-fuel/common-terminal gate.
+
+Anchor `3200100` must reach exact final `3/12/16` before 12 fresh development
+rows open. The sealed 36-case holdout is
+`research/holdouts/SCORE-TANKER-CARAVAN-OVERNIGHT-156.csv`, SHA256
+`9A6D838736DCE43142A95FB89A019FE0A15E117569B9CD96C9277FC4EB08B436`.
+
+The anchor passed at `3/12/16`. Fresh paired development is `3/9/0` with
+invalid `0`: tier-3 gains occur independently on split-duty/low (`+1`),
+stock-cycle/low (`+1`) and rare-return/low (`+2`); the other nine rows tie.
+Fresh split-duty seed `3470100` completed the exhaustive oracle and tied it at
+`3/12/16`. The one permitted exhaustive runs for stock-cycle `3470200` and
+rare-return `3470300` did not complete within 15 minutes, so their optimality
+is inconclusive rather than pass or fail; both candidate results are dual-valid.
+The holdout remains sealed until a paired parent/candidate execution is ready.
+
+The holdout was then opened once using separately built parent and candidate
+executables through the identical adapter. Candidate versus parent was
+`7/29/0`, invalid `0`; all seven differences were tier-3 gains of `+1..+2` and
+spanned rendezvous-chain, stock-cycle and rare-return at low fuel. Every
+default/high row tied, as did the remaining low rows. No tier-1/tier-2 change or
+losing tail occurred. Exact/absolute-bound validation of changed rows and the
+protected matrix are still required before promotion.
+
+Absolute-stock audit proves five of the seven winning holdout rows already
+reach the public per-day servings ceiling. Stock-cycle seeds `3500200` and
+`3500202` end at `2/8/19` where the absolute ceiling is `2/8/20`; both miss one
+serving on day 1. A read-only attribution is now registered on only these two
+already-open rows: expose the existing complete uncapped day enumerator, select
+the exact lexicographic day-1 optimum, reconstruct it and dual-validate it. No
+state cap, dominance change, production change, fresh seed, or tuning of 156 is
+allowed. If exact reaches five servings, whole-architecture convergence remains
+open even if 156 itself later passes promotion gates.
+
+Both exact day-1 runs completed and reached `2/2/5` against candidate `2/2/4`,
+with dual-valid reconstructed witnesses. The witnesses are identical at the
+structural level and require patrol-specific loiter/detach around a common
+tanker trajectory; simple common-suffix convoying leaves one stock unclaimed.
+Therefore 156 may still qualify as a monotonic checkpoint after protected/BTC
+gates, but it cannot be the convergence checkpoint. Seeds `3500200` and
+`3500202` are consumed attribution and may never be used to tune a successor.
+
+The separate-binary protected screen at the `5000 ms` logical cap passed.
+General fixed and deadline each tied `0/6/0`. An initial exhaustive-role
+tier-3 loss and a tied role-mask change disappeared under parent-first reversal:
+both candidate rows returned to parent mask `8`, score, combinations and exact
+counters, making the causal exhaustive result `0/6/0`. BTC-like default, low
+and high each tied with identical exact settled counters; invalid/emergency were
+zero. Local elapsed and deadline-limited BTC-like score timing are excluded.
+The full protected matrix is the next gate; BTC target-host remains required.
+
+Full road-containing general protection is causally `0/120/0` fixed,
+`0/60/0` exhaustive and `0/60/0` deadline, invalid/emergency zero. All apparent
+native/deadline differences were role-cutoff changes and vanished on reverse or
+fixed-mask attribution. BTC-like full local first passes varied in both
+directions and crossed under reverse order with settled-state changes; because
+the new roadless-only generator cannot execute there, these results are local
+deadline noise and have no performance authority.
+
+The protected matrix lacked the actual activation domain. A fresh roadless
+extension is frozen at
+`research/holdouts/SCORE-TANKER-CARAVAN-OVERNIGHT-156-ROADLESS.csv`, SHA256
+`0F67E8414EAE75CD13F34E1BB5513537960174E838BEE045EE9CCEFAD22BB7DE`:
+fixed one-tanker 120 fixtures, exhaustive 60, disjoint deadline 60, six families
+at 5000 ms. No post-open tuning is permitted.
+
+Because that first extension has 4 agents and 6--8 spots while the candidate
+admits only all-stock plans from at most four endpoints, it protects downside
+but cannot measure activation breadth. A separately frozen scale lane is at
+`research/holdouts/SCORE-TANKER-CARAVAN-OVERNIGHT-156-SCALE.csv`, SHA256
+`79CD3F0F0158AB0EE39105637F0C5A285A1BA776703CA4320DAC884A7832A400`.
+It uses fresh generated 8x8 roadless maps with three agents, six families,
+3/4/5/6 spots, fuel 2/8/16 and 4/5-day horizons: 216 fixed two-patrol-one-tanker
+cases plus 72 exhaustive and 72 deadline cases on disjoint seeds. The adapter
+only constructs the preregistered fixture strata. The opened lane can only
+accept or reject 156 and may not tune its endpoint cap, guard or routing.
+
+That scale gate closed 156 as rejected. Fixed-role result was `2/214/0`, with
+two reproducible tier-2 gains across fuel-tight/4-spot and
+threshold-corridor/3-spot low-fuel fixtures. Exhaustive role was `0/71/1`:
+fresh balanced seed `3541032` reproducibly changed mask `2 -> 4` and regressed
+`3/8/8 -> 3/7/8`. Fixed-mask attribution tied candidate and parent exactly for
+both masks, localizing the failure to evaluator selection. The independent
+whole-plan preseed is overvalued by the reduced role rollout although the
+production planner gains nothing for that chosen mask. Do not add a context or
+budget gate: that would disable capability for one caller. The only admissible
+successor is a canonical route/master join-loiter-detach representation shared
+by role rollout and production. Production source must return to `cf7e4b4`
+before that experiment opens.
+
+`SCORE-TANKER-CARAVAN-PRESEED-155` is closed rejected and production source is
+restored byte-identically to `cf7e4b4`. Accepted
+attribution 154 proves a compact join-and-follow convoy reaches exact day-1
+`3/4`. Candidate 155 pre-generates a fixed-operation atomic convoy set before
+the independent static search: stable permutations of at most four highest
+official-priority spot endpoints, capped at 24; patrols join at the earliest
+fuel-feasible action boundary and copy the tanker suffix. Every plan is evaluated
+by the existing exact simulator and independent validator.
+
+The outer production incumbent and main route/master candidates remain intact,
+so this lane is additive. Independent replacement requires a strict official
+gain plus the roadless, all-brand/all-stock, full-patrol-fuel and common-terminal
+guard. Terminal behavior is unchanged. Anchor `3200100` must close before the
+12 fresh development rows open; the 36-case holdout stays sealed at
+`research/holdouts/SCORE-TANKER-CARAVAN-PRESEED-155.csv`, SHA256
+`81F341E7336CF6144C4EC795352D148868BCC75C2F98EBAD9C4140910FDE1DC9`.
+The unit suite passed and day 1 closed exactly at `3/3/4`, proving preseed wiring
+works. Final score nevertheless fell from parent `3/12/15` to `3/12/14`.
+Attribution is direct: all agents ended day 1 full and co-located on spot 34;
+on day 2 they left immediately, so the required start-of-day `WAIT(1)` harvest
+was omitted and only three servings were collected. No fresh candidate or
+holdout row opened. A successor may add only the already-designed canonical
+overnight harvest wait before caravan departure; route cap/order/join/guard
+tuning is forbidden.
+
+`ATTR-TANKER-CARAVAN-CONSTRUCTION-154` is closed accepted attribution.
+It uses only consumed anchor `3200100` to exact-simulate a compact public-rule
+convoy: patrols join at successive action boundaries and follow a common suffix.
+This determines whether rejected 153 failed because the construction itself is
+insufficient or because the bounded independent lane never evaluated/admitted
+the intended route before its deadline. It changes no production source and
+opens no fresh row or holdout. The compact plan was dual-valid and scored
+day-1 `3/4`, with all three agents at common terminal `26` and both patrols at
+full fuel. Therefore common-suffix convoy construction is sufficient; 153's
+failure is wiring/scheduling/ranking before exact selection, not route
+expressivity. A successor must preseed a bounded atomic convoy before static
+independent search, preserve every outer parent candidate, and admit only a
+strict official gain through the frozen safe guard.
+
+`SCORE-TANKER-JOINT-CARAVAN-153` is closed rejected and production source is
+restored byte-identically to `cf7e4b4`. Exact 150
+requires separated patrols to join one tanker trajectory at different action
+boundaries before moving lockstep. Canonical master synchronization already
+supports one tanker with multiple patrol columns, but source generation creates
+that group only when all patrols are co-located at day start. Candidate 153 adds
+one bounded atomic whole-plan primitive in the independent EventConflict lane:
+at most four public start/spot tanker waypoints; each patrol takes a fuel-feasible
+Pareto prefix to its earliest reachable tanker action boundary and then follows
+the exact remaining tanker actions. Parent evaluation remains first and protected.
+
+Nonterminal admission retains the roadless, all-brand/all-stock current-day,
+full-patrol-fuel and common-terminal guard; terminal behavior is unchanged.
+Anchor `3200100` must close before the 12 fresh development rows open. The
+36-case holdout remains sealed at
+`research/holdouts/SCORE-TANKER-JOINT-CARAVAN-153.csv`, SHA256
+`6355744188DE9B8F2FEB5B605FAA9AC1D9F47A010B0398240416255E027C8AAE`.
+The candidate compiled and passed the unit suite, but the consumed anchor stayed
+`3/12/15` with day 1 `3/3/3`; no fresh candidate row or holdout row opened.
+The generated joint plan was therefore insufficient. The exact witness requires
+patrol-specific detach/continuation after joining the convoy, not a shared suffix
+to one terminal. Do not tune route count, waypoint count or join order. Any
+successor must reuse canonical route/master machinery for bounded join-and-detach
+segments rather than add another standalone whole-plan generator.
+
+`SCORE-TANKER-CARAVAN-152` is closed rejected and production source is restored
+byte-identically to `cf7e4b4`. The accepted
+exact gap 150 and rejected mechanism 151 prove that the missing day-1 serving
+is a pre-master portfolio-coverage failure: the current two-window mobile hubs
+cannot express the exact multi-patrol caravan witness even though the existing
+route builder can consume repeated rendezvous windows. Candidate 152 adds only
+a bounded deterministic tanker-waypoint beam over the same public start/spot
+cells and `ParetoRouter`, exposing at most four consecutive windows. It keeps
+the byte-equivalent static parent phase first, retains the strict roadless /
+current-day absolute score / full patrol fuel / common terminal admission guard,
+and leaves terminal-day `cf7e4b4` behavior unchanged.
+
+The consumed exact seed `3200100` is an anchor only and must close before any
+fresh seed is opened. Fresh development contains 12 cases crossing four
+structural families and low/default/high fuel; the 36-case holdout remains
+sealed. The immutable manifest is
+`research/holdouts/SCORE-TANKER-CARAVAN-152.csv`, SHA256
+`EB3BB794D53BE196AF63890266738DE3BD25620FAD9A659BE591ADC1ADA26E31`.
+The bounded four-waypoint tanker beam compiled and passed the unit suite, but
+the consumed anchor remained exactly `3/12/15` and day 1 remained `3/3/3` with
+the parent plan/state. No fresh development or holdout row was opened. This
+proves extra tanker waypoint windows alone are insufficient: the missing
+capability is a shared escort/lockstep caravan route across multiple patrols,
+not tanker trajectory enumeration. A successor may open only after tracing a
+bounded joint caravan primitive; waypoint count/beam width/guard tuning is
+forbidden.
+
+`SCORE-TANKER-SAFE-MOBILE-151` is closed rejected and its production source is
+fully restored to `cf7e4b4`. The candidate preserved the static phase and
+enabled existing mobile EventConflict only behind the roadless/current-day
+absolute/full-fuel/common-terminal guard, but the consumed anchor stayed
+`3/12/15` and day 1 stayed `3/3/3`; no safe mobile plan reached admission. This
+proves the existing two-window hub set cannot express the exact caravan witness.
+Do not reopen by increasing hub limits, weakening the guard or enabling
+unrestricted mobile logic. A successor requires a genuinely bounded joint
+multi-patrol caravan primitive and must justify its complexity against a single
+tier-3 serving gap before being opened.
+
+The rejected candidate had been opened from
+the accepted exact gap 150. It preserves the static parent phase and permits an
+additive nonterminal mobile EventConflict result only on roadless maps when its
+exact current-day score reaches the absolute all-brand/all-stock bound, all
+patrols finish at full fuel and every agent shares one terminal cell. This
+removes the known own-traffic and fuel-state causes from rejected 143 but does
+not assume terminal-position dominance; fresh exact development and a protected
+general matrix are required. The consumed seed 3200100 is an anchor only.
+The frozen split SHA256 is
+`DD7CADA659D6A497A1969E7F9E90843E2EF8800277D021E4F914883D2241BB6F`.
+
+
+`CEILING-TANKER-MATCH-150` is closed accepted-gap-no-candidate. Unlike
+preflight-rejected 148/149, every public config invariant was checked before
+freeze: four days, 16 steps/day within the 8x8 bounds, three agents, three
+spots, distinct non-spot starts, positive fuel and roadless public-information
+semantics. Its fresh 12-case development and sealed 36-case holdout are at
+`research/holdouts/CEILING-TANKER-MATCH-150.csv`, SHA256
+`3120848D5D5642E44467B20903694FBBBA7F89AAA168F0844F8E7251C1B0ECA4`.
+The complete joint step/full-match DP remains research-only; production stays
+`cf7e4b4`, the logical HEAD cap is 5000 ms/day, and local elapsed has no
+performance authority.
+
+The first development attempt, seed `3200000`, produced no case result before
+the 900-second research-wrapper limit. The wrapper left oracle PID `2616`
+running; that exact orphan was verified and terminated. This is an
+infrastructure-inconclusive result, not an oracle/HEAD tie or loss, and the
+sealed holdout remains unopened. Before another score run, only a mathematically
+exact, semantics-preserving state-quotient/performance audit of this same oracle
+is permitted. If none is available, close 150 as proof-infeasible rather than
+shrinking the valid fixture or opening another experiment.
+
+The permitted exact audit found two semantics-preserving quotients already
+proved by the accepted multi-patrol oracle pattern: canonicalize the two
+interchangeable patrols while remapping the reconstructed witness to physical
+agent identities, and memoize daily transitions by `(positions, fuels)` after
+asserting all four days have the same 16-step roadless/stock dynamics. Neither
+quotient caps a frontier or removes an action. With them, seed `3200000`
+completed in 192 seconds and tied HEAD exactly at `3/12/12`, with zero
+invalid/incomplete, maximum step frontier 69608, match frontier 893 and
+87733918 settled states. The second development case, `split-duty/low/3200100`,
+then exposed an exact tier-3 gap: HEAD `3/12/15` versus oracle `3/12/16`, with
+zero invalid/incomplete, maximum step frontier 136549, match frontier 1437,
+426359927 settled states and result hash `45ada1153ec4107b`. Development stopped
+immediately at exact-vs-HEAD 1/1/0; the other ten development seeds and the
+sealed holdout remain unopened. Whole-architecture convergence is disproved.
+The only permitted next action is read-only attribution of this consumed exact
+witness before any source candidate is designed.
+
+Consumed-witness attribution reproduced the same exact `+1` and localized it
+to day 1: oracle cumulative `3/3/4` versus HEAD `3/3/3`. Both then add the full
+three daily brands on days 2--4, so the one-serving deficit is merely carried
+to final `3/12/15` versus `3/12/16`. The oracle day-1 plan is absent from all
+16 HEAD audit candidates (`oracle_in_audit=0`) even though it is immediately
+better on today's official lex score. Therefore the earliest causal gap is
+joint patrol--tanker candidate generation/portfolio coverage, before master
+comparison, certification or suffix valuation. The next permitted work is a
+read-only trace of the responsible generator and a fixture-independent bounded
+mechanism; no seed/family dispatcher or blind beam increase is admissible.
+
+`CEILING-TANKER-MATCH-149` is closed rejected-preflight with no score result.
+Official config validation rejected its three-day horizon because published
+matches require 4--10 days. A direct invariant audit also found its six day
+steps below the 16-step minimum for an 8x8 map. No fixture reached HEAD or
+oracle; its holdout remains unopened. Frozen 149 must not be edited or rerun.
+
+`CEILING-TANKER-MATCH-148` is closed rejected-preflight with no score result.
+After the schema-only correction, official config validation proved a 2x2
+component cannot contain three distinct non-spot starts plus three spots. No
+fixture reached HEAD or oracle. The domain will not be weakened by overlapping
+starts; a separate 2x3 experiment is required.
+
+Its fresh
+12-case development and sealed 36-case holdout were frozen before oracle source
+at `research/holdouts/CEILING-TANKER-MATCH-148.csv`, SHA256
+`31AAECC56CB45DCDD06DB0E29B4E6A4C3F53FDCF0E417F962DBC5F5CFB9AA9F6`.
+The first loader preflight rejected two rare-return/low rows containing one
+extra CSV column before any fixture or score ran. Removing only that extra
+column preserved every registered field; the hash above is the authoritative
+corrected manifest hash.
+It targeted the independent missing domain between terminal exactness and the
+rejected nonterminal heuristic: a complete three-day roadless joint step DP for
+two patrols plus one tanker. Position, fuel, terminal refuel, lifetime brands
+and official accumulated score carry across days; only daily stock/visited
+state resets. Production remains unchanged `cf7e4b4`, 5000 ms logical HEAD cap,
+and local elapsed has no performance authority. Its holdout remains unopened.
+
+`CEILING-TANKER-DURABLE-147` is closed accepted-ceiling. Its fresh
+18-case development and sealed 54-case holdout were frozen before the research
+adapter allow-list change at
+`research/holdouts/CEILING-TANKER-DURABLE-147.csv`, SHA256
+`552554C7C69F41EA5172E41A5A79F1D22FBCFFB90DF570BE18D8D6E50CF16E6C`.
+It reuses the unchanged complete terminal-tanker DP and families but uses new
+seeds. Development completed 18/18 exact ties and the holdout opened exactly
+once completed 54/54 exact ties across all six families and all three fuel
+strata, with zero HEAD win, incomplete or invalid. Holdout result hash is
+`3a958862e744b7a6`. Combined evidence is 72/72 exact ties. Production source
+remains checkpoint `cf7e4b4`; local elapsed has no performance authority. This
+terminal tanker domain may reopen only from an independently generalized exact
+domain or fresh dual-valid exact counterexample, never by retuning 147.
+
+`CEILING-TANKER-POSTCHECKPOINT-146` is closed infrastructure-inconclusive. Its
+one-time 54-case holdout process emitted no incremental stdout, exceeded the
+900-second wrapper and remained as an orphan child with no observable result.
+The verified oracle PID was terminated. No score, validity or completion
+verdict exists, and the consumed 138 holdout must not be rerun. Its failure is
+an evidence-durability defect, not a solver or oracle result. A replacement
+sweep requires a fresh frozen split and one-case-per-process execution.
 
 `SCORE-TANKER-TERMINAL-ONLY-144` is accepted in the checkpoint commit that
 contains this recorded state.
@@ -2897,25 +3374,16 @@ boundary is the next read-only attribution target.
 
 ## Next actions
 
-1. Keep SCORE-QUEUE-048 frozen at canonical executable SHA256
-   `CE37B6D06F5AD92CDB3921DCCA6CAE21A4D6E688431232A78A7E25DDEF2EE6CF`;
-   do not rebuild, retune or reopen its local holdout.
-2. Treat fresh advanced BTC `m-1796` as a passed target-host validity/lifecycle/
-   hard-cap gate only. Do not use its rank 1 as quality evidence and do not rewrite
-   `p99Calibrated=false` from one ten-day sample.
-3. Join the official real-opponent queue with only the same frozen binary and
-   internal 5000 ms cap. Record the authoritative match configuration first because
-   the outer response window may vary by round.
-4. Use real-opponent matches to seek counterexamples across opponent behavior and
-   report official score, first differing tier and downside. A non-paired match
-   cannot prove parent superiority; paired candidate-vs-parent evidence remains the
-   promotion authority whenever an identical fixture can be obtained.
-5. While the real-opponent queue is deferred, complete preregistered
-   `ROBUST-QUEUE-052` without changing production source: prove its same-binary
-   oracle on development, then open its structural holdout exactly once.
-6. Close SCORE-QUEUE-048 accepted or rejected before opening another score axis.
-   Commit only after broad global benefit, bounded downside, zero invalid/emergency,
-   no hard-cap violation and all BTC/real-opponent gates pass.
+1. Keep the promoted 161/163 correctness/wiring commit canonical. The full diff
+   audit proves rejected experiments 151--162 left no production logic behind;
+   research probes/evidence are isolated behind the benchmark build option.
+2. The all-target build and unit/simulator/validator gate passed. BTC `m-3573`
+   supplies target-host validity, lifecycle and hard-cap authority; bot rank
+   remains excluded and local elapsed has no performance authority.
+3. With 164 and 165 closed negative and no admissible source candidate left,
+   treat this commit as the pre-human-opponent practical ceiling. Reopen
+   research only for a genuinely new diverse counterexample or a new general
+   dominance proof, never by retuning a consumed fixture.
 
 The frozen `SCORE-ROLE-016` archive holdout was opened only after its 22-row
 manifest was written and hashed as

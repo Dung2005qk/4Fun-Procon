@@ -477,7 +477,7 @@ public:
         bool requireUndominatedCurrentFloor = false,
         std::int32_t futureHarvestExtensionMode = 5);
 
-    [[nodiscard]] std::vector<RoleAssignment> select_roles(
+    [[nodiscard]] std::vector<RoleAssignment> select_roles_exhaustive_oracle(
         std::int32_t beamWidth = 3) const;
     [[nodiscard]] std::vector<RoleAssignment> select_roles_until(
         std::chrono::milliseconds available,
@@ -511,6 +511,7 @@ public:
 
     [[nodiscard]] bool may_submit(const DecisionResult& decision) const;
     [[nodiscard]] const ResponseLedger& response_ledger() const;
+    [[nodiscard]] std::chrono::milliseconds remaining_post_ack_compute_budget() const;
 
 private:
     void rollout_role_assignment(
@@ -540,6 +541,7 @@ private:
     std::optional<std::int32_t> lastSubmittedDay_;
     std::optional<std::vector<AgentState>> expectedNextAgents_;
     std::optional<std::vector<std::int32_t>> previousOwnFootprintBeforeLastSubmission_;
+    std::chrono::milliseconds remainingPostAckComputeBudget_{0};
 };
 
 } 

@@ -310,6 +310,25 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         }
         return fixture;
     }
+    if (options.suite == "tanker-roadless-scale") {
+        FixtureSpec fixture = generated_fixture(seed);
+        fixture.family = "tanker-roadless-" + fixture.family;
+        fixture.name = "tanker-roadless-" + fixture.name;
+        for (std::int32_t& terrain : fixture.terrain) {
+            if (terrain == static_cast<std::int32_t>(udon::Terrain::Road)) {
+                terrain = static_cast<std::int32_t>(udon::Terrain::Plain);
+            }
+        }
+        fixture.starts.resize(3U);
+        static constexpr std::array<std::size_t, 4> spotCounts{3U, 4U, 5U, 6U};
+        const std::size_t spotCount = spotCounts.at(
+            static_cast<std::size_t>((seed / 6U) % spotCounts.size()));
+        fixture.spots.resize(spotCount);
+        static constexpr std::array<std::int32_t, 3> fuelProfiles{2, 8, 16};
+        fixture.fuelLimit = fuelProfiles.at(
+            static_cast<std::size_t>((seed / 24U) % fuelProfiles.size()));
+        return fixture;
+    }
     FixtureSpec fixture = generated_btc_large_fixture(seed);
     if (options.suite == "btc-highfuel") {
         fixture.family = "high-fuel-" + fixture.family;
@@ -525,7 +544,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     } else {
         const std::vector<udon::RoleAssignment> assignments =
             options.roleMode == "exhaustive"
-            ? engine.select_roles(3)
+            ? engine.select_roles_exhaustive_oracle(3)
             : engine.select_roles_until(
                 options.roleBudget,
                 3);

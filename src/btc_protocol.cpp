@@ -98,6 +98,9 @@ MatchConfig parse_btc_setup(const JsonValue& document, BtcAdapterOptions options
     if (options.responseBudgetMs <= 0) {
         throw ProtocolError("BTC response budget must be positive");
     }
+    const std::int32_t responseBudgetMs = static_cast<std::int32_t>(
+        competition_compute_budget(
+            std::chrono::milliseconds{options.responseBudgetMs}).count());
     const JsonValue::Array& daySteps = require_array(document.at("daySteps"), "BTC daySteps");
     JsonValue::Object normalized;
     normalized.emplace(
@@ -109,7 +112,7 @@ MatchConfig parse_btc_setup(const JsonValue& document, BtcAdapterOptions options
             ? document.at("daySeconds")
             : repeated_integer_array(
                   daySteps.size(),
-                  std::max<std::int32_t>(1, options.responseBudgetMs / 1000)));
+                  std::max<std::int32_t>(1, responseBudgetMs / 1000)));
     normalized.emplace("daySteps", document.at("daySteps"));
     normalized.emplace("map", document.at("map"));
     normalized.emplace("agents", document.at("agents"));
@@ -130,13 +133,16 @@ DayState parse_btc_day_state(
     if (options.responseBudgetMs <= 0) {
         throw ProtocolError("BTC response budget must be positive");
     }
+    const std::int32_t responseBudgetMs = static_cast<std::int32_t>(
+        competition_compute_budget(
+            std::chrono::milliseconds{options.responseBudgetMs}).count());
     const std::int64_t wireDay = require_integer(document.at("day"), "BTC day");
     if (wireDay < 0 || wireDay >= config.day_count()) {
         throw ProtocolError("BTC day is outside the configured zero-based range");
     }
 
     JsonValue::Object normalized;
-    normalized.emplace("endsAt", JsonValue(deadline_seconds(document, receivedAt, options.responseBudgetMs)));
+    normalized.emplace("endsAt", JsonValue(deadline_seconds(document, receivedAt, responseBudgetMs)));
     normalized.emplace("day", JsonValue(wireDay + 1));
 
     const JsonValue::Array& ownAgents = require_array(document.at("agents"), "BTC own agents");

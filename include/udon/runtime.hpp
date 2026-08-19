@@ -55,6 +55,7 @@ public:
 
     [[nodiscard]] bool has_pending_submission() const;
     [[nodiscard]] const ResponseLedger& response_ledger() const;
+    [[nodiscard]] std::chrono::milliseconds remaining_post_ack_compute_budget() const;
 
 private:
     MatchConfig config_;

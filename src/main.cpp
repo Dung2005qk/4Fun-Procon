@@ -174,7 +174,10 @@ int main(int argumentCount, char** arguments) {
             const std::int32_t beamWidth =
                 argumentCount >= 4 ? std::stoi(arguments[3]) : 3;
             udon::UdonShieldEngine engine(config);
-            const std::vector<udon::RoleAssignment> assignments = engine.select_roles(beamWidth);
+            const std::vector<udon::RoleAssignment> assignments =
+                engine.select_roles_until(
+                    udon::kCompetitionComputeHardCap,
+                    beamWidth);
             if (assignments.empty()) {
                 throw std::runtime_error("no role assignment passed the cheap viability scan");
             }

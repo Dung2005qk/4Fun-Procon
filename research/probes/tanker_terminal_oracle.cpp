@@ -214,6 +214,7 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
         const std::vector<std::string> fields = split_csv(line);
         if (fields.size() != 12U ||
             (fields.at(0) != "CEILING-TANKER-TERMINAL-138" &&
+             fields.at(0) != "CEILING-TANKER-DURABLE-147" &&
              fields.at(0) != "SCORE-TANKER-MOBILE-WINDOWS-140" &&
              fields.at(0) != "SCORE-TANKER-PARENT-FIRST-141" &&
              fields.at(0) != "SCORE-TANKER-POST-PARENT-142" &&
@@ -1039,6 +1040,7 @@ void print_summary(
 } // namespace
 
 int main(int argc, char** argv) try {
+    std::cout << std::unitbuf;
     const Options options = parse_options(argc, argv);
     const std::vector<ManifestRow> rows = load_manifest(options.manifest, options.split);
     Summary total;

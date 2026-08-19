@@ -1,0 +1,12 @@
+experiment_id,split,suite,role_mode,first_seed,count,day_budget_ms,role_budget_ms,purpose
+CORRECT-HARD-CAP-ROLE-162,development,general,exhaustive,100000,6,5000,5000,consumed-causal-role-screen
+CORRECT-HARD-CAP-ROLE-162,holdout,general,exhaustive,3900000,36,5000,5000,six-family-generalization
+CORRECT-HARD-CAP-ROLE-162,holdout,btc-large,exhaustive,3920000,6,5000,5000,default-fuel-scale
+CORRECT-HARD-CAP-ROLE-162,holdout,btc-lowfuel,exhaustive,3921000,6,5000,5000,low-fuel-scale
+CORRECT-HARD-CAP-ROLE-162,holdout,btc-highfuel,exhaustive,3922000,6,5000,5000,high-fuel-scale
+CORRECT-HARD-CAP-ROLE-162,protected,general,fixed,3930000,6,5000,5000,unchanged-role-control
+CORRECT-HARD-CAP-ROLE-162,protected,general,deadline,3930100,6,5000,5000,live-role-control
+CORRECT-HARD-CAP-ROLE-162,diagnostic,general,fixed,3930200,6,500,500,validity-only
+CORRECT-HARD-CAP-ROLE-162,diagnostic,general,fixed,3930300,6,1200,1200,validity-only
+CORRECT-HARD-CAP-ROLE-162,diagnostic,general,fixed,3930400,6,2500,2500,validity-only
+CORRECT-HARD-CAP-ROLE-162,btc,advanced,live,0,1,5000,5000,target-host-final-authority

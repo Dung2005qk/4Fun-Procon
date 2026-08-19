@@ -6,6 +6,16 @@
 
 namespace udon {
 
+namespace {
+
+[[nodiscard]] std::chrono::milliseconds bounded_post_ack_budget(
+    std::chrono::milliseconds requested,
+    std::chrono::milliseconds remaining) {
+    return std::min(competition_compute_budget(requested), remaining);
+}
+
+} // namespace
+
 MatchSession::MatchSession(
     const MatchConfig& config,
     RiskPolicy policy,
@@ -83,6 +93,9 @@ PostAckWork MatchSession::acknowledge_submitted(
     pendingState_.reset();
     pendingLedger_.reset();
     PostAckWork work;
+    postAckBudget = bounded_post_ack_budget(
+        postAckBudget,
+        engine_.remaining_post_ack_compute_budget());
     if (postAckBudget.count() == 0 ||
         acknowledgedDecision_->dayNumber >= config_.day_count()) {
         return work;
@@ -126,6 +139,12 @@ std::int32_t MatchSession::precompute_until(std::chrono::milliseconds available)
     if (!acknowledgedDecision_.has_value() || !acknowledgedState_.has_value() || !acknowledgedLedger_.has_value()) {
         throw std::logic_error("an acknowledged decision is required before contingency precompute");
     }
+    available = bounded_post_ack_budget(
+        available,
+        engine_.remaining_post_ack_compute_budget());
+    if (available.count() == 0) {
+        return 0;
+    }
     return engine_.precompute_next_day_contingencies(
         *acknowledgedState_,
         *acknowledgedLedger_,
@@ -140,6 +159,12 @@ std::int32_t MatchSession::prove_until(std::chrono::milliseconds available) {
     if (!acknowledgedDecision_.has_value() || !acknowledgedState_.has_value() || !acknowledgedLedger_.has_value()) {
         throw std::logic_error("an acknowledged decision is required before strong proof search");
     }
+    available = bounded_post_ack_budget(
+        available,
+        engine_.remaining_post_ack_compute_budget());
+    if (available.count() == 0) {
+        return 0;
+    }
     return engine_.prove_remaining_horizon(
         *acknowledgedState_,
         *acknowledgedLedger_,
@@ -153,6 +178,10 @@ bool MatchSession::has_pending_submission() const {
 
 const ResponseLedger& MatchSession::response_ledger() const {
     return engine_.response_ledger();
+}
+
+std::chrono::milliseconds MatchSession::remaining_post_ack_compute_budget() const {
+    return engine_.remaining_post_ack_compute_budget();
 }
 
 } 
