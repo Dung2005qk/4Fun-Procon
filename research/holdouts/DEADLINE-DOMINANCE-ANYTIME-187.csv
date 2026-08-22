@@ -1,0 +1,17 @@
+experiment_id,split,source_experiment,tier,map_side,days,agents,fuel_profile,role_mode,first_ms,outer_ms,first_seed,count,phase,purpose,authority
+DEADLINE-DOMINANCE-ANYTIME-187,consumed,DEADLINE-LONG-166,very-hard,32,10,8,default,fixed,5000,15000,4310000,1,direct-upside,attribute-protected-terminal-existence,opened-166
+DEADLINE-DOMINANCE-ANYTIME-187,consumed,DEADLINE-LONG-166,very-hard,32,10,8,low,fixed,5000,15000,4310100,1,direct-upside,attribute-protected-terminal-existence,opened-166
+DEADLINE-DOMINANCE-ANYTIME-187,consumed,DEADLINE-LONG-166,very-hard,32,10,8,high,fixed,5000,15000,4310200,1,direct-control,attribute-protected-terminal-existence,opened-166
+DEADLINE-DOMINANCE-ANYTIME-187,consumed,DEADLINE-STRATIFIED-ANYTIME-184,very-hard,32,10,8,default,fixed,5000,15000,4411000,1,closed-loop-regression,require-no-regression-under-dominance,opened-184
+DEADLINE-DOMINANCE-ANYTIME-187,consumed,ORACLE-TRAFFIC-HISTORY-QUOTIENT-178,exact-small,8,4,3,low,all-patrol,5000,15000,1720000,1,exact-boundary,compare-safe-root-witness,opened-178
+DEADLINE-DOMINANCE-ANYTIME-187,consumed,ORACLE-TRAFFIC-HISTORY-QUOTIENT-178,exact-small,8,4,3,default,all-patrol,5000,15000,1721000,1,exact-boundary,compare-safe-root-witness,opened-178
+DEADLINE-DOMINANCE-ANYTIME-187,consumed,ORACLE-TRAFFIC-HISTORY-QUOTIENT-178,exact-small,8,4,3,high,all-patrol,5000,15000,1722000,1,exact-boundary,compare-safe-root-witness,opened-178
+DEADLINE-DOMINANCE-ANYTIME-187,development,new-stratified,easy,14,5,4,all,fixed-and-native,5000,60000,4610000,9,protected-anytime,fresh-paired-score-state-validator,fresh-development
+DEADLINE-DOMINANCE-ANYTIME-187,development,new-stratified,medium,20,7,4,all,fixed-and-native,5000,45000,4611000,9,protected-anytime,fresh-paired-score-state-validator,fresh-development
+DEADLINE-DOMINANCE-ANYTIME-187,development,new-stratified,hard,26,8,6,all,fixed-and-native,5000,45000,4612000,9,protected-anytime,fresh-paired-score-state-validator,fresh-development
+DEADLINE-DOMINANCE-ANYTIME-187,development,new-stratified,very-hard,32,10,8,all,fixed-and-native,5000,45000,4613000,9,protected-anytime,fresh-paired-score-state-validator,fresh-development
+DEADLINE-DOMINANCE-ANYTIME-187,holdout,new-stratified,easy,14,5,4,all,fixed-and-native,5000,60000,4620000,18,protected-anytime,paired-wtl-tier-gain-loss-tail,sealed
+DEADLINE-DOMINANCE-ANYTIME-187,holdout,new-stratified,medium,20,7,4,all,fixed-and-native,5000,45000,4621000,18,protected-anytime,paired-wtl-tier-gain-loss-tail,sealed
+DEADLINE-DOMINANCE-ANYTIME-187,holdout,new-stratified,hard,26,8,6,all,fixed-and-native,5000,45000,4622000,18,protected-anytime,paired-wtl-tier-gain-loss-tail,sealed
+DEADLINE-DOMINANCE-ANYTIME-187,holdout,new-stratified,very-hard,32,10,8,all,fixed-and-native,5000,45000,4623000,18,protected-anytime,paired-wtl-tier-gain-loss-tail,sealed
+DEADLINE-DOMINANCE-ANYTIME-187,btc,authoritative-deadline,public-match,0,0,0,native,native,5000,configured,0,1,transport-resubmit,confirm-configured-budget-resubmit-and-target-host-latency,btc-authoritative

@@ -21,6 +21,9 @@ Decision Engine
     └── Certified Lexicographic Selection
     │
     ▼
+Protected Slack Refinement
+    │
+    ▼
 Exact Simulator and Independent Validator
     │
     ▼
@@ -80,7 +83,8 @@ Planning Layer gồm:
 - `RouteMaster` cho phối hợp nhiều agent;
 - `AdaptiveRouteImprover` cho cải tiến có cấu trúc;
 - `blank_slate::Planner` cho nguồn candidate độc lập;
-- exact orienteering cho các frontier có thể chứng nhận.
+- exact orienteering cho các frontier có thể chứng nhận;
+- `ProtectedSlackRefiner` cho cải tiến WAIT bảo toàn transition của incumbent.
 
 Mọi thành phần planning chỉ tạo candidate. Quyền chấp nhận candidate thuộc về
 simulator, validator và tầng certification.
@@ -318,6 +322,13 @@ passes. Nó không thay đổi luật score, simulator semantics hoặc admissio
 Nếu ngân sách không đủ cho seed, certification và transport reserve, engine chỉ
 dùng fallback đã exact-validate.
 
+Protocol Host duy trì hai deadline độc lập. Compute deadline là thời điểm nhận
+authoritative state cộng ngân sách tính toán cạnh tranh, bị chặn thêm bởi action
+deadline của môi trường. Action deadline là giới hạn cuối cho transport. Mọi pha
+planning, certification và protected slack phải kết thúc trước compute deadline;
+cửa sổ transport dài hơn không được chuyển thành compute bổ sung. Protected slack
+chỉ nhận phần còn lại trước compute deadline sau khi trừ network reserve.
+
 ---
 
 ## 6. Pipeline quyết định theo ngày
@@ -389,6 +400,27 @@ Profile được finalize cùng nhau, certified-dominated candidate bị loại 
 lexicographic risk comparator chọn trong tập còn lại. Candidate được chọn chạy lại
 full-trace simulator và independent validator. Engine sau đó hoàn tất optimality
 gap, audit và timing của decision.
+
+### 6.10. Protected slack refinement
+
+Sau final selection, Protocol Host có thể mở một neighborhood bị ràng buộc bởi
+transition của incumbent. Mỗi candidate thay đúng một `WAIT` của patrol bằng một
+round trip qua spot rồi quay lại anchor trong cùng số step. Toàn bộ path tránh road
+để raw road footprint không đổi.
+
+Candidate chỉ thay incumbent khi simulator và validator đồng ý, thứ tự kind và
+terminal cell của mọi agent giữ nguyên, fuel cuối của mỗi patrol không giảm, road
+footprint bằng nhau, lifetime brand là superset, cumulative daily distinct và
+servings không giảm, đồng thời daily distinct hoặc servings tăng nghiêm ngặt. Nếu
+deadline, validity hoặc bất kỳ quan hệ dominance nào không đạt, incumbent được giữ
+nguyên byte-for-byte.
+
+Khi protected candidate được acknowledgement, runtime duy trì state và ledger của
+virtual parent. Decision Engine tiếp tục giải từ virtual parent để trajectory của
+bounded search không bị thay đổi bởi state giàu hơn. Plan đó được exact-simulate và
+independent-validate lại trên authoritative state trước khi gửi. Nếu authoritative
+state không còn forward-simulate virtual parent, virtual state bị loại và
+authoritative state trở lại làm đầu vào duy nhất.
 
 ---
 
@@ -854,6 +886,7 @@ Replay là event log append-only. Các event liên kết:
 - role assignment;
 - authoritative state;
 - decision replay;
+- protected-slack diagnostics;
 - serialized actions;
 - action response;
 - final result.
@@ -908,6 +941,9 @@ vào runtime nhưng runtime không phụ thuộc vào HTTP transport.
 - Không tồn tại hai pending submissions trong một session.
 - Candidate profile chỉ có nghĩa trên scenario manifest đã tạo nó.
 - Cached contingency chỉ được dùng sau khi đối chiếu authoritative state.
+- Virtual parent chỉ tồn tại sau acknowledgement của một protected improvement.
+- Authoritative state phải forward-simulate virtual parent trước mỗi decision dùng
+  virtual state.
 
 ### 17.3. Bất biến planning
 
@@ -927,6 +963,8 @@ vào runtime nhưng runtime không phụ thuộc vào HTTP transport.
 - Candidate được chọn có certified witness cho mọi scenario bắt buộc.
 - Certified dominance yêu cầu envelope tương thích.
 - Final selection luôn được exact-validate lại.
+- Protected refinement chỉ thay incumbent khi có strict score gain và
+  componentwise transition/ledger dominance.
 
 ### 17.5. Bất biến transport
 
@@ -934,3 +972,4 @@ vào runtime nhưng runtime không phụ thuộc vào HTTP transport.
 - Acknowledgement phải khớp pending day.
 - Rejection không advance state.
 - Resume chỉ dùng event đã được acknowledgement xác nhận.
+- Outer action deadline dài hơn không được dùng để vượt compute deadline.

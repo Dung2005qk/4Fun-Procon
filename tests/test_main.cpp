@@ -20,6 +20,7 @@
 #include "udon/protocol.hpp"
 #include "udon/runtime.hpp"
 #include "udon/simulator.hpp"
+#include "udon/slack_refiner.hpp"
 #include "udon/validator.hpp"
 
 namespace {
@@ -161,6 +162,35 @@ void test_btc_official_wire_adapter() {
     require(
         oversizedWindowState.endsAt == 1778227205,
         "the BTC day adapter must retain the 5000-ms hard cap under an oversized outer window");
+    udon::MatchConfig longOuterConfig = config;
+    longOuterConfig.daySeconds.assign(4U, 60);
+    const auto receivedAt = std::chrono::system_clock::time_point{
+        std::chrono::seconds{1778227200}};
+    require(
+        udon::btc_authoritative_action_deadline_ms(
+            longOuterConfig,
+            stateDocument,
+            receivedAt,
+            udon::BtcAdapterOptions{5000}) == 1778227208123LL,
+        "the outer action deadline must preserve an authoritative millisecond epoch inside the configured day window");
+    udon::JsonValue secondDeadlineDocument = stateDocument;
+    secondDeadlineDocument.object().at("endsAt") =
+        udon::JsonValue(std::int64_t{1778227245});
+    require(
+        udon::btc_authoritative_action_deadline_ms(
+            longOuterConfig,
+            secondDeadlineDocument,
+            receivedAt,
+            udon::BtcAdapterOptions{5000}) == 1778227245000LL,
+        "the outer action deadline must normalize an authoritative second epoch without changing the 5000-ms solver cap");
+    secondDeadlineDocument.object().erase("endsAt");
+    require(
+        udon::btc_authoritative_action_deadline_ms(
+            longOuterConfig,
+            secondDeadlineDocument,
+            receivedAt,
+            udon::BtcAdapterOptions{5000}) == 1778227205000LL,
+        "a missing authoritative deadline must fail closed to the 5000-ms response budget");
     require(state.agents.at(1).fuel == config.fuelLimit,
         "BTC tanker with null fuel must normalize without affecting patrol fuel checks");
     require(state.others.at(0).agents.at(0).fuel == config.fuelLimit,
@@ -1835,6 +1865,48 @@ void test_competition_compute_hard_cap(
                         sessionDecision.decision.timing.total) ==
                 udon::kCompetitionComputeHardCap,
         "post-ACK search must receive only the unused part of the same daily compute cap");
+}
+
+void test_protected_slack_refiner(
+    const udon::MatchConfig& config,
+    const udon::DayState& state) {
+    udon::DayPlan parent;
+    parent.actions.assign(
+        static_cast<std::size_t>(config.agent_count()),
+        udon::AgentPlan{
+            udon::PlanAction::wait(config.steps_for_day(state.dayNumber))});
+    const udon::ExactStepSimulator simulator(config);
+    const udon::SimulationResult parentSimulation =
+        simulator.simulate(state, parent, false);
+    require(parentSimulation.valid, "protected-slack parent must be valid");
+    const udon::ProtectedSlackRefiner refiner(config);
+    const udon::ProtectedSlackResult refined = refiner.refine_wait_detours(
+        state,
+        udon::MatchLedger{},
+        parent,
+        parentSimulation,
+        std::chrono::steady_clock::now() + std::chrono::milliseconds{500});
+    require(
+        refined.improved &&
+            udon::protected_slack_transition_dominates(
+                parentSimulation,
+                refined.simulation) &&
+            parentSimulation.score.dailyDistinct <=
+                refined.simulation.score.dailyDistinct &&
+            parentSimulation.score.servings <=
+                refined.simulation.score.servings,
+        "protected WAIT detours must produce only an exact componentwise improvement with the parent terminal transition preserved");
+    const udon::ProtectedSlackResult expired = refiner.refine_wait_detours(
+        state,
+        udon::MatchLedger{},
+        parent,
+        parentSimulation,
+        std::chrono::steady_clock::now() - std::chrono::milliseconds{1});
+    require(
+        !expired.improved && expired.diagnostics.deadlineReached &&
+            udon::canonical_plan_bytes(expired.plan) ==
+                udon::canonical_plan_bytes(parent),
+        "an expired protected-slack budget must return the byte-identical parent plan");
 }
 
 void test_deadline_floors() {
@@ -4260,6 +4332,7 @@ int main() {
         test_anytime_orienteering_preserves_lexicographic_brands();
         test_emergency_contract(config, state);
         test_competition_compute_hard_cap(config, state);
+        test_protected_slack_refiner(config, state);
         test_deadline_floors();
         test_public_traffic_scenarios(config, state);
         test_same_day_resend_preserves_prior_traffic_memory(config, state);

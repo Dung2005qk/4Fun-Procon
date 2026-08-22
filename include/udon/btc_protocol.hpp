@@ -32,6 +32,12 @@ enum class BtcFrameKind : std::uint8_t {
     std::chrono::system_clock::time_point receivedAt,
     BtcAdapterOptions options = {});
 
+[[nodiscard]] std::int64_t btc_authoritative_action_deadline_ms(
+    const MatchConfig& config,
+    const JsonValue& document,
+    std::chrono::system_clock::time_point receivedAt,
+    BtcAdapterOptions options = {});
+
 [[nodiscard]] BtcFrameKind classify_btc_frame(const JsonValue& document);
 [[nodiscard]] bool btc_action_result_accepted(const JsonValue& document);
 [[nodiscard]] std::optional<std::int32_t> btc_action_result_day(const JsonValue& document);

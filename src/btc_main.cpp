@@ -24,6 +24,7 @@
 #include "udon/protocol.hpp"
 #include "udon/runtime.hpp"
 #include "udon/simulator.hpp"
+#include "udon/slack_refiner.hpp"
 #include "udon/validator.hpp"
 
 namespace {
@@ -292,8 +293,35 @@ struct ReplayResumeState {
     std::optional<udon::JsonValue> assignment;
     bool assignmentAccepted = false;
     udon::MatchLedger ledger;
+    udon::MatchLedger virtualLedger;
+    std::optional<std::vector<udon::AgentState>> virtualAgents;
+    bool protectedDivergenceActive = false;
     std::int32_t lastAcceptedWireDay = -1;
 };
+
+[[nodiscard]] bool exact_agent_states_equal(
+    const std::vector<udon::AgentState>& left,
+    const std::vector<udon::AgentState>& right) {
+    if (left.size() != right.size()) {
+        return false;
+    }
+    for (std::size_t index = 0; index < left.size(); ++index) {
+        if (left.at(index).kind != right.at(index).kind ||
+            left.at(index).position != right.at(index).position ||
+            left.at(index).fuel != right.at(index).fuel) {
+            return false;
+        }
+    }
+    return true;
+}
+
+[[nodiscard]] bool exact_ledgers_equal(
+    const udon::MatchLedger& left,
+    const udon::MatchLedger& right) {
+    return left.lifetimeBrands == right.lifetimeBrands &&
+        left.totalDailyDistinct == right.totalDailyDistinct &&
+        left.totalServings == right.totalServings;
+}
 
 [[nodiscard]] ReplayResumeState load_replay_resume(
     const std::string& path,
@@ -310,7 +338,9 @@ struct ReplayResumeState {
     const udon::ExactStepSimulator simulator(config);
     const udon::IndependentDayValidator validator(config);
     std::optional<udon::DayState> currentState;
+    std::optional<udon::DayState> currentVirtualState;
     std::optional<udon::SimulationResult> pendingSimulation;
+    std::optional<udon::SimulationResult> pendingVirtualSimulation;
     std::int32_t pendingWireDay = -1;
     std::string line;
     while (std::getline(input, line)) {
@@ -335,8 +365,38 @@ struct ReplayResumeState {
                 event.at("body"),
                 std::chrono::system_clock::time_point{std::chrono::milliseconds{atUnixMs}},
                 adapterOptions);
+            currentVirtualState = currentState;
+            if (resume.virtualAgents.has_value()) {
+                currentVirtualState->agents = *resume.virtualAgents;
+            }
             pendingWireDay = currentState->dayNumber - 1;
             pendingSimulation.reset();
+            pendingVirtualSimulation.reset();
+            continue;
+        }
+        if (kind == "decision") {
+            if (!currentVirtualState.has_value()) {
+                throw std::runtime_error(
+                    "BTC replay resume found a decision without a day state");
+            }
+            const udon::DayPlan plan = udon::parse_day_plan(
+                config,
+                event.at("body")
+                    .at("decision")
+                    .at("candidate")
+                    .at("plan"));
+            const udon::SimulationResult simulation =
+                simulator.simulate(*currentVirtualState, plan, false);
+            const udon::SimulationResult validation =
+                validator.validate(*currentVirtualState, plan, false);
+            std::string mismatch;
+            if (!simulation.valid ||
+                !validator.agrees_with(simulation, validation, mismatch)) {
+                throw std::runtime_error(
+                    "BTC replay resume rejected a virtual-parent plan: " +
+                    mismatch);
+            }
+            pendingVirtualSimulation = simulation;
             continue;
         }
         if (kind == "actions" || kind == "actions_fallback" ||
@@ -352,9 +412,15 @@ struct ReplayResumeState {
                 throw std::runtime_error("BTC replay resume rejected a recorded plan: " + mismatch);
             }
             pendingSimulation = simulation;
+            if (kind != "actions") {
+                pendingVirtualSimulation.reset();
+            }
             if (kind == "actions_server_wait" &&
                 pendingWireDay > resume.lastAcceptedWireDay) {
                 resume.ledger.apply(pendingSimulation->score);
+                resume.virtualLedger = resume.ledger;
+                resume.virtualAgents = pendingSimulation->finalAgents;
+                resume.protectedDivergenceActive = false;
                 resume.lastAcceptedWireDay = pendingWireDay;
                 pendingSimulation.reset();
             }
@@ -367,9 +433,41 @@ struct ReplayResumeState {
             !udon::btc_action_result_accepted(event.at("body"))) {
             continue;
         }
-        resume.ledger.apply(pendingSimulation->score);
+        const udon::SimulationResult actualSimulation = *pendingSimulation;
+        resume.ledger.apply(actualSimulation.score);
+        if (pendingVirtualSimulation.has_value()) {
+            udon::MatchLedger candidateVirtualLedger = resume.virtualLedger;
+            candidateVirtualLedger.apply(pendingVirtualSimulation->score);
+            if (udon::protected_slack_transition_dominates(
+                    *pendingVirtualSimulation,
+                    actualSimulation) &&
+                udon::protected_slack_ledger_dominates(
+                    candidateVirtualLedger,
+                    resume.ledger)) {
+                resume.virtualLedger = candidateVirtualLedger;
+                resume.virtualAgents =
+                    pendingVirtualSimulation->finalAgents;
+                resume.protectedDivergenceActive =
+                    resume.protectedDivergenceActive ||
+                    !exact_ledgers_equal(
+                        resume.virtualLedger,
+                        resume.ledger) ||
+                    !exact_agent_states_equal(
+                        *resume.virtualAgents,
+                        actualSimulation.finalAgents);
+            } else {
+                resume.virtualLedger = resume.ledger;
+                resume.virtualAgents = actualSimulation.finalAgents;
+                resume.protectedDivergenceActive = false;
+            }
+        } else {
+            resume.virtualLedger = resume.ledger;
+            resume.virtualAgents = actualSimulation.finalAgents;
+            resume.protectedDivergenceActive = false;
+        }
         resume.lastAcceptedWireDay = pendingWireDay;
         pendingSimulation.reset();
+        pendingVirtualSimulation.reset();
     }
     return resume;
 }
@@ -1513,9 +1611,14 @@ void run_http(const RuntimeOptions& options) {
     static_cast<void>(wait_for_get(client, root + "/start", options.pollMs));
 
     udon::MatchLedger ledger = resume.ledger;
+    udon::MatchLedger virtualLedger = resume.virtualLedger;
+    std::optional<std::vector<udon::AgentState>> virtualAgents =
+        resume.virtualAgents;
+    bool protectedDivergenceActive = resume.protectedDivergenceActive;
     std::int32_t lastAcceptedWireDay = resume.lastAcceptedWireDay;
     const udon::ExactStepSimulator simulator(config);
     const udon::IndependentDayValidator validator(config);
+    const udon::ProtectedSlackRefiner slackRefiner(config);
     bool idlePostAckWorkPending = false;
     bool idleContingencyPrecompute = true;
     while (true) {
@@ -1537,24 +1640,41 @@ void run_http(const RuntimeOptions& options) {
                 stateDocument,
                 receivedAt,
                 adapterOptions);
+            if (!protectedDivergenceActive ||
+                !virtualAgents.has_value() ||
+                !udon::protected_slack_agents_dominate(
+                    *virtualAgents,
+                    state.agents) ||
+                !udon::protected_slack_ledger_dominates(
+                    virtualLedger,
+                    ledger)) {
+                virtualAgents = state.agents;
+                virtualLedger = ledger;
+                protectedDivergenceActive = false;
+            }
+            udon::DayState planningState = state;
+            planningState.agents = *virtualAgents;
             const std::int64_t receivedAtUnixMs =
                 std::chrono::duration_cast<std::chrono::milliseconds>(
                     receivedAt.time_since_epoch()).count();
             const std::int64_t configuredDeadlineMs =
                 receivedAtUnixMs + effective_response_budget_ms(options);
-            const std::int64_t serverDeadlineMs = stateDocument.contains("endsAt")
-                ? stateDocument.at("endsAt").integer() * 1000
-                : configuredDeadlineMs;
-            const std::int64_t actionDeadlineMs = std::min(
+            const std::int64_t actionDeadlineMs =
+                udon::btc_authoritative_action_deadline_ms(
+                    config,
+                    stateDocument,
+                    receivedAt,
+                    adapterOptions);
+            const std::int64_t solveDeadlineMs = std::min(
                 configuredDeadlineMs,
-                serverDeadlineMs);
+                actionDeadlineMs);
             const udon::SessionDecision decision = session.on_authoritative_state_for(
-                state,
-                ledger,
+                planningState,
+                virtualLedger,
                 std::chrono::milliseconds{
                     std::max<std::int64_t>(
                         0,
-                        actionDeadlineMs - receivedAtUnixMs)});
+                        solveDeadlineMs - receivedAtUnixMs)});
             replay.record("decision", decision.replay);
             const std::int64_t minimumSubmissionWindowMs = std::min<std::int64_t>(
                 btcSubmissionFloorMs,
@@ -1580,12 +1700,187 @@ void run_http(const RuntimeOptions& options) {
                     "actions_server_wait",
                     udon::serialize_day_plan(waitPlan));
                 ledger.apply(waitSimulation.score);
+                virtualLedger = ledger;
+                virtualAgents = waitSimulation.finalAgents;
+                protectedDivergenceActive = false;
                 lastAcceptedWireDay = wireDay;
                 continue;
             }
-            udon::DayPlan submittedPlan = decision.maySubmit
-                ? decision.decision.candidate.plan
-                : udon::make_wait_plan(config, state.dayNumber);
+            udon::DayPlan submittedPlan;
+            udon::SimulationResult submittedSimulation;
+            bool submittedProtectedImprovement = false;
+            if (decision.maySubmit) {
+                submittedPlan = decision.decision.candidate.plan;
+                submittedSimulation = validate_fallback_plan(
+                    state,
+                    submittedPlan,
+                    simulator,
+                    validator,
+                    "BTC virtual-parent plan failed on authoritative state");
+                udon::ProtectedSlackResult refinement;
+                refinement.plan = submittedPlan;
+                refinement.simulation = submittedSimulation;
+                refinement.scoreAfterToday =
+                    udon::OfficialScore::after_day(
+                        ledger,
+                        submittedSimulation.score);
+                const std::int64_t refinementReserveMs =
+                    std::max<std::int64_t>(
+                        minimumSubmissionWindowMs,
+                        deadlineCalibration.networkFloor.count());
+                const std::int64_t refinementRemainingMs =
+                    solveDeadlineMs - refinementReserveMs -
+                    unix_milliseconds();
+                if (state.dayNumber < config.day_count() &&
+                    refinementRemainingMs > 0) {
+                    refinement = slackRefiner.refine_wait_detours(
+                        state,
+                        ledger,
+                        submittedPlan,
+                        submittedSimulation,
+                        std::chrono::steady_clock::now() +
+                            std::chrono::milliseconds{
+                                refinementRemainingMs});
+                }
+                if (refinement.improved) {
+                    submittedPlan = refinement.plan;
+                    submittedSimulation = refinement.simulation;
+                    submittedProtectedImprovement = true;
+                }
+                udon::MatchLedger prospectiveVirtualLedger = virtualLedger;
+                prospectiveVirtualLedger.apply(
+                    decision.decision.candidate.simulation.score);
+                udon::MatchLedger prospectiveActualLedger = ledger;
+                prospectiveActualLedger.apply(submittedSimulation.score);
+                if (!udon::protected_slack_transition_dominates(
+                        decision.decision.candidate.simulation,
+                        submittedSimulation) ||
+                    !udon::protected_slack_ledger_dominates(
+                        prospectiveVirtualLedger,
+                        prospectiveActualLedger)) {
+                    submittedPlan = decision.decision.candidate.plan;
+                    submittedProtectedImprovement = false;
+                    submittedSimulation = validate_fallback_plan(
+                        state,
+                        submittedPlan,
+                        simulator,
+                        validator,
+                        "BTC protected-slack parent revalidation failed");
+                    prospectiveActualLedger = ledger;
+                    prospectiveActualLedger.apply(submittedSimulation.score);
+                    if (!udon::protected_slack_transition_dominates(
+                            decision.decision.candidate.simulation,
+                            submittedSimulation) ||
+                        !udon::protected_slack_ledger_dominates(
+                            prospectiveVirtualLedger,
+                            prospectiveActualLedger)) {
+                        throw std::runtime_error(
+                            "BTC virtual-parent dominance invariant failed before submission");
+                    }
+                }
+                udon::JsonValue::Object telemetry;
+                telemetry.emplace(
+                    "virtualParentActive",
+                    udon::JsonValue(protectedDivergenceActive));
+                telemetry.emplace(
+                    "day",
+                    udon::JsonValue(
+                        static_cast<std::int64_t>(state.dayNumber)));
+                telemetry.emplace(
+                    "outerWindowMs",
+                    udon::JsonValue(std::max<std::int64_t>(
+                        0,
+                        actionDeadlineMs - receivedAtUnixMs)));
+                telemetry.emplace(
+                    "computeWindowMs",
+                    udon::JsonValue(std::max<std::int64_t>(
+                        0,
+                        solveDeadlineMs - receivedAtUnixMs)));
+                telemetry.emplace(
+                    "waitAnchors",
+                    udon::JsonValue(refinement.diagnostics.waitAnchors));
+                telemetry.emplace(
+                    "eligibleWaitAnchors",
+                    udon::JsonValue(
+                        refinement.diagnostics.eligibleWaitAnchors));
+                telemetry.emplace(
+                    "routePairs",
+                    udon::JsonValue(refinement.diagnostics.routePairs));
+                telemetry.emplace(
+                    "generatedPlans",
+                    udon::JsonValue(
+                        refinement.diagnostics.generatedPlans));
+                telemetry.emplace(
+                    "validPlans",
+                    udon::JsonValue(refinement.diagnostics.validPlans));
+                telemetry.emplace(
+                    "liftablePlans",
+                    udon::JsonValue(
+                        refinement.diagnostics.liftablePlans));
+                telemetry.emplace(
+                    "deadlineReached",
+                    udon::JsonValue(
+                        refinement.diagnostics.deadlineReached));
+                telemetry.emplace(
+                    "improved",
+                    udon::JsonValue(refinement.improved));
+                telemetry.emplace(
+                    "parentDailyDistinct",
+                    udon::JsonValue(static_cast<std::int64_t>(
+                        decision.decision.candidate.simulation.score.dailyDistinct)));
+                telemetry.emplace(
+                    "parentServings",
+                    udon::JsonValue(static_cast<std::int64_t>(
+                        decision.decision.candidate.simulation.score.servings)));
+                telemetry.emplace(
+                    "refinedDailyDistinct",
+                    udon::JsonValue(static_cast<std::int64_t>(
+                        submittedSimulation.score.dailyDistinct)));
+                telemetry.emplace(
+                    "refinedServings",
+                    udon::JsonValue(static_cast<std::int64_t>(
+                        submittedSimulation.score.servings)));
+                telemetry.emplace(
+                    "witnessAgent",
+                    udon::JsonValue(static_cast<std::int64_t>(
+                        refinement.witnessAgent)));
+                telemetry.emplace(
+                    "witnessAnchor",
+                    udon::JsonValue(static_cast<std::int64_t>(
+                        refinement.witnessAnchor)));
+                telemetry.emplace(
+                    "witnessSpot",
+                    udon::JsonValue(static_cast<std::int64_t>(
+                        refinement.witnessSpot)));
+                telemetry.emplace(
+                    "witnessDuration",
+                    udon::JsonValue(static_cast<std::int64_t>(
+                        refinement.witnessDuration)));
+                telemetry.emplace(
+                    "witnessTravelSteps",
+                    udon::JsonValue(static_cast<std::int64_t>(
+                        refinement.witnessTravelSteps)));
+                telemetry.emplace(
+                    "witnessParentFuel",
+                    udon::JsonValue(static_cast<std::int64_t>(
+                        refinement.witnessParentFuel)));
+                telemetry.emplace(
+                    "witnessCandidateFuel",
+                    udon::JsonValue(static_cast<std::int64_t>(
+                        refinement.witnessCandidateFuel)));
+                replay.record(
+                    "protected_slack",
+                    udon::JsonValue(std::move(telemetry)));
+            } else {
+                submittedPlan =
+                    udon::make_wait_plan(config, state.dayNumber);
+                submittedSimulation = validate_fallback_plan(
+                    state,
+                    submittedPlan,
+                    simulator,
+                    validator,
+                    "BTC exact WAIT fallback failed local validation");
+            }
             udon::JsonValue wirePlan = udon::serialize_day_plan(submittedPlan);
             replay.record(decision.maySubmit ? "actions" : "actions_fallback", wirePlan);
             const std::string wireBody = wirePlan.dump();
@@ -1630,6 +1925,9 @@ void run_http(const RuntimeOptions& options) {
                     "actions_server_wait",
                     udon::serialize_day_plan(waitPlan));
                 ledger.apply(waitSimulation.score);
+                virtualLedger = ledger;
+                virtualAgents = waitSimulation.finalAgents;
+                protectedDivergenceActive = false;
                 lastAcceptedWireDay = wireDay;
                 continue;
             }
@@ -1643,6 +1941,9 @@ void run_http(const RuntimeOptions& options) {
             }
             bool appliedDecision = accepted && decision.maySubmit;
             std::optional<udon::SimulationResult> appliedFallback;
+            if (accepted && !decision.maySubmit) {
+                appliedFallback = submittedSimulation;
+            }
             if (!accepted) {
                 if (session.has_pending_submission()) {
                     session.reject_pending_submission();
@@ -1697,10 +1998,26 @@ void run_http(const RuntimeOptions& options) {
                 std::chrono::steady_clock::now() - responseStarted);
             if (appliedDecision) {
                 static_cast<void>(session.acknowledge_submitted(responseTime));
-                ledger.apply(decision.decision.candidate.simulation.score);
+                virtualLedger.apply(
+                    decision.decision.candidate.simulation.score);
+                virtualAgents =
+                    decision.decision.candidate.simulation.finalAgents;
+                ledger.apply(submittedSimulation.score);
+                protectedDivergenceActive =
+                    protectedDivergenceActive ||
+                    submittedProtectedImprovement;
+                if (!udon::protected_slack_ledger_dominates(
+                        virtualLedger,
+                        ledger)) {
+                    throw std::runtime_error(
+                        "BTC protected-slack ledger invariant failed after acknowledgement");
+                }
                 idlePostAckWorkPending = state.dayNumber < config.day_count();
             } else if (appliedFallback.has_value()) {
                 ledger.apply(appliedFallback->score);
+                virtualLedger = ledger;
+                virtualAgents = appliedFallback->finalAgents;
+                protectedDivergenceActive = false;
             }
             lastAcceptedWireDay = wireDay;
             continue;

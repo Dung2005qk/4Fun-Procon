@@ -13,6 +13,7 @@ add_library(udon_shield
     src/simulator.cpp
     src/validator.cpp
     src/graph.cpp
+    src/slack_refiner.cpp
     src/orienteering.cpp
     src/planner.cpp
     src/decision.cpp

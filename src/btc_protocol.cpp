@@ -218,6 +218,48 @@ DayState parse_btc_day_state(
     return parse_day_state(config, JsonValue(std::move(normalized)));
 }
 
+std::int64_t btc_authoritative_action_deadline_ms(
+    const MatchConfig& config,
+    const JsonValue& document,
+    std::chrono::system_clock::time_point receivedAt,
+    BtcAdapterOptions options) {
+    static_cast<void>(require_object(document, "BTC day state"));
+    if (options.responseBudgetMs <= 0) {
+        throw ProtocolError("BTC response budget must be positive");
+    }
+    const std::int64_t wireDay = require_integer(document.at("day"), "BTC day");
+    if (wireDay < 0 || wireDay >= config.day_count()) {
+        throw ProtocolError("BTC day is outside the configured zero-based range");
+    }
+    const std::int64_t receivedMs =
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            receivedAt.time_since_epoch()).count();
+    const std::int64_t fallbackDeadlineMs = receivedMs +
+        competition_compute_budget(
+            std::chrono::milliseconds{options.responseBudgetMs}).count();
+    if (!document.contains("endsAt")) {
+        return fallbackDeadlineMs;
+    }
+    const std::int64_t rawSeconds =
+        require_integer(document.at("endsAt"), "endsAt");
+    if (rawSeconds < 0) {
+        throw ProtocolError("endsAt is outside the supported range");
+    }
+    constexpr std::int64_t kEpochMillisecondsThreshold = 100000000000LL;
+    const std::int64_t rawDeadlineMs =
+        rawSeconds >= kEpochMillisecondsThreshold
+        ? rawSeconds
+        : (rawSeconds <= std::numeric_limits<std::int64_t>::max() / 1000
+               ? rawSeconds * 1000
+               : throw ProtocolError("endsAt is outside the supported range"));
+    const std::int64_t configuredWindowMs =
+        static_cast<std::int64_t>(config.daySeconds.at(
+            static_cast<std::size_t>(wireDay))) * 1000;
+    return std::min(
+        rawDeadlineMs,
+        receivedMs + configuredWindowMs);
+}
+
 BtcFrameKind classify_btc_frame(const JsonValue& document) {
     if (!document.is_object()) {
         return BtcFrameKind::Unknown;

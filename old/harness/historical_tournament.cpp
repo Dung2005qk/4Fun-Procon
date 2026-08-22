@@ -1,9 +1,11 @@
 #include <algorithm>
 #include <array>
 #include <chrono>
+#include <cmath>
 #include <cstdint>
 #include <iostream>
 #include <numeric>
+#include <optional>
 #include <random>
 #include <sstream>
 #include <stdexcept>
@@ -13,6 +15,7 @@
 #include "udon/decision.hpp"
 #include "udon/protocol.hpp"
 #include "udon/simulator.hpp"
+#include "udon/slack_refiner.hpp"
 #include "udon/validator.hpp"
 
 namespace {
@@ -52,11 +55,16 @@ struct Options {
     std::chrono::milliseconds roleBudget{500};
     std::string roleMode = "exhaustive";
     std::uint32_t fixedRoleMask = 0;
+    std::chrono::milliseconds protectedRefineBudget{0};
+    std::chrono::milliseconds protectedWaitBudget{0};
+    bool protectedWaitDetours = false;
+    bool protectedWaitClosedLoop = false;
     bool dayDetails = false;
 };
 
 struct Metrics {
     udon::OfficialScore score;
+    udon::OfficialScore protectedVirtualScore;
     std::vector<std::int64_t> responseTimes;
     std::int64_t roleMilliseconds = 0;
     std::int64_t combinationsVisited = 0;
@@ -66,6 +74,7 @@ struct Metrics {
     std::int32_t searchCompleteDays = 0;
     std::int32_t searchDeadlineDays = 0;
     std::vector<udon::OfficialScore> cumulativeDayScores;
+    std::vector<udon::OfficialScore> protectedVirtualDayScores;
     std::vector<udon::DayScore> exactDayScores;
     std::vector<std::uint64_t> planHashes;
     std::vector<bool> deadlineDays;
@@ -73,6 +82,27 @@ struct Metrics {
     std::vector<std::uint64_t> exactSettledStates;
     std::vector<std::int32_t> exactSeedServings;
     std::vector<std::int32_t> exactLocalServings;
+    std::int32_t protectedTerminalAttempts = 0;
+    std::int32_t protectedTerminalTakeovers = 0;
+    std::int32_t protectedTerminalInvalid = 0;
+    udon::OfficialScore protectedTerminalParentScore;
+    udon::OfficialScore protectedTerminalRefinedScore;
+    std::int64_t protectedWaitPlans = 0;
+    std::int64_t protectedWaitValid = 0;
+    std::int64_t protectedWaitLiftable = 0;
+    std::int32_t protectedWaitBestDay = 0;
+    udon::OfficialScore protectedWaitParentScore;
+    udon::OfficialScore protectedWaitBestScore;
+    std::int32_t protectedWaitTakeovers = 0;
+    std::int32_t protectedWaitDeadlineDays = 0;
+    std::int32_t protectedWaitWitnessAgent = -1;
+    udon::CellId protectedWaitWitnessAnchor = udon::kInvalidCell;
+    udon::CellId protectedWaitWitnessSpot = udon::kInvalidCell;
+    std::int32_t protectedWaitWitnessDuration = 0;
+    std::int32_t protectedWaitWitnessTravelSteps = 0;
+    std::int32_t protectedWaitWitnessParentFuel = 0;
+    std::int32_t protectedWaitWitnessCandidateFuel = 0;
+    std::uint64_t protectedWaitWitnessPlanHash = 0;
 };
 
 [[nodiscard]] std::uint64_t plan_hash(const udon::DayPlan& plan) {
@@ -187,7 +217,11 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     return fixture;
 }
 
-[[nodiscard]] FixtureSpec generated_btc_large_fixture(std::uint64_t seed) {
+[[nodiscard]] FixtureSpec generated_btc_large_fixture(
+    std::uint64_t seed,
+    std::int32_t side = 32,
+    std::int32_t days = 10,
+    std::int32_t agentCount = 8) {
     static constexpr std::array<const char*, 6> families{
         "balanced",
         "rare-brand",
@@ -196,8 +230,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         "high-stock",
         "overnight",
     };
-    constexpr std::int32_t side = 32;
-    constexpr std::int32_t cellCount = side * side;
+    const std::int32_t cellCount = side * side;
     FixtureSpec fixture;
     fixture.seed = seed;
     fixture.family = families.at(static_cast<std::size_t>(seed % families.size()));
@@ -208,8 +241,14 @@ void preserve_plain_cells(FixtureSpec& fixture) {
 
     std::mt19937_64 random(seed ^ 0xd1b54a32d192ed03ULL);
     std::vector<udon::CellId> roadCells;
-    roadCells.reserve(63U);
-    const auto addRoad = [&fixture, &roadCells](std::int32_t row, std::int32_t column) {
+    const std::size_t targetRoads = static_cast<std::size_t>(std::max(
+        side,
+        static_cast<std::int32_t>(
+            std::llround(63.0 * static_cast<double>(cellCount) / 1024.0))));
+    roadCells.reserve(targetRoads);
+    const auto addRoad = [&fixture, &roadCells, side](
+                             std::int32_t row,
+                             std::int32_t column) {
         const udon::CellId cell = row * side + column;
         if (fixture.terrain.at(static_cast<std::size_t>(cell)) !=
             static_cast<std::int32_t>(udon::Terrain::Road)) {
@@ -218,23 +257,34 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             roadCells.push_back(cell);
         }
     };
-    std::int32_t column = 7 + static_cast<std::int32_t>(random() % 18U);
-    for (std::int32_t row = 0; row < side; ++row) {
+    const std::int32_t interiorSpan = std::max(1, side - 4);
+    std::int32_t column = 2 +
+        static_cast<std::int32_t>(random() %
+            static_cast<std::uint64_t>(interiorSpan));
+    for (std::int32_t row = 0;
+         row < side && roadCells.size() < targetRoads;
+         ++row) {
         column = std::clamp(
             column + static_cast<std::int32_t>(random() % 3U) - 1,
             1,
             side - 2);
         addRoad(row, column);
     }
-    std::int32_t row = 7 + static_cast<std::int32_t>(random() % 18U);
-    for (column = 0; column < side; ++column) {
+    std::int32_t row = 2 +
+        static_cast<std::int32_t>(random() %
+            static_cast<std::uint64_t>(interiorSpan));
+    for (column = 0;
+         column < side && roadCells.size() < targetRoads;
+         ++column) {
         row = std::clamp(
             row + static_cast<std::int32_t>(random() % 3U) - 1,
             1,
             side - 2);
         addRoad(row, column);
     }
-    for (std::int32_t cell = 0; roadCells.size() < 63U && cell < cellCount; ++cell) {
+    for (std::int32_t cell = 0;
+         roadCells.size() < targetRoads && cell < cellCount;
+         ++cell) {
         const udon::CellId candidate = static_cast<udon::CellId>(
             (cell * 37 + static_cast<std::int32_t>(seed % 31U)) % cellCount);
         addRoad(candidate / side, candidate % side);
@@ -243,6 +293,14 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     std::vector<udon::CellId> cells(static_cast<std::size_t>(cellCount));
     std::iota(cells.begin(), cells.end(), 0);
     std::shuffle(cells.begin(), cells.end(), random);
+    const std::int32_t targetMountains = std::max(
+        1,
+        static_cast<std::int32_t>(
+            std::llround(56.0 * static_cast<double>(cellCount) / 1024.0)));
+    const std::int32_t targetPonds = std::max(
+        1,
+        static_cast<std::int32_t>(
+            std::llround(5.0 * static_cast<double>(cellCount) / 1024.0)));
     std::int32_t mountains = 0;
     std::int32_t ponds = 0;
     for (const udon::CellId cell : cells) {
@@ -250,10 +308,10 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         if (terrain != static_cast<std::int32_t>(udon::Terrain::Plain)) {
             continue;
         }
-        if (mountains < 56) {
+        if (mountains < targetMountains) {
             terrain = static_cast<std::int32_t>(udon::Terrain::Mountain);
             ++mountains;
-        } else if (ponds < 5) {
+        } else if (ponds < targetPonds) {
             terrain = static_cast<std::int32_t>(udon::Terrain::Pond);
             ++ponds;
         } else {
@@ -270,7 +328,9 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             plainCells.push_back(cell);
         }
     }
-    fixture.starts.assign(plainCells.begin(), plainCells.begin() + 8);
+    fixture.starts.assign(
+        plainCells.begin(),
+        plainCells.begin() + agentCount);
     fixture.spots.reserve(12U);
     for (std::int32_t spotIndex = 0; spotIndex < 12; ++spotIndex) {
         std::int32_t brandIndex = spotIndex % 6;
@@ -283,11 +343,11 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         }
         fixture.spots.push_back(SpotSpec{
             brandIndex,
-            plainCells.at(static_cast<std::size_t>(8 + spotIndex)),
+            plainCells.at(static_cast<std::size_t>(agentCount + spotIndex)),
             stock,
         });
     }
-    fixture.daySteps.assign(10U, 100);
+    fixture.daySteps.assign(static_cast<std::size_t>(days), 100);
     fixture.fuelLimit = fixture.family == "fuel-tight" ? 120 : 200;
     fixture.players = 4;
     fixture.busyThreshold = 5;
@@ -329,7 +389,22 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             static_cast<std::size_t>((seed / 24U) % fuelProfiles.size()));
         return fixture;
     }
-    FixtureSpec fixture = generated_btc_large_fixture(seed);
+    FixtureSpec fixture;
+    if (options.suite == "stratified-easy") {
+        fixture = generated_btc_large_fixture(seed, 14, 5, 4);
+    } else if (options.suite == "stratified-medium") {
+        fixture = generated_btc_large_fixture(seed, 20, 7, 4);
+    } else if (options.suite == "stratified-hard") {
+        fixture = generated_btc_large_fixture(seed, 26, 8, 6);
+    } else if (options.suite == "stratified-very-hard") {
+        fixture = generated_btc_large_fixture(seed, 32, 10, 8);
+    } else {
+        fixture = generated_btc_large_fixture(seed);
+    }
+    if (options.suite.starts_with("stratified-")) {
+        fixture.name = options.suite + "-" + fixture.family +
+            "-seed-" + std::to_string(seed);
+    }
     if (options.suite == "btc-highfuel") {
         fixture.family = "high-fuel-" + fixture.family;
         fixture.name = "btc-highfuel-" + fixture.name;
@@ -338,6 +413,20 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         fixture.family = "low-fuel-" + fixture.family;
         fixture.name = "btc-lowfuel-" + fixture.name;
         fixture.fuelLimit = fixture.daySteps.front();
+    } else if (options.suite == "stratified-easy" ||
+               options.suite == "stratified-medium" ||
+               options.suite == "stratified-hard" ||
+               options.suite == "stratified-very-hard") {
+        const std::uint64_t profile = seed % 9U;
+        if (profile < 3U) {
+            fixture.family = "low-fuel-" + fixture.family;
+            fixture.name = "low-fuel-" + fixture.name;
+            fixture.fuelLimit = fixture.daySteps.front();
+        } else if (profile >= 6U) {
+            fixture.family = "high-fuel-" + fixture.family;
+            fixture.name = "high-fuel-" + fixture.name;
+            fixture.fuelLimit = 3 * fixture.daySteps.front();
+        }
     } else if (options.suite != "btc-large") {
         throw std::invalid_argument("unknown suite: " + options.suite);
     }
@@ -572,8 +661,11 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     }
 
     udon::MatchLedger ledger;
+    udon::MatchLedger virtualLedger;
+    std::vector<udon::AgentState> virtualAgents = agents;
     const udon::ExactStepSimulator simulator(config);
     const udon::IndependentDayValidator validator(config);
+    const udon::ProtectedSlackRefiner slackRefiner(config);
     std::vector<std::vector<std::int32_t>> ownFootprints(
         static_cast<std::size_t>(config.day_count()),
         std::vector<std::int32_t>(
@@ -589,10 +681,25 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         state.agents = agents;
         state.roadStatuses =
             road_statuses(config, day, ownFootprints, opponentFootprints);
+        udon::DayState planningState = state;
+        if (options.protectedWaitClosedLoop) {
+            planningState.agents = virtualAgents;
+        }
 
         const auto started = std::chrono::steady_clock::now();
-        const udon::DecisionResult decision =
-            engine.solve_day(state, ledger, options.dayBudget);
+        udon::DecisionResult decision =
+            engine.solve_day(
+                planningState,
+                options.protectedWaitClosedLoop ? virtualLedger : ledger,
+                options.dayBudget);
+        std::optional<udon::DecisionResult> refinementDecision;
+        if (options.protectedRefineBudget.count() > 0 &&
+            day == config.day_count()) {
+            refinementDecision = engine.solve_day(
+                planningState,
+                options.protectedWaitClosedLoop ? virtualLedger : ledger,
+                options.protectedRefineBudget);
+        }
         const std::chrono::milliseconds elapsed =
             std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - started);
@@ -606,8 +713,34 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             simulator.simulate(state, decision.candidate.plan, false);
         const udon::SimulationResult independent =
             validator.validate(state, decision.candidate.plan, false);
+        udon::SimulationResult virtualDetailed =
+            simulator.simulate(
+                planningState,
+                decision.candidate.plan,
+                false);
+        const udon::SimulationResult virtualIndependent =
+            validator.validate(
+                planningState,
+                decision.candidate.plan,
+                false);
         std::string mismatch;
-        if (!detailed.valid || !validator.agrees_with(detailed, independent, mismatch)) {
+        const udon::DecisionResult* selectedDecision = &decision;
+        std::uint64_t appliedPlanHash =
+            plan_hash(decision.candidate.plan);
+        std::string virtualMismatch;
+        if (!detailed.valid ||
+            !validator.agrees_with(detailed, independent, mismatch) ||
+            !virtualDetailed.valid ||
+            !validator.agrees_with(
+                virtualDetailed,
+                virtualIndependent,
+                virtualMismatch)) {
+            if (options.protectedWaitClosedLoop) {
+                throw std::runtime_error(
+                    "protected virtual-parent transition invalid for " +
+                    fixture.name + ": actual=" + mismatch +
+                    ", virtual=" + virtualMismatch);
+            }
             ++metrics.invalidPlans;
             const udon::DayPlan wait = udon::emergency_wait_plan(config, state);
             detailed = simulator.simulate(state, wait, false);
@@ -618,17 +751,131 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                 throw std::runtime_error(
                     "fallback validation failed for " + fixture.name + ": " + mismatch);
             }
+            virtualDetailed = detailed;
+            appliedPlanHash = plan_hash(wait);
         } else {
-            engine.record_submitted(decision, elapsed);
+            if (options.protectedWaitDetours &&
+                day < config.day_count()) {
+                const auto protectedDeadline =
+                    options.protectedWaitBudget.count() > 0
+                    ? std::chrono::steady_clock::now() +
+                        options.protectedWaitBudget
+                    : std::chrono::steady_clock::time_point::max();
+                udon::ProtectedSlackResult protectedChoice =
+                    slackRefiner.refine_wait_detours(
+                    state,
+                    ledger,
+                    decision.candidate.plan,
+                    detailed,
+                    protectedDeadline);
+                metrics.protectedWaitPlans +=
+                    protectedChoice.diagnostics.generatedPlans;
+                metrics.protectedWaitValid +=
+                    protectedChoice.diagnostics.validPlans;
+                metrics.protectedWaitLiftable +=
+                    protectedChoice.diagnostics.liftablePlans;
+                metrics.protectedWaitDeadlineDays +=
+                    protectedChoice.diagnostics.deadlineReached ? 1 : 0;
+                if (protectedChoice.improved) {
+                    metrics.protectedWaitBestDay = state.dayNumber;
+                    metrics.protectedWaitParentScore =
+                        udon::OfficialScore::after_day(ledger, detailed.score);
+                    metrics.protectedWaitBestScore =
+                        protectedChoice.scoreAfterToday;
+                    metrics.protectedWaitWitnessAgent =
+                        protectedChoice.witnessAgent;
+                    metrics.protectedWaitWitnessAnchor =
+                        protectedChoice.witnessAnchor;
+                    metrics.protectedWaitWitnessSpot =
+                        protectedChoice.witnessSpot;
+                    metrics.protectedWaitWitnessDuration =
+                        protectedChoice.witnessDuration;
+                    metrics.protectedWaitWitnessTravelSteps =
+                        protectedChoice.witnessTravelSteps;
+                    metrics.protectedWaitWitnessParentFuel =
+                        protectedChoice.witnessParentFuel;
+                    metrics.protectedWaitWitnessCandidateFuel =
+                        protectedChoice.witnessCandidateFuel;
+                    metrics.protectedWaitWitnessPlanHash =
+                        plan_hash(protectedChoice.plan);
+                }
+                if (options.protectedWaitClosedLoop &&
+                    protectedChoice.improved) {
+                    detailed = protectedChoice.simulation;
+                    appliedPlanHash = plan_hash(protectedChoice.plan);
+                    ++metrics.protectedWaitTakeovers;
+                }
+            }
+            if (refinementDecision.has_value() &&
+                day == config.day_count()) {
+                ++metrics.protectedTerminalAttempts;
+                const udon::SimulationResult refinedDetailed =
+                    simulator.simulate(
+                        state,
+                        refinementDecision->candidate.plan,
+                        false);
+                const udon::SimulationResult refinedIndependent =
+                    validator.validate(
+                        state,
+                        refinementDecision->candidate.plan,
+                        false);
+                std::string refinedMismatch;
+                metrics.protectedTerminalParentScore =
+                    udon::OfficialScore::after_day(ledger, detailed.score);
+                if (!refinedDetailed.valid ||
+                    !validator.agrees_with(
+                        refinedDetailed,
+                        refinedIndependent,
+                        refinedMismatch)) {
+                    ++metrics.protectedTerminalInvalid;
+                } else {
+                    metrics.protectedTerminalRefinedScore =
+                        udon::OfficialScore::after_day(
+                            ledger,
+                            refinedDetailed.score);
+                    if (metrics.protectedTerminalParentScore <
+                        metrics.protectedTerminalRefinedScore) {
+                        detailed = refinedDetailed;
+                        selectedDecision = &*refinementDecision;
+                        ++metrics.protectedTerminalTakeovers;
+                    }
+                }
+            }
+            engine.record_submitted(*selectedDecision, elapsed);
+        }
+        if (options.protectedWaitClosedLoop &&
+            day < config.day_count() &&
+            !udon::protected_slack_transition_dominates(
+                virtualDetailed,
+                detailed)) {
+            throw std::runtime_error(
+                "protected virtual-parent state relation failed for " +
+                fixture.name + " on day " + std::to_string(day));
         }
         ledger.apply(detailed.score);
+        if (options.protectedWaitClosedLoop) {
+            virtualLedger.apply(virtualDetailed.score);
+            if (!udon::protected_slack_ledger_dominates(
+                    virtualLedger,
+                    ledger)) {
+                throw std::runtime_error(
+                    "protected virtual-parent ledger relation failed for " +
+                    fixture.name + " on day " + std::to_string(day));
+            }
+            metrics.protectedVirtualDayScores.push_back(
+                udon::OfficialScore{
+                    virtualLedger.lifetime_distinct(),
+                    virtualLedger.totalDailyDistinct,
+                    virtualLedger.totalServings,
+                });
+        }
         metrics.exactDayScores.push_back(detailed.score);
         metrics.cumulativeDayScores.push_back(udon::OfficialScore{
             ledger.lifetime_distinct(),
             ledger.totalDailyDistinct,
             ledger.totalServings,
         });
-        metrics.planHashes.push_back(plan_hash(decision.candidate.plan));
+        metrics.planHashes.push_back(appliedPlanHash);
         metrics.deadlineDays.push_back(decision.diagnostics.deadlineReached);
         metrics.exactSupportedAgents.push_back(
             decision.audit.columnGeneration.exactOrienteeringSupportedAgents);
@@ -639,6 +886,9 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         metrics.exactLocalServings.push_back(
             decision.audit.columnGeneration.exactOrienteeringLocalServings);
         agents = detailed.finalAgents;
+        if (options.protectedWaitClosedLoop) {
+            virtualAgents = virtualDetailed.finalAgents;
+        }
         ownFootprints.at(static_cast<std::size_t>(day - 1)) =
             detailed.roadFootprint;
     }
@@ -648,6 +898,13 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         ledger.totalDailyDistinct,
         ledger.totalServings,
     };
+    if (options.protectedWaitClosedLoop) {
+        metrics.protectedVirtualScore = udon::OfficialScore{
+            virtualLedger.lifetime_distinct(),
+            virtualLedger.totalDailyDistinct,
+            virtualLedger.totalServings,
+        };
+    }
     return metrics;
 }
 
@@ -679,6 +936,17 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             options.roleMode = next();
         } else if (value == "--role-mask") {
             options.fixedRoleMask = static_cast<std::uint32_t>(std::stoul(next()));
+        } else if (value == "--protected-refine-ms") {
+            options.protectedRefineBudget =
+                std::chrono::milliseconds{std::stoll(next())};
+        } else if (value == "--protected-wait-ms") {
+            options.protectedWaitBudget =
+                std::chrono::milliseconds{std::stoll(next())};
+        } else if (value == "--protected-wait-detours") {
+            options.protectedWaitDetours = true;
+        } else if (value == "--protected-wait-closed-loop") {
+            options.protectedWaitDetours = true;
+            options.protectedWaitClosedLoop = true;
         } else if (value == "--day-details") {
             options.dayDetails = true;
         } else {
@@ -687,7 +955,9 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     }
     if (options.version.empty() || options.track.empty() ||
         options.seedCount <= 0 || options.dayBudget.count() <= 0 ||
-        options.roleBudget.count() <= 0) {
+        options.roleBudget.count() <= 0 ||
+        options.protectedRefineBudget.count() < 0 ||
+        options.protectedWaitBudget.count() < 0) {
         throw std::invalid_argument(
             "--version, --track, positive --seeds, --budget-ms and --role-ms are required");
     }
@@ -743,6 +1013,55 @@ void print_result(
                      metrics.exactSettledStates.end(),
                      std::uint64_t{0})
               << ",role_ms=" << metrics.roleMilliseconds
+              << ",protected_terminal_attempts="
+              << metrics.protectedTerminalAttempts
+              << ",protected_terminal_takeovers="
+              << metrics.protectedTerminalTakeovers
+              << ",protected_terminal_invalid="
+              << metrics.protectedTerminalInvalid
+              << ",protected_terminal_parent="
+              << metrics.protectedTerminalParentScore.lifetimeDistinct << '/'
+              << metrics.protectedTerminalParentScore.totalDailyDistinct << '/'
+              << metrics.protectedTerminalParentScore.totalServings
+              << ",protected_terminal_refined="
+              << metrics.protectedTerminalRefinedScore.lifetimeDistinct << '/'
+              << metrics.protectedTerminalRefinedScore.totalDailyDistinct << '/'
+              << metrics.protectedTerminalRefinedScore.totalServings
+              << ",protected_wait_plans=" << metrics.protectedWaitPlans
+              << ",protected_wait_valid=" << metrics.protectedWaitValid
+              << ",protected_wait_liftable=" << metrics.protectedWaitLiftable
+              << ",protected_wait_best_day=" << metrics.protectedWaitBestDay
+              << ",protected_wait_parent="
+              << metrics.protectedWaitParentScore.lifetimeDistinct << '/'
+              << metrics.protectedWaitParentScore.totalDailyDistinct << '/'
+              << metrics.protectedWaitParentScore.totalServings
+              << ",protected_wait_best="
+              << metrics.protectedWaitBestScore.lifetimeDistinct << '/'
+              << metrics.protectedWaitBestScore.totalDailyDistinct << '/'
+              << metrics.protectedWaitBestScore.totalServings
+              << ",protected_wait_takeovers="
+              << metrics.protectedWaitTakeovers
+              << ",protected_wait_deadline_days="
+              << metrics.protectedWaitDeadlineDays
+              << ",protected_virtual_score="
+              << metrics.protectedVirtualScore.lifetimeDistinct << '/'
+              << metrics.protectedVirtualScore.totalDailyDistinct << '/'
+              << metrics.protectedVirtualScore.totalServings
+              << ",protected_wait_witness_agent="
+              << metrics.protectedWaitWitnessAgent
+              << ",protected_wait_witness_anchor="
+              << metrics.protectedWaitWitnessAnchor
+              << ",protected_wait_witness_spot="
+              << metrics.protectedWaitWitnessSpot
+              << ",protected_wait_witness_duration="
+              << metrics.protectedWaitWitnessDuration
+              << ",protected_wait_witness_travel="
+              << metrics.protectedWaitWitnessTravelSteps
+              << ",protected_wait_witness_fuel="
+              << metrics.protectedWaitWitnessParentFuel << '/'
+              << metrics.protectedWaitWitnessCandidateFuel
+              << ",protected_wait_witness_hash="
+              << metrics.protectedWaitWitnessPlanHash
               << ",mean_ms=" << meanMilliseconds
               << ",p95_ms=" << percentile(metrics.responseTimes, 95)
               << ",max_ms=" << percentile(metrics.responseTimes, 100)
@@ -762,6 +1081,17 @@ void print_result(
                       << ",cumulative=" << cumulative.lifetimeDistinct
                       << '/' << cumulative.totalDailyDistinct
                       << '/' << cumulative.totalServings
+                      << ",virtual_cumulative=";
+            if (day < metrics.protectedVirtualDayScores.size()) {
+                const udon::OfficialScore& virtualCumulative =
+                    metrics.protectedVirtualDayScores.at(day);
+                std::cout << virtualCumulative.lifetimeDistinct << '/'
+                          << virtualCumulative.totalDailyDistinct << '/'
+                          << virtualCumulative.totalServings;
+            } else {
+                std::cout << "0/0/0";
+            }
+            std::cout
                       << ",plan_hash=" << metrics.planHashes.at(day)
                       << ",response_ms=" << metrics.responseTimes.at(day)
                       << ",deadline=" << (metrics.deadlineDays.at(day) ? 1 : 0)
