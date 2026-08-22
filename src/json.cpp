@@ -53,7 +53,7 @@ private:
             return JsonValue(parse_object(depth + 1U));
         default:
             if (source_[offset_] == '-' || is_digit(source_[offset_])) {
-                return JsonValue(parse_number());
+                return parse_number();
             }
             fail("invalid JSON value");
         }
@@ -214,8 +214,9 @@ private:
         }
     }
 
-    [[nodiscard]] double parse_number() {
+    [[nodiscard]] JsonValue parse_number() {
         const std::size_t numberStart = offset_;
+        bool integralSyntax = true;
         consume_if('-');
         if (offset_ >= source_.size()) {
             fail("incomplete number");
@@ -229,6 +230,7 @@ private:
             consume_digits();
         }
         if (consume_if('.')) {
+            integralSyntax = false;
             const std::size_t fractionStart = offset_;
             consume_digits();
             if (fractionStart == offset_) {
@@ -236,6 +238,7 @@ private:
             }
         }
         if (offset_ < source_.size() && (source_[offset_] == 'e' || source_[offset_] == 'E')) {
+            integralSyntax = false;
             ++offset_;
             if (offset_ < source_.size() && (source_[offset_] == '+' || source_[offset_] == '-')) {
                 ++offset_;
@@ -247,12 +250,22 @@ private:
             }
         }
         const std::string numberText(source_.substr(numberStart, offset_ - numberStart));
+        if (integralSyntax) {
+            std::int64_t integer = 0;
+            const auto [parseEnd, error] = std::from_chars(
+                numberText.data(),
+                numberText.data() + numberText.size(),
+                integer);
+            if (error == std::errc{} && parseEnd == numberText.data() + numberText.size()) {
+                return JsonValue(integer);
+            }
+        }
         char* parseEnd = nullptr;
         const double parsed = std::strtod(numberText.c_str(), &parseEnd);
         if (parseEnd == nullptr || *parseEnd != '\0' || !std::isfinite(parsed)) {
             fail("invalid number");
         }
-        return parsed;
+        return JsonValue(parsed);
     }
 
     void consume_digits() {
@@ -358,10 +371,14 @@ void append_json(std::string& output, const JsonValue& value) {
         return;
     }
     if (value.is_number()) {
+        if (value.is_integer_number()) {
+            output += std::to_string(value.integer());
+            return;
+        }
         const double number = value.number();
         const double integral = std::trunc(number);
         if (integral == number && integral >= static_cast<double>(std::numeric_limits<std::int64_t>::min()) &&
-            integral <= static_cast<double>(std::numeric_limits<std::int64_t>::max())) {
+            integral < 9223372036854775808.0) {
             output += std::to_string(static_cast<std::int64_t>(integral));
             return;
         }
@@ -421,7 +438,7 @@ JsonValue::JsonValue(double value)
     : storage_(value) {}
 
 JsonValue::JsonValue(std::int64_t value)
-    : storage_(static_cast<double>(value)) {}
+    : storage_(value) {}
 
 JsonValue::JsonValue(std::string value)
     : storage_(std::move(value)) {}
@@ -455,7 +472,12 @@ bool JsonValue::is_bool() const {
 }
 
 bool JsonValue::is_number() const {
-    return std::holds_alternative<double>(storage_);
+    return std::holds_alternative<std::int64_t>(storage_) ||
+        std::holds_alternative<double>(storage_);
+}
+
+bool JsonValue::is_integer_number() const {
+    return std::holds_alternative<std::int64_t>(storage_);
 }
 
 bool JsonValue::is_string() const {
@@ -475,14 +497,20 @@ bool JsonValue::boolean() const {
 }
 
 double JsonValue::number() const {
+    if (const std::int64_t* integer = std::get_if<std::int64_t>(&storage_)) {
+        return static_cast<double>(*integer);
+    }
     return require_type<double>(storage_, "JSON value is not a number");
 }
 
 std::int64_t JsonValue::integer() const {
+    if (const std::int64_t* integer = std::get_if<std::int64_t>(&storage_)) {
+        return *integer;
+    }
     const double rawNumber = number();
     if (!std::isfinite(rawNumber) || std::trunc(rawNumber) != rawNumber ||
         rawNumber < static_cast<double>(std::numeric_limits<std::int64_t>::min()) ||
-        rawNumber > static_cast<double>(std::numeric_limits<std::int64_t>::max())) {
+        rawNumber >= 9223372036854775808.0) {
         throw JsonError("JSON number is not a signed 64-bit integer");
     }
     return static_cast<std::int64_t>(rawNumber);

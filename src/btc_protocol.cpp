@@ -79,18 +79,6 @@ namespace {
     return JsonValue(std::move(result));
 }
 
-[[nodiscard]] bool object_boolean(const JsonValue& document, const std::string& key, bool& value) {
-    if (!document.contains(key)) {
-        return false;
-    }
-    const JsonValue& member = document.at(key);
-    if (!member.is_bool()) {
-        throw ProtocolError("BTC action result field " + key + " must be boolean");
-    }
-    value = member.boolean();
-    return true;
-}
-
 }
 
 MatchConfig parse_btc_setup(const JsonValue& document, BtcAdapterOptions options) {
@@ -281,27 +269,50 @@ BtcFrameKind classify_btc_frame(const JsonValue& document) {
 }
 
 bool btc_action_result_accepted(const JsonValue& document) {
-    if (document.is_null()) {
-        return true;
+    if (!document.is_object()) {
+        return false;
     }
-    static_cast<void>(require_object(document, "BTC action result"));
-    bool value = true;
-    for (const std::string key : {"valid", "accepted", "success", "ok"}) {
-        if (object_boolean(document, key, value)) {
-            return value;
+    if (document.contains("day") && !document.at("day").is_null()) {
+        if (!document.at("day").is_number()) {
+            return false;
+        }
+        try {
+            const std::int64_t day = document.at("day").integer();
+            if (day < std::numeric_limits<std::int32_t>::min() ||
+                day > std::numeric_limits<std::int32_t>::max()) {
+                return false;
+            }
+        } catch (const JsonError&) {
+            return false;
         }
     }
+    bool hasStatus = false;
+    bool accepted = true;
+    for (const std::string key : {"valid", "accepted", "success", "ok"}) {
+        if (!document.contains(key)) {
+            continue;
+        }
+        if (!document.at(key).is_bool()) {
+            return false;
+        }
+        hasStatus = true;
+        accepted = accepted && document.at(key).boolean();
+    }
+    bool hasReason = false;
     if (document.contains("reason") && !document.at("reason").is_null()) {
         if (!document.at("reason").is_string()) {
-            throw ProtocolError("BTC action result reason must be a string or null");
+            return false;
         }
-        return document.at("reason").string().empty();
+        hasReason = true;
+        if (!document.at("reason").string().empty()) {
+            return false;
+        }
     }
-    return true;
+    return hasStatus ? accepted : hasReason;
 }
 
 std::optional<std::int32_t> btc_action_result_day(const JsonValue& document) {
-    if (document.is_null()) {
+    if (!document.is_object()) {
         return std::nullopt;
     }
     static_cast<void>(require_object(document, "BTC action result"));
@@ -309,12 +320,17 @@ std::optional<std::int32_t> btc_action_result_day(const JsonValue& document) {
         return std::nullopt;
     }
     if (!document.at("day").is_number()) {
-        throw ProtocolError("BTC action result day must be an integer or null");
+        return std::nullopt;
     }
-    const std::int64_t day = document.at("day").integer();
+    std::int64_t day = 0;
+    try {
+        day = document.at("day").integer();
+    } catch (const JsonError&) {
+        return std::nullopt;
+    }
     if (day < std::numeric_limits<std::int32_t>::min() ||
         day > std::numeric_limits<std::int32_t>::max()) {
-        throw ProtocolError("BTC action result day is out of range");
+        return std::nullopt;
     }
     return static_cast<std::int32_t>(day);
 }

@@ -497,6 +497,14 @@ public:
         const DecisionResult& decision,
         std::chrono::milliseconds responseTime);
 
+    void record_applied_transition(
+        const DayState& state,
+        const SimulationResult& simulation);
+
+    void restore_response_artifacts(
+        std::vector<ResponseLedger::CachedContingency> cachedContingencies,
+        std::vector<ResponseLedger::StrongProofRecord> strongProofs);
+
     [[nodiscard]] std::int32_t precompute_next_day_contingencies(
         const DayState& state,
         const MatchLedger& ledger,
@@ -511,6 +519,7 @@ public:
 
     [[nodiscard]] bool may_submit(const DecisionResult& decision) const;
     [[nodiscard]] const ResponseLedger& response_ledger() const;
+    [[nodiscard]] const std::vector<std::int32_t>& previous_own_footprint() const;
     [[nodiscard]] std::chrono::milliseconds remaining_post_ack_compute_budget() const;
 
 private:

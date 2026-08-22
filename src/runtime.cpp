@@ -132,6 +132,29 @@ void MatchSession::reject_pending_submission() {
     pendingLedger_.reset();
 }
 
+void MatchSession::record_applied_transition(
+    const DayState& state,
+    const SimulationResult& simulation) {
+    if (pendingDecision_.has_value()) {
+        throw std::logic_error("a pending submission must be rejected before recording an external transition");
+    }
+    engine_.record_applied_transition(state, simulation);
+    acknowledgedDecision_.reset();
+    acknowledgedState_.reset();
+    acknowledgedLedger_.reset();
+}
+
+void MatchSession::restore_response_artifacts(
+    std::vector<ResponseLedger::CachedContingency> cachedContingencies,
+    std::vector<ResponseLedger::StrongProofRecord> strongProofs) {
+    if (pendingDecision_.has_value()) {
+        throw std::logic_error("cannot restore response artifacts with a pending submission");
+    }
+    engine_.restore_response_artifacts(
+        std::move(cachedContingencies),
+        std::move(strongProofs));
+}
+
 std::int32_t MatchSession::precompute_until(std::chrono::milliseconds available) {
     if (available.count() < 0) {
         throw std::invalid_argument("precompute budget cannot be negative");
@@ -178,6 +201,10 @@ bool MatchSession::has_pending_submission() const {
 
 const ResponseLedger& MatchSession::response_ledger() const {
     return engine_.response_ledger();
+}
+
+const std::vector<std::int32_t>& MatchSession::previous_own_footprint() const {
+    return engine_.previous_own_footprint();
 }
 
 std::chrono::milliseconds MatchSession::remaining_post_ack_compute_budget() const {

@@ -206,9 +206,18 @@ void test_btc_official_wire_adapter() {
         "BTC recovery WAIT must exactly fill every agent budget");
     require(udon::btc_action_result_accepted(udon::JsonValue::parse(R"({"valid":true})")),
         "BTC valid action result must be accepted");
+    require(!udon::btc_action_result_accepted(udon::JsonValue(nullptr)),
+        "an empty BTC action result must fail closed");
+    require(!udon::btc_action_result_accepted(udon::JsonValue("not-json")),
+        "a non-object BTC action result must fail closed without throwing");
+    require(!udon::btc_action_result_accepted(udon::JsonValue::parse(R"({})")),
+        "an unrecognized BTC action result object must fail closed");
     require(!udon::btc_action_result_accepted(
             udon::JsonValue::parse(R"({"reason":"E_NO_FUEL"})")),
         "BTC reason code must reject an invalid action result");
+    require(!udon::btc_action_result_accepted(
+            udon::JsonValue::parse(R"({"valid":true,"reason":"E_STALE"})")),
+        "a rejection reason must override a conflicting positive status");
     require(
         udon::btc_action_result_day(
             udon::JsonValue::parse(R"({"day":3,"valid":true})")) == 3,
@@ -217,6 +226,21 @@ void test_btc_official_wire_adapter() {
         !udon::btc_action_result_day(
              udon::JsonValue::parse(R"({"valid":true})")).has_value(),
         "BTC action result without a day must remain explicitly unknown");
+
+    const udon::JsonValue maximumInteger = udon::JsonValue::parse("9223372036854775807");
+    require(
+        maximumInteger.integer() == std::numeric_limits<std::int64_t>::max() &&
+            maximumInteger.dump() == "9223372036854775807",
+        "JSON must preserve the signed 64-bit maximum exactly");
+    const udon::JsonValue minimumInteger = udon::JsonValue::parse("-9223372036854775808");
+    require(
+        minimumInteger.integer() == std::numeric_limits<std::int64_t>::min() &&
+            minimumInteger.dump() == "-9223372036854775808",
+        "JSON must preserve the signed 64-bit minimum exactly");
+    const udon::JsonValue outsideInteger = udon::JsonValue::parse("9223372036854775808");
+    require_throws(
+        [&]() { static_cast<void>(outsideInteger.integer()); },
+        "JSON integer conversion must reject values above the signed 64-bit range");
 
     require_throws(
         [&]() {
@@ -4239,6 +4263,14 @@ void test_match_session_ack_and_precompute(const udon::MatchConfig& config, cons
         postAck.cachedContingencies > 0 &&
             !session.response_ledger().cachedContingencies.empty(),
         "ACK idle budget must automatically cache at least the fail-closed next-day contingency");
+    udon::MatchSession restoredArtifactsSession(config);
+    restoredArtifactsSession.restore_response_artifacts(
+        session.response_ledger().cachedContingencies,
+        session.response_ledger().strongProofs);
+    require(
+        restoredArtifactsSession.response_ledger().cachedContingencies.size() ==
+            session.response_ledger().cachedContingencies.size(),
+        "a cold resume must retain every completed cached contingency");
     udon::DayState proofState = state;
     proofState.dayNumber = 3;
     udon::MatchSession proofSession(config);
@@ -4254,6 +4286,15 @@ void test_match_session_ack_and_precompute(const udon::MatchConfig& config, cons
         proofWork.completedProofs > 0 &&
             !proofSession.response_ledger().strongProofs.empty(),
         "ACK idle budget must complete at least one frozen-scenario horizon proof");
+    restoredArtifactsSession.restore_response_artifacts(
+        proofSession.response_ledger().cachedContingencies,
+        proofSession.response_ledger().strongProofs);
+    require(
+        restoredArtifactsSession.response_ledger().strongProofs.size() ==
+            proofSession.response_ledger().strongProofs.size() &&
+            restoredArtifactsSession.response_ledger().strongProofs.front().bestScore ==
+                proofSession.response_ledger().strongProofs.front().bestScore,
+        "a cold resume must retain every completed strong-proof result");
     const udon::ResponseLedger::StrongProofRecord& proof =
         proofSession.response_ledger().strongProofs.front();
     require(
@@ -4261,6 +4302,42 @@ void test_match_session_ack_and_precompute(const udon::MatchConfig& config, cons
             proof.scope == "remaining-horizon-persistent-frozen-scenario-route-portfolios-v1" &&
             udon::compare_lexicographic(proof.bestScore, proof.upperBound) == 0,
         "completed strong proof must close its exact portfolio score gap");
+}
+
+void test_match_session_records_external_wait_traffic(
+    const udon::MatchConfig& config,
+    const udon::DayState& state) {
+    udon::ExactStepSimulator simulator(config);
+    udon::MatchSession session(config);
+    udon::DayState dayOne = state;
+    dayOne.dayNumber = 1;
+    dayOne.agents.front().position = config.roadCells.front();
+    const udon::DayPlan dayOneWait = udon::make_wait_plan(config, 1);
+    const udon::SimulationResult dayOneSimulation = simulator.simulate(
+        dayOne,
+        dayOneWait,
+        false);
+    require(dayOneSimulation.valid,
+        "external WAIT traffic fixture must be valid");
+    require(
+        dayOneSimulation.roadFootprint.at(
+            static_cast<std::size_t>(config.roadCells.front())) > 0,
+        "WAIT on a road must contribute to the exact own footprint");
+    session.record_applied_transition(dayOne, dayOneSimulation);
+
+    udon::DayState dayTwo = dayOne;
+    dayTwo.dayNumber = 2;
+    dayTwo.agents = dayOneSimulation.finalAgents;
+    const udon::SimulationResult dayTwoSimulation = simulator.simulate(
+        dayTwo,
+        udon::make_wait_plan(config, 2),
+        false);
+    require(dayTwoSimulation.valid,
+        "second external WAIT traffic fixture must be valid");
+    session.record_applied_transition(dayTwo, dayTwoSimulation);
+    require(
+        session.previous_own_footprint() == dayOneSimulation.roadFootprint,
+        "resume and fallback transitions must restore the previous-day WAIT footprint");
 }
 
 void test_expired_witness_respects_deadline(const udon::MatchConfig& config, const udon::DayState& state) {
@@ -4376,6 +4453,7 @@ int main() {
         test_normal_decision_requires_certified_witnesses(config, state);
         test_w0_reuses_only_revalidated_cached_contingency(config, state);
         test_match_session_ack_and_precompute(config, state);
+        test_match_session_records_external_wait_traffic(config, state);
         test_expired_witness_respects_deadline(config, state);
         std::cout << "all tests passed\n";
         return EXIT_SUCCESS;

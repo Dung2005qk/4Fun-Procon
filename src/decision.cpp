@@ -5258,6 +5258,49 @@ void UdonShieldEngine::record_submitted(
         competition_compute_budget(decision.timing.total);
 }
 
+void UdonShieldEngine::record_applied_transition(
+    const DayState& state,
+    const SimulationResult& simulation) {
+    if (!simulation.valid) {
+        throw std::invalid_argument("cannot record an invalid applied transition");
+    }
+    if (state.dayNumber < 1 || state.dayNumber > config_.day_count()) {
+        throw std::invalid_argument("applied transition has an invalid day number");
+    }
+    if (simulation.finalAgents.size() != state.agents.size()) {
+        throw std::invalid_argument("applied transition has an invalid final agent count");
+    }
+    belief_.observe(state);
+    previousOwnFootprintBeforeLastSubmission_ = belief_.previous_own_footprint();
+    belief_.record_own_footprint(state.dayNumber, simulation.roadFootprint);
+    lastSubmittedDay_ = state.dayNumber;
+    expectedNextAgents_ = simulation.finalAgents;
+    ledger_.lastProfile.reset();
+    ledger_.lastCandidate.reset();
+    ledger_.lastProfileDay.reset();
+    ledger_.cachedContingencies.clear();
+    ledger_.strongProofs.clear();
+    remainingPostAckComputeBudget_ = std::chrono::milliseconds{0};
+}
+
+void UdonShieldEngine::restore_response_artifacts(
+    std::vector<ResponseLedger::CachedContingency> cachedContingencies,
+    std::vector<ResponseLedger::StrongProofRecord> strongProofs) {
+    for (const ResponseLedger::CachedContingency& contingency : cachedContingencies) {
+        if (contingency.dayNumber < 1 || contingency.dayNumber > config_.day_count() ||
+            contingency.plan.actions.size() != static_cast<std::size_t>(config_.agent_count())) {
+            throw std::invalid_argument("restored contingency is outside the match contract");
+        }
+    }
+    for (const ResponseLedger::StrongProofRecord& proof : strongProofs) {
+        if (proof.dayNumber < 1 || proof.dayNumber > config_.day_count()) {
+            throw std::invalid_argument("restored strong proof is outside the match contract");
+        }
+    }
+    ledger_.cachedContingencies = std::move(cachedContingencies);
+    ledger_.strongProofs = std::move(strongProofs);
+}
+
 namespace {
 
 void consume_background_compute_budget(
@@ -5571,6 +5614,10 @@ std::int32_t UdonShieldEngine::prove_remaining_horizon(
 
 const ResponseLedger& UdonShieldEngine::response_ledger() const {
     return ledger_;
+}
+
+const std::vector<std::int32_t>& UdonShieldEngine::previous_own_footprint() const {
+    return belief_.previous_own_footprint();
 }
 
 std::chrono::milliseconds UdonShieldEngine::remaining_post_ack_compute_budget() const {

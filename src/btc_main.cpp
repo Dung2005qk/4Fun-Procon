@@ -8,11 +8,13 @@
 #include <iostream>
 #include <limits>
 #include <optional>
+#include <set>
 #include <stdexcept>
 #include <string>
 #include <string_view>
 #include <thread>
 #include <utility>
+#include <vector>
 
 #ifdef _WIN32
 #define NOMINMAX
@@ -289,7 +291,31 @@ void print_usage() {
     return simulation;
 }
 
+[[nodiscard]] std::optional<udon::SimulationResult> try_validate_plan(
+    const udon::DayState& state,
+    const udon::DayPlan& plan,
+    const udon::ExactStepSimulator& simulator,
+    const udon::IndependentDayValidator& validator,
+    std::string& failure) {
+    try {
+        return validate_fallback_plan(
+            state,
+            plan,
+            simulator,
+            validator,
+            "plan revalidation failed");
+    } catch (const std::exception& error) {
+        failure = error.what();
+        return std::nullopt;
+    }
+}
+
 struct ReplayResumeState {
+    struct AcceptedTransition {
+        udon::DayState state;
+        udon::SimulationResult simulation;
+    };
+
     std::optional<udon::JsonValue> assignment;
     bool assignmentAccepted = false;
     udon::MatchLedger ledger;
@@ -297,7 +323,234 @@ struct ReplayResumeState {
     std::optional<std::vector<udon::AgentState>> virtualAgents;
     bool protectedDivergenceActive = false;
     std::int32_t lastAcceptedWireDay = -1;
+    std::vector<AcceptedTransition> acceptedTransitions;
+    std::optional<std::int32_t> artifactsAfterDay;
+    std::vector<udon::ResponseLedger::CachedContingency> cachedContingencies;
+    std::vector<udon::ResponseLedger::StrongProofRecord> strongProofs;
 };
+
+[[nodiscard]] std::int32_t checkpoint_integer(
+    const udon::JsonValue& value,
+    const std::string& field) {
+    if (!value.is_number()) {
+        throw std::runtime_error("BTC session checkpoint field " + field + " is not an integer");
+    }
+    const std::int64_t integer = value.integer();
+    if (integer < std::numeric_limits<std::int32_t>::min() ||
+        integer > std::numeric_limits<std::int32_t>::max()) {
+        throw std::runtime_error("BTC session checkpoint field " + field + " is out of range");
+    }
+    return static_cast<std::int32_t>(integer);
+}
+
+[[nodiscard]] udon::JsonValue serialize_checkpoint_score(
+    const udon::OfficialScore& score) {
+    udon::JsonValue::Object object;
+    object.emplace("lifetimeDistinct", udon::JsonValue(static_cast<std::int64_t>(score.lifetimeDistinct)));
+    object.emplace("totalDailyDistinct", udon::JsonValue(static_cast<std::int64_t>(score.totalDailyDistinct)));
+    object.emplace("totalServings", udon::JsonValue(static_cast<std::int64_t>(score.totalServings)));
+    return udon::JsonValue(std::move(object));
+}
+
+[[nodiscard]] udon::OfficialScore parse_checkpoint_score(
+    const udon::JsonValue& document) {
+    if (!document.is_object()) {
+        throw std::runtime_error("BTC session checkpoint score is not an object");
+    }
+    return udon::OfficialScore{
+        checkpoint_integer(document.at("lifetimeDistinct"), "lifetimeDistinct"),
+        checkpoint_integer(document.at("totalDailyDistinct"), "totalDailyDistinct"),
+        checkpoint_integer(document.at("totalServings"), "totalServings"),
+    };
+}
+
+[[nodiscard]] udon::JsonValue serialize_checkpoint_witness(
+    const udon::FutureWitness& witness) {
+    udon::JsonValue::Array plans;
+    plans.reserve(witness.futurePlans.size());
+    for (const udon::DayPlan& plan : witness.futurePlans) {
+        plans.push_back(udon::serialize_day_plan(plan));
+    }
+    udon::JsonValue::Object object;
+    object.emplace("futurePlans", udon::JsonValue(std::move(plans)));
+    object.emplace("score", serialize_checkpoint_score(witness.score));
+    object.emplace("certified", udon::JsonValue(witness.certified));
+    object.emplace("lowerBoundOnly", udon::JsonValue(witness.lowerBoundOnly));
+    return udon::JsonValue(std::move(object));
+}
+
+[[nodiscard]] udon::FutureWitness parse_checkpoint_witness(
+    const udon::MatchConfig& config,
+    const udon::JsonValue& document) {
+    if (!document.is_object() || !document.at("futurePlans").is_array() ||
+        !document.at("certified").is_bool() ||
+        !document.at("lowerBoundOnly").is_bool()) {
+        throw std::runtime_error("BTC session checkpoint witness has an invalid shape");
+    }
+    udon::FutureWitness witness;
+    for (const udon::JsonValue& plan : document.at("futurePlans").array()) {
+        witness.futurePlans.push_back(udon::parse_day_plan(config, plan));
+    }
+    witness.score = parse_checkpoint_score(document.at("score"));
+    witness.certified = document.at("certified").boolean();
+    witness.lowerBoundOnly = document.at("lowerBoundOnly").boolean();
+    return witness;
+}
+
+[[nodiscard]] udon::JsonValue serialize_session_checkpoint(
+    std::int32_t acceptedDay,
+    const udon::ResponseLedger& ledger) {
+    udon::JsonValue::Array contingencies;
+    contingencies.reserve(ledger.cachedContingencies.size());
+    for (const udon::ResponseLedger::CachedContingency& contingency :
+         ledger.cachedContingencies) {
+        udon::JsonValue::Object object;
+        object.emplace("day", udon::JsonValue(static_cast<std::int64_t>(contingency.dayNumber)));
+        object.emplace("scenarioId", udon::JsonValue(static_cast<std::int64_t>(contingency.scenarioId)));
+        object.emplace("scenarioClass", udon::JsonValue(contingency.scenarioClass));
+        object.emplace("plan", udon::serialize_day_plan(contingency.plan));
+        object.emplace(
+            "certifiedSuffix",
+            contingency.certifiedSuffix.has_value()
+                ? serialize_checkpoint_witness(*contingency.certifiedSuffix)
+                : udon::JsonValue(nullptr));
+        contingencies.emplace_back(std::move(object));
+    }
+    udon::JsonValue::Array proofs;
+    proofs.reserve(ledger.strongProofs.size());
+    for (const udon::ResponseLedger::StrongProofRecord& proof : ledger.strongProofs) {
+        udon::JsonValue::Object object;
+        object.emplace("day", udon::JsonValue(static_cast<std::int64_t>(proof.dayNumber)));
+        object.emplace("scenarioId", udon::JsonValue(static_cast<std::int64_t>(proof.scenarioId)));
+        object.emplace("scenarioClass", udon::JsonValue(proof.scenarioClass));
+        object.emplace("scope", udon::JsonValue(proof.scope));
+        object.emplace("bestScore", serialize_checkpoint_score(proof.bestScore));
+        object.emplace("upperBound", serialize_checkpoint_score(proof.upperBound));
+        object.emplace("combinationsVisited", udon::JsonValue(static_cast<std::int64_t>(proof.combinationsVisited)));
+        object.emplace("branchesPruned", udon::JsonValue(static_cast<std::int64_t>(proof.branchesPruned)));
+        object.emplace("complete", udon::JsonValue(proof.complete));
+        object.emplace("infeasible", udon::JsonValue(proof.infeasible));
+        proofs.emplace_back(std::move(object));
+    }
+    udon::JsonValue::Object checkpoint;
+    checkpoint.emplace("acceptedDay", udon::JsonValue(static_cast<std::int64_t>(acceptedDay)));
+    checkpoint.emplace("cachedContingencies", udon::JsonValue(std::move(contingencies)));
+    checkpoint.emplace("strongProofs", udon::JsonValue(std::move(proofs)));
+    return udon::JsonValue(std::move(checkpoint));
+}
+
+void parse_session_checkpoint(
+    const udon::MatchConfig& config,
+    const udon::JsonValue& document,
+    ReplayResumeState& resume) {
+    if (!document.is_object() ||
+        !document.at("cachedContingencies").is_array() ||
+        !document.at("strongProofs").is_array()) {
+        throw std::runtime_error("BTC session checkpoint has an invalid shape");
+    }
+    const std::int32_t acceptedDay = checkpoint_integer(
+        document.at("acceptedDay"),
+        "acceptedDay");
+    if (acceptedDay != resume.lastAcceptedWireDay + 1) {
+        throw std::runtime_error("BTC session checkpoint is not attached to the latest accepted day");
+    }
+    std::vector<udon::ResponseLedger::CachedContingency> contingencies;
+    for (const udon::JsonValue& value : document.at("cachedContingencies").array()) {
+        if (!value.is_object() || !value.at("scenarioClass").is_string()) {
+            throw std::runtime_error("BTC cached contingency has an invalid shape");
+        }
+        udon::ResponseLedger::CachedContingency contingency;
+        contingency.dayNumber = checkpoint_integer(value.at("day"), "contingency.day");
+        contingency.scenarioId = checkpoint_integer(value.at("scenarioId"), "contingency.scenarioId");
+        contingency.scenarioClass = value.at("scenarioClass").string();
+        contingency.plan = udon::parse_day_plan(config, value.at("plan"));
+        if (!value.at("certifiedSuffix").is_null()) {
+            contingency.certifiedSuffix = parse_checkpoint_witness(
+                config,
+                value.at("certifiedSuffix"));
+        }
+        contingencies.push_back(std::move(contingency));
+    }
+    std::vector<udon::ResponseLedger::StrongProofRecord> proofs;
+    for (const udon::JsonValue& value : document.at("strongProofs").array()) {
+        if (!value.is_object() || !value.at("scenarioClass").is_string() ||
+            !value.at("scope").is_string() || !value.at("complete").is_bool() ||
+            !value.at("infeasible").is_bool()) {
+            throw std::runtime_error("BTC strong proof checkpoint has an invalid shape");
+        }
+        udon::ResponseLedger::StrongProofRecord proof;
+        proof.dayNumber = checkpoint_integer(value.at("day"), "proof.day");
+        proof.scenarioId = checkpoint_integer(value.at("scenarioId"), "proof.scenarioId");
+        proof.scenarioClass = value.at("scenarioClass").string();
+        proof.scope = value.at("scope").string();
+        proof.bestScore = parse_checkpoint_score(value.at("bestScore"));
+        proof.upperBound = parse_checkpoint_score(value.at("upperBound"));
+        proof.combinationsVisited = checkpoint_integer(value.at("combinationsVisited"), "proof.combinationsVisited");
+        proof.branchesPruned = checkpoint_integer(value.at("branchesPruned"), "proof.branchesPruned");
+        proof.complete = value.at("complete").boolean();
+        proof.infeasible = value.at("infeasible").boolean();
+        proofs.push_back(std::move(proof));
+    }
+    resume.artifactsAfterDay = acceptedDay;
+    resume.cachedContingencies = std::move(contingencies);
+    resume.strongProofs = std::move(proofs);
+}
+
+[[nodiscard]] std::vector<udon::ResponseLedger::CachedContingency>
+reconstruct_initial_contingencies(
+    const udon::MatchConfig& config,
+    const udon::JsonValue& replayDecision) {
+    const udon::JsonValue& decision = replayDecision.at("decision");
+    const std::int32_t decisionDay = checkpoint_integer(
+        decision.at("dayNumber"),
+        "decision.dayNumber");
+    const udon::JsonValue::Array& outcomes =
+        decision.at("profile").at("outcomes").array();
+    const udon::JsonValue::Array& scenarios =
+        decision.at("manifest").at("scenarios").array();
+    std::set<std::string> planIds;
+    std::vector<udon::ResponseLedger::CachedContingency> contingencies;
+    for (std::size_t index = 0; index < outcomes.size(); ++index) {
+        const udon::JsonValue& outcome = outcomes.at(index);
+        if (!outcome.at("certified").is_bool() ||
+            !outcome.at("certified").boolean() ||
+            !outcome.at("futurePlans").is_array() ||
+            outcome.at("futurePlans").array().empty()) {
+            continue;
+        }
+        udon::DayPlan plan = udon::parse_day_plan(
+            config,
+            outcome.at("futurePlans").array().front());
+        const std::string planId = udon::serialize_day_plan(plan).dump();
+        if (!planIds.insert(planId).second) {
+            continue;
+        }
+        udon::ResponseLedger::CachedContingency contingency;
+        contingency.dayNumber = decisionDay + 1;
+        contingency.plan = std::move(plan);
+        if (index < scenarios.size()) {
+            contingency.scenarioId = checkpoint_integer(
+                scenarios.at(index).at("id"),
+                "scenario.id");
+            contingency.scenarioClass = scenarios.at(index).at("class").string();
+        } else {
+            contingency.scenarioId = static_cast<std::int32_t>(index);
+            contingency.scenarioClass = "certified-cache";
+        }
+        if (config.roadCells.empty()) {
+            udon::FutureWitness suffix;
+            for (const udon::JsonValue& futurePlan : outcome.at("futurePlans").array()) {
+                suffix.futurePlans.push_back(udon::parse_day_plan(config, futurePlan));
+            }
+            suffix.score = parse_checkpoint_score(outcome.at("witnessScore"));
+            suffix.certified = true;
+            suffix.lowerBoundOnly = outcome.at("lowerBoundOnly").boolean();
+            contingency.certifiedSuffix = std::move(suffix);
+        }
+        contingencies.push_back(std::move(contingency));
+    }
+    return contingencies;
+}
 
 [[nodiscard]] bool exact_agent_states_equal(
     const std::vector<udon::AgentState>& left,
@@ -341,7 +594,14 @@ struct ReplayResumeState {
     std::optional<udon::DayState> currentVirtualState;
     std::optional<udon::SimulationResult> pendingSimulation;
     std::optional<udon::SimulationResult> pendingVirtualSimulation;
+    std::optional<std::vector<udon::ResponseLedger::CachedContingency>>
+        pendingInitialContingencies;
     std::int32_t pendingWireDay = -1;
+    const auto invalidate_response_artifacts = [&resume]() {
+        resume.artifactsAfterDay.reset();
+        resume.cachedContingencies.clear();
+        resume.strongProofs.clear();
+    };
     std::string line;
     while (std::getline(input, line)) {
         if (line.empty()) {
@@ -358,6 +618,10 @@ struct ReplayResumeState {
                 udon::btc_action_result_accepted(event.at("body"));
             continue;
         }
+        if (kind == "session_checkpoint") {
+            parse_session_checkpoint(config, event.at("body"), resume);
+            continue;
+        }
         if (kind == "day_state") {
             const std::int64_t atUnixMs = event.at("atUnixMs").integer();
             currentState = udon::parse_btc_day_state(
@@ -366,12 +630,24 @@ struct ReplayResumeState {
                 std::chrono::system_clock::time_point{std::chrono::milliseconds{atUnixMs}},
                 adapterOptions);
             currentVirtualState = currentState;
-            if (resume.virtualAgents.has_value()) {
+            if (resume.protectedDivergenceActive &&
+                resume.virtualAgents.has_value() &&
+                udon::protected_slack_agents_dominate(
+                    *resume.virtualAgents,
+                    currentState->agents) &&
+                udon::protected_slack_ledger_dominates(
+                    resume.virtualLedger,
+                    resume.ledger)) {
                 currentVirtualState->agents = *resume.virtualAgents;
+            } else {
+                resume.virtualLedger = resume.ledger;
+                resume.virtualAgents = currentState->agents;
+                resume.protectedDivergenceActive = false;
             }
             pendingWireDay = currentState->dayNumber - 1;
             pendingSimulation.reset();
             pendingVirtualSimulation.reset();
+            pendingInitialContingencies.reset();
             continue;
         }
         if (kind == "decision") {
@@ -397,6 +673,9 @@ struct ReplayResumeState {
                     mismatch);
             }
             pendingVirtualSimulation = simulation;
+            pendingInitialContingencies = reconstruct_initial_contingencies(
+                config,
+                event.at("body"));
             continue;
         }
         if (kind == "actions" || kind == "actions_fallback" ||
@@ -414,6 +693,7 @@ struct ReplayResumeState {
             pendingSimulation = simulation;
             if (kind != "actions") {
                 pendingVirtualSimulation.reset();
+                pendingInitialContingencies.reset();
             }
             if (kind == "actions_server_wait" &&
                 pendingWireDay > resume.lastAcceptedWireDay) {
@@ -422,6 +702,11 @@ struct ReplayResumeState {
                 resume.virtualAgents = pendingSimulation->finalAgents;
                 resume.protectedDivergenceActive = false;
                 resume.lastAcceptedWireDay = pendingWireDay;
+                invalidate_response_artifacts();
+                resume.acceptedTransitions.push_back(
+                    ReplayResumeState::AcceptedTransition{
+                        *currentState,
+                        *pendingSimulation});
                 pendingSimulation.reset();
             }
             continue;
@@ -429,9 +714,20 @@ struct ReplayResumeState {
         if (kind != "action_result" && kind != "action_result_recovery") {
             continue;
         }
-        if (!pendingSimulation.has_value() || pendingWireDay <= resume.lastAcceptedWireDay ||
-            !udon::btc_action_result_accepted(event.at("body"))) {
+        const bool accepted = udon::btc_action_result_accepted(event.at("body"));
+        const std::optional<std::int32_t> acceptedDay =
+            udon::btc_action_result_day(event.at("body"));
+        if (!pendingSimulation.has_value() ||
+            pendingWireDay <= resume.lastAcceptedWireDay ||
+            !accepted) {
             continue;
+        }
+        if (accepted && acceptedDay.has_value() &&
+            *acceptedDay != pendingWireDay + 1) {
+            throw std::runtime_error(
+                "BTC replay resume found an accepted action for the wrong day: expected " +
+                std::to_string(pendingWireDay + 1) + ", got " +
+                std::to_string(*acceptedDay));
         }
         const udon::SimulationResult actualSimulation = *pendingSimulation;
         resume.ledger.apply(actualSimulation.score);
@@ -466,8 +762,18 @@ struct ReplayResumeState {
             resume.protectedDivergenceActive = false;
         }
         resume.lastAcceptedWireDay = pendingWireDay;
+        invalidate_response_artifacts();
+        if (pendingInitialContingencies.has_value()) {
+            resume.artifactsAfterDay = pendingWireDay + 1;
+            resume.cachedContingencies = *pendingInitialContingencies;
+        }
+        resume.acceptedTransitions.push_back(
+            ReplayResumeState::AcceptedTransition{
+                *currentState,
+                actualSimulation});
         pendingSimulation.reset();
         pendingVirtualSimulation.reset();
+        pendingInitialContingencies.reset();
     }
     return resume;
 }
@@ -697,6 +1003,14 @@ void run_replay_check(const RuntimeOptions& options) {
               << " lifetime_distinct=" << ledger.lifetime_distinct()
               << " daily_distinct=" << ledger.totalDailyDistinct
               << " servings=" << ledger.totalServings << '\n';
+    const ReplayResumeState resume = load_replay_resume(
+        options.replayPath,
+        config,
+        adapterOptions);
+    std::cout << "resume accepted_days=" << resume.acceptedTransitions.size()
+              << " last_wire_day=" << resume.lastAcceptedWireDay
+              << " cached_contingencies=" << resume.cachedContingencies.size()
+              << " strong_proofs=" << resume.strongProofs.size() << '\n';
 }
 
 void run_replay_solve(const RuntimeOptions& options) {
@@ -1178,23 +1492,30 @@ void run_sandbox(const RuntimeOptions& options) {
     replay.record("assignment", roles);
     emit_wire(roles);
 
+    const udon::ExactStepSimulator simulator(config);
+    const udon::IndependentDayValidator validator(config);
     udon::MatchLedger ledger;
-    std::optional<udon::DayScore> pendingScore;
+    std::optional<udon::DayState> pendingState;
+    std::optional<udon::SimulationResult> pendingSimulation;
     std::optional<std::int32_t> pendingDay;
     std::chrono::milliseconds pendingResponse{};
+    bool pendingDecision = false;
     bool fallbackPending = false;
 
     const auto acknowledge_pending = [&]() {
-        if (!session.has_pending_submission()) {
+        if (!pendingSimulation.has_value() || !pendingState.has_value()) {
             return;
         }
-        static_cast<void>(session.acknowledge_submitted(pendingResponse));
-        if (!pendingScore.has_value()) {
-            throw std::logic_error("accepted BTC submission has no pending score");
+        if (pendingDecision) {
+            static_cast<void>(session.acknowledge_submitted(pendingResponse));
+        } else {
+            session.record_applied_transition(*pendingState, *pendingSimulation);
         }
-        ledger.apply(*pendingScore);
-        pendingScore.reset();
+        ledger.apply(pendingSimulation->score);
+        pendingState.reset();
+        pendingSimulation.reset();
         pendingDay.reset();
+        pendingDecision = false;
     };
 
     while (std::getline(std::cin, line)) {
@@ -1216,25 +1537,36 @@ void run_sandbox(const RuntimeOptions& options) {
                 adapterOptions);
             const udon::SessionDecision decision = session.on_authoritative_state(state, ledger, receivedAt);
             replay.record("decision", decision.replay);
-            const udon::DayPlan& plan = decision.maySubmit
+            const udon::DayPlan plan = decision.maySubmit
                 ? decision.decision.candidate.plan
                 : udon::make_wait_plan(config, state.dayNumber);
+            const udon::SimulationResult simulation = validate_fallback_plan(
+                state,
+                plan,
+                simulator,
+                validator,
+                "BTC sandbox plan failed local validation");
             const udon::JsonValue wirePlan = udon::serialize_day_plan(plan);
             replay.record(decision.maySubmit ? "actions" : "actions_fallback", wirePlan);
             emit_wire(wirePlan);
             pendingResponse = std::chrono::duration_cast<std::chrono::milliseconds>(
                 std::chrono::steady_clock::now() - responseStarted);
+            pendingState = state;
+            pendingSimulation = simulation;
             pendingDay = state.dayNumber;
-            if (decision.maySubmit) {
-                pendingScore = decision.decision.candidate.simulation.score;
-            } else {
-                pendingScore.reset();
-            }
+            pendingDecision = decision.maySubmit;
             continue;
         }
         if (kind == udon::BtcFrameKind::ActionResult) {
             replay.record("action_result", frame);
             if (udon::btc_action_result_accepted(frame)) {
+                const std::optional<std::int32_t> acceptedDay =
+                    udon::btc_action_result_day(frame);
+                if (acceptedDay.has_value() && pendingDay.has_value() &&
+                    *acceptedDay != *pendingDay) {
+                    throw std::runtime_error(
+                        "BTC sandbox accepted an action for a stale day");
+                }
                 acknowledge_pending();
                 fallbackPending = false;
                 continue;
@@ -1248,11 +1580,20 @@ void run_sandbox(const RuntimeOptions& options) {
             if (session.has_pending_submission()) {
                 session.reject_pending_submission();
             }
-            pendingScore.reset();
-            const udon::JsonValue waitPlan = udon::serialize_day_plan(
-                udon::make_wait_plan(config, *pendingDay));
-            replay.record("actions_recovery_wait", waitPlan);
-            emit_wire(waitPlan);
+            if (!pendingState.has_value()) {
+                throw std::runtime_error("BTC rejected an action without a pending state");
+            }
+            const udon::DayPlan waitPlan = udon::make_wait_plan(config, *pendingDay);
+            pendingSimulation = validate_fallback_plan(
+                *pendingState,
+                waitPlan,
+                simulator,
+                validator,
+                "BTC sandbox recovery WAIT failed local validation");
+            pendingDecision = false;
+            const udon::JsonValue wireWaitPlan = udon::serialize_day_plan(waitPlan);
+            replay.record("actions_recovery_wait", wireWaitPlan);
+            emit_wire(wireWaitPlan);
             fallbackPending = true;
             continue;
         }
@@ -1581,16 +1922,34 @@ void run_http(const RuntimeOptions& options) {
         deadlineCalibration,
         options.harvestExtensionMode,
         resolved_future_harvest_extension_mode(options));
+    for (const ReplayResumeState::AcceptedTransition& transition :
+         resume.acceptedTransitions) {
+        session.record_applied_transition(
+            transition.state,
+            transition.simulation);
+    }
+    if (resume.artifactsAfterDay.has_value() &&
+        *resume.artifactsAfterDay == resume.lastAcceptedWireDay + 1) {
+        session.restore_response_artifacts(
+            resume.cachedContingencies,
+            resume.strongProofs);
+    }
     if (!resume.assignmentAccepted || !resume.assignment.has_value()) {
         const std::chrono::milliseconds roleSelectionBudget{
             effective_response_budget_ms(options)};
-        const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
-            roleSelectionBudget,
-            options.beamWidth);
-        if (assignments.empty()) {
-            throw std::runtime_error("no role assignment survived BTC viability scan");
+        udon::JsonValue roles;
+        if (resume.assignment.has_value()) {
+            roles = *resume.assignment;
+        } else {
+            const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
+                roleSelectionBudget,
+                options.beamWidth);
+            if (assignments.empty()) {
+                throw std::runtime_error("no role assignment survived BTC viability scan");
+            }
+            roles = udon::serialize_role_selection(assignments.front().roles);
+            replay.record("assignment", roles);
         }
-        const udon::JsonValue roles = udon::serialize_role_selection(assignments.front().roles);
         HttpResponse assignmentResponse;
         do {
             assignmentResponse = client.request("POST", root + "/assignment", roles.dump());
@@ -1598,15 +1957,14 @@ void run_http(const RuntimeOptions& options) {
                 std::this_thread::sleep_for(std::chrono::milliseconds{options.pollMs});
             }
         } while (transient_http_status(assignmentResponse.status));
+        const udon::JsonValue assignmentResult = parse_tolerant_http_body(assignmentResponse.body);
+        replay.record("assignment_result", assignmentResult, assignmentResponse.status);
         if (assignmentResponse.status < 200 || assignmentResponse.status >= 300) {
             throw std::runtime_error("BTC assignment returned HTTP " + std::to_string(assignmentResponse.status));
         }
-        const udon::JsonValue assignmentResult = parse_tolerant_http_body(assignmentResponse.body);
         if (!udon::btc_action_result_accepted(assignmentResult)) {
             throw std::runtime_error("BTC rejected role assignment: " + udon::btc_action_result_reason(assignmentResult));
         }
-        replay.record("assignment", roles, assignmentResponse.status);
-        replay.record("assignment_result", assignmentResult, assignmentResponse.status);
     }
     static_cast<void>(wait_for_get(client, root + "/start", options.pollMs));
 
@@ -1616,6 +1974,18 @@ void run_http(const RuntimeOptions& options) {
         resume.virtualAgents;
     bool protectedDivergenceActive = resume.protectedDivergenceActive;
     std::int32_t lastAcceptedWireDay = resume.lastAcceptedWireDay;
+    std::string lastSessionCheckpoint;
+    const auto record_session_checkpoint = [&](std::int32_t acceptedDay) {
+        const udon::JsonValue checkpoint = serialize_session_checkpoint(
+            acceptedDay,
+            session.response_ledger());
+        const std::string checkpointBytes = checkpoint.dump();
+        if (checkpointBytes == lastSessionCheckpoint) {
+            return;
+        }
+        replay.record("session_checkpoint", checkpoint);
+        lastSessionCheckpoint = checkpointBytes;
+    };
     const udon::ExactStepSimulator simulator(config);
     const udon::IndependentDayValidator validator(config);
     const udon::ProtectedSlackRefiner slackRefiner(config);
@@ -1699,6 +2069,7 @@ void run_http(const RuntimeOptions& options) {
                 replay.record(
                     "actions_server_wait",
                     udon::serialize_day_plan(waitPlan));
+                session.record_applied_transition(state, waitSimulation);
                 ledger.apply(waitSimulation.score);
                 virtualLedger = ledger;
                 virtualAgents = waitSimulation.finalAgents;
@@ -1709,14 +2080,38 @@ void run_http(const RuntimeOptions& options) {
             udon::DayPlan submittedPlan;
             udon::SimulationResult submittedSimulation;
             bool submittedProtectedImprovement = false;
-            if (decision.maySubmit) {
+            bool submitDecision = decision.maySubmit;
+            if (submitDecision) {
                 submittedPlan = decision.decision.candidate.plan;
-                submittedSimulation = validate_fallback_plan(
-                    state,
-                    submittedPlan,
-                    simulator,
-                    validator,
-                    "BTC virtual-parent plan failed on authoritative state");
+                std::string authoritativeFailure;
+                const std::optional<udon::SimulationResult> authoritativeSimulation =
+                    try_validate_plan(
+                        state,
+                        submittedPlan,
+                        simulator,
+                        validator,
+                        authoritativeFailure);
+                if (authoritativeSimulation.has_value()) {
+                    submittedSimulation = *authoritativeSimulation;
+                } else {
+                    if (session.has_pending_submission()) {
+                        session.reject_pending_submission();
+                    }
+                    submitDecision = false;
+                    virtualLedger = ledger;
+                    virtualAgents = state.agents;
+                    protectedDivergenceActive = false;
+                    udon::JsonValue::Object dropped;
+                    dropped.emplace(
+                        "day",
+                        udon::JsonValue(static_cast<std::int64_t>(state.dayNumber)));
+                    dropped.emplace("reason", udon::JsonValue(authoritativeFailure));
+                    replay.record(
+                        "virtual_parent_drop",
+                        udon::JsonValue(std::move(dropped)));
+                }
+            }
+            if (submitDecision) {
                 udon::ProtectedSlackResult refinement;
                 refinement.plan = submittedPlan;
                 refinement.simulation = submittedSimulation;
@@ -1925,7 +2320,7 @@ void run_http(const RuntimeOptions& options) {
                     "BTC exact WAIT fallback failed local validation");
             }
             udon::JsonValue wirePlan = udon::serialize_day_plan(submittedPlan);
-            replay.record(decision.maySubmit ? "actions" : "actions_fallback", wirePlan);
+            replay.record(submitDecision ? "actions" : "actions_fallback", wirePlan);
             const std::string wireBody = wirePlan.dump();
 
             HttpResponse actionResponse = post_until_deadline(
@@ -1967,6 +2362,7 @@ void run_http(const RuntimeOptions& options) {
                 replay.record(
                     "actions_server_wait",
                     udon::serialize_day_plan(waitPlan));
+                session.record_applied_transition(state, waitSimulation);
                 ledger.apply(waitSimulation.score);
                 virtualLedger = ledger;
                 virtualAgents = waitSimulation.finalAgents;
@@ -1982,9 +2378,9 @@ void run_http(const RuntimeOptions& options) {
                     "BTC accepted an action for a stale day: expected " +
                     std::to_string(wireDay + 1) + ", got " + std::to_string(*acceptedDay));
             }
-            bool appliedDecision = accepted && decision.maySubmit;
+            bool appliedDecision = accepted && submitDecision;
             std::optional<udon::SimulationResult> appliedFallback;
-            if (accepted && !decision.maySubmit) {
+            if (accepted && !submitDecision) {
                 appliedFallback = submittedSimulation;
             }
             if (!accepted) {
@@ -2041,6 +2437,7 @@ void run_http(const RuntimeOptions& options) {
                 std::chrono::steady_clock::now() - responseStarted);
             if (appliedDecision) {
                 static_cast<void>(session.acknowledge_submitted(responseTime));
+                record_session_checkpoint(state.dayNumber);
                 virtualLedger.apply(
                     decision.decision.candidate.simulation.score);
                 virtualAgents =
@@ -2068,6 +2465,7 @@ void run_http(const RuntimeOptions& options) {
                 }
                 idlePostAckWorkPending = state.dayNumber < config.day_count();
             } else if (appliedFallback.has_value()) {
+                session.record_applied_transition(state, *appliedFallback);
                 ledger.apply(appliedFallback->score);
                 virtualLedger = ledger;
                 virtualAgents = appliedFallback->finalAgents;
@@ -2099,6 +2497,7 @@ void run_http(const RuntimeOptions& options) {
             } else {
                 static_cast<void>(session.prove_until(idleSlice));
             }
+            record_session_checkpoint(lastAcceptedWireDay + 1);
         }
         const std::chrono::milliseconds idleElapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - idleStarted);

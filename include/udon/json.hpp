@@ -18,7 +18,7 @@ class JsonValue {
 public:
     using Array = std::vector<JsonValue>;
     using Object = std::map<std::string, JsonValue, std::less<>>;
-    using Storage = std::variant<std::nullptr_t, bool, double, std::string, Array, Object>;
+    using Storage = std::variant<std::nullptr_t, bool, std::int64_t, double, std::string, Array, Object>;
 
     JsonValue() = default;
     JsonValue(std::nullptr_t);
@@ -36,6 +36,7 @@ public:
     [[nodiscard]] bool is_null() const;
     [[nodiscard]] bool is_bool() const;
     [[nodiscard]] bool is_number() const;
+    [[nodiscard]] bool is_integer_number() const;
     [[nodiscard]] bool is_string() const;
     [[nodiscard]] bool is_array() const;
     [[nodiscard]] bool is_object() const;
