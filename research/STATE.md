@@ -1,8 +1,923 @@
 # UDON-SHIELD Research State
 
-Updated: 2026-08-19
+Updated: 2026-08-22
 
 ## Current phase
+
+### Accepted dense-map sparse-frontier candidate: SCORE-DENSE-SPARSE-FRONTIER-190
+
+Research does not wait for experiment 185. Exact streaming remains unchanged on
+the Spot VM while experiment 190 tests the independent BTC capability boundary
+identified by experiment 189.
+
+On `m-3877`, every patrol can individually reach all 24 spots on all ten days,
+but exact high-fuel/resource orienteering is unsupported: the dense
+`spot-mask x cell` representation is capped at 16 spots and, on 32x32, exceeds
+the independent 8M-state guard above 13 spots. Every bounded master day is
+deadline-incomplete, exact support is `0/0`, and protected refinement generates
+zero candidates. Raising the dense threshold would require approximately
+`2^24 x 1024` states and is forbidden as an unbounded memory/time change.
+
+The research-only sparse Pareto frontier keeps the same legal step/fuel/cell/
+spot-mask transitions, caps each patrol at 1,250,000 settled states and retains
+32 globally ranked routes. On all ten immutable `m-3877` replay states it found
+a strict exact-valid single-agent exchange: the day-by-day cumulative serving
+gains were +2,+2,+2,+3,+3,+2,+2,+3,+2,+2. Day 10 improves the recorded parent
+from `6/60/458` to `6/60/460`; simulator and independent validator agree.
+
+The first broad integration was rejected before holdout. Feeding sparse routes
+through the ordinary multi-day planner changed earlier incumbents and reduced
+the closed-loop replay from the recorded `458` to `454`. Retaining only routes
+that also preserve the parent terminal cell/fuel/road-footprint produced zero
+strict protected gains on the consumed states. The ordinary planner was restored
+byte-for-byte to HEAD and the sparse API was isolated so no existing low/high-
+fuel generator can call it.
+
+The surviving mechanism is a terminal-day sidecar. It receives the immutable
+parent after the canonical solve, runs only when the dense exact representation
+is unsupported, replaces one patrol route at a time, and admits only a strict
+official cumulative-score improvement after exact simulation and independent
+validation. No terminal-state constraint is needed because no successor day
+exists. Timeout, unsupported input, invalidity or no gain returns the exact
+parent. The production-path probe reproduces `m-3877` at `6/60/460` with
+224/224 alternatives valid and two strict improvements; a fresh 32x32/24-spot/
+high-fuel fixture under one shared absolute 5000-ms cap improves `6/60/509` to
+`6/60/512` with zero invalidity. These are semantic development results; local
+elapsed time has no performance authority.
+
+Fresh development ran across the registered map/fuel/role axes. Spot
+counts are intersected with the published protocol invariant
+`spotCount <= max(width,height)`, so 14x14 is an exact-feasible 12/14-spot
+control while denser counts are exercised on larger maps.
+
+Development completed at `25/29/0` on 54 paired fixtures, +92 servings,
+maximum gain +9, zero invalid and zero loss. Exact-feasible easy controls and all
+12-spot cases tied; strict gains span medium/hard/very-hard, fixed/native,
+default/high fuel and all six families. The 4,366 generated alternatives were
+all accepted by both simulator and independent validator.
+
+The frozen 108-case holdout completed at `53/55/0`, +220 servings, maximum gain
++8, zero lifetime/daily delta, zero loss, invalid, emergency or failure. Results
+by suite were easy `0/24/0`, medium `8/16/0`, hard `22/8/0`, very hard
+`23/7/0`. Strict gains span fixed/native, default/high fuel, every traffic
+family, and every sparse spot count: 14 spots `14/20/0`, 18 `21/0/0`, 24
+`13/0/0`, 30 `5/1/0`; dense-feasible 12-spot controls tied `0/34/0`.
+All 9,270 planned sparse alternatives were exact-valid. Two very-hard 30-spot
+cases exhausted sidecar slack and returned the exact parent. The production
+diff, manifest and runner hashes remained unchanged after freeze.
+
+The semantic/general-score gate passed. Authenticated BTC match `m-3896` then
+ran the 32x32, 10-day, 100-step, 8-agent, 24-spot, 6-brand, high-fuel profile
+with a 5000-ms response window. All 10 ACKs were valid; maximum authoritative
+response was 2,821 ms. On day 10 the sidecar evaluated 192 sparse routes, all
+192 passed the exact simulator and independent validator, and two were strict
+improvements. It raised the final-day parent from `6/37` to `6/42`, hence the
+cumulative virtual parent `6/60/402` to submitted `6/60/407`. Replay-check
+reproduced 10/10 valid days, 10/10 validator agreement and all nine reconciled
+transitions. Bot rank and bot score are excluded from the verdict.
+
+Experiment 190 is accepted. It closes the dense BTC capability gap without a
+paired regression, without changing existing planner/187 behavior and without
+exceeding the 5000-ms hard cap. Experiment 185 remains an independent active
+oracle gap; research does not wait for it before promoting this candidate.
+
+The production diff was frozen before opening holdout as
+`77e1d3c28fa96352e01f629925c631bccc409108`; research/test diff
+`8d2d355c82e78df1ae7805c7f43fcf081a18d9da`; matrix-runner SHA256
+`FC28678699A3729C3645F12120025992735142A193EFAAB53EB6C88AFC43EF4A`.
+No production logic may be tuned after the holdout opens.
+
+Frozen manifest:
+`research/holdouts/SCORE-DENSE-SPARSE-FRONTIER-190.csv`, SHA256
+`0391DE241480EAA0A2188CAE9714A03DE129941625147E9F8C47967A09FA698C`.
+
+Functionality preservation: the candidate removes, disables, defers or reduces
+no designed functionality and deletes nothing. The existing planner and 187
+path remain unchanged; the sidecar is additive, final-day only and keeps the
+parent as an explicit fallback. Experiment 185 remains independent and active.
+
+### Closed dual-counterexample attribution: ATTR-DUAL-COUNTEREXAMPLE-189
+
+The exact and BTC signals are both genuine current-production gaps, but code-
+level attribution proves they are not the same mechanism. Current production
+already selects exact day-1 root action index 48 on `1721100`; its exact robust
+continuation is `5/17/18`, so the loss occurs in later closed-loop replanning.
+On `m-3877`, exact guidance cannot start because all 24 relevant spots exceed
+the dense mask-state feasibility boundary. Canonical evidence:
+`research/evidence/ATTR-DUAL-COUNTEREXAMPLE-189.md`.
+
+Experiment 189 is closed `accepted-attribution-unrelated-gaps`. Experiment 185
+continues the exact lane; experiment 190 opens only the independent dense BTC
+lane. BTC rank remains excluded as a quality metric, while the 54-serving
+deficit remains a required causal signal.
+
+### Closed current-production oracle revalidation: ATTR-ORACLE-CURRENT-188
+
+The completed `1721100 [0,88)` slice of experiment 185 compares its exact
+root witness with stale parent `828ea78`. Current competition production is
+`5c3aa7a`, whose accepted experiment-187 runtime adds protected WAIT refinement
+and a virtual-parent closed loop after the bounded decision. The 185 probe calls
+`MatchSession` directly and does not invoke that runtime layer, so its three
+traffic-policy deltas are not yet counterexamples of current production.
+
+Experiment 188 is a parallel consumed-only attribution authorized by the user.
+It uses only already-opened seed `1721100`, first requires the stale-head hash
+`32dcfc4fa4a20fd6` to reproduce, then applies the exact 187 state machine under
+maximum-dwell, minimum-dwell and status-toggle policies. The three policy
+witnesses count as one underlying seed/state counterexample. No fresh map,
+holdout or production source is opened; local elapsed has no performance
+authority. Frozen manifest:
+`research/holdouts/ATTR-ORACLE-CURRENT-188.csv`, SHA256
+`B5210335257EB5D7A17A6457E102DB29A492DD88665C6FF8E9DFA7A21B931905`.
+
+Functionality preservation: the planned change is an opt-in research-probe
+mode only. It removes, disables, defers or reduces no designed functionality,
+deletes nothing and cannot alter the production call graph.
+
+The rebuilt stale-head control reproduced `5/17/17` and plan-sequence hash
+`32dcfc4fa4a20fd6`. The exact production-187 state machine was then replayed
+twice under all three policies. Maximum-dwell and status-toggle remained
+`5/17/17`; minimum-dwell remained `5/16/17`. Every run was exact-valid, actual
+and virtual scores were equal, solver/protected deadline counts were zero and
+the protected refiner generated zero plans, valid plans, liftable plans or
+takeovers. The completed 185 oracle is `5/17/18` under every policy.
+
+Experiment 188 is closed `accepted-attribution-current-gap`. One underlying
+exact seed/state counterexample, expressed by three policy witnesses, survives
+against current production `5c3aa7a`. It is not a 187 regression: 187 is inert
+and preserves the stale-parent plan byte-for-byte. Canonical evidence:
+`research/evidence/ATTR-ORACLE-CURRENT-188.md`.
+
+### Active dominance-conditioned deadline research: DEADLINE-DOMINANCE-ANYTIME-187
+
+The UET school-selection event is part of the Procon Vietnam qualification
+pipeline and uses the official HEXUDON problem. Its 45/60-second table is not an
+authoritative PTIT or national-match deadline, but it is strong enough evidence
+that the hard-coded 5000-ms total-compute policy may leave legal competition
+budget unused. Experiment 166 already proved isolated 32x32 score value from a
+Long solve; experiments 184 and 186 proved why ordinary Long replacement and
+post-hoc comparator relaxation are not safe.
+
+Experiment 187 changes the missing capability rather than the admission rule.
+The exact 5-second result is an immutable incumbent. On the final day, where no
+future state exists, an extended candidate is admissible exactly when simulator
+and independent validator agree and its official cumulative score is strictly
+better. On earlier days the generator is conditioned on the forward-simulation
+relation already proved by experiments 175 and 178: equal ordered kinds and
+terminal cells, no-less patrol fuel, equal jam-saturated traffic history,
+lifetime-mask superset, componentwise cumulative daily/servings dominance and a
+persistent strict gain. The incumbent remains in every candidate set and all
+incomplete or non-dominating extra work returns it unchanged.
+
+The first source probe is additive and consumed-only. It must generate exact
+protected-terminal route alternatives directly instead of asking the ordinary
+Long pool to contain them accidentally. It first measures terminal-day strict
+gains and nonterminal liftable existence on the already-opened 166/184 large-map
+states, then compares the same boundary relation with the completed exact-178
+roots. Only a natural witness permits opening fresh stratified development.
+This relation may improve lower bounds or root ordering for experiment 185, but
+187 may not truncate or approximate 185's legal state space.
+
+Frozen manifest:
+`research/holdouts/DEADLINE-DOMINANCE-ANYTIME-187.csv`, SHA256
+`6598C60159E1397803B50FE8211BFA7B098CB1FF078FD01DE2032FDECB7583F6`.
+The consumed existence gate found a natural nonterminal witness on 32x32
+high-stock seed `4411000`.  A protected WAIT interval was replaced by an
+off-road round trip that returned to the same cell and time, preserved the raw
+road footprint, did not reduce patrol fuel and raised servings by one.  The
+virtual-parent continuation retained the gain through day 10: actual
+`6/60/467` versus the in-run virtual parent `6/60/466`, with zero
+invalid/emergency and state/ledger dominance asserted after every day.  Low and
+high-fuel consumed controls tied their virtual parents with zero takeover.
+Fresh stratified development then produced `20/52/0` over 72 paired fixtures
+across 14/20/26/32, fixed/native roles, all six map families and low/default/high
+fuel.  Total persistent gain was 31 servings, loss was zero, and every
+state/ledger assertion held.  Terminal continuation stayed inert; all gains
+came from the nonterminal protected WAIT neighborhood. The sealed 144-fixture
+holdout then produced `36/108/0`, total gain +55 servings and loss zero: easy
+`11/25/0`, medium `10/26/0`, hard `6/30/0`, very-hard `9/27/0`; fixed
+`25/47/0`, native `11/61/0`. Strict gains occurred in low/default/high fuel and
+all six map families. Invalid, emergency, protected-state failure,
+protected-ledger failure and protected-phase deadline were all zero.
+
+Experiment 187 is accepted for production. Runtime uses one delayed submission,
+not a resend: the canonical 5-second decision is the virtual parent and one
+off-road round trip may replace a protected WAIT only after exact simulator,
+independent validator, terminal-state, road-footprint and cumulative-ledger
+dominance all pass. Future bounded decisions continue from the virtual parent;
+the plan is revalidated on the authoritative richer state. Runtime remains on
+the authoritative state until an improved protected plan is acknowledged, and
+resets to authoritative state whenever the forward-simulation relation fails.
+
+The refiner is charged only to unused time inside the same 5000-ms compute cap.
+An outer 15/45/60-second server window does not enlarge search time. BTC matches
+`m-3876`--`m-3881` produced 60/60 valid acknowledgements. Active takeovers
+retained +2, +1, +1 and +1 servings in `m-3878`--`m-3881`; `m-3881` proved a
+strict +1 gain under a configured 5000-ms window with maximum response 2466 ms.
+Corrected state-machine run `m-3880` was inactive through day 6, active only
+after its acknowledged takeover, and preserved the gain through day 10. Every
+non-takeover action in corrected runs was byte-identical to the virtual parent.
+Canonical evidence:
+`research/evidence/DEADLINE-DOMINANCE-ANYTIME-187.md`.
+
+Functionality preservation: no designed component is removed, disabled,
+deferred or reduced; nothing is deleted and no equivalent-implementation proof
+is needed.
+
+### Closed consumed closed-loop certificate probe: DEADLINE-VIRTUAL-PARENT-186
+
+Experiment 184 closed its tested mechanisms but did not prove the entire
+extra-time axis inert. Its transition gate required exact equality of final
+agent fuel and raw footprint, while experiments 175 and 178 already prove a
+strictly broader relation: equal ordered kinds/cells, componentwise no-less
+patrol fuel and exact equality after the jam-saturated traffic-history quotient.
+The missing integration invariant is future planner state. Replanning directly
+from the richer challenger is not monotone for the bounded heuristic and caused
+the regressions in 180/184.
+
+Experiment 186 measured a consumed-only successor before any production
+integration. A Long challenger was `liftable` only when its authoritative
+post-day state forward-simulates the protected 5-second parent: ordered
+kinds/cells equal, patrol fuel no lower, opponent/public state equal, saturated
+two-day traffic evolution equal, lifetime mask a superset, cumulative daily
+distinct and servings componentwise no lower, and a strict advantage that
+cannot disappear into a final response-time tie. Spot stock is not persistent:
+both simulator and validator reconstruct it from `MatchConfig` at every day, so
+it adds no cross-day state component.
+
+For a liftable pair, future days use one canonical solve from a saved virtual
+parent state and replay that plan on the authoritative richer state. Both paths
+must exact-simulate and independently validate; after every day the same
+simulation relation must remain true. Same-day rejected exploration must be
+snapshot/rollback clean. This is not the sampled scenario comparison rejected
+by 184 and not a dual future solver.
+
+Frozen consumed-only manifest:
+`research/holdouts/DEADLINE-VIRTUAL-PARENT-186.csv`, SHA256
+`D7C730502AAE4BAD2DA38A08887DE6585DE57F177FDA325C9DD5EE6E84DE4543`.
+It contains only the already-opened states from `4310000` and `4411000`;
+all fresh development and holdouts remained sealed. Zero liftable selected or
+pool candidates closed the successor as sound but inert. Production and the
+5000-ms cap remained unchanged while the probe ran in parallel with experiment
+185.
+
+The first apparent `0/300` result was invalidated because the temporary
+unclamp hit fixed-role-unused `select_roles_until` rather than `solve_day`.
+The corrected executable asserted `parent_budget_ms=5000` and
+`challenger_budget_ms=10000` on every day. It produced eight different
+selected challengers per fixture, zero liftable selections and zero invalid
+plans. The stronger pool audit then checked `316` different candidates on
+`4310000` and `318` on `4411000`; all `634` simulator-validator agreed,
+with `pool_liftable=0` and `pool_invalid=0`.
+
+Experiment 186 is closed `rejected-sound-but-inert`. The certificate is
+mathematically valid, but neither strongest consumed Long pool contains a
+usable witness, so production integration would be inactive overengineering.
+Fresh development, holdout and BTC remained sealed. Canonical evidence:
+`research/evidence/DEADLINE-VIRTUAL-PARENT-186.md`. Reopen only for a new
+independently generated exact candidate satisfying the full relation with
+persistent score gain.
+
+### Active exact root streaming: ORACLE-ROOT-STREAM-185
+
+Experiment 178 proved an exact traffic-history quotient that reduced full
+minimax states by about half, but the still-open default/high consumed rows can
+run for more than a day without emitting a root result. Experiment 185 changes
+only the evaluation schedule: enumerate the unchanged exact root own-action
+frontier, solve a configured contiguous slice with one shared quotient memo,
+and flush an exact robust score after every completed root action. Completed
+action certificates survive an interrupted or OOM-killed run; a resumed job
+starts at the first unfinished action. Combining the maximum over all completed
+slices is exactly the original root max, with no action or opponent reduction.
+
+Frozen consumed-only manifest:
+`research/holdouts/ORACLE-ROOT-STREAM-185.csv`, SHA256
+`10EDBB0D52E61E083D536C764493E8D3D4549F0D3F055A549E7A0D07C567FC5B`. It contains only the three
+already-opened 177 rows `1720100`, `1721100` and `1721200`; no holdout is opened.
+The first gate must reproduce a completed low-fuel result under unsliced versus
+full-slice modes and validate every emitted witness. Only then may a disposable
+Spot VM run default/high slices. Output cadence and VM elapsed have no BTC or
+production-performance authority. Production source and the 5000-ms cap remain
+unchanged.
+
+### Closed stratified deadline research: DEADLINE-STRATIFIED-ANYTIME-184
+
+Experiment 184 is closed `rejected-closed-loop-regression`. The authenticated
+PTIT practice form permits at most `15000 ms` per day and `32x32`; the external
+UET table is not PTIT authority and does not justify 45/60-second production
+compute or maps beyond 32.
+
+The unchanged strict lower-versus-upper takeover remained inert on consumed
+large-map gates. A transition-preserving delayed-selection gate rejected all
+18 different challengers across `4310000` and `4411000`, accepting zero. A less
+conservative Actual-vs-Actual gate compared certified outcomes on identical
+scenario IDs/classes/weights and did activate, but high-stock `4411000`
+reproduced `6/60/454` twice with five takeovers while adjacent protected
+5-second controls scored `6/60/461` and `6/60/462`. The scenario profile did not
+cover the endogenous closed-loop consequence and therefore was not a monotonic
+certificate.
+
+All stratified holdouts remained sealed and no BTC match was created for a
+candidate already falsified in development. All experiment-only source and
+harness changes were removed. Canonical evidence:
+`research/evidence/DEADLINE-STRATIFIED-ANYTIME-184.md`. The production hard cap
+remains 5000 ms. Reopen only after an authoritative PTIT window above 5 seconds
+and a complete closed-loop certificate first eliminate the consumed regression;
+do not weaken the gate or route by fixture metadata.
+
+### Closed proof attribution: SCORE-SPATIOTEMPORAL-UPPER-183
+
+Experiment 183 is closed `rejected-tight-but-inert`. Its candidate-independent
+spatiotemporal relaxation was never below a realized final score on 75 consumed
+general day states and never below the three completed exact-178 continuations.
+It tightened 12/75 general states, all in the three high-stock families, and
+10/10 opened BTC-large states. The strongest root serving reductions were
+`96 -> 69`, `84 -> 57` and `104 -> 70`; BTC-large tightened `840 -> 621`.
+
+The decisive protected reconstruction of experiment 168 still tied the parent
+on all 18 fixtures with zero invalid and emergency outcomes. All registered
+long trajectories completed and 48 scenario lower witnesses improved, but the
+unchanged `may_submit` gate accepted `0/18` resubmissions. The upper is sound and
+tighter, yet insufficient to create any certified strength improvement. No
+sealed holdout or BTC performance gate was opened, all experiment-only source
+was reverted, and no commit was created. Canonical evidence:
+`research/evidence/SCORE-SPATIOTEMPORAL-UPPER-183.md`.
+
+The user-supplied UET table is retained only as an external configuration
+reference. It adds 14/20/26/32 map sides, 5/7/8/10 days and 4/6/8 agents to the
+future research strata. Its 45/60-second server windows are not PTIT authority
+and do not change the current internal 5000 ms cap. Difficulty and rank-point
+multipliers aggregate tournament placement and do not change the official
+within-match lexicographic objective.
+
+Research is ready to return to the registered streaming exact-counterexample
+path of experiment 178. Experiment 183 may reopen only with a stronger sound,
+state-coupled upper that first creates a strict unchanged-`may_submit` takeover
+on consumed evidence; the comparator must not be weakened.
+
+### Competition artifact and runbook
+
+The competition source is the accepted experiment-187 production line over
+parent `0f01d69`. It adds only the protected slack module, authoritative deadline
+normalization, virtual-parent runtime state, focused tests and architecture
+wiring. The prior bounded planner/decision implementation remains unchanged.
+The VS2022-authoritative rebuild completed through `VsDevCmd.bat`; direct `cl`
+from the current Codex process is invalid because that process alone inherits
+obsolete VC98 `INCLUDE`/`LIB` values.  Persistent user and machine environment
+variables do not contain VC98, so no installed directory deletion is required.
+
+The current unit/simulator/validator gate passes. Current
+`build-release/udonshield_btc.exe` SHA256 is
+`AE761118A7DD086B211FF9BB3CD99EBD0DBD3FEED332E9511E23742F25B8F356`.
+Replay-check on target-host archive `m-2120.jsonl` validated all 10 days and
+reconciled all 9 transitions, final score `6/60/415`.  BTC HTTPS returned 200;
+all required MSVC runtime DLLs are installed; no BTC token exists in repository
+text or persistent/process environment; no BTC process is running.  AC/DC sleep
+and hibernate timeouts are disabled.
+
+The only remaining manual readiness gate is privileged Windows time sync.  The
+current host reports `Leap Indicator: 3 (not synchronized)` and
+`Source: Local CMOS Clock`; this Codex process cannot resync because `w32tm`
+returns access denied without elevation.  Before joining any competition match,
+an Administrator PowerShell must run `w32tm /resync /rediscover` and
+`w32tm /query /status`, and the bot must not start until the unsynchronized/CMOS
+status is gone.  Complete commands, unique-replay rule, same-file resume and
+post-match preservation are frozen in `COMPETITION_RUNBOOK.md`.
+
+### Closed exact-neighborhood source gate: SCORE-PENULTIMATE-NEIGHBOR-182
+
+Experiment 181 is closed `rejected-capability-link`. Restricting the sidecar to
+the penultimate day removed the first-day regression, but produced no takeover
+on any exact anchor. On `1720000` the coordinated team-bundle projection exposed
+only one non-parent candidate at current `6/9/9`, certified exactly to
+`6/11/11`; it omitted the already registered per-agent mask-`111` route whose
+forced profile is `6/12/12 .. 6/13/13`. The exact frontier exists, but the small
+team-bundle selector does not project it into the post-parent candidate set.
+
+Experiment 182 tested that missing link without returning to the shared pipeline.
+After the completed parent, each fuel-constrained patrol independently runs the
+existing complete resource-route enumerator in its fair share of genuine slack.
+Every completed route forms one team candidate by replacing only that patrol's
+actions in the protected parent plan; all other agent actions remain byte-exact.
+Each candidate is exact-simulated, independently validated and admitted only by
+the unchanged bound-closed penultimate takeover. There is no Cartesian product
+or new solver. Frozen manifest:
+`research/holdouts/SCORE-PENULTIMATE-NEIGHBOR-182.csv`, SHA256
+`A366F7E16D794696D36DFB457B0B775C9BC1DDC4D56E1CE0DDE217D441248516`.
+Compile and unit gates passed, but the first causal gate rejected it. From the
+unchanged parent day-3 state on `1720000`, the full completed per-agent exact
+frontier contained exactly one non-parent exact-valid team plan; it tied current
+`6/9/9` and certified `6/11/11 .. 6/11/11`. The mask-`111` challenger exists
+only after the different state produced by the oracle day-1 prefix. Therefore
+the remaining gap is genuinely multi-day path-dependent, not a missing route or
+bundle from the parent penultimate state. Other anchors, 176 rows, fresh lanes
+and holdout stayed unopened; production source was reverted and is content-
+identical to `828ea78`.
+
+The source branch is now closed as non-exploitable under the current evidence.
+The only mechanism that reproduced the exact multi-day path was 176, which lost
+`1/5/6` on fresh general development with four tier-2 regressions. Protecting the
+complete parent then using the same static future certificate was tested in 180
+and regressed an independent exact anchor. Per-day coordinated and full
+single-agent exact neighborhoods were tested in 181/182 and cannot reach the
+oracle state. A sound successor therefore requires the complete closed-loop
+public minimax itself, whose completed low-fuel rows require roughly 6--8 million
+memo states and 604--705 million legal transitions, while the first default-fuel
+row OOM-killed after over 20 hours. That evaluator cannot fit the `5000 ms` cap
+with the current method, and the exact wins all use an artificial one-active
+patrol plus isolated controls. A structural guard for that fixture would not be
+general competition logic. Reopen only with a new exact quotient/algorithm that
+places the complete closed-loop proof inside the hard cap and demonstrates a
+non-artificial multi-agent counterexample; no route-width, certificate or
+fixture-family variant remains open.
+
+### Closed coordinated penultimate sidecar: SCORE-PENULTIMATE-EXACT-181
+
+Experiment 180 is closed `rejected-causal-regression`. Its post-parent boundary
+did preserve the fully completed parent before extra work, and exact generation
+and profile repair completed on all three consumed anchors. Nevertheless the
+first-day takeover did not preserve the realized closed-loop continuation:
+`1720000` tied parent at `6/11/11`, `1721000` regressed from `5/10/11` to
+`5/9/10`, and `1722000` tied `5/11/11`. The registered certificate covers the
+static public scenario manifest but not every state reached after several future
+replans. Fresh development and holdout were not opened.
+
+Experiment 181 kept the only proven monotonic control-flow boundary—complete
+parent first, incomplete sidecar returns parent—but removes the speculative
+first-day takeover. It activates only on the public penultimate day. This is the
+shortest closed-loop horizon on which the identified fuel value can matter: the
+existing exact final-day production path gets one immediate replan from the
+retained terminal state, rather than requiring a multi-day static certificate to
+predict repeated future replanning. Frozen manifest:
+`research/holdouts/SCORE-PENULTIMATE-EXACT-181.csv`, SHA256
+`7979A4B372D82A4B4BB6F62A8CD1C626809C5521CA8978CFB94883456F5DC12F`.
+It tied all three exact anchors because the coordinated team-bundle exposure
+omitted the registered exact mask-`111` witness. Fresh rows stayed sealed.
+
+### Closed first-day sidecar: SCORE-POST-PARENT-EXACT-180
+
+Experiment 180 addressed the unresolved exact fuel/horizon gap without reopening
+the rejected shared-pipeline mechanism. Three independent exact low-fuel rows
+prove that HEAD front-loads score before terminal day; 176 closed one anchor but
+regressed fresh general development because exact work changed the shared
+master/ALNS/F0 opportunity set. Experiment 179 proved that restoring the skipped
+legacy checkpoint did not recover those losses.
+
+The new proof boundary is later and strictly additive. The unchanged parent must
+finish final certified selection and independent validation first. Only genuine
+slack remaining before the unchanged `1600 ms` BTC network reserve and `25 ms`
+final-validation floor may run the existing deadline-aware fuel-exact generator
+and master as a post-parent sidecar on the public first-day or penultimate-day
+fuel-allocation boundaries. The parent candidate/profile is immutable. A sidecar
+candidate may replace it only after independent validation and the same complete
+scenario-wise lower-versus-parent-upper bound-closure proof used in 176. Any
+incomplete enumeration, deadline, invalid candidate, missing proof or lack of
+strict upside returns the exact parent.
+
+This is not a second full solver: it reuses only the existing exact route kernel
+after the full parent result is already protected. Archive target-host telemetry
+shows why it must be opportunistic rather than always-on: among 110 decisions,
+57 had under 25 ms but 35 had at least 500 ms before the network reserve. Local
+elapsed is attribution only; BTC remains performance authority. Frozen manifest:
+`research/holdouts/SCORE-POST-PARENT-EXACT-180.csv`, SHA256
+`B9817875EF78952A8A2E63EEFEA46EFAD68F04477CB0EECC3ACA3B18BAEEB463`.
+Its causal result was `0/2/1` W/T/L on the three exact anchors. Sidecar generation
+and certification completed, but the day-1 takeover on `1721000` caused a tier-2
+and tier-3 closed-loop regression. This proves that protecting the parent before
+extra work is necessary but not sufficient when a static future certificate is
+used across several later replans. Source successor 181 retains the sidecar but
+restricts takeover to the penultimate allocation boundary.
+
+### Closed source attribution: SCORE-PROTECTED-EXACT-179
+
+Experiment 179 is closed `rejected-causal-falsification`. The static omission
+was real: 176 skipped `solve_legacy_until` when nonterminal exact was enabled.
+However, reconstructing 176 and restoring that exact legacy checkpoint produced
+identical official scores and identical recorded search counts on all twelve
+consumed 176 fixtures. It changed no selected result and recovered none of the
+paired regressions. Therefore the legacy checkpoint is not an exploitable cause;
+its candidates are duplicated or noncompetitive after merge.
+
+The unresolved cost is the shared post-merge bounded pipeline: exact columns
+change master/ALNS/F0 work under one 5000-ms window. Preserving the complete
+parent result would require two complete searches unless an equivalent-semantic
+speedup creates headroom. That duplicate-solver design is forbidden. No fresh
+179 development or holdout was opened; production/test source was reverted to
+`828ea78`. Frozen manifest SHA256
+`7602CFFBC108B39268B6A6D0201DE28814C0546C41793DB04D1945133F3A0B6F`;
+canonical evidence: `research/evidence/SCORE-PROTECTED-EXACT-179.md`.
+
+### Accepted exact-method quotient: ORACLE-TRAFFIC-HISTORY-QUOTIENT-178
+
+Experiment 178 tested one independent exact quotient on consumed development
+only while 177's proof-host processes were still active.  The
+public minimax memo currently distinguishes `previousOwn` from
+`previousOpponent`, but source tracing proves that every future transition
+observes these arrays solely through their componentwise sum when computing the
+next road-status vector.  Current public state, legal action enumeration,
+official score, causal policy choice, simulator and validator do not observe the
+ownership split.  Opponent same-cell/same-footprint maximum-fuel dominance is
+already implemented, so it is recorded as duplicate rather than coded again.
+
+The proposed canonical history is the exact componentwise sum saturated at
+`players * jammedThreshold`: values at or above that level are observationally
+equivalent because all new traffic contributions are nonnegative and the next
+status must remain jammed.  This is a research-only mode switch, never a source
+candidate.  Frozen consumed-only parity manifest:
+`research/holdouts/ORACLE-TRAFFIC-HISTORY-QUOTIENT-178.csv`, SHA256
+`AC97B64F4019476EA68EA69B05A09D997FA671324486924771955A18D47B5BF0`.
+It matched the unquotiented oracle on all three consumed families at complete
+one-day and two-day suffixes.  Full-horizon robust scores remained respectively
+`6/12/12`, `5/11/11` and `5/11/12`; all nine causal-policy results, plan hashes,
+exact simulations and independent-validator results were identical.  Memo states
+fell by `48.78%`, `50.03%` and `49.16%`, while legal transitions fell by
+`28.14%`, `29.22%` and `27.55%`.  Experiment 178 is accepted as canonical exact-
+oracle infrastructure.  It does not change production strength or authorize a
+source candidate.  Experiment 177 is now closed; no brute-force default/high
+retry is authorized without a new exact quotient or algorithm that changes the
+feasibility class while preserving exact public semantics.  All 27 holdouts
+remain sealed.
+
+### Closed exact-development sweep: ATTR-EXACT-FUEL-PREVALENCE-177
+
+Experiment 176 is rejected and production remains content-identical to
+`828ea78`. Successor 177 makes no source change. It uses the unchanged exact
+oracle from 175 on the eight still-unopened development rows to decide whether
+the fuel-preserving `oracle > HEAD` witness repeats as a public structural class.
+The frozen manifest remains
+`research/holdouts/ORACLE-BOUNDARY-DOMINANCE-175.csv`, SHA256
+`79A7C16B8A37841C180C43F6480949DCB777D14777CD1463958C82BE148CBE12`;
+all 27 holdout rows stay sealed. Runs are independent on a disposable 4-vCPU,
+32-GB Spot proof host and each completed log is copied off-host immediately.
+VM elapsed has no performance authority. No source successor is admissible
+unless multiple fresh exact gaps share a public discriminator that excludes the
+systematic losing families from 176; otherwise the branch closes.
+
+The first three completed exact gaps span balanced, threshold and terminal
+low-fuel constructions, but `low fuel` alone cannot reopen source work because
+176 already lost systematically on fuel-tight and overnight development.  A
+parallel read-only attribution is restricted to state-level marginal fuel,
+remaining horizon, reachable-brand and exact-traffic quantities; no candidate
+or dispatcher is active.  The reconstructed `1721000` trace now confirms the
+same mechanism as the other two wins: oracle day 1 retains fuel 9 after taking
+`2/2`, whereas HEAD retains fuel 2 after taking `5/6`; oracle then takes `3/3`
+on each remaining day and wins tier 2.  Thus all three are pre-terminal fuel-
+value/front-loading gaps.  Their declared one-active-patrol subdomain suggests
+decomposability as the only current public discriminator, but this is not yet a
+production guard because brand, stock, traffic and master coupling are unproved.
+Default-fuel balanced seed `1720100` was OOM-killed
+without a score result after `20:06:23` and maximum RSS `11,433,732` KiB.
+Threshold default/high seeds `1721100` and `1721200` produced no score result.
+They were terminated after `27:09:35` and `27:03:41`, with maximum RSS
+`12,954,084` KiB and `13,280,704` KiB respectively; their result streams stayed
+empty.  Immediately before termination the processes had elapsed about 97,655
+and 97,302 seconds, and the host had `5,913,948` kB `MemAvailable`; afterwards
+it recovered to `32,168,852` kB.  These are method-intractable rows, not oracle
+ties or losses.
+
+The processes were closed about 50 minutes before the prior 28-hour cutoff
+because experiments 180--182 had already removed their remaining decision
+authority: every completed win is confined to the artificial one-active-patrol
+subdomain, the only source mechanism that reproduced the multi-day path lost
+fresh general development, parent-protected static takeover regressed another
+exact anchor, and complete per-day neighborhoods cannot reach the required
+day-1-derived state.  A default/high result from the same artificial fixture
+could not supply the missing general multi-agent discriminator.  Continuing the
+same enumeration could therefore only add another synthetic oracle result, not
+change the source verdict.  Experiment 177 is closed
+`closed-method-intractable-nongeneral`; seeds `1720200`, `1722100`, `1722200`
+and all 27 holdout rows remain unopened.  Reopen only for a genuinely new exact
+quotient or closed-loop algorithm that fits the complete proof inside `5000 ms`
+and a non-artificial interacting multi-agent counterexample.
+
+The disposable Spot VM `udon-proof-177-0820` and its auto-delete boot disk were
+deleted after evidence capture.  The dedicated 30-minute monitor was also
+deleted; no experiment-177 process or recurring task remains active.
+
+### Closed source gate: SCORE-BOUND-CLOSED-FUEL-176
+
+Experiment 175 is now fully attributed. Its exact causal gap is repeated
+pre-terminal fuel front-loading, not deadline loss, opponent clairvoyance or a
+weak terminal solver. Forcing the oracle prefix only through day 2 leaves HEAD
+at `6/11/11`; forcing through day 3 lets unchanged HEAD close exact `6/12/12`
+on day 4. The canonical complete fuel-constrained exact generator contains the
+required joint outcome on both missing days (day 1: route mask `111`, 251
+states; day 3: route mask `111`, 50 states), whereas the production portfolio
+does not.
+
+The profile boundary is also exact. Day-1 challenger lower/upper is
+`6/11/11 .. 6/15/15` versus parent `6/11/11 .. 6/11/11`.
+Day-3 challenger is `6/12/12 .. 6/13/13` versus parent
+`6/11/11 .. 6/12/12`. Wholesale removal of the protected current floor is
+forbidden by experiment 057. Successor 176 instead permits a takeover only when
+challenger certified survival is no worse than incumbent valid-upper survival
+at every threshold under identical scenario weights, with strict challenger-
+upper upside at at least one threshold. The no-regression proof comes only from
+challenger lower versus incumbent upper; upper strictness is an anti-churn
+condition, never a guarantee.
+
+The source candidate may only wire the existing complete fuel-constrained exact
+enumerator under unchanged caps/deadline and add this bound-closed relation. No
+second solver, width increase, blind nonterminal flag experiment, seed/family
+dispatcher or general current-floor relaxation is allowed. Frozen manifest:
+`research/holdouts/SCORE-BOUND-CLOSED-FUEL-176.csv`, SHA256
+`EE9EE677FD189EC61D37936C2B5B84FAD8157F8BFC4F17089D4C157165B16113`.
+The final source candidate passed proof tests and causally closed consumed seed
+`1720000`: it reproduced exact `6/12/12` versus parent `6/11/11`. Fresh general
+fixed-role development then rejected it at `1/5/6` W/T/L. Four losses were at
+tier 2 across threshold-corridor, high-stock, fuel-tight and overnight; two more
+were tier-3 losses. Invalid and emergency remained zero. This is systematic
+downside, not an acceptable small trade-off. Native, BTC-like and sealed holdout
+lanes were not opened. Production and test source were reverted to `828ea78`;
+the exact counterexample remains valid research evidence but has no accepted
+production fix. Reopen only on a new public structural discriminator supported
+by multiple fresh families, never by broad day-1/penultimate exact activation or
+bound-closed takeover alone. Local latency has no authority; BTC was not run.
+
+### Exact counterexample accepted; attribution active: ORACLE-BOUNDARY-DOMINANCE-175
+
+The user authorized one narrow self-check of the only mathematically relevant
+kernel from a new external suggestion. Production remains source-clean at
+`828ea78`; no production candidate is active. Experiment 175 reopens the closed
+172 method only under its explicit condition: a new sound exact quotient.
+
+The original suggested state relation was rejected before source work because
+it omitted opponent physical state and the two-day traffic memory. The corrected
+proof obligation is max-node/day-boundary only. Own outcome `B` can be removed
+only if another outcome `A` has the same terminal cell and exact saturated own
+road footprint, at least as much fuel, a superset after union with the current
+lifetime-brand mask, no fewer current daily distinct or servings, and at least
+one strict improvement. Equal footprint is mandatory: less own congestion may
+increase the legal adversary's future capability and is not monotone in a
+two-sided minimax game.
+
+The frozen manifest is
+`research/holdouts/ORACLE-BOUNDARY-DOMINANCE-175.csv`, SHA256
+`79A7C16B8A37841C180C43F6480949DCB777D14777CD1463958C82BE148CBE12`.
+The exact relation passed complete filtered/unfiltered parity on all nine final-
+day development configurations. On the two-day traffic subproblem for consumed
+seed `1720000`, both modes returned `6/9/9`; states fell
+`2,328,298 -> 1,430,951` and transitions
+`40,956,276 -> 14,893,534`.
+
+The full four-day run was then allowed to complete. Robust minimax returned
+`6/12/12` after `8,016,487` states and `704,745,239` transitions; the dominance
+relation removed `45,710,194` own outcomes. Under all three registered causal
+opponent policies, the exact policy remained `6/12/12` while unchanged HEAD was
+`6/11/11`, a valid tier-2 loss of one daily distinct with zero HEAD deadline-
+limited days. This is an accepted public-information counterexample on the
+declared one-active-patrol subdomain, not source-promotion evidence: the seed is
+consumed and the oracle is far outside the 5000-ms compute cap.
+
+The active gate is witness attribution. Identify the first day and general
+capability boundary at which HEAD loses the twelfth daily distinct; do not port
+the oracle, tune a threshold to seed `1720000`, open sealed holdout or create a
+production candidate before the causal mechanism is understood. Fresh full-
+match development may be used only after attribution defines a pre-registered
+general prediction.
+
+No designed functionality is removed, disabled, deferred or reduced; no
+deletion is proposed. Local time and memory have offline method-feasibility
+authority only and cannot support competition-performance or promotion claims.
+
+### Practical convergence decision after sweeps 172--174
+
+No source candidate is active. Canonical competition source and BTC executable
+remain `828ea78`; the currently frozen rebuilt executable hash is recorded in
+the operational artifact section above.
+No commit was created in this research cycle.
+
+Two independent counterexample sweeps are closed:
+
+1. `CEILING-TRAFFIC-MINIMAX-172` attempted a non-clairvoyant exact legal-
+   opponent ceiling. Full state, exact action caching and the final proved
+   Markov quotient all failed to close even the first development fixture;
+   continuing requires reduced rules, unproved dominance or an external proof
+   host. No score or holdout was opened.
+2. `ATTR-METAMORPHIC-INVARIANCE-173` found real representation sensitivity.
+   The isolated source candidate `SEM-CANONICAL-LABELS-174` repaired the stated
+   spot/brand invariance but lost its first frozen general holdout `6/19/11`,
+   with tier-2 gain/loss `7/14`. It was fully reverted before native/BTC
+   holdouts. A different canonical ordering would tune the opened holdout;
+   multiple full representations would duplicate/split the 5000-ms solver.
+
+Therefore offline pre-opponent research is at practical convergence for the
+current architecture and evidence set. There is no remaining candidate with a
+sound monotonic mechanism and positive expected global value; reopening the
+consumed traffic, label or agent-order axes would repeat the same cycle or
+overengineer around arbitrary representation. This is not a mathematical proof
+against unknown adversaries. The only justified reopen triggers are a genuinely
+new diverse human/adversarial replay, a new sound dominance/proof quotient, a
+production call-graph/cap regression, or a changed public match rule. Until one
+appears, `828ea78` is the final competition line and further offline heuristic
+experiments are forbidden.
+
+`SEM-CANONICAL-LABELS-174` is closed `rejected-general-regression`; no source
+candidate is active. The candidate correctly made spot reversal and bijective
+brand relabel score-invariant and passed development overall `4/11/3`, but the
+first opened 36-fixture general fixed holdout was only `6/19/11`. Tier-2 total
+gain/loss was `7/14`; tier-3 was `1/4`; zero invalid/emergency. All 72 holdout
+spot/brand metamorphic pairs were equal, so this is not an implementation bug:
+choosing one canonical representation selects a non-monotone bounded-search
+lane and loses globally. Native and every BTC-like holdout remained sealed.
+Choosing a different ordering from the consumed results is forbidden overfit;
+running several full representations would split the same 5000-ms budget or
+duplicate the solver without a dominance certificate. Candidate and harness
+code were fully removed; all production and research source files are
+content-identical to `828ea78`. Canonical evidence:
+`research/evidence/SEM-CANONICAL-LABELS-174.md`; manifest SHA256
+`4D7A79E2DACF1CB92AD2FE058075538C6E817F80464CA7EC41ADBBC554A6243D`.
+Agent-order sensitivity from 173 is closed under the same non-monotonicity
+lesson: an end-to-end canonical remap merely selects another lane, while a
+multi-lane solver violates the current complexity/budget gate. Reopen only from
+a single-pass representation-invariant mechanism that preserves every parent
+candidate and proves monotonic dominance before new fixtures.
+
+`ATTR-METAMORPHIC-INVARIANCE-173` is closed `accepted-gap`. Canonical evidence:
+`research/evidence/ATTR-METAMORPHIC-INVARIANCE-173.md`; its sealed holdout was
+never opened.
+
+`CEILING-TRAFFIC-MINIMAX-172` is closed
+`rejected-method-state-explosion`; no score experiment is active. It attempted
+to replace the clairvoyant future-footprint premise of 124 with a conservative
+exact four-day max-own/min-legal-opponent game on a valid one-active-patrol
+subdomain. Only development seed `1720000` was touched. Full memoization and an
+exact day-action cache each failed to close after more than 120 seconds. The
+last proved Markov quotient retained maximum fuel only for equal terminal
+position, footprint and day score, but still grew from about 251 MiB at 30
+seconds to 431 MiB at 60 seconds without closing. Local measurements here have
+method-feasibility authority only, never competition-performance authority.
+Any further reduction requires beam/action truncation, shorter horizon,
+synthetic opponent footprints or unproved congestion dominance, all forbidden
+by the registered semantics. All 27 holdouts stayed sealed. The probe code was
+removed and `research/probes/multi_patrol_oracle.cpp` is content-identical to
+HEAD. Canonical evidence:
+`research/evidence/CEILING-TRAFFIC-MINIMAX-172.md`; manifest SHA256
+`6FD7914EE9AED02E0AC7CC7C0742D010A7D93D5365473031531CAF055B3F148A`.
+Reopen 172 only with a new exact quotient/proof representation or external
+proof host, never by reducing rules or tuning seed `1720000`.
+
+`ATTR-OPPONENT-QUOTA-171` is closed as accepted comparison evidence with
+no production candidate. Canonical production remains source-clean at
+`828ea78`; no UDON production source changed. The peer is pinned outside the
+repository at
+`lethinh26/Hexudon-2026@49e78066ea8b25a9d3cbe4baf56b390d4419eb75`.
+
+The earlier methods are excluded from strength conclusions. Experiment 169 was
+stopped because local wall-clock load changed the peer restart count and repeated
+score. Experiment 170 made small cases deterministic but unbounded exact search
+did not finish on the first 12-spot large case. Its fixed comparisons were also
+later found to use the adapter's default all-patrol UDON mask, not the manifest's
+one-tanker-last lane.
+
+The final frozen manifest is
+`research/holdouts/ATTR-OPPONENT-QUOTA-171.csv`, SHA256
+`01A78FBCAC3627242AC51FB29E261965D6AB6C5B84255FD7CDD8BF8AE4EECD3D`.
+The peer ran three independent fake-clock match tracks at 20/10/5
+pseudo-microseconds per deadline observation, corresponding to deterministic
+200000/400000/800000-observation soft bounds. Each track owned its planner and
+history. The oracle-best final common score deliberately over-grants peer while
+removing local CPU dependence. UDON retains its canonical logical 5000-ms
+research budget; this experiment makes no local or BTC performance claim.
+
+All 24 peer development rows reproduced field-exact. A fixed-lane adapter error
+was detected before verdict: UDON had `role_mask=0` instead of one tanker last.
+Every all-patrol fixed row was invalidated; all four fixed development rows and
+all 24 fixed holdout rows were rerun with mask 8 or 128. Corrected development is
+`8/0/0` for UDON.
+
+Corrected holdout is `47/1/0` overall: fixed `23/1/0`, native `24/0/0`,
+generated-small `12/0/0`, low fuel `12/0/0`, default `11/1/0`, and high
+fuel `12/0/0`. There are zero invalid plans, zero UDON emergency days and zero
+peer repairs. The only tie is default/high-stock fixed seed 171214 at
+`6/60/525`. The closest native win is low-fuel threshold-corridor seed 171110,
+`6/60/362` versus `6/60/356`, a six-serving margin. Peer private score
+disagrees with the common judge on 226/410 days across oracle-selected tracks, so
+only the exact simulator plus independent validator has authority.
+
+No losing current-HEAD counterexample emerged. The peer's exact/beam/team-B&B,
+forced-first-spot LNS, default-off horizon and refuel scheduling do not expose a
+general capability that UDON lacks; static native role selection is materially
+weaker than UDON role search. The tie and closest win remain challenge fixtures,
+not reopen evidence. Canonical evidence is
+`research/evidence/ATTR-OPPONENT-QUOTA-171.md` and
+`research/evidence/ATTR-OPPONENT-QUOTA-171-pairs.csv`.
+
+
+Outside this read-only comparison, no score experiment is active. Canonical production is source-clean at
+`828ea78` (`Enforce canonical competition compute cap`). Experiments 166--168
+close the only newly reopened public-deadline branch without promoting source:
+direct Long used extra search productively on some BTC-scale fixtures but
+regressed two of six general fixtures; protected same-engine refinement was
+safe but produced no certified resubmit; two complete wider W1 trajectories
+improved lower witnesses but still produced `0/18/0` and no strict profile
+dominance. Every candidate, harness and deadline-policy prerequisite source
+change has been reverted.
+
+Under the presently available frozen matrices, exact counterexamples and BTC
+target-host evidence, `828ea78` is the pre-human-opponent practical convergence
+checkpoint and the competition-ready line. This is not a claim of a mathematical
+global optimum. Reopen research only for a genuinely new diverse counterexample,
+a new sound general dominance proof, a production call-graph/cap regression, or
+the user-timed human-opponent window. Retuning consumed fixtures, weakening
+`may_submit`, treating a route-portfolio proof as a global legal-action upper,
+or revisiting caps/widths/ordering without a new causal gap is prohibited.
+
+`SCORE-LONG-WITNESS-168` is closed rejected. Its parent was `828ea78` plus the
+unpromoted 166 deadline-policy prerequisite. The frozen split is
+`research/holdouts/SCORE-LONG-WITNESS-168.csv`, SHA256
+`F0EBA90F9A0E00B2BB1C80BB1AC7A13809549AD26C4346DA34A3F7499D678965`.
+
+At 5000 ms the candidate matched the frozen parent on six fresh general
+fixtures, every daily exact score and all 25 action hashes; invalid/emergency
+were zero and Long counters stayed zero. Fresh protected 15000-ms development
+was `0/18/0`: 75 refinements, zero certified resubmits, zero invalid/emergency.
+Both fixed cap-16 trajectories completed `123/123` attempts each and improved
+lower witnesses 48 times, while 37 scenarios were already closed by their valid
+upper, but no improvement dominated the protected certified profile. On the
+first fresh BTC-like default fixture, ten refinements yielded zero resubmits and
+the optional wide phase did not start before the unchanged certification
+boundary. Remaining development, all sealed holdouts and BTC target-host stayed
+unopened after the promotion premise failed.
+
+This resolves the earlier completion ambiguity: trajectory construction is not
+the blocker. The remaining gap is a sound global proof over legal actions.
+Existing strong post-ACK search is complete only over generated route portfolios
+and cannot soundly tighten the scenario valid upper used by `may_submit`.
+Without a new proof representation, further Long-W1 scheduling, cap or ranking
+changes would be overfitting/overengineering rather than an admissible research
+branch. Evidence is in `research/evidence/SCORE-LONG-WITNESS-168.md`.
+
+`DEADLINE-ANYTIME-167` is closed rejected as inert and accepted as protection
+attribution. Its parent was
+`828ea78` plus the unpromoted 166 deadline-policy prerequisite. The frozen manifest
+is `research/holdouts/DEADLINE-ANYTIME-167.csv`, SHA256
+`E748A798B530DDB2945BE076F94E5DAF72A42B44FAE83BD01868A7BDF52E55E5`.
+
+The mechanism uses the existing `MatchSession` and the same stateful engine. It
+first solves/submits with the unchanged 5000-ms default. If a trusted public window
+has time remaining, the same session may solve the same authoritative state again
+against the same pre-day ledger. Existing `may_submit` and current-score-floor
+logic must reject every non-dominant refinement; same-day response accounting must
+replace the prior response time, while the match ledger/traffic footprint advances
+exactly once from the final accepted plan. An invalid, incomplete, non-dominant or
+failed optional resend leaves the first valid plan authoritative. No second engine
+or shadow solver is permitted.
+
+The research harness first proved all 25 consumed general refinements preserved
+the first action and both known Long losses; resubmits were zero. Consumed
+BTC-default also produced zero resubmits across ten days. Fresh general18 attempted
+75 refinements with zero resubmits and zero invalid/emergency. Attribution on
+seed4300000 found two of four refinement plans differed, but all four tied the
+incumbent current-day official score and none strictly dominated its certified
+suffix. Fresh BTC development and all holdouts stayed sealed. The harness changes
+are reverted: wiring an inert second submission pass into HTTP would be
+overengineering.
+
+The next successor was 168: it strengthened lower-witness construction without
+touching the resend comparator, but complete trajectories still could not create
+strict certified dominance. That successor is now closed. Reopen only from a
+new sound global proof representation; never relax `may_submit`, select by
+realized suffix or resurrect a dual solver.
+
+`DEADLINE-LONG-166` is closed rejected as a standalone policy and accepted as
+causal attribution. BTC rules
+make response time an explicit per-match parameter; the signed-in practice UI
+currently permits up to 15000 ms and archived team-vs-team configuration has used
+60000 ms. The architecture and source already define one
+`Emergency/Short/Normal/Long` scheduler, but the accepted canonical cap makes
+Long unreachable. This is a policy/capability mismatch, not authority to reopen
+unrelated tanker, role, ALNS or master experiments.
+
+The first gate measures the existing Long path before adding any new score logic.
+The default and unknown budget remains fail-closed at 5000 ms; only an explicit
+trusted public match budget may exceed it, with a maximum registered class of
+60000 ms, and server `endsAt` may only tighten the configured bound. Every request
+at or below 5000 ms must remain byte/score/state/validator equivalent to
+`828ea78`. The paired manifest was frozen before source change at
+`research/holdouts/DEADLINE-LONG-166.csv`, SHA256
+`BB7244DC7798963D03E7C6E1E2864B1796D6F0AFC77FD386801503A8E9AE76BF`.
+Development covered the same general fixed and BTC-like default/low/high fixtures
+at 5000, 15000 and 60000 ms. The 5-second candidate was byte/score/state equivalent
+to parent on all six general fixtures and every daily action hash. Direct Long at
+both 15 and 60 seconds was `0/4/2`: overnight fell `53 -> 50` servings and
+rare-brand `38 -> 37`, with zero invalid/emergency. The existing Long policy is
+therefore not monotonic and cannot replace the 5-second incumbent.
+
+Extra time nevertheless has measured value on BTC scale. At 15 seconds the three
+frozen development fixtures changed default `6/60/340 -> 6/60/346`, low fuel
+`6/60/405 -> 6/60/406` and high fuel `6/60/527 -> 6/60/527`; invalid/emergency
+were zero and all 30 decisions remained deadline-limited. Local timing has no
+performance authority, but exact score establishes a real search-resolution gap.
+The 166 holdout stayed sealed. Direct Long is closed; its only admissible successor
+is protected same-engine anytime refinement.
+
+Direct Long remains rejected and its source prerequisite is reverted. Anytime
+and the wider lower-witness successor are closed until a new sound general proof
+creates strict certified dominance. No parallel/shadow engine,
+map/family/seed/opponent dispatcher, weighted score or realized-suffix selection
+is allowed. Local time is only a falsification tool; BTC target-host at the same
+public deadline is mandatory for promotion.
 
 `CORRECT-HARD-CAP-WIRING-163` is closed accepted from the restored 162 source and the
 proven 161 core prerequisite. The rejected exhaustive deadline policy is not

@@ -17,7 +17,11 @@ struct ProtectedSlackDiagnostics {
     std::int64_t generatedPlans = 0;
     std::int64_t validPlans = 0;
     std::int64_t liftablePlans = 0;
+    std::int64_t sparseRoutes = 0;
+    std::int64_t strictTerminalImprovements = 0;
     bool deadlineReached = false;
+    bool terminalSparse = false;
+    bool sparseFailure = false;
 };
 
 struct ProtectedSlackResult {
@@ -58,6 +62,13 @@ public:
         std::chrono::steady_clock::time_point deadline) const;
 
     [[nodiscard]] ProtectedSlackResult refine_wait_detours(
+        const DayState& state,
+        const MatchLedger& ledger,
+        const DayPlan& incumbentPlan,
+        const SimulationResult& incumbentSimulation,
+        std::chrono::steady_clock::time_point deadline) const;
+
+    [[nodiscard]] ProtectedSlackResult refine_terminal_sparse(
         const DayState& state,
         const MatchLedger& ledger,
         const DayPlan& incumbentPlan,

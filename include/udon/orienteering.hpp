@@ -30,6 +30,9 @@ struct ExactOrienteeringReachability {
     std::vector<ExactOrienteeringRoute> servedSpotFuelRoutes;
 };
 
+[[nodiscard]] bool exact_orienteering_dense_state_supported(
+    const MatchConfig& config) noexcept;
+
 [[nodiscard]] ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
     const MatchConfig& config,
     const DayState& state,
@@ -43,6 +46,16 @@ struct ExactOrienteeringReachability {
     std::optional<std::chrono::steady_clock::time_point> deadline = std::nullopt);
 
 [[nodiscard]] ExactOrienteeringReachability enumerate_anytime_resource_routes(
+    const MatchConfig& config,
+    const DayState& state,
+    AgentIndex agent,
+    std::int32_t minimumSpots,
+    std::size_t maximumRoutes,
+    std::uint64_t maximumSettledStates,
+    std::optional<std::chrono::steady_clock::time_point> deadline = std::nullopt,
+    std::uint64_t preferredBrands = 0);
+
+[[nodiscard]] ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes(
     const MatchConfig& config,
     const DayState& state,
     AgentIndex agent,

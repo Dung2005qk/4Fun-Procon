@@ -57,6 +57,9 @@ struct Options {
     std::uint32_t fixedRoleMask = 0;
     std::chrono::milliseconds protectedRefineBudget{0};
     std::chrono::milliseconds protectedWaitBudget{0};
+    std::chrono::milliseconds terminalSparseBudget{0};
+    std::int32_t spotCount = 0;
+    std::string fuelProfile = "generated";
     bool protectedWaitDetours = false;
     bool protectedWaitClosedLoop = false;
     bool dayDetails = false;
@@ -103,6 +106,15 @@ struct Metrics {
     std::int32_t protectedWaitWitnessParentFuel = 0;
     std::int32_t protectedWaitWitnessCandidateFuel = 0;
     std::uint64_t protectedWaitWitnessPlanHash = 0;
+    std::int64_t terminalSparseRoutes = 0;
+    std::int64_t terminalSparsePlans = 0;
+    std::int64_t terminalSparseValid = 0;
+    std::int64_t terminalSparseStrict = 0;
+    std::int32_t terminalSparseTakeovers = 0;
+    std::int32_t terminalSparseDeadline = 0;
+    std::int32_t terminalSparseFailure = 0;
+    udon::OfficialScore terminalSparseParentScore;
+    udon::OfficialScore terminalSparseRefinedScore;
 };
 
 [[nodiscard]] std::uint64_t plan_hash(const udon::DayPlan& plan) {
@@ -221,7 +233,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     std::uint64_t seed,
     std::int32_t side = 32,
     std::int32_t days = 10,
-    std::int32_t agentCount = 8) {
+    std::int32_t agentCount = 8,
+    std::int32_t spotCount = 12) {
     static constexpr std::array<const char*, 6> families{
         "balanced",
         "rare-brand",
@@ -331,11 +344,17 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     fixture.starts.assign(
         plainCells.begin(),
         plainCells.begin() + agentCount);
-    fixture.spots.reserve(12U);
-    for (std::int32_t spotIndex = 0; spotIndex < 12; ++spotIndex) {
+    if (spotCount <= 0 ||
+        static_cast<std::size_t>(agentCount + spotCount) > plainCells.size()) {
+        throw std::invalid_argument("dense fixture spot count exceeds plain cells");
+    }
+    fixture.spots.reserve(static_cast<std::size_t>(spotCount));
+    for (std::int32_t spotIndex = 0; spotIndex < spotCount; ++spotIndex) {
         std::int32_t brandIndex = spotIndex % 6;
-        if (fixture.family == "rare-brand" && spotIndex < 11) {
-            brandIndex = spotIndex % 5;
+        if (fixture.family == "rare-brand") {
+            brandIndex = spotIndex == spotCount - 1
+                ? 5
+                : spotIndex % 5;
         }
         std::int32_t stock = 1 + static_cast<std::int32_t>(random() % 8U);
         if (fixture.family == "high-stock") {
@@ -390,16 +409,19 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         return fixture;
     }
     FixtureSpec fixture;
+    const std::int32_t spotCount = options.spotCount > 0
+        ? options.spotCount
+        : 12;
     if (options.suite == "stratified-easy") {
-        fixture = generated_btc_large_fixture(seed, 14, 5, 4);
+        fixture = generated_btc_large_fixture(seed, 14, 5, 4, spotCount);
     } else if (options.suite == "stratified-medium") {
-        fixture = generated_btc_large_fixture(seed, 20, 7, 4);
+        fixture = generated_btc_large_fixture(seed, 20, 7, 4, spotCount);
     } else if (options.suite == "stratified-hard") {
-        fixture = generated_btc_large_fixture(seed, 26, 8, 6);
+        fixture = generated_btc_large_fixture(seed, 26, 8, 6, spotCount);
     } else if (options.suite == "stratified-very-hard") {
-        fixture = generated_btc_large_fixture(seed, 32, 10, 8);
+        fixture = generated_btc_large_fixture(seed, 32, 10, 8, spotCount);
     } else {
-        fixture = generated_btc_large_fixture(seed);
+        fixture = generated_btc_large_fixture(seed, 32, 10, 8, spotCount);
     }
     if (options.suite.starts_with("stratified-")) {
         fixture.name = options.suite + "-" + fixture.family +
@@ -417,18 +439,29 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                options.suite == "stratified-medium" ||
                options.suite == "stratified-hard" ||
                options.suite == "stratified-very-hard") {
-        const std::uint64_t profile = seed % 9U;
-        if (profile < 3U) {
-            fixture.family = "low-fuel-" + fixture.family;
-            fixture.name = "low-fuel-" + fixture.name;
-            fixture.fuelLimit = fixture.daySteps.front();
-        } else if (profile >= 6U) {
-            fixture.family = "high-fuel-" + fixture.family;
-            fixture.name = "high-fuel-" + fixture.name;
-            fixture.fuelLimit = 3 * fixture.daySteps.front();
+        if (options.fuelProfile == "generated") {
+            const std::uint64_t profile = seed % 9U;
+            if (profile < 3U) {
+                fixture.family = "low-fuel-" + fixture.family;
+                fixture.name = "low-fuel-" + fixture.name;
+                fixture.fuelLimit = fixture.daySteps.front();
+            } else if (profile >= 6U) {
+                fixture.family = "high-fuel-" + fixture.family;
+                fixture.name = "high-fuel-" + fixture.name;
+                fixture.fuelLimit = 3 * fixture.daySteps.front();
+            }
         }
     } else if (options.suite != "btc-large") {
         throw std::invalid_argument("unknown suite: " + options.suite);
+    }
+    if (options.fuelProfile == "default") {
+        // Retain the family-derived BTC-like default (120 or 200).
+    } else if (options.fuelProfile == "high") {
+        fixture.fuelLimit = 3 * fixture.daySteps.front();
+    } else if (options.fuelProfile == "low") {
+        fixture.fuelLimit = fixture.daySteps.front();
+    } else if (options.fuelProfile != "generated") {
+        throw std::invalid_argument("unknown fuel profile: " + options.fuelProfile);
     }
     return fixture;
 }
@@ -806,6 +839,37 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                     ++metrics.protectedWaitTakeovers;
                 }
             }
+            if (options.terminalSparseBudget.count() > 0 &&
+                day == config.day_count()) {
+                metrics.terminalSparseParentScore =
+                    udon::OfficialScore::after_day(ledger, detailed.score);
+                const udon::ProtectedSlackResult terminalChoice =
+                    slackRefiner.refine_terminal_sparse(
+                        state,
+                        ledger,
+                        decision.candidate.plan,
+                        detailed,
+                        started + options.terminalSparseBudget);
+                metrics.terminalSparseRoutes +=
+                    terminalChoice.diagnostics.sparseRoutes;
+                metrics.terminalSparsePlans +=
+                    terminalChoice.diagnostics.generatedPlans;
+                metrics.terminalSparseValid +=
+                    terminalChoice.diagnostics.validPlans;
+                metrics.terminalSparseStrict +=
+                    terminalChoice.diagnostics.strictTerminalImprovements;
+                metrics.terminalSparseDeadline +=
+                    terminalChoice.diagnostics.deadlineReached ? 1 : 0;
+                metrics.terminalSparseFailure +=
+                    terminalChoice.diagnostics.sparseFailure ? 1 : 0;
+                metrics.terminalSparseRefinedScore =
+                    terminalChoice.scoreAfterToday;
+                if (terminalChoice.improved) {
+                    detailed = terminalChoice.simulation;
+                    appliedPlanHash = plan_hash(terminalChoice.plan);
+                    ++metrics.terminalSparseTakeovers;
+                }
+            }
             if (refinementDecision.has_value() &&
                 day == config.day_count()) {
                 ++metrics.protectedTerminalAttempts;
@@ -855,9 +919,19 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         ledger.apply(detailed.score);
         if (options.protectedWaitClosedLoop) {
             virtualLedger.apply(virtualDetailed.score);
-            if (!udon::protected_slack_ledger_dominates(
-                    virtualLedger,
-                    ledger)) {
+            const bool ledgerRelationValid = day == config.day_count()
+                ? !(udon::OfficialScore{
+                        ledger.lifetime_distinct(),
+                        ledger.totalDailyDistinct,
+                        ledger.totalServings} <
+                    udon::OfficialScore{
+                        virtualLedger.lifetime_distinct(),
+                        virtualLedger.totalDailyDistinct,
+                        virtualLedger.totalServings})
+                : udon::protected_slack_ledger_dominates(
+                      virtualLedger,
+                      ledger);
+            if (!ledgerRelationValid) {
                 throw std::runtime_error(
                     "protected virtual-parent ledger relation failed for " +
                     fixture.name + " on day " + std::to_string(day));
@@ -942,6 +1016,13 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         } else if (value == "--protected-wait-ms") {
             options.protectedWaitBudget =
                 std::chrono::milliseconds{std::stoll(next())};
+        } else if (value == "--terminal-sparse-ms") {
+            options.terminalSparseBudget =
+                std::chrono::milliseconds{std::stoll(next())};
+        } else if (value == "--spot-count") {
+            options.spotCount = std::stoi(next());
+        } else if (value == "--fuel-profile") {
+            options.fuelProfile = next();
         } else if (value == "--protected-wait-detours") {
             options.protectedWaitDetours = true;
         } else if (value == "--protected-wait-closed-loop") {
@@ -957,15 +1038,25 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         options.seedCount <= 0 || options.dayBudget.count() <= 0 ||
         options.roleBudget.count() <= 0 ||
         options.protectedRefineBudget.count() < 0 ||
-        options.protectedWaitBudget.count() < 0) {
+        options.protectedWaitBudget.count() < 0 ||
+        options.terminalSparseBudget.count() < 0 ||
+        options.spotCount < 0) {
         throw std::invalid_argument(
             "--version, --track, positive --seeds, --budget-ms and --role-ms are required");
     }
     if (options.roleMode != "exhaustive" &&
         options.roleMode != "deadline" &&
+        options.roleMode != "native" &&
         options.roleMode != "fixed") {
         throw std::invalid_argument(
-            "--role-mode must be exhaustive, deadline or fixed");
+            "--role-mode must be exhaustive, deadline, native or fixed");
+    }
+    if (options.fuelProfile != "generated" &&
+        options.fuelProfile != "default" &&
+        options.fuelProfile != "high" &&
+        options.fuelProfile != "low") {
+        throw std::invalid_argument(
+            "--fuel-profile must be generated, default, high or low");
     }
     return options;
 }
@@ -990,6 +1081,8 @@ void print_result(
               << ",harvest_mode=" << kHarnessHarvestMode
               << ",future_harvest_mode=" << kHarnessFutureHarvestMode
               << ",role_mode=" << options.roleMode
+              << ",spot_count=" << fixture.spots.size()
+              << ",fuel_profile=" << options.fuelProfile
               << ",fixture=" << fixture.name
               << ",family=" << fixture.family
               << ",seed=" << fixture.seed
@@ -1062,6 +1155,28 @@ void print_result(
               << metrics.protectedWaitWitnessCandidateFuel
               << ",protected_wait_witness_hash="
               << metrics.protectedWaitWitnessPlanHash
+              << ",terminal_sparse_routes="
+              << metrics.terminalSparseRoutes
+              << ",terminal_sparse_plans="
+              << metrics.terminalSparsePlans
+              << ",terminal_sparse_valid="
+              << metrics.terminalSparseValid
+              << ",terminal_sparse_strict="
+              << metrics.terminalSparseStrict
+              << ",terminal_sparse_takeovers="
+              << metrics.terminalSparseTakeovers
+              << ",terminal_sparse_deadline="
+              << metrics.terminalSparseDeadline
+              << ",terminal_sparse_failure="
+              << metrics.terminalSparseFailure
+              << ",terminal_sparse_parent="
+              << metrics.terminalSparseParentScore.lifetimeDistinct << '/'
+              << metrics.terminalSparseParentScore.totalDailyDistinct << '/'
+              << metrics.terminalSparseParentScore.totalServings
+              << ",terminal_sparse_refined="
+              << metrics.terminalSparseRefinedScore.lifetimeDistinct << '/'
+              << metrics.terminalSparseRefinedScore.totalDailyDistinct << '/'
+              << metrics.terminalSparseRefinedScore.totalServings
               << ",mean_ms=" << meanMilliseconds
               << ",p95_ms=" << percentile(metrics.responseTimes, 95)
               << ",max_ms=" << percentile(metrics.responseTimes, 100)

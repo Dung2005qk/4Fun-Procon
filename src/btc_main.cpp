@@ -1731,16 +1731,23 @@ void run_http(const RuntimeOptions& options) {
                 const std::int64_t refinementRemainingMs =
                     solveDeadlineMs - refinementReserveMs -
                     unix_milliseconds();
-                if (state.dayNumber < config.day_count() &&
-                    refinementRemainingMs > 0) {
-                    refinement = slackRefiner.refine_wait_detours(
-                        state,
-                        ledger,
-                        submittedPlan,
-                        submittedSimulation,
+                if (refinementRemainingMs > 0) {
+                    const auto refinementDeadline =
                         std::chrono::steady_clock::now() +
-                            std::chrono::milliseconds{
-                                refinementRemainingMs});
+                        std::chrono::milliseconds{refinementRemainingMs};
+                    refinement = state.dayNumber == config.day_count()
+                        ? slackRefiner.refine_terminal_sparse(
+                              state,
+                              ledger,
+                              submittedPlan,
+                              submittedSimulation,
+                              refinementDeadline)
+                        : slackRefiner.refine_wait_detours(
+                              state,
+                              ledger,
+                              submittedPlan,
+                              submittedSimulation,
+                              refinementDeadline);
                 }
                 if (refinement.improved) {
                     submittedPlan = refinement.plan;
@@ -1752,12 +1759,25 @@ void run_http(const RuntimeOptions& options) {
                     decision.decision.candidate.simulation.score);
                 udon::MatchLedger prospectiveActualLedger = ledger;
                 prospectiveActualLedger.apply(submittedSimulation.score);
-                if (!udon::protected_slack_transition_dominates(
-                        decision.decision.candidate.simulation,
-                        submittedSimulation) ||
-                    !udon::protected_slack_ledger_dominates(
-                        prospectiveVirtualLedger,
-                        prospectiveActualLedger)) {
+                const auto ledger_score = [](const udon::MatchLedger& value) {
+                    return udon::OfficialScore{
+                        value.lifetime_distinct(),
+                        value.totalDailyDistinct,
+                        value.totalServings};
+                };
+                const auto submission_admissible = [&]() {
+                    if (state.dayNumber == config.day_count()) {
+                        return !(ledger_score(prospectiveActualLedger) <
+                            ledger_score(prospectiveVirtualLedger));
+                    }
+                    return udon::protected_slack_transition_dominates(
+                               decision.decision.candidate.simulation,
+                               submittedSimulation) &&
+                        udon::protected_slack_ledger_dominates(
+                            prospectiveVirtualLedger,
+                            prospectiveActualLedger);
+                };
+                if (!submission_admissible()) {
                     submittedPlan = decision.decision.candidate.plan;
                     submittedProtectedImprovement = false;
                     submittedSimulation = validate_fallback_plan(
@@ -1768,12 +1788,7 @@ void run_http(const RuntimeOptions& options) {
                         "BTC protected-slack parent revalidation failed");
                     prospectiveActualLedger = ledger;
                     prospectiveActualLedger.apply(submittedSimulation.score);
-                    if (!udon::protected_slack_transition_dominates(
-                            decision.decision.candidate.simulation,
-                            submittedSimulation) ||
-                        !udon::protected_slack_ledger_dominates(
-                            prospectiveVirtualLedger,
-                            prospectiveActualLedger)) {
+                    if (!submission_admissible()) {
                         throw std::runtime_error(
                             "BTC virtual-parent dominance invariant failed before submission");
                     }
@@ -1817,6 +1832,22 @@ void run_http(const RuntimeOptions& options) {
                     "liftablePlans",
                     udon::JsonValue(
                         refinement.diagnostics.liftablePlans));
+                telemetry.emplace(
+                    "sparseRoutes",
+                    udon::JsonValue(
+                        refinement.diagnostics.sparseRoutes));
+                telemetry.emplace(
+                    "strictTerminalImprovements",
+                    udon::JsonValue(
+                        refinement.diagnostics.strictTerminalImprovements));
+                telemetry.emplace(
+                    "terminalSparse",
+                    udon::JsonValue(
+                        refinement.diagnostics.terminalSparse));
+                telemetry.emplace(
+                    "sparseFailure",
+                    udon::JsonValue(
+                        refinement.diagnostics.sparseFailure));
                 telemetry.emplace(
                     "deadlineReached",
                     udon::JsonValue(
@@ -2006,9 +2037,20 @@ void run_http(const RuntimeOptions& options) {
                 protectedDivergenceActive =
                     protectedDivergenceActive ||
                     submittedProtectedImprovement;
-                if (!udon::protected_slack_ledger_dominates(
-                        virtualLedger,
-                        ledger)) {
+                const bool acknowledgedLedgerValid =
+                    state.dayNumber == config.day_count()
+                    ? !(udon::OfficialScore{
+                            ledger.lifetime_distinct(),
+                            ledger.totalDailyDistinct,
+                            ledger.totalServings} <
+                        udon::OfficialScore{
+                            virtualLedger.lifetime_distinct(),
+                            virtualLedger.totalDailyDistinct,
+                            virtualLedger.totalServings})
+                    : udon::protected_slack_ledger_dominates(
+                          virtualLedger,
+                          ledger);
+                if (!acknowledgedLedgerValid) {
                     throw std::runtime_error(
                         "BTC protected-slack ledger invariant failed after acknowledgement");
                 }

@@ -1,12 +1,19 @@
 #include "udon/slack_refiner.hpp"
 
+#include <algorithm>
+#include <atomic>
+#include <bit>
 #include <cstddef>
+#include <limits>
 #include <optional>
 #include <set>
 #include <string>
 #include <stdexcept>
+#include <thread>
 #include <utility>
 #include <vector>
+
+#include "udon/orienteering.hpp"
 
 namespace udon {
 namespace {
@@ -351,6 +358,194 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_wait_detours(
                                 static_cast<std::size_t>(agent)).fuel;
                     }
                 }
+            }
+        }
+    }
+    return result;
+}
+
+ProtectedSlackResult ProtectedSlackRefiner::refine_terminal_sparse(
+    const DayState& state,
+    const MatchLedger& ledger,
+    const DayPlan& incumbentPlan,
+    const SimulationResult& incumbentSimulation,
+    std::chrono::steady_clock::time_point deadline) const {
+    ProtectedSlackResult result;
+    result.plan = incumbentPlan;
+    result.simulation = incumbentSimulation;
+    result.scoreAfterToday =
+        OfficialScore::after_day(ledger, incumbentSimulation.score);
+    if (!incumbentSimulation.valid ||
+        state.dayNumber != config_.day_count() ||
+        incumbentPlan.actions.size() !=
+            static_cast<std::size_t>(config_.agent_count()) ||
+        config_.spots.size() > 32U ||
+        exact_orienteering_dense_state_supported(config_)) {
+        return result;
+    }
+    result.diagnostics.terminalSparse = true;
+    const SimulationResult independentIncumbent =
+        validator_.validate(state, incumbentPlan, false);
+    std::string incumbentMismatch;
+    if (!validator_.agrees_with(
+            incumbentSimulation,
+            independentIncumbent,
+            incumbentMismatch)) {
+        return result;
+    }
+    constexpr auto kValidationReserve = std::chrono::milliseconds{80};
+    const auto now = std::chrono::steady_clock::now();
+    if (now + kValidationReserve >= deadline) {
+        result.diagnostics.deadlineReached = true;
+        return result;
+    }
+    const auto searchDeadline = deadline - kValidationReserve;
+
+    std::uint64_t preferredBrands = 0U;
+    for (std::int32_t brand = 0; brand < config_.brand_count(); ++brand) {
+        if (!has_brand(ledger.lifetimeBrands, brand)) {
+            preferredBrands |= brand_bit(brand);
+        }
+    }
+    const std::int32_t minimumSpots = preferredBrands != 0U
+        ? 1
+        : std::min<std::int32_t>(
+              std::max(1, config_.brand_count() - 1),
+              static_cast<std::int32_t>(config_.spots.size()));
+
+    const auto visited_spot_count = [this, &state, &incumbentPlan](
+                                        AgentIndex agent) {
+        std::uint32_t mask = 0U;
+        CellId cell = state.agents.at(static_cast<std::size_t>(agent)).position;
+        const SpotIndex initialSpot =
+            config_.spotAtCell.at(static_cast<std::size_t>(cell));
+        if (initialSpot != kInvalidSpot) {
+            mask |= std::uint32_t{1} << static_cast<std::uint32_t>(initialSpot);
+        }
+        for (const PlanAction& action :
+             incumbentPlan.actions.at(static_cast<std::size_t>(agent))) {
+            if (action.kind == ActionKind::Wait) {
+                continue;
+            }
+            cell = config_.map.neighbors.at(static_cast<std::size_t>(cell)).at(
+                static_cast<std::size_t>(action.value));
+            if (cell == kInvalidCell) {
+                return std::numeric_limits<std::int32_t>::max();
+            }
+            const SpotIndex spot =
+                config_.spotAtCell.at(static_cast<std::size_t>(cell));
+            if (spot != kInvalidSpot) {
+                mask |= std::uint32_t{1} << static_cast<std::uint32_t>(spot);
+            }
+        }
+        return static_cast<std::int32_t>(std::popcount(mask));
+    };
+    std::vector<AgentIndex> tasks;
+    for (AgentIndex agent = 0; agent < config_.agent_count(); ++agent) {
+        if (state.agents.at(static_cast<std::size_t>(agent)).kind ==
+            AgentKind::Patrol) {
+            tasks.push_back(agent);
+        }
+    }
+    std::stable_sort(
+        tasks.begin(),
+        tasks.end(),
+        [&visited_spot_count](AgentIndex left, AgentIndex right) {
+            return visited_spot_count(left) < visited_spot_count(right);
+        });
+    std::vector<ExactOrienteeringReachability> reachability(
+        static_cast<std::size_t>(config_.agent_count()));
+    std::atomic<std::size_t> nextTask{0U};
+    std::atomic<bool> workerFailed{false};
+    constexpr std::size_t kWorkerLimit = 4U;
+    const std::size_t workerCount = std::min(kWorkerLimit, tasks.size());
+    {
+        std::vector<std::jthread> workers;
+        workers.reserve(workerCount);
+        for (std::size_t worker = 0; worker < workerCount; ++worker) {
+            workers.emplace_back([&]() {
+                try {
+                    while (!workerFailed.load() &&
+                           std::chrono::steady_clock::now() < searchDeadline) {
+                        const std::size_t task = nextTask.fetch_add(1U);
+                        if (task >= tasks.size()) {
+                            return;
+                        }
+                        const AgentIndex agent = tasks.at(task);
+                        reachability.at(static_cast<std::size_t>(agent)) =
+                            enumerate_sparse_anytime_resource_routes(
+                                config_,
+                                state,
+                                agent,
+                                minimumSpots,
+                                32U,
+                                1250000U,
+                                searchDeadline,
+                                preferredBrands);
+                    }
+                } catch (...) {
+                    workerFailed.store(true);
+                }
+            });
+        }
+    }
+    if (workerFailed.load()) {
+        result.diagnostics.sparseFailure = true;
+        return result;
+    }
+
+    std::set<std::uint64_t> planHashes;
+    planHashes.insert(plan_hash(incumbentPlan));
+    for (const AgentIndex agent : tasks) {
+        const ExactOrienteeringReachability& routes =
+            reachability.at(static_cast<std::size_t>(agent));
+        const auto evaluate = [&](const ExactOrienteeringRoute& route) {
+            if (std::chrono::steady_clock::now() >= deadline) {
+                result.diagnostics.deadlineReached = true;
+                return false;
+            }
+            ++result.diagnostics.sparseRoutes;
+            DayPlan candidate = incumbentPlan;
+            candidate.actions.at(static_cast<std::size_t>(agent)) = route.actions;
+            if (!planHashes.insert(plan_hash(candidate)).second) {
+                return true;
+            }
+            ++result.diagnostics.generatedPlans;
+            const SimulationResult detailed =
+                simulator_.simulate(state, candidate, false);
+            const SimulationResult independent =
+                validator_.validate(state, candidate, false);
+            std::string mismatch;
+            if (!detailed.valid ||
+                !validator_.agrees_with(detailed, independent, mismatch)) {
+                return true;
+            }
+            ++result.diagnostics.validPlans;
+            const OfficialScore candidateScore =
+                OfficialScore::after_day(ledger, detailed.score);
+            if (!(result.scoreAfterToday < candidateScore)) {
+                return true;
+            }
+            ++result.diagnostics.strictTerminalImprovements;
+            result.plan = std::move(candidate);
+            result.simulation = detailed;
+            result.scoreAfterToday = candidateScore;
+            result.improved = true;
+            result.witnessAgent = agent;
+            result.witnessParentFuel = incumbentSimulation.finalAgents.at(
+                static_cast<std::size_t>(agent)).fuel;
+            result.witnessCandidateFuel = detailed.finalAgents.at(
+                static_cast<std::size_t>(agent)).fuel;
+            return true;
+        };
+        for (const ExactOrienteeringRoute& route : routes.maximalRoutes) {
+            if (!evaluate(route)) {
+                return result;
+            }
+        }
+        for (const ExactOrienteeringRoute& route : routes.supplementalRoutes) {
+            if (!evaluate(route)) {
+                return result;
             }
         }
     }

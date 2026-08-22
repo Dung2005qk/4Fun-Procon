@@ -1907,6 +1907,20 @@ void test_protected_slack_refiner(
             udon::canonical_plan_bytes(expired.plan) ==
                 udon::canonical_plan_bytes(parent),
         "an expired protected-slack budget must return the byte-identical parent plan");
+    const udon::ProtectedSlackResult nonterminalSparse =
+        refiner.refine_terminal_sparse(
+            state,
+            udon::MatchLedger{},
+            parent,
+            parentSimulation,
+            std::chrono::steady_clock::now() +
+                std::chrono::milliseconds{500});
+    require(
+        !nonterminalSparse.improved &&
+            !nonterminalSparse.diagnostics.terminalSparse &&
+            udon::canonical_plan_bytes(nonterminalSparse.plan) ==
+                udon::canonical_plan_bytes(parent),
+        "terminal sparse refinement must be unreachable before the final day and preserve the byte-identical parent");
 }
 
 void test_deadline_floors() {

@@ -1,13 +1,19 @@
 #include <algorithm>
+#include <array>
+#include <bit>
 #include <chrono>
 #include <cstdint>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <limits>
 #include <optional>
+#include <queue>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <tuple>
+#include <unordered_map>
 #include <vector>
 #include <unordered_set>
 
@@ -17,6 +23,7 @@
 #include "udon/orienteering.hpp"
 #include "udon/protocol.hpp"
 #include "udon/simulator.hpp"
+#include "udon/slack_refiner.hpp"
 #include "udon/validator.hpp"
 
 namespace {
@@ -51,6 +58,28 @@ struct ReplayPrefix {
     udon::DayState targetState;
     udon::MatchLedger ledger;
 };
+
+[[nodiscard]] udon::DayPlan recorded_plan_for_day(
+    const std::vector<udon::JsonValue>& events,
+    const udon::MatchConfig& config,
+    std::int32_t targetDay) {
+    bool targetStateSeen = false;
+    for (const udon::JsonValue& event : events) {
+        const std::string& kind = event.at("kind").string();
+        if (kind == "day_state") {
+            targetStateSeen =
+                static_cast<std::int32_t>(event.at("body").at("day").integer()) + 1 ==
+                targetDay;
+            continue;
+        }
+        if (targetStateSeen &&
+            (kind == "actions" || kind == "actions_fallback" ||
+             kind == "actions_recovery_wait" || kind == "actions_server_wait")) {
+            return udon::parse_day_plan(config, event.at("body"));
+        }
+    }
+    throw std::runtime_error("recorded plan is absent for target day");
+}
 
 [[nodiscard]] ReplayPrefix reconstruct_prefix(
     const std::vector<udon::JsonValue>& events,
@@ -497,6 +526,533 @@ void print_complete_resource_exchange(
     }
 }
 
+struct SparseLabel {
+    std::uint32_t mask = 0U;
+    udon::CellId cell = udon::kInvalidCell;
+    std::uint16_t usedSteps = 0U;
+    std::uint16_t usedFuel = 0U;
+    std::uint32_t parent = std::numeric_limits<std::uint32_t>::max();
+    std::int32_t nextAtState = -1;
+    std::uint8_t incoming = std::numeric_limits<std::uint8_t>::max();
+    bool active = true;
+};
+
+struct SparseRouteChoice {
+    std::uint32_t label = 0U;
+    std::uint32_t mask = 0U;
+    std::tuple<
+        std::int32_t,
+        std::int32_t,
+        std::int32_t,
+        std::int32_t,
+        std::int32_t,
+        std::int32_t,
+        std::int32_t,
+        std::int32_t,
+        std::uint32_t> rank;
+};
+
+void print_sparse_exchange(
+    const ReplayPrefix& prefix,
+    const udon::DayPlan& frozenWitness) {
+    constexpr std::uint64_t kMaximumSettledStates = 1250000U;
+    constexpr std::size_t kMaximumRoutes = 32U;
+    const udon::ExactStepSimulator simulator(prefix.config);
+    const udon::IndependentDayValidator validator(prefix.config);
+    const udon::SimulationResult baseline = simulator.simulate(
+        prefix.targetState,
+        frozenWitness,
+        false);
+    const udon::OfficialScore baselineScore = udon::OfficialScore::after_day(
+        prefix.ledger,
+        baseline.score);
+    udon::OfficialScore globalBest = baselineScore;
+    udon::OfficialScore protectedGlobalBest = baselineScore;
+    udon::AgentIndex globalAgent = udon::kInvalidAgent;
+    udon::AgentIndex protectedGlobalAgent = udon::kInvalidAgent;
+    std::uint32_t globalMask = 0U;
+    std::uint32_t protectedGlobalMask = 0U;
+    udon::DayPlan globalPlan = frozenWitness;
+
+    std::uint64_t preferredBrands = 0U;
+    for (std::int32_t brand = 0; brand < prefix.config.brand_count(); ++brand) {
+        if (!udon::has_brand(prefix.ledger.lifetimeBrands, brand)) {
+            preferredBrands |= udon::brand_bit(brand);
+        }
+    }
+    const std::int32_t minimumSpots = preferredBrands != 0U
+        ? 1
+        : std::min<std::int32_t>(
+              std::max(1, prefix.config.brand_count() - 1),
+              static_cast<std::int32_t>(prefix.config.spots.size()));
+    const std::int32_t daySteps = prefix.config.steps_for_day(
+        prefix.targetState.dayNumber);
+    const std::uint32_t cellCount = static_cast<std::uint32_t>(
+        prefix.config.map.cell_count());
+    const auto state_key = [](std::uint32_t mask, udon::CellId cell) {
+        return (static_cast<std::uint64_t>(mask) << 32U) |
+            static_cast<std::uint32_t>(cell);
+    };
+
+    for (udon::AgentIndex agent = 0;
+         agent < prefix.config.agent_count();
+         ++agent) {
+        const udon::AgentState& agentState = prefix.targetState.agents.at(
+            static_cast<std::size_t>(agent));
+        if (agentState.kind != udon::AgentKind::Patrol) {
+            continue;
+        }
+        using QueueEntry = std::tuple<
+            std::uint8_t,
+            std::uint16_t,
+            std::uint16_t,
+            std::uint32_t>;
+        std::priority_queue<
+            QueueEntry,
+            std::vector<QueueEntry>,
+            std::greater<>> queue;
+        std::unordered_map<std::uint64_t, std::int32_t> firstLabelAtState;
+        firstLabelAtState.reserve(1U << 20U);
+        std::vector<SparseLabel> labels;
+        labels.reserve(1U << 20U);
+        const auto relax = [&firstLabelAtState, &labels, &queue, &state_key](
+                               std::uint32_t mask,
+                               udon::CellId cell,
+                               std::uint16_t candidateSteps,
+                               std::uint16_t candidateFuel,
+                               std::uint32_t parent,
+                               std::uint8_t incoming) {
+            const std::uint64_t key = state_key(mask, cell);
+            const auto iterator = firstLabelAtState.find(key);
+            const std::int32_t first = iterator == firstLabelAtState.end()
+                ? -1
+                : iterator->second;
+            for (std::int32_t labelIndex = first;
+                 labelIndex >= 0;
+                 labelIndex = labels.at(
+                     static_cast<std::size_t>(labelIndex)).nextAtState) {
+                const SparseLabel& existing = labels.at(
+                    static_cast<std::size_t>(labelIndex));
+                if (existing.active &&
+                    existing.usedSteps <= candidateSteps &&
+                    existing.usedFuel <= candidateFuel) {
+                    return;
+                }
+            }
+            for (std::int32_t labelIndex = first;
+                 labelIndex >= 0;
+                 labelIndex = labels.at(
+                     static_cast<std::size_t>(labelIndex)).nextAtState) {
+                SparseLabel& existing = labels.at(
+                    static_cast<std::size_t>(labelIndex));
+                if (existing.active &&
+                    candidateSteps <= existing.usedSteps &&
+                    candidateFuel <= existing.usedFuel) {
+                    existing.active = false;
+                }
+            }
+            const std::uint32_t labelIndex = static_cast<std::uint32_t>(
+                labels.size());
+            labels.push_back(SparseLabel{
+                mask,
+                cell,
+                candidateSteps,
+                candidateFuel,
+                parent,
+                first,
+                incoming,
+                true,
+            });
+            firstLabelAtState[key] = static_cast<std::int32_t>(labelIndex);
+            const std::uint8_t cardinalityPriority = static_cast<std::uint8_t>(
+                32U - std::popcount(mask));
+            queue.emplace(
+                cardinalityPriority,
+                candidateSteps,
+                candidateFuel,
+                labelIndex);
+        };
+
+        relax(
+            0U,
+            agentState.position,
+            0U,
+            0U,
+            std::numeric_limits<std::uint32_t>::max(),
+            std::numeric_limits<std::uint8_t>::max());
+        const std::uint32_t rootLabel = 0U;
+        const udon::SpotIndex startSpot = prefix.config.spotAtCell.at(
+            static_cast<std::size_t>(agentState.position));
+        if (startSpot != udon::kInvalidSpot && daySteps >= 1) {
+            relax(
+                std::uint32_t{1} << static_cast<std::uint32_t>(startSpot),
+                agentState.position,
+                1U,
+                0U,
+                rootLabel,
+                static_cast<std::uint8_t>(udon::kDirectionCount));
+        }
+
+        std::vector<udon::MoveCost> moveCosts(cellCount);
+        std::vector<std::uint32_t> destinationSpotBits(cellCount, 0U);
+        for (std::uint32_t cell = 0U; cell < cellCount; ++cell) {
+            moveCosts.at(cell) = prefix.config.move_cost(
+                static_cast<udon::CellId>(cell),
+                prefix.targetState.roadStatuses.at(cell));
+            const udon::SpotIndex spot = prefix.config.spotAtCell.at(cell);
+            if (spot != udon::kInvalidSpot) {
+                destinationSpotBits.at(cell) =
+                    std::uint32_t{1} << static_cast<std::uint32_t>(spot);
+            }
+        }
+
+        std::unordered_set<std::uint32_t> emittedMasks;
+        emittedMasks.reserve(1U << 16U);
+        std::unordered_set<std::uint32_t> protectedEmittedMasks;
+        protectedEmittedMasks.reserve(1U << 16U);
+        std::vector<SparseRouteChoice> retained;
+        retained.reserve(kMaximumRoutes);
+        std::vector<SparseRouteChoice> protectedRetained;
+        protectedRetained.reserve(kMaximumRoutes);
+        std::uint64_t settledStates = 0U;
+        while (!queue.empty() && settledStates < kMaximumSettledStates) {
+            const auto [
+                queuedCardinality,
+                queuedSteps,
+                queuedFuel,
+                labelIndex] = queue.top();
+            queue.pop();
+            static_cast<void>(queuedCardinality);
+            const SparseLabel current = labels.at(
+                static_cast<std::size_t>(labelIndex));
+            if (!current.active || current.usedSteps != queuedSteps ||
+                current.usedFuel != queuedFuel) {
+                continue;
+            }
+            ++settledStates;
+            if (static_cast<std::int32_t>(std::popcount(current.mask)) >=
+                    minimumSpots &&
+                prefix.config.spotAtCell.at(
+                    static_cast<std::size_t>(current.cell)) !=
+                    udon::kInvalidSpot &&
+                emittedMasks.insert(current.mask).second) {
+                std::uint64_t brands = 0U;
+                std::int32_t servingPotential = 0;
+                for (std::size_t spot = 0;
+                     spot < prefix.config.spots.size();
+                     ++spot) {
+                    if ((current.mask &
+                         (std::uint32_t{1} << static_cast<std::uint32_t>(spot))) ==
+                        0U) {
+                        continue;
+                    }
+                    brands |= udon::brand_bit(
+                        prefix.config.spots.at(spot).brandIndex);
+                    servingPotential +=
+                        prefix.config.spots.at(spot).stock > 0 ? 1 : 0;
+                }
+                std::int32_t terminalBrandDistance = 0;
+                for (std::int32_t brand = 0;
+                     brand < prefix.config.brand_count();
+                     ++brand) {
+                    std::int32_t nearest =
+                        std::numeric_limits<std::int32_t>::max();
+                    for (const udon::Spot& spot : prefix.config.spots) {
+                        if (spot.brandIndex == brand) {
+                            nearest = std::min(
+                                nearest,
+                                prefix.config.map.hex_distance(
+                                    current.cell,
+                                    spot.position));
+                        }
+                    }
+                    if (nearest != std::numeric_limits<std::int32_t>::max()) {
+                        terminalBrandDistance += nearest;
+                    }
+                }
+                const auto rank = std::tuple{
+                    static_cast<std::int32_t>(
+                        std::popcount(brands & preferredBrands)),
+                    static_cast<std::int32_t>(std::popcount(brands)),
+                    servingPotential,
+                    static_cast<std::int32_t>(std::popcount(current.mask)),
+                    -static_cast<std::int32_t>(current.usedSteps),
+                    -static_cast<std::int32_t>(current.usedFuel),
+                    -terminalBrandDistance,
+                    -current.cell,
+                    std::numeric_limits<std::uint32_t>::max() - current.mask};
+                SparseRouteChoice choice{labelIndex, current.mask, rank};
+                if (retained.size() < kMaximumRoutes) {
+                    retained.push_back(choice);
+                } else {
+                    const auto worst = std::min_element(
+                        retained.begin(),
+                        retained.end(),
+                        [](const SparseRouteChoice& left,
+                           const SparseRouteChoice& right) {
+                            return left.rank < right.rank;
+                        });
+                    if (worst->rank < rank) {
+                        *worst = choice;
+                    }
+                }
+            }
+            if (static_cast<std::int32_t>(std::popcount(current.mask)) >=
+                    minimumSpots &&
+                current.cell == baseline.finalAgents.at(
+                    static_cast<std::size_t>(agent)).position &&
+                protectedEmittedMasks.insert(current.mask).second) {
+                std::uint64_t brands = 0U;
+                std::int32_t servingPotential = 0;
+                for (std::size_t spot = 0;
+                     spot < prefix.config.spots.size();
+                     ++spot) {
+                    if ((current.mask &
+                         (std::uint32_t{1} << static_cast<std::uint32_t>(spot))) ==
+                        0U) {
+                        continue;
+                    }
+                    brands |= udon::brand_bit(
+                        prefix.config.spots.at(spot).brandIndex);
+                    servingPotential +=
+                        prefix.config.spots.at(spot).stock > 0 ? 1 : 0;
+                }
+                const auto rank = std::tuple{
+                    static_cast<std::int32_t>(
+                        std::popcount(brands & preferredBrands)),
+                    static_cast<std::int32_t>(std::popcount(brands)),
+                    servingPotential,
+                    static_cast<std::int32_t>(std::popcount(current.mask)),
+                    -static_cast<std::int32_t>(current.usedSteps),
+                    -static_cast<std::int32_t>(current.usedFuel),
+                    0,
+                    -current.cell,
+                    std::numeric_limits<std::uint32_t>::max() - current.mask};
+                SparseRouteChoice choice{labelIndex, current.mask, rank};
+                if (protectedRetained.size() < kMaximumRoutes) {
+                    protectedRetained.push_back(choice);
+                } else {
+                    const auto worst = std::min_element(
+                        protectedRetained.begin(),
+                        protectedRetained.end(),
+                        [](const SparseRouteChoice& left,
+                           const SparseRouteChoice& right) {
+                            return left.rank < right.rank;
+                        });
+                    if (worst->rank < rank) {
+                        *worst = choice;
+                    }
+                }
+            }
+
+            const udon::MoveCost move = moveCosts.at(
+                static_cast<std::size_t>(current.cell));
+            const std::int32_t nextSteps =
+                static_cast<std::int32_t>(current.usedSteps) + move.steps;
+            const std::int32_t nextFuel =
+                static_cast<std::int32_t>(current.usedFuel) + move.patrolFuel;
+            if (nextSteps > daySteps || nextFuel > agentState.fuel) {
+                continue;
+            }
+            for (std::int32_t direction = 0;
+                 direction < udon::kDirectionCount;
+                 ++direction) {
+                const udon::CellId destination = prefix.config.map.neighbors
+                    .at(static_cast<std::size_t>(current.cell))
+                    .at(static_cast<std::size_t>(direction));
+                if (destination == udon::kInvalidCell ||
+                    prefix.config.map.terrain.at(
+                        static_cast<std::size_t>(destination)) ==
+                        udon::Terrain::Pond) {
+                    continue;
+                }
+                relax(
+                    current.mask | destinationSpotBits.at(
+                        static_cast<std::size_t>(destination)),
+                    destination,
+                    static_cast<std::uint16_t>(nextSteps),
+                    static_cast<std::uint16_t>(nextFuel),
+                    labelIndex,
+                    static_cast<std::uint8_t>(direction));
+            }
+        }
+
+        std::sort(
+            retained.begin(),
+            retained.end(),
+            [](const SparseRouteChoice& left, const SparseRouteChoice& right) {
+                return left.rank > right.rank;
+            });
+        retained.insert(
+            retained.end(),
+            protectedRetained.begin(),
+            protectedRetained.end());
+        std::sort(
+            retained.begin(),
+            retained.end(),
+            [](const SparseRouteChoice& left, const SparseRouteChoice& right) {
+                return left.rank > right.rank;
+            });
+        retained.erase(
+            std::unique(
+                retained.begin(),
+                retained.end(),
+                [](const SparseRouteChoice& left,
+                   const SparseRouteChoice& right) {
+                    return left.label == right.label;
+                }),
+            retained.end());
+        udon::OfficialScore agentBest = baselineScore;
+        udon::OfficialScore protectedAgentBest = baselineScore;
+        std::uint32_t agentBestMask = 0U;
+        std::uint32_t protectedAgentBestMask = 0U;
+        std::int32_t validRoutes = 0;
+        for (const SparseRouteChoice& choice : retained) {
+            const SparseLabel& terminal = labels.at(
+                static_cast<std::size_t>(choice.label));
+            std::vector<udon::PlanAction> reversed;
+            std::uint32_t current = choice.label;
+            while (current != rootLabel) {
+                const SparseLabel& label = labels.at(
+                    static_cast<std::size_t>(current));
+                if (label.incoming ==
+                    static_cast<std::uint8_t>(udon::kDirectionCount)) {
+                    reversed.push_back(udon::PlanAction::wait(1));
+                } else if (label.incoming <
+                           static_cast<std::uint8_t>(udon::kDirectionCount)) {
+                    reversed.push_back(udon::PlanAction::move(label.incoming));
+                } else {
+                    throw std::runtime_error(
+                        "sparse frontier predecessor chain is broken");
+                }
+                current = label.parent;
+            }
+            std::reverse(reversed.begin(), reversed.end());
+            if (terminal.usedSteps < daySteps) {
+                reversed.push_back(udon::PlanAction::wait(
+                    daySteps - terminal.usedSteps));
+            }
+            udon::DayPlan mutation = frozenWitness;
+            mutation.actions.at(static_cast<std::size_t>(agent)) =
+                std::move(reversed);
+            const udon::SimulationResult simulation = simulator.simulate(
+                prefix.targetState,
+                mutation,
+                false);
+            const udon::SimulationResult validation = validator.validate(
+                prefix.targetState,
+                mutation,
+                false);
+            std::string mismatch;
+            if (!simulation.valid ||
+                !validator.agrees_with(simulation, validation, mismatch)) {
+                continue;
+            }
+            ++validRoutes;
+            const udon::OfficialScore score = udon::OfficialScore::after_day(
+                prefix.ledger,
+                simulation.score);
+            if (agentBest < score) {
+                agentBest = score;
+                agentBestMask = choice.mask;
+            }
+            const std::uint64_t baselineLifetime =
+                prefix.ledger.lifetimeBrands | baseline.score.brands;
+            const std::uint64_t candidateLifetime =
+                prefix.ledger.lifetimeBrands | simulation.score.brands;
+            const bool protectedImprovement =
+                udon::protected_slack_transition_dominates(
+                    baseline,
+                    simulation) &&
+                (baselineLifetime & ~candidateLifetime) == 0U &&
+                simulation.score.dailyDistinct >= baseline.score.dailyDistinct &&
+                simulation.score.servings >= baseline.score.servings &&
+                (simulation.score.dailyDistinct > baseline.score.dailyDistinct ||
+                 simulation.score.servings > baseline.score.servings);
+            if (protectedImprovement && protectedAgentBest < score) {
+                protectedAgentBest = score;
+                protectedAgentBestMask = choice.mask;
+            }
+            if (globalBest < score) {
+                globalBest = score;
+                globalAgent = agent;
+                globalMask = choice.mask;
+                globalPlan = std::move(mutation);
+            }
+            if (protectedImprovement && protectedGlobalBest < score) {
+                protectedGlobalBest = score;
+                protectedGlobalAgent = agent;
+                protectedGlobalMask = choice.mask;
+            }
+        }
+        std::cout << "sparse_agent=" << agent
+                  << " settled=" << settledStates
+                  << " labels=" << labels.size()
+                  << " emitted_masks=" << emittedMasks.size()
+                  << " protected_masks=" << protectedEmittedMasks.size()
+                  << " retained=" << retained.size()
+                  << " valid=" << validRoutes
+                  << " best=" << agentBest.lifetimeDistinct << '/'
+                  << agentBest.totalDailyDistinct << '/'
+                  << agentBest.totalServings
+                  << " mask=0x" << std::hex << std::uppercase
+                  << agentBestMask << std::dec << std::nouppercase
+                  << " protected=" << protectedAgentBest.lifetimeDistinct << '/'
+                  << protectedAgentBest.totalDailyDistinct << '/'
+                  << protectedAgentBest.totalServings
+                  << " protected_mask=0x" << std::hex << std::uppercase
+                  << protectedAgentBestMask << std::dec << std::nouppercase
+                  << '\n';
+    }
+    std::cout << "sparse_global_best=" << globalBest.lifetimeDistinct << '/'
+              << globalBest.totalDailyDistinct << '/'
+              << globalBest.totalServings
+              << " baseline=" << baselineScore.lifetimeDistinct << '/'
+              << baselineScore.totalDailyDistinct << '/'
+              << baselineScore.totalServings
+              << " agent=" << globalAgent
+              << " mask=0x" << std::hex << std::uppercase << globalMask
+              << std::dec << std::nouppercase << '\n';
+    std::cout << "sparse_protected_best="
+              << protectedGlobalBest.lifetimeDistinct << '/'
+              << protectedGlobalBest.totalDailyDistinct << '/'
+              << protectedGlobalBest.totalServings
+              << " baseline=" << baselineScore.lifetimeDistinct << '/'
+              << baselineScore.totalDailyDistinct << '/'
+              << baselineScore.totalServings
+              << " agent=" << protectedGlobalAgent
+              << " mask=0x" << std::hex << std::uppercase
+              << protectedGlobalMask << std::dec << std::nouppercase << '\n';
+    if (baselineScore < globalBest) {
+        std::cout << "sparse_best_plan="
+                  << udon::serialize_day_plan(globalPlan).dump() << '\n';
+    }
+    if (prefix.targetState.dayNumber == prefix.config.day_count()) {
+        const udon::ProtectedSlackRefiner refiner(prefix.config);
+        const udon::ProtectedSlackResult sidecar =
+            refiner.refine_terminal_sparse(
+                prefix.targetState,
+                prefix.ledger,
+                frozenWitness,
+                baseline,
+                std::chrono::steady_clock::now() +
+                    std::chrono::milliseconds{5000});
+        std::cout << "terminal_sidecar="
+                  << sidecar.scoreAfterToday.lifetimeDistinct << '/'
+                  << sidecar.scoreAfterToday.totalDailyDistinct << '/'
+                  << sidecar.scoreAfterToday.totalServings
+                  << " improved=" << sidecar.improved
+                  << " agent=" << sidecar.witnessAgent
+                  << " routes=" << sidecar.diagnostics.sparseRoutes
+                  << " generated=" << sidecar.diagnostics.generatedPlans
+                  << " valid=" << sidecar.diagnostics.validPlans
+                  << " strict="
+                  << sidecar.diagnostics.strictTerminalImprovements
+                  << " deadline=" << sidecar.diagnostics.deadlineReached
+                  << '\n';
+    }
+}
+
 void print_complete_resource_team_dp(
     const ReplayPrefix& prefix,
     const udon::DayPlan& frozenWitness) {
@@ -726,14 +1282,18 @@ int main(int argc, char** argv) {
     try {
         if (argc != 4 && argc != 5) {
             throw std::invalid_argument(
-                "usage: claim_probe REPLAY PLAN DAY [frontier-agent0|alns|one-exchange|complete-exchange|team-dp]");
+                "usage: claim_probe REPLAY PLAN DAY [frontier-agent0|alns|one-exchange|complete-exchange|team-dp|sparse-exchange] or claim_probe REPLAY --recorded-sparse-exchange DAY");
         }
         const std::int32_t targetDay = std::stoi(argv[3]);
         const std::vector<udon::JsonValue> events = read_replay(argv[1]);
         const ReplayPrefix prefix = reconstruct_prefix(events, targetDay);
-        const udon::DayPlan plan = udon::parse_day_plan(
-            prefix.config,
-            udon::JsonValue::parse(read_file(argv[2])));
+        const bool recordedSparse =
+            argc == 4 && std::string{argv[2]} == "--recorded-sparse-exchange";
+        const udon::DayPlan plan = recordedSparse
+            ? recorded_plan_for_day(events, prefix.config, targetDay)
+            : udon::parse_day_plan(
+                  prefix.config,
+                  udon::JsonValue::parse(read_file(argv[2])));
         const udon::ExactStepSimulator simulator(prefix.config);
         const udon::IndependentDayValidator validator(prefix.config);
         const udon::SimulationResult simulation = simulator.simulate(prefix.targetState, plan, true);
@@ -743,7 +1303,9 @@ int main(int argc, char** argv) {
             throw std::runtime_error("frozen plan failed exact agreement: " + mismatch);
         }
         print_probe(prefix, plan, simulation);
-        if (argc == 5) {
+        if (recordedSparse) {
+            print_sparse_exchange(prefix, plan);
+        } else if (argc == 5) {
             const std::string mode{argv[4]};
             if (mode == "frontier-agent0") {
                 print_frontier(prefix, 0);
@@ -755,6 +1317,8 @@ int main(int argc, char** argv) {
                 print_complete_resource_exchange(prefix, plan);
             } else if (mode == "team-dp") {
                 print_complete_resource_team_dp(prefix, plan);
+            } else if (mode == "sparse-exchange") {
+                print_sparse_exchange(prefix, plan);
             } else {
                 throw std::invalid_argument("unknown probe mode");
             }

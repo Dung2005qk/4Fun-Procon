@@ -74,6 +74,10 @@ if(UDONSHIELD_BUILD_BENCHMARKS)
         research/probes/multi_patrol_oracle.cpp)
     target_link_libraries(udonshield_multi_patrol_oracle PRIVATE udon_shield)
     add_executable(
+        udonshield_claim_probe
+        research/probes/claim_probe.cpp)
+    target_link_libraries(udonshield_claim_probe PRIVATE udon_shield)
+    add_executable(
         udonshield_tanker_terminal_oracle
         research/probes/tanker_terminal_oracle.cpp)
     target_link_libraries(udonshield_tanker_terminal_oracle PRIVATE udon_shield)

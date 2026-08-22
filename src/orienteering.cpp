@@ -9,6 +9,7 @@
 #include <queue>
 #include <stdexcept>
 #include <tuple>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -93,6 +94,17 @@ struct ResourceLabel {
 
 }
 
+bool exact_orienteering_dense_state_supported(
+    const MatchConfig& config) noexcept {
+    if (config.spots.size() > 16U || config.map.cell_count() <= 0) {
+        return false;
+    }
+    const std::size_t maskCount = std::size_t{1} << config.spots.size();
+    const std::size_t cellCount = static_cast<std::size_t>(
+        config.map.cell_count());
+    return maskCount <= kMaximumExactStates / cellCount;
+}
+
 ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
     const MatchConfig& config,
     const DayState& state,
@@ -107,7 +119,8 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
     const AgentState& agent = state.agents.at(static_cast<std::size_t>(agentIndex));
     const std::int32_t daySteps = config.steps_for_day(state.dayNumber);
     if (agent.kind != AgentKind::Patrol || daySteps <= 0 || daySteps >= kUnreachable ||
-        config.spots.size() > 16U || agent.fuel < 2 * daySteps) {
+        !exact_orienteering_dense_state_supported(config) ||
+        agent.fuel < 2 * daySteps) {
         return result;
     }
     const std::uint32_t maskCount = std::uint32_t{1} <<
@@ -533,6 +546,365 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
 }
 
 namespace {
+
+struct SparseResourceLabel {
+    std::uint32_t mask = 0U;
+    CellId cell = kInvalidCell;
+    std::uint16_t usedSteps = 0U;
+    std::uint16_t usedFuel = 0U;
+    std::uint32_t parent = std::numeric_limits<std::uint32_t>::max();
+    std::int32_t nextAtState = -1;
+    std::uint8_t incoming = std::numeric_limits<std::uint8_t>::max();
+    bool active = true;
+};
+
+using SparseRouteRank = std::tuple<
+    std::int32_t,
+    std::int32_t,
+    std::int32_t,
+    std::int32_t,
+    std::int32_t,
+    std::int32_t,
+    std::int32_t,
+    std::int32_t,
+    std::uint32_t>;
+
+struct SparseRouteChoice {
+    SparseRouteRank rank;
+    std::uint32_t label = 0U;
+};
+
+ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
+    const MatchConfig& config,
+    const DayState& state,
+    AgentIndex agentIndex,
+    std::int32_t minimumSpots,
+    std::size_t maximumRoutes,
+    std::uint64_t maximumSettledStates,
+    std::uint64_t preferredBrands,
+    std::optional<std::chrono::steady_clock::time_point> deadline) {
+    ExactOrienteeringReachability result;
+    if (agentIndex < 0 ||
+        agentIndex >= static_cast<AgentIndex>(state.agents.size()) ||
+        state.dayNumber < 1 || state.dayNumber > config.day_count() ||
+        state.roadStatuses.size() !=
+            static_cast<std::size_t>(config.map.cell_count()) ||
+        config.spots.empty() || config.spots.size() > 32U ||
+        minimumSpots <= 0 || maximumRoutes == 0U ||
+        maximumSettledStates == 0U) {
+        return result;
+    }
+    const AgentState& agent = state.agents.at(
+        static_cast<std::size_t>(agentIndex));
+    const std::int32_t daySteps = config.steps_for_day(state.dayNumber);
+    if (agent.kind != AgentKind::Patrol || daySteps <= 0 ||
+        daySteps >= kUnreachable || agent.fuel < 0 ||
+        agent.fuel >= kUnreachable) {
+        return result;
+    }
+    result.supported = true;
+    const auto deadline_expired = [&deadline]() {
+        return deadline.has_value() &&
+            std::chrono::steady_clock::now() >= *deadline;
+    };
+    if (deadline_expired()) {
+        return result;
+    }
+
+    const auto state_key = [](std::uint32_t mask, CellId cell) {
+        return (static_cast<std::uint64_t>(mask) << 32U) |
+            static_cast<std::uint32_t>(cell);
+    };
+    using QueueEntry = std::tuple<
+        std::uint8_t,
+        std::uint16_t,
+        std::uint16_t,
+        std::uint32_t>;
+    std::priority_queue<
+        QueueEntry,
+        std::vector<QueueEntry>,
+        std::greater<>> queue;
+    std::unordered_map<std::uint64_t, std::int32_t> firstLabelAtState;
+    firstLabelAtState.reserve(
+        static_cast<std::size_t>(std::min<std::uint64_t>(
+            maximumSettledStates,
+            1U << 20U)));
+    std::vector<SparseResourceLabel> labels;
+    labels.reserve(
+        static_cast<std::size_t>(std::min<std::uint64_t>(
+            maximumSettledStates,
+            1U << 20U)));
+    const auto relax = [&firstLabelAtState,
+                        &labels,
+                        &queue,
+                        &state_key](
+                           std::uint32_t mask,
+                           CellId cell,
+                           std::uint16_t candidateSteps,
+                           std::uint16_t candidateFuel,
+                           std::uint32_t parent,
+                           std::uint8_t incoming) {
+        const std::uint64_t key = state_key(mask, cell);
+        const auto iterator = firstLabelAtState.find(key);
+        const std::int32_t first = iterator == firstLabelAtState.end()
+            ? -1
+            : iterator->second;
+        for (std::int32_t labelIndex = first;
+             labelIndex >= 0;
+             labelIndex = labels.at(
+                 static_cast<std::size_t>(labelIndex)).nextAtState) {
+            const SparseResourceLabel& existing = labels.at(
+                static_cast<std::size_t>(labelIndex));
+            if (existing.active &&
+                existing.usedSteps <= candidateSteps &&
+                existing.usedFuel <= candidateFuel) {
+                return;
+            }
+        }
+        for (std::int32_t labelIndex = first;
+             labelIndex >= 0;
+             labelIndex = labels.at(
+                 static_cast<std::size_t>(labelIndex)).nextAtState) {
+            SparseResourceLabel& existing = labels.at(
+                static_cast<std::size_t>(labelIndex));
+            if (existing.active &&
+                candidateSteps <= existing.usedSteps &&
+                candidateFuel <= existing.usedFuel) {
+                existing.active = false;
+            }
+        }
+        const std::uint32_t labelIndex = static_cast<std::uint32_t>(
+            labels.size());
+        labels.push_back(SparseResourceLabel{
+            mask,
+            cell,
+            candidateSteps,
+            candidateFuel,
+            parent,
+            first,
+            incoming,
+            true,
+        });
+        firstLabelAtState[key] = static_cast<std::int32_t>(labelIndex);
+        queue.emplace(
+            static_cast<std::uint8_t>(32U - std::popcount(mask)),
+            candidateSteps,
+            candidateFuel,
+            labelIndex);
+    };
+
+    relax(
+        0U,
+        agent.position,
+        0U,
+        0U,
+        std::numeric_limits<std::uint32_t>::max(),
+        std::numeric_limits<std::uint8_t>::max());
+    const std::uint32_t rootLabel = 0U;
+    const SpotIndex startSpot = config.spotAtCell.at(
+        static_cast<std::size_t>(agent.position));
+    if (startSpot != kInvalidSpot && daySteps >= 1) {
+        relax(
+            std::uint32_t{1} << static_cast<std::uint32_t>(startSpot),
+            agent.position,
+            1U,
+            0U,
+            rootLabel,
+            static_cast<std::uint8_t>(kDirectionCount));
+    }
+
+    const std::uint32_t cellCount = static_cast<std::uint32_t>(
+        config.map.cell_count());
+    std::vector<MoveCost> moveCosts(cellCount);
+    std::vector<std::uint32_t> destinationSpotBits(cellCount, 0U);
+    for (std::uint32_t cell = 0U; cell < cellCount; ++cell) {
+        moveCosts.at(cell) = config.move_cost(
+            static_cast<CellId>(cell),
+            state.roadStatuses.at(cell));
+        const SpotIndex spot = config.spotAtCell.at(cell);
+        if (spot != kInvalidSpot) {
+            destinationSpotBits.at(cell) =
+                std::uint32_t{1} << static_cast<std::uint32_t>(spot);
+        }
+    }
+    const auto route_rank = [&config, preferredBrands](
+                                const SparseResourceLabel& label) {
+        std::uint64_t brands = 0U;
+        std::int32_t servingPotential = 0;
+        for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+            if ((label.mask &
+                 (std::uint32_t{1} << static_cast<std::uint32_t>(spot))) ==
+                0U) {
+                continue;
+            }
+            brands |= brand_bit(config.spots.at(spot).brandIndex);
+            servingPotential += config.spots.at(spot).stock > 0 ? 1 : 0;
+        }
+        std::int32_t terminalBrandDistance = 0;
+        for (std::int32_t brand = 0;
+             brand < config.brand_count();
+             ++brand) {
+            std::int32_t nearest = std::numeric_limits<std::int32_t>::max();
+            for (const Spot& spot : config.spots) {
+                if (spot.brandIndex == brand) {
+                    nearest = std::min(
+                        nearest,
+                        config.map.hex_distance(label.cell, spot.position));
+                }
+            }
+            if (nearest != std::numeric_limits<std::int32_t>::max()) {
+                terminalBrandDistance += nearest;
+            }
+        }
+        return SparseRouteRank{
+            static_cast<std::int32_t>(
+                std::popcount(brands & preferredBrands)),
+            static_cast<std::int32_t>(std::popcount(brands)),
+            servingPotential,
+            static_cast<std::int32_t>(std::popcount(label.mask)),
+            -static_cast<std::int32_t>(label.usedSteps),
+            -static_cast<std::int32_t>(label.usedFuel),
+            -terminalBrandDistance,
+            -label.cell,
+            std::numeric_limits<std::uint32_t>::max() - label.mask};
+    };
+    const auto retain = [maximumRoutes](
+                            std::vector<SparseRouteChoice>& choices,
+                            SparseRouteChoice candidate) {
+        if (choices.size() < maximumRoutes) {
+            choices.push_back(std::move(candidate));
+            return;
+        }
+        const auto worst = std::min_element(
+            choices.begin(),
+            choices.end(),
+            [](const SparseRouteChoice& left, const SparseRouteChoice& right) {
+                return left.rank < right.rank;
+            });
+        if (worst->rank < candidate.rank) {
+            *worst = std::move(candidate);
+        }
+    };
+
+    std::unordered_set<std::uint32_t> emittedMasks;
+    emittedMasks.reserve(1U << 16U);
+    std::vector<SparseRouteChoice> retained;
+    std::vector<SparseRouteChoice> supplemental;
+    retained.reserve(maximumRoutes);
+    supplemental.reserve(maximumRoutes);
+    std::uint64_t processedEntries = 0U;
+    while (!queue.empty() && result.settledStates < maximumSettledStates) {
+        if ((processedEntries++ & 4095U) == 0U && deadline_expired()) {
+            break;
+        }
+        const auto [
+            queuedCardinality,
+            queuedSteps,
+            queuedFuel,
+            labelIndex] = queue.top();
+        queue.pop();
+        static_cast<void>(queuedCardinality);
+        const SparseResourceLabel current = labels.at(
+            static_cast<std::size_t>(labelIndex));
+        if (!current.active || current.usedSteps != queuedSteps ||
+            current.usedFuel != queuedFuel) {
+            continue;
+        }
+        ++result.settledStates;
+        if (static_cast<std::int32_t>(std::popcount(current.mask)) >=
+                minimumSpots &&
+            config.spotAtCell.at(static_cast<std::size_t>(current.cell)) !=
+                kInvalidSpot &&
+            emittedMasks.insert(current.mask).second) {
+            const SparseRouteRank rank = route_rank(current);
+            retain(retained, SparseRouteChoice{rank, labelIndex});
+            if (preferredBrands != 0U) {
+                retain(supplemental, SparseRouteChoice{rank, labelIndex});
+            }
+        }
+
+        const MoveCost move = moveCosts.at(
+            static_cast<std::size_t>(current.cell));
+        const std::int32_t nextSteps =
+            static_cast<std::int32_t>(current.usedSteps) + move.steps;
+        const std::int32_t nextFuel =
+            static_cast<std::int32_t>(current.usedFuel) + move.patrolFuel;
+        if (nextSteps > daySteps || nextFuel > agent.fuel) {
+            continue;
+        }
+        for (std::int32_t direction = 0;
+             direction < kDirectionCount;
+             ++direction) {
+            const CellId destination = config.map.neighbors
+                .at(static_cast<std::size_t>(current.cell))
+                .at(static_cast<std::size_t>(direction));
+            if (destination == kInvalidCell ||
+                config.map.terrain.at(static_cast<std::size_t>(destination)) ==
+                    Terrain::Pond) {
+                continue;
+            }
+            relax(
+                current.mask | destinationSpotBits.at(
+                    static_cast<std::size_t>(destination)),
+                destination,
+                static_cast<std::uint16_t>(nextSteps),
+                static_cast<std::uint16_t>(nextFuel),
+                labelIndex,
+                static_cast<std::uint8_t>(direction));
+        }
+    }
+
+    const auto reconstruct = [&labels, rootLabel, daySteps](
+                                 std::uint32_t witness) {
+        const SparseResourceLabel& terminal = labels.at(
+            static_cast<std::size_t>(witness));
+        ExactOrienteeringRoute route;
+        route.spotMask = terminal.mask;
+        route.usedSteps = terminal.usedSteps;
+        route.patrolFuel = terminal.usedFuel;
+        route.terminalCell = terminal.cell;
+        route.terminalOnSpot = true;
+        std::vector<PlanAction> reversed;
+        std::uint32_t current = witness;
+        while (current != rootLabel) {
+            const SparseResourceLabel& label = labels.at(
+                static_cast<std::size_t>(current));
+            if (label.incoming == static_cast<std::uint8_t>(kDirectionCount)) {
+                reversed.push_back(PlanAction::wait(1));
+            } else if (label.incoming <
+                       static_cast<std::uint8_t>(kDirectionCount)) {
+                reversed.push_back(PlanAction::move(label.incoming));
+            } else {
+                throw std::runtime_error(
+                    "sparse resource predecessor chain is broken");
+            }
+            current = label.parent;
+        }
+        std::reverse(reversed.begin(), reversed.end());
+        if (route.usedSteps < daySteps) {
+            reversed.push_back(PlanAction::wait(daySteps - route.usedSteps));
+        }
+        route.actions = std::move(reversed);
+        return route;
+    };
+    const auto append_choices = [&reconstruct](
+                                    std::vector<SparseRouteChoice>& choices,
+                                    std::vector<ExactOrienteeringRoute>& routes) {
+        std::sort(
+            choices.begin(),
+            choices.end(),
+            [](const SparseRouteChoice& left, const SparseRouteChoice& right) {
+                return left.rank > right.rank;
+            });
+        routes.reserve(choices.size());
+        for (const SparseRouteChoice& choice : choices) {
+            routes.push_back(reconstruct(choice.label));
+        }
+    };
+    append_choices(retained, result.maximalRoutes);
+    append_choices(supplemental, result.supplementalRoutes);
+    return result;
+}
 
 ExactOrienteeringReachability enumerate_resource_routes(
     const MatchConfig& config,
@@ -1410,6 +1782,26 @@ ExactOrienteeringReachability enumerate_anytime_resource_routes(
     }
     result.complete = false;
     return result;
+}
+
+ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes(
+    const MatchConfig& config,
+    const DayState& state,
+    AgentIndex agentIndex,
+    std::int32_t minimumSpots,
+    std::size_t maximumRoutes,
+    std::uint64_t maximumSettledStates,
+    std::optional<std::chrono::steady_clock::time_point> deadline,
+    std::uint64_t preferredBrands) {
+    return enumerate_sparse_anytime_resource_routes_impl(
+        config,
+        state,
+        agentIndex,
+        minimumSpots,
+        maximumRoutes,
+        maximumSettledStates,
+        preferredBrands,
+        deadline);
 }
 
 }
