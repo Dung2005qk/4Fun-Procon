@@ -1,0 +1,12 @@
+experiment_id,split,source,tier,map_side,days,agents,spot_counts,fuel_profiles,role_modes,first_seed,count,scope,authority
+RUNTIME-BTC-RESERVE-196,attribution,consumed-btc-m3908,very-hard,32,10,8,30,high,fixed-mask2,0,1,parent-candidate-replay-budget-and-first-divergence,opened-consumed
+RUNTIME-BTC-RESERVE-196,attribution,archived-btc,all,0,0,0,configured,configured,recorded,0,31,response-ack-overhead-retry-and-validity-distribution,opened-archive
+RUNTIME-BTC-RESERVE-196,development,new-stratified,easy,14,5,4,12|14,low|default|high,fixed|native,4820000,12,parent1600-versus-candidate1100,fresh-development
+RUNTIME-BTC-RESERVE-196,development,new-stratified,medium,20,7,4,12|18,low|default|high,fixed|native,4821000,12,parent1600-versus-candidate1100,fresh-development
+RUNTIME-BTC-RESERVE-196,development,new-stratified,hard,26,8,6,14|18|24,low|default|high,fixed|native,4822000,18,parent1600-versus-candidate1100,fresh-development
+RUNTIME-BTC-RESERVE-196,development,new-stratified,very-hard,32,10,8,18|24|30,low|default|high,fixed|native,4823000,18,parent1600-versus-candidate1100,fresh-development
+RUNTIME-BTC-RESERVE-196,holdout,new-stratified,easy,14,5,4,12|14,low|default|high,fixed|native,4830000,12,paired-score-validity-and-tail,sealed
+RUNTIME-BTC-RESERVE-196,holdout,new-stratified,medium,20,7,4,12|18,low|default|high,fixed|native,4831000,12,paired-score-validity-and-tail,sealed
+RUNTIME-BTC-RESERVE-196,holdout,new-stratified,hard,26,8,6,14|18|24,low|default|high,fixed|native,4832000,18,paired-score-validity-and-tail,sealed
+RUNTIME-BTC-RESERVE-196,holdout,new-stratified,very-hard,32,10,8,18|24|30,low|default|high,fixed|native,4833000,18,paired-score-validity-and-tail,sealed
+RUNTIME-BTC-RESERVE-196,btc,target-host,very-hard,32,10,8,30,high,native,0,2,absolute5000ms-response-ack-validity-and-score-counterfactual,btc-authoritative

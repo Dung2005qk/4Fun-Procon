@@ -32,6 +32,7 @@
 namespace {
 
 constexpr std::int64_t btcSubmissionFloorMs = 800;
+constexpr std::int64_t btcProtectedRefinementFloorMs = 1100;
 constexpr std::int32_t btcActionAckSliceMs = 750;
 
 struct RuntimeOptions {
@@ -2122,10 +2123,12 @@ void run_http(const RuntimeOptions& options) {
                 const std::int64_t refinementReserveMs =
                     std::max<std::int64_t>(
                         minimumSubmissionWindowMs,
-                        deadlineCalibration.networkFloor.count());
+                        btcProtectedRefinementFloorMs);
+                const std::int64_t refinementDeadlineMs = std::min(
+                    configuredDeadlineMs,
+                    actionDeadlineMs - refinementReserveMs);
                 const std::int64_t refinementRemainingMs =
-                    solveDeadlineMs - refinementReserveMs -
-                    unix_milliseconds();
+                    refinementDeadlineMs - unix_milliseconds();
                 if (refinementRemainingMs > 0) {
                     const auto refinementDeadline =
                         std::chrono::steady_clock::now() +
@@ -2206,6 +2209,17 @@ void run_http(const RuntimeOptions& options) {
                     udon::JsonValue(std::max<std::int64_t>(
                         0,
                         solveDeadlineMs - receivedAtUnixMs)));
+                telemetry.emplace(
+                    "refinementReserveMs",
+                    udon::JsonValue(refinementReserveMs));
+                telemetry.emplace(
+                    "refinementDeadlineMs",
+                    udon::JsonValue(refinementDeadlineMs));
+                telemetry.emplace(
+                    "refinementBudgetMs",
+                    udon::JsonValue(std::max<std::int64_t>(
+                        0,
+                        refinementRemainingMs)));
                 telemetry.emplace(
                     "waitAnchors",
                     udon::JsonValue(refinement.diagnostics.waitAnchors));

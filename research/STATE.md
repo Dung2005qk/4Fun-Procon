@@ -1,8 +1,288 @@
 # UDON-SHIELD Research State
 
-Updated: 2026-08-22
+Updated: 2026-08-23
 
 ## Current phase
+
+### Accepted protected BTC reserve recovery: RUNTIME-PROTECTED-RESERVE-197
+
+Experiment 196 proved two facts that direct reserve rollback cannot reconcile:
+the 500 ms reclaimed from the historical 1100-ms reserve is score-relevant on
+`m-3908`, but granting it to the complete solver changes the search trajectory
+and does not protect the current incumbent. Experiment 197 separates these
+responsibilities instead of selecting another global reserve.
+
+Parent: `f9c0019`. Role selection and the canonical day decision keep the exact
+1600-ms deadline calibration and therefore remain byte-identical to the parent.
+Only after that decision has returned and passed exact simulator plus independent
+validator does the HTTP path expose any reclaimed interval to the already
+accepted protected refiners: wait-detour refinement on nonterminal days and
+sparse coordinate ascent on the terminal day. The refiner deadline is
+`min(received + 5000 ms, authoritative action deadline - 1100 ms)`: a 5000-ms
+outer window retains a submission reserve, while a 45--60-second outer window
+permits the full internal 5000-ms compute cap without converting that outer
+window into extra compute.
+The refiner starts from the immutable parent plan. Deadline, failure, invalidity,
+non-improvement or failed transition/ledger dominance returns the parent plan
+unchanged. There is no second role selector, shadow solver or direct long search.
+
+Frozen manifest:
+`research/holdouts/RUNTIME-PROTECTED-RESERVE-197.csv`, SHA256
+`4A56330C4D3EA548FD522F7B21B0838521F90EC62C025EFE0ECE6F57D34AAD38`.
+Development passed the parent-identity, validity and strict-gain prerequisites.
+The frozen 108-case holdout then finished `83/25/0` with `+1021` servings and
+zero lifetime/daily-distinct loss, invalid, emergency, dominance failure or
+refiner failure. It was zero-loss across all four difficulties, low/default/high
+fuel, fixed/native roles, all six families and every registered spot density.
+Four terminal local slices reached their deadline and returned the certified
+incumbent. Holdout log SHA256:
+`F4F0C53F79DAC114618C9ED6DEA85CF0DAFD180D6C72FE54BE1E396CB3DBA00E`.
+
+Two authenticated BTC target-host gates passed. On 15000-ms `m-3927`, all 10
+actions were valid, maximum response was 3588 ms and the refined path improved
+the protected-parent counterfactual `6/60/552` to `6/60/566`. On canonical
+5000-ms `m-3928`, all 10 actions were valid, all nine transitions reconciled,
+maximum response was 2963 ms and the refined path improved `6/60/494` to
+`6/60/515`. Bot ranks are excluded. Canonical evidence:
+`research/evidence/RUNTIME-PROTECTED-RESERVE-197.md`.
+
+Experiment 197 is accepted. The next direct-parent comparison is the registered
+day-only semantic-equivalent master dedup successor to experiment 195; the 185
+exact-stream counterexamples remain an independent later axis.
+
+Functionality preservation: no designed functionality is removed, disabled,
+deferred or reduced, and nothing is deleted. The canonical 1600-ms role/day
+pipeline remains the sole producer of the protected incumbent; additional time
+only extends the already active exact refiners and cannot replace the incumbent
+without the existing official-score and state-dominance certificates.
+
+### Rejected direct BTC reserve rollback: RUNTIME-BTC-RESERVE-196
+
+Historical attribution on authenticated `m-3908` located the first large score
+regression at `fa21950`: its only solver-budget change raised the BTC
+`networkFloor` from 1100 to 1600 ms. The immediate parent `02df79d` repeated
+`6/60/537` and `6/60/533`; `fa21950` scored `6/60/461`. Later accepted score
+logic recovers some but not all of the lost lane. Current `f9c0019` scored
+`6/59/466` and `6/60/472` under local cutoff variation.
+
+The archive now contains 124 accepted action samples from 14 BTC matches:
+client-observed ACK p50/p95/p99/max is `13/34/61/132 ms`; server response minus
+local solve p50/p95/p99/max is to be frozen in experiment evidence; there are
+zero recorded transport retries. These observations do not by themselves
+authorize a rollback, but they falsify treating 1600 ms as an unquestioned
+current p99 requirement.
+
+Parent: `f9c0019`. Experiment 196 tested exactly one policy change: restore the
+BTC day solver `networkFloor` to the previously deployed 1100 ms while retaining
+the 1600-ms role path, independent 800-ms submission guard, 750-ms bounded ACK
+attempt, idempotent resend, authoritative absolute deadline and 5000-ms hard
+cap. It did not alter planner logic, scoring or validation.
+
+Frozen manifest:
+`research/holdouts/RUNTIME-BTC-RESERVE-196.csv`, SHA256
+`0BFFCB1611443A1BDEC7EC4EE7610393BD158B4C5D135020FA2575A1EC150568`.
+The fresh holdout remained sealed. On consumed `m-3908`, fixed role mask 2, the
+1100-ms candidate reached `6/60/535`, reproducing the older `02df79d` lane and
+confirming that the reclaimed 500 ms is causally valuable there. Fresh timed
+development did not provide stable parent/candidate loss evidence: observed
+differences reversed or disappeared when order and role masks were controlled.
+However, direct extra search changes the complete search trajectory and retains
+no invariant protecting the 1600-ms incumbent. Experiment 166 had already
+established the same structural non-monotonicity.
+
+Experiment 196 is therefore rejected before holdout and live BTC. Its source
+and harness wiring are reverted to the 1600-ms parent. Canonical evidence:
+`research/evidence/RUNTIME-BTC-RESERVE-196.md`. A successor may reclaim the
+window only after freezing the byte-identical 1600-ms role and day incumbent;
+extra time may run only an exact monotonic refiner whose failure, deadline or
+non-improvement returns that incumbent unchanged.
+
+Functionality preservation: no designed functionality was removed, disabled,
+deferred or reduced, and nothing was deleted. Rejection restores the canonical
+parent path rather than keeping a second reserve policy.
+
+### Rejected day-only semantic-equivalent master dedup research: PERF-DAY-MASTER-DEDUP-195
+
+Experiment 194 proved the flat membership representation itself collision-safe,
+but applying it to the whole engine changed the amount of incomplete timed
+evidence received by different role assignments. Experiment 195 therefore keeps
+role selection, future witness repair and post-ACK proof on the canonical key.
+Only the post-role main day master and its copied recombination options may use
+the flat key. The exact simulator, validator, candidate comparator, stable IDs,
+operation caps and all search stages remain unchanged.
+
+Parent: `f9c0019`. Frozen manifest:
+`research/holdouts/PERF-DAY-MASTER-DEDUP-195.csv`, SHA256
+`6220B6E3AD298B182169432DC242301C79268C630CAB2772DDAE140701A3E28C`.
+The holdout remained sealed. Algebraic key equivalence, complete-master
+equivalence, role-path isolation and 24 complete archived replays passed.
+Authenticated `m-3908` was valid and candidate 195 improved same-replay
+counterfactual parent runs from `6/59/466` or `6/60/472` to repeatable
+`6/60/495`, but the live candidate still ended `6/60/508` against a best bot
+score of `6/60/579`.
+
+Historical attribution found a separate protected reference: `02df79d`
+repeated `6/60/537` and `6/60/533` on the same replay and role mask, while its
+immediate successor `fa21950` fell to `6/60/461` after raising BTC
+`networkFloor` from 1100 to 1600 ms. Later checkpoints ranged from `461` to
+`496`; candidate 195 recovered part but not all of the lost score. This is a
+historical response-budget allocation regression, not a flat-key regression,
+and `02df79d` is not the marginal parent used to judge 195.
+
+Functionality preservation: no designed functionality is removed, disabled,
+deferred or reduced, and nothing is deleted. The same master pipeline chooses
+one injective membership representation only after roles are fixed. There is no
+shadow solver, weakened validation, altered deadline or second search.
+
+Experiment 195 is rejected as a standalone promotion before holdout and its
+source wiring is reverted because the direct-parent benefit is not yet
+generality-qualified: the consumed replay is positive, but the fresh timed
+difference vanished under controlled reproduction and paired target-host proof
+is absent. Canonical evidence:
+`research/evidence/PERF-DAY-MASTER-DEDUP-195.md`. Reopen after the protected
+reserve successor closes; compare that direct parent against parent plus the
+day-only flat key, with `02df79d` retained only as a historical reference.
+
+### Rejected all-engine master dedup research: PERF-MASTER-DEDUP-194
+
+The accepted production path spends master-leaf time constructing a JSON tree
+and serializing it solely to test whether an action plan has already been
+evaluated. The membership relation depends only on the ordered agent/action
+wire values, while survivor `stableId` values still require the canonical JSON
+form. Experiment 194 replaces only the three hot master dedup keys with a flat,
+length-prefixed, fixed-endian injective encoding. Candidate creation, survivor
+stable IDs, comparator order, simulation, independent validation and every
+deadline check remain unchanged.
+
+This is deliberately narrower than the external performance proposal: trace
+capture, simulator scratch storage, cache eviction, replay serialization and
+brand-mask precomputation are not included, so any result is attributable to
+one mechanism. The parent and flat-key modes execute one master pipeline; the
+research switch changes only the key representation and never runs both.
+
+Parent: `f9c0019`. Frozen manifest:
+`research/holdouts/PERF-MASTER-DEDUP-194.csv`, SHA256
+`AE8F787E3CDDAC2859A881BC4247C77F1104EE16E9CED3886D1E1CADE712DAC7`.
+The holdout remained sealed. Development first required proof that flat-key equality
+is exactly equivalent to canonical-plan equality, then complete no-deadline
+master candidate/stable-ID equality and archived replay score/state/validator
+agreement. Timed local lanes may falsify score regressions but have no
+performance authority. Only BTC target-host telemetry may establish throughput
+or latency improvement.
+
+Functionality preservation: no designed functionality is removed, disabled,
+deferred or reduced, and nothing is deleted. There is no second solver, shadow
+pipeline, reduced validation or changed operation cap. The parent and candidate
+dedup sets represent the same exact equivalence classes; any membership,
+candidate ordering, action, score, state transition, validator, invalid or
+emergency difference rejects and fully reverts the candidate.
+
+The algebraic key-equivalence and complete no-deadline master gates passed after
+correcting a development-only stable-ID wiring error. Fixed-role development
+controls tied, but native seed `4770002` changed role mask and fell from
+`6/30/163` to `6/30/150`. Reversed-order repetitions confirmed that applying the
+speedup during role selection changes the allocation of incomplete timed
+evidence. Experiment 194 is rejected before holdout and BTC. Canonical evidence:
+`research/evidence/PERF-MASTER-DEDUP-194.md`.
+
+### Rejected fair direct-frontier research: SCORE-FAIR-DIRECT-FRONTIER-193
+
+The consumed `m-3897` attribution exposes a production-path scheduling gap in
+column generation under the shared hard deadline. Generation is sequential by
+agent and each agent performs direct-target search plus deeper staging and
+multi-spot expansion before the next agent starts. On days 3, 5, 8 and 10 at
+least one later agent received zero Pareto queries; on day 8 agents 4--7 each
+received `0 ms / 0 queries` and retained only three columns, while earlier
+agents consumed the available generation window. This is evidence of
+agent-order starvation, not evidence that any particular `m-3897` action is
+optimal or that the BTC bot score is an objective.
+
+Experiment 193 tests one general mechanism: perform a bounded direct-frontier
+phase for every agent before the existing sequential staging and multi-spot
+intensification. Direct searches are cached and reused, so the new phase does
+not duplicate the same route queries. A per-agent slice is derived only from
+the public remaining deadline and number of agents still awaiting direct
+coverage. After that minimum coverage phase, all existing exact guidance,
+staging, pair/triple/quadruple generation, coordination, master search, ALNS,
+simulation and validation remain available on the shared remaining budget.
+
+Parent: `f9c0019`. Frozen manifest:
+`research/holdouts/SCORE-FAIR-DIRECT-FRONTIER-193.csv`, SHA256
+`3A289DE666A43FDE0BC332E35C278D8BBBB38708E951847198DC36411BC1A9CA`.
+Development spans 8/14/20/26/32 maps, 4/5/7/8/10-day horizons, 4/6/8 agents,
+low/default/high fuel, fixed/native roles and fresh generated families. The
+holdout is sealed until consumed attribution and fresh development clear the
+registered gates.
+
+Functionality preservation: the candidate removes, disables, defers or reduces
+no designed functionality and deletes nothing. It changes only the ordering of
+already-designed direct route work and reuses its exact results before the
+unchanged deeper stages. Official lexicographic score, exact simulator,
+independent validator, role semantics, traffic model and the `5000 ms` hard cap
+remain unchanged. Local elapsed time has no performance authority. Promotion
+requires paired score/tier/tail evidence, zero invalid/emergency, reduced
+starvation without a systematic family/fuel/role regression, and a final BTC
+target-host gate.
+
+The candidate reached direct-query coverage for all eight agents on every
+consumed rerun day, but the full closed loop lost `6/60/461` against parent
+`6/60/464`. More importantly, on the original fixed day-8 public state the
+parent and candidate produced the same exact plan and the same `6/48`: removing
+the strongest recorded zero-query symptom did not yield a score witness. Fresh
+8x8 and 32x32 development controls tied at `5/20/42` and `6/60/492`, with zero
+invalid/emergency. Because there was no positive score witness and one consumed
+regression, the remaining development matrix and sealed holdout were not
+opened. The candidate is rejected and fully reverted. Canonical evidence:
+`research/evidence/SCORE-FAIR-DIRECT-FRONTIER-193.md`.
+
+Agent-order starvation remains telemetry, but it is not currently a causal
+score gap. Reopen only with a fixed-state exact-valid missing column whose
+insertion strictly improves official score; any successor must preserve the
+non-starved portfolio without running a doubled solver.
+
+### Closed latest-production oracle revalidation: ATTR-ORACLE-LATEST-192
+
+Experiment 185's exact certificates are independent of the bounded production
+solver, so accepted experiments 190/191 cannot invalidate completed root-action
+scores or require a restart.  However, experiment 188 compared the completed
+`1721100 [0,88)` witness only with production `5c3aa7a` and deliberately skipped
+terminal-day protected refinement.  Current production `d73a24a` adds the
+accepted 190/191 sparse coordinate ascent on that boundary; the old statement
+that the exact `5/17/18` witness survives current production is therefore stale.
+
+Experiment 192 is a consumed-only attribution on the same opened seed and the
+same maximum-dwell, minimum-dwell and status-toggle policies.  It preserves the
+exact experiment-187 virtual-parent lifecycle on nonterminal days and invokes
+the unchanged accepted-191 terminal fixed-point refiner only on the final day,
+inside the same absolute `5000 ms` boundary and `1600 ms` reserve.  It records
+terminal generated/valid plan counts, rounds, strict improvements, deadline,
+final score and plan hash.  No new fixture, holdout or production source is
+opened, and local elapsed has no performance authority.
+
+Parent: `d73a24a`. Frozen consumed manifest:
+`research/holdouts/ATTR-ORACLE-LATEST-192.csv`, SHA256
+`AC449977F5822B61645CC0475C09F004B345BEF20AF14D36ED86957BF635A42B`.
+
+Functionality preservation: the probe removes, disables, defers or reduces no
+designed functionality and deletes nothing.  It adds an opt-in research mode;
+the 188 control and all 185 jobs remain unchanged.
+
+The experiment-188 control reproduced exactly under all three policies:
+maximum-dwell `5/17/17` with hash `32dcfc4fa4a20fd6`, minimum-dwell
+`5/16/17` with hash `a9d910dc3b481ff7`, and status-toggle `5/17/17` with
+hash `32dcfc4fa4a20fd6`.  Enabling the current 191 terminal path produced the
+same scores and hashes.  All six runs were valid; nonterminal takeovers,
+solver/protected/terminal deadline days, terminal sparse routes, valid terminal
+plans, strict terminal improvements and coordinate rounds were all zero.
+
+This is structural rather than timing-related.  The consumed fixture has six
+spots, so the canonical dense exact representation is supported; the accepted
+190/191 sparse sidecar intentionally remains inactive there.  Experiment 192
+is closed `accepted-attribution-residual-gap`: exact 185 score `5/17/18` still
+exceeds current production `d73a24a`.  A successor must identify a general
+multi-day closed-loop causal mechanism in the dense-supported domain before any
+source candidate opens.  Canonical evidence:
+`research/evidence/ATTR-ORACLE-LATEST-192.md`.
 
 ### Accepted terminal coordinate ascent: SCORE-TERMINAL-COORDINATE-ASCENT-191
 
@@ -84,6 +364,41 @@ result, has zero paired loss on fresh development and holdout, and demonstrates
 a real incremental takeover on the BTC target host inside the hard cap. No
 route generation, threshold, dispatcher, nonterminal planner, role logic or
 experiment-185 path changes. The accepted implementation commit is `c3ee753`.
+
+The same fresh BTC replay is also a new read-only attribution input, separate
+from the 191 verdict. Team A and the bot both reached `6/60`, but Team A ended
+at 435 servings versus the bot's 589. Bot rank is not promotion evidence, yet a
+154-serving same-map gap is large enough to retain as a possible counterexample.
+Team A used one tanker at mask 2 and served
+`44,46,48,46,29,28,46,48,45,55` by day; every submission and replay plan was
+valid. No logic experiment may tune to `m-3897`: attribution must first separate
+role choice, nonterminal route combination, stock contention and traffic effects
+using the replay plus independent/exact evidence. Replay SHA256 remains
+`9A528FD0E5AC81B0A7A30E26AC5B7AB25AF76CA640EDC5D97ABC1A868176E9A8`.
+
+The first read-only attribution retained the exact live one-tanker mask 2 and
+ran the canonical closed loop over the replay's public states. It produced
+exact-valid `6/60/439`, so an alternative role is not required to exceed the
+live 435. Days 1 and 2 reproduced the live scores and terminal agent states;
+the first state/path divergence appears on day 3. This is not promotion or
+performance evidence because the counterfactual uses a local timing path and a
+fixed replayed opponent trajectory. It narrows further attribution to planner
+cutoff/path sensitivity from the identical day-3 input; a candidate remains
+forbidden until a timing-independent witness or BTC-target reproduction proves
+the causal mechanism.
+
+Direct comparison of the two serialized day-3 decisions confirms identical
+state, ledger `6/12/90`, immediate day score `6/48`, 16 audited candidates and
+deadline-incomplete master search. The live path selected
+`certified-undominated-current-floor` in 2,763 ms; the local counterfactual used
+`certified-lexicographic` in 3,376 ms. Their only first divergent action bundle
+is an immediate-score tie with different terminal continuation. The live
+profile predicted the chosen terminal more strongly, yet the fixed-public-state
+counterfactual suffix eventually scored higher. This is a candidate evaluator/
+cutoff mismatch, but not yet a sound logic gap: timing differs and the opponent
+does not react to counterfactual own traffic. Experiment 185's exact root/suffix
+evidence should be consumed before designing a new comparator change, avoiding
+another circular tie-break experiment.
 
 ### Accepted dense-map sparse-frontier candidate: SCORE-DENSE-SPARSE-FRONTIER-190
 

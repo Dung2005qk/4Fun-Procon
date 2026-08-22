@@ -82,6 +82,32 @@ các bằng chứng được dẫn bên dưới.
   định reopen phải được chuẩn hóa vào `research/STATE.md`/`research/evidence/`;
   không để kết luận chỉ tồn tại trong hội thoại hoặc file `.tmp-*`.
 
+### Thay đổi runtime không được miễn cổng score
+
+- Nhãn `runtime`, `correctness`, `network`, `deadline`, `cache` hoặc
+  `performance` không miễn một commit khỏi promotion gate. Bất kỳ thay đổi nào
+  tới deadline calibration, network reserve, budget partition, search order,
+  cache hit/miss, scheduling hoặc lượng công việc hoàn thành trước cutoff đều
+  phải được coi là score-affecting, trừ khi có bằng chứng operation-equivalent
+  hoặc byte-equivalent trên runtime path thực.
+- Commit trộn correctness với budget/search policy phải tách attribution. Phần
+  correctness vẫn phải được giữ, nhưng phần policy chỉ được promote sau paired
+  candidate-vs-direct-parent tại đúng hard cap `5000 ms` và so với protected
+  lane champion. Validity, timeout-free, unit-test green hoặc hạng 1 trước bot
+  không thay thế score gate.
+- `networkFloor` chỉ bảo vệ khoảng từ lúc kết thúc compute tới authoritative
+  action deadline; không được mặc định trừ một reserve cố định khỏi internal
+  compute cap khi outer server window còn dư. Deadline cho compute và gửi phải
+  được tách theo công thức cấu trúc
+  `compute_end = min(received_at + 5000 ms, action_deadline - transport_safety)`.
+  Outer window dài không cấp compute vượt `5000 ms`; outer window ngắn mới được
+  phép thu hẹp compute để giữ submission hợp lệ.
+- Khi search dài hơn có thể đổi trajectory, không được lấy kết quả cuối một cách
+  máy móc. Phải giữ incumbent đã chứng nhận và chỉ cho phần search/refinement bổ
+  sung thay thế khi exact simulator, independent validator và official
+  lexicographic comparator chứng minh cải thiện; deadline, failure, invalid hoặc
+  không cải thiện phải trả incumbent byte-identical.
+
 ## Trình tự khôi phục context bắt buộc
 
 ### Gate đọc tài liệu tuyệt đối
