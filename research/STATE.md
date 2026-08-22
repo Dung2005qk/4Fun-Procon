@@ -4,6 +4,87 @@ Updated: 2026-08-22
 
 ## Current phase
 
+### Active terminal coordinate-ascent probe: SCORE-TERMINAL-COORDINATE-ASCENT-191
+
+Experiment 190 is committed as `994c33a`. Exact streaming 185 remains active on
+the Spot VM, while experiment 191 investigates a separate residual BTC gap and
+does not wait for 185.
+
+Authenticated `m-3896` ended at `6/60/407`. The rank and bot score are excluded,
+but replay attribution found a production-path fixed-point gap: applying the
+same exact terminal sidecar once more to the already submitted day-10 plan
+improves `6/60/407` to `6/60/410`, with 191/191 candidates simulator/validator
+valid and two strict improvements. On the ten immutable replay states the best
+single-agent sparse exchange exceeds the recorded cumulative score by
+`+3,+3,+3,+3,+2,+2,+3,+3,+2,+3`. State/footprint-preserving exchanges improve
+only days 2 and 6; therefore the gap is not missing route generation but the
+one-round limit on safe final-day combination.
+
+The proposed mechanism preserves the complete experiment-190 first round as a
+protected incumbent, then reuses the already generated sparse route set. Each
+additional round freezes the current incumbent, evaluates every one-agent
+replacement against that same round base, and accepts only the best strict
+official-score improvement after exact simulation and independent validation.
+It stops at a fixed point or the unchanged deadline. A timeout, failure or no
+gain returns the best already certified incumbent, so the result cannot be
+worse than experiment 190. No route search, nonterminal planner, role logic or
+experiment-187 behavior changes.
+
+Parent: `994c33a`. Frozen manifest:
+`research/holdouts/SCORE-TERMINAL-COORDINATE-ASCENT-191.csv`, SHA256
+`0B6B9F89B4B3605A3F70E5BF7BEE60716B88EE3F941E4B40E806C07EE3ABAC35`.
+Development and holdout use fresh seed ranges and compare the protected first-
+round score directly with the final fixed-point score inside one run. Holdout
+remains sealed until consumed plus fresh development pass. Local elapsed has no
+performance authority; final promotion still requires BTC at 5000 ms.
+
+Functionality preservation: the candidate removes, disables, defers or reduces
+no designed functionality and deletes nothing. The accepted 190 result remains
+an explicit protected incumbent at the start of every later round.
+
+Implementation now passes the consumed gate. On `m-3896`, protected round 1
+reproduces `6/60/410` and coordinate ascent reaches `6/60/413` after three
+accepted rounds with 665/665 generated plans valid. On `m-3877`, round 1
+reproduces `6/60/460` and the fixed point reaches `6/60/464` after five rounds
+with 1,174/1,174 generated plans valid. Neither replay reaches its deadline.
+Fresh development completed all 54 registered fixtures. Against the protected
+experiment-190 first round, the fixed point scored `27/27/0` wins/ties/losses
+and gained 251 servings in aggregate, with zero lifetime/daily regression,
+invalid, emergency, sidecar failure or sidecar deadline. Both fuels, both role
+modes, medium/hard/very-hard tiers and every generated family contain gains;
+the 12 easy dense-feasible controls tie. All 25,154 generated plans validate.
+Development evidence SHA256 is
+`2DE9C68AFD203C7109410CF758BB2738E16CD6939AF83D4EB987716720FF4F18`.
+The preregistered development gate is cleared and the frozen holdout may open.
+
+The untouched holdout then completed all 108 fixtures at `49/59/0`, adding 412
+servings with zero lifetime/daily regression. Medium, hard and very-hard tiers,
+both fuels, both role modes and all six generated families contain wins; easy
+and the 12-spot dense-feasible lane remain controls. All 39,653 generated plans
+validate, with zero invalid, emergency or sidecar failure. Twelve local
+sidecar-slice exhaustions safely returned a certified incumbent and caused zero
+loss; local timing is not promotion evidence. Holdout evidence SHA256 is
+`185A5986FD99B2505E043986A1FE12D3A297CC625C3DAA078E583A9B2B8AE086`.
+The holdout gate is cleared without mechanism changes; BTC target-host at the
+5000-ms hard cap is now the only remaining experiment-191 acceptance gate.
+
+Fresh authenticated BTC `m-3897` used hard/one-bot/10-day/32x32/100-step/
+5000-ms/8-agent/30-spot/6-brand/high-fuel configuration. It received 10/10 HTTP
+200 valid acknowledgements with maximum response 2,888 ms. Replay-check and the
+independent validator accepted all ten submitted plans. On day 10 the protected
+experiment-190 first round reached cumulative `6/60/432`; coordinate ascent
+used three accepted rounds, 376 sparse routes and 311/311 valid generated plans
+to submit `6/60/435`. It recorded four strict improvements and safely returned
+the stronger incumbent after its local sidecar slice expired. Rank and bot
+score are excluded. Replay SHA256 is
+`9A528FD0E5AC81B0A7A30E26AC5B7AB25AF76CA640EDC5D97ABC1A868176E9A8`.
+
+SCORE-TERMINAL-COORDINATE-ASCENT-191 is accepted. It protects the complete 190
+result, has zero paired loss on fresh development and holdout, and demonstrates
+a real incremental takeover on the BTC target host inside the hard cap. No
+route generation, threshold, dispatcher, nonterminal planner, role logic or
+experiment-185 path changes.
+
 ### Accepted dense-map sparse-frontier candidate: SCORE-DENSE-SPARSE-FRONTIER-190
 
 Research does not wait for experiment 185. Exact streaming remains unchanged on

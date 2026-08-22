@@ -110,10 +110,12 @@ struct Metrics {
     std::int64_t terminalSparsePlans = 0;
     std::int64_t terminalSparseValid = 0;
     std::int64_t terminalSparseStrict = 0;
+    std::int64_t terminalSparseRounds = 0;
     std::int32_t terminalSparseTakeovers = 0;
     std::int32_t terminalSparseDeadline = 0;
     std::int32_t terminalSparseFailure = 0;
     udon::OfficialScore terminalSparseParentScore;
+    udon::OfficialScore terminalSparseFirstRoundScore;
     udon::OfficialScore terminalSparseRefinedScore;
 };
 
@@ -858,12 +860,16 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                     terminalChoice.diagnostics.validPlans;
                 metrics.terminalSparseStrict +=
                     terminalChoice.diagnostics.strictTerminalImprovements;
+                metrics.terminalSparseRounds +=
+                    terminalChoice.diagnostics.terminalSparseRounds;
                 metrics.terminalSparseDeadline +=
                     terminalChoice.diagnostics.deadlineReached ? 1 : 0;
                 metrics.terminalSparseFailure +=
                     terminalChoice.diagnostics.sparseFailure ? 1 : 0;
                 metrics.terminalSparseRefinedScore =
                     terminalChoice.scoreAfterToday;
+                metrics.terminalSparseFirstRoundScore =
+                    terminalChoice.firstRoundScore;
                 if (terminalChoice.improved) {
                     detailed = terminalChoice.simulation;
                     appliedPlanHash = plan_hash(terminalChoice.plan);
@@ -1163,6 +1169,8 @@ void print_result(
               << metrics.terminalSparseValid
               << ",terminal_sparse_strict="
               << metrics.terminalSparseStrict
+              << ",terminal_sparse_rounds="
+              << metrics.terminalSparseRounds
               << ",terminal_sparse_takeovers="
               << metrics.terminalSparseTakeovers
               << ",terminal_sparse_deadline="
@@ -1173,6 +1181,10 @@ void print_result(
               << metrics.terminalSparseParentScore.lifetimeDistinct << '/'
               << metrics.terminalSparseParentScore.totalDailyDistinct << '/'
               << metrics.terminalSparseParentScore.totalServings
+              << ",terminal_sparse_round1="
+              << metrics.terminalSparseFirstRoundScore.lifetimeDistinct << '/'
+              << metrics.terminalSparseFirstRoundScore.totalDailyDistinct << '/'
+              << metrics.terminalSparseFirstRoundScore.totalServings
               << ",terminal_sparse_refined="
               << metrics.terminalSparseRefinedScore.lifetimeDistinct << '/'
               << metrics.terminalSparseRefinedScore.totalDailyDistinct << '/'

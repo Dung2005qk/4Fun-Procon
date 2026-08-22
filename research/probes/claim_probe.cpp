@@ -1048,6 +1048,12 @@ void print_sparse_exchange(
                   << " valid=" << sidecar.diagnostics.validPlans
                   << " strict="
                   << sidecar.diagnostics.strictTerminalImprovements
+                  << " rounds="
+                  << sidecar.diagnostics.terminalSparseRounds
+                  << " round1="
+                  << sidecar.firstRoundScore.lifetimeDistinct << '/'
+                  << sidecar.firstRoundScore.totalDailyDistinct << '/'
+                  << sidecar.firstRoundScore.totalServings
                   << " deadline=" << sidecar.diagnostics.deadlineReached
                   << '\n';
     }

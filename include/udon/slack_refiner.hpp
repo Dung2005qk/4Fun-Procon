@@ -19,6 +19,7 @@ struct ProtectedSlackDiagnostics {
     std::int64_t liftablePlans = 0;
     std::int64_t sparseRoutes = 0;
     std::int64_t strictTerminalImprovements = 0;
+    std::int64_t terminalSparseRounds = 0;
     bool deadlineReached = false;
     bool terminalSparse = false;
     bool sparseFailure = false;
@@ -28,6 +29,7 @@ struct ProtectedSlackResult {
     DayPlan plan;
     SimulationResult simulation;
     OfficialScore scoreAfterToday;
+    OfficialScore firstRoundScore;
     ProtectedSlackDiagnostics diagnostics;
     bool improved = false;
     AgentIndex witnessAgent = kInvalidAgent;

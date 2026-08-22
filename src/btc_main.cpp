@@ -1841,6 +1841,18 @@ void run_http(const RuntimeOptions& options) {
                     udon::JsonValue(
                         refinement.diagnostics.strictTerminalImprovements));
                 telemetry.emplace(
+                    "terminalSparseRounds",
+                    udon::JsonValue(
+                        refinement.diagnostics.terminalSparseRounds));
+                telemetry.emplace(
+                    "firstRoundDailyDistinct",
+                    udon::JsonValue(static_cast<std::int64_t>(
+                        refinement.firstRoundScore.totalDailyDistinct)));
+                telemetry.emplace(
+                    "firstRoundServings",
+                    udon::JsonValue(static_cast<std::int64_t>(
+                        refinement.firstRoundScore.totalServings)));
+                telemetry.emplace(
                     "terminalSparse",
                     udon::JsonValue(
                         refinement.diagnostics.terminalSparse));

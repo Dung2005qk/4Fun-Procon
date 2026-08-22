@@ -375,6 +375,7 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_terminal_sparse(
     result.simulation = incumbentSimulation;
     result.scoreAfterToday =
         OfficialScore::after_day(ledger, incumbentSimulation.score);
+    result.firstRoundScore = result.scoreAfterToday;
     if (!incumbentSimulation.valid ||
         state.dayNumber != config_.day_count() ||
         incumbentPlan.actions.size() !=
@@ -496,57 +497,93 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_terminal_sparse(
 
     std::set<std::uint64_t> planHashes;
     planHashes.insert(plan_hash(incumbentPlan));
-    for (const AgentIndex agent : tasks) {
-        const ExactOrienteeringReachability& routes =
-            reachability.at(static_cast<std::size_t>(agent));
-        const auto evaluate = [&](const ExactOrienteeringRoute& route) {
-            if (std::chrono::steady_clock::now() >= deadline) {
-                result.diagnostics.deadlineReached = true;
-                return false;
-            }
-            ++result.diagnostics.sparseRoutes;
-            DayPlan candidate = incumbentPlan;
-            candidate.actions.at(static_cast<std::size_t>(agent)) = route.actions;
-            if (!planHashes.insert(plan_hash(candidate)).second) {
+    bool firstRound = true;
+    for (;;) {
+        const DayPlan roundBasePlan = result.plan;
+        const SimulationResult roundBaseSimulation = result.simulation;
+        const OfficialScore roundBaseScore = result.scoreAfterToday;
+        DayPlan roundBestPlan = roundBasePlan;
+        SimulationResult roundBestSimulation = roundBaseSimulation;
+        OfficialScore roundBestScore = roundBaseScore;
+        AgentIndex roundBestAgent = kInvalidAgent;
+        bool roundDeadline = false;
+
+        for (const AgentIndex agent : tasks) {
+            const ExactOrienteeringReachability& routes =
+                reachability.at(static_cast<std::size_t>(agent));
+            const auto evaluate = [&](const ExactOrienteeringRoute& route) {
+                if (std::chrono::steady_clock::now() >= deadline) {
+                    result.diagnostics.deadlineReached = true;
+                    roundDeadline = true;
+                    return false;
+                }
+                ++result.diagnostics.sparseRoutes;
+                DayPlan candidate = roundBasePlan;
+                candidate.actions.at(static_cast<std::size_t>(agent)) =
+                    route.actions;
+                if (!planHashes.insert(plan_hash(candidate)).second) {
+                    return true;
+                }
+                ++result.diagnostics.generatedPlans;
+                const SimulationResult detailed =
+                    simulator_.simulate(state, candidate, false);
+                const SimulationResult independent =
+                    validator_.validate(state, candidate, false);
+                std::string mismatch;
+                if (!detailed.valid ||
+                    !validator_.agrees_with(detailed, independent, mismatch)) {
+                    return true;
+                }
+                ++result.diagnostics.validPlans;
+                const OfficialScore candidateScore =
+                    OfficialScore::after_day(ledger, detailed.score);
+                if (!(roundBestScore < candidateScore)) {
+                    return true;
+                }
+                ++result.diagnostics.strictTerminalImprovements;
+                roundBestPlan = std::move(candidate);
+                roundBestSimulation = detailed;
+                roundBestScore = candidateScore;
+                roundBestAgent = agent;
                 return true;
+            };
+            for (const ExactOrienteeringRoute& route : routes.maximalRoutes) {
+                if (!evaluate(route)) {
+                    break;
+                }
             }
-            ++result.diagnostics.generatedPlans;
-            const SimulationResult detailed =
-                simulator_.simulate(state, candidate, false);
-            const SimulationResult independent =
-                validator_.validate(state, candidate, false);
-            std::string mismatch;
-            if (!detailed.valid ||
-                !validator_.agrees_with(detailed, independent, mismatch)) {
-                return true;
+            if (!roundDeadline) {
+                for (const ExactOrienteeringRoute& route :
+                     routes.supplementalRoutes) {
+                    if (!evaluate(route)) {
+                        break;
+                    }
+                }
             }
-            ++result.diagnostics.validPlans;
-            const OfficialScore candidateScore =
-                OfficialScore::after_day(ledger, detailed.score);
-            if (!(result.scoreAfterToday < candidateScore)) {
-                return true;
-            }
-            ++result.diagnostics.strictTerminalImprovements;
-            result.plan = std::move(candidate);
-            result.simulation = detailed;
-            result.scoreAfterToday = candidateScore;
-            result.improved = true;
-            result.witnessAgent = agent;
-            result.witnessParentFuel = incumbentSimulation.finalAgents.at(
-                static_cast<std::size_t>(agent)).fuel;
-            result.witnessCandidateFuel = detailed.finalAgents.at(
-                static_cast<std::size_t>(agent)).fuel;
-            return true;
-        };
-        for (const ExactOrienteeringRoute& route : routes.maximalRoutes) {
-            if (!evaluate(route)) {
-                return result;
+            if (roundDeadline) {
+                break;
             }
         }
-        for (const ExactOrienteeringRoute& route : routes.supplementalRoutes) {
-            if (!evaluate(route)) {
-                return result;
-            }
+
+        if (roundBaseScore < roundBestScore) {
+            result.plan = std::move(roundBestPlan);
+            result.simulation = roundBestSimulation;
+            result.scoreAfterToday = roundBestScore;
+            result.improved = true;
+            result.witnessAgent = roundBestAgent;
+            result.witnessParentFuel = roundBaseSimulation.finalAgents.at(
+                static_cast<std::size_t>(roundBestAgent)).fuel;
+            result.witnessCandidateFuel =
+                roundBestSimulation.finalAgents.at(
+                    static_cast<std::size_t>(roundBestAgent)).fuel;
+            ++result.diagnostics.terminalSparseRounds;
+        }
+        if (firstRound) {
+            result.firstRoundScore = result.scoreAfterToday;
+            firstRound = false;
+        }
+        if (roundDeadline || !(roundBaseScore < roundBestScore)) {
+            break;
         }
     }
     return result;

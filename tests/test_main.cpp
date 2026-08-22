@@ -1918,6 +1918,7 @@ void test_protected_slack_refiner(
     require(
         !nonterminalSparse.improved &&
             !nonterminalSparse.diagnostics.terminalSparse &&
+            nonterminalSparse.diagnostics.terminalSparseRounds == 0 &&
             udon::canonical_plan_bytes(nonterminalSparse.plan) ==
                 udon::canonical_plan_bytes(parent),
         "terminal sparse refinement must be unreachable before the final day and preserve the byte-identical parent");
