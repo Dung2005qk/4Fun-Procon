@@ -4,7 +4,7 @@ Updated: 2026-08-22
 
 ## Current phase
 
-### Active terminal coordinate-ascent probe: SCORE-TERMINAL-COORDINATE-ASCENT-191
+### Accepted terminal coordinate ascent: SCORE-TERMINAL-COORDINATE-ASCENT-191
 
 Experiment 190 is committed as `994c33a`. Exact streaming 185 remains active on
 the Spot VM, while experiment 191 investigates a separate residual BTC gap and
@@ -83,7 +83,7 @@ SCORE-TERMINAL-COORDINATE-ASCENT-191 is accepted. It protects the complete 190
 result, has zero paired loss on fresh development and holdout, and demonstrates
 a real incremental takeover on the BTC target host inside the hard cap. No
 route generation, threshold, dispatcher, nonterminal planner, role logic or
-experiment-185 path changes.
+experiment-185 path changes. The accepted implementation commit is `c3ee753`.
 
 ### Accepted dense-map sparse-frontier candidate: SCORE-DENSE-SPARSE-FRONTIER-190
 

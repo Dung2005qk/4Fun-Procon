@@ -123,4 +123,5 @@ Replay SHA256 is
 Experiment 191 is accepted. It strictly generalizes experiment 190's terminal
 sidecar, protects the complete first-round result, produces no paired loss on
 development or holdout, and demonstrates an incremental target-host gain under
-the authoritative cap without adding a route search or dispatcher.
+the authoritative cap without adding a route search or dispatcher. The accepted
+implementation commit is `c3ee753`.
