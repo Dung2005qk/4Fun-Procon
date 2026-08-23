@@ -1,0 +1,15 @@
+experiment_id,split,suite,first_seed,count,role_mode,role_mask,budget_ms,gate
+SCORE-BOUND-CLOSED-FUEL-176,anchor,adversarial-balanced-low,1720000,1,fixed,0,5000,consumed-exact-counterexample-causal-closure
+SCORE-BOUND-CLOSED-FUEL-176,development,general,1760000,12,fixed,0,5000,candidate-vs-parent-official-score-state-validator
+SCORE-BOUND-CLOSED-FUEL-176,development,general,1760100,6,deadline,0,5000,candidate-vs-parent-native-role
+SCORE-BOUND-CLOSED-FUEL-176,development,btc-lowfuel,1760200,2,fixed,128,5000,candidate-vs-parent-lowfuel-semantics
+SCORE-BOUND-CLOSED-FUEL-176,development,btc-large,1760300,2,fixed,128,5000,candidate-vs-parent-default-semantics
+SCORE-BOUND-CLOSED-FUEL-176,development,btc-highfuel,1760400,2,fixed,128,5000,candidate-vs-parent-highfuel-control
+SCORE-BOUND-CLOSED-FUEL-176,holdout,general,1761000,36,fixed,0,5000,candidate-vs-parent-global-score-downside
+SCORE-BOUND-CLOSED-FUEL-176,holdout,general,1761100,18,deadline,0,5000,candidate-vs-parent-native-role
+SCORE-BOUND-CLOSED-FUEL-176,holdout,btc-lowfuel,1762000,6,fixed,128,5000,candidate-vs-parent-lowfuel
+SCORE-BOUND-CLOSED-FUEL-176,holdout,btc-large,1762100,6,fixed,128,5000,candidate-vs-parent-default
+SCORE-BOUND-CLOSED-FUEL-176,holdout,btc-highfuel,1762200,6,fixed,128,5000,candidate-vs-parent-highfuel
+SCORE-BOUND-CLOSED-FUEL-176,holdout,btc-lowfuel,1762300,3,deadline,0,5000,candidate-vs-parent-lowfuel-native-role
+SCORE-BOUND-CLOSED-FUEL-176,holdout,btc-large,1762400,3,deadline,0,5000,candidate-vs-parent-default-native-role
+SCORE-BOUND-CLOSED-FUEL-176,holdout,btc-highfuel,1762500,3,deadline,0,5000,candidate-vs-parent-highfuel-native-role

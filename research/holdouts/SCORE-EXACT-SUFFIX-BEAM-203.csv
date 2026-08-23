@@ -1,0 +1,9 @@
+experiment_id,split,source,tier,map_side,days,agents,spot_counts,fuel_profiles,role_modes,first_seed,count,scope,authority
+SCORE-EXACT-SUFFIX-BEAM-203,causal,consumed-oracle,small-dense,0,4,3,6,default|high,fixed,1721100,2,parent-exact-bundle-greedy-versus-protected-multi-day-beam,opened-consumed
+SCORE-EXACT-SUFFIX-BEAM-203,development,new-exact-supported,easy,8,4,4,6|8,low|default|high,fixed|native,4880000,12,parent-versus-protected-exact-suffix-beam,fresh-development
+SCORE-EXACT-SUFFIX-BEAM-203,development,new-exact-supported,medium,12,5,4,8|10|12,low|default|high,fixed|native,4881000,12,parent-versus-protected-exact-suffix-beam,fresh-development
+SCORE-EXACT-SUFFIX-BEAM-203,development,new-exact-supported,hard,14,5,6,8|10|12,low|default|high,fixed|native,4882000,12,parent-versus-protected-exact-suffix-beam,fresh-development
+SCORE-EXACT-SUFFIX-BEAM-203,holdout,new-exact-supported,easy,8,4,4,6|8,low|default|high,fixed|native,4890000,24,paired-score-validity-tail-parent-protection,sealed
+SCORE-EXACT-SUFFIX-BEAM-203,holdout,new-exact-supported,medium,12,5,4,8|10|12,low|default|high,fixed|native,4891000,24,paired-score-validity-tail-parent-protection,sealed
+SCORE-EXACT-SUFFIX-BEAM-203,holdout,new-exact-supported,hard,14,5,6,8|10|12,low|default|high,fixed|native,4892000,24,paired-score-validity-tail-parent-protection,sealed
+SCORE-EXACT-SUFFIX-BEAM-203,btc,target-host,public-match,0,0,0,configured,configured,native,0,1,hard-cap-validity-and-protected-parent,btc-authoritative

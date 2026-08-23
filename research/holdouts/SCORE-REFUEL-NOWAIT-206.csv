@@ -1,0 +1,9 @@
+split,suite,first_seed,count,spots,agents,rotation
+development,stratified-easy,4880000,12,12|14,4,fuel=low/default/high per offset//spots; role=fixed/native per offset//(spots*fuels); role_mask: low=1|1<<(agents-1) high=2 default=1; window alternates short/long per offset parity; budget-ms=3375 role-ms=3375 protected-wait-ms short=500 long=1600 terminal-sparse-ms short=3875 long=5000; track=protected-reserve closed loop
+development,stratified-medium,4881000,12,12|18,4,same rotation
+development,stratified-hard,4882000,18,14|18|24,6,same rotation
+development,stratified-very-hard,4883000,18,18|24|30,8,same rotation
+holdout,stratified-easy,4890000,24,12|14,4,same rotation
+holdout,stratified-medium,4891000,24,12|18,4,same rotation
+holdout,stratified-hard,4892000,30,14|18|24,6,same rotation
+holdout,stratified-very-hard,4893000,30,18|24|30,8,same rotation

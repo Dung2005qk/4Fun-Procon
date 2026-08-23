@@ -1,0 +1,16 @@
+experiment_id,split,suite,first_seed,count,role_mode,role_mask,budget_ms,gate
+SCORE-PROTECTED-EXACT-179,attribution,general,1760000,12,fixed,0,5000,consumed-176-blast-radius-only
+SCORE-PROTECTED-EXACT-179,anchor,adversarial-balanced-low,1720000,1,fixed,0,5000,consumed-exact-causal-closure
+SCORE-PROTECTED-EXACT-179,development,general,1790000,18,fixed,0,5000,candidate-vs-parent-fresh-general
+SCORE-PROTECTED-EXACT-179,development,general,1790100,9,deadline,0,5000,candidate-vs-parent-fresh-native-role
+SCORE-PROTECTED-EXACT-179,development,btc-lowfuel,1790200,4,fixed,128,5000,candidate-vs-parent-fresh-lowfuel
+SCORE-PROTECTED-EXACT-179,development,btc-large,1790300,4,fixed,128,5000,candidate-vs-parent-fresh-default
+SCORE-PROTECTED-EXACT-179,development,btc-highfuel,1790400,4,fixed,128,5000,candidate-vs-parent-fresh-highfuel
+SCORE-PROTECTED-EXACT-179,holdout,general,1791000,48,fixed,0,5000,candidate-vs-parent-global-score-downside
+SCORE-PROTECTED-EXACT-179,holdout,general,1791100,24,deadline,0,5000,candidate-vs-parent-native-role
+SCORE-PROTECTED-EXACT-179,holdout,btc-lowfuel,1792000,8,fixed,128,5000,candidate-vs-parent-lowfuel
+SCORE-PROTECTED-EXACT-179,holdout,btc-large,1792100,8,fixed,128,5000,candidate-vs-parent-default
+SCORE-PROTECTED-EXACT-179,holdout,btc-highfuel,1792200,8,fixed,128,5000,candidate-vs-parent-highfuel
+SCORE-PROTECTED-EXACT-179,holdout,btc-lowfuel,1792300,4,deadline,0,5000,candidate-vs-parent-lowfuel-native
+SCORE-PROTECTED-EXACT-179,holdout,btc-large,1792400,4,deadline,0,5000,candidate-vs-parent-default-native
+SCORE-PROTECTED-EXACT-179,holdout,btc-highfuel,1792500,4,deadline,0,5000,candidate-vs-parent-highfuel-native
