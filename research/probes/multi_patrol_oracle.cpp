@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <numeric>
 #include <set>
 #include <sstream>
 #include <stdexcept>
@@ -20,12 +21,15 @@
 #include "udon/json.hpp"
 #include "udon/orienteering.hpp"
 #include "udon/protocol.hpp"
+#include "udon/runtime.hpp"
 #include "udon/simulator.hpp"
+#include "udon/slack_refiner.hpp"
 #include "udon/validator.hpp"
 
 namespace {
 
 constexpr std::chrono::milliseconds kProductionBudget{5000};
+constexpr std::chrono::milliseconds kBtcNetworkReserve{1600};
 constexpr std::int32_t kHarvestMode = 7;
 constexpr std::int32_t kFutureHarvestMode = 7;
 constexpr std::size_t kTrackedRoadCapacity = 2U;
@@ -48,8 +52,20 @@ struct Options {
     std::uint64_t onlySeed = 0;
     bool details = false;
     bool headOnly = false;
+    bool protectedHead = false;
+    bool latestTerminal = false;
+    std::int32_t protectedRefinementReserveMs = 1600;
+    bool boundaryDominance = false;
+    bool trafficHistoryQuotient = false;
+    std::int32_t proofTailDays = 0;
+    bool rootStream = false;
+    bool traceMembership = false;
+    std::int32_t rootOwnBegin = 0;
+    std::int32_t rootOwnEnd = -1;
     std::string inspectPlan;
     std::string inspectParentPlan;
+    std::string forcedPrefix;
+    std::string attributePrefix;
 };
 
 struct Fixture {
@@ -58,6 +74,7 @@ struct Fixture {
     std::string fuelProfile;
     std::uint64_t seed = 0;
     bool trafficAware = false;
+    bool adversarialTraffic = false;
     std::vector<TrafficFootprint> opponentFootprints;
 };
 
@@ -68,6 +85,50 @@ struct DayOutcome {
     udon::AgentPlan actions;
     TrafficFootprint roadFootprint{};
 };
+
+using AdversarialKey = std::tuple<
+    std::int32_t,
+    udon::CellId,
+    std::int32_t,
+    udon::CellId,
+    std::int32_t,
+    std::uint64_t,
+    TrafficFootprint,
+    TrafficFootprint,
+    TrafficStatusKey>;
+
+struct MinimaxNode {
+    udon::OfficialScore score;
+    DayOutcome bestOwn;
+    DayOutcome worstOpponent;
+};
+
+struct MinimaxDiagnostics {
+    std::size_t states = 0;
+    std::size_t transitions = 0;
+    std::size_t maximumOwnOutcomes = 0;
+    std::size_t maximumOpponentOutcomes = 0;
+    std::size_t maximumOwnOutcomesBeforeDominance = 0;
+    std::size_t boundaryDominancePruned = 0;
+};
+
+using MinimaxMemo = std::map<AdversarialKey, MinimaxNode>;
+using AdversarialDayCacheKey = std::tuple<
+    std::int32_t,
+    udon::CellId,
+    std::int32_t,
+    TrafficStatusKey>;
+
+struct MinimaxSearch {
+    MinimaxMemo memo;
+    MinimaxDiagnostics diagnostics;
+    std::map<AdversarialDayCacheKey, std::vector<DayOutcome>> ownCache;
+    std::map<AdversarialDayCacheKey, std::vector<DayOutcome>> opponentCache;
+    bool boundaryDominance = false;
+    bool trafficHistoryQuotient = false;
+};
+
+[[nodiscard]] std::string score_text(const udon::OfficialScore& score);
 
 using MatchKey = std::tuple<
     udon::CellId,
@@ -192,26 +253,102 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
             options.details = true;
         } else if (argument == "--head-only") {
             options.headOnly = true;
+        } else if (argument == "--protected-head") {
+            options.protectedHead = true;
+        } else if (argument == "--latest-terminal") {
+            options.latestTerminal = true;
+        } else if (argument == "--protected-refinement-reserve-ms" &&
+                   index + 1 < argc) {
+            options.protectedRefinementReserveMs = std::stoi(argv[++index]);
+        } else if (argument == "--boundary-dominance" && index + 1 < argc) {
+            const std::string enabled = argv[++index];
+            if (enabled != "0" && enabled != "1") {
+                throw std::invalid_argument("boundary-dominance must be 0 or 1");
+            }
+            options.boundaryDominance = enabled == "1";
+        } else if (argument == "--traffic-history-quotient" &&
+                   index + 1 < argc) {
+            const std::string enabled = argv[++index];
+            if (enabled != "0" && enabled != "1") {
+                throw std::invalid_argument(
+                    "traffic-history-quotient must be 0 or 1");
+            }
+            options.trafficHistoryQuotient = enabled == "1";
+        } else if (argument == "--proof-tail-days" && index + 1 < argc) {
+            options.proofTailDays = std::stoi(argv[++index]);
+        } else if (argument == "--root-stream") {
+            options.rootStream = true;
+        } else if (argument == "--trace-membership") {
+            options.traceMembership = true;
+        } else if (argument == "--root-own-begin" && index + 1 < argc) {
+            options.rootOwnBegin = std::stoi(argv[++index]);
+        } else if (argument == "--root-own-end" && index + 1 < argc) {
+            options.rootOwnEnd = std::stoi(argv[++index]);
         } else if (argument == "--inspect-plan" && index + 1 < argc) {
             options.inspectPlan = argv[++index];
         } else if (argument == "--inspect-parent-plan" && index + 1 < argc) {
             options.inspectParentPlan = argv[++index];
+        } else if (argument == "--forced-prefix" && index + 1 < argc) {
+            options.forcedPrefix = argv[++index];
+        } else if (argument == "--attribute-prefix" && index + 1 < argc) {
+            options.attributePrefix = argv[++index];
         } else {
             throw std::invalid_argument("unknown or incomplete option: " + argument);
         }
     }
-    if (options.split != "development" && options.split != "holdout") {
-        throw std::invalid_argument("split must be development or holdout");
+    if (options.split != "development" && options.split != "holdout" &&
+        options.split != "consumed") {
+        throw std::invalid_argument(
+            "split must be consumed, development or holdout");
     }
     if (options.maximumMatches < 0) {
         throw std::invalid_argument("maximum matches cannot be negative");
     }
+    if (options.proofTailDays < 0 || options.proofTailDays > 2) {
+        throw std::invalid_argument("proof-tail-days must be 0, 1 or 2");
+    }
+    if (options.rootOwnBegin < 0 || options.rootOwnEnd < -1 ||
+        (options.rootOwnEnd >= 0 &&
+         options.rootOwnEnd < options.rootOwnBegin)) {
+        throw std::invalid_argument(
+            "root own range must be a nonnegative half-open interval");
+    }
+    if (!options.rootStream &&
+        (options.rootOwnBegin != 0 || options.rootOwnEnd != -1)) {
+        throw std::invalid_argument(
+            "root own range requires root-stream mode");
+    }
     if (!options.inspectPlan.empty() && options.onlySeed == 0U) {
         throw std::invalid_argument("inspect-plan requires only-seed");
+    }
+    if (options.traceMembership &&
+        (!options.rootStream || options.onlySeed == 0U ||
+         options.rootOwnEnd != options.rootOwnBegin + 1)) {
+        throw std::invalid_argument(
+            "trace-membership requires root-stream, only-seed and a singleton "
+            "root-own range");
     }
     if (!options.inspectParentPlan.empty() && options.inspectPlan.empty()) {
         throw std::invalid_argument(
             "inspect-parent-plan requires inspect-plan");
+    }
+    if (options.protectedHead && options.onlySeed == 0U) {
+        throw std::invalid_argument("protected-head requires only-seed");
+    }
+    if (options.latestTerminal && !options.protectedHead) {
+        throw std::invalid_argument(
+            "latest-terminal requires protected-head");
+    }
+    if (options.protectedRefinementReserveMs != 0 &&
+        options.protectedRefinementReserveMs != 1100 &&
+        options.protectedRefinementReserveMs != 1600) {
+        throw std::invalid_argument(
+            "protected-refinement-reserve-ms must be 0, 1100 or 1600");
+    }
+    if (options.protectedRefinementReserveMs != 1600 &&
+        !options.protectedHead) {
+        throw std::invalid_argument(
+            "non-default protected refinement reserve requires protected-head");
     }
     return options;
 }
@@ -247,8 +384,17 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
              fields.at(0) != "SCORE-W0-SUFFIX-PRESERVE-113" &&
               fields.at(0) != "SCORE-W1-CLOSED-LOOP-114" &&
               fields.at(0) != "SCORE-TRAFFIC-F0-UPPER-126" &&
-              fields.at(0) != "SCORE-TRAFFIC-UPPER-LANE-119" &&
-              fields.at(0) != "CEILING-BOTTLENECK-PATROL-135")) {
+             fields.at(0) != "SCORE-TRAFFIC-UPPER-LANE-119" &&
+               fields.at(0) != "CEILING-TRAFFIC-MINIMAX-172" &&
+               fields.at(0) != "ORACLE-BOUNDARY-DOMINANCE-175" &&
+               fields.at(0) != "ORACLE-ROOT-STREAM-185" &&
+               fields.at(0) != "ATTR-ORACLE-CURRENT-188" &&
+               fields.at(0) != "ATTR-ORACLE-LATEST-192" &&
+               fields.at(0) != "ATTR-ORACLE-LATEST-RESERVE-199" &&
+               fields.at(0) != "ATTR-ORACLE-ROOT-CAUSAL-200" &&
+               fields.at(0) != "ATTR-ORACLE-ROOT-CAUSAL-202" &&
+               fields.at(0) != "ATTR-SUFFIX-TRAJECTORY-MEMBERSHIP-209" &&
+               fields.at(0) != "CEILING-BOTTLENECK-PATROL-135")) {
             throw std::runtime_error("invalid manifest row: " + line);
         }
         if (fields.at(1) != split) {
@@ -257,14 +403,47 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
         const std::string expectedSpots = fields.at(0) == "CEILING-MULTI-PATROL-085"
             ? "5"
             : "6";
-        const std::string expectedScope =
-            fields.at(0) == "CEILING-TRAFFIC-PATROL-097" ||
+        const bool traceMembership =
+            fields.at(0) == "ATTR-SUFFIX-TRAJECTORY-MEMBERSHIP-209";
+        const bool rootStream =
+            fields.at(0) == "ORACLE-ROOT-STREAM-185" || traceMembership;
+        const bool currentRevalidation =
+            fields.at(0) == "ATTR-ORACLE-CURRENT-188" ||
+            fields.at(0) == "ATTR-ORACLE-LATEST-192" ||
+            fields.at(0) == "ATTR-ORACLE-LATEST-RESERVE-199" ||
+            fields.at(0) == "ATTR-ORACLE-ROOT-CAUSAL-200" ||
+            fields.at(0) == "ATTR-ORACLE-ROOT-CAUSAL-202";
+        const bool boundaryDominance =
+            fields.at(0) == "ORACLE-BOUNDARY-DOMINANCE-175" || rootStream ||
+            currentRevalidation;
+        const bool adversarial =
+            fields.at(0) == "CEILING-TRAFFIC-MINIMAX-172" ||
+            boundaryDominance;
+        const std::string expectedScope = adversarial
+            ? (currentRevalidation
+                   ? (fields.at(0) == "ATTR-ORACLE-ROOT-CAUSAL-200" ||
+                              fields.at(0) == "ATTR-ORACLE-ROOT-CAUSAL-202"
+                          ? "current-production-exact-root-causal-attribution"
+                          : (fields.at(0) == "ATTR-ORACLE-LATEST-RESERVE-199"
+                          ? "current-production-protected-reserve-revalidation"
+                          : (fields.at(0) == "ATTR-ORACLE-LATEST-192"
+                                 ? "current-production-terminal-coordinate-revalidation"
+                                 : "current-production-protected-revalidation")))
+               : (traceMembership
+                   ? "winning-root-trajectory-membership"
+                   : (rootStream
+                   ? "complete-public-maxmin-root-slice-stream"
+                   : (boundaryDominance
+                   ? "complete-public-maxmin-boundary-dominance-full-match-dp"
+                   : "complete-public-maxmin-one-active-per-team-full-match-dp"))))
+            : (fields.at(0) == "CEILING-TRAFFIC-PATROL-097" ||
                 fields.at(0) == "CEILING-TRAFFIC-INDEPENDENT-124" ||
                 fields.at(0) == "SCORE-TRAFFIC-F0-UPPER-126" ||
                 fields.at(0) == "SCORE-TRAFFIC-UPPER-LANE-119"
             ? "complete-two-active-patrol-own-traffic-full-match-dp"
-            : "complete-two-active-patrol-full-match-dp";
-        if (fields.at(7) != "2" || fields.at(8) != "3" ||
+            : "complete-two-active-patrol-full-match-dp");
+        const std::string expectedActive = adversarial ? "1" : "2";
+        if (fields.at(7) != expectedActive || fields.at(8) != "3" ||
             fields.at(9) != expectedSpots ||
             fields.at(10) != "all-patrol" ||
             fields.at(11) != expectedScope) {
@@ -361,6 +540,15 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
         family == "jam-loop" || family == "traffic-stock") {
         return {100, 200, 300, 400, 500, 600};
     }
+    if (family == "adversarial-balanced") {
+        return {100, 200, 300, 400, 500, 600};
+    }
+    if (family == "adversarial-threshold") {
+        return {100, 100, 200, 300, 400, 500};
+    }
+    if (family == "adversarial-terminal") {
+        return {100, 200, 300, 300, 400, 900};
+    }
     if (family == "diamond-duplicate") {
         return {100, 100, 200, 300, 400, 500};
     }
@@ -405,11 +593,25 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
     const bool cyclic =
         row.experimentId == "CEILING-CYCLE-PATROL-095" ||
         row.experimentId == "SCORE-W0-SUFFIX-PRESERVE-113";
+    const bool adversarialTraffic =
+        row.experimentId == "CEILING-TRAFFIC-MINIMAX-172" ||
+        row.experimentId == "ORACLE-BOUNDARY-DOMINANCE-175" ||
+        row.experimentId == "ORACLE-ROOT-STREAM-185" ||
+        row.experimentId == "ATTR-ORACLE-CURRENT-188" ||
+        row.experimentId == "ATTR-ORACLE-LATEST-192" ||
+        row.experimentId == "ATTR-ORACLE-LATEST-RESERVE-199" ||
+        row.experimentId == "ATTR-ORACLE-ROOT-CAUSAL-200" ||
+        row.experimentId == "ATTR-ORACLE-ROOT-CAUSAL-202" ||
+        row.experimentId == "ATTR-SUFFIX-TRAJECTORY-MEMBERSHIP-209";
+    if (adversarialTraffic) {
+        terrain.at(7) = static_cast<std::int32_t>(udon::Terrain::Plain);
+    }
     const bool trafficAware =
         row.experimentId == "CEILING-TRAFFIC-PATROL-097" ||
         row.experimentId == "CEILING-TRAFFIC-INDEPENDENT-124" ||
         row.experimentId == "SCORE-TRAFFIC-F0-UPPER-126" ||
-        row.experimentId == "SCORE-TRAFFIC-UPPER-LANE-119";
+        row.experimentId == "SCORE-TRAFFIC-UPPER-LANE-119" ||
+        adversarialTraffic;
     const bool perimeter = row.experimentId == "SCORE-MASTER-ADDITIVE-100";
     const bool ladder = row.experimentId == "CEILING-LADDER-PATROL-101";
     const bool diamond = row.experimentId == "SCORE-W1-CLOSED-LOOP-114";
@@ -440,6 +642,9 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
         terrain.at(18) = static_cast<std::int32_t>(udon::Terrain::Road);
         terrain.at(27) = static_cast<std::int32_t>(udon::Terrain::Mountain);
         terrain.at(35) = static_cast<std::int32_t>(udon::Terrain::Road);
+        if (adversarialTraffic) {
+            terrain.at(18) = static_cast<std::int32_t>(udon::Terrain::Plain);
+        }
         spotCells = {17, 19, 20, 33, 34, 36};
     } else if (ladder) {
         for (const udon::CellId cell : {18, 19, 20, 21, 26, 27, 28, 29}) {
@@ -487,6 +692,7 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
         row.family == "terminal-loop" || row.family == "traffic-terminal" ||
         row.family == "terminal-perimeter" || row.family == "terminal-ladder" ||
         row.family == "terminal-diamond" ||
+        row.family == "adversarial-terminal" ||
         row.family == "terminal-bottleneck") {
         const udon::CellId protectedTerminal = trafficAware
             ? 33
@@ -586,9 +792,11 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
                  << ",\"stocks\":" << stock << '}';
     }
     document << "],\"agents\":[" << (bottleneck ? 25 : (diamond ? 18 : (trafficAware ? 25 : (ladder ? 18 : (perimeter ? 18 : (cyclic ? 18 : 16)))))) << ','
-             << (bottleneck ? 36 : (diamond ? 35 : (trafficAware ? 28 : (ladder ? 29 : (perimeter ? 37 : (cyclic ? 36 : (branched ? 21 : 22)))))))
-             << ",0],\"fuelLimits\":" << fuelLimit
-             << ",\"players\":4,\"busyThreshold\":2,\"jammedThreshold\":4}";
+             << (adversarialTraffic ? 0 : (bottleneck ? 36 : (diamond ? 35 : (trafficAware ? 28 : (ladder ? 29 : (perimeter ? 37 : (cyclic ? 36 : (branched ? 21 : 22))))))))
+             << ',' << (adversarialTraffic ? 7 : 0)
+             << "],\"fuelLimits\":" << fuelLimit
+             << ",\"players\":" << (adversarialTraffic ? 2 : 4)
+             << ",\"busyThreshold\":2,\"jammedThreshold\":4}";
 
     Fixture fixture;
     fixture.config = udon::parse_match_config(udon::JsonValue::parse(document.str()));
@@ -596,13 +804,14 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
     fixture.fuelProfile = row.fuelProfile;
     fixture.seed = seed;
     fixture.trafficAware = trafficAware;
+    fixture.adversarialTraffic = adversarialTraffic;
     fixture.opponentFootprints.assign(
         static_cast<std::size_t>(row.horizon),
         TrafficFootprint{});
     if (fixture.config.roadCells.size() > kTrackedRoadCapacity) {
         throw std::runtime_error("traffic oracle road capacity exceeded");
     }
-    if (trafficAware) {
+    if (trafficAware && !adversarialTraffic) {
         for (std::int32_t day = 0; day < row.horizon; ++day) {
             for (std::size_t roadIndex = 0;
                  roadIndex < fixture.config.roadCells.size();
@@ -783,7 +992,8 @@ void add_traffic_stays(
     std::int32_t day,
     udon::CellId start,
     std::int32_t availableFuel,
-    const std::vector<udon::RoadStatus>& roadStatuses) {
+    const std::vector<udon::RoadStatus>& roadStatuses,
+    bool pruneDominated = true) {
     struct Node {
         std::int32_t steps = 0;
         std::int32_t fuelUsed = 0;
@@ -944,6 +1154,9 @@ void add_traffic_stays(
         });
     }
 
+    if (!pruneDominated) {
+        return outcomes;
+    }
     std::vector<bool> dominated(outcomes.size(), false);
     for (std::size_t left = 0; left < outcomes.size(); ++left) {
         for (std::size_t right = 0; right < outcomes.size(); ++right) {
@@ -1008,6 +1221,547 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
         brands |= udon::brand_bit(spot.brandIndex);
     }
     return {brands, servings};
+}
+
+[[nodiscard]] TrafficStatusKey adversarial_next_statuses(
+    const udon::MatchConfig& config,
+    const TrafficFootprint& currentOwn,
+    const TrafficFootprint& previousOwn,
+    const TrafficFootprint& currentOpponent,
+    const TrafficFootprint& previousOpponent) {
+    TrafficStatusKey statuses{};
+    for (std::size_t roadIndex = 0;
+         roadIndex < config.roadCells.size();
+         ++roadIndex) {
+        const std::int32_t stays =
+            static_cast<std::int32_t>(currentOwn.at(roadIndex)) +
+            static_cast<std::int32_t>(previousOwn.at(roadIndex)) +
+            static_cast<std::int32_t>(currentOpponent.at(roadIndex)) +
+            static_cast<std::int32_t>(previousOpponent.at(roadIndex));
+        statuses.at(roadIndex) = static_cast<std::uint8_t>(
+            stays >= config.players * config.jammedThreshold
+            ? udon::RoadStatus::Jammed
+            : (stays >= config.players * config.busyThreshold
+                   ? udon::RoadStatus::Busy
+                   : udon::RoadStatus::Smooth));
+    }
+    return statuses;
+}
+
+[[nodiscard]] TrafficFootprint combined_traffic_history(
+    const udon::MatchConfig& config,
+    const TrafficFootprint& own,
+    const TrafficFootprint& opponent) {
+    TrafficFootprint combined{};
+    for (std::size_t roadIndex = 0;
+         roadIndex < config.roadCells.size();
+         ++roadIndex) {
+        add_traffic_stays(
+            config,
+            combined,
+            roadIndex,
+            static_cast<std::int32_t>(own.at(roadIndex)) +
+                static_cast<std::int32_t>(opponent.at(roadIndex)));
+    }
+    return combined;
+}
+
+[[nodiscard]] std::vector<DayOutcome> opponent_day_outcomes(
+    const udon::MatchConfig& config,
+    std::int32_t day,
+    udon::CellId start,
+    std::int32_t fuel,
+    const std::vector<udon::RoadStatus>& roadStatuses) {
+    const std::vector<DayOutcome> raw = enumerate_day(
+        config,
+        day,
+        start,
+        fuel,
+        roadStatuses,
+        false);
+    using OpponentKey = std::tuple<udon::CellId, TrafficFootprint>;
+    std::map<OpponentKey, DayOutcome> unique;
+    for (const DayOutcome& outcome : raw) {
+        const OpponentKey key{outcome.position, outcome.roadFootprint};
+        const auto found = unique.find(key);
+        if (found == unique.end() || found->second.fuel < outcome.fuel) {
+            unique[key] = outcome;
+        }
+    }
+    std::vector<DayOutcome> outcomes;
+    outcomes.reserve(unique.size());
+    for (auto& [key, outcome] : unique) {
+        static_cast<void>(key);
+        outcomes.push_back(std::move(outcome));
+    }
+    return outcomes;
+}
+
+[[nodiscard]] std::vector<DayOutcome> minimax_own_day_outcomes(
+    const udon::MatchConfig& config,
+    std::int32_t day,
+    udon::CellId start,
+    std::int32_t fuel,
+    const std::vector<udon::RoadStatus>& roadStatuses) {
+    const std::vector<DayOutcome> raw = enumerate_day(
+        config,
+        day,
+        start,
+        fuel,
+        roadStatuses,
+        false);
+    using OwnKey = std::tuple<
+        udon::CellId,
+        std::uint64_t,
+        std::int32_t,
+        TrafficFootprint>;
+    std::map<OwnKey, DayOutcome> unique;
+    for (const DayOutcome& outcome : raw) {
+        const auto [brands, servings] = joint_day_score(
+            config,
+            outcome.spotMask,
+            0U);
+        const OwnKey key{
+            outcome.position,
+            brands,
+            servings,
+            outcome.roadFootprint,
+        };
+        const auto found = unique.find(key);
+        if (found == unique.end() || found->second.fuel < outcome.fuel) {
+            unique[key] = outcome;
+        }
+    }
+    std::vector<DayOutcome> outcomes;
+    outcomes.reserve(unique.size());
+    for (auto& [key, outcome] : unique) {
+        static_cast<void>(key);
+        outcomes.push_back(std::move(outcome));
+    }
+    return outcomes;
+}
+
+[[nodiscard]] std::vector<DayOutcome> prune_minimax_own_boundary_dominance(
+    const udon::MatchConfig& config,
+    std::uint64_t lifetime,
+    const std::vector<DayOutcome>& outcomes,
+    MinimaxDiagnostics& diagnostics) {
+    diagnostics.maximumOwnOutcomesBeforeDominance = std::max(
+        diagnostics.maximumOwnOutcomesBeforeDominance,
+        outcomes.size());
+    std::vector<bool> dominated(outcomes.size(), false);
+    for (std::size_t candidateIndex = 0;
+         candidateIndex < outcomes.size();
+         ++candidateIndex) {
+        const DayOutcome& candidate = outcomes.at(candidateIndex);
+        const auto [candidateDailyBrands, candidateServings] = joint_day_score(
+            config,
+            candidate.spotMask,
+            0U);
+        const std::uint64_t candidateLifetime = lifetime | candidateDailyBrands;
+        const std::int32_t candidateDailyDistinct = static_cast<std::int32_t>(
+            std::popcount(candidateDailyBrands));
+        for (std::size_t challengerIndex = 0;
+             challengerIndex < outcomes.size();
+             ++challengerIndex) {
+            if (candidateIndex == challengerIndex) {
+                continue;
+            }
+            const DayOutcome& challenger = outcomes.at(challengerIndex);
+            if (challenger.position != candidate.position ||
+                challenger.roadFootprint != candidate.roadFootprint ||
+                challenger.fuel < candidate.fuel) {
+                continue;
+            }
+            const auto [challengerDailyBrands, challengerServings] = joint_day_score(
+                config,
+                challenger.spotMask,
+                0U);
+            const std::uint64_t challengerLifetime = lifetime | challengerDailyBrands;
+            const std::int32_t challengerDailyDistinct = static_cast<std::int32_t>(
+                std::popcount(challengerDailyBrands));
+            const bool lifetimeSuperset =
+                (challengerLifetime | candidateLifetime) == challengerLifetime;
+            const bool scoreNoWorse =
+                challengerDailyDistinct >= candidateDailyDistinct &&
+                challengerServings >= candidateServings;
+            const bool strict = challenger.fuel > candidate.fuel ||
+                challengerLifetime != candidateLifetime ||
+                challengerDailyDistinct > candidateDailyDistinct ||
+                challengerServings > candidateServings;
+            if (lifetimeSuperset && scoreNoWorse && strict) {
+                dominated.at(candidateIndex) = true;
+                break;
+            }
+        }
+    }
+    std::vector<DayOutcome> frontier;
+    frontier.reserve(outcomes.size());
+    for (std::size_t index = 0; index < outcomes.size(); ++index) {
+        if (dominated.at(index)) {
+            ++diagnostics.boundaryDominancePruned;
+            continue;
+        }
+        frontier.push_back(outcomes.at(index));
+    }
+    return frontier;
+}
+
+[[nodiscard]] MinimaxNode solve_public_minimax(
+    const Fixture& fixture,
+    const AdversarialKey& key,
+    MinimaxSearch& search) {
+    const auto cached = search.memo.find(key);
+    if (cached != search.memo.end()) {
+        return cached->second;
+    }
+    const auto& [
+        day,
+        ownPosition,
+        ownFuel,
+        opponentPosition,
+        opponentFuel,
+        lifetime,
+        previousOwn,
+        previousOpponent,
+        roadStatusKey] = key;
+    if (day > fixture.config.day_count()) {
+        MinimaxNode terminal;
+        terminal.score.lifetimeDistinct = static_cast<std::int32_t>(
+            std::popcount(lifetime));
+        search.memo.emplace(key, terminal);
+        ++search.diagnostics.states;
+        return terminal;
+    }
+    const std::vector<udon::RoadStatus> roadStatuses = expand_road_statuses(
+        fixture.config,
+        roadStatusKey);
+    const AdversarialDayCacheKey ownCacheKey{
+        day,
+        ownPosition,
+        ownFuel,
+        roadStatusKey,
+    };
+    auto ownFound = search.ownCache.find(ownCacheKey);
+    if (ownFound == search.ownCache.end()) {
+        ownFound = search.ownCache.emplace(
+            ownCacheKey,
+            minimax_own_day_outcomes(
+                fixture.config,
+                day,
+                ownPosition,
+                ownFuel,
+                roadStatuses)).first;
+    }
+    const AdversarialDayCacheKey opponentCacheKey{
+        day,
+        opponentPosition,
+        opponentFuel,
+        roadStatusKey,
+    };
+    auto opponentFound = search.opponentCache.find(opponentCacheKey);
+    if (opponentFound == search.opponentCache.end()) {
+        opponentFound = search.opponentCache.emplace(
+            opponentCacheKey,
+            opponent_day_outcomes(
+                fixture.config,
+                day,
+                opponentPosition,
+                opponentFuel,
+                roadStatuses)).first;
+    }
+    std::vector<DayOutcome> dominatedOwnOutcomes;
+    if (search.boundaryDominance) {
+        dominatedOwnOutcomes = prune_minimax_own_boundary_dominance(
+            fixture.config,
+            lifetime,
+            ownFound->second,
+            search.diagnostics);
+    } else {
+        search.diagnostics.maximumOwnOutcomesBeforeDominance = std::max(
+            search.diagnostics.maximumOwnOutcomesBeforeDominance,
+            ownFound->second.size());
+    }
+    const std::vector<DayOutcome>& ownOutcomes = search.boundaryDominance
+        ? dominatedOwnOutcomes
+        : ownFound->second;
+    const std::vector<DayOutcome>& opponentOutcomes = opponentFound->second;
+    search.diagnostics.maximumOwnOutcomes = std::max(
+        search.diagnostics.maximumOwnOutcomes,
+        ownOutcomes.size());
+    search.diagnostics.maximumOpponentOutcomes = std::max(
+        search.diagnostics.maximumOpponentOutcomes,
+        opponentOutcomes.size());
+    if (ownOutcomes.empty() || opponentOutcomes.empty()) {
+        throw std::runtime_error("public minimax produced an empty legal action set");
+    }
+    MinimaxNode best;
+    bool haveBest = false;
+    for (const DayOutcome& own : ownOutcomes) {
+        const auto [dailyBrands, dailyServings] = joint_day_score(
+            fixture.config,
+            own.spotMask,
+            0U);
+        MinimaxNode worst;
+        bool haveWorst = false;
+        for (const DayOutcome& opponent : opponentOutcomes) {
+            const TrafficFootprint nextPreviousOwn =
+                search.trafficHistoryQuotient
+                ? combined_traffic_history(
+                      fixture.config,
+                      own.roadFootprint,
+                      opponent.roadFootprint)
+                : own.roadFootprint;
+            const TrafficFootprint nextPreviousOpponent =
+                search.trafficHistoryQuotient
+                ? TrafficFootprint{}
+                : opponent.roadFootprint;
+            const AdversarialKey next{
+                day + 1,
+                own.position,
+                own.fuel,
+                opponent.position,
+                opponent.fuel,
+                lifetime | dailyBrands,
+                nextPreviousOwn,
+                nextPreviousOpponent,
+                adversarial_next_statuses(
+                    fixture.config,
+                    own.roadFootprint,
+                    previousOwn,
+                    opponent.roadFootprint,
+                    previousOpponent),
+            };
+            MinimaxNode continuation = solve_public_minimax(
+                fixture,
+                next,
+                search);
+            continuation.score.totalDailyDistinct += static_cast<std::int32_t>(
+                std::popcount(dailyBrands));
+            continuation.score.totalServings += dailyServings;
+            ++search.diagnostics.transitions;
+            if (!haveWorst || continuation.score < worst.score) {
+                worst = std::move(continuation);
+                worst.worstOpponent = opponent;
+                haveWorst = true;
+            }
+        }
+        if (!haveBest || best.score < worst.score) {
+            best = std::move(worst);
+            best.bestOwn = own;
+            haveBest = true;
+        }
+    }
+    search.memo.emplace(key, best);
+    ++search.diagnostics.states;
+    return best;
+}
+
+struct RootStreamResult {
+    MinimaxNode root;
+    bool hasRoot = false;
+    bool fullSlice = false;
+    std::size_t ownCount = 0;
+    std::size_t opponentCount = 0;
+    std::size_t begin = 0;
+    std::size_t end = 0;
+};
+
+[[nodiscard]] std::string agent_plan_text(const udon::AgentPlan& plan) {
+    std::ostringstream output;
+    for (std::size_t action = 0; action < plan.size(); ++action) {
+        if (action != 0U) {
+            output << '.';
+        }
+        output << plan.at(action).wire_value();
+    }
+    return output.str();
+}
+
+[[nodiscard]] RootStreamResult solve_public_minimax_root_stream(
+    const Fixture& fixture,
+    const AdversarialKey& key,
+    MinimaxSearch& search,
+    std::int32_t requestedBegin,
+    std::int32_t requestedEnd) {
+    const auto& [
+        day,
+        ownPosition,
+        ownFuel,
+        opponentPosition,
+        opponentFuel,
+        lifetime,
+        previousOwn,
+        previousOpponent,
+        roadStatusKey] = key;
+    if (day > fixture.config.day_count()) {
+        throw std::invalid_argument(
+            "root streaming requires a nonterminal public state");
+    }
+    const std::vector<udon::RoadStatus> roadStatuses = expand_road_statuses(
+        fixture.config,
+        roadStatusKey);
+    const AdversarialDayCacheKey ownCacheKey{
+        day,
+        ownPosition,
+        ownFuel,
+        roadStatusKey,
+    };
+    auto ownFound = search.ownCache.find(ownCacheKey);
+    if (ownFound == search.ownCache.end()) {
+        ownFound = search.ownCache.emplace(
+            ownCacheKey,
+            minimax_own_day_outcomes(
+                fixture.config,
+                day,
+                ownPosition,
+                ownFuel,
+                roadStatuses)).first;
+    }
+    const AdversarialDayCacheKey opponentCacheKey{
+        day,
+        opponentPosition,
+        opponentFuel,
+        roadStatusKey,
+    };
+    auto opponentFound = search.opponentCache.find(opponentCacheKey);
+    if (opponentFound == search.opponentCache.end()) {
+        opponentFound = search.opponentCache.emplace(
+            opponentCacheKey,
+            opponent_day_outcomes(
+                fixture.config,
+                day,
+                opponentPosition,
+                opponentFuel,
+                roadStatuses)).first;
+    }
+    std::vector<DayOutcome> dominatedOwnOutcomes;
+    if (search.boundaryDominance) {
+        dominatedOwnOutcomes = prune_minimax_own_boundary_dominance(
+            fixture.config,
+            lifetime,
+            ownFound->second,
+            search.diagnostics);
+    }
+    const std::vector<DayOutcome>& ownOutcomes = search.boundaryDominance
+        ? dominatedOwnOutcomes
+        : ownFound->second;
+    const std::vector<DayOutcome>& opponentOutcomes = opponentFound->second;
+    if (ownOutcomes.empty() || opponentOutcomes.empty()) {
+        throw std::runtime_error(
+            "root streaming produced an empty legal action set");
+    }
+    search.diagnostics.maximumOwnOutcomes = std::max(
+        search.diagnostics.maximumOwnOutcomes,
+        ownOutcomes.size());
+    search.diagnostics.maximumOpponentOutcomes = std::max(
+        search.diagnostics.maximumOpponentOutcomes,
+        opponentOutcomes.size());
+
+    RootStreamResult result;
+    result.ownCount = ownOutcomes.size();
+    result.opponentCount = opponentOutcomes.size();
+    result.begin = std::min(
+        ownOutcomes.size(),
+        static_cast<std::size_t>(requestedBegin));
+    result.end = requestedEnd < 0
+        ? ownOutcomes.size()
+        : std::min(
+              ownOutcomes.size(),
+              static_cast<std::size_t>(requestedEnd));
+    result.fullSlice = result.begin == 0U && result.end == ownOutcomes.size();
+    std::cout << "root_stream_begin,day=" << day
+              << ",own_count=" << result.ownCount
+              << ",opponent_count=" << result.opponentCount
+              << ",begin=" << result.begin
+              << ",end=" << result.end
+              << std::endl;
+
+    for (std::size_t ownIndex = result.begin;
+         ownIndex < result.end;
+         ++ownIndex) {
+        const DayOutcome& own = ownOutcomes.at(ownIndex);
+        const auto [dailyBrands, dailyServings] = joint_day_score(
+            fixture.config,
+            own.spotMask,
+            0U);
+        MinimaxNode worst;
+        bool haveWorst = false;
+        for (const DayOutcome& opponent : opponentOutcomes) {
+            const TrafficFootprint nextPreviousOwn =
+                search.trafficHistoryQuotient
+                ? combined_traffic_history(
+                      fixture.config,
+                      own.roadFootprint,
+                      opponent.roadFootprint)
+                : own.roadFootprint;
+            const TrafficFootprint nextPreviousOpponent =
+                search.trafficHistoryQuotient
+                ? TrafficFootprint{}
+                : opponent.roadFootprint;
+            const AdversarialKey next{
+                day + 1,
+                own.position,
+                own.fuel,
+                opponent.position,
+                opponent.fuel,
+                lifetime | dailyBrands,
+                nextPreviousOwn,
+                nextPreviousOpponent,
+                adversarial_next_statuses(
+                    fixture.config,
+                    own.roadFootprint,
+                    previousOwn,
+                    opponent.roadFootprint,
+                    previousOpponent),
+            };
+            MinimaxNode continuation = solve_public_minimax(
+                fixture,
+                next,
+                search);
+            continuation.score.totalDailyDistinct +=
+                static_cast<std::int32_t>(std::popcount(dailyBrands));
+            continuation.score.totalServings += dailyServings;
+            ++search.diagnostics.transitions;
+            if (!haveWorst || continuation.score < worst.score) {
+                worst = std::move(continuation);
+                worst.worstOpponent = opponent;
+                haveWorst = true;
+            }
+        }
+        const bool improvesSlice =
+            !result.hasRoot || result.root.score < worst.score;
+        if (improvesSlice) {
+            result.root = worst;
+            result.root.bestOwn = own;
+            result.hasRoot = true;
+        }
+        std::cout << "root_stream_action,day=" << day
+                  << ",index=" << ownIndex
+                  << ",robust=" << score_text(worst.score)
+                  << ",slice_best=" << score_text(result.root.score)
+                  << ",improves=" << (improvesSlice ? 1 : 0)
+                  << ",terminal=" << own.position << '@' << own.fuel
+                  << ",plan=" << agent_plan_text(own.actions)
+                  << ",states=" << search.diagnostics.states
+                  << ",transitions=" << search.diagnostics.transitions
+                  << std::endl;
+    }
+    if (result.fullSlice && result.hasRoot) {
+        search.memo.emplace(key, result.root);
+        ++search.diagnostics.states;
+    }
+    std::cout << "root_stream_end,day=" << day
+              << ",begin=" << result.begin
+              << ",end=" << result.end
+              << ",full=" << (result.fullSlice ? 1 : 0)
+              << ",has_result=" << (result.hasRoot ? 1 : 0)
+              << ",slice_best="
+              << (result.hasRoot ? score_text(result.root.score) : "none")
+              << ",states=" << search.diagnostics.states
+              << ",transitions=" << search.diagnostics.transitions
+              << std::endl;
+    return result;
 }
 
 [[nodiscard]] bool accumulated_better(
@@ -1764,6 +2518,793 @@ void record_summary(
     return hash;
 }
 
+enum class CausalOpponentPolicy : std::uint8_t {
+    MaximumDwell,
+    MinimumDwell,
+    StatusToggle,
+};
+
+struct AdversarialRun {
+    bool valid = false;
+    udon::OfficialScore score;
+    udon::OfficialScore virtualScore;
+    std::vector<udon::DayPlan> plans;
+    std::vector<udon::DayPlan> opponentPlans;
+    struct DayTrace {
+        TrafficStatusKey startStatuses{};
+        std::int32_t dailyDistinct = 0;
+        std::int32_t dailyServings = 0;
+        udon::CellId terminalPosition = udon::kInvalidCell;
+        std::int32_t terminalFuel = 0;
+        TrafficFootprint ownFootprint{};
+        udon::CellId opponentTerminalPosition = udon::kInvalidCell;
+        std::int32_t opponentTerminalFuel = 0;
+        TrafficFootprint opponentFootprint{};
+        udon::OfficialScore cumulative;
+    };
+    std::vector<DayTrace> traces;
+    std::vector<udon::DecisionAudit> audits;
+    std::int32_t deadlineLimitedDays = 0;
+    std::int32_t protectedTakeovers = 0;
+    std::int64_t protectedGeneratedPlans = 0;
+    std::int64_t protectedValidPlans = 0;
+    std::int64_t protectedLiftablePlans = 0;
+    std::int32_t protectedDeadlineDays = 0;
+    std::int64_t terminalSparseRoutes = 0;
+    std::int64_t terminalValidPlans = 0;
+    std::int64_t terminalStrictImprovements = 0;
+    std::int64_t terminalRounds = 0;
+    std::int32_t terminalDeadlineDays = 0;
+};
+
+[[nodiscard]] std::string_view policy_name(CausalOpponentPolicy policy) {
+    switch (policy) {
+    case CausalOpponentPolicy::MaximumDwell:
+        return "maximum-dwell";
+    case CausalOpponentPolicy::MinimumDwell:
+        return "minimum-dwell";
+    case CausalOpponentPolicy::StatusToggle:
+        return "status-toggle";
+    }
+    return "unknown";
+}
+
+[[nodiscard]] std::vector<udon::AgentState> adversarial_agents(
+    const Fixture& fixture,
+    bool opponent,
+    udon::CellId activePosition,
+    std::int32_t activeFuel) {
+    static_cast<void>(opponent);
+    std::vector<udon::AgentState> agents;
+    agents.reserve(static_cast<std::size_t>(fixture.config.agent_count()));
+    agents.push_back(udon::AgentState{
+        udon::AgentKind::Patrol,
+        activePosition,
+        activeFuel,
+    });
+    for (std::int32_t index = 1;
+         index < fixture.config.agent_count();
+         ++index) {
+        agents.push_back(udon::AgentState{
+            udon::AgentKind::Patrol,
+            fixture.config.initialAgents.at(static_cast<std::size_t>(index)),
+            fixture.config.fuelLimit,
+        });
+    }
+    return agents;
+}
+
+[[nodiscard]] udon::DayPlan active_day_plan(
+    const Fixture& fixture,
+    std::int32_t day,
+    const DayOutcome& outcome) {
+    udon::DayPlan plan;
+    plan.actions.resize(static_cast<std::size_t>(fixture.config.agent_count()));
+    plan.actions.at(0) = outcome.actions;
+    for (std::size_t index = 1; index < plan.actions.size(); ++index) {
+        plan.actions.at(index).push_back(
+            udon::PlanAction::wait(fixture.config.steps_for_day(day)));
+    }
+    return plan;
+}
+
+[[nodiscard]] std::vector<udon::DayPlan> parse_plan_sequence_text(
+    const std::string& text,
+    std::int32_t agentCount) {
+    std::vector<udon::DayPlan> plans;
+    std::stringstream days{text};
+    std::string dayText;
+    while (std::getline(days, dayText, ';')) {
+        if (dayText.empty()) {
+            throw std::invalid_argument("forced prefix contains an empty day plan");
+        }
+        plans.push_back(parse_plan_text(dayText, agentCount));
+    }
+    return plans;
+}
+
+[[nodiscard]] udon::DayState adversarial_day_state(
+    const Fixture& fixture,
+    const AdversarialKey& key) {
+    const auto& [
+        day,
+        ownPosition,
+        ownFuel,
+        opponentPosition,
+        opponentFuel,
+        lifetime,
+        previousOwn,
+        previousOpponent,
+        roadStatusKey] = key;
+    static_cast<void>(lifetime);
+    static_cast<void>(previousOwn);
+    static_cast<void>(previousOpponent);
+    udon::DayState state = day_state(
+        fixture.config,
+        day,
+        adversarial_agents(
+            fixture,
+            false,
+            ownPosition,
+            ownFuel),
+        expand_road_statuses(fixture.config, roadStatusKey));
+    state.others.push_back(udon::OtherTeamState{
+        1,
+        adversarial_agents(
+            fixture,
+            true,
+            opponentPosition,
+            opponentFuel),
+    });
+    return state;
+}
+
+[[nodiscard]] std::int32_t footprint_mass(const TrafficFootprint& footprint) {
+    return std::accumulate(
+        footprint.begin(),
+        footprint.end(),
+        0);
+}
+
+[[nodiscard]] DayOutcome choose_causal_opponent(
+    CausalOpponentPolicy policy,
+    const TrafficStatusKey& statuses,
+    const std::vector<DayOutcome>& outcomes) {
+    if (outcomes.empty()) {
+        throw std::runtime_error("causal opponent has no legal action");
+    }
+    bool maximize = policy == CausalOpponentPolicy::MaximumDwell;
+    if (policy == CausalOpponentPolicy::StatusToggle) {
+        maximize = statuses.at(0) == static_cast<std::uint8_t>(
+            udon::RoadStatus::Smooth);
+    }
+    std::size_t selected = 0;
+    for (std::size_t index = 1; index < outcomes.size(); ++index) {
+        const std::int32_t candidateMass = footprint_mass(
+            outcomes.at(index).roadFootprint);
+        const std::int32_t selectedMass = footprint_mass(
+            outcomes.at(selected).roadFootprint);
+        const auto candidateTie = std::tie(
+            outcomes.at(index).position,
+            outcomes.at(index).fuel,
+            outcomes.at(index).roadFootprint);
+        const auto selectedTie = std::tie(
+            outcomes.at(selected).position,
+            outcomes.at(selected).fuel,
+            outcomes.at(selected).roadFootprint);
+        if ((maximize && candidateMass > selectedMass) ||
+            (!maximize && candidateMass < selectedMass) ||
+            (candidateMass == selectedMass && candidateTie < selectedTie)) {
+            selected = index;
+        }
+    }
+    return outcomes.at(selected);
+}
+
+[[nodiscard]] bool validate_adversarial_outcome(
+    const Fixture& fixture,
+    const udon::DayState& publicState,
+    bool opponent,
+    const DayOutcome& outcome,
+    udon::SimulationResult& simulation) {
+    udon::DayState state = publicState;
+    if (opponent) {
+        state.agents = publicState.others.front().agents;
+        state.others.clear();
+    }
+    std::string mismatch;
+    const bool valid = validates(
+        fixture.config,
+        state,
+        active_day_plan(fixture, state.dayNumber, outcome),
+        simulation,
+        mismatch);
+    if (!valid || simulation.finalAgents.at(0).position != outcome.position ||
+        simulation.finalAgents.at(0).fuel != outcome.fuel ||
+        compact_road_footprint(
+            fixture.config,
+            simulation.roadFootprint) != outcome.roadFootprint) {
+        return false;
+    }
+    return true;
+}
+
+[[nodiscard]] AdversarialKey initial_adversarial_key(
+    const Fixture& fixture,
+    std::int32_t startDay = 1) {
+    const TrafficFootprint empty{};
+    const TrafficStatusKey smooth{};
+    return AdversarialKey{
+        startDay,
+        fixture.config.initialAgents.at(0),
+        fixture.config.fuelLimit,
+        28,
+        fixture.config.fuelLimit,
+        0U,
+        empty,
+        empty,
+        smooth,
+    };
+}
+
+[[nodiscard]] AdversarialKey advance_adversarial_key(
+    const Fixture& fixture,
+    const AdversarialKey& key,
+    const DayOutcome& own,
+    const DayOutcome& opponent,
+    std::uint64_t dailyBrands,
+    bool trafficHistoryQuotient = false) {
+    const auto& [
+        day,
+        ownPosition,
+        ownFuel,
+        opponentPosition,
+        opponentFuel,
+        lifetime,
+        previousOwn,
+        previousOpponent,
+        roadStatusKey] = key;
+    static_cast<void>(ownPosition);
+    static_cast<void>(ownFuel);
+    static_cast<void>(opponentPosition);
+    static_cast<void>(opponentFuel);
+    static_cast<void>(roadStatusKey);
+    const TrafficFootprint nextPreviousOwn = trafficHistoryQuotient
+        ? combined_traffic_history(
+              fixture.config,
+              own.roadFootprint,
+              opponent.roadFootprint)
+        : own.roadFootprint;
+    const TrafficFootprint nextPreviousOpponent = trafficHistoryQuotient
+        ? TrafficFootprint{}
+        : opponent.roadFootprint;
+    return AdversarialKey{
+        day + 1,
+        own.position,
+        own.fuel,
+        opponent.position,
+        opponent.fuel,
+        lifetime | dailyBrands,
+        nextPreviousOwn,
+        nextPreviousOpponent,
+        adversarial_next_statuses(
+            fixture.config,
+            own.roadFootprint,
+            previousOwn,
+            opponent.roadFootprint,
+            previousOpponent),
+    };
+}
+
+[[nodiscard]] AdversarialRun run_minimax_policy(
+    const Fixture& fixture,
+    const MinimaxMemo& memo,
+    CausalOpponentPolicy policy,
+    bool trafficHistoryQuotient) {
+    AdversarialRun result;
+    AdversarialKey key = initial_adversarial_key(fixture);
+    udon::MatchLedger ledger;
+    for (std::int32_t day = 1; day <= fixture.config.day_count(); ++day) {
+        const auto node = memo.find(key);
+        if (node == memo.end()) {
+            return result;
+        }
+        const udon::DayState state = adversarial_day_state(fixture, key);
+        const TrafficStatusKey statuses = std::get<8>(key);
+        const std::vector<DayOutcome> opponentOutcomes = opponent_day_outcomes(
+            fixture.config,
+            day,
+            std::get<3>(key),
+            std::get<4>(key),
+            state.roadStatuses);
+        const DayOutcome opponent = choose_causal_opponent(
+            policy,
+            statuses,
+            opponentOutcomes);
+        udon::SimulationResult ownSimulation;
+        udon::SimulationResult opponentSimulation;
+        if (!validate_adversarial_outcome(
+                fixture,
+                state,
+                false,
+                node->second.bestOwn,
+                ownSimulation) ||
+            !validate_adversarial_outcome(
+                fixture,
+                state,
+                true,
+                opponent,
+                opponentSimulation)) {
+            return result;
+        }
+        ledger.apply(ownSimulation.score);
+        result.plans.push_back(active_day_plan(
+            fixture,
+            day,
+            node->second.bestOwn));
+        result.opponentPlans.push_back(active_day_plan(
+            fixture,
+            day,
+            opponent));
+        result.traces.push_back(AdversarialRun::DayTrace{
+            statuses,
+            static_cast<std::int32_t>(std::popcount(ownSimulation.score.brands)),
+            ownSimulation.score.servings,
+            ownSimulation.finalAgents.at(0).position,
+            ownSimulation.finalAgents.at(0).fuel,
+            compact_road_footprint(fixture.config, ownSimulation.roadFootprint),
+            opponentSimulation.finalAgents.at(0).position,
+            opponentSimulation.finalAgents.at(0).fuel,
+            compact_road_footprint(
+                fixture.config,
+                opponentSimulation.roadFootprint),
+            udon::OfficialScore{
+                ledger.lifetime_distinct(),
+                ledger.totalDailyDistinct,
+                ledger.totalServings,
+            },
+        });
+        key = advance_adversarial_key(
+            fixture,
+            key,
+            node->second.bestOwn,
+            opponent,
+            ownSimulation.score.brands,
+            trafficHistoryQuotient);
+    }
+    result.score = udon::OfficialScore{
+        ledger.lifetime_distinct(),
+        ledger.totalDailyDistinct,
+        ledger.totalServings,
+    };
+    result.valid = true;
+    return result;
+}
+
+[[nodiscard]] AdversarialRun run_head_against_policy(
+    const Fixture& fixture,
+    CausalOpponentPolicy policy,
+    const std::vector<udon::DayPlan>* forcedPrefix = nullptr) {
+    AdversarialRun result;
+    udon::MatchSession session(
+        fixture.config,
+        {},
+        {},
+        kHarvestMode,
+        kFutureHarvestMode);
+    udon::MatchLedger ledger;
+    AdversarialKey key = initial_adversarial_key(fixture);
+    for (std::int32_t day = 1; day <= fixture.config.day_count(); ++day) {
+        const udon::DayState state = adversarial_day_state(fixture, key);
+        udon::DayPlan ownPlan;
+        bool sessionSelected = false;
+        bool deadlineLimited = false;
+        if (forcedPrefix != nullptr &&
+            static_cast<std::size_t>(day) <= forcedPrefix->size()) {
+            ownPlan = forcedPrefix->at(static_cast<std::size_t>(day - 1));
+        } else {
+            const udon::SessionDecision decision = session.on_authoritative_state_for(
+                state,
+                ledger,
+                kProductionBudget);
+            if (!decision.maySubmit) {
+                return result;
+            }
+            ownPlan = decision.decision.candidate.plan;
+            result.audits.push_back(decision.decision.audit);
+            sessionSelected = true;
+            deadlineLimited =
+                decision.decision.viability.deadlineReached ||
+                decision.decision.diagnostics.deadlineReached ||
+                decision.decision.audit.independentDeadlineReached ||
+                decision.decision.cacheRepair.deadlineReached;
+        }
+        udon::SimulationResult ownSimulation;
+        std::string mismatch;
+        if (!validates(
+                fixture.config,
+                state,
+                ownPlan,
+                ownSimulation,
+                mismatch)) {
+            return result;
+        }
+        const std::vector<DayOutcome> opponentOutcomes = opponent_day_outcomes(
+            fixture.config,
+            day,
+            std::get<3>(key),
+            std::get<4>(key),
+            state.roadStatuses);
+        const DayOutcome opponent = choose_causal_opponent(
+            policy,
+            std::get<8>(key),
+            opponentOutcomes);
+        udon::SimulationResult opponentSimulation;
+        if (!validate_adversarial_outcome(
+                fixture,
+                state,
+                true,
+                opponent,
+                opponentSimulation)) {
+            return result;
+        }
+        if (sessionSelected) {
+            static_cast<void>(session.acknowledge_submitted(
+                std::chrono::milliseconds{0},
+                std::chrono::milliseconds{0}));
+        }
+        ledger.apply(ownSimulation.score);
+        result.plans.push_back(ownPlan);
+        result.opponentPlans.push_back(active_day_plan(
+            fixture,
+            day,
+            opponent));
+        result.traces.push_back(AdversarialRun::DayTrace{
+            std::get<8>(key),
+            static_cast<std::int32_t>(std::popcount(ownSimulation.score.brands)),
+            ownSimulation.score.servings,
+            ownSimulation.finalAgents.at(0).position,
+            ownSimulation.finalAgents.at(0).fuel,
+            compact_road_footprint(fixture.config, ownSimulation.roadFootprint),
+            opponentSimulation.finalAgents.at(0).position,
+            opponentSimulation.finalAgents.at(0).fuel,
+            compact_road_footprint(
+                fixture.config,
+                opponentSimulation.roadFootprint),
+            udon::OfficialScore{
+                ledger.lifetime_distinct(),
+                ledger.totalDailyDistinct,
+                ledger.totalServings,
+            },
+        });
+        result.deadlineLimitedDays += deadlineLimited ? 1 : 0;
+        const TrafficFootprint ownFootprint = compact_road_footprint(
+            fixture.config,
+            ownSimulation.roadFootprint);
+        const DayOutcome own{
+            ownSimulation.finalAgents.at(0).position,
+            ownSimulation.finalAgents.at(0).fuel,
+            0U,
+            ownPlan.actions.at(0),
+            ownFootprint,
+        };
+        key = advance_adversarial_key(
+            fixture,
+            key,
+            own,
+            opponent,
+            ownSimulation.score.brands);
+    }
+    result.score = udon::OfficialScore{
+        ledger.lifetime_distinct(),
+        ledger.totalDailyDistinct,
+        ledger.totalServings,
+    };
+    result.valid = true;
+    return result;
+}
+
+[[nodiscard]] AdversarialRun run_current_protected_against_policy(
+    const Fixture& fixture,
+    CausalOpponentPolicy policy,
+    bool latestTerminal,
+    std::chrono::milliseconds protectedRefinementReserve) {
+    AdversarialRun result;
+    udon::DeadlineCalibration calibration;
+    calibration.version = "btc-http-local-budget-v8-idempotent-ack-resend";
+    calibration.networkFloor = kBtcNetworkReserve;
+    calibration.networkPercent = 20;
+    calibration.certificationPercent = 20;
+    udon::MatchSession session(
+        fixture.config,
+        {},
+        calibration,
+        kHarvestMode,
+        kFutureHarvestMode);
+    const udon::ExactStepSimulator simulator(fixture.config);
+    const udon::IndependentDayValidator validator(fixture.config);
+    const udon::ProtectedSlackRefiner slackRefiner(fixture.config);
+    udon::MatchLedger ledger;
+    udon::MatchLedger virtualLedger;
+    std::vector<udon::AgentState> virtualAgents;
+    bool protectedDivergenceActive = false;
+    AdversarialKey key = initial_adversarial_key(fixture);
+    for (std::int32_t day = 1; day <= fixture.config.day_count(); ++day) {
+        const udon::DayState state = adversarial_day_state(fixture, key);
+        if (!protectedDivergenceActive || virtualAgents.empty() ||
+            !udon::protected_slack_agents_dominate(
+                virtualAgents,
+                state.agents) ||
+            !udon::protected_slack_ledger_dominates(
+                virtualLedger,
+                ledger)) {
+            virtualAgents = state.agents;
+            virtualLedger = ledger;
+            protectedDivergenceActive = false;
+        }
+        udon::DayState planningState = state;
+        planningState.agents = virtualAgents;
+        const auto dayStarted = std::chrono::steady_clock::now();
+        const udon::SessionDecision decision = session.on_authoritative_state_for(
+            planningState,
+            virtualLedger,
+            kProductionBudget);
+        if (!decision.maySubmit) {
+            return result;
+        }
+        result.audits.push_back(decision.decision.audit);
+        const bool deadlineLimited =
+            decision.decision.viability.deadlineReached ||
+            decision.decision.diagnostics.deadlineReached ||
+            decision.decision.audit.independentDeadlineReached ||
+            decision.decision.cacheRepair.deadlineReached;
+
+        const udon::DayPlan parentPlan = decision.decision.candidate.plan;
+        udon::SimulationResult virtualSimulation;
+        udon::SimulationResult submittedSimulation;
+        std::string mismatch;
+        if (!validates(
+                fixture.config,
+                planningState,
+                parentPlan,
+                virtualSimulation,
+                mismatch) ||
+            !validates(
+                fixture.config,
+                state,
+                parentPlan,
+                submittedSimulation,
+                mismatch)) {
+            return result;
+        }
+
+        udon::DayPlan submittedPlan = parentPlan;
+        bool submittedProtectedImprovement = false;
+        const auto protectedDeadline =
+            dayStarted + kProductionBudget - protectedRefinementReserve;
+        if (std::chrono::steady_clock::now() < protectedDeadline &&
+            (day < fixture.config.day_count() || latestTerminal)) {
+            udon::ProtectedSlackResult refinement =
+                day == fixture.config.day_count()
+                ? slackRefiner.refine_terminal_sparse(
+                      state,
+                      ledger,
+                      parentPlan,
+                      submittedSimulation,
+                      protectedDeadline)
+                : slackRefiner.refine_wait_detours(
+                      state,
+                      ledger,
+                      parentPlan,
+                      submittedSimulation,
+                      protectedDeadline);
+            result.protectedGeneratedPlans +=
+                refinement.diagnostics.generatedPlans;
+            result.protectedValidPlans += refinement.diagnostics.validPlans;
+            result.protectedLiftablePlans +=
+                refinement.diagnostics.liftablePlans;
+            result.protectedDeadlineDays +=
+                refinement.diagnostics.deadlineReached ? 1 : 0;
+            if (day == fixture.config.day_count()) {
+                result.terminalSparseRoutes +=
+                    refinement.diagnostics.sparseRoutes;
+                result.terminalValidPlans +=
+                    refinement.diagnostics.validPlans;
+                result.terminalStrictImprovements +=
+                    refinement.diagnostics.strictTerminalImprovements;
+                result.terminalRounds +=
+                    refinement.diagnostics.terminalSparseRounds;
+                result.terminalDeadlineDays +=
+                    refinement.diagnostics.deadlineReached ? 1 : 0;
+            }
+            if (refinement.improved) {
+                submittedPlan = std::move(refinement.plan);
+                submittedSimulation = std::move(refinement.simulation);
+                submittedProtectedImprovement = true;
+                ++result.protectedTakeovers;
+            }
+        }
+
+        udon::MatchLedger prospectiveVirtualLedger = virtualLedger;
+        prospectiveVirtualLedger.apply(virtualSimulation.score);
+        udon::MatchLedger prospectiveActualLedger = ledger;
+        prospectiveActualLedger.apply(submittedSimulation.score);
+        const bool finalDay = day == fixture.config.day_count();
+        const bool admissible = finalDay && latestTerminal
+            ? !(udon::OfficialScore{
+                    prospectiveActualLedger.lifetime_distinct(),
+                    prospectiveActualLedger.totalDailyDistinct,
+                    prospectiveActualLedger.totalServings} <
+                udon::OfficialScore{
+                    prospectiveVirtualLedger.lifetime_distinct(),
+                    prospectiveVirtualLedger.totalDailyDistinct,
+                    prospectiveVirtualLedger.totalServings})
+            : udon::protected_slack_transition_dominates(
+                  virtualSimulation,
+                  submittedSimulation) &&
+                udon::protected_slack_ledger_dominates(
+                    prospectiveVirtualLedger,
+                    prospectiveActualLedger);
+        if (!admissible) {
+            return result;
+        }
+
+        const std::vector<DayOutcome> opponentOutcomes = opponent_day_outcomes(
+            fixture.config,
+            day,
+            std::get<3>(key),
+            std::get<4>(key),
+            state.roadStatuses);
+        const DayOutcome opponent = choose_causal_opponent(
+            policy,
+            std::get<8>(key),
+            opponentOutcomes);
+        udon::SimulationResult opponentSimulation;
+        if (!validate_adversarial_outcome(
+                fixture,
+                state,
+                true,
+                opponent,
+                opponentSimulation)) {
+            return result;
+        }
+
+        static_cast<void>(session.acknowledge_submitted(
+            std::chrono::milliseconds{0},
+            std::chrono::milliseconds{0}));
+        virtualLedger = prospectiveVirtualLedger;
+        virtualAgents = virtualSimulation.finalAgents;
+        ledger = prospectiveActualLedger;
+        protectedDivergenceActive =
+            protectedDivergenceActive || submittedProtectedImprovement;
+        if (!udon::protected_slack_ledger_dominates(
+                virtualLedger,
+                ledger)) {
+            return result;
+        }
+
+        result.plans.push_back(submittedPlan);
+        result.opponentPlans.push_back(active_day_plan(
+            fixture,
+            day,
+            opponent));
+        result.traces.push_back(AdversarialRun::DayTrace{
+            std::get<8>(key),
+            static_cast<std::int32_t>(
+                std::popcount(submittedSimulation.score.brands)),
+            submittedSimulation.score.servings,
+            submittedSimulation.finalAgents.at(0).position,
+            submittedSimulation.finalAgents.at(0).fuel,
+            compact_road_footprint(
+                fixture.config,
+                submittedSimulation.roadFootprint),
+            opponentSimulation.finalAgents.at(0).position,
+            opponentSimulation.finalAgents.at(0).fuel,
+            compact_road_footprint(
+                fixture.config,
+                opponentSimulation.roadFootprint),
+            udon::OfficialScore{
+                ledger.lifetime_distinct(),
+                ledger.totalDailyDistinct,
+                ledger.totalServings,
+            },
+        });
+        result.deadlineLimitedDays += deadlineLimited ? 1 : 0;
+        const DayOutcome own{
+            submittedSimulation.finalAgents.at(0).position,
+            submittedSimulation.finalAgents.at(0).fuel,
+            0U,
+            submittedPlan.actions.at(0),
+            compact_road_footprint(
+                fixture.config,
+                submittedSimulation.roadFootprint),
+        };
+        key = advance_adversarial_key(
+            fixture,
+            key,
+            own,
+            opponent,
+            submittedSimulation.score.brands);
+    }
+    result.score = udon::OfficialScore{
+        ledger.lifetime_distinct(),
+        ledger.totalDailyDistinct,
+        ledger.totalServings,
+    };
+    result.virtualScore = udon::OfficialScore{
+        virtualLedger.lifetime_distinct(),
+        virtualLedger.totalDailyDistinct,
+        virtualLedger.totalServings,
+    };
+    result.valid = true;
+    return result;
+}
+
+struct AdversarialPrefixContext {
+    bool valid = false;
+    AdversarialKey key;
+    udon::MatchLedger ledger;
+};
+
+[[nodiscard]] AdversarialPrefixContext replay_adversarial_prefix(
+    const Fixture& fixture,
+    CausalOpponentPolicy policy,
+    const std::vector<udon::DayPlan>& prefix) {
+    AdversarialPrefixContext result;
+    result.key = initial_adversarial_key(fixture);
+    for (std::size_t index = 0; index < prefix.size(); ++index) {
+        const std::int32_t day = static_cast<std::int32_t>(index + 1U);
+        const udon::DayState state = adversarial_day_state(fixture, result.key);
+        udon::SimulationResult ownSimulation;
+        std::string mismatch;
+        if (!validates(
+                fixture.config,
+                state,
+                prefix.at(index),
+                ownSimulation,
+                mismatch)) {
+            return result;
+        }
+        const std::vector<DayOutcome> opponentOutcomes = opponent_day_outcomes(
+            fixture.config,
+            day,
+            std::get<3>(result.key),
+            std::get<4>(result.key),
+            state.roadStatuses);
+        const DayOutcome opponent = choose_causal_opponent(
+            policy,
+            std::get<8>(result.key),
+            opponentOutcomes);
+        udon::SimulationResult opponentSimulation;
+        if (!validate_adversarial_outcome(
+                fixture,
+                state,
+                true,
+                opponent,
+                opponentSimulation)) {
+            return result;
+        }
+        result.ledger.apply(ownSimulation.score);
+        const DayOutcome own{
+            ownSimulation.finalAgents.at(0).position,
+            ownSimulation.finalAgents.at(0).fuel,
+            0U,
+            prefix.at(index).actions.at(0),
+            compact_road_footprint(
+                fixture.config,
+                ownSimulation.roadFootprint),
+        };
+        result.key = advance_adversarial_key(
+            fixture,
+            result.key,
+            own,
+            opponent,
+            ownSimulation.score.brands);
+    }
+    result.valid = true;
+    return result;
+}
+
 [[nodiscard]] bool same_agent_plan(
     const udon::AgentPlan& left,
     const udon::AgentPlan& right) {
@@ -1793,6 +3334,35 @@ void record_summary(
         mask += present ? '1' : '0';
     }
     return mask;
+}
+
+[[nodiscard]] std::string matching_column_flags(
+    const udon::RoutePortfolio& portfolio,
+    const udon::DayPlan& plan,
+    std::size_t agent) {
+    if (agent >= portfolio.columnsByAgent.size() ||
+        agent >= plan.actions.size()) {
+        return "missing";
+    }
+    std::ostringstream output;
+    bool found = false;
+    for (const udon::RouteColumn& column : portfolio.columnsByAgent.at(agent)) {
+        if (!same_agent_plan(column.actions, plan.actions.at(agent))) {
+            continue;
+        }
+        if (found) {
+            output << '|';
+        }
+        found = true;
+        output << 'h' << (column.harvestExtension ? 1 : 0)
+               << 'e' << (column.exactOrienteering ? 1 : 0)
+               << 's' << column.harvestExtensionSourceRank
+               << 'b' << column.contingencyBundle
+               << 'p' << column.priority
+               << 't' << column.terminalCell
+               << 'f' << column.terminalFuel;
+    }
+    return found ? output.str() : "missing";
 }
 
 [[nodiscard]] bool contains_candidate(
@@ -2974,7 +4544,7 @@ void attribute_oracle_day(
         masterOptions,
         mergedDiagnostics);
 
-    if (day == 1) {
+    {
         udon::ColumnGenerationOptions completeCurrent = generation;
         completeCurrent.enableExactHarvestOrienteering = true;
         completeCurrent.enableFuelConstrainedExactHarvestOrienteering = true;
@@ -3277,7 +4847,7 @@ void attribute_oracle_day(
                   << ",oracle_upper_score=" << score_text(exactUpper)
                   << '\n';
     }
-    if (day == 1 && parent.has_value()) {
+    if (parent.has_value()) {
         udon::TrafficBelief belief(fixture.config);
         belief.observe(state);
         const udon::ScenarioGenerator scenarios(fixture.config);
@@ -3416,6 +4986,8 @@ void attribute_oracle_day(
               << ",exact=" << score_text(exact->scoreAfterToday)
               << ",legacy12_mask=" << portfolio_plan_mask(legacy, exact->plan)
               << ",expanded16_mask=" << portfolio_plan_mask(expanded, exact->plan)
+              << ",expanded_active_flags="
+              << matching_column_flags(expanded, exact->plan, 0U)
               << ",merged_mask=" << portfolio_plan_mask(merged, exact->plan)
               << ",wide32_mask=" << portfolio_plan_mask(wide32, exact->plan)
               << ",wide64_mask=" << portfolio_plan_mask(wide64, exact->plan)
@@ -4146,6 +5718,280 @@ void attribute_w1_continuation(
 
 } // namespace
 
+// ATTR-SUFFIX-TRAJECTORY-MEMBERSHIP-209: walk the memoized argmax trajectory
+// of a single winning day-1 root under one causal opponent policy and, for
+// every day, measure whether the oracle's own day plan is expressible by the
+// production generator from the coupled day state (both teams' traffic):
+// (a) spot-mask membership in exact-orienteering maximal/terminal routes,
+// (b) witness-caps portfolio + W1 master contains-outcome,
+// (c) production-caps portfolio + production master contains-outcome and the
+//     first candidate cap in {32..256} that retains the oracle outcome.
+void attribute_trajectory_membership(
+    const Fixture& fixture,
+    const MinimaxMemo& memo,
+    CausalOpponentPolicy policy,
+    bool trafficHistoryQuotient,
+    std::int32_t rootIndex) {
+    const udon::ExactStepSimulator simulator(fixture.config);
+    const udon::IndependentDayValidator validator(fixture.config);
+    const udon::ParetoRouter router(fixture.config);
+    const udon::RouteColumnGenerator generator(fixture.config, router);
+    const udon::RouteMaster master(fixture.config, simulator, validator);
+    const udon::FastViabilityAnalyzer viability(fixture.config);
+    AdversarialKey key = initial_adversarial_key(fixture);
+    udon::MatchLedger ledger;
+    const auto outcome_matches = [](
+        const udon::MasterCandidate& candidate,
+        const udon::MasterCandidate& exact) {
+        if (!(candidate.scoreAfterToday == exact.scoreAfterToday) ||
+            candidate.simulation.finalAgents.size() !=
+                exact.simulation.finalAgents.size()) {
+            return false;
+        }
+        for (std::size_t agent = 0U;
+             agent < candidate.simulation.finalAgents.size();
+             ++agent) {
+            const udon::AgentState& left =
+                candidate.simulation.finalAgents.at(agent);
+            const udon::AgentState& right =
+                exact.simulation.finalAgents.at(agent);
+            if (left.kind != right.kind || left.position != right.position ||
+                left.fuel != right.fuel) {
+                return false;
+            }
+        }
+        return true;
+    };
+    for (std::int32_t day = 1; day <= fixture.config.day_count(); ++day) {
+        const auto node = memo.find(key);
+        if (node == memo.end()) {
+            std::cout << "trace_membership,seed=" << fixture.seed
+                      << ",root=" << rootIndex
+                      << ",policy=" << policy_name(policy)
+                      << ",day=" << day << ",status=memo-miss\n";
+            return;
+        }
+        const udon::DayState state = adversarial_day_state(fixture, key);
+        const TrafficStatusKey statuses = std::get<8>(key);
+        const std::vector<DayOutcome> opponentOutcomes = opponent_day_outcomes(
+            fixture.config,
+            day,
+            std::get<3>(key),
+            std::get<4>(key),
+            state.roadStatuses);
+        const DayOutcome opponent = choose_causal_opponent(
+            policy,
+            statuses,
+            opponentOutcomes);
+        udon::SimulationResult ownSimulation;
+        udon::SimulationResult opponentSimulation;
+        if (!validate_adversarial_outcome(
+                fixture,
+                state,
+                false,
+                node->second.bestOwn,
+                ownSimulation) ||
+            !validate_adversarial_outcome(
+                fixture,
+                state,
+                true,
+                opponent,
+                opponentSimulation)) {
+            std::cout << "trace_membership,seed=" << fixture.seed
+                      << ",root=" << rootIndex
+                      << ",policy=" << policy_name(policy)
+                      << ",day=" << day << ",status=trajectory-invalid\n";
+            return;
+        }
+        const udon::DayPlan ownPlan =
+            active_day_plan(fixture, day, node->second.bestOwn);
+        const std::optional<udon::MasterCandidate> exact =
+            master.evaluate_exact_plan(state, ledger, ownPlan);
+        const std::uint32_t oracleMask = node->second.bestOwn.spotMask;
+
+        // (a) exact-orienteering reachability from the coupled state.
+        const udon::ExactOrienteeringReachability reachability =
+            udon::enumerate_exact_resource_routes(fixture.config, state, 0);
+        const auto mask_present = [oracleMask](
+            const std::vector<udon::ExactOrienteeringRoute>& routes) {
+            return std::any_of(
+                routes.begin(),
+                routes.end(),
+                [oracleMask](const udon::ExactOrienteeringRoute& route) {
+                    return route.spotMask == oracleMask;
+                });
+        };
+        std::int32_t strictSupersets = 0;
+        std::int32_t sameTerminalFuelSupersets = 0;
+        const udon::AgentState& oracleTerminal =
+            ownSimulation.finalAgents.at(0);
+        for (const udon::ExactOrienteeringRoute& route :
+             reachability.maximalRoutes) {
+            if (route.spotMask != oracleMask &&
+                (route.spotMask & oracleMask) == oracleMask) {
+                ++strictSupersets;
+                if (route.terminalCell == oracleTerminal.position &&
+                    route.patrolFuel == oracleTerminal.fuel) {
+                    ++sameTerminalFuelSupersets;
+                }
+            }
+        }
+
+        // (b) witness-caps portfolio + W1 master (mirrors the accepted W1
+        // witness configuration in attribute_w1_continuation).
+        udon::ColumnGenerationOptions witnessGeneration;
+        witnessGeneration.maximumPathsPerTarget = 1;
+        witnessGeneration.maximumColumnsPerAgent = day <= 3 ? 3 : 2;
+        witnessGeneration.maximumTargetSpots = day <= 3 ? 6 : 4;
+        witnessGeneration.maximumEscorts = day <= 3 ? 4 : 2;
+        witnessGeneration.maximumSeedPlans = day <= 3 ? 0 : 1;
+        witnessGeneration.enableHarvestExtensions = kFutureHarvestMode > 0;
+        witnessGeneration.allowUncachedHarvestTargets = kFutureHarvestMode > 1;
+        witnessGeneration.enableHarvestOrienteering =
+            kFutureHarvestMode > 5 &&
+            static_cast<std::int64_t>(fixture.config.fuelLimit) >=
+                3LL * fixture.config.steps_for_day(day);
+        witnessGeneration.enableExactHarvestOrienteering =
+            kFutureHarvestMode > 5 &&
+            static_cast<std::int64_t>(fixture.config.fuelLimit) >=
+                2LL * fixture.config.steps_for_day(day) &&
+            (kFutureHarvestMode > 6 || day == fixture.config.day_count());
+        witnessGeneration.maximumHarvestExtensionSources =
+            kFutureHarvestMode > 2 ? 4 : 1;
+        witnessGeneration.maximumHarvestExtensionDepth =
+            kFutureHarvestMode > 4 &&
+                static_cast<std::int64_t>(fixture.config.fuelLimit) >=
+                    3LL * fixture.config.steps_for_day(day)
+            ? 4
+            : (kFutureHarvestMode > 3 ? 3 : 2);
+        udon::MasterOptions witnessMasterOptions;
+        witnessMasterOptions.maximumCombinations = day <= 3 ? 100 : 25;
+        witnessMasterOptions.maximumCandidates = 1;
+        witnessMasterOptions.maximumResolveRounds = 1;
+        if (day > 3) {
+            const udon::ViabilityBounds bounds = viability.analyze(state, ledger);
+            witnessGeneration.mandatoryReservations = bounds.reservations;
+            witnessMasterOptions.mandatoryReservations = bounds.reservations;
+        }
+        const udon::RoutePortfolio witnessPortfolio = generator.generate(
+            state,
+            ledger,
+            witnessGeneration);
+        udon::MasterDiagnostics witnessDiagnostics;
+        const std::vector<udon::MasterCandidate> witnessCandidates =
+            master.solve(
+                state,
+                ledger,
+                witnessPortfolio,
+                witnessMasterOptions,
+                witnessDiagnostics);
+
+        // (c) production-caps portfolio (long deadline class of the live day
+        // pipeline, decision.cpp) + production master, no deadline so the
+        // membership answer is structural, never timed.
+        udon::ColumnGenerationOptions productionGeneration = witnessGeneration;
+        productionGeneration.maximumPathsPerTarget = 4;
+        productionGeneration.maximumColumnsPerAgent = 16;
+        productionGeneration.maximumTargetSpots = 12;
+        productionGeneration.maximumEscorts = 16;
+        productionGeneration.maximumSeedPlans = 2;
+        const udon::RoutePortfolio productionPortfolio = generator.generate(
+            state,
+            ledger,
+            productionGeneration);
+        udon::MasterOptions productionMasterOptions;
+        productionMasterOptions.maximumCombinations = 40000;
+        productionMasterOptions.maximumCandidates = 32;
+        productionMasterOptions.diversityCandidates = 8;
+        udon::MasterDiagnostics productionDiagnostics;
+        const std::vector<udon::MasterCandidate> productionCandidates =
+            master.solve(
+                state,
+                ledger,
+                productionPortfolio,
+                productionMasterOptions,
+                productionDiagnostics);
+        std::int32_t firstCap = -1;
+        if (exact.has_value()) {
+            for (const std::int32_t cap : {32, 48, 64, 96, 128, 192, 256}) {
+                udon::MasterOptions capOptions = productionMasterOptions;
+                capOptions.maximumCandidates = cap;
+                capOptions.diversityCandidates = std::max(1, cap / 4);
+                udon::MasterDiagnostics capDiagnostics;
+                const std::vector<udon::MasterCandidate> capCandidates =
+                    master.solve(
+                        state,
+                        ledger,
+                        productionPortfolio,
+                        capOptions,
+                        capDiagnostics);
+                if (contains_outcome(capCandidates, *exact)) {
+                    firstCap = cap;
+                    break;
+                }
+            }
+        }
+
+        std::cout << "trace_membership,seed=" << fixture.seed
+                  << ",root=" << rootIndex
+                  << ",policy=" << policy_name(policy)
+                  << ",day=" << day
+                  << ",plan=" << plan_text(ownPlan)
+                  << ",oracle_mask=" << oracleMask
+                  << ",day_brands="
+                  << std::popcount(ownSimulation.score.brands)
+                  << ",day_servings=" << ownSimulation.score.servings
+                  << ",exact_valid=" << (exact.has_value() ? 1 : 0)
+                  << ",mask_maximal=" << mask_present(reachability.maximalRoutes)
+                  << ",mask_terminal="
+                  << mask_present(reachability.terminalVariants)
+                  << ",strict_supersets=" << strictSupersets
+                  << ",same_terminal_fuel_supersets=" << sameTerminalFuelSupersets
+                  << ",reachability_complete=" << reachability.complete
+                  << ",w1_outcome="
+                  << (exact.has_value() &&
+                      contains_outcome(witnessCandidates, *exact))
+                  << ",w1_first="
+                  << (exact.has_value() && !witnessCandidates.empty() &&
+                      outcome_matches(witnessCandidates.front(), *exact))
+                  << ",prod_outcome="
+                  << (exact.has_value() &&
+                      contains_outcome(productionCandidates, *exact))
+                  << ",prod_first="
+                  << (exact.has_value() && !productionCandidates.empty() &&
+                      outcome_matches(productionCandidates.front(), *exact))
+                  << ",first_cap=" << firstCap
+                  << ",witness_widths=" << witnessPortfolio.columnsByAgent.at(0).size()
+                  << ",production_widths="
+                  << productionPortfolio.columnsByAgent.at(0).size();
+        ledger.apply(ownSimulation.score);
+        std::cout << ",cum="
+                  << score_text(udon::OfficialScore{
+                         ledger.lifetime_distinct(),
+                         ledger.totalDailyDistinct,
+                         ledger.totalServings,
+                     })
+                  << '\n';
+        key = advance_adversarial_key(
+            fixture,
+            key,
+            node->second.bestOwn,
+            opponent,
+            ownSimulation.score.brands,
+            trafficHistoryQuotient);
+    }
+    std::cout << "trace_membership_summary,seed=" << fixture.seed
+              << ",root=" << rootIndex
+              << ",policy=" << policy_name(policy)
+              << ",final="
+              << score_text(udon::OfficialScore{
+                     ledger.lifetime_distinct(),
+                     ledger.totalDailyDistinct,
+                     ledger.totalServings,
+                 })
+              << '\n';
+}
+
 int main(int argc, char** argv) {
     try {
         const Options options = parse_options(argc, argv);
@@ -4164,6 +6010,471 @@ int main(int argc, char** argv) {
                     break;
                 }
                 const Fixture fixture = make_fixture(row, seed);
+                if (fixture.adversarialTraffic) {
+                    if (options.protectedHead) {
+                        for (const CausalOpponentPolicy policy : {
+                                 CausalOpponentPolicy::MaximumDwell,
+                                 CausalOpponentPolicy::MinimumDwell,
+                                 CausalOpponentPolicy::StatusToggle,
+                             }) {
+                            const AdversarialRun current =
+                                run_current_protected_against_policy(
+                                    fixture,
+                                    policy,
+                                    options.latestTerminal,
+                                    std::chrono::milliseconds{
+                                        options.protectedRefinementReserveMs});
+                            std::cout << "protected_head,seed=" << seed
+                                      << ",policy=" << policy_name(policy)
+                                      << ",protected_reserve_ms="
+                                      << options.protectedRefinementReserveMs
+                                      << ",score=" << score_text(current.score)
+                                      << ",virtual="
+                                      << score_text(current.virtualScore)
+                                      << ",valid=" << current.valid
+                                      << ",takeovers="
+                                      << current.protectedTakeovers
+                                      << ",generated="
+                                      << current.protectedGeneratedPlans
+                                      << ",valid_plans="
+                                      << current.protectedValidPlans
+                                      << ",liftable="
+                                      << current.protectedLiftablePlans
+                                      << ",protected_deadline_days="
+                                      << current.protectedDeadlineDays
+                                      << ",solver_deadline_days="
+                                      << current.deadlineLimitedDays
+                                      << ",terminal_sparse_routes="
+                                      << current.terminalSparseRoutes
+                                      << ",terminal_valid_plans="
+                                      << current.terminalValidPlans
+                                      << ",terminal_improvements="
+                                      << current.terminalStrictImprovements
+                                      << ",terminal_rounds="
+                                      << current.terminalRounds
+                                      << ",terminal_deadline_days="
+                                      << current.terminalDeadlineDays
+                                      << ",plan_hash=" << std::hex
+                                      << plan_sequence_hash(current.plans)
+                                      << std::dec << '\n';
+                            for (std::size_t traceDay = 0;
+                                 traceDay < current.traces.size();
+                                 ++traceDay) {
+                                const AdversarialRun::DayTrace& trace =
+                                    current.traces.at(traceDay);
+                                std::cout
+                                    << "protected_head_day,seed=" << seed
+                                    << ",policy=" << policy_name(policy)
+                                    << ",day=" << (traceDay + 1U)
+                                    << ",daily=" << trace.dailyDistinct << '/'
+                                    << trace.dailyServings
+                                    << ",cumulative="
+                                    << score_text(trace.cumulative)
+                                    << ",pos_fuel="
+                                    << trace.terminalPosition << '/'
+                                    << trace.terminalFuel
+                                    << ",plan="
+                                    << plan_text(current.plans.at(traceDay))
+                                    << '\n';
+                            }
+                        }
+                        return 0;
+                    }
+                    if (options.headOnly) {
+                        const AdversarialRun head = run_head_against_policy(
+                            fixture,
+                            CausalOpponentPolicy::MaximumDwell);
+                        std::cout << "adversarial_head,seed=" << seed
+                                  << ",score=" << score_text(head.score)
+                                  << ",valid=" << head.valid
+                                  << ",plan_hash=" << std::hex
+                                  << plan_sequence_hash(head.plans)
+                                  << std::dec << '\n';
+                        for (std::size_t dayIndex = 0;
+                             dayIndex < head.audits.size();
+                             ++dayIndex) {
+                            const udon::DecisionAudit& audit =
+                                head.audits.at(dayIndex);
+                            std::cout << "adversarial_head_day,seed=" << seed
+                                      << ",day=" << (dayIndex + 1U)
+                                      << ",plan="
+                                      << plan_text(head.plans.at(dayIndex))
+                                      << ",selection_reason="
+                                      << audit.selectionReason
+                                      << ",exact_supported="
+                                      << audit.columnGeneration
+                                             .exactOrienteeringSupportedAgents
+                                      << ",exact_complete="
+                                      << audit.columnGeneration
+                                             .exactOrienteeringCompleteAgents
+                                      << ",exact_states="
+                                      << audit.columnGeneration
+                                             .exactOrienteeringSettledStates
+                                      << ",exact_variants="
+                                      << audit.columnGeneration
+                                             .exactOrienteeringTerminalVariants
+                                      << ",exact_bundles="
+                                      << audit.columnGeneration
+                                             .exactOrienteeringBundles
+                                      << ",exact_deadline="
+                                      << audit.columnGeneration.deadlineReached
+                                      << ",portfolio_widths=";
+                            for (std::size_t agent = 0;
+                                 agent < audit.portfolioColumnsByAgent.size();
+                                 ++agent) {
+                                if (agent != 0U) {
+                                    std::cout << '|';
+                                }
+                                std::cout <<
+                                    audit.portfolioColumnsByAgent.at(agent);
+                            }
+                            std::cout << '\n';
+                            for (std::size_t candidateIndex = 0;
+                                 candidateIndex < audit.candidates.size();
+                                 ++candidateIndex) {
+                                const udon::CandidateAuditRecord& record =
+                                    audit.candidates.at(candidateIndex);
+                                std::cout << "adversarial_head_candidate,seed="
+                                          << seed
+                                          << ",day=" << (dayIndex + 1U)
+                                          << ",index=" << candidateIndex
+                                          << ",current="
+                                          << score_text(record.scoreAfterToday)
+                                          << ",lower="
+                                          << score_text(
+                                                 record.finalCertifiedLowerBound)
+                                          << ",upper="
+                                          << score_text(record.validUpperBound)
+                                          << ",q50="
+                                          << score_text(record.finalQuantile50)
+                                          << ",certified=" << record.certified
+                                          << ",selected=" << record.selected
+                                          << ",role=" << record.w1Role
+                                          << ",disposition="
+                                          << record.disposition << '\n';
+                            }
+                        }
+                        return 0;
+                    }
+                    if (!options.inspectPlan.empty()) {
+                        const udon::DayPlan oraclePlan = parse_plan_text(
+                            options.inspectPlan,
+                            fixture.config.agent_count());
+                        const udon::DayPlan parentPlan = parse_plan_text(
+                            options.inspectParentPlan,
+                            fixture.config.agent_count());
+                        if (!options.attributePrefix.empty()) {
+                            const std::vector<udon::DayPlan> attributePrefix =
+                                parse_plan_sequence_text(
+                                    options.attributePrefix,
+                                    fixture.config.agent_count());
+                            for (const CausalOpponentPolicy policy : {
+                                     CausalOpponentPolicy::MaximumDwell,
+                                     CausalOpponentPolicy::MinimumDwell,
+                                     CausalOpponentPolicy::StatusToggle,
+                                 }) {
+                                const AdversarialPrefixContext context =
+                                    replay_adversarial_prefix(
+                                        fixture,
+                                        policy,
+                                        attributePrefix);
+                                std::cout << "attribute_context,seed=" << seed
+                                          << ",policy=" << policy_name(policy)
+                                          << ",day="
+                                          << (attributePrefix.size() + 1U)
+                                          << ",valid=" << context.valid << '\n';
+                                if (!context.valid) {
+                                    continue;
+                                }
+                                attribute_oracle_day(
+                                    fixture,
+                                    static_cast<std::int32_t>(
+                                        attributePrefix.size() + 1U),
+                                    adversarial_day_state(fixture, context.key),
+                                    context.ledger,
+                                    oraclePlan,
+                                    parentPlan);
+                            }
+                            return 0;
+                        }
+                        const AdversarialKey key = initial_adversarial_key(fixture);
+                        attribute_oracle_day(
+                            fixture,
+                            1,
+                            adversarial_day_state(fixture, key),
+                            udon::MatchLedger{},
+                            oraclePlan,
+                            parentPlan);
+                        const std::vector<udon::DayPlan> forcedPrefix =
+                            options.forcedPrefix.empty()
+                            ? std::vector<udon::DayPlan>{oraclePlan}
+                            : parse_plan_sequence_text(
+                                  options.forcedPrefix,
+                                  fixture.config.agent_count());
+                        for (const CausalOpponentPolicy policy : {
+                                 CausalOpponentPolicy::MaximumDwell,
+                                 CausalOpponentPolicy::MinimumDwell,
+                                 CausalOpponentPolicy::StatusToggle,
+                             }) {
+                            const AdversarialRun forced = run_head_against_policy(
+                                fixture,
+                                policy,
+                                &forcedPrefix);
+                            std::cout << "forced_first,seed=" << seed
+                                      << ",policy=" << policy_name(policy)
+                                      << ",prefix_days=" << forcedPrefix.size()
+                                      << ",score=" << score_text(forced.score)
+                                      << ",valid=" << forced.valid
+                                      << ",deadline_days="
+                                      << forced.deadlineLimitedDays
+                                      << ",plan_hash=" << std::hex
+                                      << plan_sequence_hash(forced.plans)
+                                      << std::dec;
+                            for (std::size_t traceDay = 0;
+                                 traceDay < forced.traces.size();
+                                 ++traceDay) {
+                                std::cout << ",d" << (traceDay + 1U) << '='
+                                          << score_text(
+                                                 forced.traces.at(traceDay).cumulative)
+                                          << ",p" << (traceDay + 1U) << '='
+                                          << plan_text(forced.plans.at(traceDay));
+                            }
+                            std::cout << '\n';
+                        }
+                        return 0;
+                    }
+                    MinimaxSearch minimaxSearch;
+                    minimaxSearch.boundaryDominance = options.boundaryDominance;
+                    minimaxSearch.trafficHistoryQuotient =
+                        options.trafficHistoryQuotient;
+                    const std::int32_t startDay = options.proofTailDays > 0
+                        ? fixture.config.day_count() - options.proofTailDays + 1
+                        : 1;
+                    const AdversarialKey rootKey =
+                        initial_adversarial_key(fixture, startDay);
+                    MinimaxNode root;
+                    if (options.rootStream) {
+                        const RootStreamResult streamed =
+                            solve_public_minimax_root_stream(
+                                fixture,
+                                rootKey,
+                                minimaxSearch,
+                                options.rootOwnBegin,
+                                options.rootOwnEnd);
+                        if (!streamed.fullSlice || !streamed.hasRoot) {
+                            std::cout << "minimax_slice,seed=" << seed
+                                      << ",family=" << row.family
+                                      << ",fuel=" << row.fuelProfile
+                                      << ",begin=" << streamed.begin
+                                      << ",end=" << streamed.end
+                                      << ",own_count=" << streamed.ownCount
+                                      << ",opponent_count="
+                                      << streamed.opponentCount
+                                      << ",slice_best="
+                                      << (streamed.hasRoot
+                                              ? score_text(streamed.root.score)
+                                              : "none")
+                                      << std::endl;
+                            if (streamed.hasRoot) {
+                                minimaxSearch.memo.emplace(
+                                    rootKey,
+                                    streamed.root);
+                                for (const CausalOpponentPolicy policy : {
+                                         CausalOpponentPolicy::MaximumDwell,
+                                         CausalOpponentPolicy::MinimumDwell,
+                                         CausalOpponentPolicy::StatusToggle,
+                                     }) {
+                                    const AdversarialRun oracle =
+                                        run_minimax_policy(
+                                            fixture,
+                                            minimaxSearch.memo,
+                                            policy,
+                                            options.trafficHistoryQuotient);
+                                    const AdversarialRun head =
+                                        run_head_against_policy(
+                                            fixture,
+                                            policy);
+                                    std::cout
+                                        << "root_stream_case,seed=" << seed
+                                        << ",begin=" << streamed.begin
+                                        << ",end=" << streamed.end
+                                        << ",policy=" << policy_name(policy)
+                                        << ",slice_robust="
+                                        << score_text(streamed.root.score)
+                                        << ",oracle="
+                                        << score_text(oracle.score)
+                                        << ",head=" << score_text(head.score)
+                                        << ",oracle_valid=" << oracle.valid
+                                        << ",head_valid=" << head.valid
+                                        << ",oracle_hash=" << std::hex
+                                        << plan_sequence_hash(oracle.plans)
+                                        << ",head_hash="
+                                        << plan_sequence_hash(head.plans)
+                                        << std::dec << std::endl;
+                                    if (options.traceMembership) {
+                                        attribute_trajectory_membership(
+                                            fixture,
+                                            minimaxSearch.memo,
+                                            policy,
+                                            options.trafficHistoryQuotient,
+                                            options.rootOwnBegin);
+                                    }
+                                }
+                            }
+                            continue;
+                        }
+                        root = streamed.root;
+                    } else {
+                        root = solve_public_minimax(
+                            fixture,
+                            rootKey,
+                            minimaxSearch);
+                    }
+                    std::cout << "minimax,seed=" << seed
+                              << ",family=" << row.family
+                              << ",fuel=" << row.fuelProfile
+                              << ",robust=" << score_text(root.score)
+                              << ",states=" << minimaxSearch.diagnostics.states
+                              << ",transitions=" << minimaxSearch.diagnostics.transitions
+                              << ",boundary=" << (options.boundaryDominance ? 1 : 0)
+                              << ",traffic_history_quotient="
+                              << (options.trafficHistoryQuotient ? 1 : 0)
+                              << ",proof_tail=" << options.proofTailDays
+                              << ",raw_max="
+                              << minimaxSearch.diagnostics.maximumOwnOutcomesBeforeDominance
+                              << ",max_own=" << minimaxSearch.diagnostics.maximumOwnOutcomes
+                              << ",max_opponent=" << minimaxSearch.diagnostics.maximumOpponentOutcomes
+                              << ",pruned="
+                              << minimaxSearch.diagnostics.boundaryDominancePruned
+                              << '\n';
+                    if (options.proofTailDays > 0) {
+                        continue;
+                    }
+                    for (const CausalOpponentPolicy policy : {
+                             CausalOpponentPolicy::MaximumDwell,
+                             CausalOpponentPolicy::MinimumDwell,
+                             CausalOpponentPolicy::StatusToggle,
+                         }) {
+                        const AdversarialRun oracle = run_minimax_policy(
+                            fixture,
+                            minimaxSearch.memo,
+                            policy,
+                            options.trafficHistoryQuotient);
+                        const AdversarialRun head = run_head_against_policy(
+                            fixture,
+                            policy);
+                        OracleResult oracleSummary;
+                        oracleSummary.valid = oracle.valid;
+                        oracleSummary.score = oracle.score;
+                        oracleSummary.plans = oracle.plans;
+                        HeadResult headSummary;
+                        headSummary.valid = head.valid;
+                        headSummary.score = head.score;
+                        headSummary.plans = head.plans;
+                        record_summary(
+                            summary,
+                            oracleSummary,
+                            headSummary,
+                            seed ^ static_cast<std::uint64_t>(policy));
+                        record_summary(
+                            strata[{row.family, row.fuelProfile}],
+                            oracleSummary,
+                            headSummary,
+                            seed ^ static_cast<std::uint64_t>(policy));
+                        const std::int32_t tier = first_tier(
+                            oracle.score,
+                            head.score);
+                        std::cout << "adversarial_case,seed=" << seed
+                                  << ",family=" << row.family
+                                  << ",fuel=" << row.fuelProfile
+                                  << ",policy=" << policy_name(policy)
+                                  << ",robust=" << score_text(root.score)
+                                  << ",oracle=" << score_text(oracle.score)
+                                  << ",head=" << score_text(head.score)
+                                  << ",tier=" << tier
+                                  << ",gain=" << tier_gain(
+                                         oracle.score,
+                                         head.score,
+                                         tier)
+                                  << ",oracle_valid=" << oracle.valid
+                                  << ",head_valid=" << head.valid
+                                  << ",head_deadline_days="
+                                  << head.deadlineLimitedDays
+                                  << ",oracle_hash=" << std::hex
+                                  << plan_sequence_hash(oracle.plans)
+                                  << ",head_hash="
+                                  << plan_sequence_hash(head.plans)
+                                  << std::dec << '\n';
+                        if (options.details) {
+                            const std::size_t traceDays = std::min(
+                                oracle.traces.size(),
+                                head.traces.size());
+                            for (std::size_t traceDay = 0;
+                                 traceDay < traceDays;
+                                 ++traceDay) {
+                                const AdversarialRun::DayTrace& oracleTrace =
+                                    oracle.traces.at(traceDay);
+                                const AdversarialRun::DayTrace& headTrace =
+                                    head.traces.at(traceDay);
+                                std::cout << "adversarial_trace,seed=" << seed
+                                          << ",policy=" << policy_name(policy)
+                                          << ",day=" << (traceDay + 1U)
+                                          << ",oracle_daily="
+                                          << oracleTrace.dailyDistinct << '/'
+                                          << oracleTrace.dailyServings
+                                          << ",head_daily="
+                                          << headTrace.dailyDistinct << '/'
+                                          << headTrace.dailyServings
+                                          << ",oracle_cumulative="
+                                          << score_text(oracleTrace.cumulative)
+                                          << ",head_cumulative="
+                                          << score_text(headTrace.cumulative)
+                                          << ",oracle_pos_fuel="
+                                          << oracleTrace.terminalPosition << '/'
+                                          << oracleTrace.terminalFuel
+                                          << ",head_pos_fuel="
+                                          << headTrace.terminalPosition << '/'
+                                          << headTrace.terminalFuel
+                                          << ",oracle_status="
+                                          << static_cast<std::int32_t>(
+                                                 oracleTrace.startStatuses.at(0))
+                                          << '.'
+                                          << static_cast<std::int32_t>(
+                                                 oracleTrace.startStatuses.at(1))
+                                          << ",head_status="
+                                          << static_cast<std::int32_t>(
+                                                 headTrace.startStatuses.at(0))
+                                          << '.'
+                                          << static_cast<std::int32_t>(
+                                                 headTrace.startStatuses.at(1))
+                                          << ",oracle_footprint="
+                                          << static_cast<std::int32_t>(
+                                                 oracleTrace.ownFootprint.at(0))
+                                          << '.'
+                                          << static_cast<std::int32_t>(
+                                                 oracleTrace.ownFootprint.at(1))
+                                          << ",head_footprint="
+                                          << static_cast<std::int32_t>(
+                                                 headTrace.ownFootprint.at(0))
+                                          << '.'
+                                          << static_cast<std::int32_t>(
+                                                 headTrace.ownFootprint.at(1))
+                                          << ",oracle_plan="
+                                          << plan_text(oracle.plans.at(traceDay))
+                                          << ",head_plan="
+                                          << plan_text(head.plans.at(traceDay))
+                                          << ",oracle_opponent_plan="
+                                          << plan_text(
+                                                 oracle.opponentPlans.at(traceDay))
+                                          << ",head_opponent_plan="
+                                          << plan_text(
+                                                 head.opponentPlans.at(traceDay))
+                                          << '\n';
+                            }
+                        }
+                    }
+                    continue;
+                }
                 if (!options.inspectPlan.empty()) {
                     if (!options.inspectParentPlan.empty()) {
                         std::vector<udon::AgentState> agents;
