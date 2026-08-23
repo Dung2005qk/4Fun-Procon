@@ -78,6 +78,14 @@ if(UDONSHIELD_BUILD_BENCHMARKS)
         research/probes/claim_probe.cpp)
     target_link_libraries(udonshield_claim_probe PRIVATE udon_shield)
     add_executable(
+        udonshield_refuel_midmove_probe
+        research/probes/refuel_midmove_probe.cpp)
+    target_link_libraries(udonshield_refuel_midmove_probe PRIVATE udon_shield)
+    add_executable(
+        udonshield_colgen_starvation_probe
+        research/probes/colgen_starvation_probe.cpp)
+    target_link_libraries(udonshield_colgen_starvation_probe PRIVATE udon_shield)
+    add_executable(
         udonshield_tanker_terminal_oracle
         research/probes/tanker_terminal_oracle.cpp)
     target_link_libraries(udonshield_tanker_terminal_oracle PRIVATE udon_shield)
