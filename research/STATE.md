@@ -4,6 +4,499 @@ Updated: 2026-08-23
 
 ## Current phase
 
+### Active coupled-suffix pre-gate: ATTR-SUFFIX-TRAJECTORY-MEMBERSHIP-209 (read-only)
+
+Registered 2026-08-23, parent `690728a`, research-probe-only. Question: can
+the production generator even EXPRESS the oracle's suffix day plans (days
+2-4) along the winning coupled trajectory of the three live 185
+counterexamples (1720100 root 223 `3.2.-13` 6/19/19; 1721100 root 36
+`3.2.2.2.0.1.5.-3` 5/17/18; 1721200 root 7 `3.2.2.2.0.0.5.5.-2` 5/20/21)?
+200/202 proved the day-1 root is generated, retained and forceable while the
+suffix still loses; if suffix routes are absent at witness and production
+caps, any frontier selector is dead on arrival (076/081, 100/113/203) and
+the axis redirects to targeted suffix generation. Method: singleton
+root-stream re-solve of the winning root, walk the memoized argmax
+trajectory per causal policy, per suffix day measure spot-mask membership in
+exact-orienteering routes, witness-caps W1 contains-outcome, production-caps
+contains-outcome and the first-cap ladder 32..256 — all from the coupled day
+state with both teams' traffic. Frozen manifest
+`research/holdouts/ATTR-SUFFIX-TRAJECTORY-MEMBERSHIP-209.csv` SHA256
+`849C5162492219F6230EFA82B4C898072E0C12A7A08788433BD9EB5D98024B73`
+(amended pre-measurement: oracle_scope normalized to the probe-validated
+string; winning root indices frozen in the ledger row and above). Venue:
+local idle machine (the 207 holdout owns the VM).
+
+### Closed: ATTR-COVERAGE-REGIME-208 — accepted-attribution-venue-artifact
+
+Registered and closed 2026-08-23, parent `690728a`, research-only. The
+m-3986 extreme-regime coverage collapse (and m-3897's starved-day servings
+loss) attributes to **column-generation starvation whose dominant cause is
+operator-machine CPU contention**, not an algorithmic gap:
+
+- Replay side: sequential per-agent generation loop (`planner.cpp:2820`)
+  under a shared deadline; starved days show trailing agents with zero
+  Pareto queries, cache 0 hits, colGen 1200-1340ms. m-3986 starved 9/10
+  days, m-3897 4/10, m-3908 (players=4 control) 0/10. Selection and master
+  innocent.
+- Registered synthetic grid (SYN-COLGEN-208, 48 matches): **zero starved
+  days in 480 match-days at idle; tier-2 coverage 94-100% of the viability
+  cap on every axis**, including brands==spots at 32 spots / 200 steps.
+- Discriminator: starved production days lose 2-3x labels/ms throughput;
+  controlled 8-core contention on the registered cell reproduces the live
+  signature on demand (32/312/868 idle -> 32/269/683 contended; colGen
+  1200-1450ms; master combos 0-129). m-3986 provably ran inside the local
+  207-dev compute window.
+
+**Operational rule adopted: never run experiment compute on the match
+machine during a live match** (measured cost -43 tier-2 / -185 servings).
+Reopen a generation-rebalancing candidate only on clean-venue evidence of
+zero-query patrol agents; evidence `ATTR-COVERAGE-REGIME-208.md`.
+
+### ACCEPTED terminal pair-exchange: SCORE-TERMINAL-PAIR-EXCHANGE-207
+
+Registered 2026-08-23, parent `690728a`. Gap: accepted 191 iterates one-agent
+sparse exchanges to a fixed point on the terminal day of the sparse
+(dense-unsupported) domain, which no ceiling oracle covers (070/147 closed
+only dense/small domains); a coordinate method stops at one-agent local
+optima, so joint improvements that need two patrols to swap or re-partition
+contested spots/stock simultaneously are unreachable (precedent: 041
+one-exchange inert versus 042 multi-agent coordination finding +1).
+
+Candidate (working tree, `src/slack_refiner.cpp`): after the byte-order
+unchanged 191 ascent reaches its natural fixed point, the remaining protected
+terminal budget evaluates joint replacements of two patrols' plans from the
+already-enumerated sparse route pools (maximal routes, hash-deduped,
+exact-simulated, independently validated, strict official-lexicographic
+acceptance only); an accepted pair re-enters the one-agent ascent. A deadline
+inside the ascent means the pair phase never runs, so the parent work prefix
+is protected (the 201 lesson). Tests green; sparse smoke case ties parent
+with zero invalid.
+
+Frozen manifest `research/holdouts/SCORE-TERMINAL-PAIR-EXCHANGE-207.csv`,
+SHA256 `D9506BFC73120CB30679271992EDAA71D333E94879AF1A78E47A3CF04B740D79`;
+fresh dev 60 weighted to sparse tiers (4900000/4901000/4902000/4903000 =
+8/8/20/24) and sealed holdout 108 (4910000/4911000/4912000/4913000 =
+16/16/36/40). Parent binary `historical_tournament_parent_207.exe` SHA256
+`08382B5231F15A2A66FD5880A34325D552056FD242F35DF0CE92FFF4EE20C783`; candidate
+`historical_tournament_candidate_207.exe` SHA256
+`E79CC1E3203680B2B4E727B9054072F005E230E4D1BAB9BB09B5791F35D726D0`. Sides run
+sequentially.
+
+**First development run invalidated by asymmetric environment load.** The
+cross-binary local run finished 19/11/30 (all tier-3, +176/-367), but the
+live BTC match `m-3986` executed 21:23:36-21:26:11 entirely inside the
+candidate side's window (parent closed 21:16:38; candidate 21:16-21:39) and
+its solver load overlapped exactly the stratified-hard tier, where the
+candidate's losses concentrate (-44/-32/-22/-16/-15/-14 all on 4902xxx).
+Per the load-sensitivity rules (028/031) this run carries no verdict either
+way; both logs are retained as environment evidence only.
+
+Causal redesign per the 044/046 lesson: a single binary with a research
+switch (`ProtectedSlackRefiner::enableTerminalPairExchange`, default off =
+byte-identical 191 behavior; harness flag `--terminal-pair 0|1`) plus a
+dedicated `terminalPairAcceptances` diagnostic, so pair activity is
+observable and binary-layout/timing confounds cancel. The rerun executes on
+the isolated GCP VM (`udon-stream-185-0822`, the 199/201 venue), flag-off
+then flag-on sequentially, same frozen manifest
+(`run_terminal_pair_207_causal.sh`).
+
+**Causal development PASSED (2026-08-23).** Same-binary off/on on the quiet
+VM with spot-preemption-safe resume (`run_terminal_pair_207_resume.sh`):
+paired 60, W/T/L **17/41/2**, +42 servings, zero
+invalid/emergency/dominance-failure, zero tier-1/2 change. Mechanism alive:
+16 pair acceptances across 12 cases (off-side control 0); **all 12
+acceptance cases won** (+19) and none lost; both losses (-46/-4) and five
+wins occurred at zero acceptances = parent deadline jitter, not mechanism.
+Benefit concentrates in the target very-hard sparse tier (13/10/1) and is
+positive in every fuel/role/window lane. Logs: off SHA256
+`E0728F55BE5454B0445C8228D094071EABBB97C7E11A8E4EC261A3F08E1BD6D4`, on
+`9E44DE6CEDD9FC0F4F299374E1D9538A9AF723E1E7244617AC44CD82493599ED`.
+**Holdout PASSED and 207 is ACCEPTED (2026-08-24).** Sealed 108 pairs,
+same-binary off/on on the quiet VM: W/T/L **24/72/12**, +40 servings, zero
+invalid/emergency/dominance failure, zero tier-1/2 change across 216 runs;
+runtime tails byte-similar (max_ms off 3016/3024 vs on 3016/3018).
+Acceptance-conditional causal record: 18 cases with 21 acceptances (off
+control 0) score **16W/2L (+30/-3)**; every other non-tie sits at zero
+acceptances and nets +11 with symmetric tails — ambient jitter, and the
+easy/medium losses all occur where the mechanism never fires (inert, not
+harmful). Logs: off SHA256
+`668D419D4B7B8F957EF119BF4D3CB8D11612C101C8036D04E5353BBFFA45C624`, on
+`D7AAB15BB570752E1FCAD6219715FD4BCC446B23D68C04CDDF6BAB533E067CF1`.
+Production enablement: `btc_main.cpp` sets
+`slackRefiner.enableTerminalPairExchange = true`; the default stays off so
+research harnesses keep a byte-identical 191 parent. Tests green. BTC gate =
+**debt-relay** (operator authorization 2026-08-23): runtime envelope relayed
+from 197's BTC validation (same protected reserve and deadline math); DEBT —
+one practice match on the operator's return to confirm valid submissions
+with the pair phase live. Evidence
+`research/evidence/SCORE-TERMINAL-PAIR-EXCHANGE-207.md`.
+
+### Rejected zero-dwell rendezvous pool candidate: SCORE-REFUEL-NOWAIT-206
+
+Registered and closed 2026-08-23, parent `690728a`. The candidate added an
+additive no-wait escort pair beside every constructed WAIT(1) rendezvous
+(one-step-larger departure window, same `{rendezvous, rendezvousStep+1}`
+refuel event satisfied mid-move per the 205 server-pinned semantics).
+
+Development (60 fresh paired closed-loop matches, frozen manifest SHA256
+`22E3E21819E34B1ABFEA46258117D519ABA8984124AA031EA74B5C588C2E73D4`, sides
+sequential): W/T/L **16/26/18**, zero invalid/emergency; **one tier-2 loss**
+(4880007 low/fuel-tight `-2` daily `-35` servings); tier-3 +16/-17 with
++140/-162 servings and tails -36/-28/-24/-22; losses systematic in
+default/fixed (1/3/6) and the very-hard tier; window-independent (long
+9/11/10, short 7/15/8). This is the 194/195/198 phenomenon: escort-pool
+growth redistributes deadline-sampled search and outweighs the reclaimed
+step. Holdout stayed sealed; no BTC match. Source reverted; tests green.
+Logs: parent SHA256
+`07C56D3DA02083990CBEC15986480D1395859E687C12C2A050148ED0D0429F81`, candidate
+`55E522322EB0F02566A7192D2FE450F81AFBDEBFC1A8526864D3BCAFC49170CF`; evidence
+`research/evidence/SCORE-REFUEL-NOWAIT-206.md`.
+
+Reopen only via a mechanism that captures the reclaimed rendezvous step
+without growing the deadline-sampled candidate pool (e.g. an
+incumbent-protected WAIT(1)-shift transform in the accepted 187/197 refiner
+lane under strict componentwise dominance); never widen the escort pool or
+tune on the consumed 488xxxx seeds. The 205 semantics themselves remain
+accepted and unaffected.
+
+### Closed mid-move refuel semantics: SEM-REFUEL-MIDMOVE-205 (accepted-semantics)
+
+Registered and closed 2026-08-23, parent `690728a`, read-only; no production
+or test source change (new research-only probe
+`research/probes/refuel_midmove_probe.cpp`). Question: the canonical
+rendezvous primitive always charges the patrol a hardcoded `WAIT(1)`
+(`src/planner.cpp:3594`/`3619`), but the exact simulator keeps a moving agent
+at its source cell until the move completes, so a departing patrol stands at
+the rendezvous for two consecutive boundaries and refuels with zero dwell —
+were these semantics real, both in-house and server-side?
+
+Answer: **yes, fully pinned.** Micro-probes: both engines refuel mid-move
+(immediate departure refuels at arrival+1 while moving; mountain-source
+interception refuels; a tanker standing on its own move source provides;
+one-step smooth-road departures do not refuel; arrival onto a tanker refuels
+one boundary after arrival). Replay scan over the frozen fifteen-replay
+manifest (`research/holdouts/SEM-REFUEL-MIDMOVE-205.csv`, SHA256
+`E01CA37756C9CFD96FF6738BEFC3443A4738B6B6DB7048ABF3456D6C975E3962`): **555
+mid-move refuel firings inside accepted production plans**, 111 distinguishing
+days, **4 fuel-critical accepted days** (m-3878 x2, m-3879, m-3880) that a
+stationary-only server must reject with `E_NO_FUEL`, and authoritative
+next-day agents equal to the mid-move simulation on **109/110** transitions.
+Evidence: `research/evidence/SEM-REFUEL-MIDMOVE-205.md`; scan log SHA256
+`C04B60651C542509B558B7793A86500BC39A017F1D1C51B5D16CC6D1AF186313`.
+
+Side finding: the single mismatch (`m-3876` day 9, patrol +48 with exact
+position) fits a cross-team refuel-to-full at the unique fuel-152 boundary,
+with the sole opponent tanker geometrically adjacent; it also explains the
+open `m-0922` +7 anomaly. Plausible, not proven; fuel only increases, so
+validity is never at risk and daily reconciliation already absorbs it. Never
+assume cross-team refuel in planning until proven.
+
+Consequence: a SCORE candidate reclaiming the hardcoded rendezvous `WAIT(1)`
+(additive no-wait variants) is unblocked with server semantics confirmed.
+
+### Closed exact root streaming with two new counterexamples: ORACLE-ROOT-STREAM-185
+
+All eight registered slices are complete and mirrored locally byte-identical
+(VM-side and local SHA256 verified equal). The three final slices closed on the
+Spot VM `udon-stream-185-0822` with full per-root-action certificates and zero
+invalid witnesses:
+
+- `1720100 [172,258)` (86/86 actions): slice robust exact `6/19/19` at root
+  index 223, plan `3.2.-13`, terminal `34@22`; recorded head `6/18/18` under
+  all three causal policies. Log
+  `research/evidence/185-1720100-172-258.log`, SHA256
+  `B5665DBF6A8EF1E1EE001A60B60F71A6B706CA1EFC230812D51A4E87C81D2A33`.
+- `1720100 [258,344)` (86/86 actions): slice robust `6/18/18`, ties head. Log
+  `research/evidence/185-1720100-258-344.log`, SHA256
+  `A95B0627C6699364A1A90E195ACB4DDF776DD59E11A21847786AB1320BAA80FF`.
+- `1721200 [118,236)` (118/118 actions): slice robust exact `5/20/22` at root
+  index 150, plan `1.2.2.2.4.3.5.5.5`, terminal `33@22`; recorded head
+  `5/19/22`. Log `research/evidence/185-1721200-118-236.log`, SHA256
+  `BDE3D78C8551BBC2F2D28F60C0EBB772F2FC7259679231BD29D8B9FF5C476A02`.
+
+Exact root maxima over all completed slices, which by construction equal the
+unsliced root maxima:
+
+1. `1720100` (default fuel): exact `6/19/19` versus head `6/18/18` — a new
+   tier-2 counterexample. The winning exact root is two moves plus `WAIT 13`,
+   the strongest fuel/positioning front-loading witness recorded so far.
+2. `1721100` (default fuel): exact `5/17/18` versus head `5/17/17` (tier 3),
+   unchanged from the earlier slices.
+3. `1721200` (high fuel): exact `5/20/22` versus head `5/19/22` — the tier-2
+   counterexample strengthened; the previous best slice witness `5/20/21`
+   traded one serving, the new one concedes nothing.
+
+Verdict: `accepted-exact-method`. The sliced streaming schedule preserved
+completed root-action certificates across Spot preemptions, kept peak memory
+bounded, and the parity gate against the unsliced mode had already passed on
+the consumed low-fuel row. Output cadence and VM elapsed carry no BTC or
+production-performance authority. All three seeds remain consumed-only
+attribution fixtures: no promotion, tuning or routing by them. Source work on
+the gap they witness still requires a general coupled multi-day suffix-state
+evaluator with fresh evidence, per 202/203. The Spot VM was stopped after
+byte-identical mirroring.
+
+### Rejected protected WAIT fixed-point attribution: ATTR-PROTECTED-WAIT-FIXEDPOINT-204
+
+Accepted experiment 187 preserves the canonical bounded decision and selects
+the best exact state-preserving one-patrol WAIT detour against that original
+incumbent. Unlike accepted terminal experiment 191, the nonterminal refiner
+does not continue from its certified improvement, so two compatible detours on
+different patrols or WAIT anchors cannot be composed in one day.
+
+Experiment 204 was a consumed-only research-harness attribution. It preserved
+the complete 187 first round, then invokes the unchanged refiner on the current
+certified incumbent for later rounds. Every round still requires exact
+simulator and independent-validator agreement, identical terminal kinds/cells
+and road footprint, no-less patrol fuel, componentwise ledger dominance and a
+strict daily-distinct or servings gain. No-gain, invalidity, deadline or fixed
+cap retains the best prior incumbent.
+
+The causal gate stopped on already-opened `4411000`. Latest parent `690728a`
+finished `6/60/482` against virtual `6/60/481`, with 24 generated/valid plans,
+one liftable plan, one takeover and zero deadline, invalid or emergency events.
+Across the full match only the protected first round improved; reapplying the
+same refiner to that certified incumbent found no second strict gain. Therefore
+the preregistered prerequisite failed. Controls `4310100`/`4310200`, fresh
+development and holdout remained unopened. Research instrumentation was fully
+reverted and production source remains `690728a`.
+
+Frozen manifest: `research/holdouts/ATTR-PROTECTED-WAIT-FIXEDPOINT-204.csv`,
+SHA256
+`9082E0B478F9D920FB033EF77983F3F5263E5B389940842D80AE6BC92CC62B47`.
+
+Causal evidence:
+`research/evidence/ATTR-PROTECTED-WAIT-FIXEDPOINT-204-causal.log`, SHA256
+`31C1E1DECC1A565CBEE88C1E39F7F3121ADF375536F791F54F6B1A70A2C5BC5F`.
+Reopen only after an independent day exposes two compatible strict protected
+WAIT detours; do not widen the route neighborhood or rerun consumed `4411000`.
+
+Functionality preservation: nothing is deleted, disabled, deferred or reduced;
+only opt-in research-harness telemetry may change during attribution.
+
+### Rejected protected exact-suffix beam research: SCORE-EXACT-SUFFIX-BEAM-203
+
+Experiments 200 and 202 prove on two independent completed experiment-185
+witnesses that the exact day-1 root is supported, complete and master-retained,
+but returning later days to the production suffix loses the oracle advantage.
+The current W1 exact-bundle witness still collapses every exact day portfolio to
+one greedy continuation before advancing to the next day. Experiment 203 tested
+the smallest protected successor: preserve the complete greedy continuation,
+then force up to three alternative exact-supported bundles on the first detailed
+suffix day while leaving every later suffix day on the existing greedy path.
+
+Parent: `690728a`. The consumed causal gate on seeds `1721100` and `1721200`
+was completely inert. Their policy-stratified scores and plan hashes remained
+identical at both protected reserves `1100 ms` and `0 ms`: respectively
+`5/17/17`, `5/16/17`, `5/17/17` and `5/19/22` for all policies. No generated
+plan, takeover, deadline or validity event occurred. Because neither known gap
+was reduced, fresh development and the sealed holdout were not opened. The
+source candidate was fully reverted; production remains parent `690728a`.
+
+Frozen manifest: `research/holdouts/SCORE-EXACT-SUFFIX-BEAM-203.csv`, SHA256
+`D2F4013BF79BD5CB32AB4EF9C6A4203B9BEC35DB2159183E23CD438B9991FE4D`.
+
+Causal evidence:
+`research/evidence/SCORE-EXACT-SUFFIX-BEAM-203-causal.log`, SHA256
+`47C20C9A7001AB7ECFBCD6DCBF61C7FAC5C9FABD56D4BAD5279B87D171CE7327`.
+Reopen only for a genuinely coupled suffix-state evaluator with a new general
+witness; do not increase beam width or route by the consumed seeds.
+
+### Closed default-fuel exact-root causal attribution: ATTR-ORACLE-ROOT-CAUSAL-202
+
+The completed experiment-185 default-fuel witness on consumed seed `1721100`
+reaches exact robust `5/17/18`, while accepted production `690728a` remains at
+`5/17/17`, `5/16/17` and `5/17/17` under maximum-dwell, minimum-dwell and
+status-toggle. Experiment 199 already proved that this result is unchanged by
+the short and full protected windows, but only the separate high-fuel witness
+`1721200` has been attributed through the day-1 root and production suffix.
+
+Experiment 202 uses the existing research-only inspection path on the consumed
+witness. It compares exact root `3.2.2.2.0.1.5.-3|-16|-16` with production root
+`3.2.2.2.0.0.2.-3|-16|-16` at exact support, portfolio, master and certification
+boundaries, then freezes only the exact root and returns days 2--4 to unchanged
+production under the three registered policies. No production source behavior,
+fixture, policy, score, simulator, validator or deadline changes.
+
+Frozen manifest:
+`research/holdouts/ATTR-ORACLE-ROOT-CAUSAL-202.csv`, SHA256
+`1734EE65A8D79F6388E30799CEA5058B05C33AFBBED452177BCC80046EC193E7`.
+The result can close the second completed exact witness or identify a distinct
+timing-independent boundary; it cannot authorize seed- or policy-specific
+routing.
+
+Functionality preservation: no designed functionality is removed, disabled,
+deferred or reduced, and nothing is deleted. The inspection and forced-prefix
+paths are research-only.
+
+The exact root is supported and complete for all three agents (`111`), present
+in the exact portfolio and retained by the ordinary master. Both roots score
+`5/5/5` today, both are certified and neither profile dominates. The exact root
+has lower/upper `5/16/17 .. 5/20/24`; the parent has
+`5/17/17 .. 5/20/24`.
+
+Forcing only the exact root and returning days 2--4 to unchanged production
+finishes valid `5/17/17` under all three policies. This matches or improves the
+current production suffix but still misses the exact oracle's `5/17/18`.
+Therefore root generation, exact support, portfolio retention and master
+selection are not the missing boundary; the extra serving requires a different
+later suffix. Experiment 202 closes
+`accepted-attribution-no-source-candidate` and independently confirms the same
+coupled multi-day suffix/evaluator class as experiment 200. Result log SHA256:
+`E73175319047A24852B0EEFFAD6874BE1B52DB89527946D11CCC79B803540CFC`.
+
+### Rejected protected-refiner membership optimization: PERF-PROTECTED-HASH-MEMBERSHIP-201
+
+Accepted experiment 197 makes the protected wait-detour and terminal sparse
+refiners the only consumers of reclaimed BTC compute. Experiment 201 replaced
+only their two non-iterated `std::set<uint64_t>` membership containers with
+`std::unordered_set<uint64_t>` plus bounded reserve. Plan hashing, equality,
+candidate and route order, exact simulator, independent validator, comparator,
+incumbent, terminal rounds, dominance and deadlines were unchanged.
+
+Direct fixed-input equivalence passed before timed development. WAIT generated
+and validated 11 plans in both binaries with identical plan/state hashes.
+Terminal sparse processed 3,584 routes and 1,547 valid plans, accepted 16 strict
+improvements over seven rounds and returned the same `6/6/83` and plan/state
+hashes. Equivalence log SHA256:
+`3AAD2418BDCF2AFAAE7DE6D14DAA9CA7DEC5A419E0BF181CA8122CE0846E8900`.
+
+Fresh paired development completed 60 pairs at `7/46/7`, gain/loss `+68/-63`,
+tail `-22/+38`, with zero role mismatch, invalid, emergency or failure.
+Fixed-role was `4/22/4`, `+48/-44`, tail `-22/+38`; low fuel lost 37 while
+gaining 22. The candidate completed 27 more valid wait plans, 512 more valid
+sparse plans and two more sparse rounds, but did not protect score. Development
+log SHA256:
+`23B16C01ED85A5BD4C9CD9F8B97E15CF390ACF814A8C6C72B8DCA78A9948282E`.
+
+Experiment 201 is rejected before holdout and BTC; its production-source
+candidate is reverted. The container replacement is semantically equivalent on
+a complete fixed input, but at the hard cutoff it merely perturbs how much
+refinement completes and produces balanced nonmonotonic score changes. Reopen
+only with a mechanism that proves additional protected work cannot replace the
+certified incumbent except by exact improvement.
+
+Functionality preservation: no designed functionality is removed, disabled,
+deferred or reduced, and nothing is deleted. Rejection restores the canonical
+ordered membership implementation; experiment-only evidence remains archived.
+
+### Closed exact-root causal attribution: ATTR-ORACLE-ROOT-CAUSAL-200
+
+Experiment 199 confirms that accepted production `690728a` remains at
+`5/19/22` on consumed high-fuel seed `1721200` under all three causal opponent
+policies and under both the 3900-ms short protected window and the full internal
+5000-ms protected window. The completed experiment-185 root slice has an exact
+robust `5/20/21` witness beginning with active-agent plan
+`3.2.2.2.0.0.5.5.-2`; production begins with
+`3.2.2.2.0.1.5.5.5`.
+
+The exact root is dual-valid, exact-supported for all three agents, complete,
+retained by the master and present as a master outcome. Its current score is
+`5/5/5` versus parent `5/5/6`; certified lower/upper are
+`5/19/19 .. 5/20/31` versus `5/19/20 .. 5/20/31`. Forcing only the exact root
+and returning days 2--4 to production reaches exact `5/20/21` under
+maximum-dwell and status-toggle, but only `5/18/21` under minimum-dwell, below
+production `5/19/22`; the exact oracle uses a different suffix.
+
+The gap is coupled multi-day closed-loop suffix/evaluation, not root generation,
+master retention or a selection comparator bug. A root-only promotion would
+cause a tier-2 regression. Experiment 200 is accepted attribution with no source
+candidate. Frozen manifest SHA256:
+`49B2B829E1D629BFE201976F09873DFEDBF714E9BE1EA07ED5BE684138D71C7E`;
+log SHA256:
+`39E59B43BA62BA5D1E0F20D82CA85D877C330D929EAC53F7E2C55CC42F8825F3`.
+
+Functionality preservation: no designed functionality is removed, disabled,
+deferred or reduced, and nothing is deleted. Production source and behavior are
+unchanged; forced-prefix execution exists only in the research executable.
+
+### Closed latest-production exact-witness attribution: ATTR-ORACLE-LATEST-RESERVE-199
+
+Experiment 199 revalidated both completed experiment-185 witnesses against the
+accepted `690728a` lifecycle. The canonical solve retains its 1600-ms deadline
+calibration; the protected phase was tested both until 3900 ms for a 5000-ms
+authoritative window and until the full internal 5000-ms cap for a long outer
+window.
+
+Under all three policies, seed `1721100` remains respectively `5/17/17`,
+`5/16/17`, `5/17/17` in both protected-window modes versus exact `5/17/18`.
+Seed `1721200` remains `5/19/22` under all six policy-window runs versus exact
+`5/20/21`. All runs are valid, plan hashes are invariant between short and long
+windows, and generation, takeovers and deadline counts are zero. The accepted
+extra interval cannot enter this dense exact domain; lack of protected time is
+falsified as the cause.
+
+Experiment 199 is accepted attribution with a residual gap and no source
+candidate. Frozen manifest SHA256:
+`DF7EF5A47271F4F171A2CA673F37F38384F499A0770D387116DD3608CE48984F`;
+log SHA256:
+`E0C732B71F5144C1BC70A11E2D40C76B7B0FC515FE0C122B71A605D42EA91A55`.
+
+Functionality preservation: no designed functionality is removed, disabled,
+deferred or reduced, and nothing is deleted. The deadline switch exists only in
+the research oracle executable.
+
+### Rejected day-only semantic-equivalent master dedup successor: PERF-DAY-MASTER-DEDUP-198
+
+Experiment 195 established that a fixed-endian length-prefixed key has exactly
+the same plan-membership equality classes as canonical JSON and that the
+optimization can be isolated from role selection. It was rejected before
+holdout because the then-direct parent lacked a protected extra-time path and
+the marginal benefit was not generality or target-host qualified. Accepted
+experiment 197 is now the registered direct parent and satisfies the explicit
+reopen condition.
+
+Parent: `690728a`. Experiment 198 changes only the three `evaluatedPlans`
+membership checks in the post-role main day `RouteMaster` and option copies used
+by its recombination passes. The key encodes agent count, per-agent action count
+and signed wire values using fixed-endian length prefixes. Every surviving
+candidate `stableId` remains canonical JSON. Role selection, future-witness
+repair, post-ACK proof, exact simulator, independent validator, operation caps,
+official comparator and the accepted protected refiners remain unchanged.
+
+Frozen manifest:
+`research/holdouts/PERF-DAY-MASTER-DEDUP-198.csv`, SHA256
+`BA23588A49AC6E431D401F63BB8538E919421844FB07484645F881780D87C34C`.
+Algebraic and complete-master equivalence, role-path isolation and complete
+archived replay equivalence passed. Fresh paired development completed
+`22/30/8`, serving gain/loss `+366/-60`, with zero tier-1/tier-2 loss, invalid,
+emergency or refiner failure. Four native-role mask mismatches and two large
+positive outliers required a fixed-role A/B/B/A attribution gate. Across all
+eight losses, both relevant mismatched masks and five material gains, the gate
+closed at three confirmed gains, one confirmed loss, seven mixed and four ties.
+The confirmed loss was `-12/-20` on very-hard seed `4863011`; it remains a real
+bounded downside. The candidate is not accepted, but the distributed positive
+development result and stronger confirmed gains qualify it to open the already
+frozen holdout. Development and reproduction log SHA256 are respectively
+`54642CB2E387B03067D766FA361943A4F4F7F1A30FCF7EFDA6B7C60897B779A0` and
+`23F78F3B19D22E1143E502C9B6D2229DC7DB4FB5710A9ECE4056737B436C6BAD`.
+Local elapsed time may only falsify a candidate; BTC target-host telemetry is
+required for a performance claim or promotion.
+
+Functionality preservation: no designed functionality is removed, disabled,
+deferred or reduced, and nothing is deleted. Parent and candidate use the same
+single master pipeline and differ only in an injective internal membership-key
+representation after roles are fixed.
+
+The frozen holdout completed all 108 pairs at `24/58/26`, gain/loss
+`+213/-345`, tail `-101/+41`, with zero lifetime/daily loss, invalid, emergency
+or refiner failure. Seven native-role pairs selected different masks and are
+not used as causal regression evidence. Fixed-role alone still finished
+`13/33/14`, `+137/-72`, tail `-16/+41`, proving that the candidate can lose with
+the role held identical. Low fuel was `7/22/11`, `+88/-241`; very-hard was
+`10/9/11`, `+144/-226`. High fuel also lost six cases including a fixed-role
+`-15`, so the development-only high-fuel pattern does not authorize a
+dispatcher. Holdout log SHA256:
+`32B7600DB5ACE1959665015AEA42E527819387FC284E940E8545598C14DBAEE2`.
+
+Experiment 198 is rejected and its source wiring is reverted. The flat key is
+semantically equivalent only when the same search completes; before a hard
+cutoff it changes which later work receives time. Real gains therefore coexist
+with systematic and materially larger losses. BTC is not opened after the
+protected score gate fails. Reopen only through a mechanism that protects the
+canonical parent work allocation or incumbent before additive work; never by
+fuel, map, family, role, spot-count or seed dispatch.
+
 ### Accepted protected BTC reserve recovery: RUNTIME-PROTECTED-RESERVE-197
 
 Experiment 196 proved two facts that direct reserve rollback cannot reconcile:
@@ -695,6 +1188,25 @@ full-slice modes and validate every emitted witness. Only then may a disposable
 Spot VM run default/high slices. Output cadence and VM elapsed have no BTC or
 production-performance authority. Production source and the 5000-ms cap remain
 unchanged.
+
+Five registered slices are now complete and mirrored locally with immutable
+hashes. Both `1720100 [0,86)` and `[86,172)` close at exact `6/18/18`, tying
+the recorded 185 head. Both `1721100 [0,88)` and `[88,175)` close at exact
+`5/17/18`; their recorded head is `5/17/17` under maximum-dwell/status-toggle
+and `5/16/17` under minimum-dwell. Experiment 192 independently confirmed that
+this `+1` serving exact witness still exceeds the then-current production path.
+The completed `1721200 [0,118)` slice closes at exact `5/20/21` versus recorded
+head `5/19/22`, an official tier-2 counterexample that still requires
+revalidation against the latest production parent before it may open source
+work. Completed-log SHA256 values are respectively
+`D1C2FF4C5C2A7AF6983039B9678E8F18B087A387A7E7986E2861234B6883C0A0`,
+`4F251FD4230DA7803CBBD01F2BDC90406F6571E3001F3C52650750801CC6E4E7`,
+`4B7B3466E1B260F388BAC42760D5E528983E859C395812A32DF07AF5C0076DEC`,
+`530D2EE425BEFF8601062A9BBD7E18A4E2B2B9F9298C0543602DC53AECC6ACE9`
+and `04B0113736D6A9E3138D0A469B01CF4B26F7B9041A31B22C079FBFBB37062D14`.
+The remaining `1720100 [172,258)`, `[258,344)` and `1721200 [118,236)`
+slices continue unchanged on the Spot VM; no partial action may be promoted as
+a completed slice result.
 
 ### Closed stratified deadline research: DEADLINE-STRATIFIED-ANYTIME-184
 
