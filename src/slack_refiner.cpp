@@ -498,6 +498,7 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_terminal_sparse(
     std::set<std::uint64_t> planHashes;
     planHashes.insert(plan_hash(incumbentPlan));
     bool firstRound = true;
+    const auto run_one_agent_ascent = [&]() -> bool {
     for (;;) {
         const DayPlan roundBasePlan = result.plan;
         const SimulationResult roundBaseSimulation = result.simulation;
@@ -583,8 +584,95 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_terminal_sparse(
             firstRound = false;
         }
         if (roundDeadline || !(roundBaseScore < roundBestScore)) {
+            return roundDeadline;
+        }
+    }
+    };
+    bool deadlineReached = run_one_agent_ascent();
+
+    // Pair-exchange phase: only after the unchanged one-agent ascent reaches
+    // its natural fixed point, the remaining protected budget evaluates joint
+    // replacements of two patrols' plans from the already-enumerated sparse
+    // route pools. A coordinate method stops at one-agent local optima; a
+    // strict joint improvement re-enters the one-agent ascent. The parent
+    // work prefix is order-identical, so a deadline inside the ascent means
+    // this phase never runs.
+    while (enableTerminalPairExchange && !deadlineReached) {
+        bool pairImproved = false;
+        for (std::size_t leftTask = 0;
+             leftTask + 1U < tasks.size() && !pairImproved && !deadlineReached;
+             ++leftTask) {
+            for (std::size_t rightTask = leftTask + 1U;
+                 rightTask < tasks.size() && !pairImproved && !deadlineReached;
+                 ++rightTask) {
+                const AgentIndex left = tasks.at(leftTask);
+                const AgentIndex right = tasks.at(rightTask);
+                const ExactOrienteeringReachability& leftRoutes =
+                    reachability.at(static_cast<std::size_t>(left));
+                const ExactOrienteeringReachability& rightRoutes =
+                    reachability.at(static_cast<std::size_t>(right));
+                for (const ExactOrienteeringRoute& leftRoute :
+                     leftRoutes.maximalRoutes) {
+                    if (pairImproved || deadlineReached) {
+                        break;
+                    }
+                    for (const ExactOrienteeringRoute& rightRoute :
+                         rightRoutes.maximalRoutes) {
+                        if (std::chrono::steady_clock::now() >= deadline) {
+                            result.diagnostics.deadlineReached = true;
+                            deadlineReached = true;
+                            break;
+                        }
+                        ++result.diagnostics.sparseRoutes;
+                        DayPlan candidate = result.plan;
+                        candidate.actions.at(static_cast<std::size_t>(left)) =
+                            leftRoute.actions;
+                        candidate.actions.at(static_cast<std::size_t>(right)) =
+                            rightRoute.actions;
+                        if (!planHashes.insert(plan_hash(candidate)).second) {
+                            continue;
+                        }
+                        ++result.diagnostics.generatedPlans;
+                        const SimulationResult detailed =
+                            simulator_.simulate(state, candidate, false);
+                        const SimulationResult independent =
+                            validator_.validate(state, candidate, false);
+                        std::string mismatch;
+                        if (!detailed.valid ||
+                            !validator_.agrees_with(
+                                detailed,
+                                independent,
+                                mismatch)) {
+                            continue;
+                        }
+                        ++result.diagnostics.validPlans;
+                        const OfficialScore candidateScore =
+                            OfficialScore::after_day(ledger, detailed.score);
+                        if (!(result.scoreAfterToday < candidateScore)) {
+                            continue;
+                        }
+                        ++result.diagnostics.strictTerminalImprovements;
+                        ++result.diagnostics.terminalPairAcceptances;
+                        result.plan = std::move(candidate);
+                        result.simulation = detailed;
+                        result.scoreAfterToday = candidateScore;
+                        result.improved = true;
+                        result.witnessAgent = left;
+                        result.witnessParentFuel = result.simulation.finalAgents.at(
+                            static_cast<std::size_t>(left)).fuel;
+                        result.witnessCandidateFuel = detailed.finalAgents.at(
+                            static_cast<std::size_t>(left)).fuel;
+                        ++result.diagnostics.terminalSparseRounds;
+                        pairImproved = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (!pairImproved) {
             break;
         }
+        deadlineReached = run_one_agent_ascent();
     }
     return result;
 }

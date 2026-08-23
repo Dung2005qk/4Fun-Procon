@@ -20,6 +20,7 @@ struct ProtectedSlackDiagnostics {
     std::int64_t sparseRoutes = 0;
     std::int64_t strictTerminalImprovements = 0;
     std::int64_t terminalSparseRounds = 0;
+    std::int64_t terminalPairAcceptances = 0;
     bool deadlineReached = false;
     bool terminalSparse = false;
     bool sparseFailure = false;
@@ -56,6 +57,12 @@ struct ProtectedSlackResult {
 class ProtectedSlackRefiner {
 public:
     explicit ProtectedSlackRefiner(const MatchConfig& config);
+
+    // Accepted SCORE-TERMINAL-PAIR-EXCHANGE-207: enables the pair-exchange
+    // phase after the one-agent terminal ascent reaches its fixed point.
+    // Production (btc_main) enables it; the default stays off so research
+    // harnesses keep a byte-identical 191 parent for causal A/B runs.
+    bool enableTerminalPairExchange = false;
 
     [[nodiscard]] ProtectedSlackResult refine_wait_detours(
         const DayState& state,

@@ -62,6 +62,7 @@ struct Options {
     std::string fuelProfile = "generated";
     bool protectedWaitDetours = false;
     bool protectedWaitClosedLoop = false;
+    bool terminalPairExchange = false;
     bool dayDetails = false;
 };
 
@@ -111,6 +112,7 @@ struct Metrics {
     std::int64_t terminalSparseValid = 0;
     std::int64_t terminalSparseStrict = 0;
     std::int64_t terminalSparseRounds = 0;
+    std::int64_t terminalPairAcceptances = 0;
     std::int32_t terminalSparseTakeovers = 0;
     std::int32_t terminalSparseDeadline = 0;
     std::int32_t terminalSparseFailure = 0;
@@ -700,7 +702,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     std::vector<udon::AgentState> virtualAgents = agents;
     const udon::ExactStepSimulator simulator(config);
     const udon::IndependentDayValidator validator(config);
-    const udon::ProtectedSlackRefiner slackRefiner(config);
+    udon::ProtectedSlackRefiner slackRefiner(config);
+    slackRefiner.enableTerminalPairExchange = options.terminalPairExchange;
     std::vector<std::vector<std::int32_t>> ownFootprints(
         static_cast<std::size_t>(config.day_count()),
         std::vector<std::int32_t>(
@@ -862,6 +865,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                     terminalChoice.diagnostics.strictTerminalImprovements;
                 metrics.terminalSparseRounds +=
                     terminalChoice.diagnostics.terminalSparseRounds;
+                metrics.terminalPairAcceptances +=
+                    terminalChoice.diagnostics.terminalPairAcceptances;
                 metrics.terminalSparseDeadline +=
                     terminalChoice.diagnostics.deadlineReached ? 1 : 0;
                 metrics.terminalSparseFailure +=
@@ -1031,6 +1036,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             options.fuelProfile = next();
         } else if (value == "--protected-wait-detours") {
             options.protectedWaitDetours = true;
+        } else if (value == "--terminal-pair") {
+            options.terminalPairExchange = std::stoi(next()) != 0;
         } else if (value == "--protected-wait-closed-loop") {
             options.protectedWaitDetours = true;
             options.protectedWaitClosedLoop = true;
@@ -1169,6 +1176,8 @@ void print_result(
               << metrics.terminalSparseValid
               << ",terminal_sparse_strict="
               << metrics.terminalSparseStrict
+              << ",terminal_pair_acceptances="
+              << metrics.terminalPairAcceptances
               << ",terminal_sparse_rounds="
               << metrics.terminalSparseRounds
               << ",terminal_sparse_takeovers="

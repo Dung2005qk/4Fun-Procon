@@ -1989,7 +1989,11 @@ void run_http(const RuntimeOptions& options) {
     };
     const udon::ExactStepSimulator simulator(config);
     const udon::IndependentDayValidator validator(config);
-    const udon::ProtectedSlackRefiner slackRefiner(config);
+    udon::ProtectedSlackRefiner slackRefiner(config);
+    // Accepted SCORE-TERMINAL-PAIR-EXCHANGE-207: after the 191 one-agent
+    // terminal ascent reaches its fixed point, spend only the remaining
+    // protected terminal budget on strict-improvement pair exchanges.
+    slackRefiner.enableTerminalPairExchange = true;
     bool idlePostAckWorkPending = false;
     bool idleContingencyPrecompute = true;
     while (true) {
