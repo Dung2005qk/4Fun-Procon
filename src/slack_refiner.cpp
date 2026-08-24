@@ -653,13 +653,13 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_terminal_sparse(
                         }
                         ++result.diagnostics.strictTerminalImprovements;
                         ++result.diagnostics.terminalPairAcceptances;
+                        result.witnessParentFuel = result.simulation.finalAgents.at(
+                            static_cast<std::size_t>(left)).fuel;
                         result.plan = std::move(candidate);
                         result.simulation = detailed;
                         result.scoreAfterToday = candidateScore;
                         result.improved = true;
                         result.witnessAgent = left;
-                        result.witnessParentFuel = result.simulation.finalAgents.at(
-                            static_cast<std::size_t>(left)).fuel;
                         result.witnessCandidateFuel = detailed.finalAgents.at(
                             static_cast<std::size_t>(left)).fuel;
                         ++result.diagnostics.terminalSparseRounds;
@@ -786,6 +786,7 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_midday_chains(
     std::set<std::uint64_t> planHashes;
     planHashes.insert(plan_hash(incumbentPlan));
     bool firstRound = true;
+    const auto run_one_agent_midday_ascent = [&]() -> bool {
     for (;;) {
         const DayPlan roundBasePlan = result.plan;
         const SimulationResult roundBaseSimulation = result.simulation;
@@ -886,8 +887,130 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_midday_chains(
             firstRound = false;
         }
         if (roundDeadline || !(roundBaseScore < roundBestScore)) {
+            return roundDeadline;
+        }
+    }
+    };
+    bool deadlineReached = run_one_agent_midday_ascent();
+
+    // Registered SCORE-MIDDAY-PAIR-EXCHANGE-211: only after the unchanged
+    // one-agent mid-day ascent reaches its natural fixed point, the
+    // remaining protected budget evaluates joint replacements of two
+    // patrols' plans from the already-enumerated route pools, under the
+    // same strict_protected_improvement certificate. A strict joint
+    // improvement re-enters the one-agent ascent (207 loop structure).
+    while (enableMiddayPairExchange && !deadlineReached) {
+        bool pairImproved = false;
+        for (std::size_t leftTask = 0;
+             leftTask + 1U < tasks.size() && !pairImproved && !deadlineReached;
+             ++leftTask) {
+            for (std::size_t rightTask = leftTask + 1U;
+                 rightTask < tasks.size() && !pairImproved && !deadlineReached;
+                 ++rightTask) {
+                const AgentIndex left = tasks.at(leftTask);
+                const AgentIndex right = tasks.at(rightTask);
+                const CellId leftTerminal = result.simulation.finalAgents.at(
+                    static_cast<std::size_t>(left)).position;
+                const CellId rightTerminal = result.simulation.finalAgents.at(
+                    static_cast<std::size_t>(right)).position;
+                const ExactOrienteeringReachability& leftRoutes =
+                    reachability.at(static_cast<std::size_t>(left));
+                const ExactOrienteeringReachability& rightRoutes =
+                    reachability.at(static_cast<std::size_t>(right));
+                // The same-terminal pre-filter is tight, so the pair phase
+                // draws from the same pools the one-agent ascent consumes
+                // (maximal + supplemental); maximal-only would under-sample
+                // same-terminal candidates and could fake an inert verdict.
+                const std::vector<ExactOrienteeringRoute>* leftPools[2] = {
+                    &leftRoutes.maximalRoutes, &leftRoutes.supplementalRoutes};
+                const std::vector<ExactOrienteeringRoute>* rightPools[2] = {
+                    &rightRoutes.maximalRoutes,
+                    &rightRoutes.supplementalRoutes};
+                for (const auto* leftPool : leftPools) {
+                if (pairImproved || deadlineReached) {
+                    break;
+                }
+                for (const ExactOrienteeringRoute& leftRoute : *leftPool) {
+                    if (pairImproved || deadlineReached) {
+                        break;
+                    }
+                    if (leftRoute.terminalCell != leftTerminal) {
+                        continue;
+                    }
+                    for (const auto* rightPool : rightPools) {
+                    if (pairImproved || deadlineReached) {
+                        break;
+                    }
+                    for (const ExactOrienteeringRoute& rightRoute :
+                         *rightPool) {
+                        if (std::chrono::steady_clock::now() >= deadline) {
+                            result.diagnostics.deadlineReached = true;
+                            deadlineReached = true;
+                            break;
+                        }
+                        ++result.diagnostics.middayRoutes;
+                        if (rightRoute.terminalCell != rightTerminal) {
+                            continue;
+                        }
+                        DayPlan candidate = result.plan;
+                        candidate.actions.at(static_cast<std::size_t>(left)) =
+                            leftRoute.actions;
+                        candidate.actions.at(static_cast<std::size_t>(right)) =
+                            rightRoute.actions;
+                        if (!planHashes.insert(plan_hash(candidate)).second) {
+                            continue;
+                        }
+                        ++result.diagnostics.middayGeneratedPlans;
+                        const SimulationResult detailed =
+                            simulator_.simulate(state, candidate, false);
+                        const SimulationResult independent =
+                            validator_.validate(state, candidate, false);
+                        std::string mismatch;
+                        if (!detailed.valid ||
+                            !validator_.agrees_with(
+                                detailed,
+                                independent,
+                                mismatch)) {
+                            continue;
+                        }
+                        ++result.diagnostics.middayValidPlans;
+                        if (!strict_protected_improvement(
+                                ledger,
+                                result.simulation,
+                                detailed)) {
+                            continue;
+                        }
+                        const OfficialScore candidateScore =
+                            OfficialScore::after_day(ledger, detailed.score);
+                        if (!(result.scoreAfterToday < candidateScore)) {
+                            continue;
+                        }
+                        ++result.diagnostics.middayChainAcceptances;
+                        ++result.diagnostics.middayPairAcceptances;
+                        ++result.diagnostics.middayRounds;
+                        result.witnessParentFuel =
+                            result.simulation.finalAgents.at(
+                                static_cast<std::size_t>(left)).fuel;
+                        result.plan = std::move(candidate);
+                        result.simulation = detailed;
+                        result.scoreAfterToday = candidateScore;
+                        result.improved = true;
+                        result.witnessAgent = left;
+                        result.witnessCandidateFuel =
+                            detailed.finalAgents.at(
+                                static_cast<std::size_t>(left)).fuel;
+                        pairImproved = true;
+                        break;
+                    }
+                    }
+                }
+                }
+            }
+        }
+        if (!pairImproved) {
             break;
         }
+        deadlineReached = run_one_agent_midday_ascent();
     }
     return result;
 }

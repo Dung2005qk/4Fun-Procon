@@ -113,7 +113,11 @@ positioning, dominance-pruned) exactly as in witness 1 day 3.
 ## Verdict (3/3 witnesses, closed 2026-08-24)
 
 Per the pre-registered decision rule this closes as **generation-blocked
-with per-day attribution**. On every witness, the decisive advantage days
+with per-day attribution**. Scope (clarified 2026-08-24, external review):
+the verdict is that the measured generators — witness-caps and
+production-caps portfolios at every cap 32..256 — cannot express the
+decisive days on these three witnesses; it is not a proof that every
+conceivable generator fails. On every witness, the decisive advantage days
 are absent from BOTH the witness-caps and production-caps candidate sets at
 every cap 32..256 (`w1_outcome=0, prod_outcome=0, first_cap=-1`); the
 remaining days are expressible (`prod_outcome=1` at cap 32). No

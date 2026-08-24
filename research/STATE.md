@@ -1,13 +1,37 @@
 # UDON-SHIELD Research State
 
-Updated: 2026-08-24
+Updated: 2026-08-25
 
 ## Current phase
 
+### CLOSED mid-day pair exchange: SCORE-MIDDAY-PAIR-EXCHANGE-211 — rejected-inert
+
+Closed 2026-08-25 per the pre-registered kill condition. The first dev
+artifact (maximal-only pair pools) was DISCARDED after an external review
+flagged a false-inert risk under the tight same-terminal pre-filter; the
+amended rerun (maximal+supplemental pools, analyzer conditioned on
+`midday_pair_acceptances`, witness-fuel telemetry fixed, direct unit tests
+added) measured **0 pair acceptances on both sides across all 60 dev
+cases**, W/T/L 1/57/2 delta -1 (57 ties — clean inertness between two
+identical accepted configs), zero invalid/emergency, runtime parity. After
+the 210 one-agent mid-day fixed point, the both-terminals-pinned
+equal-footprint certificate leaves no joint improvement anywhere: the 041
+result reproduces at mid-days. NO production change
+(`enableMiddayPairExchange` default-off, byte-inert, unit-tested); the
+sealed holdout was never opened. Reopen only with a sound certificate that
+frees a terminal (blocked by the closed multi-day theory, 164/167/168).
+Evidence `SCORE-MIDDAY-PAIR-EXCHANGE-211.md`. The same review pass also
+fixed: 208 manifest provenance (post-amendment file SHA256 `738502F0…`
+recorded), 210 certificate wording (state-identical → future-domain
+dominance; loss relabel), HTTP `firstRoundScore` copy, and the 207/211
+witness-fuel telemetry ordering.
+
 ### ACCEPTED protected mid-day deep-chain lane: SCORE-MIDDAY-CHAIN-ADOPTION-210
 
-Accepted 2026-08-25 and enabled in the production HTTP client with a
-recorded BTC live-gate debt. Same-binary causal A/B (both sides
+Accepted 2026-08-25 and enabled in the production HTTP client. The BTC
+live-gate debt was paid on 2026-08-24 with the frozen production binary
+SHA256 `B8D7DD216E91D0C921DC012905EE816B833BFAA6282A6D8B9011FA2E15990342`.
+Same-binary causal A/B (both sides
 terminal-pair ON, differing only in `--midday-chain 0|1`, quiet VM,
 sequential sides): development paired=60 **39W/17T/4L, +336 servings**,
 acceptance-conditional 38W/1T/2L; sealed holdout paired=108
@@ -15,16 +39,29 @@ acceptance-conditional 38W/1T/2L; sealed holdout paired=108
 acceptances 222 across 64/108 cases, off-side control 0, zero
 invalid/emergency/lane-failure, runtime parity (2461/2458ms mean,
 3020/3021ms max). Every lane positive — fuel low 22/17/0, hard 24/11/1,
-very-hard 28/11/1. All 7 losses across both gates sit in the 165
-timed-search noise channel; the +801 aggregate asymmetry rejects
-balanced-nonmonotonic. Mechanism: `refine_midday_chains` one-agent
-deep-route substitution after the wait-detour fixed point, accepted only
-via the unchanged `strict_protected_improvement` certificate
-(state-identical day transition ⇒ future domain preserved, sound by
-construction). Production binary SHA256 `B8D7DD21…`; evidence
-`SCORE-MIDDAY-CHAIN-ADOPTION-210.md` (log hashes inside). **BTC DEBT**:
-live practice matches with the 210 binary on operator return
-(submissions/reserve/middayChainAcceptances telemetry). Successor axes
+very-hard 28/11/1. Loss attribution (wording corrected 2026-08-24 after
+external review): 3 losses with acc=0 have provably unchanged transitions
+(pure 165 timed-search noise); 4 losses with acceptances have certified
+DOMINATING transitions (patrol fuel may be strictly higher), i.e. bounded
+realized regression / timed-policy sensitivity — the +801 aggregate
+asymmetry bounds this far below the gain and rejects balanced-
+nonmonotonic. Mechanism: `refine_midday_chains` one-agent deep-route
+substitution after the wait-detour fixed point, accepted only via the
+unchanged `strict_protected_improvement` certificate (future-domain
+DOMINANCE: positions/footprint exactly preserved, patrol fuel ≥ — a
+superset domain, not a state-identical transition). BTC `m-4043` (24x24/7d/100 steps/4 agents/18 spots/low),
+`m-4044` (32x32/10d/8 agents/18 spots/default), and `m-4045`
+(32x32/10d/4 agents/18 spots/low) produced 27/27 valid acknowledgements,
+zero emergency, max response 4072 ms and max solver 2954 ms. The protected
+lane was active on 24/24 nonterminal days with reserve 1100 ms, zero
+mid-day deadline/failure, 2656 routes and 149/149 generated plans passing
+both engines. `middayChainAcceptances` telemetry was emitted on every
+protected-slack record but remained zero on these three fixtures, so this
+gate proves live wiring/validity/reserve rather than a live score takeover;
+the acceptance-conditional causal authority remains the frozen dev/holdout.
+Replay-check rebuilt `6/42/127`, `6/60/364`, and `6/60/144` exactly.
+Evidence `SCORE-MIDDAY-CHAIN-ADOPTION-210.md` (all log/replay hashes inside).
+Successor axes
 left open: main-solve retention (prune_columns spot-diversity gate in
 sub-3× fuel regimes) as its own registered experiment; positioning days
 (209 shape 2) stay closed pending a sound multi-day certificate.

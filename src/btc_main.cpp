@@ -2184,6 +2184,7 @@ void run_http(const RuntimeOptions& options) {
                             refinement.plan = midday.plan;
                             refinement.simulation = midday.simulation;
                             refinement.scoreAfterToday = midday.scoreAfterToday;
+                            refinement.firstRoundScore = midday.firstRoundScore;
                             refinement.improved = true;
                             refinement.witnessAgent = midday.witnessAgent;
                             refinement.witnessParentFuel =

@@ -25,6 +25,7 @@ struct ProtectedSlackDiagnostics {
     std::int64_t middayGeneratedPlans = 0;
     std::int64_t middayValidPlans = 0;
     std::int64_t middayChainAcceptances = 0;
+    std::int64_t middayPairAcceptances = 0;
     std::int64_t middayRounds = 0;
     bool deadlineReached = false;
     bool terminalSparse = false;
@@ -78,6 +79,14 @@ public:
     // same terminal cells, patrol fuel >=) while strictly improving the
     // official day score. Default off keeps the parent byte-identical.
     bool enableMiddayChainAdoption = false;
+
+    // Registered SCORE-MIDDAY-PAIR-EXCHANGE-211 (research A/B only until
+    // accepted): after the one-agent mid-day ascent reaches its fixed point,
+    // the remaining protected budget evaluates joint two-patrol replacements
+    // from the already-enumerated route pools under the same
+    // strict_protected_improvement certificate. Default off keeps accepted
+    // 210 byte-identical.
+    bool enableMiddayPairExchange = false;
 
     [[nodiscard]] ProtectedSlackResult refine_wait_detours(
         const DayState& state,

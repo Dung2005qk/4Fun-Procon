@@ -1946,6 +1946,98 @@ void test_protected_slack_refiner(
             udon::canonical_plan_bytes(nonterminalSparse.plan) ==
                 udon::canonical_plan_bytes(parent),
         "terminal sparse refinement must be unreachable before the final day and preserve the byte-identical parent");
+
+    // SCORE-MIDDAY-CHAIN-ADOPTION-210 / SCORE-MIDDAY-PAIR-EXCHANGE-211.
+    const udon::ProtectedSlackResult middayFlagOff = refiner.refine_midday_chains(
+        state,
+        udon::MatchLedger{},
+        parent,
+        parentSimulation,
+        std::chrono::steady_clock::now() + std::chrono::milliseconds{500});
+    require(
+        !middayFlagOff.improved && !middayFlagOff.diagnostics.middayChain &&
+            middayFlagOff.diagnostics.middayRoutes == 0 &&
+            udon::canonical_plan_bytes(middayFlagOff.plan) ==
+                udon::canonical_plan_bytes(parent),
+        "the mid-day chain lane must be byte-inert while its flag is off");
+    udon::ProtectedSlackRefiner middayRefiner(config);
+    middayRefiner.enableMiddayChainAdoption = true;
+    middayRefiner.enableMiddayPairExchange = true;
+    const udon::ProtectedSlackResult middayExpired =
+        middayRefiner.refine_midday_chains(
+            state,
+            udon::MatchLedger{},
+            parent,
+            parentSimulation,
+            std::chrono::steady_clock::now() - std::chrono::milliseconds{1});
+    require(
+        !middayExpired.improved && middayExpired.diagnostics.deadlineReached &&
+            udon::canonical_plan_bytes(middayExpired.plan) ==
+                udon::canonical_plan_bytes(parent),
+        "an expired mid-day budget must return the byte-identical parent plan");
+    const udon::ProtectedSlackResult middayWaitParent =
+        middayRefiner.refine_midday_chains(
+            state,
+            udon::MatchLedger{},
+            parent,
+            parentSimulation,
+            std::chrono::steady_clock::now() + std::chrono::milliseconds{900});
+    require(
+        !middayWaitParent.improved &&
+            middayWaitParent.diagnostics.middayChain &&
+            udon::canonical_plan_bytes(middayWaitParent.plan) ==
+                udon::canonical_plan_bytes(parent),
+        "the certificate must reject every fuel-spending challenger against a full-fuel WAIT parent (fuel >= is unsatisfiable)");
+    udon::UdonShieldEngine middayEngine(config);
+    const udon::DecisionResult middayIncumbent = middayEngine.solve_day(
+        state,
+        udon::MatchLedger{},
+        std::chrono::milliseconds{800});
+    const udon::SimulationResult incumbentSimulation = simulator.simulate(
+        state,
+        middayIncumbent.candidate.plan,
+        false);
+    if (incumbentSimulation.valid) {
+        const udon::ProtectedSlackResult middayLive =
+            middayRefiner.refine_midday_chains(
+                state,
+                udon::MatchLedger{},
+                middayIncumbent.candidate.plan,
+                incumbentSimulation,
+                std::chrono::steady_clock::now() +
+                    std::chrono::milliseconds{1500});
+        if (middayLive.improved) {
+            require(
+                udon::protected_slack_transition_dominates(
+                    incumbentSimulation,
+                    middayLive.simulation) &&
+                    middayLive.simulation.score.dailyDistinct >=
+                        incumbentSimulation.score.dailyDistinct &&
+                    middayLive.simulation.score.servings >=
+                        incumbentSimulation.score.servings &&
+                    (middayLive.simulation.score.dailyDistinct >
+                         incumbentSimulation.score.dailyDistinct ||
+                     middayLive.simulation.score.servings >
+                         incumbentSimulation.score.servings) &&
+                    (incumbentSimulation.score.brands &
+                     ~middayLive.simulation.score.brands) == 0U,
+                "every mid-day acceptance must satisfy the full future-domain dominance certificate with a strict lexicographic day gain");
+            const udon::ProtectedSlackResult middayFixedPoint =
+                middayRefiner.refine_midday_chains(
+                    state,
+                    udon::MatchLedger{},
+                    middayLive.plan,
+                    middayLive.simulation,
+                    std::chrono::steady_clock::now() +
+                        std::chrono::milliseconds{1500});
+            require(
+                !middayFixedPoint.improved ||
+                    udon::protected_slack_transition_dominates(
+                        middayLive.simulation,
+                        middayFixedPoint.simulation),
+                "re-refining a mid-day fixed point may only ever produce another certified improvement");
+        }
+    }
 }
 
 void test_deadline_floors() {

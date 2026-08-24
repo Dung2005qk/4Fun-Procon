@@ -30,6 +30,7 @@ def parse(path):
                 "invalid": int(fields.get("invalid", 0)),
                 "emergency": int(fields.get("emergency", 0)),
                 "acc": int(fields.get("midday_chain_acceptances", 0)),
+                "pair_acc": int(fields.get("midday_pair_acceptances", 0)),
                 "takeovers": int(fields.get("midday_takeovers", 0)),
                 "routes": int(fields.get("midday_routes", 0)),
                 "valid_plans": int(fields.get("midday_valid", 0)),
@@ -46,6 +47,14 @@ def score(c):
 
 
 def main():
+    # Optional 3rd arg --cond=pair: condition the acceptance-conditional
+    # W/T/L on midday_pair_acceptances instead of chain acceptances. Required
+    # for 211 analysis, where BOTH sides run midday-chain=1 and differ only
+    # in --midday-pair, so chain acceptances fire on both sides and cannot
+    # attribute the pair phase.
+    cond_key = "acc"
+    if len(sys.argv) > 3 and sys.argv[3] == "--cond=pair":
+        cond_key = "pair_acc"
     off = parse(sys.argv[1])
     on = parse(sys.argv[2])
     seeds = sorted(set(off) & set(on))
@@ -79,7 +88,9 @@ def main():
             l += 1
         else:
             t += 1
-        if b["acc"] > 0 or b["takeovers"] > 0:
+        conditioned = b[cond_key] > 0 if cond_key == "pair_acc" else (
+            b["acc"] > 0 or b["takeovers"] > 0)
+        if conditioned:
             if outcome == 1:
                 acc_w += 1
             elif outcome == 2:
@@ -92,7 +103,12 @@ def main():
     print("paired=%d W/T/L=%d/%d/%d servingsDelta=%+d" % (len(seeds), w, t, l, dq))
     print("midday acceptances on-side total=%d (off-side control=%d, must be 0)"
           % (total_acc_on, total_acc_off))
-    print("acceptance-conditional W/T/L=%d/%d/%d" % (acc_w, acc_t, acc_l))
+    pair_on = sum(on[s]["pair_acc"] for s in seeds)
+    pair_off = sum(off[s]["pair_acc"] for s in seeds)
+    print("midday PAIR acceptances on-side total=%d (off-side=%d)"
+          % (pair_on, pair_off))
+    print("acceptance-conditional (%s) W/T/L=%d/%d/%d"
+          % (cond_key, acc_w, acc_t, acc_l))
     print("invalid=%d emergency=%d lane_failures=%d" % (inv, eme, fail))
     on_mean = sum(on[s]["mean_ms"] for s in seeds) / max(1, len(seeds))
     off_mean = sum(off[s]["mean_ms"] for s in seeds) / max(1, len(seeds))

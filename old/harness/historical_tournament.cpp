@@ -64,6 +64,7 @@ struct Options {
     bool protectedWaitClosedLoop = false;
     bool terminalPairExchange = false;
     bool middayChainAdoption = false;
+    bool middayPairExchange = false;
     bool dayDetails = false;
 };
 
@@ -124,6 +125,7 @@ struct Metrics {
     std::int64_t middayPlans = 0;
     std::int64_t middayValid = 0;
     std::int64_t middayChainAcceptances = 0;
+    std::int64_t middayPairAcceptances = 0;
     std::int64_t middayRounds = 0;
     std::int32_t middayTakeovers = 0;
     std::int32_t middayDeadlineDays = 0;
@@ -715,6 +717,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     udon::ProtectedSlackRefiner slackRefiner(config);
     slackRefiner.enableTerminalPairExchange = options.terminalPairExchange;
     slackRefiner.enableMiddayChainAdoption = options.middayChainAdoption;
+    slackRefiner.enableMiddayPairExchange = options.middayPairExchange;
     std::vector<std::vector<std::int32_t>> ownFootprints(
         static_cast<std::size_t>(config.day_count()),
         std::vector<std::int32_t>(
@@ -880,6 +883,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                         middayChoice.diagnostics.middayValidPlans;
                     metrics.middayChainAcceptances +=
                         middayChoice.diagnostics.middayChainAcceptances;
+                    metrics.middayPairAcceptances +=
+                        middayChoice.diagnostics.middayPairAcceptances;
                     metrics.middayRounds +=
                         middayChoice.diagnostics.middayRounds;
                     metrics.middayDeadlineDays +=
@@ -1091,6 +1096,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             options.terminalPairExchange = std::stoi(next()) != 0;
         } else if (value == "--midday-chain") {
             options.middayChainAdoption = std::stoi(next()) != 0;
+        } else if (value == "--midday-pair") {
+            options.middayPairExchange = std::stoi(next()) != 0;
         } else if (value == "--protected-wait-closed-loop") {
             options.protectedWaitDetours = true;
             options.protectedWaitClosedLoop = true;
@@ -1256,6 +1263,8 @@ void print_result(
               << ",midday_valid=" << metrics.middayValid
               << ",midday_chain_acceptances="
               << metrics.middayChainAcceptances
+              << ",midday_pair_acceptances="
+              << metrics.middayPairAcceptances
               << ",midday_rounds=" << metrics.middayRounds
               << ",midday_takeovers=" << metrics.middayTakeovers
               << ",midday_deadline_days=" << metrics.middayDeadlineDays

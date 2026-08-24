@@ -1,0 +1,9 @@
+split,suite,first_seed,count,spots,agents,rotation
+development,stratified-easy,4940000,8,12|14,4,fuel=low/default/high per offset//spots; role=fixed/native per offset//(spots*fuels); role_mask low=1|1<<(agents-1) high=2 default=1; window alternates short/long per offset parity; budget-ms=3375 role-ms=3375 protected-wait-ms short=500 long=1600 terminal-sparse-ms short=3875 long=5000; track=protected-reserve closed loop; both sides midday-chain=1 terminal-pair=1, sides differ only in midday-pair 0|1
+development,stratified-medium,4941000,8,12|18,4,same rotation
+development,stratified-hard,4942000,20,18|24,6,same rotation
+development,stratified-very-hard,4943000,24,18|24|30,8,same rotation
+holdout,stratified-easy,4950000,16,12|14,4,same rotation
+holdout,stratified-medium,4951000,16,12|18,4,same rotation
+holdout,stratified-hard,4952000,36,18|24,6,same rotation
+holdout,stratified-very-hard,4953000,40,18|24|30,8,same rotation
