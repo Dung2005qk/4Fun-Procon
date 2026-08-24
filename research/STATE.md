@@ -4,9 +4,32 @@ Updated: 2026-08-24
 
 ## Current phase
 
-### Active coupled-suffix pre-gate: ATTR-SUFFIX-TRAJECTORY-MEMBERSHIP-209 (read-only)
+### CLOSED coupled-suffix pre-gate: ATTR-SUFFIX-TRAJECTORY-MEMBERSHIP-209 — accepted-attribution-generation-blocked
 
-Registered 2026-08-23, parent `690728a`, research-probe-only. Question: can
+Closed 2026-08-24 on 3/3 witnesses (walker fidelity exact under all three
+causal policies; every day dual-engine validated). Verdict per the
+pre-registered rule: **generation-blocked with per-day attribution** — the
+oracle's suffix advantage is a position-then-sweep couple, and its decisive
+days are absent from BOTH witness-caps and production-caps candidate sets
+at every cap 32..256, in exactly two shapes: (1) restrained positioning
+days, dominance-pruned (1721100 d3; 1720100 d1 — the winning ROOT itself:
+`3.2.-13` serves 2 spots then waits, buying three consecutive 6/6/5-serving
+sweeps while the production head stops at 6/18/18 vs oracle 6/19/19); (2)
+full-depth sweep days present in exact-orienteering reachability
+(mask_maximal=1) but never adopted into portfolio columns — an adoption
+gap (1721100 d4; 1721200 d3 max/status; min-dwell suffixes). Zero
+present-but-dropped-by-selection days: a frontier selector has nothing to
+select (076/081, 100/113/203 confirmed). All remaining days expressible at
+first_cap=32. Axis redirected to targeted suffix GENERATION: protected-lane
+adoption of deep maximal routes + restrained positioning columns enabling
+next-day sweeps, honoring 194/195/198 and 201, runtime-signal gated;
+converges with the live m-4039 ~3 servings/day chain-depth gap at
+fuel=2x steps. Evidence `ATTR-SUFFIX-TRAJECTORY-MEMBERSHIP-209.md`; logs
+4017E640…/A1614100…/2C16917F… (full hashes in evidence and ledger).
+Witnesses 2-3 solved on the 32GB VM (1720100 subtree 44.5M states / 47.3G
+transitions, ~9h).
+
+Original registration: parent `690728a`, research-probe-only. Question: can
 the production generator even EXPRESS the oracle's suffix day plans (days
 2-4) along the winning coupled trajectory of the three live 185
 counterexamples (1720100 root 223 `3.2.-13` 6/19/19; 1721100 root 36

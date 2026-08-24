@@ -43,13 +43,103 @@ generation+retention are fine where the plan is a maximal route.
 
 ## Witness 2: 1721200 (root 7, plan `3.2.2.2.0.0.5.5.-2`, robust 5/20/21)
 
-Pending.
+Log `ATTR-SUFFIX-TRAJECTORY-MEMBERSHIP-209-1721200.log` SHA256
+`A1614100DB507FE8E988D7A762EC94063FF7EC96410D185FFE1779765AEA0758`.
+Walker exact:
+final 5/20/21 under all three policies. Solved on the 32GB VM after the
+local attempt thrashed (7.8GB machine, memo working set larger than free
+RAM — venue note below).
+
+| policy | day | oracle plan | prod_outcome | first_cap | note |
+|----|----|----|----|----|----|
+| max-dwell / status-toggle | 1 | 3.2.2.2.0.0.5.5.-2 | 1 | 32 | root available (200 confirmed) |
+| max-dwell / status-toggle | 2 | -1.4.3.2.1.1.3.3.-2 | 1 | 32 | wait-prefixed yet reproducible here |
+| max-dwell / status-toggle | 3 | **-1.0.1.5.5.5.4.3.2.-1 (mask 63)** | **0** | **-1** | wait-prefixed 6-spot sweep; route EXISTS in exact orienteering (maximal+terminal) but no production column reproduces the outcome |
+| max-dwell / status-toggle | 4 | -1.5.0.1.2.2.3.3.-1 | 1 (prod_first=1) | 32 | |
+| min-dwell | 2 | -1.4.3.2.2.2.0.1.5.-2 | **0** | **-1** | wait-prefixed |
+| min-dwell | 3 | -1.2.4.3.5.5.5.-6 | **0** | **-1** | wait-prefixed |
+| min-dwell | 4 | -1.2.2.2.0.1.5.-4 | **0** | **-1** | wait-prefixed |
+
+## Cross-witness pattern (after witnesses 1-2)
+
+`contains_outcome` matches on final state + score, so wait-prefixed oracle
+plans with an outcome-equivalent unshifted twin in the portfolio still show
+prod_outcome=1 (e.g. 1721200 day 2 max-dwell). The days that are truly
+inexpressible at every cap (first_cap=-1 through 256, w1_outcome=0) fall
+into exactly two shapes:
+
+1. **Full-depth sweep days** (mask 63, all six spots in one day): the route
+   IS present in `enumerate_exact_resource_routes` maximal routes
+   (mask_maximal=1), but the exact-orienteering bundle selector never adopts
+   it into a portfolio column — an adoption gap, not a reachability gap
+   (1721100 day 4; 1721200 day 3 max-dwell/status-toggle).
+2. **Restrained positioning days** (non-maximal spot set with a specific
+   terminal cell and fuel, setting up the next day's sweep): dominance
+   pruning removes sub-maximal routes, so nothing in reachability or the
+   portfolio reproduces them (1721100 day 3; 1721200 min-dwell suffix).
+
+Both shapes bind at **generation/adoption, not selection** — a frontier
+selector over the existing pool would have nothing to select (076/081,
+100/113/203 precedents). The oracle's suffix advantage is a
+position-then-sweep couple: sacrifice a day for placement, then serve the
+entire map in one deep chain.
 
 ## Witness 3: 1720100 (root 223, plan `3.2.-13`, robust 6/19/19)
 
-Pending.
+Log `ATTR-SUFFIX-TRAJECTORY-MEMBERSHIP-209-1720100.log` SHA256
+`2C16917F64B334C215C204A03955BE7638FC90CB9B7E00FF2CBFAF4FC07B3A6D`.
+Solved on the 32GB VM (subtree 44,483,280 states / 47.26G transitions,
+~9h). Walker exact: final 6/19/19 under all three policies; production-like
+head reaches only 6/18/18, so the oracle's entire +1 advantage on this seed
+sits in the trajectory below.
+
+The trajectory is identical across all three policies (days 1, 2, 4; day 3
+differs only in min-dwell membership):
+
+| day | oracle plan | day score | mask in maximal/terminal | prod_outcome | first_cap | note |
+|----|----|----|----|----|----|----|
+| 1 | **3.2.-13 (mask 17)** | 2br/2sv | **0/0** (1 strict superset, none same terminal+fuel) | **0** | **-1 (absent to cap 256)** | the WINNING ROOT is itself a restrained positioning day — dominance-pruned, inexpressible at every cap and by W1 |
+| 2 | -1.5.0.1.2.2.2.4.3.-1 (mask 63) | 6br/6sv | 1/0-1 | 1 | 32 | wait-prefixed full sweep, outcome-equivalent twin exists |
+| 3 | -1.0.1.5.5.5.4.3.2.-1 (mask 63) | 6br/6sv | 1/1 | 1 (max/status), **0 min-dwell (first_cap -1)** | 32 | second consecutive full sweep |
+| 4 | -1.5.0.1.2.2.2.-5 (mask 61) | 5br/5sv | 1/0 | 1 | 32 | |
+
+Reading: purest position-then-sweep instance yet. Day 1 serves only 2 spots
+(`move 3, move 2, wait 13` — stops kept off the roads), buying three
+consecutive deep sweeps (6/6/5 servings). The inexpressible day here is the
+ROOT day itself: production cannot even enter this trajectory — its head
+plays a different day 1 and finishes 6/18/18. Shape 2 (restrained
+positioning, dominance-pruned) exactly as in witness 1 day 3.
+
+## Verdict (3/3 witnesses, closed 2026-08-24)
+
+Per the pre-registered decision rule this closes as **generation-blocked
+with per-day attribution**. On every witness, the decisive advantage days
+are absent from BOTH the witness-caps and production-caps candidate sets at
+every cap 32..256 (`w1_outcome=0, prod_outcome=0, first_cap=-1`); the
+remaining days are expressible (`prod_outcome=1` at cap 32). No
+present-but-dropped-by-selection day was observed anywhere — a frontier
+selector over the existing pool has nothing to select. The two blocked
+shapes:
+
+1. **Restrained positioning days** (1721100 d3; 1720100 d1 = the root):
+   non-maximal spot sets with a specific terminal cell and fuel,
+   dominance-pruned before any portfolio stage.
+2. **Full-depth sweep days** (1721100 d4; 1721200 d3 max/status; min-dwell
+   suffixes): route present in exact-orienteering reachability
+   (`mask_maximal=1`) but never adopted into a portfolio column — an
+   adoption gap, not a reachability gap.
+
+Axis redirect: targeted suffix **generation** — a protected-lane mechanism
+that (a) adopts deep maximal exact-orienteering routes into columns and
+(b) admits restrained positioning columns when they enable a next-day
+sweep, honoring 194/195/198 (no pool-growth redistribution) and 201
+(parent-work protection), gated by runtime signals only. Converges with
+the live m-4039 loss (~3 servings/day chain-depth gap at fuel=2x steps).
+Never promote a SCORE candidate directly from these consumed roots.
 
 ## Venue
 
-Local idle machine (207 holdout owns the VM); membership answers are
-structural (no deadlines set), so venue timing is irrelevant to the verdict.
+Witness 1 on the local idle machine; witnesses 2-3 solved on the 32GB GCP
+VM after the local 7.8GB machine thrashed on the 1721200 memo working set.
+Membership answers are structural (no deadlines set), so venue timing is
+irrelevant to the verdict.
