@@ -1,6 +1,6 @@
 # UDON-SHIELD Research State
 
-Updated: 2026-08-23
+Updated: 2026-08-24
 
 ## Current phase
 
@@ -25,6 +25,19 @@ state with both teams' traffic. Frozen manifest
 (amended pre-measurement: oracle_scope normalized to the probe-validated
 string; winning root indices frozen in the ledger row and above). Venue:
 local idle machine (the 207 holdout owns the VM).
+
+### Queue note (unregistered pre-scan): opponent-traffic persistence axis CLOSED as low-value
+
+2026-08-24, read-only replay scan (`research/probes/traffic_persistence_prescan.py`)
+across all 13 multi-day archived BTC matches, 7007 road-day status
+transitions: opponent-driven BUSY roads decay to smooth 92% of the time
+(the production opponent-zeroing assumption in the future-witness rollout,
+`decision.cpp:2552`, is empirically near-correct there); opponent-driven JAMMED
+persists ~47% but is rare (34 opponent-only jammed road-days total, ~2.6 per
+match, so a perfect model would fix ~1.3 mispredicted road-days per match on
+the 2-day horizon). Combined with the closed 128 axis this does not justify
+an experiment; do not reopen without a regime where opponent jams are an
+order of magnitude more common.
 
 ### Closed: ATTR-COVERAGE-REGIME-208 — accepted-attribution-venue-artifact
 
@@ -124,11 +137,27 @@ harmful). Logs: off SHA256
 `D7AAB15BB570752E1FCAD6219715FD4BCC446B23D68C04CDDF6BAB533E067CF1`.
 Production enablement: `btc_main.cpp` sets
 `slackRefiner.enableTerminalPairExchange = true`; the default stays off so
-research harnesses keep a byte-identical 191 parent. Tests green. BTC gate =
-**debt-relay** (operator authorization 2026-08-23): runtime envelope relayed
-from 197's BTC validation (same protected reserve and deadline math); DEBT —
-one practice match on the operator's return to confirm valid submissions
-with the pair phase live. Evidence
+research harnesses keep a byte-identical 191 parent. Tests green. **BTC debt
+PAID 2026-08-24.** Binary SHA256
+`2D79A5CD0029F75E6C50D3CB1F37FE3856407364B95B0C244C92D7175F872DBF`.
+The first two explicit-advanced probes correctly did not overclaim the gate:
+`m-4037` (12 spots) stayed in the dense domain; `m-4038` (32x32, 10 days,
+8 agents, 18 spots) entered the sparse refiner and improved terminal servings
+43 -> 53, but its one-agent ascent reached the protected deadline before the
+pair loop. The decisive debt gate was `m-4039`: hard/3 bots/7 days/24x24/
+100 steps/5000 ms/4 agents/18 spots/6 brands/default fuel. Production selected
+one tanker; terminal telemetry recorded `terminalSparse=true`,
+`deadlineReached=false`, 3456 sparse routes, 3168 generated+dual-valid plans,
+5 strict candidates and 3 accepted sparse rounds, so control flow necessarily
+executed the enabled pair loop to completion. All 7/7 actions received HTTP
+200 valid ACKs; zero skip/fallback/emergency, max response 3312 ms, max solver
+3116 ms, and replay-check rebuilt exact `6/42/151`. Replay SHA256
+`54200DCF9CC5D6AD74ADF4CA47F5FB819C72FFD481993D6C4346BFD9B1C666EB`.
+The rank-4 result versus bots at `6/42/169..174` is a new tier-3 development
+counterexample, not a 207 regression: the protected terminal refiner itself
+raised day 7 from 20 to 27 servings while preserving lifetime/daily. Attribute
+the earlier-day servings gap separately; bot rank is not promotion evidence.
+Evidence
 `research/evidence/SCORE-TERMINAL-PAIR-EXCHANGE-207.md`.
 
 ### Rejected zero-dwell rendezvous pool candidate: SCORE-REFUEL-NOWAIT-206

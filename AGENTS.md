@@ -40,6 +40,16 @@ các bằng chứng được dẫn bên dưới.
   là đối thủ người thật đa dạng. Phải báo W/T/L, tier khác đầu tiên, gain/loss và
   tail downside; cấm thay bằng số trận hạng 1 hoặc weighted sum.
 
+### Ủy quyền vận hành BTC
+
+- Người dùng đã ủy quyền thường trực cho agent tự tạo và cấu hình trận luyện tập
+  BTC, vào/lặp lại hàng đợi, nối binary hiện tại bằng token đội đã cấp, retry khi
+  cần, lưu replay và chạy replay-check phục vụ gate; không được hỏi xác nhận lại
+  cho từng thao tác này.
+- Ủy quyền trên không bao gồm tạo/xóa VM hoặc tài nguyên cloud đáng kể, tạo/thu
+  hồi credential, thao tác destructive hay thay đổi tài khoản. Các thao tác đó
+  vẫn phải áp dụng gate an toàn và xin phép khi cần.
+
 ### Định nghĩa top 1 tổng quát và hội tụ thực tế
 
 - Mục tiêu là top 1 tổng quát thực sự trong giới hạn kiến trúc hiện tại, không

@@ -59,18 +59,46 @@ Off log SHA256
 - Lanes: hard 8/27/1, very-hard 15/19/6; all fuel/role/window lanes net
   positive.
 
-## BTC gate: debt-relay
+## BTC gate: PASSED — debt paid 2026-08-24
 
-Operator authorization 2026-08-23 (relay old matches while away). Runtime
-envelope claim relayed from 197's BTC validation — identical protected
-reserve, identical authoritative deadline math, deadline checks inside every
-pair evaluation, and holdout runtime tails identical to parent. **DEBT: one
-practice match on the operator's return to confirm valid submissions and
-reserve safety with the pair phase live.**
+Production binary SHA256
+`2D79A5CD0029F75E6C50D3CB1F37FE3856407364B95B0C244C92D7175F872DBF`.
+Three explicit-advanced probes separated mere lifecycle validity from actual
+pair-path execution instead of claiming the first green match:
+
+- `m-4037` (hard, 3 bots, 10 days, 32x32, 100 steps, 5000 ms, 8 agents,
+  12 spots, 6 brands, default fuel) finished exact `6/60/382`, 10/10 valid
+  ACKs, but `terminalSparse=false` because the dense exact domain supports 12
+  spots. Replay SHA256
+  `34146F2651949C191BB195AD5AD81204B84B3FB4742C37BB79E5E17781756BEA`.
+- `m-4038` changed only spots to 18. It finished exact `6/60/429`, 10/10
+  valid ACKs, max response 3922 ms; the sparse terminal refiner improved day
+  10 from 43 to 53 servings, but `deadlineReached=true` after the one-agent
+  ascent, so the pair loop was not reached. Replay SHA256
+  `D7740A57929B6E466538011074D5AC1D6D8B9D279F9CFFF14848CD204F0B67C0`.
+- `m-4039` was the decisive sparse pair-loop gate: hard, 3 bots, 7 days,
+  24x24, 100 steps, 5000 ms, 4 agents, 18 spots, 6 brands, default fuel.
+  Production selected one tanker. Terminal telemetry was
+  `terminalSparse=true`, `deadlineReached=false`, 3456 sparse routes, 3168
+  generated and dual-valid plans, 5 strict candidates, 3 accepted sparse
+  rounds, and an exact improvement from 20 to 27 terminal-day servings.
+  Because the unchanged one-agent ascent returned without deadline, production
+  control flow necessarily entered the enabled pair loop and completed it.
+  All 7/7 actions received HTTP 200 valid ACKs; zero deadline skip, fallback,
+  emergency or sparse failure; max response 3312 ms and max solver 3116 ms.
+  Replay-check rebuilt exact `6/42/151`. Replay SHA256
+  `54200DCF9CC5D6AD74ADF4CA47F5FB819C72FFD481993D6C4346BFD9B1C666EB`.
+
+`m-4039` ranked fourth behind bots at `6/42/169..174`; this is a new tier-3
+development counterexample but not evidence against 207, because the protected
+terminal refiner added seven servings and preserved lifetime/daily. The missing
+servings precede the terminal pair result and require separate attribution.
+Bot rank is not promotion evidence; the authoritative 207 BTC claim is runtime,
+validity and reserve safety with its pair loop live. **Debt closed.**
 
 ## Revert condition
 
 Reproducible valid protected-parent regression, a BTC target-host reserve
-violation with the pair phase live, or the debt practice match showing
-invalid/late submissions. Never tune the pair phase by seed, map, family,
-fuel, role, bot or opponent.
+violation with the pair phase live, or a future exact-valid replay showing
+the protected terminal result below its certified parent. Never tune the pair
+phase by seed, map, family, fuel, role, bot or opponent.

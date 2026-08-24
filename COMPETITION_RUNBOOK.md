@@ -25,3 +25,14 @@ Remove-Item Env:HEXUDON_TOKEN
    TRƯỚC TRẬN THẬT: đo lại offset bằng stripchart, nếu lệch >0.2s thì
    `Set-Date -Adjust` lần nữa; đồng thời calibrate bằng timestamp server
    BTC (recipe 055) — sai số này nằm trong dự trữ 1100ms của 197.
+4. `--response-ms`: đặt đúng bằng tham số response time của trận (hiện các
+   trận practice tạo ở 5000). Cơ chế an toàn hai chiều (161/163/166, xác
+   minh 2026-08-24 tại btc_main.cpp:2043 solveDeadline =
+   min(receivedAt+clamp(flag,5000), server endsAt)):
+   - BTC cấp ÍT hơn flag: server `endsAt` tự thắt solve deadline — an toàn,
+     nhưng vẫn nên truyền đúng giá trị thật (phòng khi frame thiếu endsAt
+     và tránh phụ thuộc đồng hồ máy vốn đã hỏng w32time).
+   - BTC cấp NHIỀU hơn 5000: engine hard-cap 5000 tại
+     `competition_compute_budget` (types.hpp:29) bất kể flag — CÓ CHỦ ĐÍCH:
+     166 đã thử đưa thẳng 15000/60000ms vào lớp Long và THUA 0/4/2
+     (53->50 servings); không bao giờ nới cap để "tận dụng" thời gian thừa.
