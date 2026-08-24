@@ -36,3 +36,10 @@ Remove-Item Env:HEXUDON_TOKEN
      `competition_compute_budget` (types.hpp:29) bất kể flag — CÓ CHỦ ĐÍCH:
      166 đã thử đưa thẳng 15000/60000ms vào lớp Long và THUA 0/4/2
      (53->50 servings); không bao giờ nới cap để "tận dụng" thời gian thừa.
+5. BINARY THI ĐẤU CHÍNH THỨC (chốt 2026-08-25): build từ lineage `288d17f`,
+   SHA256 `341C7464FEBCA337A6468767CB6FE6ABEF0A1E41DF8D49C43CE6926676D2D874`
+   — giống hệt về quyết định với binary đã qua live gate `B8D7DD21...`
+   (chỉ khác telemetry fix + flag nghiên cứu mặc định tắt; replay-check
+   tái tạo byte-exact cả 3 trận trả nợ). Sau khi build lại từ source,
+   LUÔN xác minh bằng: replay-check trên m-4043/44/45 phải cho đúng
+   6/42/127, 6/60/364, 6/60/144, và udonshield_tests pass toàn bộ.

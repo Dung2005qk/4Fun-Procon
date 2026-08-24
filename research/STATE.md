@@ -2,7 +2,43 @@
 
 Updated: 2026-08-25
 
-## Current phase
+## Current phase — RESEARCH PROGRAM AT PRACTICAL CEILING (2026-08-25)
+
+All evidence-backed axes are closed. The guaranteed competition build is
+the `288d17f` lineage (+212/213 records): production binary SHA256
+`341C7464FEBCA337A6468767CB6FE6ABEF0A1E41DF8D49C43CE6926676D2D874`,
+decision-identical to the live-gated `B8D7DD21…` binary (differs only in
+telemetry fixes and default-off research flags; replay-check reproduces
+all three debt matches byte-exact: 6/42/127, 6/60/364, 6/60/144). Open
+operational items live in COMPETITION_RUNBOOK.md. Remaining theoretical
+gaps (positioning days, coordination-shaped m-4044 residual) are closed
+pending new soundness theory (164/167/168) — not reachable by any
+admissible mechanism surveyed in 209-213.
+
+### CLOSED main-solve retention: SCORE-SERVING-RETENTION-213 — rejected (kill condition a)
+
+Closed 2026-08-25. Unconditional serving-coverage retention in sub-3x fuel
+regimes triggered the pre-registered kill condition on the dev gate:
+25W/18T/17L +20 (198's mixed-nonmonotonic signature), a tier-2 loss (seed
+4960007 daily 29→27) and large negative outliers (-51/-30/-27/-25) against
+max gain +29; fuel:high control 2/14/0 stayed clean (pass already on
+there). ALL 213 source changes reverted byte-identical to the accepted
+lineage; full suite passes; holdout never opened. The 198 lesson is now
+confirmed on a directed capability change: main-solve retention may only
+be reopened with a per-day exact-improvement certificate mechanism, never
+a blanket gate. Evidence: dev logs in `research/evidence/`, ledger row.
+
+### CLOSED live-yield attribution: ATTR-MIDDAY-LIVE-YIELD-212 — lane vindicated
+
+Closed 2026-08-25. Read-only probe over all six live replays, no
+deadlines, production and raised caps: every certified improvement lies in
+the PRE-210 matches (+13 servings at production caps — the class 210 was
+built for is real at daySteps=100), while the three 210-enabled matches
+contain ZERO certified improvements at both tiers — the live lane's 0
+acceptances were the correct answer, no defect, no cap-adaptation
+candidate justified. The residual m-4044 gap (~0.8 servings/day at 8
+agents) is coordination-shaped, beyond every admissible certificate.
+Evidence `ATTR-MIDDAY-LIVE-YIELD-212.md`.
 
 ### CLOSED mid-day pair exchange: SCORE-MIDDAY-PAIR-EXCHANGE-211 — rejected-inert
 

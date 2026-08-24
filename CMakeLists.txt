@@ -86,6 +86,10 @@ if(UDONSHIELD_BUILD_BENCHMARKS)
         research/probes/colgen_starvation_probe.cpp)
     target_link_libraries(udonshield_colgen_starvation_probe PRIVATE udon_shield)
     add_executable(
+        udonshield_midday_live_yield_probe
+        research/probes/midday_live_yield_probe.cpp)
+    target_link_libraries(udonshield_midday_live_yield_probe PRIVATE udon_shield)
+    add_executable(
         udonshield_tanker_terminal_oracle
         research/probes/tanker_terminal_oracle.cpp)
     target_link_libraries(udonshield_tanker_terminal_oracle PRIVATE udon_shield)
