@@ -1999,6 +1999,11 @@ void run_http(const RuntimeOptions& options) {
     // certificate, chained after the wait-detour fixed point inside the same
     // protected refinement window.
     slackRefiner.enableMiddayChainAdoption = true;
+    // Accepted SCORE-MIDDAY-TARGET-FOLLOWUP-215: after the complete 210
+    // global-pool fixed point, spend only remaining protected time on sparse
+    // routes conditioned on each patrol's already protected terminal. Every
+    // takeover still passes the unchanged strict future-domain certificate.
+    slackRefiner.enableMiddayTargetTerminalFollowup = true;
     bool idlePostAckWorkPending = false;
     bool idleContingencyPrecompute = true;
     while (true) {
@@ -2173,8 +2178,20 @@ void run_http(const RuntimeOptions& options) {
                             midday.diagnostics.middayChainAcceptances;
                         refinement.diagnostics.middayRounds =
                             midday.diagnostics.middayRounds;
+                        refinement.diagnostics.middayTargetRoutes =
+                            midday.diagnostics.middayTargetRoutes;
+                        refinement.diagnostics.middayTargetGeneratedPlans =
+                            midday.diagnostics.middayTargetGeneratedPlans;
+                        refinement.diagnostics.middayTargetValidPlans =
+                            midday.diagnostics.middayTargetValidPlans;
+                        refinement.diagnostics.middayTargetAcceptances =
+                            midday.diagnostics.middayTargetAcceptances;
+                        refinement.diagnostics.middayTargetRounds =
+                            midday.diagnostics.middayTargetRounds;
                         refinement.diagnostics.middayChain =
                             midday.diagnostics.middayChain;
+                        refinement.diagnostics.middayTargetFollowup =
+                            midday.diagnostics.middayTargetFollowup;
                         refinement.diagnostics.middayFailure =
                             midday.diagnostics.middayFailure;
                         refinement.diagnostics.deadlineReached =
@@ -2319,8 +2336,32 @@ void run_http(const RuntimeOptions& options) {
                     "middayRounds",
                     udon::JsonValue(refinement.diagnostics.middayRounds));
                 telemetry.emplace(
+                    "middayTargetRoutes",
+                    udon::JsonValue(
+                        refinement.diagnostics.middayTargetRoutes));
+                telemetry.emplace(
+                    "middayTargetGeneratedPlans",
+                    udon::JsonValue(
+                        refinement.diagnostics.middayTargetGeneratedPlans));
+                telemetry.emplace(
+                    "middayTargetValidPlans",
+                    udon::JsonValue(
+                        refinement.diagnostics.middayTargetValidPlans));
+                telemetry.emplace(
+                    "middayTargetAcceptances",
+                    udon::JsonValue(
+                        refinement.diagnostics.middayTargetAcceptances));
+                telemetry.emplace(
+                    "middayTargetRounds",
+                    udon::JsonValue(
+                        refinement.diagnostics.middayTargetRounds));
+                telemetry.emplace(
                     "middayChain",
                     udon::JsonValue(refinement.diagnostics.middayChain));
+                telemetry.emplace(
+                    "middayTargetFollowup",
+                    udon::JsonValue(
+                        refinement.diagnostics.middayTargetFollowup));
                 telemetry.emplace(
                     "middayFailure",
                     udon::JsonValue(refinement.diagnostics.middayFailure));

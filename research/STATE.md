@@ -2,7 +2,54 @@
 
 Updated: 2026-08-25
 
-## Current phase — RESEARCH PROGRAM AT PRACTICAL CEILING (2026-08-25)
+## Current phase — SCORE-MIDDAY-TARGET-FOLLOWUP-215 accepted; convergence sweep active
+
+Experiment 215 is closed and enabled in production. It preserves the complete
+accepted 210 global-pool ascent as an order-identical protected prefix, then uses
+only remaining time to enumerate routes conditioned on each patrol's already
+protected terminal. Every takeover still requires exact simulator and
+independent-validator agreement, equal road footprint, identical terminals,
+patrol-fuel dominance, brand monotonicity and a strict official-score gain.
+
+The frozen 60-pair development gate was `31/27/2`, `+507` servings. The sealed
+108-pair holdout was opened exactly once and produced `57/47/4`, net `+721`,
+with gross gain/loss `+740/-19`, maximum gain/loss `+63/-9`, and no tier-1 or
+tier-2 difference. The suffix recorded 303 acceptances across 52 holdout cases;
+conditioned on activation the result was `51/0/1`, `+712/-4`. Every difficulty,
+fuel and role stratum was net positive. Invalid, emergency, validator mismatch
+and lane-failure totals were zero. Frozen holdout log SHA256 values are
+`5ED3FDDA...` off, `6510224F...` on and `E3B0C442...` empty stderr.
+
+The promoted BTC binary SHA256 `500A5161...` passed three fresh target-host
+matches under the canonical `5000 ms` cap. Across `m-4108`, `m-4109` and
+`m-4110`, all 24 actions were HTTP-valid, all 21 observable transitions
+reconciled and skip/WAIT/emergency/failure totals were zero. On `m-4109` the
+target suffix executed 161 routes and produced 148 dual-valid plans without a
+strict takeover or failure, proving runtime wiring and target-host safety. Exact
+evidence is in `research/evidence/SCORE-MIDDAY-TARGET-FOLLOWUP-215.md`.
+
+BTC ranks are not promotion evidence. The non-first `m-4108` (`6/60/496`) and
+`m-4110` (`6/42/163`) results remain fresh independent serving-score
+counterexamples for the next convergence sweep; neither is an attributed 215
+regression because the target suffix made no accepted replacement in either
+match.
+
+### CLOSED target-terminal attribution: ATTR-MIDDAY-TARGET-TERMINAL-214 — accepted generator gap
+
+The complete production-cap query covered all 48 registered nonterminal
+replay-days: 8,311 routes, 7,347 generated plans, 7,347 dual-engine-valid,
+zero invalid, and 45 strict certificates. Pre-210 matches contribute 43
+certificates. Decisively, the 210-enabled `m-4044` still contains two admissible
+witnesses: days 6 and 8 each have a same-terminal, same-footprint,
+fuel-dominating `+1` serving replacement. `m-4043` and `m-4045` contain none.
+Clean log SHA256
+`1B16099F1012769626E0CC581DC28732E307EEC82A923CC986823C7223FDAC4C`;
+empty stderr SHA256
+`E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855`.
+Therefore 212's lane-vindicated/practical-ceiling interpretation is falsified.
+The six consumed replays authorize 215's mechanism only; they cannot promote it.
+
+### Prior provisional competition checkpoint (superseded as a ceiling claim)
 
 All evidence-backed axes are closed. The guaranteed competition build is
 the `288d17f` lineage (+212/213 records): production binary SHA256

@@ -65,4 +65,21 @@ struct ExactOrienteeringReachability {
     std::optional<std::chrono::steady_clock::time_point> deadline = std::nullopt,
     std::uint64_t preferredBrands = 0);
 
+// Target-terminal sparse entry point introduced by attribution experiment 214
+// and consumed by the SCORE-MIDDAY-TARGET-FOLLOWUP-215 suffix.
+// It uses the same sparse label search and Pareto dominance as the canonical
+// enumerator, but retains labels at one caller-supplied terminal instead of
+// globally retaining only routes whose terminal is an udon spot.
+[[nodiscard]] ExactOrienteeringReachability
+enumerate_sparse_anytime_resource_routes_to_terminal(
+    const MatchConfig& config,
+    const DayState& state,
+    AgentIndex agent,
+    CellId requiredTerminal,
+    std::int32_t minimumSpots,
+    std::size_t maximumRoutes,
+    std::uint64_t maximumSettledStates,
+    std::optional<std::chrono::steady_clock::time_point> deadline = std::nullopt,
+    std::uint64_t preferredBrands = 0);
+
 }

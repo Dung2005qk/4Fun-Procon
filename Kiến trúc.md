@@ -403,10 +403,30 @@ gap, audit và timing của decision.
 
 ### 6.10. Protected slack refinement
 
-Sau final selection, Protocol Host có thể mở một neighborhood bị ràng buộc bởi
-transition của incumbent. Mỗi candidate thay đúng một `WAIT` của patrol bằng một
-round trip qua spot rồi quay lại anchor trong cùng số step. Toàn bộ path tránh road
-để raw road footprint không đổi.
+Sau final selection, Protocol Host mở một chuỗi neighborhood bị ràng buộc bởi
+transition của incumbent. Trên ngày không phải ngày cuối, chuỗi refinement có ba
+tầng tuần tự:
+
+1. wait-detour thay một đoạn `WAIT` của patrol bằng round trip qua spot rồi quay
+   lại anchor trong cùng số step;
+2. mid-day coordinate ascent thay toàn bộ day route của từng patrol bằng route
+   trong sparse global pool, chấp nhận từng strict improvement rồi lặp tới fixed
+   point;
+3. sau fixed point đó, target-terminal sparse search dựng pool riêng theo terminal
+   đang được incumbent bảo vệ của từng patrol, kể cả terminal không phải spot, rồi
+   chạy lại cùng coordinate ascent trên phần thời gian còn lại.
+
+Target-terminal search dùng cùng resource labels, Pareto dominance, route rank,
+state cap và deadline với sparse global search. Khác biệt duy nhất là điều kiện
+emit: label chỉ được giữ tại terminal do caller cung cấp thay vì chỉ tại một spot.
+Global pool và toàn bộ ascent của nó luôn hoàn tất trước; target-terminal pool là
+suffix cộng thêm và không thể làm mất incumbent của tầng trước.
+
+Ở ngày cuối, terminal sparse refinement thay route của từng patrol bằng route
+sparse có cùng terminal và lặp one-agent ascent tới fixed point. Phần thời gian còn
+lại được dùng cho pair exchange: hai patrol được thay đồng thời bằng hai route từ
+pool đã exact-evaluate; một pair được chấp nhận xong thì one-agent ascent chạy lại
+trước vòng pair tiếp theo.
 
 Candidate chỉ thay incumbent khi simulator và validator đồng ý, thứ tự kind và
 terminal cell của mọi agent giữ nguyên, fuel cuối của mỗi patrol không giảm, road

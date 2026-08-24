@@ -1,0 +1,57 @@
+paired=60 W/T/L=31/27/2 servingsDelta=+507
+midday acceptances on-side total=304 (off-side=102)
+midday PAIR acceptances on-side total=0 (off-side=0)
+midday TARGET acceptances on-side total=195 (off-side=0)
+acceptance-conditional (target_acc) W/T/L=28/0/1
+invalid=0 emergency=0 lane_failures=0
+runtime parity: mean_ms off=2482 on=2484, max_ms off=3015 on=3017
+
+lanes (W/T/L):
+  fuel:default                 12/7/0
+  fuel:high                    7/9/0
+  fuel:low                     12/11/2
+  role:fixed                   21/17/1
+  role:native                  10/10/1
+  stratified-easy              3/5/0
+  stratified-hard              10/10/0
+  stratified-medium            4/4/0
+  stratified-very-hard         14/8/2
+  window:long                  26/3/1
+  window:short                 5/24/1
+
+non-ties:
+  LOSS seed=4983009 stratified-very-hard/low/native/long off=(6, 60, 405) on=(6, 60, 403) cond_acc=1 takeovers=3
+  LOSS seed=4983018 stratified-very-hard/low/fixed/short off=(6, 60, 412) on=(6, 60, 409) cond_acc=0 takeovers=1
+  WIN  seed=4980001 stratified-easy/low/fixed/long off=(6, 30, 109) on=(6, 30, 112) cond_acc=1 takeovers=1
+  WIN  seed=4980002 stratified-easy/default/fixed/short off=(6, 30, 159) on=(6, 30, 161) cond_acc=2 takeovers=1
+  WIN  seed=4980003 stratified-easy/default/fixed/long off=(6, 30, 127) on=(6, 30, 130) cond_acc=1 takeovers=1
+  WIN  seed=4981000 stratified-medium/low/fixed/short off=(6, 42, 118) on=(6, 42, 124) cond_acc=3 takeovers=3
+  WIN  seed=4981001 stratified-medium/low/fixed/long off=(6, 42, 135) on=(6, 42, 162) cond_acc=7 takeovers=6
+  WIN  seed=4981003 stratified-medium/default/fixed/long off=(6, 42, 215) on=(6, 42, 224) cond_acc=5 takeovers=2
+  WIN  seed=4981007 stratified-medium/low/native/long off=(6, 42, 199) on=(6, 42, 216) cond_acc=5 takeovers=4
+  WIN  seed=4982001 stratified-hard/low/fixed/long off=(6, 48, 327) on=(6, 48, 344) cond_acc=9 takeovers=5
+  WIN  seed=4982003 stratified-hard/default/fixed/long off=(6, 48, 377) on=(6, 48, 447) cond_acc=21 takeovers=7
+  WIN  seed=4982005 stratified-hard/high/fixed/long off=(6, 48, 346) on=(6, 48, 367) cond_acc=8 takeovers=6
+  WIN  seed=4982007 stratified-hard/low/native/long off=(6, 48, 336) on=(6, 48, 351) cond_acc=4 takeovers=3
+  WIN  seed=4982009 stratified-hard/default/native/long off=(6, 48, 370) on=(6, 48, 371) cond_acc=1 takeovers=1
+  WIN  seed=4982011 stratified-hard/high/native/long off=(6, 48, 335) on=(6, 48, 346) cond_acc=4 takeovers=3
+  WIN  seed=4982013 stratified-hard/low/fixed/long off=(6, 48, 319) on=(6, 48, 345) cond_acc=11 takeovers=7
+  WIN  seed=4982015 stratified-hard/default/fixed/long off=(6, 48, 350) on=(6, 48, 361) cond_acc=6 takeovers=6
+  WIN  seed=4982017 stratified-hard/high/fixed/long off=(6, 48, 379) on=(6, 48, 389) cond_acc=7 takeovers=5
+  WIN  seed=4982019 stratified-hard/low/native/long off=(6, 48, 273) on=(6, 48, 303) cond_acc=5 takeovers=3
+  WIN  seed=4983001 stratified-very-hard/low/fixed/long off=(6, 60, 422) on=(6, 60, 448) cond_acc=8 takeovers=6
+  WIN  seed=4983003 stratified-very-hard/default/fixed/long off=(6, 60, 425) on=(6, 60, 428) cond_acc=3 takeovers=7
+  WIN  seed=4983005 stratified-very-hard/default/fixed/long off=(6, 60, 562) on=(6, 60, 589) cond_acc=11 takeovers=4
+  WIN  seed=4983007 stratified-very-hard/high/fixed/long off=(6, 60, 450) on=(6, 60, 463) cond_acc=12 takeovers=7
+  WIN  seed=4983011 stratified-very-hard/low/native/long off=(6, 60, 381) on=(6, 60, 426) cond_acc=13 takeovers=9
+  WIN  seed=4983013 stratified-very-hard/default/native/long off=(6, 60, 505) on=(6, 60, 511) cond_acc=3 takeovers=5
+  WIN  seed=4983015 stratified-very-hard/high/native/long off=(6, 60, 506) on=(6, 60, 516) cond_acc=4 takeovers=3
+  WIN  seed=4983016 stratified-very-hard/high/native/short off=(6, 60, 655) on=(6, 60, 662) cond_acc=0 takeovers=2
+  WIN  seed=4983017 stratified-very-hard/high/native/long off=(6, 60, 680) on=(6, 60, 686) cond_acc=1 takeovers=1
+  WIN  seed=4983019 stratified-very-hard/low/fixed/long off=(6, 60, 411) on=(6, 60, 452) cond_acc=22 takeovers=9
+  WIN  seed=4983020 stratified-very-hard/low/fixed/short off=(6, 60, 399) on=(6, 60, 401) cond_acc=0 takeovers=1
+  WIN  seed=4983021 stratified-very-hard/default/fixed/long off=(6, 60, 405) on=(6, 60, 417) cond_acc=8 takeovers=7
+  WIN  seed=4983022 stratified-very-hard/default/fixed/short off=(6, 60, 621) on=(6, 60, 631) cond_acc=0 takeovers=4
+  WIN  seed=4983023 stratified-very-hard/default/fixed/long off=(6, 60, 503) on=(6, 60, 528) cond_acc=9 takeovers=7
+
+cases with >=1 conditioned acceptance on on-side: 29/60

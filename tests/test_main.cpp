@@ -1985,9 +1985,33 @@ void test_protected_slack_refiner(
     require(
         !middayWaitParent.improved &&
             middayWaitParent.diagnostics.middayChain &&
+            !middayWaitParent.diagnostics.middayTargetFollowup &&
             udon::canonical_plan_bytes(middayWaitParent.plan) ==
                 udon::canonical_plan_bytes(parent),
         "the certificate must reject every fuel-spending challenger against a full-fuel WAIT parent (fuel >= is unsatisfiable)");
+    middayRefiner.enableMiddayTargetTerminalFollowup = true;
+    const udon::ProtectedSlackResult middayTargetWaitParent =
+        middayRefiner.refine_midday_chains(
+            state,
+            udon::MatchLedger{},
+            parent,
+            parentSimulation,
+            std::chrono::steady_clock::now() +
+                std::chrono::milliseconds{900});
+    require(
+        middayTargetWaitParent.diagnostics.middayTargetFollowup &&
+            ((!middayTargetWaitParent.improved &&
+              udon::canonical_plan_bytes(middayTargetWaitParent.plan) ==
+                  udon::canonical_plan_bytes(parent)) ||
+             (middayTargetWaitParent.improved &&
+              udon::protected_slack_transition_dominates(
+                  parentSimulation,
+                  middayTargetWaitParent.simulation) &&
+              (udon::OfficialScore::after_day(
+                   udon::MatchLedger{},
+                   parentSimulation.score) <
+               middayTargetWaitParent.scoreAfterToday))),
+        "the target-terminal suffix must either retain its certified global-prefix incumbent or prove a strict protected improvement");
     udon::UdonShieldEngine middayEngine(config);
     const udon::DecisionResult middayIncumbent = middayEngine.solve_day(
         state,

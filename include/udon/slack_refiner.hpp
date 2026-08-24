@@ -27,10 +27,16 @@ struct ProtectedSlackDiagnostics {
     std::int64_t middayChainAcceptances = 0;
     std::int64_t middayPairAcceptances = 0;
     std::int64_t middayRounds = 0;
+    std::int64_t middayTargetRoutes = 0;
+    std::int64_t middayTargetGeneratedPlans = 0;
+    std::int64_t middayTargetValidPlans = 0;
+    std::int64_t middayTargetAcceptances = 0;
+    std::int64_t middayTargetRounds = 0;
     bool deadlineReached = false;
     bool terminalSparse = false;
     bool sparseFailure = false;
     bool middayChain = false;
+    bool middayTargetFollowup = false;
     bool middayFailure = false;
 };
 
@@ -87,6 +93,13 @@ public:
     // strict_protected_improvement certificate. Default off keeps accepted
     // 210 byte-identical.
     bool enableMiddayPairExchange = false;
+
+    // SCORE-MIDDAY-TARGET-FOLLOWUP-215: preserve the complete
+    // accepted 210 global-pool ascent as a prefix, then use only remaining
+    // protected time for a second sparse pool conditioned on each patrol's
+    // already protected terminal. The switch remains explicit so the frozen
+    // same-binary direct-parent lane can disable only this suffix.
+    bool enableMiddayTargetTerminalFollowup = false;
 
     [[nodiscard]] ProtectedSlackResult refine_wait_detours(
         const DayState& state,

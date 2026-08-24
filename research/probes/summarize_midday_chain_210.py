@@ -31,6 +31,7 @@ def parse(path):
                 "emergency": int(fields.get("emergency", 0)),
                 "acc": int(fields.get("midday_chain_acceptances", 0)),
                 "pair_acc": int(fields.get("midday_pair_acceptances", 0)),
+                "target_acc": int(fields.get("midday_target_acceptances", 0)),
                 "takeovers": int(fields.get("midday_takeovers", 0)),
                 "routes": int(fields.get("midday_routes", 0)),
                 "valid_plans": int(fields.get("midday_valid", 0)),
@@ -47,14 +48,13 @@ def score(c):
 
 
 def main():
-    # Optional 3rd arg --cond=pair: condition the acceptance-conditional
-    # W/T/L on midday_pair_acceptances instead of chain acceptances. Required
-    # for 211 analysis, where BOTH sides run midday-chain=1 and differ only
-    # in --midday-pair, so chain acceptances fire on both sides and cannot
-    # attribute the pair phase.
+    # Optional 3rd arg selects the mechanism-specific acceptance field. This
+    # is required whenever both sides already run the accepted chain prefix.
     cond_key = "acc"
     if len(sys.argv) > 3 and sys.argv[3] == "--cond=pair":
         cond_key = "pair_acc"
+    elif len(sys.argv) > 3 and sys.argv[3] == "--cond=target":
+        cond_key = "target_acc"
     off = parse(sys.argv[1])
     on = parse(sys.argv[2])
     seeds = sorted(set(off) & set(on))
@@ -88,7 +88,7 @@ def main():
             l += 1
         else:
             t += 1
-        conditioned = b[cond_key] > 0 if cond_key == "pair_acc" else (
+        conditioned = b[cond_key] > 0 if cond_key != "acc" else (
             b["acc"] > 0 or b["takeovers"] > 0)
         if conditioned:
             if outcome == 1:
@@ -99,14 +99,18 @@ def main():
                 acc_t += 1
         if sb != sa:
             tails.append((seed, a["suite"], a["fuel"], a["role"], a["window"],
-                          sa, sb, b["acc"], b["takeovers"]))
+                          sa, sb, b[cond_key], b["takeovers"]))
     print("paired=%d W/T/L=%d/%d/%d servingsDelta=%+d" % (len(seeds), w, t, l, dq))
-    print("midday acceptances on-side total=%d (off-side control=%d, must be 0)"
+    print("midday acceptances on-side total=%d (off-side=%d)"
           % (total_acc_on, total_acc_off))
     pair_on = sum(on[s]["pair_acc"] for s in seeds)
     pair_off = sum(off[s]["pair_acc"] for s in seeds)
     print("midday PAIR acceptances on-side total=%d (off-side=%d)"
           % (pair_on, pair_off))
+    target_on = sum(on[s]["target_acc"] for s in seeds)
+    target_off = sum(off[s]["target_acc"] for s in seeds)
+    print("midday TARGET acceptances on-side total=%d (off-side=%d)"
+          % (target_on, target_off))
     print("acceptance-conditional (%s) W/T/L=%d/%d/%d"
           % (cond_key, acc_w, acc_t, acc_l))
     print("invalid=%d emergency=%d lane_failures=%d" % (inv, eme, fail))
@@ -124,10 +128,10 @@ def main():
     for row in sorted(tails, key=lambda r: (r[6] > r[5], r[6] < r[5], r[0])):
         seed, suite, fuel, role, window, sa, sb, acc, tak = row
         tag = "WIN " if sb > sa else "LOSS"
-        print("  %s seed=%d %s/%s/%s/%s off=%s on=%s acc=%d takeovers=%d"
+        print("  %s seed=%d %s/%s/%s/%s off=%s on=%s cond_acc=%d takeovers=%d"
               % (tag, seed, suite, fuel, role, window, sa, sb, acc, tak))
-    on_acc_cases = sum(1 for s in seeds if on[s]["acc"] > 0)
-    print("\ncases with >=1 midday acceptance on on-side: %d/%d"
+    on_acc_cases = sum(1 for s in seeds if on[s][cond_key] > 0)
+    print("\ncases with >=1 conditioned acceptance on on-side: %d/%d"
           % (on_acc_cases, len(seeds)))
 
 

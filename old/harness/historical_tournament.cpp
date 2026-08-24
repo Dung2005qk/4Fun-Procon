@@ -65,6 +65,7 @@ struct Options {
     bool terminalPairExchange = false;
     bool middayChainAdoption = false;
     bool middayPairExchange = false;
+    bool middayTargetTerminalFollowup = false;
     bool dayDetails = false;
 };
 
@@ -127,6 +128,11 @@ struct Metrics {
     std::int64_t middayChainAcceptances = 0;
     std::int64_t middayPairAcceptances = 0;
     std::int64_t middayRounds = 0;
+    std::int64_t middayTargetRoutes = 0;
+    std::int64_t middayTargetPlans = 0;
+    std::int64_t middayTargetValid = 0;
+    std::int64_t middayTargetAcceptances = 0;
+    std::int64_t middayTargetRounds = 0;
     std::int32_t middayTakeovers = 0;
     std::int32_t middayDeadlineDays = 0;
     std::int32_t middayFailureDays = 0;
@@ -718,6 +724,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     slackRefiner.enableTerminalPairExchange = options.terminalPairExchange;
     slackRefiner.enableMiddayChainAdoption = options.middayChainAdoption;
     slackRefiner.enableMiddayPairExchange = options.middayPairExchange;
+    slackRefiner.enableMiddayTargetTerminalFollowup =
+        options.middayTargetTerminalFollowup;
     std::vector<std::vector<std::int32_t>> ownFootprints(
         static_cast<std::size_t>(config.day_count()),
         std::vector<std::int32_t>(
@@ -887,6 +895,16 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                         middayChoice.diagnostics.middayPairAcceptances;
                     metrics.middayRounds +=
                         middayChoice.diagnostics.middayRounds;
+                    metrics.middayTargetRoutes +=
+                        middayChoice.diagnostics.middayTargetRoutes;
+                    metrics.middayTargetPlans +=
+                        middayChoice.diagnostics.middayTargetGeneratedPlans;
+                    metrics.middayTargetValid +=
+                        middayChoice.diagnostics.middayTargetValidPlans;
+                    metrics.middayTargetAcceptances +=
+                        middayChoice.diagnostics.middayTargetAcceptances;
+                    metrics.middayTargetRounds +=
+                        middayChoice.diagnostics.middayTargetRounds;
                     metrics.middayDeadlineDays +=
                         middayChoice.diagnostics.deadlineReached ? 1 : 0;
                     metrics.middayFailureDays +=
@@ -1098,6 +1116,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             options.middayChainAdoption = std::stoi(next()) != 0;
         } else if (value == "--midday-pair") {
             options.middayPairExchange = std::stoi(next()) != 0;
+        } else if (value == "--midday-target-followup") {
+            options.middayTargetTerminalFollowup = std::stoi(next()) != 0;
         } else if (value == "--protected-wait-closed-loop") {
             options.protectedWaitDetours = true;
             options.protectedWaitClosedLoop = true;
@@ -1266,6 +1286,12 @@ void print_result(
               << ",midday_pair_acceptances="
               << metrics.middayPairAcceptances
               << ",midday_rounds=" << metrics.middayRounds
+              << ",midday_target_routes=" << metrics.middayTargetRoutes
+              << ",midday_target_plans=" << metrics.middayTargetPlans
+              << ",midday_target_valid=" << metrics.middayTargetValid
+              << ",midday_target_acceptances="
+              << metrics.middayTargetAcceptances
+              << ",midday_target_rounds=" << metrics.middayTargetRounds
               << ",midday_takeovers=" << metrics.middayTakeovers
               << ",midday_deadline_days=" << metrics.middayDeadlineDays
               << ",midday_failure_days=" << metrics.middayFailureDays

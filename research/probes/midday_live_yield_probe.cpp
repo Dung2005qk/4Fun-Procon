@@ -8,7 +8,9 @@
 // certificate itself is never relaxed - the tiers only widen the candidate
 // set the unchanged certificate judges.
 //
-// Usage: udonshield_midday_live_yield_probe <replay.jsonl> [...]
+// Usage: udonshield_midday_live_yield_probe
+//        [--tier production-global|production-target|raised-global|raised-target]
+//        <replay.jsonl> [...]
 
 #include <chrono>
 #include <cstdint>
@@ -51,6 +53,7 @@ struct TierCaps {
     std::int32_t minimumSpots;  // -1 = production formula
     std::size_t maximumRoutes;
     std::uint64_t maximumSettledStates;
+    bool targetTerminal;
 };
 
 struct TierCounters {
@@ -99,6 +102,7 @@ void probe_day(
     const udon::MatchLedger& ledger,
     const udon::DayPlan& incumbent,
     const std::string& replayName,
+    const std::optional<std::size_t> selectedTier,
     TierCounters* totals) {
     const udon::ExactStepSimulator simulator(config);
     const udon::IndependentDayValidator validator(config);
@@ -135,14 +139,19 @@ void probe_day(
         std::max(1, config.brand_count() - 1),
         static_cast<std::int32_t>(config.spots.size()));
 
-    const TierCaps tiers[2] = {
-        {"production", -1, 32U, 1250000ULL},
-        {"raised", 1, 128U, 8000000ULL},
+    const TierCaps tiers[4] = {
+        {"production-global", -1, 32U, 1250000ULL, false},
+        {"production-target", -1, 32U, 1250000ULL, true},
+        {"raised-global", 1, 128U, 8000000ULL, false},
+        {"raised-target", 1, 128U, 8000000ULL, true},
     };
     const std::uint64_t incumbentLifetime =
         ledger.lifetimeBrands | incumbentSimulation.score.brands;
 
-    for (std::size_t tier = 0; tier < 2; ++tier) {
+    for (std::size_t tier = 0; tier < 4; ++tier) {
+        if (selectedTier.has_value() && tier != *selectedTier) {
+            continue;
+        }
         const TierCaps& caps = tiers[tier];
         TierCounters counters;
         std::set<std::uint64_t> planHashes;
@@ -156,19 +165,30 @@ void probe_day(
                 udon::AgentKind::Patrol) {
                 continue;
             }
-            const udon::ExactOrienteeringReachability reach =
-                udon::enumerate_sparse_anytime_resource_routes(
-                    config,
-                    state,
-                    agent,
-                    minimumSpots,
-                    caps.maximumRoutes,
-                    caps.maximumSettledStates,
-                    std::nullopt,
-                    preferredBrands);
             const udon::CellId terminal =
                 incumbentSimulation.finalAgents.at(
                     static_cast<std::size_t>(agent)).position;
+            const udon::ExactOrienteeringReachability reach =
+                caps.targetTerminal
+                ? udon::enumerate_sparse_anytime_resource_routes_to_terminal(
+                      config,
+                      state,
+                      agent,
+                      terminal,
+                      minimumSpots,
+                      caps.maximumRoutes,
+                      caps.maximumSettledStates,
+                      std::nullopt,
+                      preferredBrands)
+                : udon::enumerate_sparse_anytime_resource_routes(
+                      config,
+                      state,
+                      agent,
+                      minimumSpots,
+                      caps.maximumRoutes,
+                      caps.maximumSettledStates,
+                      std::nullopt,
+                      preferredBrands);
             const std::vector<udon::ExactOrienteeringRoute>* pools[2] = {
                 &reach.maximalRoutes, &reach.supplementalRoutes};
             for (const auto* pool : pools) {
@@ -258,11 +278,36 @@ void probe_day(
 
 int main(int argc, char** argv) {
     if (argc < 2) {
-        std::cerr << "usage: udonshield_midday_live_yield_probe <replay.jsonl> [...]\n";
+        std::cerr
+            << "usage: udonshield_midday_live_yield_probe "
+               "[--tier production-global|production-target|raised-global|"
+               "raised-target] <replay.jsonl> [...]\n";
         return 2;
     }
-    TierCounters totals[2];
-    for (int argument = 1; argument < argc; ++argument) {
+    std::optional<std::size_t> selectedTier;
+    int firstReplayArgument = 1;
+    if (argc >= 2 && std::string(argv[1]) == "--tier") {
+        if (argc < 4) {
+            std::cerr << "--tier requires a tier name and at least one replay\n";
+            return 2;
+        }
+        const std::string tierName = argv[2];
+        if (tierName == "production-global") {
+            selectedTier = 0U;
+        } else if (tierName == "production-target") {
+            selectedTier = 1U;
+        } else if (tierName == "raised-global") {
+            selectedTier = 2U;
+        } else if (tierName == "raised-target") {
+            selectedTier = 3U;
+        } else {
+            std::cerr << "unknown tier: " << tierName << '\n';
+            return 2;
+        }
+        firstReplayArgument = 3;
+    }
+    TierCounters totals[4];
+    for (int argument = firstReplayArgument; argument < argc; ++argument) {
         const std::string path = argv[argument];
         std::ifstream input(path);
         if (!input) {
@@ -326,7 +371,14 @@ int main(int argc, char** argv) {
                 }
                 const udon::DayPlan incumbent =
                     udon::parse_day_plan(*config, body);
-                probe_day(*config, *state, *ledger, incumbent, path, totals);
+                probe_day(
+                    *config,
+                    *state,
+                    *ledger,
+                    incumbent,
+                    path,
+                    selectedTier,
+                    totals);
             }
             } catch (const std::exception& error) {
                 std::cerr << "line_error,replay=" << path
@@ -336,7 +388,18 @@ int main(int argc, char** argv) {
             }
         }
     }
-    totals[0].print("total,tier=production");
-    totals[1].print("total,tier=raised");
+    const char* tierNames[4] = {
+        "production-global",
+        "production-target",
+        "raised-global",
+        "raised-target",
+    };
+    for (std::size_t tier = 0; tier < 4; ++tier) {
+        if (!selectedTier.has_value() || tier == *selectedTier) {
+            const std::string label =
+                std::string("total,tier=") + tierNames[tier];
+            totals[tier].print(label.c_str());
+        }
+    }
     return 0;
 }

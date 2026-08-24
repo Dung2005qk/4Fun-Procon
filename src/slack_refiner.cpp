@@ -893,6 +893,92 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_midday_chains(
     };
     bool deadlineReached = run_one_agent_midday_ascent();
 
+    // Registered SCORE-MIDDAY-TARGET-FOLLOWUP-215. The accepted global-pool
+    // ascent above remains an order-identical prefix. Only after it reaches a
+    // fixed point may a target-terminal pool spend remaining protected time;
+    // every replacement still passes strict_protected_improvement.
+    if (enableMiddayTargetTerminalFollowup) {
+        result.diagnostics.middayTargetFollowup = true;
+        if (!deadlineReached) {
+            std::vector<ExactOrienteeringReachability> targetReachability(
+                static_cast<std::size_t>(config_.agent_count()));
+            std::atomic<std::size_t> nextTargetTask{0U};
+            std::atomic<std::size_t> completedTargetTasks{0U};
+            std::atomic<bool> targetWorkerFailed{false};
+            {
+                std::vector<std::jthread> workers;
+                workers.reserve(workerCount);
+                for (std::size_t worker = 0; worker < workerCount; ++worker) {
+                    workers.emplace_back([&]() {
+                        try {
+                            while (!targetWorkerFailed.load() &&
+                                   std::chrono::steady_clock::now() <
+                                       searchDeadline) {
+                                const std::size_t task =
+                                    nextTargetTask.fetch_add(1U);
+                                if (task >= tasks.size()) {
+                                    return;
+                                }
+                                const AgentIndex agent = tasks.at(task);
+                                const CellId terminal =
+                                    result.simulation.finalAgents.at(
+                                        static_cast<std::size_t>(agent))
+                                        .position;
+                                targetReachability.at(
+                                    static_cast<std::size_t>(agent)) =
+                                    enumerate_sparse_anytime_resource_routes_to_terminal(
+                                        config_,
+                                        state,
+                                        agent,
+                                        terminal,
+                                        minimumSpots,
+                                        32U,
+                                        1250000U,
+                                        searchDeadline,
+                                        preferredBrands);
+                                completedTargetTasks.fetch_add(1U);
+                            }
+                        } catch (...) {
+                            targetWorkerFailed.store(true);
+                        }
+                    });
+                }
+            }
+            if (targetWorkerFailed.load()) {
+                result.diagnostics.middayFailure = true;
+                return result;
+            }
+
+            reachability = std::move(targetReachability);
+            const std::int64_t routesBefore =
+                result.diagnostics.middayRoutes;
+            const std::int64_t plansBefore =
+                result.diagnostics.middayGeneratedPlans;
+            const std::int64_t validBefore =
+                result.diagnostics.middayValidPlans;
+            const std::int64_t acceptancesBefore =
+                result.diagnostics.middayChainAcceptances;
+            const std::int64_t roundsBefore =
+                result.diagnostics.middayRounds;
+            deadlineReached = run_one_agent_midday_ascent();
+            result.diagnostics.middayTargetRoutes =
+                result.diagnostics.middayRoutes - routesBefore;
+            result.diagnostics.middayTargetGeneratedPlans =
+                result.diagnostics.middayGeneratedPlans - plansBefore;
+            result.diagnostics.middayTargetValidPlans =
+                result.diagnostics.middayValidPlans - validBefore;
+            result.diagnostics.middayTargetAcceptances =
+                result.diagnostics.middayChainAcceptances -
+                acceptancesBefore;
+            result.diagnostics.middayTargetRounds =
+                result.diagnostics.middayRounds - roundsBefore;
+            if (completedTargetTasks.load() < tasks.size()) {
+                result.diagnostics.deadlineReached = true;
+                deadlineReached = true;
+            }
+        }
+    }
+
     // Registered SCORE-MIDDAY-PAIR-EXCHANGE-211: only after the unchanged
     // one-agent mid-day ascent reaches its natural fixed point, the
     // remaining protected budget evaluates joint replacements of two

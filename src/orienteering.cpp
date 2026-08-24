@@ -582,6 +582,7 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
     std::size_t maximumRoutes,
     std::uint64_t maximumSettledStates,
     std::uint64_t preferredBrands,
+    std::optional<CellId> requiredTerminal,
     std::optional<std::chrono::steady_clock::time_point> deadline) {
     ExactOrienteeringReachability result;
     if (agentIndex < 0 ||
@@ -591,6 +592,11 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
             static_cast<std::size_t>(config.map.cell_count()) ||
         config.spots.empty() || config.spots.size() > 32U ||
         minimumSpots <= 0 || maximumRoutes == 0U ||
+        (requiredTerminal.has_value() &&
+         (*requiredTerminal < 0 ||
+          *requiredTerminal >= config.map.cell_count() ||
+          config.map.terrain.at(
+              static_cast<std::size_t>(*requiredTerminal)) == Terrain::Pond)) ||
         maximumSettledStates == 0U) {
         return result;
     }
@@ -811,10 +817,13 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
             continue;
         }
         ++result.settledStates;
+        const bool eligibleTerminal = requiredTerminal.has_value()
+            ? current.cell == *requiredTerminal
+            : config.spotAtCell.at(static_cast<std::size_t>(current.cell)) !=
+                kInvalidSpot;
         if (static_cast<std::int32_t>(std::popcount(current.mask)) >=
                 minimumSpots &&
-            config.spotAtCell.at(static_cast<std::size_t>(current.cell)) !=
-                kInvalidSpot &&
+            eligibleTerminal &&
             emittedMasks.insert(current.mask).second) {
             const SparseRouteRank rank = route_rank(current);
             retain(retained, SparseRouteChoice{rank, labelIndex});
@@ -854,7 +863,7 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
         }
     }
 
-    const auto reconstruct = [&labels, rootLabel, daySteps](
+    const auto reconstruct = [&config, &labels, rootLabel, daySteps](
                                  std::uint32_t witness) {
         const SparseResourceLabel& terminal = labels.at(
             static_cast<std::size_t>(witness));
@@ -863,7 +872,9 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
         route.usedSteps = terminal.usedSteps;
         route.patrolFuel = terminal.usedFuel;
         route.terminalCell = terminal.cell;
-        route.terminalOnSpot = true;
+        route.terminalOnSpot =
+            config.spotAtCell.at(static_cast<std::size_t>(terminal.cell)) !=
+            kInvalidSpot;
         std::vector<PlanAction> reversed;
         std::uint32_t current = witness;
         while (current != rootLabel) {
@@ -1801,6 +1812,30 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes(
         maximumRoutes,
         maximumSettledStates,
         preferredBrands,
+        std::nullopt,
+        deadline);
+}
+
+ExactOrienteeringReachability
+enumerate_sparse_anytime_resource_routes_to_terminal(
+    const MatchConfig& config,
+    const DayState& state,
+    AgentIndex agentIndex,
+    CellId requiredTerminal,
+    std::int32_t minimumSpots,
+    std::size_t maximumRoutes,
+    std::uint64_t maximumSettledStates,
+    std::optional<std::chrono::steady_clock::time_point> deadline,
+    std::uint64_t preferredBrands) {
+    return enumerate_sparse_anytime_resource_routes_impl(
+        config,
+        state,
+        agentIndex,
+        minimumSpots,
+        maximumRoutes,
+        maximumSettledStates,
+        preferredBrands,
+        requiredTerminal,
         deadline);
 }
 
