@@ -4,6 +4,66 @@ Updated: 2026-08-24
 
 ## Current phase
 
+### ACCEPTED protected mid-day deep-chain lane: SCORE-MIDDAY-CHAIN-ADOPTION-210
+
+Accepted 2026-08-25 and enabled in the production HTTP client with a
+recorded BTC live-gate debt. Same-binary causal A/B (both sides
+terminal-pair ON, differing only in `--midday-chain 0|1`, quiet VM,
+sequential sides): development paired=60 **39W/17T/4L, +336 servings**,
+acceptance-conditional 38W/1T/2L; sealed holdout paired=108
+**63W/42T/3L, +465 servings**, acceptance-conditional **62W/0T/2L**,
+acceptances 222 across 64/108 cases, off-side control 0, zero
+invalid/emergency/lane-failure, runtime parity (2461/2458ms mean,
+3020/3021ms max). Every lane positive — fuel low 22/17/0, hard 24/11/1,
+very-hard 28/11/1. All 7 losses across both gates sit in the 165
+timed-search noise channel; the +801 aggregate asymmetry rejects
+balanced-nonmonotonic. Mechanism: `refine_midday_chains` one-agent
+deep-route substitution after the wait-detour fixed point, accepted only
+via the unchanged `strict_protected_improvement` certificate
+(state-identical day transition ⇒ future domain preserved, sound by
+construction). Production binary SHA256 `B8D7DD21…`; evidence
+`SCORE-MIDDAY-CHAIN-ADOPTION-210.md` (log hashes inside). **BTC DEBT**:
+live practice matches with the 210 binary on operator return
+(submissions/reserve/middayChainAcceptances telemetry). Successor axes
+left open: main-solve retention (prune_columns spot-diversity gate in
+sub-3× fuel regimes) as its own registered experiment; positioning days
+(209 shape 2) stay closed pending a sound multi-day certificate.
+
+Original registration: parent `e9d3962`, production-protected-lane candidate.
+Target: the 209 position-then-sweep generation gap and the live m-4039
+~3 servings/day chain-depth deficit (fuel=2x steps regime, tier-1/2 tied at
+cap). Root causes located in code: `prune_columns` runs its serving-coverage
+diversity pass only when `fuelLimit >= 3*daySteps` (planner.cpp:4229/4384 ->
+1387) and skips brand-marginal-zero columns (planner.cpp:1359), so in
+brand-saturated regimes deep serving chains survive retention only as sort
+tiebreaks; the accepted terminal refiners (191/207) are guard-restricted to
+`dayNumber == day_count()` and cannot reach mid-days.
+
+Mechanism (minimal intervention): a new protected mid-day lane in
+`ProtectedSlackRefiner` — one-agent deep-route substitution from
+`enumerate_sparse_anytime_resource_routes`, iterated to a fixed point (191
+pattern), accepted ONLY via the unchanged, production-accepted
+`strict_protected_improvement` certificate (slack_refiner.cpp:93: equal
+road footprint + same terminal cell + patrol fuel >= + brand monotone +
+strict lexicographic day gain). The certificate makes mid-day acceptance
+sound by construction (future domain preserved; no opponent-traffic side
+channel — equality, not subset). Runs strictly after the certified
+incumbent and existing refiners, consumes only leftover protected budget;
+main timed solve untouched (194/195/198); incumbent replaced only by exact
+improvement (201); no realized-suffix comparison (164). Same-binary causal
+A/B flag `--midday-chain 0|1`. Frozen manifest
+`research/holdouts/SCORE-MIDDAY-CHAIN-ADOPTION-210.csv` SHA256
+`33E1591047103CE10BFF4A35A7A488826B8CB9B321BDF596AF0DDECFE110D4FB`
+(fresh blocks: dev 4920000/4921000/4922000/4923000, holdout
+4930000/4931000/4932000/4933000; standard fuel rotation straddles the
+3*daySteps regime boundary). Pre-registered kill conditions: yield
+starvation (~0 dev acceptances) closes rejected-yield and requires a
+separately-registered relaxed-certificate successor; any
+invalid/emergency/runtime-parity violation closes rejected; acceptance
+needs positive dev W/T/L -> sealed holdout -> BTC live gate (207 chain).
+Main-solve retention (the prune_columns findings) is explicitly OUT of
+scope — a future experiment with its own registration.
+
 ### CLOSED coupled-suffix pre-gate: ATTR-SUFFIX-TRAJECTORY-MEMBERSHIP-209 — accepted-attribution-generation-blocked
 
 Closed 2026-08-24 on 3/3 witnesses (walker fidelity exact under all three

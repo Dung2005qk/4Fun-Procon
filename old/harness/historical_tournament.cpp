@@ -63,6 +63,7 @@ struct Options {
     bool protectedWaitDetours = false;
     bool protectedWaitClosedLoop = false;
     bool terminalPairExchange = false;
+    bool middayChainAdoption = false;
     bool dayDetails = false;
 };
 
@@ -119,6 +120,15 @@ struct Metrics {
     udon::OfficialScore terminalSparseParentScore;
     udon::OfficialScore terminalSparseFirstRoundScore;
     udon::OfficialScore terminalSparseRefinedScore;
+    std::int64_t middayRoutes = 0;
+    std::int64_t middayPlans = 0;
+    std::int64_t middayValid = 0;
+    std::int64_t middayChainAcceptances = 0;
+    std::int64_t middayRounds = 0;
+    std::int32_t middayTakeovers = 0;
+    std::int32_t middayDeadlineDays = 0;
+    std::int32_t middayFailureDays = 0;
+    std::int32_t middayBestDay = 0;
 };
 
 [[nodiscard]] std::uint64_t plan_hash(const udon::DayPlan& plan) {
@@ -704,6 +714,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     const udon::IndependentDayValidator validator(config);
     udon::ProtectedSlackRefiner slackRefiner(config);
     slackRefiner.enableTerminalPairExchange = options.terminalPairExchange;
+    slackRefiner.enableMiddayChainAdoption = options.middayChainAdoption;
     std::vector<std::vector<std::int32_t>> ownFootprints(
         static_cast<std::size_t>(config.day_count()),
         std::vector<std::int32_t>(
@@ -842,6 +853,46 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                     detailed = protectedChoice.simulation;
                     appliedPlanHash = plan_hash(protectedChoice.plan);
                     ++metrics.protectedWaitTakeovers;
+                }
+                // Registered SCORE-MIDDAY-CHAIN-ADOPTION-210: the mid-day
+                // deep-chain lane consumes only what remains of the same
+                // protected window, strictly after the wait-detour fixed
+                // point, and accepts solely through the unchanged
+                // strict_protected_improvement certificate.
+                if (options.middayChainAdoption) {
+                    const udon::DayPlan middayBase =
+                        options.protectedWaitClosedLoop &&
+                            protectedChoice.improved
+                        ? protectedChoice.plan
+                        : decision.candidate.plan;
+                    const udon::ProtectedSlackResult middayChoice =
+                        slackRefiner.refine_midday_chains(
+                            state,
+                            ledger,
+                            middayBase,
+                            detailed,
+                            protectedDeadline);
+                    metrics.middayRoutes +=
+                        middayChoice.diagnostics.middayRoutes;
+                    metrics.middayPlans +=
+                        middayChoice.diagnostics.middayGeneratedPlans;
+                    metrics.middayValid +=
+                        middayChoice.diagnostics.middayValidPlans;
+                    metrics.middayChainAcceptances +=
+                        middayChoice.diagnostics.middayChainAcceptances;
+                    metrics.middayRounds +=
+                        middayChoice.diagnostics.middayRounds;
+                    metrics.middayDeadlineDays +=
+                        middayChoice.diagnostics.deadlineReached ? 1 : 0;
+                    metrics.middayFailureDays +=
+                        middayChoice.diagnostics.middayFailure ? 1 : 0;
+                    if (options.protectedWaitClosedLoop &&
+                        middayChoice.improved) {
+                        detailed = middayChoice.simulation;
+                        appliedPlanHash = plan_hash(middayChoice.plan);
+                        metrics.middayBestDay = state.dayNumber;
+                        ++metrics.middayTakeovers;
+                    }
                 }
             }
             if (options.terminalSparseBudget.count() > 0 &&
@@ -1038,6 +1089,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             options.protectedWaitDetours = true;
         } else if (value == "--terminal-pair") {
             options.terminalPairExchange = std::stoi(next()) != 0;
+        } else if (value == "--midday-chain") {
+            options.middayChainAdoption = std::stoi(next()) != 0;
         } else if (value == "--protected-wait-closed-loop") {
             options.protectedWaitDetours = true;
             options.protectedWaitClosedLoop = true;
@@ -1198,6 +1251,16 @@ void print_result(
               << metrics.terminalSparseRefinedScore.lifetimeDistinct << '/'
               << metrics.terminalSparseRefinedScore.totalDailyDistinct << '/'
               << metrics.terminalSparseRefinedScore.totalServings
+              << ",midday_routes=" << metrics.middayRoutes
+              << ",midday_plans=" << metrics.middayPlans
+              << ",midday_valid=" << metrics.middayValid
+              << ",midday_chain_acceptances="
+              << metrics.middayChainAcceptances
+              << ",midday_rounds=" << metrics.middayRounds
+              << ",midday_takeovers=" << metrics.middayTakeovers
+              << ",midday_deadline_days=" << metrics.middayDeadlineDays
+              << ",midday_failure_days=" << metrics.middayFailureDays
+              << ",midday_best_day=" << metrics.middayBestDay
               << ",mean_ms=" << meanMilliseconds
               << ",p95_ms=" << percentile(metrics.responseTimes, 95)
               << ",max_ms=" << percentile(metrics.responseTimes, 100)

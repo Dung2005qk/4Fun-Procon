@@ -677,4 +677,219 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_terminal_sparse(
     return result;
 }
 
+ProtectedSlackResult ProtectedSlackRefiner::refine_midday_chains(
+    const DayState& state,
+    const MatchLedger& ledger,
+    const DayPlan& incumbentPlan,
+    const SimulationResult& incumbentSimulation,
+    std::chrono::steady_clock::time_point deadline) const {
+    ProtectedSlackResult result;
+    result.plan = incumbentPlan;
+    result.simulation = incumbentSimulation;
+    result.scoreAfterToday =
+        OfficialScore::after_day(ledger, incumbentSimulation.score);
+    result.firstRoundScore = result.scoreAfterToday;
+    if (!enableMiddayChainAdoption ||
+        !incumbentSimulation.valid ||
+        state.dayNumber >= config_.day_count() ||
+        incumbentPlan.actions.size() !=
+            static_cast<std::size_t>(config_.agent_count()) ||
+        config_.spots.size() > 32U) {
+        return result;
+    }
+    result.diagnostics.middayChain = true;
+    const SimulationResult independentIncumbent =
+        validator_.validate(state, incumbentPlan, false);
+    std::string incumbentMismatch;
+    if (!validator_.agrees_with(
+            incumbentSimulation,
+            independentIncumbent,
+            incumbentMismatch)) {
+        return result;
+    }
+    constexpr auto kValidationReserve = std::chrono::milliseconds{80};
+    const auto now = std::chrono::steady_clock::now();
+    if (now + kValidationReserve >= deadline) {
+        result.diagnostics.deadlineReached = true;
+        return result;
+    }
+    const auto searchDeadline = deadline - kValidationReserve;
+
+    std::uint64_t preferredBrands = 0U;
+    for (std::int32_t brand = 0; brand < config_.brand_count(); ++brand) {
+        if (!has_brand(ledger.lifetimeBrands, brand)) {
+            preferredBrands |= brand_bit(brand);
+        }
+    }
+    if (preferredBrands == 0U) {
+        for (std::int32_t brand = 0; brand < config_.brand_count(); ++brand) {
+            if (!has_brand(incumbentSimulation.score.brands, brand)) {
+                preferredBrands |= brand_bit(brand);
+            }
+        }
+    }
+    const std::int32_t minimumSpots = std::min<std::int32_t>(
+        std::max(1, config_.brand_count() - 1),
+        static_cast<std::int32_t>(config_.spots.size()));
+
+    std::vector<AgentIndex> tasks;
+    for (AgentIndex agent = 0; agent < config_.agent_count(); ++agent) {
+        if (state.agents.at(static_cast<std::size_t>(agent)).kind ==
+            AgentKind::Patrol) {
+            tasks.push_back(agent);
+        }
+    }
+    if (tasks.empty()) {
+        return result;
+    }
+    std::vector<ExactOrienteeringReachability> reachability(
+        static_cast<std::size_t>(config_.agent_count()));
+    std::atomic<std::size_t> nextTask{0U};
+    std::atomic<bool> workerFailed{false};
+    constexpr std::size_t kWorkerLimit = 4U;
+    const std::size_t workerCount = std::min(kWorkerLimit, tasks.size());
+    {
+        std::vector<std::jthread> workers;
+        workers.reserve(workerCount);
+        for (std::size_t worker = 0; worker < workerCount; ++worker) {
+            workers.emplace_back([&]() {
+                try {
+                    while (!workerFailed.load() &&
+                           std::chrono::steady_clock::now() < searchDeadline) {
+                        const std::size_t task = nextTask.fetch_add(1U);
+                        if (task >= tasks.size()) {
+                            return;
+                        }
+                        const AgentIndex agent = tasks.at(task);
+                        reachability.at(static_cast<std::size_t>(agent)) =
+                            enumerate_sparse_anytime_resource_routes(
+                                config_,
+                                state,
+                                agent,
+                                minimumSpots,
+                                32U,
+                                1250000U,
+                                searchDeadline,
+                                preferredBrands);
+                    }
+                } catch (...) {
+                    workerFailed.store(true);
+                }
+            });
+        }
+    }
+    if (workerFailed.load()) {
+        result.diagnostics.middayFailure = true;
+        return result;
+    }
+
+    std::set<std::uint64_t> planHashes;
+    planHashes.insert(plan_hash(incumbentPlan));
+    bool firstRound = true;
+    for (;;) {
+        const DayPlan roundBasePlan = result.plan;
+        const SimulationResult roundBaseSimulation = result.simulation;
+        const OfficialScore roundBaseScore = result.scoreAfterToday;
+        DayPlan roundBestPlan = roundBasePlan;
+        SimulationResult roundBestSimulation = roundBaseSimulation;
+        OfficialScore roundBestScore = roundBaseScore;
+        AgentIndex roundBestAgent = kInvalidAgent;
+        bool roundDeadline = false;
+
+        for (const AgentIndex agent : tasks) {
+            const ExactOrienteeringReachability& routes =
+                reachability.at(static_cast<std::size_t>(agent));
+            const CellId incumbentTerminal =
+                roundBaseSimulation.finalAgents.at(
+                    static_cast<std::size_t>(agent)).position;
+            const auto evaluate = [&](const ExactOrienteeringRoute& route) {
+                if (std::chrono::steady_clock::now() >= deadline) {
+                    result.diagnostics.deadlineReached = true;
+                    roundDeadline = true;
+                    return false;
+                }
+                ++result.diagnostics.middayRoutes;
+                // The strict_protected_improvement certificate requires the
+                // same per-agent terminal cell; skipping mismatches before
+                // simulation only removes certain rejections.
+                if (route.terminalCell != incumbentTerminal) {
+                    return true;
+                }
+                DayPlan candidate = roundBasePlan;
+                candidate.actions.at(static_cast<std::size_t>(agent)) =
+                    route.actions;
+                if (!planHashes.insert(plan_hash(candidate)).second) {
+                    return true;
+                }
+                ++result.diagnostics.middayGeneratedPlans;
+                const SimulationResult detailed =
+                    simulator_.simulate(state, candidate, false);
+                const SimulationResult independent =
+                    validator_.validate(state, candidate, false);
+                std::string mismatch;
+                if (!detailed.valid ||
+                    !validator_.agrees_with(detailed, independent, mismatch)) {
+                    return true;
+                }
+                ++result.diagnostics.middayValidPlans;
+                if (!strict_protected_improvement(
+                        ledger,
+                        roundBaseSimulation,
+                        detailed)) {
+                    return true;
+                }
+                const OfficialScore candidateScore =
+                    OfficialScore::after_day(ledger, detailed.score);
+                if (!(roundBestScore < candidateScore)) {
+                    return true;
+                }
+                roundBestPlan = std::move(candidate);
+                roundBestSimulation = detailed;
+                roundBestScore = candidateScore;
+                roundBestAgent = agent;
+                return true;
+            };
+            for (const ExactOrienteeringRoute& route : routes.maximalRoutes) {
+                if (!evaluate(route)) {
+                    break;
+                }
+            }
+            if (!roundDeadline) {
+                for (const ExactOrienteeringRoute& route :
+                     routes.supplementalRoutes) {
+                    if (!evaluate(route)) {
+                        break;
+                    }
+                }
+            }
+            if (roundDeadline) {
+                break;
+            }
+        }
+
+        if (roundBaseScore < roundBestScore) {
+            ++result.diagnostics.middayChainAcceptances;
+            result.plan = std::move(roundBestPlan);
+            result.simulation = roundBestSimulation;
+            result.scoreAfterToday = roundBestScore;
+            result.improved = true;
+            result.witnessAgent = roundBestAgent;
+            result.witnessParentFuel = roundBaseSimulation.finalAgents.at(
+                static_cast<std::size_t>(roundBestAgent)).fuel;
+            result.witnessCandidateFuel =
+                result.simulation.finalAgents.at(
+                    static_cast<std::size_t>(roundBestAgent)).fuel;
+            ++result.diagnostics.middayRounds;
+        }
+        if (firstRound) {
+            result.firstRoundScore = result.scoreAfterToday;
+            firstRound = false;
+        }
+        if (roundDeadline || !(roundBaseScore < roundBestScore)) {
+            break;
+        }
+    }
+    return result;
+}
+
 } // namespace udon

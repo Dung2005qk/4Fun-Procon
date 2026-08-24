@@ -1994,6 +1994,11 @@ void run_http(const RuntimeOptions& options) {
     // terminal ascent reaches its fixed point, spend only the remaining
     // protected terminal budget on strict-improvement pair exchanges.
     slackRefiner.enableTerminalPairExchange = true;
+    // Accepted SCORE-MIDDAY-CHAIN-ADOPTION-210: mid-day one-agent deep-chain
+    // substitution under the unchanged strict_protected_improvement
+    // certificate, chained after the wait-detour fixed point inside the same
+    // protected refinement window.
+    slackRefiner.enableMiddayChainAdoption = true;
     bool idlePostAckWorkPending = false;
     bool idleContingencyPrecompute = true;
     while (true) {
@@ -2137,19 +2142,56 @@ void run_http(const RuntimeOptions& options) {
                     const auto refinementDeadline =
                         std::chrono::steady_clock::now() +
                         std::chrono::milliseconds{refinementRemainingMs};
-                    refinement = state.dayNumber == config.day_count()
-                        ? slackRefiner.refine_terminal_sparse(
-                              state,
-                              ledger,
-                              submittedPlan,
-                              submittedSimulation,
-                              refinementDeadline)
-                        : slackRefiner.refine_wait_detours(
-                              state,
-                              ledger,
-                              submittedPlan,
-                              submittedSimulation,
-                              refinementDeadline);
+                    if (state.dayNumber == config.day_count()) {
+                        refinement = slackRefiner.refine_terminal_sparse(
+                            state,
+                            ledger,
+                            submittedPlan,
+                            submittedSimulation,
+                            refinementDeadline);
+                    } else {
+                        refinement = slackRefiner.refine_wait_detours(
+                            state,
+                            ledger,
+                            submittedPlan,
+                            submittedSimulation,
+                            refinementDeadline);
+                        const udon::ProtectedSlackResult midday =
+                            slackRefiner.refine_midday_chains(
+                                state,
+                                ledger,
+                                refinement.plan,
+                                refinement.simulation,
+                                refinementDeadline);
+                        refinement.diagnostics.middayRoutes =
+                            midday.diagnostics.middayRoutes;
+                        refinement.diagnostics.middayGeneratedPlans =
+                            midday.diagnostics.middayGeneratedPlans;
+                        refinement.diagnostics.middayValidPlans =
+                            midday.diagnostics.middayValidPlans;
+                        refinement.diagnostics.middayChainAcceptances =
+                            midday.diagnostics.middayChainAcceptances;
+                        refinement.diagnostics.middayRounds =
+                            midday.diagnostics.middayRounds;
+                        refinement.diagnostics.middayChain =
+                            midday.diagnostics.middayChain;
+                        refinement.diagnostics.middayFailure =
+                            midday.diagnostics.middayFailure;
+                        refinement.diagnostics.deadlineReached =
+                            refinement.diagnostics.deadlineReached ||
+                            midday.diagnostics.deadlineReached;
+                        if (midday.improved) {
+                            refinement.plan = midday.plan;
+                            refinement.simulation = midday.simulation;
+                            refinement.scoreAfterToday = midday.scoreAfterToday;
+                            refinement.improved = true;
+                            refinement.witnessAgent = midday.witnessAgent;
+                            refinement.witnessParentFuel =
+                                midday.witnessParentFuel;
+                            refinement.witnessCandidateFuel =
+                                midday.witnessCandidateFuel;
+                        }
+                    }
                 }
                 if (refinement.improved) {
                     submittedPlan = refinement.plan;
@@ -2257,6 +2299,30 @@ void run_http(const RuntimeOptions& options) {
                     "terminalSparseRounds",
                     udon::JsonValue(
                         refinement.diagnostics.terminalSparseRounds));
+                telemetry.emplace(
+                    "middayRoutes",
+                    udon::JsonValue(refinement.diagnostics.middayRoutes));
+                telemetry.emplace(
+                    "middayGeneratedPlans",
+                    udon::JsonValue(
+                        refinement.diagnostics.middayGeneratedPlans));
+                telemetry.emplace(
+                    "middayValidPlans",
+                    udon::JsonValue(
+                        refinement.diagnostics.middayValidPlans));
+                telemetry.emplace(
+                    "middayChainAcceptances",
+                    udon::JsonValue(
+                        refinement.diagnostics.middayChainAcceptances));
+                telemetry.emplace(
+                    "middayRounds",
+                    udon::JsonValue(refinement.diagnostics.middayRounds));
+                telemetry.emplace(
+                    "middayChain",
+                    udon::JsonValue(refinement.diagnostics.middayChain));
+                telemetry.emplace(
+                    "middayFailure",
+                    udon::JsonValue(refinement.diagnostics.middayFailure));
                 telemetry.emplace(
                     "firstRoundDailyDistinct",
                     udon::JsonValue(static_cast<std::int64_t>(

@@ -21,9 +21,16 @@ struct ProtectedSlackDiagnostics {
     std::int64_t strictTerminalImprovements = 0;
     std::int64_t terminalSparseRounds = 0;
     std::int64_t terminalPairAcceptances = 0;
+    std::int64_t middayRoutes = 0;
+    std::int64_t middayGeneratedPlans = 0;
+    std::int64_t middayValidPlans = 0;
+    std::int64_t middayChainAcceptances = 0;
+    std::int64_t middayRounds = 0;
     bool deadlineReached = false;
     bool terminalSparse = false;
     bool sparseFailure = false;
+    bool middayChain = false;
+    bool middayFailure = false;
 };
 
 struct ProtectedSlackResult {
@@ -64,6 +71,14 @@ public:
     // harnesses keep a byte-identical 191 parent for causal A/B runs.
     bool enableTerminalPairExchange = false;
 
+    // Registered SCORE-MIDDAY-CHAIN-ADOPTION-210 (research A/B only until
+    // accepted): mid-day one-agent deep-chain substitution accepted solely
+    // through the unchanged strict_protected_improvement certificate, so
+    // every takeover preserves the day transition (equal road footprint,
+    // same terminal cells, patrol fuel >=) while strictly improving the
+    // official day score. Default off keeps the parent byte-identical.
+    bool enableMiddayChainAdoption = false;
+
     [[nodiscard]] ProtectedSlackResult refine_wait_detours(
         const DayState& state,
         const MatchLedger& ledger,
@@ -78,6 +93,13 @@ public:
         std::chrono::steady_clock::time_point deadline) const;
 
     [[nodiscard]] ProtectedSlackResult refine_terminal_sparse(
+        const DayState& state,
+        const MatchLedger& ledger,
+        const DayPlan& incumbentPlan,
+        const SimulationResult& incumbentSimulation,
+        std::chrono::steady_clock::time_point deadline) const;
+
+    [[nodiscard]] ProtectedSlackResult refine_midday_chains(
         const DayState& state,
         const MatchLedger& ledger,
         const DayPlan& incumbentPlan,
