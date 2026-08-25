@@ -69,6 +69,7 @@ struct Options {
     bool middayChainAdoption = false;
     bool middayPairExchange = false;
     bool middayTargetTerminalFollowup = false;
+    bool shortRoleFallback = false;
     bool dayDetails = false;
 };
 
@@ -453,6 +454,15 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         : 12;
     if (options.suite == "stratified-easy") {
         fixture = generated_btc_large_fixture(seed, 14, 5, 4, spotCount);
+    } else if (options.suite == "stratified-easy-brand8") {
+        fixture = generated_btc_large_fixture(seed, 12, 5, 4, spotCount);
+        fixture.daySteps.assign(5U, 60);
+        for (std::size_t spotIndex = 0;
+             spotIndex < fixture.spots.size();
+             ++spotIndex) {
+            fixture.spots.at(spotIndex).brand =
+                static_cast<std::int32_t>(spotIndex % 8U);
+        }
     } else if (options.suite == "stratified-medium") {
         fixture = generated_btc_large_fixture(seed, 20, 7, 4, spotCount);
     } else if (options.suite == "stratified-hard") {
@@ -475,6 +485,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         fixture.name = "btc-lowfuel-" + fixture.name;
         fixture.fuelLimit = fixture.daySteps.front();
     } else if (options.suite == "stratified-easy" ||
+               options.suite == "stratified-easy-brand8" ||
                options.suite == "stratified-medium" ||
                options.suite == "stratified-hard" ||
                options.suite == "stratified-very-hard") {
@@ -697,6 +708,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         kHarnessHarvestMode,
         false,
         kHarnessFutureHarvestMode);
+    engine.set_short_horizon_role_fallback(options.shortRoleFallback);
     const auto roleStarted = std::chrono::steady_clock::now();
     Metrics metrics;
     std::vector<udon::AgentKind> roles;
@@ -1488,6 +1500,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             options.middayPairExchange = std::stoi(next()) != 0;
         } else if (value == "--midday-target-followup") {
             options.middayTargetTerminalFollowup = std::stoi(next()) != 0;
+        } else if (value == "--short-role-fallback") {
+            options.shortRoleFallback = std::stoi(next()) != 0;
         } else if (value == "--protected-wait-closed-loop") {
             options.protectedWaitDetours = true;
             options.protectedWaitClosedLoop = true;

@@ -38,6 +38,10 @@ std::vector<RoleAssignment> MatchSession::select_roles_until(
     return engine_.select_roles_until(available, beamWidth);
 }
 
+void MatchSession::set_short_horizon_role_fallback(bool enabled) {
+    engine_.set_short_horizon_role_fallback(enabled);
+}
+
 SessionDecision MatchSession::on_authoritative_state(
     const DayState& state,
     const MatchLedger& ledger,

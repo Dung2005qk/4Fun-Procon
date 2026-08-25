@@ -464,7 +464,8 @@ enum class RoutePoolSearch : std::uint8_t {
 [[nodiscard]] bool apply_incomplete_long_horizon_role_fallback(
     const MatchConfig& config,
     bool fullHorizonComparisonComplete,
-    std::vector<RoleAssignment>& beam);
+    std::vector<RoleAssignment>& beam,
+    bool includeShortHorizon = false);
 
 class UdonShieldEngine {
 public:
@@ -482,6 +483,8 @@ public:
     [[nodiscard]] std::vector<RoleAssignment> select_roles_until(
         std::chrono::milliseconds available,
         std::int32_t beamWidth = 3) const;
+
+    void set_short_horizon_role_fallback(bool enabled);
 
     [[nodiscard]] DecisionResult solve_day(
         const DayState& state,
@@ -546,6 +549,7 @@ private:
     RoutePoolSearch routePoolSearch_;
     std::int32_t harvestExtensionMode_ = 5;
     bool requireUndominatedCurrentFloor_ = false;
+    bool shortHorizonRoleFallback_ = false;
     ResponseLedger ledger_;
     std::optional<std::int32_t> lastSubmittedDay_;
     std::optional<std::vector<AgentState>> expectedNextAgents_;

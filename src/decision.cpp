@@ -3579,8 +3579,17 @@ std::int32_t role_comparison_beam_width(
 bool apply_incomplete_long_horizon_role_fallback(
     const MatchConfig& config,
     bool fullHorizonComparisonComplete,
-    std::vector<RoleAssignment>& beam) {
-    if (fullHorizonComparisonComplete || beam.empty() || config.day_count() <= 5) {
+    std::vector<RoleAssignment>& beam,
+    bool includeShortHorizon) {
+    const bool shortHorizon = config.day_count() <= 5;
+    if (fullHorizonComparisonComplete || beam.empty() ||
+        (shortHorizon && !includeShortHorizon)) {
+        return false;
+    }
+    if (shortHorizon &&
+        beam.front().patrolCount >= config.agent_count() - 1) {
+        // Short horizons only displace tanker-heavy leaders; incomplete
+        // rollouts cannot rank an all-patrol/single-tanker parent reliably.
         return false;
     }
     auto bestSingleTanker = beam.end();
@@ -3764,6 +3773,10 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_exhaustive_oracle(
         beam.resize(static_cast<std::size_t>(beamWidth));
     }
     return beam;
+}
+
+void UdonShieldEngine::set_short_horizon_role_fallback(bool enabled) {
+    shortHorizonRoleFallback_ = enabled;
 }
 
 std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
@@ -3972,7 +3985,8 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
     static_cast<void>(apply_incomplete_long_horizon_role_fallback(
         config_,
         fullHorizonComparisonComplete,
-        beam));
+        beam,
+        shortHorizonRoleFallback_));
     if (static_cast<std::int32_t>(beam.size()) > beamWidth) {
         beam.resize(static_cast<std::size_t>(beamWidth));
     }

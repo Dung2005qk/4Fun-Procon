@@ -33,6 +33,8 @@ public:
         std::chrono::milliseconds available,
         std::int32_t beamWidth = 3) const;
 
+    void set_short_horizon_role_fallback(bool enabled);
+
     [[nodiscard]] SessionDecision on_authoritative_state(
         const DayState& state,
         const MatchLedger& ledger,

@@ -2,7 +2,70 @@
 
 Updated: 2026-08-25
 
-## Current phase — 219 accepted production checkpoint
+## Current phase — 221 accepted production (short-horizon role fallback)
+
+SCORE-ROLE-SHORT-HORIZON-221 is closed **accepted-production** (final
+mechanism v3 after two pre-registered revisions; full lineage in the ledger
+row and research/evidence/SCORE-ROLE-SHORT-HORIZON-221.md). Production now
+extends the accepted single-tanker fallback to `day_count() <= 5`, acting
+ONLY when the incumbent role-beam front is tanker-heavy
+(patrolCount <= agent_count-2) — the exact class ATTR-220 proved broken with
+full-engine counterfactuals (live losses m-4195/m-4196 at 100/94 vs winners
+114/113; 3-patrol counterfactuals 130/130). All-patrol and single-tanker
+parents are never displaced. Long-horizon behavior byte-identical; flag-off
+byte-inert; dev (4 suites) and a fresh sealed holdout show zero
+flag-attributable regression under the interleaved off/on attribution
+standard. Production binary SHA256
+`4EB926039A50D28F2202BFBE840866D770FD1928119183441C0034377BAA2FE4`.
+BTC debt: fresh short-horizon practice matches to confirm live composition
+(>=3 patrols) and rank.
+
+Successor axes registered (NOT covered by 221): (1) bistable role selection
+under wall-clock rollout truncation — same-flag composition coin flips worth
+±36 servings, including a fuel-tight class where an unlucky all-patrol draw
+loses tier-2 daily (seeds 7300017/8340005/8400006); (2) synthetic harness
+maps cannot reproduce the live 2-tanker front pathology — live-replay gates
+are the activation instrument; (3) single-tanker agent-placement jitter.
+
+## Superseded in-development notes (220/221)
+
+Two fresh target-host losses (m-4195, m-4196: 12x12 five-day 60-step fuel-180
+8-brand practice regime, both rank 4 at 8/40/100 and 8/40/94 against winners
+114/113) are fully attributed by ATTR-ROLE-SHORT-HORIZON-220
+(accepted-attribution) to the day-0 role composition: live selection chose
+2 patrols + 2 tankers because `select_roles_until` for `day_count() <= 5`
+skips the accepted long-horizon incomplete-rollout fallback (decision.cpp
+gate from 8caea45) and trusts truncated-rollout daily-distinct noise
+(37-38 vs 36, rank 1 alternating across identical reruns). Same-binary
+`replay-counterfactual` scores 8/40/130 with 3 patrols + 1 tanker and
+8/40/128 / 8/40/118 with all patrols on the two losses — rank 1 either way —
+while single-tanker placement can lose tier-2 (mask4 on m-4195: 8/37/117),
+so the successor prefers the all-patrol row only under threshold-free
+lexicographic rollout dominance and otherwise keeps the single-tanker floor.
+Not machine speed (deadlineReached=0, checkpoint predictions matched realized
+exactly); not the protected-lane stack (0 acceptances, inert in this regime).
+Evidence: research/evidence/ATTR-ROLE-SHORT-HORIZON-220.md.
+
+SCORE-ROLE-SHORT-HORIZON-221 (open, registered before source change):
+default-off `includeShortHorizon` parameter on
+`apply_incomplete_long_horizon_role_fallback` + engine/session setter +
+harness/btc `--short-role-fallback`. Frozen-replay gates all passed on the
+new binary FDAAD8BBFCA795A9998C52B18253E9C86B148CD0876E9E3DF1F561E4BAA66269:
+flag-off replay-check byte-reproduces m-4043/44/45 (6/42/127, 6/60/364,
+6/60/144); flag-on beam[0] becomes PPPP on m-4195/m-4196 (220-matrix
+counterfactual 128/118 >= 118), stays PPPP on m-4149/m-4155, stays PPP on
+m-3810/m-3907 (complete rollouts), and long-horizon beam[0] is
+flag-independent (m-4043 single-tanker agent choice jitters run-to-run under
+BOTH flag values — pre-existing production nondeterminism, verified 6 reruns).
+Unit tests extended (5 new fallback cases; all tests pass). Dev A/B running
+on frozen splits research/holdouts/SCORE-ROLE-SHORT-HORIZON-221-dev.csv
+(SHA256 301CCF88F0EB6D9E5B07CBBA535ECB572760185F984B1B335C76B5FECC426E17):
+stratified-easy 7300001+24 and general 7320001+12 active,
+stratified-medium 7300001+6 inertness control; sealed holdout
+research/holdouts/SCORE-ROLE-SHORT-HORIZON-221.csv (SHA256
+EFC26FFAAE4909A941035674C3C346D27D8C5DC5A565408E9350BB04C76DC446).
+
+## 219 accepted production checkpoint
 
 Experiment 218 is closed rejected after its causal application gate found a
 fresh `6/30/174 -> 6/30/162` regression on seed `5021002`. Interleaved

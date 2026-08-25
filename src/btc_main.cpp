@@ -52,6 +52,7 @@ struct RuntimeOptions {
     std::int32_t futureHarvestExtensionMode = -1;
     std::int32_t logicBudgetMs = 0;
     bool requireUndominatedCurrentFloor = false;
+    bool shortHorizonRoleFallback = false;
 };
 
 [[nodiscard]] std::int32_t effective_response_budget_ms(
@@ -163,6 +164,11 @@ private:
                 throw std::invalid_argument("--current-floor must be 0 or 1");
             }
             options.requireUndominatedCurrentFloor = value == "1";
+        } else if (key == "--short-role-fallback") {
+            if (value != "0" && value != "1") {
+                throw std::invalid_argument("--short-role-fallback must be 0 or 1");
+            }
+            options.shortHorizonRoleFallback = value == "1";
         } else if (key == "--poll-ms") {
             options.pollMs = parse_positive_integer(value, key);
         } else if (key == "--action-ack-ms") {
@@ -247,11 +253,12 @@ void print_usage() {
            "[--harvest-extensions 0|1|2|3|4|5|6|7] "
            "[--future-harvest-extensions 0|1|2|3|4|5|6|7] [--replay replay.jsonl]\n"
         << "  udonshield_btc replay-check --replay replay.jsonl [--response-ms 5000]\n"
-        << "  udonshield_btc replay-roles --replay replay.jsonl [--response-ms 5000] [--beam-width 8]\n"
+        << "  udonshield_btc replay-roles --replay replay.jsonl [--response-ms 5000] [--beam-width 8] "
+           "[--short-role-fallback 0|1]\n"
         << "  udonshield_btc replay-counterfactual --replay replay.jsonl --role-mask MASK "
            "[--response-ms 5000] [--harvest-extensions 0|1|2|3|4|5|6|7] [--max-days N] "
            "[--future-harvest-extensions 0|1|2|3|4|5|6|7] [--logic-budget-ms N] [--current-floor 0|1] "
-           "[--decision-dump decisions.jsonl]\n"
+           "[--short-role-fallback 0|1] [--decision-dump decisions.jsonl]\n"
         << "  udonshield_btc replay-solve --replay replay.jsonl --day DAY [--response-ms 5000]\n"
         << "HTTP mode reads the bearer token only from HEXUDON_TOKEN.\n";
 }
@@ -1336,6 +1343,7 @@ void run_replay_roles(const RuntimeOptions& options) {
         {},
         options.harvestExtensionMode,
         resolved_future_harvest_extension_mode(options));
+    session.set_short_horizon_role_fallback(options.shortHorizonRoleFallback);
     const std::chrono::steady_clock::time_point started =
         std::chrono::steady_clock::now();
     const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
@@ -1421,6 +1429,7 @@ void run_replay_counterfactual(const RuntimeOptions& options) {
         options.harvestExtensionMode,
         options.requireUndominatedCurrentFloor,
         resolved_future_harvest_extension_mode(options));
+    engine.set_short_horizon_role_fallback(options.shortHorizonRoleFallback);
     static_cast<void>(engine.select_roles_until(
         std::chrono::milliseconds{solveBudgetMs},
         options.beamWidth));
@@ -1561,6 +1570,9 @@ void run_sandbox(const RuntimeOptions& options) {
         {},
         options.harvestExtensionMode,
         resolved_future_harvest_extension_mode(options));
+    // Short (<=5-day) matches keep the single-tanker fallback whenever the
+    // incomplete-rollout comparison would seat a tanker-heavy composition.
+    session.set_short_horizon_role_fallback(true);
     const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
         std::chrono::milliseconds{effective_response_budget_ms(options)},
         options.beamWidth);
@@ -2001,6 +2013,9 @@ void run_http(const RuntimeOptions& options) {
         deadlineCalibration,
         options.harvestExtensionMode,
         resolved_future_harvest_extension_mode(options));
+    // Short (<=5-day) matches keep the single-tanker fallback whenever the
+    // incomplete-rollout comparison would seat a tanker-heavy composition.
+    session.set_short_horizon_role_fallback(true);
     for (const ReplayResumeState::AcceptedTransition& transition :
          resume.acceptedTransitions) {
         session.record_applied_transition(

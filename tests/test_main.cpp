@@ -337,6 +337,106 @@ void test_incomplete_long_horizon_role_fallback() {
             shortHorizonBeam.front().roles == allPatrol.roles,
         "protected 4/5-day horizons must preserve the parent role selection");
 
+    // SCORE-ROLE-SHORT-HORIZON-221: opt-in short-horizon fallback.
+    udon::RoleAssignment noisyTwoTanker;
+    noisyTwoTanker.roles = {
+        udon::AgentKind::Tanker,
+        udon::AgentKind::Tanker,
+        udon::AgentKind::Patrol,
+    };
+    noisyTwoTanker.patrolCount = 1;
+    noisyTwoTanker.rolloutValid = true;
+    noisyTwoTanker.rolloutScore = udon::OfficialScore{3, 13, 18};
+
+    std::vector<udon::RoleAssignment> shortNoisyBeam{
+        noisyTwoTanker,
+        betterSingleTanker,
+        weakerSingleTanker,
+        allPatrol,
+    };
+    require(
+        udon::apply_incomplete_long_horizon_role_fallback(
+            shortHorizonConfig,
+            false,
+            shortNoisyBeam,
+            true) &&
+            shortNoisyBeam.front().roles == betterSingleTanker.roles,
+        "opt-in short-horizon fallback must displace a noisy two-tanker leader "
+        "with the best single-tanker floor");
+
+    std::vector<udon::RoleAssignment> shortSingleFloorBeam{
+        noisyTwoTanker,
+        weakerSingleTanker,
+        betterSingleTanker,
+        allPatrol,
+    };
+    require(
+        udon::apply_incomplete_long_horizon_role_fallback(
+            shortHorizonConfig,
+            false,
+            shortSingleFloorBeam,
+            true) &&
+            shortSingleFloorBeam.front().roles == betterSingleTanker.roles,
+        "opt-in short-horizon fallback must never lift an all-patrol row over "
+        "the single-tanker floor");
+
+    std::vector<udon::RoleAssignment> shortCompleteBeam{
+        noisyTwoTanker,
+        betterSingleTanker,
+        allPatrol,
+    };
+    require(
+        !udon::apply_incomplete_long_horizon_role_fallback(
+            shortHorizonConfig,
+            true,
+            shortCompleteBeam,
+            true) &&
+            shortCompleteBeam.front().roles == noisyTwoTanker.roles,
+        "complete short-horizon evidence must stay authoritative even with the "
+        "opt-in fallback");
+
+    std::vector<udon::RoleAssignment> shortParentAllPatrolBeam{
+        allPatrol,
+        betterSingleTanker,
+        weakerSingleTanker,
+    };
+    require(
+        !udon::apply_incomplete_long_horizon_role_fallback(
+            shortHorizonConfig,
+            false,
+            shortParentAllPatrolBeam,
+            true) &&
+            shortParentAllPatrolBeam.front().roles == allPatrol.roles,
+        "an all-patrol parent selection must survive the opt-in short-horizon fallback");
+
+    std::vector<udon::RoleAssignment> shortParentSingleTankerBeam{
+        betterSingleTanker,
+        noisyTwoTanker,
+        allPatrol,
+    };
+    require(
+        !udon::apply_incomplete_long_horizon_role_fallback(
+            shortHorizonConfig,
+            false,
+            shortParentSingleTankerBeam,
+            true) &&
+            shortParentSingleTankerBeam.front().roles == betterSingleTanker.roles,
+        "a single-tanker parent selection must survive the opt-in short-horizon fallback");
+
+    std::vector<udon::RoleAssignment> longFlagOnBeam{
+        allPatrol,
+        weakerSingleTanker,
+        betterSingleTanker,
+    };
+    require(
+        udon::apply_incomplete_long_horizon_role_fallback(
+            longHorizonConfig,
+            false,
+            longFlagOnBeam,
+            true) &&
+            longFlagOnBeam.front().roles == betterSingleTanker.roles,
+        "long-horizon behavior must be identical under the opt-in flag");
+
     udon::MatchConfig lowFuelConfig = longHorizonConfig;
     lowFuelConfig.initialAgents = {8, 9, 10, 11, 12};
     lowFuelConfig.fuelLimit = 16;

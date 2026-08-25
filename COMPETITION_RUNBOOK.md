@@ -1,7 +1,7 @@
 cd 'C:\Users\LMC\Desktop\4Fun'
 
 $env:HEXUDON_TOKEN = 'bot-16e63de59d414edd0147e7f1'
-.\build-release\udonshield_btc.exe http --match m-3986 --response-ms 5000 --replay artifacts/btc/m-3986.jsonl
+.\build-release\udonshield_btc.exe http --match m-4196 --response-ms 5000 --replay artifacts/btc/m-4196.jsonl
 
 
 Remove-Item Env:HEXUDON_TOKEN
@@ -36,10 +36,19 @@ Remove-Item Env:HEXUDON_TOKEN
      `competition_compute_budget` (types.hpp:29) bất kể flag — CÓ CHỦ ĐÍCH:
      166 đã thử đưa thẳng 15000/60000ms vào lớp Long và THUA 0/4/2
      (53->50 servings); không bao giờ nới cap để "tận dụng" thời gian thừa.
-5. BINARY THI ĐẤU CHÍNH THỨC (chốt 2026-08-25): build từ lineage `288d17f`,
-   SHA256 `341C7464FEBCA337A6468767CB6FE6ABEF0A1E41DF8D49C43CE6926676D2D874`
-   — giống hệt về quyết định với binary đã qua live gate `B8D7DD21...`
-   (chỉ khác telemetry fix + flag nghiên cứu mặc định tắt; replay-check
-   tái tạo byte-exact cả 3 trận trả nợ). Sau khi build lại từ source,
-   LUÔN xác minh bằng: replay-check trên m-4043/44/45 phải cho đúng
-   6/42/127, 6/60/364, 6/60/144, và udonshield_tests pass toàn bộ.
+5. BINARY THI ĐẤU CHÍNH THỨC (cập nhật 2026-08-25, sau SCORE-ROLE-221):
+   SHA256 `4EB926039A50D28F2202BFBE840866D770FD1928119183441C0034377BAA2FE4`
+   — thêm short-horizon role fallback vào production (trận <=5 ngày không
+   bao giờ chọn đội hình >=2 tanker khi có single-tanker trong beam; nguyên
+   nhân trực tiếp của 2 trận thua rank-4 m-4195/m-4196). Sau khi build lại
+   từ source, LUÔN xác minh bằng:
+   a) udonshield_tests pass toàn bộ;
+   b) replay-check trên m-4043/44/45 phải cho đúng 6/42/127, 6/60/364,
+      6/60/144;
+   c) replay-roles --short-role-fallback 1 trên m-4195 và m-4196 phải cho
+      rank=1 với >=3 patrol (PPTP/PPPT-class), và trên m-4149/m-4155 phải
+      giữ PPPP.
+6. SAU TRẬN NGẮN (<=5 ngày) ĐẦU TIÊN với binary mới: kiểm tra frame
+   assignment trong replay — kỳ vọng >=3 patrol (giá trị 0 = patrol,
+   1 = tanker). Nếu thấy 2 tanker trở lên trong trận ngắn, báo ngay:
+   đó là điều kiện revert của 221.
