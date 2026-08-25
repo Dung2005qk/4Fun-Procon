@@ -36,8 +36,10 @@ Remove-Item Env:HEXUDON_TOKEN
      `competition_compute_budget` (types.hpp:29) bất kể flag — CÓ CHỦ ĐÍCH:
      166 đã thử đưa thẳng 15000/60000ms vào lớp Long và THUA 0/4/2
      (53->50 servings); không bao giờ nới cap để "tận dụng" thời gian thừa.
-5. BINARY THI ĐẤU CHÍNH THỨC (cập nhật 2026-08-26, sau SCORE-ROLE-225):
-   SHA256 `AAF73A3ADCD2E47B7C52A70E0A11B6767B37CB9C574BA7891E67399596FE08A7`
+5. BINARY THI ĐẤU CHÍNH THỨC (chốt 2026-08-26, sau SCORE-225 + instrument 226):
+   SHA256 `1FC14A9E7666CC96EDCE95CFE81144F59D2C05E95734B926E085FE236AC892E9`
+   (khác bản AAF73A3A... chỉ ở instrument replay-counterfactual --post-ack-ms,
+   mặc định tắt, không nằm trên đường thi đấu http)
    — thêm floor low-fuel: trận <=5 ngày với fuel <= max daySteps không bao
    giờ giữ đội hình toàn-patrol (bất động từ ngày 2). Binary 221 cũ:
    `4EB926039A50D28F2202BFBE840866D770FD1928119183441C0034377BAA2FE4`

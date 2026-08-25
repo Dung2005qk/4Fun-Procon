@@ -2,7 +2,23 @@
 
 Updated: 2026-08-26
 
-## Current phase — 225 accepted production (low-fuel all-patrol floor)
+## Current phase — program closed at the disciplined stopping point (226)
+
+ATTR-CONTINGENCY-FAITHFUL-TAIL-226 closed accepted-attribution and completes
+the causal chain of the last known live-risk tail: with the post-ACK
+contingency net faithfully modeled the m-4195 mask4 tail drops 33% -> ~12%
+pooled, and the sole logged failure had ZERO cached day-4 contingencies -
+after a clustered day-3 the precompute fails the same hard search the day-4
+solve then fails alone. No sound low-risk mechanism remains (candidates
+touch the main comparator or reshuffle protected budgets - the 216/217
+class); the sharpened successor entry point (post-ACK-only contingency
+retry/diversification on zero-plan days) and quantified residual (~12%
+conditional) are recorded in the 226 ledger row. Final production binary
+SHA256 1FC14A9E7666CC96EDCE95CFE81144F59D2C05E95734B926E085FE236AC892E9
+(differs from the 225 build only by the default-off replay-counterfactual
+--post-ack-ms instrument; full verification battery exact).
+
+## 225 accepted production (low-fuel all-patrol floor)
 
 SCORE-ROLE-LOWFUEL-FLOOR-225 closed accepted-production: under the same
 production flag, short (<=5-day) all-patrol fronts at or below the existing

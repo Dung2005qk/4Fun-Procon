@@ -51,6 +51,7 @@ struct RuntimeOptions {
     std::int32_t harvestExtensionMode = 7;
     std::int32_t futureHarvestExtensionMode = -1;
     std::int32_t logicBudgetMs = 0;
+    std::int32_t postAckMs = 0;
     bool requireUndominatedCurrentFloor = false;
     bool shortHorizonRoleFallback = false;
 };
@@ -159,6 +160,8 @@ private:
             options.responseBudgetMs = parse_positive_integer(value, key);
         } else if (key == "--logic-budget-ms") {
             options.logicBudgetMs = parse_positive_integer(value, key);
+        } else if (key == "--post-ack-ms") {
+            options.postAckMs = parse_positive_integer(value, key);
         } else if (key == "--current-floor") {
             if (value != "0" && value != "1") {
                 throw std::invalid_argument("--current-floor must be 0 or 1");
@@ -226,6 +229,11 @@ private:
         options.mode != "replay-counterfactual") {
         throw std::invalid_argument(
             "--logic-budget-ms is only valid for replay-counterfactual");
+    }
+    if (options.postAckMs > 0 &&
+        options.mode != "replay-counterfactual") {
+        throw std::invalid_argument(
+            "--post-ack-ms is only valid for replay-counterfactual");
     }
     if (options.requireUndominatedCurrentFloor &&
         options.mode != "replay-counterfactual") {
@@ -1484,6 +1492,22 @@ void run_replay_counterfactual(const RuntimeOptions& options) {
         } else {
             state.agents = counterfactualAgents;
         }
+        if (options.postAckMs > 0) {
+            for (const udon::ResponseLedger::CachedContingency& contingency :
+                 engine.response_ledger().cachedContingencies) {
+                if (contingency.dayNumber != state.dayNumber) {
+                    continue;
+                }
+                const udon::SimulationResult preview =
+                    simulator.simulate(state, contingency.plan, false);
+                std::cout << "cached_contingency day=" << state.dayNumber
+                          << " scenario=" << contingency.scenarioId
+                          << " valid=" << (preview.valid ? 1 : 0)
+                          << " daily=" << preview.score.dailyDistinct
+                          << " servings=" << preview.score.servings
+                          << '\n';
+            }
+        }
         const std::chrono::steady_clock::time_point started =
             std::chrono::steady_clock::now();
         const udon::DecisionResult decision = engine.solve_day(
@@ -1510,9 +1534,20 @@ void run_replay_counterfactual(const RuntimeOptions& options) {
                 ledger,
                 decision).dump() << '\n';
         }
+        const udon::MatchLedger ledgerBeforeApply = ledger;
         ledger.apply(simulation.score);
         counterfactualAgents = simulation.finalAgents;
         engine.record_submitted(decision, elapsed);
+        std::int32_t postAckContingencies = 0;
+        if (options.postAckMs > 0) {
+            postAckContingencies = engine.precompute_next_day_contingencies(
+                state,
+                ledgerBeforeApply,
+                decision,
+                std::chrono::steady_clock::now() +
+                    std::chrono::milliseconds{options.postAckMs});
+            engine.record_applied_transition(state, simulation);
+        }
         const auto compact_score = [](const udon::OfficialScore& score) {
             return std::to_string(score.lifetimeDistinct) + '/' +
                 std::to_string(score.totalDailyDistinct) + '/' +
@@ -1544,6 +1579,7 @@ void run_replay_counterfactual(const RuntimeOptions& options) {
                   << " candidate_ms=" << decision.timing.candidatePreparation.count()
                   << " certification_ms=" << decision.timing.certification.count()
                   << " terminals=" << terminals
+                  << " post_ack_contingencies=" << postAckContingencies
                   << " elapsed_ms=" << elapsed.count()
                   << '\n';
         ++expectedDay;
