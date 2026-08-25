@@ -1248,8 +1248,25 @@ void prune_columns(
             if (left.estimatedServings != right.estimatedServings) {
                 return left.estimatedServings > right.estimatedServings;
             }
-            return actions_key(left.actions, left.escortGroup, left.contingencyBundle, left.requiredRefuels) <
-                actions_key(right.actions, right.escortGroup, right.contingencyBundle, right.requiredRefuels);
+            const std::string leftKey = actions_key(
+                left.actions,
+                left.escortGroup,
+                left.contingencyBundle,
+                left.requiredRefuels);
+            const std::string rightKey = actions_key(
+                right.actions,
+                right.escortGroup,
+                right.contingencyBundle,
+                right.requiredRefuels);
+            if (leftKey != rightKey) {
+                return leftKey < rightKey;
+            }
+            if (left.harvestExtensionSourceRank !=
+                right.harvestExtensionSourceRank) {
+                return left.harvestExtensionSourceRank <
+                    right.harvestExtensionSourceRank;
+            }
+            return left.columnId < right.columnId;
         });
     std::set<std::string> seen;
     std::vector<RouteColumn> unique;

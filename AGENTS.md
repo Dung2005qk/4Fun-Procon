@@ -62,7 +62,7 @@ các bằng chứng được dẫn bên dưới.
   exact counterfactual tốt hơn incumbent, mọi optimality/guidance gap còn mở và
   mọi mismatch giữa evaluator với production planner đều bác bỏ tuyên bố hội tụ.
 - Chỉ được ghi practical ceiling khi mọi gap telemetry đã biết được đóng hoặc
-  chứng minh không thể khai thác trong hard cap, hai sweep nghiên cứu độc lập
+  chứng minh không thể khai thác trong các deadline có thẩm quyền, hai sweep nghiên cứu độc lập
   không tìm được candidate qua gate, protected matrix vẫn giữ ưu thế tổng quát
   với downside bị giới hạn, và đối thủ thật không mở phản ví dụ mới.
 - Không overengineer để che gap: ưu tiên làm các tầng hiện có nhất quán về hàm
@@ -94,6 +94,36 @@ các bằng chứng được dẫn bên dưới.
 
 ### Thay đổi runtime không được miễn cổng score
 
+#### Quyết định deadline hiện hành từ 2026-08-25
+
+- Thể lệ không cố định thời gian phản hồi ở `5000 ms`; `daySeconds` và action
+  deadline công khai của từng trận mới là giới hạn phản hồi có thẩm quyền.
+- `5000 ms` có đúng một nghĩa hiện hành: hard cap của canonical main solve,
+  role selection và việc tạo complete protected checkpoint. Nó không phải hard
+  cap của toàn bộ response khi trận công bố một cửa sổ dài hơn.
+- Production mặc định vẫn kết thúc ở checkpoint `5000 ms`. Chỉ một cơ chế
+  continuation đã qua đầy đủ development, sealed holdout, protected matrix và
+  BTC target-host gate mới được dùng phần public window còn lại; một candidate
+  đang nghiên cứu không tự động thay đổi policy production.
+- Không được đưa thời gian dư vào main search hoặc chạy lại solver. Phải đóng
+  băng complete checkpoint `5000 ms`; continuation chỉ được thay checkpoint qua
+  exact simulator, independent validator, comparator từ điển chính thức và
+  certificate transition/ledger dominance trên mọi ngày không cuối. Ở ngày cuối,
+  vì không còn future state, exact validity cùng official lexicographic
+  non-regression/strict gain là certificate có thẩm quyền; không được áp đặt
+  terminal-cell hay road-footprint equality làm mất tối ưu cuối trận. Deadline,
+  failure, invalidity, no-gain hoặc mất certificate phải trả checkpoint đã đóng băng.
+- Activation chỉ được phụ thuộc vào `daySeconds`, authoritative `endsAt`, thời
+  điểm nhận state và transport safety; cấm route theo map, seed, fuel, family,
+  bot, opponent hoặc match ID. Cửa sổ thiếu/không đáng tin vẫn fail-closed ở
+  `5000 ms`.
+- Mọi candidate deadline động phải có lane `5000 ms` chứng minh parent
+  equivalence và ít nhất một public-window lane được đăng ký trước để chứng minh
+  lợi ích causal. Chỉ mở thêm `45000/60000 ms` khi lane ngắn hơn còn
+  deadline-limited hoặc chưa đạt fixed point; cấm vét thêm các lớp thời gian chỉ
+  để tìm một lane thắng. BTC target-host vẫn bắt buộc trước promotion và local
+  latency không có thẩm quyền về hiệu suất.
+
 - Nhãn `runtime`, `correctness`, `network`, `deadline`, `cache` hoặc
   `performance` không miễn một commit khỏi promotion gate. Bất kỳ thay đổi nào
   tới deadline calibration, network reserve, budget partition, search order,
@@ -102,16 +132,18 @@ các bằng chứng được dẫn bên dưới.
   hoặc byte-equivalent trên runtime path thực.
 - Commit trộn correctness với budget/search policy phải tách attribution. Phần
   correctness vẫn phải được giữ, nhưng phần policy chỉ được promote sau paired
-  candidate-vs-direct-parent tại đúng hard cap `5000 ms` và so với protected
+  candidate-vs-direct-parent tại checkpoint `5000 ms`, các lớp public-window
+  đã đăng ký và so với protected
   lane champion. Validity, timeout-free, unit-test green hoặc hạng 1 trước bot
   không thay thế score gate.
 - `networkFloor` chỉ bảo vệ khoảng từ lúc kết thúc compute tới authoritative
-  action deadline; không được mặc định trừ một reserve cố định khỏi internal
-  compute cap khi outer server window còn dư. Deadline cho compute và gửi phải
-  được tách theo công thức cấu trúc
-  `compute_end = min(received_at + 5000 ms, action_deadline - transport_safety)`.
-  Outer window dài không cấp compute vượt `5000 ms`; outer window ngắn mới được
-  phép thu hẹp compute để giữ submission hợp lệ.
+  action deadline. Hai deadline phải tách rõ:
+  `checkpoint_end = min(received_at + 5000 ms,
+  action_deadline - transport_safety)` và, chỉ cho continuation đã được promote,
+  `continuation_end = action_deadline - transport_safety`. Khi public window
+  thiếu/không đáng tin hoặc không có continuation đã được promote, response dừng
+  ở checkpoint. Outer window ngắn luôn thu hẹp checkpoint để giữ submission hợp
+  lệ; outer window dài không bao giờ nới canonical main solve quá `5000 ms`.
 - Khi search dài hơn có thể đổi trajectory, không được lấy kết quả cuối một cách
   máy móc. Phải giữ incumbent đã chứng nhận và chỉ cho phần search/refinement bổ
   sung thay thế khi exact simulator, independent validator và official
@@ -165,16 +197,13 @@ Trước mọi thử nghiệm hoặc sửa logic:
 Không được dùng câu "quay lại high-fuel", "tiếp tục role", "thử lại ALNS"
 nếu `research/STATE.md` không ghi axis đó đang mở cùng counterexample mới.
 
-## Trạng thái đã xác nhận ngày 2026-07-31
+## Mốc lịch sử đã xác nhận ngày 2026-07-31
 
 - Luật cho phép thời gian phản hồi thay đổi theo từng trận; cấu hình công khai của
   chính trận đang chạy là nguồn chân lý cho deadline.
 - Trận đội-vs-đội cấu hình chuẩn `m-1042` hiển thị `60000 ms` mỗi ngày.
 - Preflight BTC `m-1181` dùng `5000 ms`; HEAD vượt cả bốn gate, chậm nhất `279 ms`,
   kết quả `#1 · 1 loại · 20 phần`.
-- Quyết định vận hành ngày 2026-07-31: `5000 ms` là hard cap chính cho toàn bộ
-  solver/role-selection candidate. Cửa sổ server `60000 ms` chỉ là outer deadline
-  và không cho phép search, certification hay promotion tiêu quá `5000 ms`.
 - Baseline short-deadline: `6132f41` (`baseline-btc`).
 - Mốc đạt plateau general-score: `02df79d` (`exact-highfuel`).
 - Current correctness/proof checkpoint: `6f84a06` (`current`).
@@ -199,15 +228,17 @@ chỉ là trần cục bộ của một axis hoặc một holdout, không phải
 
 Các gap đã xác nhận:
 
-1. **Evaluation-budget mismatch:** tournament lịch sử chưa chạy đầy đủ tại hard cap
-   chính `5000 ms`; cửa sổ server `60000 ms` không được chuyển thành compute budget.
-   Kết luận từ `500/2500 ms` không được dùng để chọn production.
+1. **Public-window utilization:** canonical main/checkpoint phải giữ hard cap
+   `5000 ms`, nhưng phần public window hợp lệ phía sau checkpoint chưa được coi
+   là production capability cho tới khi một protected continuation vượt toàn bộ
+   gate. Kết luận từ `500/2500 ms` không được dùng để chọn production.
 2. **General-score plateau:** từ `02df79d` đến HEAD, nhiều cơ chế correctness,
    bound và runtime tốt hơn nhưng không tăng score trên 120 map primary.
 3. **Không có promotion monotonic toàn cục trước tournament:** thay đổi từng axis
    từng được chấp nhận mà chưa bắt buộc chạy lại toàn bộ protected matrix.
-4. **Chưa chứng minh ưu thế thống kê so với baseline tại ngân sách thi đấu:**
-   hướng kết quả tích cực ở 2500 ms không thay thế tournament 60000 ms.
+4. **Chưa chứng minh ưu thế thống kê so với baseline tại các lane có thẩm quyền:**
+   hướng kết quả tích cực ở `2500 ms` không thay thế checkpoint `5000 ms` và các
+   public-window lane đã đăng ký.
 5. **BTC-scale tier 3 chưa ổn định khi đo local:** cần BTC target-host để kết luận
    latency và servings gần deadline.
 6. **Hiệu lực runtime của cơ chế phức tạp chưa được attribution đầy đủ:** code có
@@ -219,12 +250,14 @@ Các gap đã xác nhận:
 ## Production line và research branches
 
 - Production chỉ có một chuỗi commit canonical, không chấp nhận regression đã biết.
-- Mọi nghiên cứu logic mới bắt đầu từ checkpoint đóng băng mới nhất `6f84a06`,
-  không tái chạy toàn bộ lịch sử hoặc build lặp lại như một thay thế cho nghiên cứu.
+- Mọi nghiên cứu logic mới bắt đầu từ parent đóng băng mới nhất được ghi trong
+  `research/STATE.md` và `research/EXPERIMENTS.csv`; không dùng một hash lịch sử
+  cố định và không tái chạy toàn bộ lịch sử hoặc build lặp lại thay cho nghiên cứu.
 - Chỉ được commit candidate khi nó thắng toàn diện parent và các lane champion
   theo nghĩa ưu thế tổng quát paired đủ lớn với downside bị giới hạn: zero
-  invalid/emergency, không vượt hard cap, kết quả được phân tầng theo map/fuel/
-  horizon/opponent và gate BTC cuối cùng đạt. Thống trị tuyệt đối được ưu tiên,
+  invalid/emergency, canonical main không vượt `5000 ms`, toàn response không
+  vượt authoritative deadline sau transport safety, kết quả được phân tầng theo
+  map/fuel/horizon/opponent và gate BTC cuối cùng đạt. Thống trị tuyệt đối được ưu tiên,
   nhưng không loại máy móc một candidate chỉ vì một số ít map thua nhẹ. Mỗi trận
   vẫn so score từ điển chính thức; quyết định toàn cục báo W/T/L, tier khác đầu
   tiên, độ lớn gain/loss và tail downside, không cộng các tier bằng weighted sum.
@@ -242,9 +275,11 @@ Các gap đã xác nhận:
 
 Mọi logic candidate phải được so trực tiếp với parent và các lane champions trên:
 
-- budget chính và hard cap: `5000 ms` cho solver và role selection ở mọi candidate;
-- outer deadline `60000 ms` của cấu hình thi đấu chuẩn chỉ dùng kiểm lifecycle/network;
-  internal compute budget vẫn bị chặn ở `5000 ms`;
+- checkpoint lane bắt buộc: `5000 ms` là hard cap cho canonical main solve, role
+  selection và complete protected checkpoint ở mọi candidate;
+- public-window lanes chỉ dành cho protected continuation đã đăng ký; main solve
+  vẫn bị chặn ở `5000 ms`, continuation bị chặn bởi authoritative deadline trừ
+  transport safety, và lane `5000 ms` phải parent-equivalent;
 - preflight `5000 ms` kiểm token/protocol/tốc độ BTC và có đầy đủ quyền gate;
 - budget chẩn đoán degradation: `500/1200/2500 ms`; các lane này vẫn phải không
   crash/invalid, nhưng không được tự mình promote hoặc block production nếu BTC
@@ -272,6 +307,26 @@ một tỷ lệ W/L cố định thay cho phán quyết tổng quát; regression
 chấp nhận, còn regression lớn/có hệ thống theo family hoặc fuel thì không. Không
 được đổi metric sau khi mở holdout.
 
+### Luật chống overfit holdout
+
+- Holdout phải được sinh và hash trước source change; candidate, binary, manifest,
+  comparator, acceptance gate và các strata bắt buộc phải đóng băng trước lần mở
+  đầu tiên.
+- Holdout chỉ được mở đúng một lần và chỉ có quyền accept/reject chính candidate
+  đã đóng băng. Kết quả từng phần chỉ được dùng cho kill condition đã đăng ký và
+  giám sát lỗi vận hành; cấm dùng để sửa code, đổi ngưỡng, đổi dispatcher, đổi
+  metric, thêm/bớt strata hoặc quyết định dừng ở một prefix thuận lợi.
+- Sau khi đã quan sát, toàn bộ holdout trở thành consumed evidence. Không được
+  chuyển seed/case thua sang development, không được dùng lại nó để promote một
+  successor, và không được gọi một patch được thiết kế từ các case đó là xác nhận
+  độc lập.
+- Candidate bị reject chỉ được mở lại bằng một experiment mới có cơ chế được suy
+  ra từ invariant/counterexample tổng quát, manifest mới lấy từ seed pool chưa mở
+  và reopen condition đã ghi trước. Candidate được accept vẫn phải qua production
+  integration equivalence, protected lanes và BTC; nếu integration đổi score
+  logic thay vì chỉ hiện thực đúng cơ chế đóng băng thì phải mở experiment và
+  holdout mới.
+
 ## Hồ sơ thử nghiệm bắt buộc
 
 Mỗi dòng trong `research/EXPERIMENTS.csv` phải có:
@@ -294,21 +349,11 @@ thể tác động tới score.
 
 ## Lệnh nghiên cứu tiếp theo được phép
 
-Hiện tại cấm nghiên cứu logic mới cho tới khi hoàn thành governance bootstrap tối thiểu:
-
-1. tạo `research/STATE.md`;
-2. tạo `research/EXPERIMENTS.csv`;
-3. tự động hóa gate candidate-vs-parent/champion từ `old/harness`; không bắt buộc
-   tái đấu toàn bộ checkpoint lịch sử trước mỗi vòng nghiên cứu;
-4. ghi champion theo từng lane và reopen conditions;
-5. chứng minh một dry-run có thể từ chối candidate giả lập gây invalid,
-   regression tier 1/tier 2 hoặc runtime vượt hard cap tại lane `5000 ms`, kể cả
-   khi outer server window của lane là `60000 ms`.
-
-Sau bootstrap, bắt đầu từ `6f84a06`, dùng telemetry/counterexample BTC ở hard cap
-`5000 ms` để chọn đúng một gap score rồi phát triển candidate. Lịch sử chỉ dùng làm
-lane champion để A/B khi candidate chạm đúng lane, không chạy lại toàn bộ như công
-việc chính. Outer-window `60000 ms` không cấp thêm compute.
-Short-deadline `500 ms` chỉ được mở lại nếu BTC công
-bố deadline tương ứng hoặc telemetry production cho thấy cửa sổ thực tế bị co tới
-mức đó; không được ưu tiên nó chỉ vì stress-test cũ thua.
+`research/STATE.md` là nguồn duy nhất chỉ ra experiment/gap đang mở và bước tiếp
+theo. Governance bootstrap đã hoàn tất; không được quay lại lệnh bootstrap lịch sử
+hoặc hash `6f84a06`. Mỗi vòng chỉ xử lý gap đã đăng ký từ parent đóng băng hiện hành.
+Lịch sử chỉ dùng làm lane champion để A/B khi candidate chạm đúng lane, không chạy
+lại toàn bộ như công việc chính. Public window dài chỉ cấp thời gian cho protected
+continuation theo luật deadline hiện hành; không cấp thêm thời gian cho main solve.
+Short-deadline `500 ms` chỉ được mở lại nếu BTC công bố deadline tương ứng hoặc
+telemetry production cho thấy cửa sổ thực tế bị co tới mức đó.

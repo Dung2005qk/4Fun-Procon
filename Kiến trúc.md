@@ -322,12 +322,17 @@ passes. Nó không thay đổi luật score, simulator semantics hoặc admissio
 Nếu ngân sách không đủ cho seed, certification và transport reserve, engine chỉ
 dùng fallback đã exact-validate.
 
-Protocol Host duy trì hai deadline độc lập. Compute deadline là thời điểm nhận
-authoritative state cộng ngân sách tính toán cạnh tranh, bị chặn thêm bởi action
-deadline của môi trường. Action deadline là giới hạn cuối cho transport. Mọi pha
-planning, certification và protected slack phải kết thúc trước compute deadline;
-cửa sổ transport dài hơn không được chuyển thành compute bổ sung. Protected slack
-chỉ nhận phần còn lại trước compute deadline sau khi trừ network reserve.
+Protocol Host duy trì ba mốc deadline. Checkpoint deadline là giá trị nhỏ hơn giữa
+thời điểm nhận authoritative state cộng `5000 ms` và action deadline trừ transport
+safety. Canonical main solve, role selection, certification và complete protected
+checkpoint bị chặn bởi mốc này. Action deadline là giới hạn phản hồi có thẩm quyền
+do trận công bố. Continuation deadline bằng action deadline trừ transport safety và
+chỉ tồn tại khi public window dài hơn checkpoint window.
+
+Public continuation không nới ngân sách hoặc chạy lại main solve. Nó bắt đầu từ
+complete checkpoint đã exact-validate, dùng một snapshot của refiner state và chỉ
+được thay checkpoint qua admission certificate. Nếu public window không tồn tại,
+không đáng tin, đã hết hoặc không tạo strict gain, checkpoint là response cuối.
 
 ---
 
@@ -401,11 +406,11 @@ lexicographic risk comparator chọn trong tập còn lại. Candidate được 
 full-trace simulator và independent validator. Engine sau đó hoàn tất optimality
 gap, audit và timing của decision.
 
-### 6.10. Protected slack refinement
+### 6.10. Protected checkpoint refinement
 
 Sau final selection, Protocol Host mở một chuỗi neighborhood bị ràng buộc bởi
-transition của incumbent. Trên ngày không phải ngày cuối, chuỗi refinement có ba
-tầng tuần tự:
+transition của incumbent để tạo complete checkpoint. Trên ngày không phải ngày
+cuối, chuỗi refinement có ba tầng tuần tự:
 
 1. wait-detour thay một đoạn `WAIT` của patrol bằng round trip qua spot rồi quay
    lại anchor trong cùng số step;
@@ -423,17 +428,19 @@ Global pool và toàn bộ ascent của nó luôn hoàn tất trước; target-t
 suffix cộng thêm và không thể làm mất incumbent của tầng trước.
 
 Ở ngày cuối, terminal sparse refinement thay route của từng patrol bằng route
-sparse có cùng terminal và lặp one-agent ascent tới fixed point. Phần thời gian còn
-lại được dùng cho pair exchange: hai patrol được thay đồng thời bằng hai route từ
-pool đã exact-evaluate; một pair được chấp nhận xong thì one-agent ascent chạy lại
-trước vòng pair tiếp theo.
+sparse và lặp one-agent ascent tới fixed point. Vì không còn trạng thái ngày sau,
+terminal cell, remaining fuel và road footprint không thuộc certificate cuối
+trận. Phần thời gian còn lại được dùng cho pair exchange: hai patrol được thay
+đồng thời bằng hai route từ pool đã exact-evaluate; một pair được chấp nhận xong
+thì one-agent ascent chạy lại trước vòng pair tiếp theo.
 
-Candidate chỉ thay incumbent khi simulator và validator đồng ý, thứ tự kind và
-terminal cell của mọi agent giữ nguyên, fuel cuối của mỗi patrol không giảm, road
-footprint bằng nhau, lifetime brand là superset, cumulative daily distinct và
-servings không giảm, đồng thời daily distinct hoặc servings tăng nghiêm ngặt. Nếu
-deadline, validity hoặc bất kỳ quan hệ dominance nào không đạt, incumbent được giữ
-nguyên byte-for-byte.
+Trên ngày không cuối, candidate chỉ thay incumbent khi simulator và validator đồng
+ý, thứ tự kind và terminal cell của mọi agent giữ nguyên, fuel cuối của mỗi patrol
+không giảm, road footprint bằng nhau, lifetime brand là superset, cumulative daily
+distinct và servings không giảm, đồng thời daily distinct hoặc servings tăng
+nghiêm ngặt. Trên ngày cuối, admission yêu cầu exact validity và official
+lexicographic strict gain. Nếu deadline, validity hoặc certificate tương ứng không
+đạt, incumbent được giữ nguyên byte-for-byte.
 
 Khi protected candidate được acknowledgement, runtime duy trì state và ledger của
 virtual parent. Decision Engine tiếp tục giải từ virtual parent để trajectory của
@@ -441,6 +448,33 @@ bounded search không bị thay đổi bởi state giàu hơn. Plan đó đượ
 independent-validate lại trên authoritative state trước khi gửi. Nếu authoritative
 state không còn forward-simulate virtual parent, virtual state bị loại và
 authoritative state trở lại làm đầu vào duy nhất.
+
+### 6.11. Closed-loop public continuation
+
+Protocol Host duy trì đồng thời ba nhánh sau mỗi acknowledgement:
+
+- authoritative branch phản ánh state và ledger thực tế do server xác nhận;
+- checkpoint branch phản ánh complete protected checkpoint tại mốc `5000 ms`;
+- virtual-parent branch phản ánh output của canonical Decision Engine trước các
+  protected refinement.
+
+Canonical Decision Engine chỉ chạy một lần trên virtual-parent branch và phải hoàn
+tất trước checkpoint deadline. Protected refinement trong checkpoint window tạo
+checkpoint plan. Trước continuation, checkpoint plan được phát lại bằng exact
+simulator trên authoritative branch để tạo richer-state checkpoint; bản phát lại
+này phải giữ transition và ledger dominance đối với checkpoint branch trên ngày
+không cuối. Snapshot của refiner sau đó tiếp tục mở các neighborhood còn dở tới
+continuation deadline; main search, role selection và certification không được
+khởi động lại.
+
+Trên ngày không cuối, continuation chỉ được tiếp quản khi exact simulator và
+independent validator xác nhận strict official-score gain cùng transition/ledger
+dominance so với richer-state checkpoint. Trên ngày cuối, điều kiện tiếp quản là
+exact validity và strict official lexicographic gain vì không còn transition ngày
+sau cần bảo vệ. Nếu không có public window có thẩm quyền, hết deadline, không có
+strict gain hoặc certificate không đạt, serialized response được lấy nguyên từ
+checkpoint. Chỉ plan thắng certificate cuối cùng mới được gửi; runtime không gửi
+checkpoint trước rồi nộp đè.
 
 ---
 
@@ -907,12 +941,16 @@ Replay là event log append-only. Các event liên kết:
 - authoritative state;
 - decision replay;
 - protected-slack diagnostics;
+- checkpoint actions khi closed-loop continuation được kích hoạt;
 - serialized actions;
 - action response;
 - final result.
 
-Resume reconstruct session từ chuỗi event đã acknowledgement. Pending action không
-có acknowledgement không được coi là state đã xác nhận.
+Resume reconstruct authoritative, checkpoint và virtual-parent branch từ chuỗi
+event đã acknowledgement. `checkpoint_actions` gắn complete checkpoint với đúng
+day state; `actions` gắn plan thực tế đã gửi. Với replay cũ không có checkpoint
+event, checkpoint branch được đồng nhất với authoritative branch. Pending action
+không có acknowledgement không được coi là state đã xác nhận.
 
 ### 16.4. Decision audit
 
@@ -962,8 +1000,12 @@ vào runtime nhưng runtime không phụ thuộc vào HTTP transport.
 - Candidate profile chỉ có nghĩa trên scenario manifest đã tạo nó.
 - Cached contingency chỉ được dùng sau khi đối chiếu authoritative state.
 - Virtual parent chỉ tồn tại sau acknowledgement của một protected improvement.
+- Checkpoint branch chỉ phân kỳ sau acknowledgement của một plan khác complete
+  checkpoint và phải có `checkpoint_actions` tương ứng trong replay.
 - Authoritative state phải forward-simulate virtual parent trước mỗi decision dùng
   virtual state.
+- Authoritative state phải dominance checkpoint branch trước khi closed-loop
+  continuation dùng checkpoint đó làm incumbent.
 
 ### 17.3. Bất biến planning
 
@@ -983,8 +1025,9 @@ vào runtime nhưng runtime không phụ thuộc vào HTTP transport.
 - Candidate được chọn có certified witness cho mọi scenario bắt buộc.
 - Certified dominance yêu cầu envelope tương thích.
 - Final selection luôn được exact-validate lại.
-- Protected refinement chỉ thay incumbent khi có strict score gain và
-  componentwise transition/ledger dominance.
+- Protected refinement chỉ thay incumbent khi có strict score gain và, trên ngày
+  không cuối, componentwise transition/ledger dominance. Ngày cuối dùng exact
+  validity và official lexicographic strict gain.
 
 ### 17.5. Bất biến transport
 
@@ -992,4 +1035,7 @@ vào runtime nhưng runtime không phụ thuộc vào HTTP transport.
 - Acknowledgement phải khớp pending day.
 - Rejection không advance state.
 - Resume chỉ dùng event đã được acknowledgement xác nhận.
-- Outer action deadline dài hơn không được dùng để vượt compute deadline.
+- Outer action deadline dài hơn không được nới canonical main solve, role
+  selection, certification hoặc complete checkpoint quá `5000 ms`; chỉ protected
+  continuation đã được promote mới dùng suffix tới action deadline trừ transport
+  safety.

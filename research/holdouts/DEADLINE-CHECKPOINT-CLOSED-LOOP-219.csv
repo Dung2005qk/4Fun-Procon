@@ -1,0 +1,16 @@
+split,suite,first_seed,count,spots,agents,public_window_ms,rotation
+development,control-easy,5050000,4,12|14,4,5000,"fuel=low/default/high; role=fixed/native; six families"
+development,control-medium,5050100,4,12|18,4,5000,same
+development,control-hard,5050200,8,18|24,6,5000,same
+development,control-very-hard,5050300,8,18|24|30,8,5000,same
+development,public15-easy,5051000,8,12|14,4,15000,same
+development,public15-medium,5051100,8,12|18,4,15000,same
+development,public15-hard,5051200,20,18|24,6,15000,same
+development,public15-very-hard,5051300,24,18|24|30,8,15000,same
+holdout,public15-easy,5060000,16,12|14,4,15000,same
+holdout,public15-medium,5061000,16,12|18,4,15000,same
+holdout,public15-hard,5062000,36,18|24,6,15000,same
+holdout,public15-very-hard,5063000,40,18|24|30,8,15000,same
+escalation,public45-hard,5064000,20,18|24,6,45000,same
+escalation,public45-very-hard,5065000,28,18|24|30,8,45000,same
+escalation,public60-very-hard,5066000,24,18|24|30,8,60000,same

@@ -1,0 +1,117 @@
+{
+  "control_cases": 0,
+  "control_mismatches": [],
+  "control_results": 0,
+  "losses": [],
+  "public_aggregate_delta": [
+    0,
+    0,
+    88
+  ],
+  "public_cases": 108,
+  "public_first_tier_balance": {
+    "3": 29
+  },
+  "public_probe_deadline_days": 0,
+  "public_takeovers": 50,
+  "public_wtl": {
+    "losses": 0,
+    "ties": 79,
+    "wins": 29
+  },
+  "run_complete_markers": 4,
+  "safety_totals": {
+    "checkpoint_closed_loop_failures": 0,
+    "emergency": 0,
+    "invalid": 0,
+    "midday_failure_days": 0,
+    "public_window_probe_failure_days": 0,
+    "terminal_sparse_failure": 0
+  },
+  "stage": "holdout",
+  "strata": {
+    "family": {
+      "balanced": {
+        "servings_delta": 11,
+        "tie": 13,
+        "win": 4
+      },
+      "fuel-tight": {
+        "servings_delta": 5,
+        "tie": 16,
+        "win": 3
+      },
+      "high-stock": {
+        "servings_delta": 38,
+        "tie": 8,
+        "win": 10
+      },
+      "overnight": {
+        "servings_delta": 7,
+        "tie": 13,
+        "win": 5
+      },
+      "rare-brand": {
+        "servings_delta": 25,
+        "tie": 11,
+        "win": 6
+      },
+      "threshold-corridor": {
+        "servings_delta": 2,
+        "tie": 18,
+        "win": 1
+      }
+    },
+    "fuel": {
+      "default": {
+        "servings_delta": 49,
+        "tie": 22,
+        "win": 15
+      },
+      "high": {
+        "servings_delta": 12,
+        "tie": 28,
+        "win": 4
+      },
+      "low": {
+        "servings_delta": 27,
+        "tie": 29,
+        "win": 10
+      }
+    },
+    "role": {
+      "fixed": {
+        "servings_delta": 41,
+        "tie": 42,
+        "win": 18
+      },
+      "native": {
+        "servings_delta": 47,
+        "tie": 37,
+        "win": 11
+      }
+    },
+    "tier": {
+      "easy": {
+        "servings_delta": 7,
+        "tie": 12,
+        "win": 4
+      },
+      "hard": {
+        "servings_delta": 11,
+        "tie": 29,
+        "win": 7
+      },
+      "medium": {
+        "servings_delta": 1,
+        "tie": 15,
+        "win": 1
+      },
+      "very-hard": {
+        "servings_delta": 69,
+        "tie": 23,
+        "win": 17
+      }
+    }
+  }
+}

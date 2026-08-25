@@ -58,6 +58,9 @@ struct Options {
     std::chrono::milliseconds protectedRefineBudget{0};
     std::chrono::milliseconds protectedWaitBudget{0};
     std::chrono::milliseconds terminalSparseBudget{0};
+    std::chrono::milliseconds publicWindowProbeBudget{0};
+    bool publicWindowApply = false;
+    bool checkpointClosedLoop = false;
     std::int32_t spotCount = 0;
     std::string fuelProfile = "generated";
     bool protectedWaitDetours = false;
@@ -72,6 +75,7 @@ struct Options {
 struct Metrics {
     udon::OfficialScore score;
     udon::OfficialScore protectedVirtualScore;
+    udon::OfficialScore checkpointClosedLoopParentScore;
     std::vector<std::int64_t> responseTimes;
     std::int64_t roleMilliseconds = 0;
     std::int64_t combinationsVisited = 0;
@@ -137,6 +141,19 @@ struct Metrics {
     std::int32_t middayDeadlineDays = 0;
     std::int32_t middayFailureDays = 0;
     std::int32_t middayBestDay = 0;
+    std::int32_t publicWindowProbeDays = 0;
+    std::int32_t publicWindowProbeTakeovers = 0;
+    std::int32_t publicWindowProbeDeadlineDays = 0;
+    std::int32_t publicWindowProbeFailureDays = 0;
+    std::int32_t publicWindowProbeTier1Gains = 0;
+    std::int32_t publicWindowProbeTier2Gains = 0;
+    std::int64_t publicWindowProbeServingGain = 0;
+    std::int64_t publicWindowProbeRoutes = 0;
+    std::int64_t publicWindowProbePlans = 0;
+    std::int64_t publicWindowProbeValid = 0;
+    std::int64_t publicWindowProbeAcceptances = 0;
+    std::int32_t checkpointClosedLoopTakeovers = 0;
+    std::int32_t checkpointClosedLoopFailures = 0;
 };
 
 [[nodiscard]] std::uint64_t plan_hash(const udon::DayPlan& plan) {
@@ -717,7 +734,9 @@ void preserve_plain_cells(FixtureSpec& fixture) {
 
     udon::MatchLedger ledger;
     udon::MatchLedger virtualLedger;
+    udon::MatchLedger richerLedger;
     std::vector<udon::AgentState> virtualAgents = agents;
+    std::vector<udon::AgentState> richerAgents = agents;
     const udon::ExactStepSimulator simulator(config);
     const udon::IndependentDayValidator validator(config);
     udon::ProtectedSlackRefiner slackRefiner(config);
@@ -735,6 +754,9 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         opponent_footprints(fixture, config);
 
     for (std::int32_t day = 1; day <= config.day_count(); ++day) {
+        const bool checkpointClosedLoopActive =
+            options.checkpointClosedLoop &&
+            options.publicWindowProbeBudget.count() > 5000;
         udon::DayState state;
         state.endsAt = config.startsAt + static_cast<std::int64_t>(day) * 5;
         state.dayNumber = day;
@@ -744,6 +766,10 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         udon::DayState planningState = state;
         if (options.protectedWaitClosedLoop) {
             planningState.agents = virtualAgents;
+        }
+        udon::DayState richerState = state;
+        if (checkpointClosedLoopActive) {
+            richerState.agents = richerAgents;
         }
 
         const auto started = std::chrono::steady_clock::now();
@@ -785,6 +811,9 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                 false);
         std::string mismatch;
         const udon::DecisionResult* selectedDecision = &decision;
+        udon::DayPlan appliedPlan = decision.candidate.plan;
+        udon::DayPlan richerAppliedPlan = appliedPlan;
+        udon::SimulationResult richerDetailed;
         std::uint64_t appliedPlanHash =
             plan_hash(decision.candidate.plan);
         std::string virtualMismatch;
@@ -812,6 +841,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                     "fallback validation failed for " + fixture.name + ": " + mismatch);
             }
             virtualDetailed = detailed;
+            appliedPlan = wait;
             appliedPlanHash = plan_hash(wait);
         } else {
             if (options.protectedWaitDetours &&
@@ -861,6 +891,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                 }
                 if (options.protectedWaitClosedLoop &&
                     protectedChoice.improved) {
+                    appliedPlan = protectedChoice.plan;
                     detailed = protectedChoice.simulation;
                     appliedPlanHash = plan_hash(protectedChoice.plan);
                     ++metrics.protectedWaitTakeovers;
@@ -911,6 +942,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                         middayChoice.diagnostics.middayFailure ? 1 : 0;
                     if (options.protectedWaitClosedLoop &&
                         middayChoice.improved) {
+                        appliedPlan = middayChoice.plan;
                         detailed = middayChoice.simulation;
                         appliedPlanHash = plan_hash(middayChoice.plan);
                         metrics.middayBestDay = state.dayNumber;
@@ -950,6 +982,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                 metrics.terminalSparseFirstRoundScore =
                     terminalChoice.firstRoundScore;
                 if (terminalChoice.improved) {
+                    appliedPlan = terminalChoice.plan;
                     detailed = terminalChoice.simulation;
                     appliedPlanHash = plan_hash(terminalChoice.plan);
                     ++metrics.terminalSparseTakeovers;
@@ -984,10 +1017,292 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                             refinedDetailed.score);
                     if (metrics.protectedTerminalParentScore <
                         metrics.protectedTerminalRefinedScore) {
+                        appliedPlan = refinementDecision->candidate.plan;
                         detailed = refinedDetailed;
                         selectedDecision = &*refinementDecision;
+                        appliedPlanHash = plan_hash(appliedPlan);
                         ++metrics.protectedTerminalTakeovers;
                     }
+                }
+            }
+
+            // DEADLINE-PUBLIC-WINDOW-218 stage-A falsification probe. Keep the
+            // complete current checkpoint and every later match state
+            // unchanged. The extra public window is used only to ask whether
+            // the existing protected refiner can produce a strict exact
+            // certificate from that exact checkpoint. A SCORE successor is
+            // forbidden unless this non-propagating probe is recurrent on
+            // fresh development fixtures.
+            if (!checkpointClosedLoopActive &&
+                options.publicWindowProbeBudget.count() > 5000) {
+                ++metrics.publicWindowProbeDays;
+                constexpr auto kTransportSafety =
+                    std::chrono::milliseconds{1100};
+                const auto publicDeadline = started +
+                    options.publicWindowProbeBudget - kTransportSafety;
+                udon::ProtectedSlackResult probe;
+                probe.plan = appliedPlan;
+                probe.simulation = detailed;
+                probe.scoreAfterToday =
+                    udon::OfficialScore::after_day(ledger, detailed.score);
+                if (std::chrono::steady_clock::now() < publicDeadline) {
+                    if (day == config.day_count()) {
+                        probe = slackRefiner.refine_terminal_sparse(
+                            state,
+                            ledger,
+                            appliedPlan,
+                            detailed,
+                            publicDeadline);
+                        metrics.publicWindowProbeRoutes +=
+                            probe.diagnostics.sparseRoutes;
+                        metrics.publicWindowProbePlans +=
+                            probe.diagnostics.generatedPlans;
+                        metrics.publicWindowProbeValid +=
+                            probe.diagnostics.validPlans;
+                        metrics.publicWindowProbeAcceptances +=
+                            probe.diagnostics.strictTerminalImprovements;
+                    } else {
+                        const udon::ProtectedSlackResult waitProbe =
+                            slackRefiner.refine_wait_detours(
+                                state,
+                                ledger,
+                                appliedPlan,
+                                detailed,
+                                publicDeadline);
+                        probe = waitProbe;
+                        const udon::ProtectedSlackResult middayProbe =
+                            slackRefiner.refine_midday_chains(
+                                state,
+                                ledger,
+                                waitProbe.plan,
+                                waitProbe.simulation,
+                                publicDeadline);
+                        metrics.publicWindowProbeRoutes +=
+                            middayProbe.diagnostics.middayRoutes;
+                        metrics.publicWindowProbePlans +=
+                            middayProbe.diagnostics.middayGeneratedPlans;
+                        metrics.publicWindowProbeValid +=
+                            middayProbe.diagnostics.middayValidPlans;
+                        metrics.publicWindowProbeAcceptances +=
+                            middayProbe.diagnostics.middayChainAcceptances;
+                        if (middayProbe.improved) {
+                            probe = middayProbe;
+                        }
+                        probe.diagnostics.deadlineReached =
+                            waitProbe.diagnostics.deadlineReached ||
+                            middayProbe.diagnostics.deadlineReached;
+                        probe.diagnostics.middayFailure =
+                            waitProbe.diagnostics.middayFailure ||
+                            middayProbe.diagnostics.middayFailure;
+                    }
+                } else {
+                    probe.diagnostics.deadlineReached = true;
+                }
+                metrics.publicWindowProbeDeadlineDays +=
+                    probe.diagnostics.deadlineReached ? 1 : 0;
+                metrics.publicWindowProbeFailureDays +=
+                    (probe.diagnostics.sparseFailure ||
+                     probe.diagnostics.middayFailure) ? 1 : 0;
+                if (probe.improved) {
+                    if (!udon::protected_slack_transition_dominates(
+                            detailed,
+                            probe.simulation)) {
+                        throw std::runtime_error(
+                            "public-window probe violated checkpoint transition dominance for " +
+                            fixture.name + " on day " + std::to_string(day));
+                    }
+                    const udon::OfficialScore checkpointScore =
+                        udon::OfficialScore::after_day(ledger, detailed.score);
+                    if (!(checkpointScore < probe.scoreAfterToday)) {
+                        throw std::runtime_error(
+                            "public-window probe reported a non-strict score for " +
+                            fixture.name + " on day " + std::to_string(day));
+                    }
+                    ++metrics.publicWindowProbeTakeovers;
+                    if (checkpointScore.lifetimeDistinct <
+                        probe.scoreAfterToday.lifetimeDistinct) {
+                        ++metrics.publicWindowProbeTier1Gains;
+                    } else if (checkpointScore.totalDailyDistinct <
+                        probe.scoreAfterToday.totalDailyDistinct) {
+                        ++metrics.publicWindowProbeTier2Gains;
+                    } else {
+                        metrics.publicWindowProbeServingGain +=
+                            probe.scoreAfterToday.totalServings -
+                            checkpointScore.totalServings;
+                    }
+                    if (options.publicWindowApply) {
+                        appliedPlan = probe.plan;
+                        detailed = probe.simulation;
+                        appliedPlanHash = plan_hash(appliedPlan);
+                    }
+                }
+            }
+
+            // DEADLINE-CHECKPOINT-CLOSED-LOOP-219. The complete current
+            // checkpoint is advanced independently of the richer branch. The
+            // exact checkpoint plan must first replay on the richer state with
+            // the same footprint and a dominating transition; only then may
+            // public time refine the richer branch. The main solver above is
+            // still called exactly once from the existing virtual parent.
+            if (checkpointClosedLoopActive) {
+                const udon::SimulationResult replayedCheckpoint =
+                    simulator.simulate(richerState, appliedPlan, false);
+                const udon::SimulationResult replayedIndependent =
+                    validator.validate(richerState, appliedPlan, false);
+                std::string replayMismatch;
+                udon::MatchLedger checkpointAfter = ledger;
+                checkpointAfter.apply(detailed.score);
+                udon::MatchLedger richerAfter = richerLedger;
+                if (!replayedCheckpoint.valid ||
+                    !validator.agrees_with(
+                        replayedCheckpoint,
+                        replayedIndependent,
+                        replayMismatch) ||
+                    !udon::protected_slack_transition_dominates(
+                        detailed,
+                        replayedCheckpoint)) {
+                    ++metrics.checkpointClosedLoopFailures;
+                    throw std::runtime_error(
+                        "checkpoint replay failed richer-state dominance for " +
+                        fixture.name + " on day " + std::to_string(day) +
+                        ": " + replayMismatch);
+                }
+                richerAfter.apply(replayedCheckpoint.score);
+                if (!udon::protected_slack_ledger_dominates(
+                        checkpointAfter,
+                        richerAfter)) {
+                    ++metrics.checkpointClosedLoopFailures;
+                    throw std::runtime_error(
+                        "checkpoint replay failed richer-ledger dominance for " +
+                        fixture.name + " on day " + std::to_string(day));
+                }
+
+                richerAppliedPlan = appliedPlan;
+                richerDetailed = replayedCheckpoint;
+                // Reuse only cache entries already earned by the unchanged
+                // checkpoint pipeline.  Public continuation writes into this
+                // snapshot, so its extra work cannot warm or otherwise alter
+                // the checkpoint refiner on a later day.
+                udon::ProtectedSlackRefiner publicSlackRefiner = slackRefiner;
+                ++metrics.publicWindowProbeDays;
+                constexpr auto kTransportSafety =
+                    std::chrono::milliseconds{1100};
+                const auto publicDeadline = started +
+                    options.publicWindowProbeBudget - kTransportSafety;
+                udon::ProtectedSlackResult continuation;
+                continuation.plan = richerAppliedPlan;
+                continuation.simulation = richerDetailed;
+                continuation.scoreAfterToday =
+                    udon::OfficialScore::after_day(
+                        richerLedger,
+                        richerDetailed.score);
+                if (std::chrono::steady_clock::now() < publicDeadline) {
+                    if (day == config.day_count()) {
+                        continuation = publicSlackRefiner.refine_terminal_sparse(
+                            richerState,
+                            richerLedger,
+                            richerAppliedPlan,
+                            richerDetailed,
+                            publicDeadline);
+                        metrics.publicWindowProbeRoutes +=
+                            continuation.diagnostics.sparseRoutes;
+                        metrics.publicWindowProbePlans +=
+                            continuation.diagnostics.generatedPlans;
+                        metrics.publicWindowProbeValid +=
+                            continuation.diagnostics.validPlans;
+                        metrics.publicWindowProbeAcceptances +=
+                            continuation.diagnostics.strictTerminalImprovements;
+                    } else {
+                        const udon::ProtectedSlackResult waitContinuation =
+                            publicSlackRefiner.refine_wait_detours(
+                                richerState,
+                                richerLedger,
+                                richerAppliedPlan,
+                                richerDetailed,
+                                publicDeadline);
+                        continuation = waitContinuation;
+                        const udon::ProtectedSlackResult middayContinuation =
+                            publicSlackRefiner.refine_midday_chains(
+                                richerState,
+                                richerLedger,
+                                waitContinuation.plan,
+                                waitContinuation.simulation,
+                                publicDeadline);
+                        metrics.publicWindowProbeRoutes +=
+                            middayContinuation.diagnostics.middayRoutes;
+                        metrics.publicWindowProbePlans +=
+                            middayContinuation.diagnostics.middayGeneratedPlans;
+                        metrics.publicWindowProbeValid +=
+                            middayContinuation.diagnostics.middayValidPlans;
+                        metrics.publicWindowProbeAcceptances +=
+                            middayContinuation.diagnostics.middayChainAcceptances;
+                        if (middayContinuation.improved) {
+                            continuation = middayContinuation;
+                        }
+                        continuation.diagnostics.deadlineReached =
+                            waitContinuation.diagnostics.deadlineReached ||
+                            middayContinuation.diagnostics.deadlineReached;
+                        continuation.diagnostics.middayFailure =
+                            waitContinuation.diagnostics.middayFailure ||
+                            middayContinuation.diagnostics.middayFailure;
+                    }
+                } else {
+                    continuation.diagnostics.deadlineReached = true;
+                }
+                metrics.publicWindowProbeDeadlineDays +=
+                    continuation.diagnostics.deadlineReached ? 1 : 0;
+                metrics.publicWindowProbeFailureDays +=
+                    (continuation.diagnostics.sparseFailure ||
+                     continuation.diagnostics.middayFailure) ? 1 : 0;
+                if (continuation.improved) {
+                    if (!udon::protected_slack_transition_dominates(
+                            richerDetailed,
+                            continuation.simulation)) {
+                        ++metrics.checkpointClosedLoopFailures;
+                        throw std::runtime_error(
+                            "public continuation violated richer transition dominance for " +
+                            fixture.name + " on day " + std::to_string(day));
+                    }
+                    const udon::OfficialScore richerCheckpointScore =
+                        udon::OfficialScore::after_day(
+                            richerLedger,
+                            richerDetailed.score);
+                    if (!(richerCheckpointScore <
+                          continuation.scoreAfterToday)) {
+                        ++metrics.checkpointClosedLoopFailures;
+                        throw std::runtime_error(
+                            "public continuation reported a non-strict score for " +
+                            fixture.name + " on day " + std::to_string(day));
+                    }
+                    ++metrics.publicWindowProbeTakeovers;
+                    ++metrics.checkpointClosedLoopTakeovers;
+                    if (richerCheckpointScore.lifetimeDistinct <
+                        continuation.scoreAfterToday.lifetimeDistinct) {
+                        ++metrics.publicWindowProbeTier1Gains;
+                    } else if (richerCheckpointScore.totalDailyDistinct <
+                        continuation.scoreAfterToday.totalDailyDistinct) {
+                        ++metrics.publicWindowProbeTier2Gains;
+                    } else {
+                        metrics.publicWindowProbeServingGain +=
+                            continuation.scoreAfterToday.totalServings -
+                            richerCheckpointScore.totalServings;
+                    }
+                    richerAppliedPlan = continuation.plan;
+                    richerDetailed = continuation.simulation;
+                }
+
+                udon::MatchLedger candidateAfter = richerLedger;
+                candidateAfter.apply(richerDetailed.score);
+                if (!udon::protected_slack_transition_dominates(
+                        detailed,
+                        richerDetailed) ||
+                    !udon::protected_slack_ledger_dominates(
+                        checkpointAfter,
+                        candidateAfter)) {
+                    ++metrics.checkpointClosedLoopFailures;
+                    throw std::runtime_error(
+                        "public continuation failed complete checkpoint dominance for " +
+                        fixture.name + " on day " + std::to_string(day));
                 }
             }
             engine.record_submitted(*selectedDecision, elapsed);
@@ -1002,6 +1317,20 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                 fixture.name + " on day " + std::to_string(day));
         }
         ledger.apply(detailed.score);
+        if (checkpointClosedLoopActive) {
+            richerLedger.apply(richerDetailed.score);
+            if (!udon::protected_slack_transition_dominates(
+                    detailed,
+                    richerDetailed) ||
+                !udon::protected_slack_ledger_dominates(
+                    ledger,
+                    richerLedger)) {
+                ++metrics.checkpointClosedLoopFailures;
+                throw std::runtime_error(
+                    "checkpoint closed-loop relation failed for " +
+                    fixture.name + " on day " + std::to_string(day));
+            }
+        }
         if (options.protectedWaitClosedLoop) {
             virtualLedger.apply(virtualDetailed.score);
             const bool ledgerRelationValid = day == config.day_count()
@@ -1028,13 +1357,20 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                     virtualLedger.totalServings,
                 });
         }
-        metrics.exactDayScores.push_back(detailed.score);
+        const udon::SimulationResult& reportedDetailed =
+            checkpointClosedLoopActive ? richerDetailed : detailed;
+        const udon::MatchLedger& reportedLedger =
+            checkpointClosedLoopActive ? richerLedger : ledger;
+        metrics.exactDayScores.push_back(reportedDetailed.score);
         metrics.cumulativeDayScores.push_back(udon::OfficialScore{
-            ledger.lifetime_distinct(),
-            ledger.totalDailyDistinct,
-            ledger.totalServings,
+            reportedLedger.lifetime_distinct(),
+            reportedLedger.totalDailyDistinct,
+            reportedLedger.totalServings,
         });
-        metrics.planHashes.push_back(appliedPlanHash);
+        metrics.planHashes.push_back(
+            checkpointClosedLoopActive
+            ? plan_hash(richerAppliedPlan)
+            : appliedPlanHash);
         metrics.deadlineDays.push_back(decision.diagnostics.deadlineReached);
         metrics.exactSupportedAgents.push_back(
             decision.audit.columnGeneration.exactOrienteeringSupportedAgents);
@@ -1045,6 +1381,9 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         metrics.exactLocalServings.push_back(
             decision.audit.columnGeneration.exactOrienteeringLocalServings);
         agents = detailed.finalAgents;
+        if (checkpointClosedLoopActive) {
+            richerAgents = richerDetailed.finalAgents;
+        }
         if (options.protectedWaitClosedLoop) {
             virtualAgents = virtualDetailed.finalAgents;
         }
@@ -1053,6 +1392,20 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     }
 
     metrics.score = udon::OfficialScore{
+        options.checkpointClosedLoop &&
+            options.publicWindowProbeBudget.count() > 5000
+            ? richerLedger.lifetime_distinct()
+            : ledger.lifetime_distinct(),
+        options.checkpointClosedLoop &&
+            options.publicWindowProbeBudget.count() > 5000
+            ? richerLedger.totalDailyDistinct
+            : ledger.totalDailyDistinct,
+        options.checkpointClosedLoop &&
+            options.publicWindowProbeBudget.count() > 5000
+            ? richerLedger.totalServings
+            : ledger.totalServings,
+    };
+    metrics.checkpointClosedLoopParentScore = udon::OfficialScore{
         ledger.lifetime_distinct(),
         ledger.totalDailyDistinct,
         ledger.totalServings,
@@ -1104,6 +1457,23 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         } else if (value == "--terminal-sparse-ms") {
             options.terminalSparseBudget =
                 std::chrono::milliseconds{std::stoll(next())};
+        } else if (value == "--public-window-probe-ms") {
+            options.publicWindowProbeBudget =
+                std::chrono::milliseconds{std::stoll(next())};
+        } else if (value == "--public-window-apply") {
+            const std::string enabled = next();
+            if (enabled != "0" && enabled != "1") {
+                throw std::invalid_argument(
+                    "--public-window-apply must be 0 or 1");
+            }
+            options.publicWindowApply = enabled == "1";
+        } else if (value == "--checkpoint-closed-loop") {
+            const std::string enabled = next();
+            if (enabled != "0" && enabled != "1") {
+                throw std::invalid_argument(
+                    "--checkpoint-closed-loop must be 0 or 1");
+            }
+            options.checkpointClosedLoop = enabled == "1";
         } else if (value == "--spot-count") {
             options.spotCount = std::stoi(next());
         } else if (value == "--fuel-profile") {
@@ -1133,9 +1503,15 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         options.protectedRefineBudget.count() < 0 ||
         options.protectedWaitBudget.count() < 0 ||
         options.terminalSparseBudget.count() < 0 ||
+        options.publicWindowProbeBudget.count() < 0 ||
         options.spotCount < 0) {
         throw std::invalid_argument(
             "--version, --track, positive --seeds, --budget-ms and --role-ms are required");
+    }
+    if (options.checkpointClosedLoop &&
+        !options.protectedWaitClosedLoop) {
+        throw std::invalid_argument(
+            "--checkpoint-closed-loop requires --protected-wait-closed-loop");
     }
     if (options.roleMode != "exhaustive" &&
         options.roleMode != "deadline" &&
@@ -1296,6 +1672,42 @@ void print_result(
               << ",midday_deadline_days=" << metrics.middayDeadlineDays
               << ",midday_failure_days=" << metrics.middayFailureDays
               << ",midday_best_day=" << metrics.middayBestDay
+              << ",public_window_probe_days="
+              << metrics.publicWindowProbeDays
+              << ",public_window_probe_takeovers="
+              << metrics.publicWindowProbeTakeovers
+              << ",public_window_probe_deadline_days="
+              << metrics.publicWindowProbeDeadlineDays
+              << ",public_window_probe_failure_days="
+              << metrics.publicWindowProbeFailureDays
+              << ",public_window_probe_tier1_gains="
+              << metrics.publicWindowProbeTier1Gains
+              << ",public_window_probe_tier2_gains="
+              << metrics.publicWindowProbeTier2Gains
+              << ",public_window_probe_serving_gain="
+              << metrics.publicWindowProbeServingGain
+              << ",public_window_probe_routes="
+              << metrics.publicWindowProbeRoutes
+              << ",public_window_probe_plans="
+              << metrics.publicWindowProbePlans
+              << ",public_window_probe_valid="
+              << metrics.publicWindowProbeValid
+              << ",public_window_probe_acceptances="
+              << metrics.publicWindowProbeAcceptances
+              << ",public_window_apply="
+              << (options.publicWindowApply ? 1 : 0)
+              << ",checkpoint_closed_loop="
+              << (options.checkpointClosedLoop ? 1 : 0)
+              << ",checkpoint_closed_loop_parent="
+              << metrics.checkpointClosedLoopParentScore.lifetimeDistinct
+              << '/'
+              << metrics.checkpointClosedLoopParentScore.totalDailyDistinct
+              << '/'
+              << metrics.checkpointClosedLoopParentScore.totalServings
+              << ",checkpoint_closed_loop_takeovers="
+              << metrics.checkpointClosedLoopTakeovers
+              << ",checkpoint_closed_loop_failures="
+              << metrics.checkpointClosedLoopFailures
               << ",mean_ms=" << meanMilliseconds
               << ",p95_ms=" << percentile(metrics.responseTimes, 95)
               << ",max_ms=" << percentile(metrics.responseTimes, 100)

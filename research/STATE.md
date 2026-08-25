@@ -2,7 +2,196 @@
 
 Updated: 2026-08-25
 
-## Current phase — SCORE-MIDDAY-TARGET-FOLLOWUP-215 accepted; convergence sweep active
+## Current phase — 219 accepted production checkpoint
+
+Experiment 218 is closed rejected after its causal application gate found a
+fresh `6/30/174 -> 6/30/162` regression on seed `5021002`. Interleaved
+`off/on/off/on` reproduced `174/162/174/174`; only the first on run accepted a
+strict public-window takeover. The simple continuation therefore cannot protect
+the complete current 5000-ms checkpoint across later deadline-bounded work. Its
+sealed holdout remains unopened.
+
+Successor 219 is registered before source change with frozen manifest
+`research/holdouts/DEADLINE-CHECKPOINT-CLOSED-LOOP-219.csv`, SHA256
+`48200C4B086EBE73DFC0E476A83ECDB72118B3BF1D24871318B70A29DC0D4794`.
+It computes the main solver exactly once per day, runs the unchanged current
+5000-ms protected checkpoint once on a checkpoint state, exact-replays that
+same plan on the authoritative richer state, and only then permits protected
+public-window continuation. On nonterminal days checkpoint and richer states
+must preserve equal road footprint and ordered terminal cells with fuel/ledger
+dominance. On the terminal day exact validity and official lexicographic strict
+gain replace the future-transition certificate. There is no Long solve,
+resubmit, shared retention, second solver or fixture dispatcher.
+The first partial control run was discarded before any 15-second development
+case because public work shared the checkpoint refiner cache and could warm a
+later checkpoint day. The corrected implementation snapshots the checkpoint
+cache after that day's unchanged protected prefix and discards all public-side
+cache additions at day end. Its 5000-ms control is measured in-process against
+`checkpoint_closed_loop_parent`; separate timed processes are not treated as a
+byte-equivalence oracle because their deadline cutoffs can legitimately differ
+under host load.
+
+Frozen development is complete. The 24 in-process 5000-ms controls passed with
+zero mismatch. The 60 public-15000-ms cases yielded `14/46/0`, net `+19`
+servings, all tier 3, with 16 takeovers and zero deadline, invalid, emergency,
+refiner or checkpoint failure. Gains span all fuel profiles, both role modes,
+easy/hard/very-hard and five traffic families; medium and fuel-tight are pure
+ties. This is broad strict benefit with bounded downside, so the preregistered
+one-time sealed holdout is authorized. The 45/60-second escalation stays closed
+because every 15-second continuation reached fixed point before its deadline.
+The sealed `5060xxx` holdout was opened exactly once on the unchanged frozen
+binary and completed all 108 cases at `29/79/0`, net `+88` servings, all tier 3,
+with 50 takeovers and zero deadline, invalid, emergency, refiner or checkpoint
+failure. Gains span all four difficulty tiers, all three fuel profiles, both
+role modes and all six traffic families. The frozen research mechanism is
+accepted; the 45/60-second escalation remains closed because no 15-second case
+reached its continuation deadline.
+
+Production integration is complete. The three-branch BTC runtime persists and
+resumes virtual-main, complete 5000-ms checkpoint and authoritative richer state
+without rerunning the timed solver. The independent Linux source-rank defect is
+repaired by deterministic pruning tie-break and passes on Linux and Windows.
+All 24 fresh five-second controls matched the checkpoint exactly. A separately
+frozen 12-case production matrix passed at `3/9/0`, net `+6` servings, all tier
+3, with zero loss, deadline, checkpoint/public failure, invalid or emergency.
+Corrected BTC target-host runs `m-4153`, `m-4154` and `m-4155` completed every
+day with exact replay; `m-4155` also proves the pure-5000-ms path emits no
+continuation state. Production evidence and hashes are in
+`research/evidence/DEADLINE-CHECKPOINT-CLOSED-LOOP-219-PRODUCTION.md`. The
+consumed 219 development and holdout sets cannot be inspected for tuning or
+reused for any successor.
+
+No logic experiment is open after this checkpoint. Research may reopen only
+from a fresh non-consumed BTC/opponent counterexample, a newly observed
+telemetry mismatch, or an invariant-derived mechanism registered with a new
+unopened manifest. Re-running or re-slicing the consumed 217--219 holdouts is
+forbidden and is not evidence of further convergence.
+
+### Closed predecessor — DEADLINE-PUBLIC-WINDOW-218
+
+The rule-level review is closed: HEXUDON does not impose a universal 5000-ms
+response deadline. Response time is published per match; archived BTC setups in
+this repository include 5-second and 15-second days, and the supplied national
+configuration includes 45-second days. The old 5000-ms universal hard cap was a
+conservative project decision, not a competition rule, and is superseded for
+prospective research.
+
+Experiment 218 keeps the exact current 5000-ms result as an immutable checkpoint
+but permits the accepted protected refiner to consume the trusted public time
+remaining after transport safety. It never reruns the main solver with the long
+budget. This directly tests the gap from 216 without the shared-retention change
+rejected by 217. The frozen manifest is
+`research/holdouts/DEADLINE-PUBLIC-WINDOW-218.csv`; development covers 5000-ms
+equivalence and 15000-ms public windows, with preregistered 45000/60000-ms
+escalation only when 15 seconds remains deadline-limited or has not reached a
+fixed point. Source parent remains `177b588` until the candidate is built.
+
+The non-propagating 15-second development probe is complete: `17/60` cases
+contain 23 strict protected takeovers for `+28` servings, with zero tier-1 or
+tier-2 change, deadline or refiner failure. Gains span all four difficulty
+levels, all fuel profiles, both role modes and all six traffic families. Eleven
+takeovers came from the sparse refiner; the remainder demonstrate additional
+compatible WAIT detours and satisfy experiment 204's frozen reopen condition.
+No probe reached the 15-second deadline, so the 45/60-second escalation stays
+closed. This is candidate-supply evidence only: 218 cannot open holdout until a
+causal application run preserves the complete 5000-ms checkpoint across the
+full multi-day loop.
+
+## Closed experiment — SCORE-MIDDAY-SHARED-TARGET-217
+
+Experiment 216 is closed as an accepted scheduling-gap attribution. Across 45
+nonterminal days, unconstrained sparse one-agent exchange improved 45/45 for
+`+136` servings; the fully protected same-terminal/future-domain certificate
+improved 11/45 for `+17`. Fresh `m-4108` fired on all 9 nonterminal days for
+`+15`. The accepted 215 target suffix saw none of these routes because it starts
+a second complete label traversal only after the accepted global traversal has
+already exhausted the protected deadline.
+
+Experiment 217 is the minimum semantic-preserving correction: one label search
+retains both the existing global pool and the incumbent-terminal pool. The
+global pool is still evaluated first in parent order; the target pool is then
+available without repeating the expensive traversal. Before any score gate,
+the combined enumerator must reproduce both standalone retained sets exactly
+without a deadline. The fresh development and sealed-holdout manifest is
+`research/holdouts/SCORE-MIDDAY-SHARED-TARGET-217.csv`, SHA256
+`B17826FE51D17D0FA217E60699A26E6F6DC42A98E70C5053942E621FF7316940`.
+
+The first compile-time-separated Linux tournament build, SHA256
+`2DD7114D8BA5D6B3C2EC748D1F3A2CEEE1BF8FD02FD865F74FC53D16D34C6FAD`,
+was rejected before holdout at `3/26/31`, net `-528` servings. Exact telemetry
+showed the candidate produced zero target routes on all 60 cases: the combined
+enumerator had been wired into the earlier terminal-sparse function instead of
+the mid-day function, while the mid-day target suffix moved empty vectors. The
+failure is implementation attribution, not a test of the registered mechanism.
+The complete logs and hashes are preserved in the 217 evidence; the sealed
+holdout remains unopened.
+
+The corrected source-frozen tournament binary is SHA256
+`F848AE893D5F9D38F30BC99EA68CD6AEC293151E9057B9A431A5EF44A66230A4`.
+It restores the terminal-sparse parent path and enables combined enumeration
+only inside `refine_midday_chains`. A one-case target-host smoke emitted 576
+target routes, 318 dual-valid target plans and three target acceptances with
+zero invalid/emergency/failure. The additional-terminal state remains
+compile-time absent from the off path. An earlier 11-case unconditional-
+allocation pilot is preserved under
+`logs217-invalid-unconditional-target-reserve` and is not evidence.
+
+The claim probe reproduced both standalone retained views exactly on 40
+patrol/day comparisons across eight consumed replay-days: eight completion
+markers, zero parity failures. The corrected claim-probe binary SHA256 is
+`1A93C307D3D6747C7C7CDF4F340165762FC11C429B2A7E0BB0C96DA691673DF0`.
+
+Corrected development passed at `29/28/3` W/T/L, net `+246` servings,
+zero tier-1/tier-2 difference and zero invalid/emergency/mid-day failure. The
+three losses were bounded tier-3 losses `-1,-10,-1`, all in very-hard long
+windows; gains spanned every fuel profile and both role modes, with 29 wins and
+maximum `+50`. Target acceptances increased from 239 to 358. The frozen sealed
+holdout was therefore opened exactly once with the same binary and completed
+all `108 + 108` pairs.
+
+The sealed holdout finished `40/58/10`, net `+455`, gross gain/loss
+`+491/-36`, tail `+75/-9`, with every difference at tier 3 and zero invalid,
+emergency, mid-day failure or terminal-sparse failure. The candidate was
+strongly positive in short protected windows (`35/14/5`, `+466`) but failed
+the registered across-strata gate in long windows (`5/44/5`, `-11`); the
+fuel-tight and rare-brand families were also net negative (`-4/-11`). The
+unconditional flag is therefore rejected and must not be enabled in production.
+Off/on/stderr SHA256 are `4E0E7448...`, `6D692282...`, and the empty-file
+`E3B0C442...`.
+
+This is new evidence for a simpler deadline successor, not permission to tune
+217 by fixture: preserve the exact 5000-ms production decision and use an
+authoritative public window above five seconds only for a bounded continuation
+of the already accepted protected target-terminal refiner, followed by one
+submission. Matches at or below 5000 ms remain byte-identical. Ordinary Long
+replacement and profile-based resend remain rejected by 166--186.
+
+An independent pre-existing Linux gate remains open outside experiment 217:
+the direct 215 parent and 217 both retain harvest-extension source ranks 1 and
+2 but can prune rank 0 in the old column-diversity fixture; Windows retains it.
+Because 217 does not touch column generation, the causal A/B may proceed on the
+same binary, but no production promotion may occur until that portability bug
+is repaired and score-gated separately.
+
+### Closed attribution — ATTR-NONTERMINAL-SPARSE-EXCHANGE-216
+
+Fresh target-host match `m-4108` exposes an earlier and broader tier-3 gap than
+the accepted 215 suffix: on day 1 the submitted bundle scored `6/6/44`, while
+the existing full-route sparse enumerator reconstructs an exact `6/6/48`
+one-agent exchange and a same-terminal protected `6/6/46` exchange at the
+unchanged production caps. Because the gap exists before future-horizon effects
+and the nonterminal production lane currently searches wait-detour suffixes
+rather than complete sparse replacement routes, experiment 216 is sweeping all
+nonterminal days in six frozen consumed BTC replays to measure recurrence and
+strata. This is attribution-only: production remains exactly `177b588`, ranks
+do not promote logic, and any successor must use fresh seeds plus an incumbent-
+protected exact certificate and a BTC target-host budget gate.
+
+Frozen manifest:
+`research/holdouts/ATTR-NONTERMINAL-SPARSE-EXCHANGE-216.csv`, SHA256
+`9DE6557133B1649B557D4C30C210D72029D83E2407500965093575E49A02AE4E`.
+
+### Accepted checkpoint — SCORE-MIDDAY-TARGET-FOLLOWUP-215
 
 Experiment 215 is closed and enabled in production. It preserves the complete
 accepted 210 global-pool ascent as an order-identical protected prefix, then uses
