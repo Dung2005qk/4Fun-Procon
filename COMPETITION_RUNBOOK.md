@@ -36,8 +36,11 @@ Remove-Item Env:HEXUDON_TOKEN
      `competition_compute_budget` (types.hpp:29) bất kể flag — CÓ CHỦ ĐÍCH:
      166 đã thử đưa thẳng 15000/60000ms vào lớp Long và THUA 0/4/2
      (53->50 servings); không bao giờ nới cap để "tận dụng" thời gian thừa.
-5. BINARY THI ĐẤU CHÍNH THỨC (cập nhật 2026-08-25, sau SCORE-ROLE-221):
-   SHA256 `4EB926039A50D28F2202BFBE840866D770FD1928119183441C0034377BAA2FE4`
+5. BINARY THI ĐẤU CHÍNH THỨC (cập nhật 2026-08-26, sau SCORE-ROLE-225):
+   SHA256 `AAF73A3ADCD2E47B7C52A70E0A11B6767B37CB9C574BA7891E67399596FE08A7`
+   — thêm floor low-fuel: trận <=5 ngày với fuel <= max daySteps không bao
+   giờ giữ đội hình toàn-patrol (bất động từ ngày 2). Binary 221 cũ:
+   `4EB926039A50D28F2202BFBE840866D770FD1928119183441C0034377BAA2FE4`
    — thêm short-horizon role fallback vào production (trận <=5 ngày không
    bao giờ chọn đội hình >=2 tanker khi có single-tanker trong beam; nguyên
    nhân trực tiếp của 2 trận thua rank-4 m-4195/m-4196). Sau khi build lại
@@ -51,4 +54,6 @@ Remove-Item Env:HEXUDON_TOKEN
 6. SAU TRẬN NGẮN (<=5 ngày) ĐẦU TIÊN với binary mới: kiểm tra frame
    assignment trong replay — kỳ vọng >=3 patrol (giá trị 0 = patrol,
    1 = tanker). Nếu thấy 2 tanker trở lên trong trận ngắn, báo ngay:
-   đó là điều kiện revert của 221.
+   đó là điều kiện revert của 221. Thêm từ 225: nếu trận ngắn có
+   fuel <= daySteps mà assignment lại là toàn-patrol (0 tanker),
+   báo ngay — điều kiện revert của 225.

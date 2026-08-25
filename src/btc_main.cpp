@@ -1359,6 +1359,13 @@ void run_replay_roles(const RuntimeOptions& options) {
         for (const udon::AgentKind role : assignment.roles) {
             roles.push_back(role == udon::AgentKind::Patrol ? 'P' : 'T');
         }
+        std::string trace;
+        for (const std::int32_t daily : assignment.rolloutDailyTrace) {
+            if (!trace.empty()) {
+                trace.push_back(',');
+            }
+            trace += std::to_string(daily);
+        }
         std::cout << "rank=" << index + 1U
                   << " roles=" << roles
                   << " patrols=" << assignment.patrolCount
@@ -1371,6 +1378,7 @@ void run_replay_roles(const RuntimeOptions& options) {
                   << " upper=" << assignment.cheapUpperBound.lifetimeDistinct
                   << '/' << assignment.cheapUpperBound.totalDailyDistinct
                   << '/' << assignment.cheapUpperBound.totalServings
+                  << " trace=" << trace
                   << '\n';
     }
     std::cout << "elapsed_ms=" << elapsed.count() << '\n';

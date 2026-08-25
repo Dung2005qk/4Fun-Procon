@@ -2,7 +2,29 @@
 
 Updated: 2026-08-26
 
-## Current phase — 222 closed; evaluating the 216-invited shared-traversal successor
+## Current phase — 225 accepted production (low-fuel all-patrol floor)
+
+SCORE-ROLE-LOWFUEL-FLOOR-225 closed accepted-production: under the same
+production flag, short (<=5-day) all-patrol fronts at or below the existing
+fuelLimit > maximumDaySteps boundary now take the single-tanker floor.
+Attribution 224 proved the truncated rollout blind to multi-day fuel
+exhaustion (per-day traces dip equally in collapse and healthy fixtures)
+while the structural boundary classifies 10/10 observed cases. Dev easy
+6/16/1 net +132 and sealed holdout easy 4/10/1 net +131 with EVERY tier-2
+difference a WIN on fresh low-fuel seeds; frozen-replay gates identical to
+accepted v3 everywhere. Production binary SHA256
+AAF73A3ADCD2E47B7C52A70E0A11B6767B37CB9C574BA7891E67399596FE08A7.
+BTC debt: fresh short practice matches (a short low-fuel config expects
+>=1 tanker in the assignment frame).
+
+Also closed today: ATTR-SHARED-WINDOW-RESIDUAL-223 (the 216 scheduling gap
+measures ZERO protected residual on 23 post-219 live days — the 217-invited
+shared-retention successor is moot; the remaining +2..+6/day global
+residual is certificate-blocked, not time-blocked) and
+ATTR-ROLE-COLLAPSE-DISCRIMINATOR-224 (rollout traces carry no signal; the
+structural fuel boundary does).
+
+## 222 closed; the 216-invited shared-traversal successor was evaluated
 
 221 BTC debt PAID 2026-08-26: m-4208 (the exact 12x12 five-day 8-brand loss
 regime) selected 3 patrols + 1 tanker and finished RANK 1 at 8/40/120 vs

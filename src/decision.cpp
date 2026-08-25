@@ -3368,6 +3368,7 @@ void UdonShieldEngine::rollout_role_assignment(
     assignment.rolloutValid = false;
     assignment.rolloutComplete = false;
     assignment.rolloutScore = OfficialScore{};
+    assignment.rolloutDailyTrace.clear();
     if (maximumDays <= 0 || maximumCombinationsPerDay <= 0 ||
         assignment.roles.size() != static_cast<std::size_t>(config_.agent_count())) {
         return;
@@ -3518,6 +3519,7 @@ void UdonShieldEngine::rollout_role_assignment(
                 "role rollout disagreed with the independent validator: " + mismatch);
         }
         rolloutLedger.apply(detailed.score);
+        assignment.rolloutDailyTrace.push_back(detailed.score.dailyDistinct);
         rolloutState.agents = detailed.finalAgents;
         ownFootprints.at(static_cast<std::size_t>(dayNumber - 1)) =
             detailed.roadFootprint;
@@ -3588,9 +3590,19 @@ bool apply_incomplete_long_horizon_role_fallback(
     }
     if (shortHorizon &&
         beam.front().patrolCount >= config.agent_count() - 1) {
-        // Short horizons only displace tanker-heavy leaders; incomplete
-        // rollouts cannot rank an all-patrol/single-tanker parent reliably.
-        return false;
+        const std::int32_t maximumDaySteps = *std::max_element(
+            config.daySteps.begin(),
+            config.daySteps.end());
+        const bool immobileAllPatrolFront =
+            beam.front().patrolCount == config.agent_count() &&
+            config.fuelLimit <= maximumDaySteps;
+        if (!immobileAllPatrolFront) {
+            // Short horizons displace tanker-heavy leaders and, below the
+            // low-fuel boundary, all-patrol fronts whose match fuel cannot
+            // cover one day of movement; other parents are kept because
+            // incomplete rollouts cannot rank them reliably.
+            return false;
+        }
     }
     auto bestSingleTanker = beam.end();
     auto bestDoubleTanker = beam.end();

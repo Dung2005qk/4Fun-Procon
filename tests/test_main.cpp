@@ -423,6 +423,36 @@ void test_incomplete_long_horizon_role_fallback() {
             shortParentSingleTankerBeam.front().roles == betterSingleTanker.roles,
         "a single-tanker parent selection must survive the opt-in short-horizon fallback");
 
+    udon::MatchConfig lowFuelShortConfig = shortHorizonConfig;
+    lowFuelShortConfig.fuelLimit = 16;
+    std::vector<udon::RoleAssignment> lowFuelAllPatrolBeam{
+        allPatrol,
+        weakerSingleTanker,
+        betterSingleTanker,
+    };
+    require(
+        udon::apply_incomplete_long_horizon_role_fallback(
+            lowFuelShortConfig,
+            false,
+            lowFuelAllPatrolBeam,
+            true) &&
+            lowFuelAllPatrolBeam.front().roles == betterSingleTanker.roles,
+        "a low-fuel all-patrol front must yield to the single-tanker floor on short horizons");
+
+    std::vector<udon::RoleAssignment> lowFuelSingleTankerBeam{
+        betterSingleTanker,
+        allPatrol,
+        weakerSingleTanker,
+    };
+    require(
+        !udon::apply_incomplete_long_horizon_role_fallback(
+            lowFuelShortConfig,
+            false,
+            lowFuelSingleTankerBeam,
+            true) &&
+            lowFuelSingleTankerBeam.front().roles == betterSingleTanker.roles,
+        "a low-fuel single-tanker parent must survive the short-horizon fallback");
+
     std::vector<udon::RoleAssignment> longFlagOnBeam{
         allPatrol,
         weakerSingleTanker,

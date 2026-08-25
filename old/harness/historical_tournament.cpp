@@ -70,6 +70,7 @@ struct Options {
     bool middayPairExchange = false;
     bool middayTargetTerminalFollowup = false;
     bool shortRoleFallback = false;
+    bool roleDetails = false;
     bool dayDetails = false;
 };
 
@@ -721,6 +722,31 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             : engine.select_roles_until(
                 options.roleBudget,
                 3);
+        if (options.roleDetails) {
+            for (std::size_t index = 0; index < assignments.size(); ++index) {
+                const udon::RoleAssignment& assignment = assignments.at(index);
+                std::string mask;
+                for (const udon::AgentKind role : assignment.roles) {
+                    mask.push_back(role == udon::AgentKind::Patrol ? 'P' : 'T');
+                }
+                std::string trace;
+                for (const std::int32_t daily : assignment.rolloutDailyTrace) {
+                    if (!trace.empty()) {
+                        trace.push_back(',');
+                    }
+                    trace += std::to_string(daily);
+                }
+                std::cout << "role_detail,fixture=" << fixture.name
+                          << ",rank=" << index + 1U
+                          << ",roles=" << mask
+                          << ",patrols=" << assignment.patrolCount
+                          << ",rollout=" << assignment.rolloutScore.lifetimeDistinct
+                          << '/' << assignment.rolloutScore.totalDailyDistinct
+                          << '/' << assignment.rolloutScore.totalServings
+                          << ",trace=" << trace
+                          << '\n';
+            }
+        }
         roles = assignments.empty()
             ? fallback_roles(config)
             : assignments.front().roles;
@@ -1502,6 +1528,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             options.middayTargetTerminalFollowup = std::stoi(next()) != 0;
         } else if (value == "--short-role-fallback") {
             options.shortRoleFallback = std::stoi(next()) != 0;
+        } else if (value == "--role-details") {
+            options.roleDetails = true;
         } else if (value == "--protected-wait-closed-loop") {
             options.protectedWaitDetours = true;
             options.protectedWaitClosedLoop = true;
