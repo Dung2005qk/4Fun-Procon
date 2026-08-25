@@ -83,3 +83,22 @@ m-4149/m-4155→PPPP, m-3810→PPP.
 Fresh short-horizon practice matches (12x12 five-day class): expect
 composition ≥3 patrols and rank-1-competitive servings (counterfactual 130
 vs winners' 114/113 on the consumed losses).
+
+## Addendum (post-acceptance, 2026-08-25 late): the m-4195 mask4 117-tail localized
+
+Repeated counterfactuals of the production-picked composition PPTP (mask4)
+on m-4195 give {117 x4, 130 x5} over 9 runs; production's pick is stable
+(PPTP 5/5 on m-4195, PPTP 3/3 on m-4196; m-4196 mask4 is 130 in 4/4 runs).
+Day-line attribution of every 117 run shows the same signature: the day-3
+solve ends with ALL FOUR agents parked on cell 2 at full fuel (day 3 itself
+still scores 8/26), and the day-4 solve from that poisoned start can only
+reach 5 brands (daily=5/13, -3 tier-2). mask8/mask2 samples (130,130,130)
+never exhibit it. This is pre-existing day-solve suffix-poisoning variance
+(the profile predicted 8/40/130 after day 3 — the terminal-position choice
+is invisible to it), not a 221 selection error: 221 moves the m-4195 class
+from a deterministic rank-4 loss (100) to ~5/9 rank-1 at 130 with a ~4/9
+tail at 117, and m-4196-class to a stable 130. Successor axis: mid-match
+terminal-position suffix safety (relates to the 209 position-then-sweep and
+216 scheduling findings). Long-match inertness extended to 7 replays: 
+m-4043/44/45/4110/4153/4154/4194 all replay-check exact on the production
+binary.

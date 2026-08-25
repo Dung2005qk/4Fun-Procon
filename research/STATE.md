@@ -25,7 +25,7 @@ under wall-clock rollout truncation — same-flag composition coin flips worth
 ±36 servings, including a fuel-tight class where an unlucky all-patrol draw
 loses tier-2 daily (seeds 7300017/8340005/8400006); (2) synthetic harness
 maps cannot reproduce the live 2-tanker front pathology — live-replay gates
-are the activation instrument; (3) single-tanker agent-placement jitter.
+are the activation instrument; (3) single-tanker agent-placement jitter; (4) mid-match terminal-position suffix poisoning - localized on m-4195 mask4: a day-3 solve that parks all four agents on one cell (full fuel, day 3 unharmed) collapses day 4 to 5 brands (~4/9 of runs, 117 vs 130); the day profile cannot see it. 
 
 ## Superseded in-development notes (220/221)
 
