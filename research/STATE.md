@@ -1,8 +1,26 @@
 # UDON-SHIELD Research State
 
-Updated: 2026-08-25
+Updated: 2026-08-26
 
-## Current phase — 221 accepted production (short-horizon role fallback)
+## Current phase — 222 closed; evaluating the 216-invited shared-traversal successor
+
+221 BTC debt PAID 2026-08-26: m-4208 (the exact 12x12 five-day 8-brand loss
+regime) selected 3 patrols + 1 tanker and finished RANK 1 at 8/40/120 vs
+109/105/103; m-4209 (new 24x24 five-day 5-agent regime) kept its all-patrol
+front and finished RANK 1 at 7/35/187 vs 178/175/173.
+
+ATTR-TERMINAL-SUFFIX-POISON-222 closed accepted-attribution: the m-4195
+117-tail is next-day SEARCH VARIANCE from clustered day terminals (a run10
+witness proves an 8-brand day-4 from the same cluster exists), the
+TerminalSlack oracle already measures the hazard but sits below uncertified
+quantile estimates in better_evaluation, and the offline counterfactual
+overstates the live tail because it never runs the post-ACK contingency
+net — live m-4208/m-4209 held full daily every day. No SCORE opened
+(main-comparator risk class vs zero live occurrences); successor
+certificate design and reopen conditions recorded in the ledger row and
+research/evidence/ATTR-TERMINAL-SUFFIX-POISON-222.md.
+
+## 221 accepted production (short-horizon role fallback)
 
 SCORE-ROLE-SHORT-HORIZON-221 is closed **accepted-production** (final
 mechanism v3 after two pre-registered revisions; full lineage in the ledger
