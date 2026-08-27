@@ -2,6 +2,39 @@
 
 Updated: 2026-08-26
 
+## Current phase — ATTR-CONTINGENCY-HARNESS-PARITY-228 closed; generation gap open
+
+The audit after 227 found that accepted attribution 226 did not actually feed
+its generated post-ACK contingencies into the following replay day. In
+`replay-counterfactual --post-ack-ms`, the harness calls `record_submitted`,
+generates contingencies, then calls `record_applied_transition`; that last call
+clears `cachedContingencies` and `strongProofs`. `record_submitted` already owns
+the accepted-transition belief, footprint, expected-agent and response-artifact
+lifecycle, so the second transition call is both redundant and destructive.
+The reported m-4195 tail change cannot be attributed to production's live
+contingency net until this parity defect is corrected.
+
+ATTR-CONTINGENCY-HARNESS-PARITY-228 is registered before source change from the
+frozen 227 working tree. It changes only the replay-counterfactual post-ACK
+lifecycle and preserves `record_applied_transition` for its intended external
+or fallback callers. Frozen manifest:
+`research/holdouts/ATTR-CONTINGENCY-HARNESS-PARITY-228.csv`, SHA256
+`A914D1C9674EA839667EBAAE4826E255C43393D1C41AB0B963726959FAE3C425`.
+On one quiet VM, run round-robin no-ACK control 12 times, the buggy 226
+instrument 12 times and the cache-faithful candidate 24 times on consumed
+`m-4195` mask 4. This is attribution only. The run completed 48/48 with empty
+stderr and unchanged hashes. The no-ACK and buggy-226 lanes each produced
+12/12 `8/40/130` and zero cache previews. The cache-faithful lane exposed 596
+previews and scored `8/40/130` in 23/24 runs, but one run still fell to
+`8/37/117`. In that tail, the eight day-4 previews contained six invalid plans
+and valid plans of only `1/3` and `7/11`; no valid full-eight-brand plan existed
+for adoption. This is the preregistered generation/diversification gap, not an
+adoption gap. Experiment 226's live-cache causal claim is superseded because
+its artifacts were cleared before use. Raw evidence archive SHA256
+`069DCE99186433C2C05A999311F3840CBDF9081CD9C60EF9539FDC1D2DB512B6`.
+No SCORE successor may reuse this replay for promotion or tuning.
+
+
 ## PERF-ROLE-DIAGNOSTIC-ISOLATION-227 accepted; BTC debt paid
 
 The post-compact audit found that ATTR-224's diagnostic

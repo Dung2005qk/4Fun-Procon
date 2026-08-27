@@ -59,6 +59,8 @@ struct Options {
     std::chrono::milliseconds protectedWaitBudget{0};
     std::chrono::milliseconds terminalSparseBudget{0};
     std::chrono::milliseconds publicWindowProbeBudget{0};
+    std::chrono::milliseconds postAckBudget{0};
+    std::chrono::milliseconds postAckSliceBudget{100};
     bool publicWindowApply = false;
     bool checkpointClosedLoop = false;
     std::int32_t spotCount = 0;
@@ -148,6 +150,14 @@ struct Metrics {
     std::int32_t publicWindowProbeDeadlineDays = 0;
     std::int32_t publicWindowProbeFailureDays = 0;
     std::int32_t publicWindowProbeTier1Gains = 0;
+    std::int64_t cacheEligible = 0;
+    std::int64_t cacheReused = 0;
+    std::int64_t cacheRejected = 0;
+    std::int64_t postAckCalls = 0;
+    std::int64_t postAckContingencies = 0;
+    std::int64_t postAckProofCalls = 0;
+    std::int64_t postAckCompletedProofs = 0;
+    std::int64_t postAckStrongProofRecords = 0;
     std::int32_t publicWindowProbeTier2Gains = 0;
     std::int64_t publicWindowProbeServingGain = 0;
     std::int64_t publicWindowProbeRoutes = 0;
@@ -846,6 +856,9 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         metrics.combinationsVisited += decision.diagnostics.combinationsVisited;
         metrics.searchCompleteDays += decision.diagnostics.searchComplete ? 1 : 0;
         metrics.searchDeadlineDays += decision.diagnostics.deadlineReached ? 1 : 0;
+        metrics.cacheEligible += decision.cacheRepair.eligibleContingencies;
+        metrics.cacheReused += decision.cacheRepair.reusedContingencies;
+        metrics.cacheRejected += decision.cacheRepair.rejectedContingencies;
 
         udon::SimulationResult detailed =
             simulator.simulate(state, decision.candidate.plan, false);
@@ -1357,7 +1370,48 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                         fixture.name + " on day " + std::to_string(day));
                 }
             }
+            udon::DecisionResult acknowledgedDecision = *selectedDecision;
             engine.record_submitted(*selectedDecision, elapsed);
+            if (options.postAckBudget.count() > 0 &&
+                day < config.day_count()) {
+                ++metrics.postAckCalls;
+                const auto postAckDeadline =
+                    std::chrono::steady_clock::now() + options.postAckBudget;
+                bool precomputeAtFixedPoint = false;
+                while (!precomputeAtFixedPoint &&
+                       std::chrono::steady_clock::now() < postAckDeadline &&
+                       engine.remaining_post_ack_compute_budget().count() > 0) {
+                    const auto sliceDeadline = std::min(
+                        postAckDeadline,
+                        std::chrono::steady_clock::now() +
+                            options.postAckSliceBudget);
+                    const std::int32_t added =
+                        engine.precompute_next_day_contingencies(
+                            state,
+                            ledger,
+                            acknowledgedDecision,
+                            sliceDeadline);
+                    metrics.postAckContingencies += added;
+                    precomputeAtFixedPoint = added == 0;
+                }
+                if (precomputeAtFixedPoint &&
+                    std::chrono::steady_clock::now() < postAckDeadline &&
+                    engine.remaining_post_ack_compute_budget().count() > 0) {
+                    const std::size_t proofRecordsBefore =
+                        engine.response_ledger().strongProofs.size();
+                    ++metrics.postAckProofCalls;
+                    metrics.postAckCompletedProofs +=
+                        engine.prove_remaining_horizon(
+                            state,
+                            ledger,
+                            acknowledgedDecision,
+                            postAckDeadline);
+                    metrics.postAckStrongProofRecords +=
+                        static_cast<std::int64_t>(
+                            engine.response_ledger().strongProofs.size() -
+                            proofRecordsBefore);
+                }
+            }
         }
         if (options.protectedWaitClosedLoop &&
             day < config.day_count() &&
@@ -1512,6 +1566,12 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         } else if (value == "--public-window-probe-ms") {
             options.publicWindowProbeBudget =
                 std::chrono::milliseconds{std::stoll(next())};
+        } else if (value == "--post-ack-ms") {
+            options.postAckBudget =
+                std::chrono::milliseconds{std::stoll(next())};
+        } else if (value == "--post-ack-slice-ms") {
+            options.postAckSliceBudget =
+                std::chrono::milliseconds{std::stoll(next())};
         } else if (value == "--public-window-apply") {
             const std::string enabled = next();
             if (enabled != "0" && enabled != "1") {
@@ -1560,6 +1620,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         options.protectedWaitBudget.count() < 0 ||
         options.terminalSparseBudget.count() < 0 ||
         options.publicWindowProbeBudget.count() < 0 ||
+        options.postAckBudget.count() < 0 ||
+        options.postAckSliceBudget.count() <= 0 ||
         options.spotCount < 0) {
         throw std::invalid_argument(
             "--version, --track, positive --seeds, --budget-ms and --role-ms are required");
@@ -1764,6 +1826,18 @@ void print_result(
               << metrics.checkpointClosedLoopTakeovers
               << ",checkpoint_closed_loop_failures="
               << metrics.checkpointClosedLoopFailures
+              << ",cache_eligible=" << metrics.cacheEligible
+              << ",cache_reused=" << metrics.cacheReused
+              << ",cache_rejected=" << metrics.cacheRejected
+              << ",post_ack_calls=" << metrics.postAckCalls
+              << ",post_ack_contingencies="
+              << metrics.postAckContingencies
+              << ",post_ack_proof_calls="
+              << metrics.postAckProofCalls
+              << ",post_ack_completed_proofs="
+              << metrics.postAckCompletedProofs
+              << ",post_ack_strong_proof_records="
+              << metrics.postAckStrongProofRecords
               << ",mean_ms=" << meanMilliseconds
               << ",p95_ms=" << percentile(metrics.responseTimes, 95)
               << ",max_ms=" << percentile(metrics.responseTimes, 100)

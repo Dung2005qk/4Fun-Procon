@@ -1,0 +1,13 @@
+--- a/src/btc_main.cpp
++++ b/src/btc_main.cpp
+@@ -1550,7 +1550,9 @@ void run_replay_counterfactual(const RuntimeOptions& options) {
+                 decision,
+                 std::chrono::steady_clock::now() +
+                     std::chrono::milliseconds{options.postAckMs});
+-            engine.record_applied_transition(state, simulation);
++            // record_submitted above already records the accepted transition.
++            // Preserve its post-ACK artifacts for the next replay day, matching
++            // MatchSession::acknowledge_submitted in HTTP mode.
+         }
+         const auto compact_score = [](const udon::OfficialScore& score) {
+             return std::to_string(score.lifetimeDistinct) + '/' +
