@@ -68,6 +68,15 @@ struct ProtectedSlackResult {
     const MatchLedger& baseline,
     const MatchLedger& actual);
 
+// Nonterminal protected continuations must preserve every ledger component so
+// their state remains safe for later days. On the terminal day no future state
+// exists, so the authoritative relation is official lexicographic
+// non-regression.
+[[nodiscard]] bool protected_slack_ledger_relation_for_day(
+    const MatchLedger& baseline,
+    const MatchLedger& actual,
+    bool terminalDay);
+
 class ProtectedSlackRefiner {
 public:
     explicit ProtectedSlackRefiner(const MatchConfig& config);

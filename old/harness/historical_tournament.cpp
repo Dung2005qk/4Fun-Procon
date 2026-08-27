@@ -1169,7 +1169,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                     (probe.diagnostics.sparseFailure ||
                      probe.diagnostics.middayFailure) ? 1 : 0;
                 if (probe.improved) {
-                    if (!udon::protected_slack_transition_dominates(
+                    if (day < config.day_count() &&
+                        !udon::protected_slack_transition_dominates(
                             detailed,
                             probe.simulation)) {
                         throw std::runtime_error(
@@ -1320,7 +1321,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                     (continuation.diagnostics.sparseFailure ||
                      continuation.diagnostics.middayFailure) ? 1 : 0;
                 if (continuation.improved) {
-                    if (!udon::protected_slack_transition_dominates(
+                    if (day < config.day_count() &&
+                        !udon::protected_slack_transition_dominates(
                             richerDetailed,
                             continuation.simulation)) {
                         ++metrics.checkpointClosedLoopFailures;
@@ -1358,12 +1360,17 @@ void preserve_plain_cells(FixtureSpec& fixture) {
 
                 udon::MatchLedger candidateAfter = richerLedger;
                 candidateAfter.apply(richerDetailed.score);
-                if (!udon::protected_slack_transition_dominates(
-                        detailed,
-                        richerDetailed) ||
-                    !udon::protected_slack_ledger_dominates(
+                const bool terminalDay = day == config.day_count();
+                const bool completeCheckpointDominates =
+                    (terminalDay ||
+                     udon::protected_slack_transition_dominates(
+                         detailed,
+                         richerDetailed)) &&
+                    udon::protected_slack_ledger_relation_for_day(
                         checkpointAfter,
-                        candidateAfter)) {
+                        candidateAfter,
+                        terminalDay);
+                if (!completeCheckpointDominates) {
                     ++metrics.checkpointClosedLoopFailures;
                     throw std::runtime_error(
                         "public continuation failed complete checkpoint dominance for " +
@@ -1425,12 +1432,17 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         ledger.apply(detailed.score);
         if (checkpointClosedLoopActive) {
             richerLedger.apply(richerDetailed.score);
-            if (!udon::protected_slack_transition_dominates(
-                    detailed,
-                    richerDetailed) ||
-                !udon::protected_slack_ledger_dominates(
+            const bool terminalDay = day == config.day_count();
+            const bool closedLoopRelationValid =
+                (terminalDay ||
+                 udon::protected_slack_transition_dominates(
+                     detailed,
+                     richerDetailed)) &&
+                udon::protected_slack_ledger_relation_for_day(
                     ledger,
-                    richerLedger)) {
+                    richerLedger,
+                    terminalDay);
+            if (!closedLoopRelationValid) {
                 ++metrics.checkpointClosedLoopFailures;
                 throw std::runtime_error(
                     "checkpoint closed-loop relation failed for " +

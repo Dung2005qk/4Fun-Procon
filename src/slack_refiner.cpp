@@ -151,6 +151,26 @@ bool protected_slack_ledger_dominates(
         actual.totalServings >= baseline.totalServings;
 }
 
+bool protected_slack_ledger_relation_for_day(
+    const MatchLedger& baseline,
+    const MatchLedger& actual,
+    bool terminalDay) {
+    if (!terminalDay) {
+        return protected_slack_ledger_dominates(baseline, actual);
+    }
+    const OfficialScore baselineScore{
+        baseline.lifetime_distinct(),
+        baseline.totalDailyDistinct,
+        baseline.totalServings,
+    };
+    const OfficialScore actualScore{
+        actual.lifetime_distinct(),
+        actual.totalDailyDistinct,
+        actual.totalServings,
+    };
+    return !(actualScore < baselineScore);
+}
+
 ProtectedSlackRefiner::ProtectedSlackRefiner(const MatchConfig& config)
     : config_(config),
       router_(config_),

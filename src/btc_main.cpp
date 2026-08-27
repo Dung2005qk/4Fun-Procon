@@ -2393,23 +2393,17 @@ void run_http(const RuntimeOptions& options) {
                     decision.decision.candidate.simulation.score);
                 udon::MatchLedger prospectiveCheckpointLedger = checkpointLedger;
                 prospectiveCheckpointLedger.apply(submittedSimulation.score);
-                const auto ledger_score = [](const udon::MatchLedger& value) {
-                    return udon::OfficialScore{
-                        value.lifetime_distinct(),
-                        value.totalDailyDistinct,
-                        value.totalServings};
-                };
                 const auto submission_admissible = [&]() {
-                    if (state.dayNumber == config.day_count()) {
-                        return !(ledger_score(prospectiveCheckpointLedger) <
-                            ledger_score(prospectiveVirtualLedger));
-                    }
-                    return udon::protected_slack_transition_dominates(
-                               decision.decision.candidate.simulation,
-                               submittedSimulation) &&
-                        udon::protected_slack_ledger_dominates(
+                    const bool terminalDay =
+                        state.dayNumber == config.day_count();
+                    return (terminalDay ||
+                            udon::protected_slack_transition_dominates(
+                                decision.decision.candidate.simulation,
+                                submittedSimulation)) &&
+                        udon::protected_slack_ledger_relation_for_day(
                             prospectiveVirtualLedger,
-                            prospectiveCheckpointLedger);
+                            prospectiveCheckpointLedger,
+                            terminalDay);
                 };
                 if (!submission_admissible()) {
                     submittedPlan = decision.decision.candidate.plan;
@@ -2448,12 +2442,16 @@ void run_http(const RuntimeOptions& options) {
                             "BTC checkpoint replay failed on authoritative richer state");
                     udon::MatchLedger prospectiveRicherLedger = ledger;
                     prospectiveRicherLedger.apply(replayedCheckpoint.score);
-                    if (!udon::protected_slack_transition_dominates(
-                            checkpointSimulation,
-                            replayedCheckpoint) ||
-                        !udon::protected_slack_ledger_dominates(
+                    const bool terminalDay =
+                        state.dayNumber == config.day_count();
+                    if ((!terminalDay &&
+                         !udon::protected_slack_transition_dominates(
+                             checkpointSimulation,
+                             replayedCheckpoint)) ||
+                        !udon::protected_slack_ledger_relation_for_day(
                             prospectiveCheckpointLedger,
-                            prospectiveRicherLedger)) {
+                            prospectiveRicherLedger,
+                            terminalDay)) {
                         throw std::runtime_error(
                             "BTC checkpoint replay failed richer-state dominance");
                     }
@@ -2574,15 +2572,14 @@ void run_http(const RuntimeOptions& options) {
                     prospectiveRicherLedger = ledger;
                     prospectiveRicherLedger.apply(submittedSimulation.score);
                     const bool completeCheckpointDominates =
-                        state.dayNumber == config.day_count()
-                        ? !(ledger_score(prospectiveRicherLedger) <
-                              ledger_score(prospectiveCheckpointLedger))
-                        : udon::protected_slack_transition_dominates(
-                              checkpointSimulation,
-                              submittedSimulation) &&
-                              udon::protected_slack_ledger_dominates(
-                                  prospectiveCheckpointLedger,
-                                  prospectiveRicherLedger);
+                        (terminalDay ||
+                         udon::protected_slack_transition_dominates(
+                             checkpointSimulation,
+                             submittedSimulation)) &&
+                        udon::protected_slack_ledger_relation_for_day(
+                            prospectiveCheckpointLedger,
+                            prospectiveRicherLedger,
+                            terminalDay);
                     if (!completeCheckpointDominates) {
                         throw std::runtime_error(
                             "BTC public continuation failed complete checkpoint dominance");
@@ -2979,23 +2976,20 @@ void run_http(const RuntimeOptions& options) {
                     !exact_agent_states_equal(
                         *checkpointAgents,
                         submittedSimulation.finalAgents);
+                const bool terminalDay =
+                    state.dayNumber == config.day_count();
                 const bool acknowledgedCheckpointLedgerValid =
-                    state.dayNumber == config.day_count()
-                    ? !(udon::OfficialScore{
-                            checkpointLedger.lifetime_distinct(),
-                            checkpointLedger.totalDailyDistinct,
-                            checkpointLedger.totalServings} <
-                        udon::OfficialScore{
-                            virtualLedger.lifetime_distinct(),
-                            virtualLedger.totalDailyDistinct,
-                            virtualLedger.totalServings})
-                    : udon::protected_slack_ledger_dominates(
-                          virtualLedger,
-                          checkpointLedger);
-                if (!acknowledgedCheckpointLedgerValid ||
-                    !udon::protected_slack_ledger_dominates(
+                    udon::protected_slack_ledger_relation_for_day(
+                        virtualLedger,
                         checkpointLedger,
-                        ledger)) {
+                        terminalDay);
+                const bool acknowledgedSubmittedLedgerValid =
+                    udon::protected_slack_ledger_relation_for_day(
+                        checkpointLedger,
+                        ledger,
+                        terminalDay);
+                if (!acknowledgedCheckpointLedgerValid ||
+                    !acknowledgedSubmittedLedgerValid) {
                     throw std::runtime_error(
                         "BTC checkpoint closed-loop ledger invariant failed after acknowledgement");
                 }

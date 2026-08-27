@@ -2024,6 +2024,30 @@ void test_competition_compute_hard_cap(
 void test_protected_slack_refiner(
     const udon::MatchConfig& config,
     const udon::DayState& state) {
+    const udon::MatchLedger acknowledgementBaseline{
+        1ULL << 0,
+        10,
+        100,
+    };
+    const udon::MatchLedger lexicographicallyBetterFinal{
+        (1ULL << 0) | (1ULL << 1),
+        9,
+        90,
+    };
+    require(
+        !udon::protected_slack_ledger_relation_for_day(
+            acknowledgementBaseline,
+            lexicographicallyBetterFinal,
+            false) &&
+            udon::protected_slack_ledger_relation_for_day(
+                acknowledgementBaseline,
+                lexicographicallyBetterFinal,
+                true) &&
+            !udon::protected_slack_ledger_relation_for_day(
+                lexicographicallyBetterFinal,
+                acknowledgementBaseline,
+                true),
+        "an acknowledged nonterminal continuation must remain componentwise safe, while the final day must follow official lexicographic order in both directions");
     udon::DayPlan parent;
     parent.actions.assign(
         static_cast<std::size_t>(config.agent_count()),
