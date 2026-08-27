@@ -1,0 +1,13 @@
+split,suite,first_seed,count,spots,agents,rotation
+development-control,stratified-easy,5380000,4,12|14,4,fuel=low/default/high per offset//spots; role=fixed/native per offset//(spots*fuels); role_mask low=1|1<<(agents-1) high=2 default=1; main-budget-ms=3375; protected-checkpoint-ms=5000; post-ack-total-ms=1600; post-ack-slice-ms=100; accepted production flags enabled; proof path retention enabled on both sides; sides differ only in protected proof-witness continuation 0|1
+development-control,stratified-medium,5381000,4,12|18,4,same rotation
+development-control,stratified-hard,5382000,8,18|24,6,same rotation
+development-control,stratified-very-hard,5383000,8,18|24|30,8,same rotation
+development,stratified-easy,5384000,8,12|14,4,same rotation; authoritative public window 15000ms
+development,stratified-medium,5385000,8,12|18,4,same rotation; authoritative public window 15000ms
+development,stratified-hard,5386000,20,18|24,6,same rotation; authoritative public window 15000ms
+development,stratified-very-hard,5387000,24,18|24|30,8,same rotation; authoritative public window 15000ms
+holdout,stratified-easy,5390000,16,12|14,4,same rotation; authoritative public window 15000ms
+holdout,stratified-medium,5391000,16,12|18,4,same rotation; authoritative public window 15000ms
+holdout,stratified-hard,5392000,36,18|24,6,same rotation; authoritative public window 15000ms
+holdout,stratified-very-hard,5393000,40,18|24|30,8,same rotation; authoritative public window 15000ms

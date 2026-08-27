@@ -1,0 +1,9 @@
+split,suite,first_seed,count,spots,agents,rotation
+development,stratified-easy,5300000,8,12|14,4,fuel=low/default/high per offset//spots; role=fixed/native per offset//(spots*fuels); role_mask low=1|1<<(agents-1) high=2 default=1; main-budget-ms=3375; post-ack-total-ms=1600; post-ack-slice-ms=100; accepted production flags enabled; sides differ only in post-ACK contingency diversification 0|1
+development,stratified-medium,5301000,8,12|18,4,same rotation
+development,stratified-hard,5302000,20,18|24,6,same rotation
+development,stratified-very-hard,5303000,24,18|24|30,8,same rotation
+holdout,stratified-easy,5310000,16,12|14,4,same rotation
+holdout,stratified-medium,5311000,16,12|18,4,same rotation
+holdout,stratified-hard,5312000,36,18|24,6,same rotation
+holdout,stratified-very-hard,5313000,40,18|24|30,8,same rotation

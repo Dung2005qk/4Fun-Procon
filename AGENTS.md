@@ -223,29 +223,33 @@ nếu `research/STATE.md` không ghi axis đó đang mở cùng counterexample m
 
 ## Kết luận hiện tại
 
-UDON-SHIELD chưa đạt trần kiến trúc thực tế. Các tuyên bố "đạt trần" trước đây
-chỉ là trần cục bộ của một axis hoặc một holdout, không phải trần toàn hệ thống.
+Từ ngày 2026-08-27, canonical production checkpoint là `18ecdd3`. Đây là điểm
+dừng thi đấu thực dụng trên toàn bộ bằng chứng hiện có, không phải chứng minh tối
+ưu toán học toàn cục. Không có source candidate hay experiment đang mở.
 
-Các gap đã xác nhận:
+Các giới hạn còn lại và điều kiện mở lại:
 
-1. **Public-window utilization:** canonical main/checkpoint phải giữ hard cap
-   `5000 ms`, nhưng phần public window hợp lệ phía sau checkpoint chưa được coi
-   là production capability cho tới khi một protected continuation vượt toàn bộ
-   gate. Kết luận từ `500/2500 ms` không được dùng để chọn production.
-2. **General-score plateau:** từ `02df79d` đến HEAD, nhiều cơ chế correctness,
-   bound và runtime tốt hơn nhưng không tăng score trên 120 map primary.
-3. **Không có promotion monotonic toàn cục trước tournament:** thay đổi từng axis
-   từng được chấp nhận mà chưa bắt buộc chạy lại toàn bộ protected matrix.
-4. **Chưa chứng minh ưu thế thống kê so với baseline tại các lane có thẩm quyền:**
-   hướng kết quả tích cực ở `2500 ms` không thay thế checkpoint `5000 ms` và các
-   public-window lane đã đăng ký.
-5. **BTC-scale tier 3 chưa ổn định khi đo local:** cần BTC target-host để kết luận
-   latency và servings gần deadline.
-6. **Hiệu lực runtime của cơ chế phức tạp chưa được attribution đầy đủ:** code có
-   thể tồn tại và được gọi nhưng chưa chứng minh mỗi cơ chế làm thay đổi incumbent
-   hoặc score trong lane cần thiết.
-7. **Đối thủ thật chưa đủ đa dạng:** chưa có bằng chứng tổng quát trước nhiều kiểu
-   đối thủ người chơi/adversarial khác nhau.
+1. **Exact position-then-sweep residual:** 209 chứng minh một số restrained
+   positioning trajectory tốt hơn production nhưng chúng đổi trạng thái cuối
+   ngày và không có certificate đơn điệu. Phần deep-sweep có certificate đã được
+   210/215 khai thác; phần residual chỉ được mở lại khi có state-coupled proof mới
+   chạy được trong deadline, không phải bằng cách tăng cap hay dùng realized
+   suffix.
+2. **Safe multi-day integration đã cạn hướng hiện tại:** 164, 167, 168, 183 và
+   184 cho thấy strict proof trơ, còn paired actual-vs-actual có regression
+   closed-loop. 229--232 tiếp tục loại diversification, frozen-proof injection,
+   ACK rebasing và protected proof consumer. Không lặp lại các cơ chế này nếu
+   không có invariant mới và fresh counterexample.
+3. **Public-window capability đã active:** main/role/complete checkpoint vẫn có
+   hard cap `5000 ms`; accepted continuation dùng phần cửa sổ công khai còn lại,
+   giữ checkpoint khi deadline, failure, invalidity hoặc không có certified gain.
+4. **BTC target-host gate hiện sạch:** `m-4476` chạy hard 24x24, low fuel, bảy
+   ngày, cửa sổ 15000 ms với 7/7 ACK valid, 6/6 transition reconciled, response
+   tối đa 6258 ms và zero safety failure. Thứ hạng bot không phải bằng chứng
+   promotion.
+5. **Rủi ro ngoài bằng chứng:** đối thủ thật mạnh hoặc cấu hình thi đấu mới vẫn
+   có thể mở counterexample. Khi đó phải ghi replay/config mới và mở experiment
+   mới trên seed/holdout chưa tiêu thụ; không được tuyên bố trần lý thuyết.
 
 ## Production line và research branches
 

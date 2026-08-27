@@ -1,6 +1,312 @@
 # UDON-SHIELD Research State
 
-Updated: 2026-08-26
+Updated: 2026-08-27
+
+## Current phase — competition checkpoint `18ecdd3`; no active source candidate
+
+The final-day acknowledgement mismatch found during experiment 232 is closed in
+commit `18ecdd3` (`fix: align final-day ACK with official score`). A shared
+ledger relation now preserves componentwise dominance on every nonterminal day
+and uses the official lexicographic relation on the terminal day. The production
+pre-submission path is action/score-equivalent to its parent because it already
+used the same terminal lexicographic relation; the repair removes only the stale
+post-ACK rejection after the server has accepted a valid terminal action. The
+historical closed-loop harness now applies the identical contract. No designed
+functionality is removed, disabled, deferred or reduced.
+
+The authoritative build and tests passed before the commit. Target-host match
+`m-4476` used hard 24x24, seven days, 100 steps/day, four agents, 18 spots,
+four brands, low fuel and an authoritative 15000-ms response window. The exact
+Windows binary SHA256 was
+`212EE9A4D58C8C26B842AFBD54BA8E2D8261F87163DAA7D26D8C105EB165C097`.
+All seven action responses were HTTP 200 and valid; all six observable
+transitions reconciled; replay-check returned `4/28/123`; invalid, emergency,
+checkpoint, mid-day, sparse and public-continuation failure counters were zero.
+Canonical main solve was 1615--3376 ms, the complete checkpoint retained its
+5000-ms cap, and end-to-end action responses were 2947--6258 ms inside the
+15000-ms authoritative deadline. Public continuation ran on all seven days,
+generated 1601 plans with 1588 dual-valid in aggregate and correctly kept the
+checkpoint because it found zero certified takeover. Replay SHA256:
+`1DB2F2DFAF95A2B3D0F872F536752F593EB030EDC241E0051491C609AB8897B3`.
+Rank is deliberately not used as promotion evidence.
+
+The convergence audit closes the current research queue at a practical
+competition stopping point, not as a mathematical proof of the global optimum.
+Experiment 209's exact position-then-sweep gap has two parts. The expressible
+deep-sweep part was exploited and promoted by 210 and 215. The residual
+restrained-positioning part necessarily changes the nonterminal state and loses
+the monotone transition certificate. Independent attempts 164, 167, 168, 183
+and 184 showed that the available safe certificates are inert within the
+authoritative window, while weaker actual-vs-actual scenario comparison admits
+a reproduced closed-loop regression. Experiments 229--232 independently closed
+post-ACK diversification, frozen-proof injection, authoritative-ACK rebasing
+and protected proof-consumption without finding causal global benefit. An exact
+oracle that requires hours and billions of transitions is evidence of a
+theoretical gap, not a deployable response-time mechanism.
+
+There is therefore no active production source candidate and no registered
+experiment. Reopen research only on new evidence: a fresh strong opponent or
+replay counterexample, an authoritative deadline/capability change, or a new
+sound state-coupled certificate that can express restrained positioning and
+prove its full remaining-horizon dominance inside the public deadline. Do not
+reopen by weakening the comparator, reusing consumed holdouts, increasing caps,
+or retrying the rejected post-ACK consumers.
+
+## Closed predecessor — SCORE-PROOF-PROTECTED-CONTINUATION-232-v2 rejected
+
+Accepted checkpoints are now isolated as commits `9af342b` (227) and
+`1f30e69` (228). Rejected experiments 229--231 remain research-only evidence;
+their source changes are absent from production.
+
+The remaining post-ACK gap is not permission to retry direct W0 injection.
+Experiment 230 proved that inserting the frozen-scenario proof argmax into the
+next canonical search is unsafe: its only two activated score differences were
+losses. Experiment 231 proved that rebasing all background work onto the richer
+ACK transition is nearly neutral, loses proof coverage and has a systematic
+high-fuel downside. Both mechanisms remain closed.
+
+SCORE-PROOF-PROTECTED-CONTINUATION-232 tested a narrower invariant-derived
+consumer. A complete strong proof retains its exact argmax plan sequence on
+both causal sides. The canonical main solve, 5000-ms checkpoint, W0 cache,
+candidate generation and all accepted protected refiners remain identical.
+Only after the accepted public-window continuation reaches its fixed point may
+the enabled side exact-evaluate a proof witness for the current authoritative
+day. A nonterminal takeover requires the existing strict protected certificate:
+equal road footprint, identical ordered terminal cells, no patrol-fuel loss,
+brand monotonicity and strict official day gain. On the terminal day, exact
+dual-engine validity and strict official lexicographic gain are authoritative.
+Failure, deadline, invalidity, mismatch or non-dominance keeps the incumbent.
+
+Revision v1 was stopped after 15/24 control-off cases and before any partial
+score was inspected. Source audit found that the takeover gate correctly
+removed terminal-state equality on the final day, but two later closed-loop
+checks still required transition dominance plus componentwise ledger dominance;
+the older non-propagating probe had the same stale terminal requirement. This
+could reject an exact-valid final-day official gain solely because its terminal
+cell or lower-priority score component changed. V1 is invalid pre-audit
+operational evidence: its root `/home/LMC/udon232-0827` must never be resumed,
+scored or mixed with v2.
+
+V2 makes the historical harness match the already-authoritative production
+certificate: nonterminal days retain transition plus ledger dominance, while
+the final day requires only exact dual-engine validity and official
+lexicographic non-regression/strict gain. A direct unit fixture now proves that
+a final-day proof witness with a different terminal state and a strict official
+gain is accepted. Windows and Linux unit suites pass.
+
+The fresh replacement manifest was frozen before any v2 score at
+`research/holdouts/SCORE-PROOF-PROTECTED-CONTINUATION-232-v2.csv`, SHA256
+`6EF6FFA72F5CADA334D5A0C22C845DED03C1522FC743AFCD416F44B404C40513`.
+Development completed
+24 exact-5000-ms controls plus 60 fresh paired 15000-ms public-window cases;
+the one-time holdout has 108 different fresh cases. Both sides use one binary
+and both retain proof paths, isolating only the protected consumer. The sealed
+holdout remained unopened because development failed both the exact-control and
+causal-activation gates.
+
+The v2 resumable runner is frozen at SHA256
+`28354D9FBE2CFD82B95E2C5A9A70E87828F25478FCF26640B8DD41523165D46B`.
+The paired official-score/activation summarizer is frozen at SHA256
+`C535F66D605D410AD4ED72DB2D6708B948F2AF0F8B07961CBE00F90B4212EA2F`.
+The corrected candidate source archive is frozen at SHA256
+`B4985EE90EF5D0B6CE2F6919C7D60DACB29EF871E0452D3BEC5D2A461D68F1CF`;
+the Linux historical binary built from it is SHA256
+`705B524677D2A639AE7FD7776F00607410BF307AE345DA1961AD93B5A3B23701`.
+The hash-verifying sequential v2 launcher is
+SHA256
+`5F26D63A335CBE980661B5D796CD2C68C2C90F47B552C8C813BC299D4D4080CF`.
+V2 completed all four sides on the quiet Spot VM with matching frozen hashes,
+empty stderr and zero invalid, emergency or certificate failures. The 5000-ms
+control was `2/22/0`, net `+6` servings, but both differences occurred with
+zero mechanism activation, so exact equivalence was not established. The
+15000-ms development lane was `4/50/6`, net `-23` servings. The enabled side
+found 51 eligible and 15 exact-valid proof witnesses but accepted none; all ten
+score differences occurred without activation. The candidate was therefore
+safe but inert and every score difference was background cutoff variance, not
+a causal benefit. The sealed holdout remains unopened. Frozen log hashes and
+the complete verdict are in
+`research/evidence/SCORE-PROOF-PROTECTED-CONTINUATION-232-v2.md`.
+
+Candidate-only proof-path persistence, checkpoint schema changes, protected
+consumer, harness flag and tests must be removed. This does not delete a
+designed production function: no proof argmax consumer existed at parent, and
+the rejected experiment failed to establish a sound active equivalent. Strong
+proof score/upper-bound capability remains intact.
+
+The integration audit also found a pre-existing final-day lifecycle mismatch
+after server acknowledgement. Pre-POST continuation certification already uses
+official lexicographic final-day non-regression, but the later
+`checkpointLedger -> actual ledger` acknowledgement invariant still calls
+componentwise `protected_slack_ledger_dominates` unconditionally. It must use
+the same official final-day relation (and retain componentwise dominance on all
+nonterminal days), with a direct ACK test. This correctness repair was kept out
+of the frozen score binary and cannot be used to reinterpret v2 results. It is
+now the immediate non-research task, followed by the final protected-matrix,
+BTC target-host and convergence audit.
+
+## Current phase — SCORE-ACTUAL-ACK-TRANSITION-ANCHOR-231 rejected; commit boundary recovery next
+
+Revision v1 remains invalid operational evidence and must never be resumed or
+mixed with revision v2. Revision v2 completed both frozen development sides
+`60/60 + 60/60` on the Spot VM with empty stderr, matching frozen hashes and
+zero invalid, emergency, checkpoint, midday or terminal failures.
+
+Candidate versus parent was `7/47/6`; all thirteen differences were tier 3 and
+the aggregate delta was only `0/0/+1`. The mechanism rebased in `56/60` cases
+and twelve score differences were activated, but high fuel was `2/11/3` with
+net `-13` servings and a `-15` tail. Completed-proof coverage fell from `55` to
+`54`, and strong-proof records fell from `468` to `467`. This violates the
+preregistered preserved-proof-coverage gate and does not establish clear global
+benefit with bounded nonsystematic downside. The sealed 108-case holdout remains
+unopened and consumed no evidence.
+
+Frozen development log SHA256 values are off
+`6B1A833698CA929215600F3D36358C314FEEB0FF7DCF60FCEE23AB39AADA6826`
+and on
+`8DE0CDE21721C47192943CE77338A03D9C790A4C1EAC09AF6707A1A95E90A557`.
+The rejected ACK anchor is removed from production, runtime, harness and tests.
+It does not reopen rejected experiment 230: direct proof-witness injection had
+no causal gain and remains closed. A future successor requires a new invariant-
+derived consumer, fresh unopened seeds, preserved proof coverage and no
+systematic fuel-regime downside.
+
+The immediate task is durable commit-boundary recovery: commit accepted 227 as
+the production diagnostic-isolation change and accepted 228 separately as the
+historical-harness lifecycle correction. Rejected 229-231 remain research-only
+evidence and must not enter either production commit.
+
+## Current phase — SCORE-POSTACK-PROOF-WITNESS-230 rejected; authoritative-anchor attribution next
+
+SCORE-229 is closed and its production changes are removed. The next registered
+gap is the unwired result of `prove_remaining_horizon`: a complete proof stores
+the exact best score for its frozen scenario portfolio but discards the argmax
+route sequence, so it cannot affect W0 on the next authoritative day.
+
+SCORE-230 is frozen before source change from HEAD `e8bf766` plus accepted
+227/228 production-source diff SHA256
+`97B9D096B1BFFA10432EB4EE476C651531D0BA389FE441DFDE2658C7D34720CD`.
+Under a default-off flag it will retain the exact argmax path only for a complete
+feasible strong proof, deduplicate its first plan into the existing next-day
+cache, and rely on the unchanged W0 exact evaluator and independent validator
+against the next authoritative state. A complete suffix may be retained only on
+no-road maps; predicted future traffic is never promoted as authoritative.
+The proof score and upper bound remain scoped to the frozen generated portfolio
+and may not prune or dominate the global action space.
+
+Frozen manifest
+`research/holdouts/SCORE-POSTACK-PROOF-WITNESS-230.csv`, SHA256
+`741944ED1C48FFF5BEBB3E3EF7D33BA82E77959136CC25D5592F97639544D8B3`.
+Frozen runner SHA256
+`9A30964B3D76637584E23654EC1FC9332FB9859422D7595D7B81176FBEB7B1B0`;
+frozen summarizer SHA256
+`C89CFBBED7CC2A80D0D986BC8E2583D6B74D806C26577B23CC9E01F5355D711A`.
+Frozen VM source archive SHA256
+`240F9F6B1008E7916345318C95531BA56655C66750DF0FBF255203682FECB733`;
+frozen Linux tournament binary SHA256
+`DC1D79F7B80D50989E0155348D3C04E90BF7179AF2720DB4DA6CF94F536479BB`.
+Windows and Linux unit suites passed before development began.
+Hash-verifying sequential VM launcher SHA256
+`04C9FDFF1BD7553719ED4D6F8DE9C7F5126064E73C9C10CF5CA8A58C68282FA6`.
+Development completed 60+60 with unchanged hashes and empty stderr. Candidate
+versus parent was `5/45/10`, all 15 differences tier 3, aggregate `0/0/-17`,
+and both sides had zero invalid/emergency/checkpoint/midday/terminal failures.
+Aggregate proof coverage was equal at 49 completed proofs and 465 records.
+Candidate produced 47 proof witnesses in 20 cases; 21 were exact-valid and
+reused while 26 were rejected on authoritative state. Fourteen cases reused a
+witness. Only two score differences coincided with witness production/reuse,
+and both were losses: seed `5321000` lost 2 servings and seed `5323023` lost 22.
+There was no causal gain. Logs SHA256: off
+`3C6A66B0E8C1B155F2FCA87A1DFBCC612D204D123C2B4F8933F169978F3F1C17`,
+on `1B9A2416DF9BF436FDAB0FB782DBDA630C72251E6A0F34B719E3C11FD10FBE2A`.
+SCORE-230 is rejected before holdout and its sealed 108-case split remains
+unopened. Direct W0 injection is closed: a frozen-scenario proof argmax is not a
+safe canonical-search consumer after authoritative-state drift.
+
+The next permitted work is read-only attribution of the 26/47 rejected proof
+witnesses and the exact ACK/submitted-transition anchor across production HTTP,
+runtime and the historical harness. No successor may be registered until this
+trace distinguishes a real production anchor mismatch from expected traffic
+counterfactual invalidation. Strong proof remains designed capability and is not
+deleted merely because this consumer failed.
+
+## Current phase — SCORE-POSTACK-CONTINGENCY-DIVERSIFICATION-229 closed; proof-consumer attribution next
+
+ATTR-228 restored faithful cache survival and classified the remaining tail as
+a generation/diversification gap: the losing next day had no valid full-daily
+cache to adopt. SCORE-229 is frozen before source change from production-source
+diff hash `d56b9d3c4cd8894137a328ee42765902792cc2b6` over HEAD `e8bf766`.
+It preserves the current narrow precompute as a stateful first phase across idle
+slices, then uses only a parent-equivalent confirmation slice for a nested
+production-width portfolio given the same-scenario cache in canonical insertion
+order; the existing production-width `maximumSeedPlans = 2` cap remains
+unchanged. Prior cache entries are never removed; new entries must exact-validate
+and deduplicate. The first candidate incorrectly allowed diversification to
+remain pending across the entire background budget. Source audit caught that
+this could starve the existing `prove_remaining_horizon` phase, while its harness
+did not execute proof work at all. That binary is development-only invalid
+operational evidence; the sealed holdout remains unopened. Revision v2 must
+transition to proof no later than the parent: broad generation may consume only
+the residual of a narrow-completion slice and, only when that slice added a new
+narrow plan, the single zero-add confirmation slice the parent would otherwise
+run. A deadline-interrupted narrow attempt must not mark its scenario complete.
+If that slice added an exact-valid plan, the parent-equivalent confirmation call
+retries the scenario; if it added nothing, control still passes to strong proof
+exactly as in the parent, so no extra retry slice is purchased.
+The paired harness must execute the same precompute-to-proof state machine and
+report proof completion/records before v2 can be judged.
+Main solve, 5000-ms checkpoint, official comparator and submission path remain
+unchanged. Frozen manifest
+`research/holdouts/SCORE-POSTACK-CONTINGENCY-DIVERSIFICATION-229.csv`, SHA256
+`9D28F7FE1088AC6D46CB11C075D26663A7387C4497E408A6E816946C7C65CE33`.
+Run 60 fresh paired revision-v2 development cases before any one-time 108-case holdout.
+m-4195 is consumed attribution-only and cannot promote or tune 229.
+
+The first Linux v2 run was invalidated after 16 causal-off results and before
+causal-on started when source audit found that an interrupted narrow attempt
+still advanced its scenario cursor. No score from that run has authority; its
+archive SHA256 is
+`ECA3A8BB3A6520D46EDAF04E1F800D7BC27FCD0E55D4FA98FF0D4394373F0F63`.
+Corrected development ran from fresh root `/home/LMC/udon229-v2c-0826` with
+Linux binary SHA256
+`5F1C818C22BECC3C29C1A9F8F264D8532F5F0688F648463215DC73D36829C654`
+and runner SHA256
+`96E822D153211BE2A552A4305092AED156E5617537CC74FACB0CCD44060395BA`.
+The hash-verifying resumable launcher is SHA256
+`5E2985179AFC8E8144D76EAD156E70D929FA3968403EB9F5EA88B9FEC1DCAEAD`.
+The aggregation script, including activation and proof-coverage strata, was
+frozen before seeing paired development at SHA256
+`35C79E33D26527252BAFDE54EB047022BBADC799B3092CFE2FD59BB4B04ABA59`.
+The corrected 60+60 development completed with empty stderr and unchanged
+frozen hashes. Candidate versus parent was `5/49/6`, all 11 first differences
+were tier 3, and aggregate delta was `0/0/-68`. Both sides had zero
+invalid/emergency/checkpoint/midday/terminal failures and identical proof
+coverage: 38 completed proofs and 458 strong-proof records. Candidate telemetry
+reported 3021 diversified contingencies across 22 activated cases, but all 22
+activated pairs tied; every score difference occurred in a zero-activation pair.
+The mechanism therefore showed no causal score benefit. Development log SHA256:
+off `B7369E35B51CCC722DAA896D7337B3F26A7F62F9680845D30396A997461A22CB`,
+on `0D2DC5A58045F77040C9D41D072518805A8300BF21C2BA193B182B58E55B26E5`.
+SCORE-229 is rejected before holdout; the sealed 108-case split remains unopened.
+Its production changes are removed without touching accepted 227/228.
+
+SCORE-229 tests diversification on the existing production virtual-parent
+post-ACK anchor; it does not change acknowledgement semantics. Protected
+refinement can make the actual submitted terminal state richer, so every cache
+still revalidates on the next authoritative state. If 229 is rejected and
+development shows generation-rich but systematically rejected caches due to
+that state drift, the next permissible attribution is actual-ACK-transition
+anchoring on fresh seeds. A 229 rejection alone is not a post-ACK ceiling.
+
+Queued after 229, read-only attribution first: `ResponseLedger::strongProofs`
+is currently produced by `prove_remaining_horizon`, serialized, restored and
+reported, but a complete call-site scan found no decision consumer. This is an
+unwired designed capability, not deletable telemetry. After 229 closes, trace
+the exact certificate domain (`remaining-horizon-persistent-frozen-scenario-
+route-portfolios-v1`) and determine the sound consumer boundary before any
+source change. A frozen-portfolio proof must never be misused as a global action-
+space upper bound. No SCORE experiment may open until attribution proves a
+general decision path where the certificate can safely tighten or preserve a
+witness.
 
 ## Current phase — ATTR-CONTINGENCY-HARNESS-PARITY-228 closed; generation gap open
 
@@ -33,7 +339,6 @@ adoption gap. Experiment 226's live-cache causal claim is superseded because
 its artifacts were cleared before use. Raw evidence archive SHA256
 `069DCE99186433C2C05A999311F3840CBDF9081CD9C60EF9539FDC1D2DB512B6`.
 No SCORE successor may reuse this replay for promotion or tuning.
-
 
 ## PERF-ROLE-DIAGNOSTIC-ISOLATION-227 accepted; BTC debt paid
 
@@ -123,22 +428,18 @@ standing is operational context only. Replay SHA256:
 Experiment 227 is accepted; its remaining source integration is part of the
 current 229 working tree and must not be reverted with a failed successor.
 
+## 226 superseded by harness-parity audit 228
 
-## Current phase — program closed at the disciplined stopping point (226)
-
-ATTR-CONTINGENCY-FAITHFUL-TAIL-226 closed accepted-attribution and completes
-the causal chain of the last known live-risk tail: with the post-ACK
-contingency net faithfully modeled the m-4195 mask4 tail drops 33% -> ~12%
-pooled, and the sole logged failure had ZERO cached day-4 contingencies -
-after a clustered day-3 the precompute fails the same hard search the day-4
-solve then fails alone. No sound low-risk mechanism remains (candidates
-touch the main comparator or reshuffle protected budgets - the 216/217
-class); the sharpened successor entry point (post-ACK-only contingency
-retry/diversification on zero-plan days) and quantified residual (~12%
-conditional) are recorded in the 226 ledger row. Final production binary
-SHA256 1FC14A9E7666CC96EDCE95CFE81144F59D2C05E95734B926E085FE236AC892E9
-(differs from the 225 build only by the default-off replay-counterfactual
---post-ack-ms instrument; full verification battery exact).
+ATTR-CONTINGENCY-FAITHFUL-TAIL-226 is superseded by 228. Its harness generated
+post-ACK plans and then immediately cleared them through the external-transition
+path, so its claimed 33% -> ~12% live-cache reduction was not causal evidence.
+The faithful 228 replay proves the cache survives but still lacks a valid
+full-daily day-4 plan in the observed tail. The low-risk successor entry point
+is therefore post-ACK-only generation/diversification. It must preserve the
+canonical solve, existing cache candidates and next-day exact validation; it
+must not touch the main comparator or reshuffle protected budgets. The old
+226 binary and logs remain consumed attribution evidence only and have no
+production or promotion authority.
 
 ## 225 accepted production (low-fuel all-patrol floor)
 
