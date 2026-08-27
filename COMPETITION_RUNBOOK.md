@@ -36,23 +36,26 @@ Remove-Item Env:HEXUDON_TOKEN
      `competition_compute_budget` (types.hpp:29) bất kể flag — CÓ CHỦ ĐÍCH:
      166 đã thử đưa thẳng 15000/60000ms vào lớp Long và THUA 0/4/2
      (53->50 servings); không bao giờ nới cap để "tận dụng" thời gian thừa.
-5. BINARY THI ĐẤU CHÍNH THỨC (chốt 2026-08-26, sau SCORE-225 + instrument 226):
-   SHA256 `1FC14A9E7666CC96EDCE95CFE81144F59D2C05E95734B926E085FE236AC892E9`
-   (khác bản AAF73A3A... chỉ ở instrument replay-counterfactual --post-ack-ms,
-   mặc định tắt, không nằm trên đường thi đấu http)
-   — thêm floor low-fuel: trận <=5 ngày với fuel <= max daySteps không bao
-   giờ giữ đội hình toàn-patrol (bất động từ ngày 2). Binary 221 cũ:
-   `4EB926039A50D28F2202BFBE840866D770FD1928119183441C0034377BAA2FE4`
-   — thêm short-horizon role fallback vào production (trận <=5 ngày không
-   bao giờ chọn đội hình >=2 tanker khi có single-tanker trong beam; nguyên
-   nhân trực tiếp của 2 trận thua rank-4 m-4195/m-4196). Sau khi build lại
+5. BINARY THI ĐẤU CHÍNH THỨC (chốt 2026-08-27, commit 18ecdd3 — sau 227
+   diagnostic-isolation + fix final-day ACK theo quan hệ official):
+   SHA256 `212EE9A4D58C8C26B842AFBD54BA8E2D8261F87163DAA7D26D8C105EB165C097`
+   — so với bản 1FC14A9E... (chốt 2026-08-26): (i) 227 tách diagnostic trace
+   khỏi hot-loop chọn role production (compile-time, +229 servings vs parent
+   sạch baebad8 trên holdout VM); (ii) 18ecdd3 sửa invariant hậu-ACK ngày
+   cuối dùng quan hệ lexicographic official thay vì componentwise (loại rủi
+   ro stale-reject action terminal đã được server chấp nhận). Lineage cũ:
+   1FC14A9E... (225+instrument), 4EB92603... (221). Sau khi build lại
    từ source, LUÔN xác minh bằng:
    a) udonshield_tests pass toàn bộ;
-   b) replay-check trên m-4043/44/45 phải cho đúng 6/42/127, 6/60/364,
-      6/60/144;
+   b) replay-check phải cho đúng: m-4043 6/42/127, m-4044 6/60/364,
+      m-4045 6/60/144, m-4290 6/42/159, m-4476 4/28/123;
    c) replay-roles --short-role-fallback 1 trên m-4195 và m-4196 phải cho
       rank=1 với >=3 patrol (PPTP/PPPT-class), và trên m-4149/m-4155 phải
       giữ PPPP.
+   Battery a/b/c chạy lại đầy đủ và PASS trên đúng binary 212EE9A4...
+   ngày 2026-08-27 (đồng kí xác nhận: operator + agent nghiên cứu).
+   Chương trình nghiên cứu đóng tại 232; không còn candidate production
+   đang mở — chỉ mở lại theo điều kiện reopen trong research/STATE.md.
 6. SAU TRẬN NGẮN (<=5 ngày) ĐẦU TIÊN với binary mới: kiểm tra frame
    assignment trong replay — kỳ vọng >=3 patrol (giá trị 0 = patrol,
    1 = tanker). Nếu thấy 2 tanker trở lên trong trận ngắn, báo ngay:
