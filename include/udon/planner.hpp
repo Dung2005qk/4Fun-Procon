@@ -377,12 +377,16 @@ struct RoleAssignment {
     std::vector<AgentKind> roles;
     OfficialScore cheapUpperBound;
     OfficialScore rolloutScore;
-    // Diagnostic only: per-day rollout dailyDistinct; never read by decisions.
-    std::vector<std::int32_t> rolloutDailyTrace;
     std::int32_t patrolCount = 0;
     std::int32_t sustainableCoverage = 0;
     bool rolloutValid = false;
     bool rolloutComplete = false;
+};
+
+struct RoleSelectionDiagnostics {
+    std::vector<RoleAssignment> assignments;
+    // Aligned with assignments; populated only by the explicit diagnostic APIs.
+    std::vector<std::vector<std::int32_t>> rolloutDailyDistinct;
 };
 
 class RoleAssignmentEnumerator {

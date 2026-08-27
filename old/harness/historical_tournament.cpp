@@ -716,12 +716,25 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     if (options.roleMode == "fixed") {
         roles = roles_from_mask(config, options.fixedRoleMask);
     } else {
-        const std::vector<udon::RoleAssignment> assignments =
-            options.roleMode == "exhaustive"
-            ? engine.select_roles_exhaustive_oracle(3)
-            : engine.select_roles_until(
-                options.roleBudget,
-                3);
+        std::vector<udon::RoleAssignment> assignments;
+        std::vector<std::vector<std::int32_t>> rolloutDailyDistinct;
+        if (options.roleDetails) {
+            udon::RoleSelectionDiagnostics diagnostics =
+                options.roleMode == "exhaustive"
+                ? engine.select_roles_exhaustive_oracle_with_diagnostics(3)
+                : engine.select_roles_until_with_diagnostics(
+                    options.roleBudget,
+                    3);
+            assignments = std::move(diagnostics.assignments);
+            rolloutDailyDistinct = std::move(
+                diagnostics.rolloutDailyDistinct);
+        } else {
+            assignments = options.roleMode == "exhaustive"
+                ? engine.select_roles_exhaustive_oracle(3)
+                : engine.select_roles_until(
+                    options.roleBudget,
+                    3);
+        }
         if (options.roleDetails) {
             for (std::size_t index = 0; index < assignments.size(); ++index) {
                 const udon::RoleAssignment& assignment = assignments.at(index);
@@ -730,7 +743,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                     mask.push_back(role == udon::AgentKind::Patrol ? 'P' : 'T');
                 }
                 std::string trace;
-                for (const std::int32_t daily : assignment.rolloutDailyTrace) {
+                for (const std::int32_t daily :
+                     rolloutDailyDistinct.at(index)) {
                     if (!trace.empty()) {
                         trace.push_back(',');
                     }

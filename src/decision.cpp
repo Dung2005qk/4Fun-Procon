@@ -3360,15 +3360,84 @@ UdonShieldEngine::UdonShieldEngine(
     }
 }
 
-void UdonShieldEngine::rollout_role_assignment(
+namespace {
+
+template <bool CaptureDailyTrace>
+class RoleTraceCollector;
+
+template <>
+class RoleTraceCollector<false> {
+public:
+    [[nodiscard]] std::vector<std::int32_t>* slot(
+        const std::vector<AgentKind>&) {
+        return nullptr;
+    }
+
+    void align(
+        const std::vector<RoleAssignment>&,
+        std::vector<std::vector<std::int32_t>>*) const {}
+};
+
+template <>
+class RoleTraceCollector<true> {
+public:
+    [[nodiscard]] std::vector<std::int32_t>* slot(
+        const std::vector<AgentKind>& roles) {
+        const auto found = std::find_if(
+            traces_.begin(),
+            traces_.end(),
+            [&roles](const auto& entry) { return entry.first == roles; });
+        if (found != traces_.end()) {
+            return &found->second;
+        }
+        traces_.emplace_back(roles, std::vector<std::int32_t>{});
+        return &traces_.back().second;
+    }
+
+    void align(
+        const std::vector<RoleAssignment>& assignments,
+        std::vector<std::vector<std::int32_t>>* alignedDailyTraces) const {
+        if (alignedDailyTraces == nullptr) {
+            throw std::logic_error("role diagnostics require an output sink");
+        }
+        alignedDailyTraces->clear();
+        alignedDailyTraces->reserve(assignments.size());
+        for (const RoleAssignment& assignment : assignments) {
+            const auto found = std::find_if(
+                traces_.begin(),
+                traces_.end(),
+                [&assignment](const auto& entry) {
+                    return entry.first == assignment.roles;
+                });
+            alignedDailyTraces->push_back(
+                found == traces_.end()
+                    ? std::vector<std::int32_t>{}
+                    : found->second);
+        }
+    }
+
+private:
+    std::vector<std::pair<std::vector<AgentKind>, std::vector<std::int32_t>>> traces_;
+};
+
+} // namespace
+
+template <bool CaptureDailyTrace>
+void UdonShieldEngine::rollout_role_assignment_impl(
     RoleAssignment& assignment,
     std::int32_t maximumDays,
     std::int32_t maximumCombinationsPerDay,
-    std::optional<std::chrono::steady_clock::time_point> deadline) const {
+    std::optional<std::chrono::steady_clock::time_point> deadline,
+    std::vector<std::int32_t>* dailyTrace) const {
     assignment.rolloutValid = false;
     assignment.rolloutComplete = false;
     assignment.rolloutScore = OfficialScore{};
-    assignment.rolloutDailyTrace.clear();
+    if constexpr (CaptureDailyTrace) {
+        if (dailyTrace == nullptr) {
+            throw std::logic_error("role trace capture requires a trace slot");
+        }
+        dailyTrace->clear();
+    }
     if (maximumDays <= 0 || maximumCombinationsPerDay <= 0 ||
         assignment.roles.size() != static_cast<std::size_t>(config_.agent_count())) {
         return;
@@ -3519,7 +3588,9 @@ void UdonShieldEngine::rollout_role_assignment(
                 "role rollout disagreed with the independent validator: " + mismatch);
         }
         rolloutLedger.apply(detailed.score);
-        assignment.rolloutDailyTrace.push_back(detailed.score.dailyDistinct);
+        if constexpr (CaptureDailyTrace) {
+            dailyTrace->push_back(detailed.score.dailyDistinct);
+        }
         rolloutState.agents = detailed.finalAgents;
         ownFootprints.at(static_cast<std::size_t>(dayNumber - 1)) =
             detailed.roadFootprint;
@@ -3527,6 +3598,19 @@ void UdonShieldEngine::rollout_role_assignment(
     assignment.rolloutScore = current_score(rolloutLedger);
     assignment.rolloutComplete =
         assignment.rolloutValid && completedWithoutDeadline;
+}
+
+void UdonShieldEngine::rollout_role_assignment(
+    RoleAssignment& assignment,
+    std::int32_t maximumDays,
+    std::int32_t maximumCombinationsPerDay,
+    std::optional<std::chrono::steady_clock::time_point> deadline) const {
+    rollout_role_assignment_impl<false>(
+        assignment,
+        maximumDays,
+        maximumCombinationsPerDay,
+        deadline,
+        nullptr);
 }
 
 bool role_assignment_better_after_rollout(
@@ -3647,8 +3731,12 @@ bool apply_incomplete_long_horizon_role_fallback(
     return true;
 }
 
-std::vector<RoleAssignment> UdonShieldEngine::select_roles_exhaustive_oracle(
-    std::int32_t beamWidth) const {
+template <bool CaptureDailyTrace>
+std::vector<RoleAssignment>
+UdonShieldEngine::select_roles_exhaustive_oracle_impl(
+    std::int32_t beamWidth,
+    std::vector<std::vector<std::int32_t>>* alignedDailyTraces) const {
+    RoleTraceCollector<CaptureDailyTrace> traces;
     if (beamWidth <= 0) {
         return {};
     }
@@ -3687,7 +3775,12 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_exhaustive_oracle(
     std::optional<RoleAssignment> centralSeed;
     if (central != scanned.end()) {
         RoleAssignment seed = *central;
-        rollout_role_assignment(seed, 1, 512, std::nullopt);
+        rollout_role_assignment_impl<CaptureDailyTrace>(
+            seed,
+            1,
+            512,
+            std::nullopt,
+            traces.slot(seed.roles));
         centralSeed = seed;
         if (seed.rolloutValid &&
             (!hasSeed || compare_lexicographic(seed.rolloutScore, bestSeed.rolloutScore) > 0)) {
@@ -3704,7 +3797,12 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_exhaustive_oracle(
             continue;
         }
         RoleAssignment seed = assignment;
-        rollout_role_assignment(seed, 1, 512, std::nullopt);
+        rollout_role_assignment_impl<CaptureDailyTrace>(
+            seed,
+            1,
+            512,
+            std::nullopt,
+            traces.slot(seed.roles));
         if (seed.rolloutValid &&
             (!hasSeed || compare_lexicographic(seed.rolloutScore, bestSeed.rolloutScore) > 0)) {
             bestSeed = std::move(seed);
@@ -3752,7 +3850,12 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_exhaustive_oracle(
         }
     }
     for (RoleAssignment& assignment : beam) {
-        rollout_role_assignment(assignment, config_.day_count(), 8000, std::nullopt);
+        rollout_role_assignment_impl<CaptureDailyTrace>(
+            assignment,
+            config_.day_count(),
+            8000,
+            std::nullopt,
+            traces.slot(assignment.roles));
     }
     std::sort(
         beam.begin(),
@@ -3784,16 +3887,37 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_exhaustive_oracle(
     if (static_cast<std::int32_t>(beam.size()) > beamWidth) {
         beam.resize(static_cast<std::size_t>(beamWidth));
     }
+    traces.align(beam, alignedDailyTraces);
     return beam;
+}
+
+std::vector<RoleAssignment> UdonShieldEngine::select_roles_exhaustive_oracle(
+    std::int32_t beamWidth) const {
+    return select_roles_exhaustive_oracle_impl<false>(
+        beamWidth,
+        nullptr);
+}
+
+RoleSelectionDiagnostics
+UdonShieldEngine::select_roles_exhaustive_oracle_with_diagnostics(
+    std::int32_t beamWidth) const {
+    RoleSelectionDiagnostics diagnostics;
+    diagnostics.assignments = select_roles_exhaustive_oracle_impl<true>(
+        beamWidth,
+        &diagnostics.rolloutDailyDistinct);
+    return diagnostics;
 }
 
 void UdonShieldEngine::set_short_horizon_role_fallback(bool enabled) {
     shortHorizonRoleFallback_ = enabled;
 }
 
-std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
+template <bool CaptureDailyTrace>
+std::vector<RoleAssignment> UdonShieldEngine::select_roles_until_impl(
     std::chrono::milliseconds available,
-    std::int32_t beamWidth) const {
+    std::int32_t beamWidth,
+    std::vector<std::vector<std::int32_t>>* alignedDailyTraces) const {
+    RoleTraceCollector<CaptureDailyTrace> traces;
     available = competition_compute_budget(available);
     if (available.count() <= 0 || beamWidth <= 0) {
         return {};
@@ -3860,11 +3984,12 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
                     remaining.count() /
                         std::max(1, remainingProbeAssignments))};
         RoleAssignment refined = assignment;
-        rollout_role_assignment(
+        rollout_role_assignment_impl<CaptureDailyTrace>(
             refined,
             1,
             256,
-            assignmentDeadline);
+            assignmentDeadline,
+            traces.slot(refined.roles));
         if (refined.rolloutValid) {
             probed.push_back(std::move(refined));
         }
@@ -3950,11 +4075,12 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
                     1,
                     remaining.count() / std::max(1, remainingAssignments))};
         RoleAssignment refined = beam.at(index);
-        rollout_role_assignment(
+        rollout_role_assignment_impl<CaptureDailyTrace>(
             refined,
             config_.day_count(),
             256,
-            assignmentDeadline);
+            assignmentDeadline,
+            traces.slot(refined.roles));
         if (refined.rolloutValid) {
             beam.at(index) = std::move(refined);
             fullHorizonEvidence.at(index) = beam.at(index).rolloutComplete;
@@ -4034,7 +4160,25 @@ std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
             MatchLedger{},
             prewarmOptions));
     }
+    traces.align(beam, alignedDailyTraces);
     return beam;
+}
+
+std::vector<RoleAssignment> UdonShieldEngine::select_roles_until(
+    std::chrono::milliseconds available,
+    std::int32_t beamWidth) const {
+    return select_roles_until_impl<false>(available, beamWidth, nullptr);
+}
+
+RoleSelectionDiagnostics UdonShieldEngine::select_roles_until_with_diagnostics(
+    std::chrono::milliseconds available,
+    std::int32_t beamWidth) const {
+    RoleSelectionDiagnostics diagnostics;
+    diagnostics.assignments = select_roles_until_impl<true>(
+        available,
+        beamWidth,
+        &diagnostics.rolloutDailyDistinct);
+    return diagnostics;
 }
 
 DecisionResult UdonShieldEngine::solve_day(

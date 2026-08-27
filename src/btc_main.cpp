@@ -1354,9 +1354,12 @@ void run_replay_roles(const RuntimeOptions& options) {
     session.set_short_horizon_role_fallback(options.shortHorizonRoleFallback);
     const std::chrono::steady_clock::time_point started =
         std::chrono::steady_clock::now();
-    const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
+    const udon::RoleSelectionDiagnostics roleDiagnostics =
+        session.select_roles_until_with_diagnostics(
         std::chrono::milliseconds{effective_response_budget_ms(options)},
         options.beamWidth);
+    const std::vector<udon::RoleAssignment>& assignments =
+        roleDiagnostics.assignments;
     const std::chrono::milliseconds elapsed =
         std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - started);
@@ -1368,7 +1371,8 @@ void run_replay_roles(const RuntimeOptions& options) {
             roles.push_back(role == udon::AgentKind::Patrol ? 'P' : 'T');
         }
         std::string trace;
-        for (const std::int32_t daily : assignment.rolloutDailyTrace) {
+        for (const std::int32_t daily :
+             roleDiagnostics.rolloutDailyDistinct.at(index)) {
             if (!trace.empty()) {
                 trace.push_back(',');
             }

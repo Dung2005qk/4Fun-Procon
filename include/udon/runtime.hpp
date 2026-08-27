@@ -33,6 +33,10 @@ public:
         std::chrono::milliseconds available,
         std::int32_t beamWidth = 3) const;
 
+    [[nodiscard]] RoleSelectionDiagnostics select_roles_until_with_diagnostics(
+        std::chrono::milliseconds available,
+        std::int32_t beamWidth = 3) const;
+
     void set_short_horizon_role_fallback(bool enabled);
 
     [[nodiscard]] SessionDecision on_authoritative_state(

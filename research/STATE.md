@@ -2,6 +2,95 @@
 
 Updated: 2026-08-26
 
+## PERF-ROLE-DIAGNOSTIC-ISOLATION-227 accepted; BTC debt paid
+
+The post-compact audit found that ATTR-224's diagnostic
+`rolloutDailyTrace` is structurally dead to every decision but is not
+operation-inert: it enlarges every `RoleAssignment` copied by the timed role
+beam and performs a vector clear/push on every simulated rollout day. Because
+short-role selection is deadline-bounded and already known to be bistable near
+the cutoff, accepted SCORE-225 was causally isolated flag-off/on but its final
+binary was not cleanly compared with the true direct parent `baebad8` without
+this shared instrumentation.
+
+PERF-ROLE-DIAGNOSTIC-ISOLATION-227 is registered before source change from
+parent `e8bf766`. The candidate restores the direct-parent `RoleAssignment`
+layout and moves the full per-day trace to a separate
+`RoleSelectionDiagnostics` result. Production `select_roles_until` and the
+diagnostic selection are compile-time-specialized: HTTP/sandbox/main take the
+no-trace instantiation, while `replay-roles` and historical harness
+`--role-details` take the trace instantiation. This preserves every intended
+diagnostic caller end-to-end without a runtime branch, allocation or write in
+the production hot loop.
+
+Frozen manifest:
+`research/holdouts/PERF-ROLE-DIAGNOSTIC-ISOLATION-227.csv`, SHA256
+`9D5795D00CF9557C9EC7830F967B9974E0BFC269D5F6DC272CCDD2F41C6C0895`.
+Development covers 32 fresh short-low-fuel/live-like and medium/general
+controls, including the canonical `5000 ms` role window; the 40-case sealed
+holdout remains unopened until development passes. Candidate must retain
+diagnostic trace alignment, exact replay gates and accepted 225 low-fuel gains,
+with zero attributable tier-1/tier-2 regression. BTC target-host remains the
+final authority.
+
+Development passed on the frozen candidate/e8bf766/baebad8 binaries. Candidate
+vs e8bf766 is `9/18/5`, net `+40` servings, with zero tier-1/tier-2 loss and one
+tier-2 win. Candidate vs true 225 parent baebad8 is `11/12/9`, net `+85`; both
+tier differences are low-fuel wins (`+4`, `+3` daily), with zero tier loss.
+The exhaustive diagnostic probe preserved every ranked role and all three
+per-day traces exactly (`6,6,6,6,6`); the rollout-serving component remains
+subject to its pre-existing inner `60 ms` cutoff. The one-time 40-case holdout
+is authorized on the unchanged frozen binaries.
+
+Operational correction before any score inspection: the candidate side of the
+first holdout manifest completed locally, which is not an authoritative
+environment for a cutoff-sensitive role experiment. Only completion counts were
+observed; no result score was read or aggregated. Nevertheless all 40 original
+holdout seeds are consumed and will never be rerun or used for promotion. The
+baseline sides were not started. A fresh replacement manifest was frozen before
+any further source change at
+`research/holdouts/PERF-ROLE-DIAGNOSTIC-ISOLATION-227-v2.csv`; it will run
+candidate/e8bf766/baebad8 sequentially on a quiet Spot VM and is the only
+holdout with promotion authority for 227. Frozen SHA256:
+`D526D86C5A9D9762B1FE873A2421BD5A51146EDC627F3B30E775128ABDDF1A8B`.
+
+The authoritative quiet-VM holdout completed all 120 atomic cases with empty
+stderr and zero invalid/emergency results. Candidate versus instrumented HEAD
+`e8bf766` was `1/36/3`, net `-4`, with only bounded tier-3 differences
+(`+1`; `-1,-1,-3`) and zero tier-1/tier-2 loss. Candidate versus the true
+clean 225 parent `baebad8` was `6/33/1`, net `+229`: five tier-2 wins totaling
+`+22` daily distinct, one tier-3 win `+2`, and one tier-3 loss `-1`. This
+passes the preregistered global-benefit/bounded-downside score gate and retains
+the accepted 225 mechanism. Evidence archive SHA256:
+`E1007CF6055D27D3C6B8338A7CA94433F6658EBA54793EF198F24C0809ED6FF9`.
+The score/semantic gate passed. The integrated candidate then paid the BTC
+target-host lifecycle, composition and latency debt on a stable connection.
+
+The first BTC attempt used the frozen Windows candidate binary
+`DC01FE16131F26CF8FDFFDE24262F17A6AE9BE360FB85436079CB6933AD7223A` on
+fresh advanced match `m-4276`. The assignment frame was the required `PPPT`,
+confirming the short low-fuel production composition. The current workstation
+network then took about 1587 ms from recorded action to response while only
+about 1165 ms remained before `endsAt`; BTC acknowledged the request as day 2
+and the stale-day invariant stopped the client. This is an inconclusive
+transport sample, not 227 score evidence. The replay is retained and must not
+be resumed. By explicit user decision, the canonical solver and accepted
+reserve were not retuned to this temporary weak network.
+
+Fresh advanced match `m-4290` used the current integrated Windows binary on a
+24x24, seven-day, 100-step, four-agent, 18-spot, six-brand low-fuel
+configuration. Role selection produced `PTPP` (three Patrol and one Tanker).
+All seven actions were ACKed on the correct day with zero retry, deadline skip
+or recovery wait. End-to-end response durations were `3340, 3203, 3017, 3088,
+3074, 3085, 2162 ms` (maximum `3340 ms`, mean `2995.6 ms`); maximum reported
+decision solve time was `2683 ms`. Exact replay reconciliation returned
+`6/42/159`, seven valid actions and six reconciled transitions. The final rank-1
+standing is operational context only. Replay SHA256:
+`47BC89693F014D8FD2ABF83F5E4599C3619DB9A4FBC3426B22374AD76A61C9D6`.
+Experiment 227 is accepted; its remaining source integration is part of the
+current 229 working tree and must not be reverted with a failed successor.
+
+
 ## Current phase — program closed at the disciplined stopping point (226)
 
 ATTR-CONTINGENCY-FAITHFUL-TAIL-226 closed accepted-attribution and completes

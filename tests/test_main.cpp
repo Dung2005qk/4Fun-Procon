@@ -2050,6 +2050,7 @@ void test_protected_slack_refiner(
             parentSimulation.score.servings <=
                 refined.simulation.score.servings,
         "protected WAIT detours must produce only an exact componentwise improvement with the parent terminal transition preserved");
+
     const udon::ProtectedSlackResult expired = refiner.refine_wait_detours(
         state,
         udon::MatchLedger{},
@@ -4072,6 +4073,37 @@ void test_viability_reservation_and_role_seeds(const udon::MatchConfig& config, 
         "master must enforce a proven reservation from exact simulator claims, not column annotations");
 }
 
+void test_role_selection_diagnostics_are_opt_in(
+    const udon::MatchConfig& config) {
+    udon::UdonShieldEngine engine(config);
+    const udon::RoleSelectionDiagnostics diagnostics =
+        engine.select_roles_until_with_diagnostics(
+            std::chrono::milliseconds{1000},
+            3);
+    require(
+        !diagnostics.assignments.empty() &&
+            diagnostics.rolloutDailyDistinct.size() ==
+                diagnostics.assignments.size(),
+        "opt-in role diagnostics must stay aligned with ranked assignments");
+    require(
+        std::any_of(
+            diagnostics.rolloutDailyDistinct.begin(),
+            diagnostics.rolloutDailyDistinct.end(),
+            [](const std::vector<std::int32_t>& trace) {
+                return !trace.empty();
+            }),
+        "opt-in role diagnostics must retain the per-day rollout trace");
+    require(
+        std::all_of(
+            diagnostics.rolloutDailyDistinct.begin(),
+            diagnostics.rolloutDailyDistinct.end(),
+            [&config](const std::vector<std::int32_t>& trace) {
+                return trace.size() <=
+                    static_cast<std::size_t>(config.day_count());
+            }),
+        "role diagnostic traces must not exceed the configured horizon");
+}
+
 void test_contingency_seed_bundle_is_atomic(const udon::MatchConfig& config, const udon::DayState& state) {
     const auto make_column = [](int id, int agent, udon::AgentPlan actions, int bundle, int priority) {
         udon::RouteColumn column;
@@ -4692,6 +4724,7 @@ int main() {
         test_master_agent_brand_frontier_upper_bound(config, state);
         test_master_stock_capped_search_order();
         test_viability_reservation_and_role_seeds(config, state);
+        test_role_selection_diagnostics_are_opt_in(config);
         test_contingency_seed_bundle_is_atomic(config, state);
         test_end_step_docking(config, state);
         test_midday_rendezvous_refuel(config, state);

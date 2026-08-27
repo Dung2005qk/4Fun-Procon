@@ -38,6 +38,12 @@ std::vector<RoleAssignment> MatchSession::select_roles_until(
     return engine_.select_roles_until(available, beamWidth);
 }
 
+RoleSelectionDiagnostics MatchSession::select_roles_until_with_diagnostics(
+    std::chrono::milliseconds available,
+    std::int32_t beamWidth) const {
+    return engine_.select_roles_until_with_diagnostics(available, beamWidth);
+}
+
 void MatchSession::set_short_horizon_role_fallback(bool enabled) {
     engine_.set_short_horizon_role_fallback(enabled);
 }

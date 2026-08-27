@@ -1,0 +1,9 @@
+phase,suite,first_seed,seed_count,budget_ms,role_ms,role_mode,fuel_profile,spot_count,purpose
+development,stratified-easy,8600001,12,1200,1200,deadline,generated,12,short-lowfuel-sensitive
+development,stratified-easy-brand8,8640001,8,1200,5000,deadline,generated,12,short-live-like-canonical-role-window
+development,stratified-medium,8601001,6,1200,5000,deadline,generated,18,longer-horizon-control
+development,general,8620001,6,1200,5000,deadline,generated,0,general-control
+holdout,stratified-easy,8700001,16,1200,5000,deadline,generated,12,short-lowfuel-canonical-role-window
+holdout,stratified-easy-brand8,8740001,8,1200,5000,deadline,generated,12,short-live-like-canonical-role-window
+holdout,stratified-medium,8701001,8,1200,5000,deadline,generated,18,longer-horizon-control
+holdout,general,8720001,8,1200,5000,deadline,generated,0,general-control

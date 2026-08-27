@@ -480,7 +480,13 @@ public:
 
     [[nodiscard]] std::vector<RoleAssignment> select_roles_exhaustive_oracle(
         std::int32_t beamWidth = 3) const;
+    [[nodiscard]] RoleSelectionDiagnostics
+    select_roles_exhaustive_oracle_with_diagnostics(
+        std::int32_t beamWidth = 3) const;
     [[nodiscard]] std::vector<RoleAssignment> select_roles_until(
+        std::chrono::milliseconds available,
+        std::int32_t beamWidth = 3) const;
+    [[nodiscard]] RoleSelectionDiagnostics select_roles_until_with_diagnostics(
         std::chrono::milliseconds available,
         std::int32_t beamWidth = 3) const;
 
@@ -526,11 +532,31 @@ public:
     [[nodiscard]] std::chrono::milliseconds remaining_post_ack_compute_budget() const;
 
 private:
+    template <bool CaptureDailyTrace>
+    [[nodiscard]] std::vector<RoleAssignment>
+    select_roles_exhaustive_oracle_impl(
+        std::int32_t beamWidth,
+        std::vector<std::vector<std::int32_t>>* alignedDailyTraces) const;
+
+    template <bool CaptureDailyTrace>
+    [[nodiscard]] std::vector<RoleAssignment> select_roles_until_impl(
+        std::chrono::milliseconds available,
+        std::int32_t beamWidth,
+        std::vector<std::vector<std::int32_t>>* alignedDailyTraces) const;
+
     void rollout_role_assignment(
         RoleAssignment& assignment,
         std::int32_t maximumDays,
         std::int32_t maximumCombinationsPerDay,
         std::optional<std::chrono::steady_clock::time_point> deadline) const;
+
+    template <bool CaptureDailyTrace>
+    void rollout_role_assignment_impl(
+        RoleAssignment& assignment,
+        std::int32_t maximumDays,
+        std::int32_t maximumCombinationsPerDay,
+        std::optional<std::chrono::steady_clock::time_point> deadline,
+        std::vector<std::int32_t>* dailyTrace) const;
 
     MatchConfig config_;
     ExactStepSimulator simulator_;
