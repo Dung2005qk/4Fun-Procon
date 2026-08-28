@@ -1,0 +1,17 @@
+experiment_id,split,suite,first_seed,count,budget_ms,role_ms,role_mode,fuel_profile,spot_count,public_window_ms,scope,authority
+PERF-WHOLE-PROGRAM-IPO-233,development,stratified-easy,9400000,8,3375,5000,fixed,generated,12,5000,parent-vs-ipo-canonical-checkpoint,fresh-development
+PERF-WHOLE-PROGRAM-IPO-233,development,stratified-easy,9400100,8,3375,5000,deadline,generated,12,5000,parent-vs-ipo-role-and-checkpoint,fresh-development
+PERF-WHOLE-PROGRAM-IPO-233,development,stratified-medium,9401000,7,3375,5000,fixed,generated,18,5000,parent-vs-ipo-canonical-checkpoint,fresh-development
+PERF-WHOLE-PROGRAM-IPO-233,development,stratified-medium,9401100,7,3375,5000,deadline,generated,18,5000,parent-vs-ipo-role-and-checkpoint,fresh-development
+PERF-WHOLE-PROGRAM-IPO-233,development,stratified-hard,9402000,7,3375,5000,fixed,generated,24,15000,parent-vs-ipo-protected-public-window,fresh-development
+PERF-WHOLE-PROGRAM-IPO-233,development,stratified-hard,9402100,7,3375,5000,deadline,generated,24,15000,parent-vs-ipo-role-and-protected-public-window,fresh-development
+PERF-WHOLE-PROGRAM-IPO-233,development,stratified-very-hard,9403000,8,3375,5000,fixed,generated,30,15000,parent-vs-ipo-protected-public-window,fresh-development
+PERF-WHOLE-PROGRAM-IPO-233,development,stratified-very-hard,9403100,8,3375,5000,deadline,generated,30,15000,parent-vs-ipo-role-and-protected-public-window,fresh-development
+PERF-WHOLE-PROGRAM-IPO-233,holdout,stratified-easy,9410000,12,3375,5000,fixed,generated,12,5000,parent-vs-ipo-canonical-checkpoint,sealed
+PERF-WHOLE-PROGRAM-IPO-233,holdout,stratified-easy,9410100,12,3375,5000,deadline,generated,12,5000,parent-vs-ipo-role-and-checkpoint,sealed
+PERF-WHOLE-PROGRAM-IPO-233,holdout,stratified-medium,9411000,12,3375,5000,fixed,generated,18,5000,parent-vs-ipo-canonical-checkpoint,sealed
+PERF-WHOLE-PROGRAM-IPO-233,holdout,stratified-medium,9411100,12,3375,5000,deadline,generated,18,5000,parent-vs-ipo-role-and-checkpoint,sealed
+PERF-WHOLE-PROGRAM-IPO-233,holdout,stratified-hard,9412000,15,3375,5000,fixed,generated,24,15000,parent-vs-ipo-protected-public-window,sealed
+PERF-WHOLE-PROGRAM-IPO-233,holdout,stratified-hard,9412100,15,3375,5000,deadline,generated,24,15000,parent-vs-ipo-role-and-protected-public-window,sealed
+PERF-WHOLE-PROGRAM-IPO-233,holdout,stratified-very-hard,9413000,15,3375,5000,fixed,generated,30,15000,parent-vs-ipo-protected-public-window,sealed
+PERF-WHOLE-PROGRAM-IPO-233,holdout,stratified-very-hard,9413100,15,3375,5000,deadline,generated,30,15000,parent-vs-ipo-role-and-protected-public-window,sealed

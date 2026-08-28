@@ -1,0 +1,114 @@
+{
+  "aggregate_score_delta": [
+    0,
+    0,
+    133
+  ],
+  "experiment": "PERF-WHOLE-PROGRAM-IPO-233",
+  "first_difference_tiers": {
+    "0": 39,
+    "3": 21
+  },
+  "gain_tail": {
+    "max": 37,
+    "sum": 178
+  },
+  "loss_tail": {
+    "min": -34,
+    "sum": -45
+  },
+  "pairs": 60,
+  "phase": "development",
+  "plan_hash_days": {
+    "equal": 307,
+    "total": 450
+  },
+  "safety": {
+    "ipo": {
+      "checkpoint_closed_loop_failures": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_sparse_failure": 0
+    },
+    "parent": {
+      "checkpoint_closed_loop_failures": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_sparse_failure": 0
+    }
+  },
+  "strata": {
+    "fuel:default": {
+      "loss": 2,
+      "tie": 8,
+      "win": 5
+    },
+    "fuel:high": {
+      "loss": 3,
+      "tie": 15,
+      "win": 3
+    },
+    "fuel:low": {
+      "tie": 16,
+      "win": 8
+    },
+    "role:deadline": {
+      "loss": 1,
+      "tie": 23,
+      "win": 6
+    },
+    "role:fixed": {
+      "loss": 4,
+      "tie": 16,
+      "win": 10
+    },
+    "suite:stratified-easy": {
+      "tie": 14,
+      "win": 2
+    },
+    "suite:stratified-hard": {
+      "loss": 2,
+      "tie": 10,
+      "win": 2
+    },
+    "suite:stratified-medium": {
+      "loss": 1,
+      "tie": 10,
+      "win": 3
+    },
+    "suite:stratified-very-hard": {
+      "loss": 2,
+      "tie": 5,
+      "win": 9
+    },
+    "window:15000": {
+      "loss": 4,
+      "tie": 15,
+      "win": 11
+    },
+    "window:5000": {
+      "loss": 1,
+      "tie": 24,
+      "win": 5
+    }
+  },
+  "work": {
+    "ipo_combinations": 3601644,
+    "ipo_max_ms": 3042,
+    "ipo_mean_ms_sum": 149206,
+    "parent_combinations": 3678291,
+    "parent_max_ms": 3024,
+    "parent_mean_ms_sum": 149615
+  },
+  "wtl": [
+    16,
+    39,
+    5
+  ]
+}

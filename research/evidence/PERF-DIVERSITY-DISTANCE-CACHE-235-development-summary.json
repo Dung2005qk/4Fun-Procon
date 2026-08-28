@@ -1,0 +1,115 @@
+{
+  "aggregate_score_delta": [
+    0,
+    0,
+    106
+  ],
+  "experiment": "PERF-DIVERSITY-DISTANCE-CACHE-235",
+  "first_difference_tiers": {
+    "0": 19,
+    "3": 41
+  },
+  "gain_tail": {
+    "max": 50,
+    "sum": 311
+  },
+  "loss_tail": {
+    "min": -92,
+    "sum": -205
+  },
+  "pairs": 60,
+  "phase": "development",
+  "plan_hash_days": {
+    "equal": 0,
+    "total": 0
+  },
+  "safety": {
+    "cache": {
+      "checkpoint_closed_loop_failures": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_sparse_failure": 0
+    },
+    "parent": {
+      "checkpoint_closed_loop_failures": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_sparse_failure": 0
+    }
+  },
+  "strata": {
+    "fuel:default": {
+      "loss": 8,
+      "tie": 6,
+      "win": 10
+    },
+    "fuel:high": {
+      "loss": 4,
+      "tie": 5,
+      "win": 7
+    },
+    "fuel:low": {
+      "loss": 5,
+      "tie": 8,
+      "win": 7
+    },
+    "role:deadline": {
+      "loss": 5,
+      "tie": 9,
+      "win": 16
+    },
+    "role:fixed": {
+      "loss": 12,
+      "tie": 10,
+      "win": 8
+    },
+    "suite:stratified-easy": {
+      "loss": 3,
+      "tie": 10,
+      "win": 3
+    },
+    "suite:stratified-hard": {
+      "loss": 6,
+      "win": 8
+    },
+    "suite:stratified-medium": {
+      "loss": 2,
+      "tie": 8,
+      "win": 6
+    },
+    "suite:stratified-very-hard": {
+      "loss": 6,
+      "tie": 1,
+      "win": 7
+    },
+    "window:15000": {
+      "loss": 12,
+      "tie": 1,
+      "win": 15
+    },
+    "window:5000": {
+      "loss": 5,
+      "tie": 18,
+      "win": 9
+    }
+  },
+  "work": {
+    "cache_combinations": 11210197,
+    "cache_max_ms": 3021,
+    "cache_mean_ms_sum": 142058,
+    "parent_combinations": 4227460,
+    "parent_max_ms": 3026,
+    "parent_mean_ms_sum": 146988
+  },
+  "wtl": [
+    24,
+    19,
+    17
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "aggregate_score_delta": [
+    0,
+    0,
+    49
+  ],
+  "experiment": "PERF-DIVERSITY-SPARSE-SIGNATURE-236",
+  "first_difference_tiers": {
+    "0": 31,
+    "3": 29
+  },
+  "gain_tail": {
+    "max": 18,
+    "sum": 139
+  },
+  "loss_tail": {
+    "min": -44,
+    "sum": -90
+  },
+  "pairs": 60,
+  "phase": "development",
+  "plan_hash_days": {
+    "equal": 231,
+    "total": 444
+  },
+  "safety": {
+    "parent": {
+      "checkpoint_closed_loop_failures": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_sparse_failure": 0
+    },
+    "signature": {
+      "checkpoint_closed_loop_failures": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_sparse_failure": 0
+    }
+  },
+  "strata": {
+    "fuel:default": {
+      "loss": 4,
+      "tie": 10,
+      "win": 9
+    },
+    "fuel:high": {
+      "loss": 3,
+      "tie": 12,
+      "win": 8
+    },
+    "fuel:low": {
+      "loss": 3,
+      "tie": 9,
+      "win": 2
+    },
+    "role:deadline": {
+      "loss": 5,
+      "tie": 16,
+      "win": 9
+    },
+    "role:fixed": {
+      "loss": 5,
+      "tie": 15,
+      "win": 10
+    },
+    "suite:stratified-easy": {
+      "loss": 2,
+      "tie": 13,
+      "win": 1
+    },
+    "suite:stratified-hard": {
+      "loss": 1,
+      "tie": 8,
+      "win": 5
+    },
+    "suite:stratified-medium": {
+      "loss": 3,
+      "tie": 9,
+      "win": 4
+    },
+    "suite:stratified-very-hard": {
+      "loss": 4,
+      "tie": 1,
+      "win": 9
+    },
+    "window:15000": {
+      "loss": 5,
+      "tie": 9,
+      "win": 14
+    },
+    "window:5000": {
+      "loss": 5,
+      "tie": 22,
+      "win": 5
+    }
+  },
+  "work": {
+    "parent_combinations": 4165592,
+    "parent_max_ms": 3028,
+    "parent_mean_ms_sum": 148184,
+    "signature_combinations": 7127916,
+    "signature_max_ms": 3028,
+    "signature_mean_ms_sum": 145809
+  },
+  "wtl": [
+    19,
+    31,
+    10
+  ]
+}

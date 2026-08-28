@@ -36,14 +36,16 @@ Remove-Item Env:HEXUDON_TOKEN
      `competition_compute_budget` (types.hpp:29) bất kể flag — CÓ CHỦ ĐÍCH:
      166 đã thử đưa thẳng 15000/60000ms vào lớp Long và THUA 0/4/2
      (53->50 servings); không bao giờ nới cap để "tận dụng" thời gian thừa.
-5. BINARY THI ĐẤU CHÍNH THỨC (chốt 2026-08-27, commit 18ecdd3 — sau 227
+5. BINARY THI ĐẤU CHÍNH THỨC (tái chứng nhận 2026-08-28, source checkpoint
+   18ecdd3 — sau 227
    diagnostic-isolation + fix final-day ACK theo quan hệ official):
-   SHA256 `212EE9A4D58C8C26B842AFBD54BA8E2D8261F87163DAA7D26D8C105EB165C097`
+   SHA256 `43ED5815DA0880652819BF589787C11CAFDC92F4D7D313899C3256E37D570389`
    — so với bản 1FC14A9E... (chốt 2026-08-26): (i) 227 tách diagnostic trace
    khỏi hot-loop chọn role production (compile-time, +229 servings vs parent
    sạch baebad8 trên holdout VM); (ii) 18ecdd3 sửa invariant hậu-ACK ngày
    cuối dùng quan hệ lexicographic official thay vì componentwise (loại rủi
    ro stale-reject action terminal đã được server chấp nhận). Lineage cũ:
+   212EE9A4... (cùng source 18ecdd3, target-gated trên m-4476),
    1FC14A9E... (225+instrument), 4EB92603... (221). Sau khi build lại
    từ source, LUÔN xác minh bằng:
    a) udonshield_tests pass toàn bộ;
@@ -52,9 +54,18 @@ Remove-Item Env:HEXUDON_TOKEN
    c) replay-roles --short-role-fallback 1 trên m-4195 và m-4196 phải cho
       rank=1 với >=3 patrol (PPTP/PPPT-class), và trên m-4149/m-4155 phải
       giữ PPPP.
-   Battery a/b/c chạy lại đầy đủ và PASS trên đúng binary 212EE9A4...
-   ngày 2026-08-27 (đồng kí xác nhận: operator + agent nghiên cứu).
-   Chương trình nghiên cứu đóng tại 232; không còn candidate production
+   Battery a/b/c chạy lại đầy đủ và PASS trên đúng binary 43ED5815...
+   ngày 2026-08-28. CTest pass 3/3; master oracle 5000/5000; population
+   oracle 1000 seed/16000 candidate khớp SHA256 12B18893.... Target-host
+   m-4787: hard 24x24, 7 ngày, 100 bước/ngày, 4 xe, 18 quán/4 chuỗi,
+   low fuel, 15000 ms, 3 bot; 7/7 HTTP 200 valid, 6/6 transition
+   reconciled, score 4/28/141, response max 5546 ms, main solve max
+   3152 ms, compute window 5000 ms mọi ngày, zero emergency/failure.
+   Public continuation chạy 7/7 ngày, 3564/3564 plan dual-valid và giữ
+   checkpoint khi không có strict gain. Replay được lưu tại
+   `research/evidence/BTC-FINAL-BUILD-20260828-m4787.jsonl`, SHA256
+   `3A754B2EB745AC40C1113B65604A89815A2C4BB12C82ACD284D9AD57725F5158`.
+   Các nghiên cứu hiệu suất 233--236 đã đóng; không còn candidate production
    đang mở — chỉ mở lại theo điều kiện reopen trong research/STATE.md.
 6. SAU TRẬN NGẮN (<=5 ngày) ĐẦU TIÊN với binary mới: kiểm tra frame
    assignment trong replay — kỳ vọng >=3 patrol (giá trị 0 = patrol,

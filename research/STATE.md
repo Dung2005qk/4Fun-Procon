@@ -1,8 +1,282 @@
 # UDON-SHIELD Research State
 
-Updated: 2026-08-27
+Updated: 2026-08-28
 
-## Current phase — competition checkpoint `18ecdd3`; no active source candidate
+## Current phase — competition checkpoint `18ecdd3`; performance audit closed
+
+Production source remains canonical checkpoint `18ecdd3`; the branch head
+immediately before this closure record was `81c28a13b0e199cdbb8aaaf130488640e0e0a472`.
+Experiments 233, 235 and 236 are
+rejected; every source/build candidate is reverted. Experiment 234 remains the
+accepted attribution showing population maintenance as the dominant exact
+hotspot, but two independently implemented semantics-preserving mechanisms for
+that hotspot have now failed their preregistered generality gates. There is no
+active source candidate or score experiment authorized to open a holdout; the
+rejected 235/236 holdouts remain sealed and must never be inspected.
+
+Experiment 236 precomputed, once per `retain_alns_population` call, the sorted
+nonzero `(road-index, count)` footprint of each candidate. Pair distance used a
+merge of those exact sparse signatures only when the combined nonzero count was
+smaller than the common dense footprint length; otherwise it executed the
+existing dense loop. Terminal positions, fuel, plan-action distance, tuple
+ordering, comparator, sorting, quality prefix, diversity selection, candidate
+set, caps and deadlines remained byte-for-byte logic-equivalent. The mechanism
+did not memoize pair results and did not reuse 235 development cases for
+thresholds or routing.
+
+Frozen manifest
+`research/holdouts/PERF-DIVERSITY-SPARSE-SIGNATURE-236.csv` SHA256 is
+`70A338D104DCF70AB8F5D857BDC80AAB5BB7363F83B9CE9DA635C4B85708BA4E`:
+60 fresh development and 108 sealed holdout pairs across four tiers,
+fixed/deadline roles, generated fuel families and 5000/15000-ms windows. The
+same preregistered gates as 235 apply: complete fixed-operation population
+output must be byte-identical; development requires zero safety failure, no
+aggregate tier-1/2 regression, wins greater than losses, positive tier-3
+aggregate when tier 1/2 tie, and no negative difficulty/fuel/role/window W/L
+stratum. Holdout additionally requires gain-tail magnitude to cover loss-tail
+magnitude, runs on a VM and may open exactly once only after development passes.
+
+Frozen parent/candidate historical-tournament binary SHA256 values are
+`7438B2FA9171B2492E9C6DBE38C73584F3C10AD41A1F18F06A53F4932BB37739`
+and `EBF649E6E45B902936F80B31D5E125B804BC078D0486DBBA0E2DA829E6AC619C`;
+candidate BTC SHA256 is
+`021731138FB61C09EC04E17BEA4101E889FA0889F5F28D3E6E0A3E8B65A7BEFE`.
+Frozen runner, resume runner and summarizer SHA256 values are
+`1E5A6800F7F87372A37C237A89321B7E1238DC6915CC05BDB5D8D8285F0BFF53`,
+`4AA9705B192173EED5DDAAB47712CD6C870CAE11750AEE9912F386C479DDD65E`
+and `81350D6BDD32933AAEBBF91C2F6BFE28DADCF7DD855DAE5C280DCC21F217E7D8`.
+The 1,000-seed population oracle is byte-identical to parent over 16,000
+ordered candidates (output SHA256
+`12B1889394F6654AE69ED73195B7235FD43196E839825026C5C1E2B802695E4F`),
+unit tests pass, and the existing 5,000-seed master oracle remains exact.
+Three sequential local screening pairs improved 8.436--8.636 s to
+7.144--7.355 s; this is development screening only, not target-host authority.
+
+Development completed 120/120 case-atomic results, 60 pairs and one
+`run_complete`; stderr was empty and all safety/failure counters were zero.
+Sparse signatures versus parent were `19/31/10`, every difference was tier 3,
+aggregate delta was `0/0/+49`, gain tail `+139` with maximum `+18`, and loss
+tail `-90` with minimum `-44`. Both role and window strata were nonnegative,
+but low fuel was `2/9/3` and easy was `1/13/2`; each violated the preregistered
+no-negative-stratum gate. The 108-pair sealed holdout therefore remains unopened
+and uninspected. Development log SHA256 is
+`58D3FAC48DF1639882568BF55028660C2E1BC032060002C19227BAA2948F2885`;
+summary SHA256 is
+`63B29F3DF61649B8DA13D04EAAA080A39DEA95765D799F15D6C75AB9FF887B15`.
+Verdict: rejected before holdout. The source patch is reverted and no production
+behavior changed.
+
+Together, 235 and 236 are two independent exact implementations aimed at the
+same profiler-confirmed population-maintenance cost. Both preserved complete
+population output exactly and improved isolated throughput, yet both changed
+deadline-bounded score distribution enough to fail a frozen generality gate.
+This closes the current performance audit at a practical ceiling. Reopen only
+from a fresh target-host counterexample or a newly attributed mechanism outside
+these pair-distance representations, with a new unopened manifest; do not retry
+pair caching, sparse footprint signatures, IPO/PGO or compiler-flag tuning.
+
+Functionality-preservation answers: (1) closing and reverting 236 removes,
+disables, defers or reduces no designed production functionality because the
+candidate was never promoted; (2) it deletes no production implementation.
+The canonical dense distance path remains active for every caller.
+
+Final production certification rebuilt the unchanged canonical source into
+`build-release/udonshield_btc.exe`, SHA256
+`43ED5815DA0880652819BF589787C11CAFDC92F4D7D313899C3256E37D570389`.
+CTest passed `3/3`; the master oracle matched `5000/5000`; the complete
+population oracle matched the canonical 1,000-seed, 16,000-candidate output
+SHA256 `12B1889394F6654AE69ED73195B7235FD43196E839825026C5C1E2B802695E4F`.
+The required replay battery reproduced m-4043 `6/42/127`, m-4044
+`6/60/364`, m-4045 `6/60/144`, m-4290 `6/42/159` and m-4476 `4/28/123`;
+short-role fallback retained three patrols on m-4195/m-4196 and all patrols on
+m-4149/m-4155.
+
+The same exact binary then completed fresh target-host match `m-4787`: hard
+24x24, seven days, 100 steps/day, four agents, 18 spots, four brands, low fuel,
+three bots and an authoritative 15000-ms response window. All seven action
+responses were HTTP 200 and valid; all six observable transitions reconciled;
+replay-check returned `4/28/141`. Canonical decision time was at most 3152 ms,
+the compute window was exactly 5000 ms on all seven days, and end-to-end action
+response was at most 5546 ms inside an observed outer-window minimum of 14576
+ms. Public continuation was authorized on all seven days and produced 3564
+dual-valid plans out of 3564 generated, with zero deadline, public, mid-day,
+sparse, invalid or emergency failure; it correctly retained the checkpoint
+because no strict certified gain existed. Replay is preserved at
+`research/evidence/BTC-FINAL-BUILD-20260828-m4787.jsonl`; SHA256 is
+`3A754B2EB745AC40C1113B65604A89815A2C4BB12C82ACD284D9AD57725F5158`.
+Rank is not promotion evidence. This gate certifies lifecycle, validity,
+deadline and target-host behavior of the exact tournament artifact.
+
+## Closed predecessor — PERF-DIVERSITY-DISTANCE-CACHE-235 rejected
+
+Production remains repository HEAD `81c28a13b0e199cdbb8aaaf130488640e0e0a472`
+with canonical source checkpoint `18ecdd3`; compiler IPO and the 235 cache are
+rejected, and none of the research-only 234 timers is production policy.
+Experiment 234
+measured `157,851,198 us` of DFS across 120 days and accounted for `98.893%`:
+population maintenance consumed `123,285,073 us` (`78.102%`), versus `6.929%`
+for the exact simulator, `6.883%` for the independent validator and `2.718%`
+for canonical serialization. Population maintenance remained the largest phase
+in every difficulty tier (`73.499–84.645%`), both role modes and both public
+windows. This closes attribution and establishes one concrete source mechanism.
+
+Experiment 235 memoizes the existing exact `CandidateDiversityDistance` inside
+each population-retention call. The already sorted population index is a
+collision-free numeric identity for that call; the dense cache is reset before
+selection and cannot survive a sort, candidate move, solver invocation or day.
+The comparator, complete sort, quality prefix, diversity slot loop, distance
+components, candidate set, caps and deadlines remain unchanged. A new complete
+population oracle exercised 1,000 fixed-operation seeds and produced byte-exact
+parent/candidate output: 16,000 ordered candidates, 529,968 combinations and
+SHA256 `12B1889394F6654AE69ED73195B7235FD43196E839825026C5C1E2B802695E4F`
+on both sides. Unit tests pass and the existing 5,000-seed master oracle remains
+exact. Sequential local screening of the population oracle improved from
+8.583--8.962 s to 6.549--6.714 s over three paired runs; this is development
+attribution only, not target-host performance authority. Timed score differences
+remain score-affecting and require paired evidence.
+
+Frozen manifest `research/holdouts/PERF-DIVERSITY-DISTANCE-CACHE-235.csv` SHA256
+is `2B5EB995C029D0960D36DDDE13765E1E40D951A30828CEEAD88C71FC2D5617E1`:
+60 development and 108 sealed holdout pairs across four tiers, fixed/deadline
+roles, generated fuel families and canonical/public windows. Development may
+run on the local tournament host. By user decision, the sealed holdout must run
+on a VM and may open exactly once only after development passes.
+
+Frozen parent/candidate historical-tournament binary SHA256 values are
+`7438B2FA9171B2492E9C6DBE38C73584F3C10AD41A1F18F06A53F4932BB37739`
+and `D7515E214FEBAD287DE4997D87BC500CA5613A9A876AB7A1F21E78DF9FEB75BB`.
+Frozen initial runner, case-atomic resume runner and summarizer SHA256 values are
+`37E912D8762A3E4831FF5FF71029F17628E16DEBA686D16F57D0F48EF5C2E80F`,
+`ACAD25460B0CCA4F6EB24941F7FA188F81F35C55008D635B8DEE968C38D43393`
+and `51A0C39C1C1CD61CE803F0422CDCA968F39E1B032666381FC00D21803DD30345`.
+Development opens the sealed holdout only with zero safety failure, no aggregate
+tier-1 or tier-2 regression, more paired wins than losses, positive aggregate
+tier-3 delta when the first two tiers tie, and no difficulty/fuel/role/window
+stratum whose losses exceed wins. Holdout promotion uses the same conditions,
+also requires aggregate gain-tail magnitude to cover aggregate loss-tail
+magnitude, and still requires protected-lane plus BTC target-host gates.
+
+Functionality-preservation answers: (1) 235 removes, disables, defers or reduces
+no designed functionality; (2) it deletes nothing. Any output mismatch rejects
+the mechanism before timed development.
+
+Development completed 120/120 case-atomic results, 60 pairs and one
+`run_complete`; stderr was empty and all safety/failure counters were zero.
+Cache versus parent was `24/19/17`, every difference was tier 3, aggregate
+delta `0/0/+106`, gain tail `+311` (max `+50`) and loss tail `-205` (minimum
+`-92`). The global aggregate was positive, but the preregistered stratum gate
+failed: fixed-role was `8/10/12`, so losses exceeded wins. Deadline role was
+`16/9/5`; easy `3/10/3`, medium `6/8/2`, hard `8/0/6`, very-hard `7/1/6`.
+Development log SHA256 is
+`8B4E752E880FF9CF691718AD9AC3E6B5AA809AECEE85D8A5AE83D709B6F23A99`;
+summary SHA256 is
+`A3FC204DE941D803A5EEC86896183AF9840304464D9D6BA6353BD3BC9FD79C2F`.
+Verdict: rejected before holdout. The 108-pair holdout remains sealed and
+unopened. The cache source patch is reverted; no production behavior changed.
+
+## Closed predecessor — ATTR-MASTER-LEAF-COST-234 accepted attribution
+
+The frozen 16-case attribution completed 16/16 cases and 120 days with zero
+invalid/emergency, empty stderr and an exact one-case resume after the initial
+runner ended between cases. Evidence log SHA256 is
+`2B6DF317177D090EC38F0A43DE7E512C824D08187B6D0D736FB3122402E61EBE`;
+summary SHA256 is
+`CB793B9558AA2D39E5E3C9974A7E7C7F1E3BA0B28CDBD4370780BB12B4A7E600`.
+All instrumentation is reverted before implementing 235.
+
+## Closed predecessor — PERF-WHOLE-PROGRAM-IPO-233 rejected
+
+Parent is repository HEAD `81c28a13b0e199cdbb8aaaf130488640e0e0a472`; the
+canonical production source checkpoint remains `18ecdd3`. The Release toolchain
+is MSVC 19.44 through the paths recorded in `build-release/CMakeCache.txt` and
+currently compiles each translation unit with `/O2 /Ob2` but without
+interprocedural optimization. The registered performance gap is therefore
+narrow and objective: determine whether portable CMake Release IPO can remove
+cross-translation-unit overhead on the complete production pipeline without
+changing designed logic, source-level ordering, capability, validation or
+deadline policy.
+
+The candidate is build-configuration-only. Parent and candidate retain the same
+C++ source, official lexicographic comparator, route/master/refiner order,
+operation caps, `5000 ms` canonical checkpoint, public-window certificate,
+exact simulator, independent validator, replay and telemetry. Because faster
+execution can still change how much bounded work completes before a wall-clock
+cutoff, IPO is treated as score-affecting: it must first pass complete/unbounded
+action-score-state-validation equivalence, then fresh paired development against
+the direct parent. The sealed holdout may open once only if development shows a
+clear globally distributed benefit with bounded downside and zero safety loss;
+BTC target-host remains mandatory for any performance claim or promotion.
+
+Frozen manifest:
+`research/holdouts/PERF-WHOLE-PROGRAM-IPO-233.csv`, SHA256
+`13B63A618EF483F6A448EE644BA55289090DEB76709DCAB57340BA9AFF0288B7`.
+It contains 60 fresh development and 108 sealed holdout cases across all four
+difficulty tiers, fixed/deadline roles, generated low/default/high fuel, the
+canonical checkpoint and the accepted 15000-ms protected public window. No
+holdout result may be inspected before the preregistered development gate passes.
+
+The fresh MSVC parent and IPO binaries were built from the same source snapshot.
+Parent BTC SHA256 is
+`E22BAB595E19B9C6FF97D9BB62DB9B9AE6E25354F913CFA6A6898D1A642F2274`;
+IPO BTC SHA256 is
+`EBD4099E6B44A109E74813B92882566ECC2D2B9C3A923AEC078F700BF2DB898A`.
+The IPO build contains `/GL` on compilation and `/LTCG` on executable links;
+the parent contains neither. Frozen development runner SHA256 is
+`54F2E84585CC19C1C7350D512944CB588F3643EC8A021AC4CBE4C87D20E8A309`;
+frozen summarizer SHA256 is
+`07804297B61B1E63192381FBDD42EC8E8E628C518884C5CC4A6CDE2DC7B71EE9`.
+Both unit suites pass and the complete 5,000-seed master oracle is exactly
+identical (`5000/5000`, same exhaustive/bounded/pruned counts). Local A/B/B/A
+benchmark timing overlaps and has no performance authority; development remains
+necessary and the holdout remains sealed.
+
+The first local development process was interrupted externally after 28/120
+case-atomic results. All 28 `result` rows have matching `case_complete` markers,
+there is no solver error or safety failure, and the next case had emitted only
+`case_begin`; this prefix is retained as operational provenance, not a verdict.
+The first resume attempt was rejected before appending evidence because its
+guard compared the historical-tournament executable against the BTC executable
+hash; this is invalid pre-run operational evidence, not a product failure.
+Corrected resume runner SHA256
+`BD1A9D1E37DD31EDC1AE66705F70A25EE5AE069745AAE1562F44B61BC7534D30`
+verifies the frozen manifest and both binary hashes, rejects ambiguous partial
+results, skips only completed label/suite/seed keys and continues with identical
+arguments. Development remains local because this Windows host is the actual
+tournament execution host; paired order and score gates remain authoritative
+against host-load noise.
+
+Development is complete: 120/120 case-atomic results, 60 paired cases and one
+`run_complete`, with stderr empty. IPO versus parent is `16/39/5`; every first
+difference is tier 3, aggregate delta is `0/0/+133`, gain tail totals `+178`
+with maximum `+37`, and loss tail totals `-45` with minimum `-34`. Wins occur
+in every difficulty suite, every fuel regime, both role modes and both public
+windows; zero invalid, emergency, validator or protected-continuation failure
+occurred on either side. The clear broad benefit with bounded tier-3 downside
+passes the preregistered development gate. Development log SHA256 is
+`D3BB83B4AE624C1D79F9E27C8F8877747D933C817BC11F13D8688070456F9214`;
+summary SHA256 is
+`905A743569D18CA6396929EE8A617AEF50DCC0E82E47488C401CF989A55F1FF7`.
+The sealed 108-pair holdout opened exactly once with the same frozen binaries,
+manifest, runner and comparator. It completed 216/216 case-atomic results with
+stderr empty and zero safety failure, but rejected IPO: candidate versus parent
+was `20/62/26`, all first differences were tier 3, aggregate delta was
+`0/0/-71`, gain tail totaled `+280` and loss tail totaled `-351` with minimum
+`-50`. Losses occurred in all fuel regimes and both role modes; very-hard was
+`13/1/16`, and medium produced no win. Holdout log SHA256 is
+`E085909A9507970C4947E0E79DBD124C14F954C194D8FE50C4047C5631F94B54`;
+summary SHA256 is
+`ECBFF178CCCCCE32FA063791B02A62185BC9DDFBC8BF2A018491E5CFD86A02B9`.
+Verdict: rejected; holdout consumed; CMake and production source remain
+unchanged; BTC was correctly not run. Do not retry IPO, PGO or compiler-flag
+tuning on this consumed evidence.
+
+Functionality-preservation answers: (1) this proposal removes, disables, defers
+or reduces no designed functionality; (2) it deletes nothing, so no replacement
+equivalence claim is needed. Any later source-level optimization remains forbidden
+until it is isolated as its own mechanism under this experiment's sequential
+audit and proves the same preservation conditions.
+
+## Closed predecessor — competition checkpoint `18ecdd3`; no active source candidate
 
 The final-day acknowledgement mismatch found during experiment 232 is closed in
 commit `18ecdd3` (`fix: align final-day ACK with official score`). A shared

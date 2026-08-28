@@ -58,6 +58,10 @@ if(UDONSHIELD_BUILD_BENCHMARKS)
     add_executable(udonshield_master_oracle strategies/master_oracle.cpp)
     target_link_libraries(udonshield_master_oracle PRIVATE udon_shield)
     add_executable(
+        udonshield_population_oracle
+        research/probes/population_oracle.cpp)
+    target_link_libraries(udonshield_population_oracle PRIVATE udon_shield)
+    add_executable(
         udonshield_orienteering_oracle
         strategies/orienteering_oracle.cpp)
     target_link_libraries(udonshield_orienteering_oracle PRIVATE udon_shield)
