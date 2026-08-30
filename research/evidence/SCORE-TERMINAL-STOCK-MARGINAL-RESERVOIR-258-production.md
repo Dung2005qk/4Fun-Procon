@@ -87,3 +87,5 @@ integration preserved the `5000 ms` checkpoint exactly, and the final binary
 passed target-host lifecycle, latency, validation, reconciliation, rollback and
 active-mechanism telemetry gates. No designed functionality was removed,
 disabled, deferred or reduced, and nothing was deleted.
+
+Canonical production and research-closure commit: `ab3d699`.

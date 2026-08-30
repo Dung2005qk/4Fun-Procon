@@ -146,6 +146,8 @@ score gate, production equivalence and active target-host gate are complete;
 the sealed holdout is consumed and no source candidate remains open. Full
 closure is preserved in
 `research/evidence/SCORE-TERMINAL-STOCK-MARGINAL-RESERVOIR-258-production.md`.
+The reproducible canonical production and research-closure commit is
+`ab3d699` (`feat: close multiteam research and promote terminal reservoir`).
 
 ## Closed positive attribution — ATTR-MULTITEAM-MEDIUM-ROLE-DEFICIT-257
 
