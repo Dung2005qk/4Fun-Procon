@@ -128,31 +128,28 @@ void build_even_row_neighbors(GridMap& map) {
 void verify_config_invariants(MatchConfig& config) {
     if (config.daySeconds.size() != config.daySteps.size() || config.daySteps.size() < 4U ||
         config.daySteps.size() > 10U) {
-        throw ProtocolError("daySeconds and daySteps must describe 4 to 10 identical days");
+        throw ProtocolError("daySeconds and daySteps must contain the same 4 to 10 days");
     }
-    const std::int32_t minimumDaySteps = config.map.width + config.map.height;
-    const std::int32_t maximumDaySteps = 4 * minimumDaySteps;
     for (std::size_t dayIndex = 0; dayIndex < config.daySteps.size(); ++dayIndex) {
         if (config.daySeconds.at(dayIndex) <= 0) {
             throw ProtocolError("daySeconds must be positive");
         }
-        const std::int32_t stepCount = config.daySteps.at(dayIndex);
-        if (stepCount < minimumDaySteps || stepCount > maximumDaySteps) {
-            throw ProtocolError("daySteps violates the published map-dependent bounds");
+        if (config.daySteps.at(dayIndex) <= 0) {
+            throw ProtocolError("daySteps must be positive");
         }
     }
     if (config.agent_count() < 3 || config.agent_count() > kMaximumAgents) {
         throw ProtocolError("agent count must be between 3 and 8");
     }
-    if (config.spots.empty() || config.spots.size() > static_cast<std::size_t>(std::max(config.map.width, config.map.height))) {
-        throw ProtocolError("spot count is outside the published bounds");
+    if (config.spots.empty()) {
+        throw ProtocolError("a match must contain at least one spot");
     }
     if (config.fuelLimit <= 0 || config.players <= 0 || config.busyThreshold <= 0 ||
         config.jammedThreshold <= config.busyThreshold) {
         throw ProtocolError("invalid match-level numeric configuration");
     }
-    if (config.brand_count() > 64) {
-        throw ProtocolError("the core supports at most 64 distinct brands per match");
+    if (config.brand_count() > kMaximumBrands) {
+        throw ProtocolError("brand count exceeds the official map capacity");
     }
 }
 
@@ -243,8 +240,16 @@ MatchConfig parse_match_config(const JsonValue& document) {
 
     config.fuelLimit = integer_in_range(document.at("fuelLimits"), "fuelLimits", 1, std::numeric_limits<std::int32_t>::max());
     config.players = integer_in_range(document.at("players"), "players", 1, std::numeric_limits<std::int32_t>::max());
-    config.busyThreshold = integer_in_range(document.at("busyThreshold"), "busyThreshold", 1, 5);
-    config.jammedThreshold = integer_in_range(document.at("jammedThreshold"), "jammedThreshold", 2, 10);
+    config.busyThreshold = integer_in_range(
+        document.at("busyThreshold"),
+        "busyThreshold",
+        1,
+        std::numeric_limits<std::int32_t>::max());
+    config.jammedThreshold = integer_in_range(
+        document.at("jammedThreshold"),
+        "jammedThreshold",
+        2,
+        std::numeric_limits<std::int32_t>::max());
 
     config.spotAtCell.assign(static_cast<std::size_t>(config.map.cell_count()), kInvalidSpot);
     const JsonValue::Array& spots = require_array(document.at("spots"), "spots");
@@ -263,7 +268,7 @@ MatchConfig parse_match_config(const JsonValue& document) {
             spotDocument.at("stocks"),
             "spot stocks",
             1,
-            kMaximumAgents);
+            config.agent_count());
         if (config.map.terrain.at(static_cast<std::size_t>(spot.position)) != Terrain::Plain) {
             throw ProtocolError("spot position must be on a plain cell");
         }

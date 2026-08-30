@@ -374,7 +374,7 @@ SimulationResult IndependentDayValidator::validate(
         const ValidationAgent& agent = agents.at(static_cast<std::size_t>(agentIndex));
         result.finalAgents.push_back(agent.state);
     }
-    result.score.dailyDistinct = static_cast<std::int32_t>(std::popcount(result.score.brands));
+    result.score.dailyDistinct = brand_count(result.score.brands);
     result.valid = true;
     return result;
 }

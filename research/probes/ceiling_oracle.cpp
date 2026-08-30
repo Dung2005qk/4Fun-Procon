@@ -376,7 +376,7 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
         score.brands |= udon::brand_bit(config.spots.at(spot).brandIndex);
         score.servings += count;
     }
-    score.dailyDistinct = static_cast<std::int32_t>(std::popcount(score.brands));
+    score.dailyDistinct = udon::brand_count(score.brands);
     return score;
 }
 

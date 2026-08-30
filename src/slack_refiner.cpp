@@ -97,11 +97,11 @@ struct WaitAnchor {
     if (!protected_slack_transition_dominates(incumbent, challenger)) {
         return false;
     }
-    const std::uint64_t incumbentLifetime =
+    const BrandMask incumbentLifetime =
         ledger.lifetimeBrands | incumbent.score.brands;
-    const std::uint64_t challengerLifetime =
+    const BrandMask challengerLifetime =
         ledger.lifetimeBrands | challenger.score.brands;
-    if ((incumbentLifetime & ~challengerLifetime) != 0U ||
+    if (brand_difference(incumbentLifetime, challengerLifetime).any() ||
         challenger.score.dailyDistinct < incumbent.score.dailyDistinct ||
         challenger.score.servings < incumbent.score.servings) {
         return false;
@@ -146,7 +146,7 @@ bool protected_slack_agents_dominate(
 bool protected_slack_ledger_dominates(
     const MatchLedger& baseline,
     const MatchLedger& actual) {
-    return (baseline.lifetimeBrands & ~actual.lifetimeBrands) == 0U &&
+    return !brand_difference(baseline.lifetimeBrands, actual.lifetimeBrands).any() &&
         actual.totalDailyDistinct >= baseline.totalDailyDistinct &&
         actual.totalServings >= baseline.totalServings;
 }
@@ -396,6 +396,7 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_terminal_sparse(
     result.scoreAfterToday =
         OfficialScore::after_day(ledger, incumbentSimulation.score);
     result.firstRoundScore = result.scoreAfterToday;
+    result.canonicalTerminalScore = result.scoreAfterToday;
     if (!incumbentSimulation.valid ||
         state.dayNumber != config_.day_count() ||
         incumbentPlan.actions.size() !=
@@ -422,7 +423,7 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_terminal_sparse(
     }
     const auto searchDeadline = deadline - kValidationReserve;
 
-    std::uint64_t preferredBrands = 0U;
+    BrandMask preferredBrands;
     for (std::int32_t brand = 0; brand < config_.brand_count(); ++brand) {
         if (!has_brand(ledger.lifetimeBrands, brand)) {
             preferredBrands |= brand_bit(brand);
@@ -434,8 +435,8 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_terminal_sparse(
               std::max(1, config_.brand_count() - 1),
               static_cast<std::int32_t>(config_.spots.size()));
 
-    const auto visited_spot_count = [this, &state, &incumbentPlan](
-                                        AgentIndex agent) {
+    const auto visited_spot_mask = [this, &state, &incumbentPlan](
+                                       AgentIndex agent) {
         std::uint32_t mask = 0U;
         CellId cell = state.agents.at(static_cast<std::size_t>(agent)).position;
         const SpotIndex initialSpot =
@@ -451,7 +452,7 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_terminal_sparse(
             cell = config_.map.neighbors.at(static_cast<std::size_t>(cell)).at(
                 static_cast<std::size_t>(action.value));
             if (cell == kInvalidCell) {
-                return std::numeric_limits<std::int32_t>::max();
+                return std::numeric_limits<std::uint32_t>::max();
             }
             const SpotIndex spot =
                 config_.spotAtCell.at(static_cast<std::size_t>(cell));
@@ -459,7 +460,13 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_terminal_sparse(
                 mask |= std::uint32_t{1} << static_cast<std::uint32_t>(spot);
             }
         }
-        return static_cast<std::int32_t>(std::popcount(mask));
+        return mask;
+    };
+    const auto visited_spot_count = [&visited_spot_mask](AgentIndex agent) {
+        const std::uint32_t mask = visited_spot_mask(agent);
+        return mask == std::numeric_limits<std::uint32_t>::max()
+            ? std::numeric_limits<std::int32_t>::max()
+            : static_cast<std::int32_t>(std::popcount(mask));
     };
     std::vector<AgentIndex> tasks;
     for (AgentIndex agent = 0; agent < config_.agent_count(); ++agent) {
@@ -474,6 +481,42 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_terminal_sparse(
         [&visited_spot_count](AgentIndex left, AgentIndex right) {
             return visited_spot_count(left) < visited_spot_count(right);
         });
+    std::vector<std::uint32_t> incumbentMasks(
+        static_cast<std::size_t>(config_.agent_count()),
+        0U);
+    std::vector<std::int32_t> incumbentClaims(config_.spots.size(), 0);
+    for (const AgentIndex agent : tasks) {
+        const std::uint32_t mask = visited_spot_mask(agent);
+        if (mask == std::numeric_limits<std::uint32_t>::max()) {
+            return result;
+        }
+        incumbentMasks.at(static_cast<std::size_t>(agent)) = mask;
+        for (std::size_t spot = 0; spot < config_.spots.size(); ++spot) {
+            if ((mask &
+                 (std::uint32_t{1} << static_cast<std::uint32_t>(spot))) != 0U) {
+                ++incumbentClaims.at(spot);
+            }
+        }
+    }
+    std::vector<TerminalMarginalRouteContext> marginalContexts(
+        static_cast<std::size_t>(config_.agent_count()));
+    if (enableTerminalMarginalReservoir) {
+        for (const AgentIndex agent : tasks) {
+            TerminalMarginalRouteContext& context = marginalContexts.at(
+                static_cast<std::size_t>(agent));
+            context.lifetimeBrands = ledger.lifetimeBrands;
+            context.incumbentClaimsWithoutAgent = incumbentClaims;
+            const std::uint32_t ownMask = incumbentMasks.at(
+                static_cast<std::size_t>(agent));
+            for (std::size_t spot = 0; spot < config_.spots.size(); ++spot) {
+                if ((ownMask &
+                     (std::uint32_t{1} << static_cast<std::uint32_t>(spot))) !=
+                    0U) {
+                    --context.incumbentClaimsWithoutAgent.at(spot);
+                }
+            }
+        }
+    }
     std::vector<ExactOrienteeringReachability> reachability(
         static_cast<std::size_t>(config_.agent_count()));
     std::atomic<std::size_t> nextTask{0U};
@@ -502,7 +545,11 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_terminal_sparse(
                                 32U,
                                 1250000U,
                                 searchDeadline,
-                                preferredBrands);
+                                preferredBrands,
+                                enableTerminalMarginalReservoir
+                                    ? &marginalContexts.at(
+                                          static_cast<std::size_t>(agent))
+                                    : nullptr);
                     }
                 } catch (...) {
                     workerFailed.store(true);
@@ -694,6 +741,135 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_terminal_sparse(
         }
         deadlineReached = run_one_agent_ascent();
     }
+
+    // SCORE-TERMINAL-STOCK-MARGINAL-RESERVOIR-258. Freeze the complete
+    // canonical ascent/pair result before touching the additive reservoir.
+    // The suffix is terminal-only and accepts solely a dual-valid strict
+    // official gain, so deadline/no-gain returns this exact prefix.
+    result.canonicalTerminalScore = result.scoreAfterToday;
+    if (!enableTerminalMarginalReservoir || deadlineReached) {
+        return result;
+    }
+    const DayPlan canonicalPlan = result.plan;
+    const SimulationResult canonicalSimulation = result.simulation;
+    const OfficialScore canonicalScore = result.scoreAfterToday;
+    const bool canonicalImproved = result.improved;
+    const AgentIndex canonicalWitnessAgent = result.witnessAgent;
+    const std::int32_t canonicalWitnessParentFuel = result.witnessParentFuel;
+    const std::int32_t canonicalWitnessCandidateFuel =
+        result.witnessCandidateFuel;
+    const std::int64_t canonicalTerminalSparseRounds =
+        result.diagnostics.terminalSparseRounds;
+    const auto restore_canonical = [&](bool failure) {
+        result.plan = canonicalPlan;
+        result.simulation = canonicalSimulation;
+        result.scoreAfterToday = canonicalScore;
+        result.improved = canonicalImproved;
+        result.witnessAgent = canonicalWitnessAgent;
+        result.witnessParentFuel = canonicalWitnessParentFuel;
+        result.witnessCandidateFuel = canonicalWitnessCandidateFuel;
+        result.diagnostics.terminalMarginalAcceptances = 0;
+        result.diagnostics.terminalMarginalRounds = 0;
+        result.diagnostics.terminalSparseRounds =
+            canonicalTerminalSparseRounds;
+        result.diagnostics.terminalMarginalDeadline = !failure;
+        result.diagnostics.terminalMarginalFailure = failure;
+    };
+    for (;;) {
+        const DayPlan roundBasePlan = result.plan;
+        const SimulationResult roundBaseSimulation = result.simulation;
+        const OfficialScore roundBaseScore = result.scoreAfterToday;
+        DayPlan roundBestPlan = roundBasePlan;
+        SimulationResult roundBestSimulation = roundBaseSimulation;
+        OfficialScore roundBestScore = roundBaseScore;
+        AgentIndex roundBestAgent = kInvalidAgent;
+        bool roundDeadline = false;
+        bool roundFailure = false;
+
+        for (const AgentIndex agent : tasks) {
+            const ExactOrienteeringReachability& routes = reachability.at(
+                static_cast<std::size_t>(agent));
+            for (const ExactOrienteeringRoute& route :
+                 routes.terminalMarginalRoutes) {
+                if (std::chrono::steady_clock::now() >= deadline) {
+                    result.diagnostics.deadlineReached = true;
+                    roundDeadline = true;
+                    break;
+                }
+                ++result.diagnostics.sparseRoutes;
+                ++result.diagnostics.terminalMarginalRoutes;
+                DayPlan candidate = roundBasePlan;
+                candidate.actions.at(static_cast<std::size_t>(agent)) =
+                    route.actions;
+                if (!planHashes.insert(plan_hash(candidate)).second) {
+                    continue;
+                }
+                ++result.diagnostics.generatedPlans;
+                ++result.diagnostics.terminalMarginalGeneratedPlans;
+                const SimulationResult detailed = simulator_.simulate(
+                    state,
+                    candidate,
+                    false);
+                const SimulationResult independent = validator_.validate(
+                    state,
+                    candidate,
+                    false);
+                std::string mismatch;
+                if (!detailed.valid) {
+                    continue;
+                }
+                if (!validator_.agrees_with(
+                        detailed,
+                        independent,
+                        mismatch)) {
+                    roundFailure = true;
+                    break;
+                }
+                ++result.diagnostics.validPlans;
+                ++result.diagnostics.terminalMarginalValidPlans;
+                const OfficialScore candidateScore = OfficialScore::after_day(
+                    ledger,
+                    detailed.score);
+                if (!(roundBestScore < candidateScore)) {
+                    continue;
+                }
+                ++result.diagnostics.strictTerminalImprovements;
+                roundBestPlan = std::move(candidate);
+                roundBestSimulation = detailed;
+                roundBestScore = candidateScore;
+                roundBestAgent = agent;
+            }
+            if (roundDeadline) {
+                break;
+            }
+            if (roundFailure) {
+                break;
+            }
+        }
+
+        if (roundDeadline || roundFailure) {
+            restore_canonical(roundFailure);
+            return result;
+        }
+
+        if (roundBaseScore < roundBestScore) {
+            result.plan = std::move(roundBestPlan);
+            result.simulation = roundBestSimulation;
+            result.scoreAfterToday = roundBestScore;
+            result.improved = true;
+            result.witnessAgent = roundBestAgent;
+            result.witnessParentFuel = roundBaseSimulation.finalAgents.at(
+                static_cast<std::size_t>(roundBestAgent)).fuel;
+            result.witnessCandidateFuel = roundBestSimulation.finalAgents.at(
+                static_cast<std::size_t>(roundBestAgent)).fuel;
+            ++result.diagnostics.terminalMarginalAcceptances;
+            ++result.diagnostics.terminalMarginalRounds;
+            ++result.diagnostics.terminalSparseRounds;
+        }
+        if (roundDeadline || !(roundBaseScore < roundBestScore)) {
+            break;
+        }
+    }
     return result;
 }
 
@@ -735,7 +911,7 @@ ProtectedSlackResult ProtectedSlackRefiner::refine_midday_chains(
     }
     const auto searchDeadline = deadline - kValidationReserve;
 
-    std::uint64_t preferredBrands = 0U;
+    BrandMask preferredBrands;
     for (std::int32_t brand = 0; brand < config_.brand_count(); ++brand) {
         if (!has_brand(ledger.lifetimeBrands, brand)) {
             preferredBrands |= brand_bit(brand);

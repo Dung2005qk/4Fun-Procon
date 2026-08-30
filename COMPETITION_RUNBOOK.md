@@ -1,10 +1,11 @@
 cd 'C:\Users\LMC\Desktop\4Fun'
 
-$env:HEXUDON_TOKEN = 'bot-16e63de59d414edd0147e7f1'
-.\build-release\udonshield_btc.exe http --match m-4196 --response-ms 5000 --replay artifacts/btc/m-4196.jsonl
-
-
+# Sau khi bấm nut copy token da luu tren BTC, chi dua token qua environment
+# cua dung tien trinh. Khong ghi token ro vao source, runbook hay evidence.
+$env:HEXUDON_TOKEN = Get-Clipboard
+.\build-release\udonshield_btc.exe http --match <MATCH_ID> --response-ms <PUBLIC_RESPONSE_MS> --replay artifacts/btc/<MATCH_ID>.jsonl
 Remove-Item Env:HEXUDON_TOKEN
+Set-Clipboard -Value ''
 
 ## QUY TẮC VẬN HÀNH BẮT BUỘC (từ ATTR-COVERAGE-REGIME-208, 2026-08-23)
 

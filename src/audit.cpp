@@ -41,7 +41,7 @@ template <typename Value, std::size_t Count>
 
 [[nodiscard]] JsonValue day_score_object(const DayScore& score) {
     JsonValue::Object object;
-    object.emplace("brandsMask", JsonValue(std::to_string(score.brands)));
+    object.emplace("brandsMask", JsonValue(score.brands.wire_string()));
     object.emplace("dailyDistinct", JsonValue(static_cast<std::int64_t>(score.dailyDistinct)));
     object.emplace("servings", JsonValue(static_cast<std::int64_t>(score.servings)));
     return JsonValue(std::move(object));

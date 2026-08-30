@@ -57,7 +57,7 @@ struct Fixture {
 struct DayOutcome {
     udon::CellId position = udon::kInvalidCell;
     std::int32_t fuel = 0;
-    std::uint64_t brands = 0;
+    udon::BrandMask brands;
     std::int32_t servings = 0;
     udon::AgentPlan actions;
 };
@@ -68,7 +68,7 @@ struct MatchValue {
     std::vector<udon::AgentPlan> activePlans;
 };
 
-using MatchKey = std::tuple<udon::CellId, std::int32_t, std::uint64_t>;
+using MatchKey = std::tuple<udon::CellId, std::int32_t, udon::BrandMask>;
 
 struct MatchResult {
     bool valid = false;
@@ -463,7 +463,7 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
         }
     }
 
-    using OutcomeKey = std::tuple<udon::CellId, std::int32_t, std::uint64_t>;
+    using OutcomeKey = std::tuple<udon::CellId, std::int32_t, udon::BrandMask>;
     struct OutcomeWitness {
         std::int32_t servings = 0;
         std::int32_t node = -1;
@@ -471,7 +471,7 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
     std::map<OutcomeKey, OutcomeWitness> compressed;
     for (std::size_t index = 0; index < nodes.size(); ++index) {
         const Node& node = nodes.at(index);
-        std::uint64_t brands = 0U;
+        udon::BrandMask brands;
         for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
             if ((node.spotMask &
                  (std::uint32_t{1} << static_cast<std::uint32_t>(spot))) != 0U) {
@@ -573,7 +573,7 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
                 simulation.finalAgents.at(0).fuel != outcome.fuel ||
                 simulation.score.brands != outcome.brands ||
                 simulation.score.dailyDistinct !=
-                    static_cast<std::int32_t>(std::popcount(outcome.brands)) ||
+                    udon::brand_count(outcome.brands) ||
                 simulation.score.servings != outcome.servings) {
                 throw std::runtime_error(
                     "enumerated day outcome disagrees with independent engines: " + mismatch);
@@ -606,7 +606,7 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
         for (const auto& [key, value] : frontier) {
             const udon::CellId position = std::get<0>(key);
             const std::int32_t fuel = std::get<1>(key);
-            const std::uint64_t lifetime = std::get<2>(key);
+            const udon::BrandMask lifetime = std::get<2>(key);
             const auto cacheKey = std::tuple{day, position, fuel};
             auto found = cache.find(cacheKey);
             if (found == cache.end()) {
@@ -630,7 +630,7 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
                 };
                 MatchValue candidate = value;
                 candidate.totalDailyDistinct +=
-                    static_cast<std::int32_t>(std::popcount(outcome.brands));
+                    udon::brand_count(outcome.brands);
                 candidate.totalServings += outcome.servings;
                 candidate.activePlans.push_back(outcome.actions);
                 const auto incumbent = next.find(nextKey);
@@ -648,13 +648,13 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
 
     auto best = frontier.begin();
     udon::OfficialScore bestScore{
-        static_cast<std::int32_t>(std::popcount(std::get<2>(best->first))),
+        udon::brand_count(std::get<2>(best->first)),
         best->second.totalDailyDistinct,
         best->second.totalServings,
     };
     for (auto candidate = std::next(frontier.begin()); candidate != frontier.end(); ++candidate) {
         const udon::OfficialScore score{
-            static_cast<std::int32_t>(std::popcount(std::get<2>(candidate->first))),
+            udon::brand_count(std::get<2>(candidate->first)),
             candidate->second.totalDailyDistinct,
             candidate->second.totalServings,
         };

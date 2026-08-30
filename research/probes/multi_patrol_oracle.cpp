@@ -92,7 +92,7 @@ using AdversarialKey = std::tuple<
     std::int32_t,
     udon::CellId,
     std::int32_t,
-    std::uint64_t,
+    udon::BrandMask,
     TrafficFootprint,
     TrafficFootprint,
     TrafficStatusKey>;
@@ -135,7 +135,7 @@ using MatchKey = std::tuple<
     std::int32_t,
     udon::CellId,
     std::int32_t,
-    std::uint64_t,
+    udon::BrandMask,
     TrafficFootprint,
     TrafficStatusKey>;
 
@@ -1201,11 +1201,11 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
     return {first.position, first.fuel, second.position, second.fuel, false};
 }
 
-[[nodiscard]] std::pair<std::uint64_t, std::int32_t> joint_day_score(
+[[nodiscard]] std::pair<udon::BrandMask, std::int32_t> joint_day_score(
     const udon::MatchConfig& config,
     std::uint32_t firstMask,
     std::uint32_t secondMask) {
-    std::uint64_t brands = 0U;
+    udon::BrandMask brands;
     std::int32_t servings = 0;
     for (std::size_t spotIndex = 0; spotIndex < config.spots.size(); ++spotIndex) {
         const std::uint32_t bit =
@@ -1312,7 +1312,7 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
         false);
     using OwnKey = std::tuple<
         udon::CellId,
-        std::uint64_t,
+        udon::BrandMask,
         std::int32_t,
         TrafficFootprint>;
     std::map<OwnKey, DayOutcome> unique;
@@ -1343,7 +1343,7 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
 
 [[nodiscard]] std::vector<DayOutcome> prune_minimax_own_boundary_dominance(
     const udon::MatchConfig& config,
-    std::uint64_t lifetime,
+    udon::BrandMask lifetime,
     const std::vector<DayOutcome>& outcomes,
     MinimaxDiagnostics& diagnostics) {
     diagnostics.maximumOwnOutcomesBeforeDominance = std::max(
@@ -1358,9 +1358,9 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
             config,
             candidate.spotMask,
             0U);
-        const std::uint64_t candidateLifetime = lifetime | candidateDailyBrands;
-        const std::int32_t candidateDailyDistinct = static_cast<std::int32_t>(
-            std::popcount(candidateDailyBrands));
+        const udon::BrandMask candidateLifetime = lifetime | candidateDailyBrands;
+        const std::int32_t candidateDailyDistinct =
+            udon::brand_count(candidateDailyBrands);
         for (std::size_t challengerIndex = 0;
              challengerIndex < outcomes.size();
              ++challengerIndex) {
@@ -1377,11 +1377,11 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
                 config,
                 challenger.spotMask,
                 0U);
-            const std::uint64_t challengerLifetime = lifetime | challengerDailyBrands;
-            const std::int32_t challengerDailyDistinct = static_cast<std::int32_t>(
-                std::popcount(challengerDailyBrands));
+            const udon::BrandMask challengerLifetime = lifetime | challengerDailyBrands;
+            const std::int32_t challengerDailyDistinct =
+                udon::brand_count(challengerDailyBrands);
             const bool lifetimeSuperset =
-                (challengerLifetime | candidateLifetime) == challengerLifetime;
+                candidateLifetime.is_subset_of(challengerLifetime);
             const bool scoreNoWorse =
                 challengerDailyDistinct >= candidateDailyDistinct &&
                 challengerServings >= candidateServings;
@@ -1427,8 +1427,7 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
         roadStatusKey] = key;
     if (day > fixture.config.day_count()) {
         MinimaxNode terminal;
-        terminal.score.lifetimeDistinct = static_cast<std::int32_t>(
-            std::popcount(lifetime));
+        terminal.score.lifetimeDistinct = udon::brand_count(lifetime);
         search.memo.emplace(key, terminal);
         ++search.diagnostics.states;
         return terminal;
@@ -1536,8 +1535,7 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
                 fixture,
                 next,
                 search);
-            continuation.score.totalDailyDistinct += static_cast<std::int32_t>(
-                std::popcount(dailyBrands));
+            continuation.score.totalDailyDistinct += udon::brand_count(dailyBrands);
             continuation.score.totalServings += dailyServings;
             ++search.diagnostics.transitions;
             if (!haveWorst || continuation.score < worst.score) {
@@ -1719,8 +1717,7 @@ struct RootStreamResult {
                 fixture,
                 next,
                 search);
-            continuation.score.totalDailyDistinct +=
-                static_cast<std::int32_t>(std::popcount(dailyBrands));
+            continuation.score.totalDailyDistinct += udon::brand_count(dailyBrands);
             continuation.score.totalServings += dailyServings;
             ++search.diagnostics.transitions;
             if (!haveWorst || continuation.score < worst.score) {
@@ -1792,12 +1789,12 @@ struct RootStreamResult {
     for (const auto& [physical, indices] : groups) {
         static_cast<void>(physical);
         for (const std::size_t left : indices) {
-            const std::uint64_t leftLifetime = std::get<4>(entries.at(left).key);
+            const udon::BrandMask leftLifetime = std::get<4>(entries.at(left).key);
             for (const std::size_t right : indices) {
             if (left == right) {
                 continue;
             }
-            const std::uint64_t rightLifetime = std::get<4>(entries.at(right).key);
+            const udon::BrandMask rightLifetime = std::get<4>(entries.at(right).key);
             const bool fuelNoWorse =
                 std::get<1>(entries.at(right).key) >=
                     std::get<1>(entries.at(left).key) &&
@@ -1811,8 +1808,7 @@ struct RootStreamResult {
                 std::get<6>(entries.at(left).key);
             const TrafficStatusKey& rightStatuses =
                 std::get<6>(entries.at(right).key);
-            const bool lifetimeSuperset =
-                (rightLifetime | leftLifetime) == rightLifetime;
+            const bool lifetimeSuperset = leftLifetime.is_subset_of(rightLifetime);
             const bool trafficNoWorse =
                 std::equal(
                     rightPrevious.begin(),
@@ -1985,7 +1981,7 @@ struct RootStreamResult {
                                 previousOwn)),
                     };
                     const std::int32_t nextDaily = parent.totalDailyDistinct +
-                        static_cast<std::int32_t>(std::popcount(dailyBrands));
+                        udon::brand_count(dailyBrands);
                     const std::int32_t nextServings =
                         parent.totalServings + dailyServings;
                     const auto found = retained.find(key);
@@ -2021,14 +2017,14 @@ struct RootStreamResult {
     const std::vector<LayerEntry>& finalLayer = layers.back();
     std::size_t bestIndex = 0;
     udon::OfficialScore bestScore{
-        static_cast<std::int32_t>(std::popcount(std::get<4>(finalLayer.front().key))),
+        udon::brand_count(std::get<4>(finalLayer.front().key)),
         finalLayer.front().totalDailyDistinct,
         finalLayer.front().totalServings,
     };
     for (std::size_t index = 1; index < finalLayer.size(); ++index) {
         const LayerEntry& candidate = finalLayer.at(index);
         const udon::OfficialScore score{
-            static_cast<std::int32_t>(std::popcount(std::get<4>(candidate.key))),
+            udon::brand_count(std::get<4>(candidate.key)),
             candidate.totalDailyDistinct,
             candidate.totalServings,
         };
@@ -2752,7 +2748,7 @@ struct AdversarialRun {
     const AdversarialKey& key,
     const DayOutcome& own,
     const DayOutcome& opponent,
-    std::uint64_t dailyBrands,
+    udon::BrandMask dailyBrands,
     bool trafficHistoryQuotient = false) {
     const auto& [
         day,
@@ -2848,7 +2844,7 @@ struct AdversarialRun {
             opponent));
         result.traces.push_back(AdversarialRun::DayTrace{
             statuses,
-            static_cast<std::int32_t>(std::popcount(ownSimulation.score.brands)),
+            udon::brand_count(ownSimulation.score.brands),
             ownSimulation.score.servings,
             ownSimulation.finalAgents.at(0).position,
             ownSimulation.finalAgents.at(0).fuel,
@@ -2961,7 +2957,7 @@ struct AdversarialRun {
             opponent));
         result.traces.push_back(AdversarialRun::DayTrace{
             std::get<8>(key),
-            static_cast<std::int32_t>(std::popcount(ownSimulation.score.brands)),
+            udon::brand_count(ownSimulation.score.brands),
             ownSimulation.score.servings,
             ownSimulation.finalAgents.at(0).position,
             ownSimulation.finalAgents.at(0).fuel,
@@ -3190,8 +3186,7 @@ struct AdversarialRun {
             opponent));
         result.traces.push_back(AdversarialRun::DayTrace{
             std::get<8>(key),
-            static_cast<std::int32_t>(
-                std::popcount(submittedSimulation.score.brands)),
+            udon::brand_count(submittedSimulation.score.brands),
             submittedSimulation.score.servings,
             submittedSimulation.finalAgents.at(0).position,
             submittedSimulation.finalAgents.at(0).fuel,
@@ -3625,7 +3620,7 @@ void inspect_exact_bundle_capability(
                     maximumRoadStays,
                     -column.terminalFuel,
                     -static_cast<std::int32_t>(
-                        std::popcount(column.estimatedBrands)),
+                        udon::brand_count(column.estimatedBrands)),
                     -column.estimatedServings,
                     column.columnId};
             };
@@ -3811,7 +3806,7 @@ void inspect_exact_bundle_capability(
             maximumStays,
             -candidate.terminalFuel,
             -static_cast<std::int32_t>(
-                std::popcount(candidate.estimatedBrands)),
+                udon::brand_count(candidate.estimatedBrands)),
             -candidate.estimatedServings,
             index};
     };
@@ -4135,10 +4130,10 @@ void inspect_exact_bundle_capability(
                                       const udon::RouteColumn& column,
                                       std::size_t index) {
             return std::tuple{
-                static_cast<std::int32_t>(std::popcount(
-                    column.estimatedBrands & ~ledger.lifetimeBrands)),
-                static_cast<std::int32_t>(
-                    std::popcount(column.estimatedBrands)),
+                udon::brand_difference_count(
+                    column.estimatedBrands,
+                    ledger.lifetimeBrands),
+                udon::brand_count(column.estimatedBrands),
                 column.estimatedServings,
                 column.terminalFuel,
                 column.priority,
@@ -5404,10 +5399,9 @@ void attribute_w1_continuation(
                         outcome.spotMask,
                         oracleSecondMask);
                     const udon::OfficialScore current{
-                        static_cast<std::int32_t>(std::popcount(
-                            ledger.lifetimeBrands | brands)),
+                        udon::brand_count(ledger.lifetimeBrands | brands),
                         ledger.totalDailyDistinct +
-                            static_cast<std::int32_t>(std::popcount(brands)),
+                            udon::brand_count(brands),
                         ledger.totalServings + servings,
                     };
                     return fuelFirst
@@ -5490,7 +5484,7 @@ void attribute_w1_continuation(
                 udon::MatchLedger futureLedger = ledger;
                 futureLedger.apply(udon::DayScore{
                     brands,
-                    static_cast<std::int32_t>(std::popcount(brands)),
+                    udon::brand_count(brands),
                     servings,
                 });
                 std::vector<udon::AgentState> futureAgents = state.agents;
@@ -5530,7 +5524,7 @@ void attribute_w1_continuation(
                 std::int32_t,
                 udon::CellId,
                 std::int32_t,
-                std::uint64_t,
+                udon::BrandMask,
                 std::int32_t>;
             std::set<JointState> jointStates;
             udon::MatchLedger exactFutureLedger = ledger;
@@ -5566,7 +5560,7 @@ void attribute_w1_continuation(
                     udon::MatchLedger futureLedger = ledger;
                     futureLedger.apply(udon::DayScore{
                         brands,
-                        static_cast<std::int32_t>(std::popcount(brands)),
+                        udon::brand_count(brands),
                         servings,
                     });
                     std::vector<udon::AgentState> futureAgents = state.agents;
@@ -5939,7 +5933,7 @@ void attribute_trajectory_membership(
                   << ",plan=" << plan_text(ownPlan)
                   << ",oracle_mask=" << oracleMask
                   << ",day_brands="
-                  << std::popcount(ownSimulation.score.brands)
+                  << udon::brand_count(ownSimulation.score.brands)
                   << ",day_servings=" << ownSimulation.score.servings
                   << ",exact_valid=" << (exact.has_value() ? 1 : 0)
                   << ",mask_maximal=" << mask_present(reachability.maximalRoutes)

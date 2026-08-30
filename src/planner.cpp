@@ -446,16 +446,16 @@ void populate_exact_escort_segments(
 
 struct ExactOrienteeringBeamState {
     std::array<std::uint8_t, 16> spotCounts{};
-    std::uint64_t brands = 0;
+    BrandMask brands;
     std::int32_t servings = 0;
     std::int32_t usedSteps = 0;
     std::array<std::int16_t, kMaximumAgents> routeByAgent{};
 };
 
-[[nodiscard]] std::uint64_t exact_orienteering_brand_mask(
+[[nodiscard]] BrandMask exact_orienteering_brand_mask(
     const MatchConfig& config,
     std::uint32_t spotMask) {
-    std::uint64_t brands = 0;
+    BrandMask brands;
     for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
         if ((spotMask & (std::uint32_t{1} << spot)) != 0U &&
             config.spots.at(spot).stock > 0) {
@@ -469,8 +469,8 @@ struct ExactOrienteeringBeamState {
     const MatchLedger& ledger,
     const ExactOrienteeringBeamState& state) {
     return OfficialScore{
-        static_cast<std::int32_t>(std::popcount(ledger.lifetimeBrands | state.brands)),
-        ledger.totalDailyDistinct + static_cast<std::int32_t>(std::popcount(state.brands)),
+        brand_count(ledger.lifetimeBrands | state.brands),
+        ledger.totalDailyDistinct + brand_count(state.brands),
         ledger.totalServings + state.servings,
     };
 }
@@ -928,7 +928,7 @@ select_coordinated_exact_orienteering_routes(
         }
     }
     std::vector<std::int32_t> suffixMaximumServings(ordering.size() + 1U, 0);
-    std::vector<std::uint64_t> suffixBrands(ordering.size() + 1U, 0U);
+    std::vector<BrandMask> suffixBrands(ordering.size() + 1U);
     for (std::size_t depth = ordering.size(); depth-- > 0U;) {
         if (deadline_expired()) {
             return select_routes(best);
@@ -976,7 +976,7 @@ select_coordinated_exact_orienteering_routes(
         [&](auto&& self,
             std::size_t depth,
             std::int32_t servings,
-            std::uint64_t brands,
+            BrandMask brands,
             bool allowSaturatedOverlap) -> bool {
             if (feasibilityDeadlineReached) {
                 return false;
@@ -1354,7 +1354,7 @@ void prune_columns(
             }
         }
 
-        std::uint64_t coveredBrands = 0;
+        BrandMask coveredBrands;
         for (const RouteColumn& column : unique) {
             if (std::find(retainedIds.begin(), retainedIds.end(), column.columnId) != retainedIds.end()) {
                 coveredBrands |= column.estimatedBrands;
@@ -1371,17 +1371,17 @@ void prune_columns(
                     std::find(retainedIds.begin(), retainedIds.end(), column.columnId) != retainedIds.end()) {
                     continue;
                 }
-                const std::int32_t marginal = static_cast<std::int32_t>(
-                    std::popcount(column.estimatedBrands & ~coveredBrands));
+                const std::int32_t marginal =
+                    brand_difference_count(column.estimatedBrands, coveredBrands);
                 if (marginal == 0) {
                     continue;
                 }
                 const bool columnIndependent = column.escortGroup < 0 && column.contingencyBundle < 0;
                 const bool bestIndependent = best != nullptr && best->escortGroup < 0 && best->contingencyBundle < 0;
-                const std::int32_t columnBreadth = static_cast<std::int32_t>(std::popcount(column.estimatedBrands));
+                const std::int32_t columnBreadth = brand_count(column.estimatedBrands);
                 const std::int32_t bestBreadth = best == nullptr
                     ? -1
-                    : static_cast<std::int32_t>(std::popcount(best->estimatedBrands));
+                    : brand_count(best->estimatedBrands);
                 if (best == nullptr || marginal > bestMarginal ||
                     (marginal == bestMarginal && columnIndependent != bestIndependent && columnIndependent) ||
                     (marginal == bestMarginal && columnIndependent == bestIndependent &&
@@ -1449,12 +1449,10 @@ void prune_columns(
                             ++marginal;
                         }
                     }
-                    const std::int32_t columnBreadth = static_cast<std::int32_t>(
-                        std::popcount(column.estimatedBrands));
+                    const std::int32_t columnBreadth = brand_count(column.estimatedBrands);
                     const std::int32_t bestBreadth = best == nullptr
                         ? -1
-                        : static_cast<std::int32_t>(
-                              std::popcount(best->estimatedBrands));
+                        : brand_count(best->estimatedBrands);
                     if (marginal > bestMarginal ||
                         (marginal == bestMarginal && marginal > 0 &&
                          column.estimatedServings > best->estimatedServings) ||
@@ -1845,7 +1843,7 @@ struct SynchronizationAvailability {
     const SimulationResult& result,
     const MatchLedger& ledger) {
     TerminalSlack slack;
-    const std::uint64_t collectedBrands = ledger.lifetimeBrands | result.score.brands;
+    const BrandMask collectedBrands = ledger.lifetimeBrands | result.score.brands;
     for (const AgentState& agent : result.finalAgents) {
         if (agent.kind == AgentKind::Patrol) {
             slack.patrolFuelReserve += agent.fuel;
@@ -1888,7 +1886,7 @@ void populate_terminal_brand_feature(
     if (!column.hasExactTimeline || column.terminalCell == kInvalidCell) {
         return;
     }
-    const std::uint64_t collectedBrands = ledger.lifetimeBrands | column.estimatedBrands;
+    const BrandMask collectedBrands = ledger.lifetimeBrands | column.estimatedBrands;
     std::int32_t nearest = std::numeric_limits<std::int32_t>::max();
     for (SpotIndex spotIndex = 0; spotIndex < static_cast<SpotIndex>(config.spots.size()); ++spotIndex) {
         const Spot& spot = config.spots.at(static_cast<std::size_t>(spotIndex));
@@ -2067,10 +2065,10 @@ void retain_alns_population(
     candidates = std::move(retained);
 }
 
-[[nodiscard]] std::uint64_t column_brand_mask(
+[[nodiscard]] BrandMask column_brand_mask(
     const MatchConfig& config,
     const RouteColumn& column) {
-    std::uint64_t result = 0;
+    BrandMask result;
     for (const ColumnVisitEvent& event : column.firstVisits) {
         result |= brand_bit(config.spots.at(static_cast<std::size_t>(event.spot)).brandIndex);
     }
@@ -2124,7 +2122,7 @@ void retain_alns_population(
     const std::vector<AgentIndex>& ordering,
     std::size_t depth,
     const std::vector<std::vector<const RouteColumn*>>& orderedColumns) {
-    std::uint64_t dailyBrands = 0;
+    BrandMask dailyBrands;
     std::vector<std::int32_t> possibleClaims(config.spots.size(), 0);
     for (const RouteColumn* column : selected) {
         if (column == nullptr) {
@@ -2139,7 +2137,7 @@ void retain_alns_population(
     }
     for (std::size_t remainingDepth = depth; remainingDepth < ordering.size(); ++remainingDepth) {
         const AgentIndex agentIndex = ordering.at(remainingDepth);
-        std::uint64_t possibleBrands = 0;
+        BrandMask possibleBrands;
         std::vector<bool> agentCanClaim(config.spots.size(), false);
         for (const RouteColumn* column : orderedColumns.at(static_cast<std::size_t>(agentIndex))) {
             possibleBrands |= column_brand_mask(config, *column);
@@ -2163,8 +2161,8 @@ void retain_alns_population(
             config.spots.at(spotOffset).stock);
     }
     return OfficialScore{
-        static_cast<std::int32_t>(std::popcount(ledger.lifetimeBrands | dailyBrands)),
-        ledger.totalDailyDistinct + static_cast<std::int32_t>(std::popcount(dailyBrands)),
+        brand_count(ledger.lifetimeBrands | dailyBrands),
+        ledger.totalDailyDistinct + brand_count(dailyBrands),
         ledger.totalServings + servings,
     };
 }
@@ -2610,10 +2608,11 @@ RoutePortfolio RouteColumnGenerator::generate(
                 state.agents.end(),
                 [this, &state](const AgentState& agent) {
                     return agent.kind == AgentKind::Patrol &&
-                        agent.fuel <
-                            2 * config_.steps_for_day(state.dayNumber);
+                        static_cast<std::int64_t>(agent.fuel) <
+                            2LL * static_cast<std::int64_t>(
+                                config_.steps_for_day(state.dayNumber));
                 });
-        std::uint64_t missingLifetimeBrands = 0U;
+        BrandMask missingLifetimeBrands;
         for (std::int32_t brand = 0;
              brand < config_.brand_count();
              ++brand) {
@@ -2663,8 +2662,9 @@ RoutePortfolio RouteColumnGenerator::generate(
                             const AgentState& agentState =
                                 state.agents.at(static_cast<std::size_t>(agent));
                             const bool fuelConstrained =
-                                agentState.fuel <
-                                    2 * config_.steps_for_day(state.dayNumber);
+                                static_cast<std::int64_t>(agentState.fuel) <
+                                    2LL * static_cast<std::int64_t>(
+                                        config_.steps_for_day(state.dayNumber));
                             exactOrienteering.at(static_cast<std::size_t>(agent)) =
                                 options.enableAnytimeFuelConstrainedHarvestOrienteering &&
                                     fuelConstrained
@@ -3145,7 +3145,7 @@ RoutePortfolio RouteColumnGenerator::generate(
                         for (const auto& [road, stays] : thirdPath.heuristicFootprint.entries) {
                             triple.heuristicFootprint.add(road, stays);
                         }
-                        const std::uint64_t tripleBrands =
+                        const BrandMask tripleBrands =
                             brand_bit(firstSpot.brandIndex) |
                             brand_bit(secondSpot.brandIndex) |
                             brand_bit(thirdSpot.brandIndex);
@@ -3441,7 +3441,9 @@ RoutePortfolio RouteColumnGenerator::generate(
             return left < right;
         });
     const bool multiDayFuelCarry =
-        config_.fuelLimit >= 3 * config_.steps_for_day(state.dayNumber);
+        static_cast<std::int64_t>(config_.fuelLimit) >=
+            3LL * static_cast<std::int64_t>(
+                config_.steps_for_day(state.dayNumber));
     std::vector<CellId> rendezvousCells = multiDayFuelCarry
         ? std::vector<CellId>{}
         : criticalRoads;
@@ -4058,22 +4060,20 @@ RoutePortfolio RouteColumnGenerator::generate(
                                 const RouteColumn& left,
                                 const RouteColumn& right) {
                                 const std::int32_t leftLifetimeGain =
-                                    static_cast<std::int32_t>(std::popcount(
-                                        left.estimatedBrands &
-                                        ~ledger.lifetimeBrands));
+                                    brand_difference_count(
+                                        left.estimatedBrands,
+                                        ledger.lifetimeBrands);
                                 const std::int32_t rightLifetimeGain =
-                                    static_cast<std::int32_t>(std::popcount(
-                                        right.estimatedBrands &
-                                        ~ledger.lifetimeBrands));
+                                    brand_difference_count(
+                                        right.estimatedBrands,
+                                        ledger.lifetimeBrands);
                                 if (leftLifetimeGain != rightLifetimeGain) {
                                     return leftLifetimeGain > rightLifetimeGain;
                                 }
                                 const std::int32_t leftBrandBreadth =
-                                    static_cast<std::int32_t>(
-                                        std::popcount(left.estimatedBrands));
+                                    brand_count(left.estimatedBrands);
                                 const std::int32_t rightBrandBreadth =
-                                    static_cast<std::int32_t>(
-                                        std::popcount(right.estimatedBrands));
+                                    brand_count(right.estimatedBrands);
                                 if (leftBrandBreadth != rightBrandBreadth) {
                                     return leftBrandBreadth > rightBrandBreadth;
                                 }
@@ -4243,7 +4243,9 @@ RoutePortfolio RouteColumnGenerator::generate(
         prune_columns(
             columns,
             std::max(1, options.maximumColumnsPerAgent),
-            config_.fuelLimit >= 3 * config_.steps_for_day(state.dayNumber));
+            static_cast<std::int64_t>(config_.fuelLimit) >=
+                3LL * static_cast<std::int64_t>(
+                    config_.steps_for_day(state.dayNumber)));
     }
     if (exactDeferred) {
         exactResourceWorkers.clear();
@@ -4398,7 +4400,9 @@ RoutePoolAugmentation RouteColumnGenerator::augment_with_candidate_routes(
         prune_columns(
             columns,
             maximumColumnsPerAgent,
-            config_.fuelLimit >= 3 * config_.steps_for_day(state.dayNumber));
+            static_cast<std::int64_t>(config_.fuelLimit) >=
+                3LL * static_cast<std::int64_t>(
+                    config_.steps_for_day(state.dayNumber)));
         augmentation.retainedNovelRoutes += static_cast<std::int32_t>(std::count_if(
             columns.begin(),
             columns.end(),
@@ -4610,17 +4614,17 @@ std::vector<MasterCandidate> RouteMaster::solve(
                 ordered.begin(),
                 ordered.end(),
                 [&config = config_, &ledger, &cutState, &options](const RouteColumn* left, const RouteColumn* right) {
-                    const std::uint64_t leftBrands = column_brand_mask(config, *left);
-                    const std::uint64_t rightBrands = column_brand_mask(config, *right);
-                    const std::int32_t leftLifetimeGain = static_cast<std::int32_t>(
-                        std::popcount(leftBrands & ~ledger.lifetimeBrands));
-                    const std::int32_t rightLifetimeGain = static_cast<std::int32_t>(
-                        std::popcount(rightBrands & ~ledger.lifetimeBrands));
+                    const BrandMask leftBrands = column_brand_mask(config, *left);
+                    const BrandMask rightBrands = column_brand_mask(config, *right);
+                    const std::int32_t leftLifetimeGain =
+                        brand_difference_count(leftBrands, ledger.lifetimeBrands);
+                    const std::int32_t rightLifetimeGain =
+                        brand_difference_count(rightBrands, ledger.lifetimeBrands);
                     if (leftLifetimeGain != rightLifetimeGain) {
                         return leftLifetimeGain > rightLifetimeGain;
                     }
-                    const std::int32_t leftDailyGain = static_cast<std::int32_t>(std::popcount(leftBrands));
-                    const std::int32_t rightDailyGain = static_cast<std::int32_t>(std::popcount(rightBrands));
+                    const std::int32_t leftDailyGain = brand_count(leftBrands);
+                    const std::int32_t rightDailyGain = brand_count(rightBrands);
                     if (leftDailyGain != rightDailyGain) {
                         return leftDailyGain > rightDailyGain;
                     }
@@ -4666,7 +4670,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
         std::vector<const RouteColumn*> selected(static_cast<std::size_t>(config_.agent_count()), nullptr);
         bool learnedCut = false;
         const bool exactMetadata = portfolio_has_exact_metadata(portfolio);
-        std::vector<std::uint64_t> suffixPossibleBrands(ordering.size() + 1U, 0);
+        std::vector<BrandMask> suffixPossibleBrands(ordering.size() + 1U);
         std::vector<std::vector<std::int32_t>> suffixPossibleClaims(
             ordering.size() + 1U,
             std::vector<std::int32_t>(config_.spots.size(), 0));
@@ -4706,12 +4710,12 @@ std::vector<MasterCandidate> RouteMaster::solve(
         struct BundleBoundMetadata {
             std::int32_t bundle = -1;
             std::vector<bool> suffixFeasible;
-            std::vector<std::uint64_t> suffixPossibleBrands;
+            std::vector<BrandMask> suffixPossibleBrands;
             std::vector<std::vector<std::int32_t>>
                 suffixPossibleClaims;
             std::vector<std::int32_t>
                 suffixMaximumAgentClaims;
-            std::vector<std::vector<std::uint64_t>>
+            std::vector<std::vector<BrandMask>>
                 suffixMaximalBrandMasks;
             std::vector<bool>
                 suffixExactBrandFrontier;
@@ -4769,7 +4773,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
                     std::vector<bool> agentCanClaim(
                         config_.spots.size(),
                         false);
-                    std::vector<std::uint64_t> agentBrandMasks;
+                    std::vector<BrandMask> agentBrandMasks;
                     std::int32_t maximumAgentClaims = 0;
                     bool hasCompatibleColumn = false;
                     for (const RouteColumn* column :
@@ -4780,7 +4784,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
                             continue;
                         }
                         hasCompatibleColumn = true;
-                        const std::uint64_t columnBrands =
+                        const BrandMask columnBrands =
                             column_brand_mask(config_, *column);
                         metadata.suffixPossibleBrands.at(depth) |=
                             columnBrands;
@@ -4835,7 +4839,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
                             agentBrandMasks.begin(),
                             agentBrandMasks.end()),
                         agentBrandMasks.end());
-                    const std::vector<std::uint64_t>& suffixMasks =
+                    const std::vector<BrandMask>& suffixMasks =
                         metadata.suffixMaximalBrandMasks.at(
                             depth + 1U);
                     if (agentBrandMasks.empty() ||
@@ -4847,13 +4851,13 @@ std::vector<MasterCandidate> RouteMaster::solve(
                         ++diagnostics.bundleBrandFrontierFallbacks;
                         continue;
                     }
-                    std::vector<std::uint64_t> brandCandidates;
+                    std::vector<BrandMask> brandCandidates;
                     brandCandidates.reserve(
                         agentBrandMasks.size() *
                         suffixMasks.size());
-                    for (const std::uint64_t agentMask :
+                    for (const BrandMask& agentMask :
                          agentBrandMasks) {
-                        for (const std::uint64_t suffixMask :
+                        for (const BrandMask& suffixMask :
                              suffixMasks) {
                             brandCandidates.push_back(
                                 agentMask | suffixMask);
@@ -4870,22 +4874,22 @@ std::vector<MasterCandidate> RouteMaster::solve(
                     std::stable_sort(
                         brandCandidates.begin(),
                         brandCandidates.end(),
-                        [](std::uint64_t left,
-                           std::uint64_t right) {
-                            return std::popcount(left) >
-                                std::popcount(right);
+                        [](const BrandMask& left,
+                           const BrandMask& right) {
+                            return brand_count(left) >
+                                brand_count(right);
                         });
-                    std::vector<std::uint64_t>& retained =
+                    std::vector<BrandMask>& retained =
                         metadata.suffixMaximalBrandMasks.at(depth);
                     retained.reserve(std::min(
                         brandCandidates.size(),
                         kMaximumRetainedBrandFrontier));
-                    for (const std::uint64_t candidate :
+                    for (const BrandMask& candidate :
                          brandCandidates) {
                         const bool dominated = std::any_of(
                             retained.begin(),
                             retained.end(),
-                            [candidate](std::uint64_t existing) {
+                            [&candidate](const BrandMask& existing) {
                                 return (candidate & existing) ==
                                     candidate;
                             });
@@ -4920,19 +4924,18 @@ std::vector<MasterCandidate> RouteMaster::solve(
         std::vector<std::int32_t> selectedClaimCounts(config_.spots.size(), 0);
         const auto suffix_upper_bound_score =
             [this, &ledger, &suffixPossibleBrands, &suffixMaximumAgentClaims](
-                std::uint64_t selectedBrands,
+                BrandMask selectedBrands,
                 std::size_t depth,
                 std::int32_t servingUpperBound,
                 std::int32_t selectedRawClaims) {
-                const std::uint64_t dailyBrands =
+                const BrandMask dailyBrands =
                     selectedBrands | suffixPossibleBrands.at(depth);
                 const std::int32_t agentServingUpperBound =
                     selectedRawClaims + suffixMaximumAgentClaims.at(depth);
                 return OfficialScore{
-                    static_cast<std::int32_t>(std::popcount(
-                        ledger.lifetimeBrands | dailyBrands)),
+                    brand_count(ledger.lifetimeBrands | dailyBrands),
                     ledger.totalDailyDistinct +
-                        static_cast<std::int32_t>(std::popcount(dailyBrands)),
+                        brand_count(dailyBrands),
                     ledger.totalServings +
                         std::min(servingUpperBound, agentServingUpperBound),
                 };
@@ -4944,7 +4947,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
              &ledger,
              &selectedClaimCounts](
                 const BundleBoundMetadata& metadata,
-                std::uint64_t selectedBrands,
+                BrandMask selectedBrands,
                 std::size_t depth,
                 std::int32_t selectedRawClaims)
                 -> std::optional<OfficialScore> {
@@ -4954,19 +4957,17 @@ std::vector<MasterCandidate> RouteMaster::solve(
                 std::int32_t lifetimeDistinct = -1;
                 std::int32_t dailyDistinct = -1;
                 if (metadata.suffixExactBrandFrontier.at(depth)) {
-                    for (const std::uint64_t suffixBrands :
+                    for (const BrandMask& suffixBrands :
                          metadata.suffixMaximalBrandMasks.at(
                              depth)) {
-                        const std::uint64_t dailyBrands =
+                        const BrandMask dailyBrands =
                             selectedBrands | suffixBrands;
                         const std::int32_t candidateLifetime =
-                            static_cast<std::int32_t>(
-                                std::popcount(
-                                    ledger.lifetimeBrands |
-                                    dailyBrands));
+                            brand_count(
+                                ledger.lifetimeBrands |
+                                dailyBrands);
                         const std::int32_t candidateDaily =
-                            static_cast<std::int32_t>(
-                                std::popcount(dailyBrands));
+                            brand_count(dailyBrands);
                         if (candidateLifetime >
                                 lifetimeDistinct ||
                             (candidateLifetime ==
@@ -4979,17 +4980,15 @@ std::vector<MasterCandidate> RouteMaster::solve(
                         }
                     }
                 } else {
-                    const std::uint64_t dailyBrands =
+                    const BrandMask dailyBrands =
                         selectedBrands |
                         metadata.suffixPossibleBrands.at(depth);
                     lifetimeDistinct =
-                        static_cast<std::int32_t>(
-                            std::popcount(
-                                ledger.lifetimeBrands |
-                                dailyBrands));
+                        brand_count(
+                            ledger.lifetimeBrands |
+                            dailyBrands);
                     dailyDistinct =
-                        static_cast<std::int32_t>(
-                            std::popcount(dailyBrands));
+                        brand_count(dailyBrands);
                 }
                 std::int32_t stockUpperBound = 0;
                 for (std::size_t spotOffset = 0;
@@ -5019,7 +5018,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
              &bundleBoundIndex,
              &bundle_upper_bound_for_mode](
                 std::int32_t activeBundle,
-                std::uint64_t selectedBrands,
+                BrandMask selectedBrands,
                 std::size_t depth,
                 std::int32_t selectedRawClaims)
                 -> std::optional<OfficialScore> {
@@ -5105,7 +5104,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
                 std::chrono::steady_clock::now();
             struct BeamSelection {
                 std::vector<const RouteColumn*> columns;
-                std::uint64_t brands = 0;
+                BrandMask brands;
                 std::int32_t rankedServings = 0;
                 std::int32_t explorationRank = 0;
                 std::int64_t priority = 0;
@@ -5256,14 +5255,14 @@ std::vector<MasterCandidate> RouteMaster::solve(
                     expanded.end(),
                     [&ledger, &options](const BeamSelection& left, const BeamSelection& right) {
                         const std::int32_t lifetimeOrder =
-                            static_cast<std::int32_t>(std::popcount(ledger.lifetimeBrands | left.brands)) -
-                            static_cast<std::int32_t>(std::popcount(ledger.lifetimeBrands | right.brands));
+                            brand_count(ledger.lifetimeBrands | left.brands) -
+                            brand_count(ledger.lifetimeBrands | right.brands);
                         if (lifetimeOrder != 0) {
                             return lifetimeOrder > 0;
                         }
                         const std::int32_t dailyOrder =
-                            static_cast<std::int32_t>(std::popcount(left.brands)) -
-                            static_cast<std::int32_t>(std::popcount(right.brands));
+                            brand_count(left.brands) -
+                            brand_count(right.brands);
                         if (dailyOrder != 0) {
                             return dailyOrder > 0;
                         }
@@ -5360,7 +5359,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
         }
         struct BranchColumnRank {
             const RouteColumn* column = nullptr;
-            std::uint64_t brands = 0;
+            BrandMask brands;
             bool matchesEscort = false;
             std::int32_t lifetimeGain = 0;
             std::int32_t dailyGain = 0;
@@ -5388,7 +5387,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
         refresh_worst_candidate_score();
         const auto search = [&](auto&& self,
                                 std::size_t depth,
-                std::uint64_t selectedBrands,
+                BrandMask selectedBrands,
                 std::int32_t activeBundle,
                 std::int32_t activeSynchronizationConstraints,
                 std::int32_t servingUpperBound,
@@ -5477,7 +5476,7 @@ std::vector<MasterCandidate> RouteMaster::solve(
                         ++diagnostics.bundlePrunes;
                         continue;
                     }
-                    const std::uint64_t brands = column_brand_mask(config_, *column);
+                    const BrandMask brands = column_brand_mask(config_, *column);
                     std::int32_t servingGain = column->estimatedServings;
                     std::int32_t preservedServingPotential = 0;
                     std::int32_t rawClaims = 0;
@@ -5525,9 +5524,10 @@ std::vector<MasterCandidate> RouteMaster::solve(
                                 activeEscortGroups.begin(),
                                 activeEscortGroups.end(),
                                 column->escortGroup) != activeEscortGroups.end(),
-                        static_cast<std::int32_t>(std::popcount(
-                            brands & ~(ledger.lifetimeBrands | selectedBrands))),
-                        static_cast<std::int32_t>(std::popcount(brands & ~selectedBrands)),
+                        brand_difference_count(
+                            brands,
+                            ledger.lifetimeBrands | selectedBrands),
+                        brand_difference_count(brands, selectedBrands),
                         servingGain,
                         preservedServingPotential,
                         rawClaims,
@@ -6101,7 +6101,7 @@ constexpr std::size_t kAlnsOperatorCount = 8U;
             std::int32_t priority =
                 repair_target_priority(operation, config, ledger, options, state.dayNumber, spotIndex);
             if (operation == AlnsOperator::RareBrandRescue) {
-                const std::uint64_t coveredAfterCandidate =
+                const BrandMask coveredAfterCandidate =
                     ledger.lifetimeBrands | seed.simulation.score.brands;
                 priority += has_brand(coveredAfterCandidate, spot.brandIndex)
                     ? -3000000
@@ -6525,25 +6525,26 @@ std::vector<RoleAssignment> RoleAssignmentEnumerator::shortlist(
     std::vector<RoadStatus> smooth(static_cast<std::size_t>(config_.map.cell_count()), RoadStatus::Smooth);
     const std::int32_t totalSteps = std::accumulate(config_.daySteps.begin(), config_.daySteps.end(), 0);
     const std::uint32_t assignmentCount = std::uint32_t{1} << static_cast<std::uint32_t>(config_.agent_count());
-    const std::uint64_t allBrands = config_.brand_count() == 64
-        ? std::numeric_limits<std::uint64_t>::max()
-        : (std::uint64_t{1} << static_cast<std::uint32_t>(config_.brand_count())) - 1U;
-    std::vector<std::uint64_t> directReachableByAgent(
+    BrandMask allBrands;
+    for (std::int32_t brand = 0; brand < config_.brand_count(); ++brand) {
+        allBrands |= brand_bit(brand);
+    }
+    std::vector<BrandMask> directReachableByAgent(
         static_cast<std::size_t>(config_.agent_count()),
         allBrands);
-    std::vector<std::uint64_t> escortedReachableByAgent(
+    std::vector<BrandMask> escortedReachableByAgent(
         static_cast<std::size_t>(config_.agent_count()),
         allBrands);
-    std::vector<std::uint64_t> stationReachableByAgent(
+    std::vector<BrandMask> stationReachableByAgent(
         static_cast<std::size_t>(config_.agent_count()),
         allBrands);
     for (AgentIndex agentIndex = 0; agentIndex < config_.agent_count(); ++agentIndex) {
         if (deadline_expired()) {
             break;
         }
-        std::uint64_t directReachable = 0;
-        std::uint64_t escortedReachable = 0;
-        std::uint64_t stationReachable = 0;
+        BrandMask directReachable;
+        BrandMask escortedReachable;
+        BrandMask stationReachable;
         bool agentScanComplete = true;
         ParetoSearchOptions options;
         options.maximumTravelSteps = totalSteps;
@@ -6606,7 +6607,7 @@ std::vector<RoleAssignment> RoleAssignmentEnumerator::shortlist(
         stationReachableByAgent.at(static_cast<std::size_t>(agentIndex)) = stationReachable;
     }
     const auto maximum_matching_coverage =
-        [this](const std::vector<std::uint64_t>& reachableByAgent,
+        [this](const std::vector<BrandMask>& reachableByAgent,
                const std::vector<AgentKind>& roles) {
             std::vector<AgentIndex> matchedAgentByBrand(
                 static_cast<std::size_t>(config_.brand_count()),
@@ -6615,7 +6616,7 @@ std::vector<RoleAssignment> RoleAssignmentEnumerator::shortlist(
                 [&](auto&& self,
                     AgentIndex agentIndex,
                     std::vector<bool>& visitedBrands) -> bool {
-                    const std::uint64_t reachable =
+                    const BrandMask& reachable =
                         reachableByAgent.at(static_cast<std::size_t>(agentIndex));
                     for (std::int32_t brandIndex = 0;
                          brandIndex < config_.brand_count();
@@ -6659,7 +6660,7 @@ std::vector<RoleAssignment> RoleAssignmentEnumerator::shortlist(
     for (std::uint32_t mask = 0; mask < assignmentCount; ++mask) {
         RoleAssignment assignment;
         assignment.roles.resize(static_cast<std::size_t>(config_.agent_count()), AgentKind::Patrol);
-        std::uint64_t reachableBrands = 0;
+        BrandMask reachableBrands;
         const std::int32_t tankerCount = static_cast<std::int32_t>(std::popcount(mask));
         for (AgentIndex agentIndex = 0; agentIndex < config_.agent_count(); ++agentIndex) {
             const bool tanker = (mask & (std::uint32_t{1} << static_cast<std::uint32_t>(agentIndex))) != 0U;
@@ -6675,7 +6676,7 @@ std::vector<RoleAssignment> RoleAssignmentEnumerator::shortlist(
         if (assignment.patrolCount == 0) {
             continue;
         }
-        const std::int32_t lifetime = static_cast<std::int32_t>(std::popcount(reachableBrands));
+        const std::int32_t lifetime = brand_count(reachableBrands);
         const std::int32_t daily = lifetime * config_.day_count();
         const std::int32_t servingCapPerDay = std::min(
             perDayServings,

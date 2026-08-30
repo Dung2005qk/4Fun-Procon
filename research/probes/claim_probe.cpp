@@ -157,7 +157,7 @@ void print_probe(
     const udon::OfficialScore after = udon::OfficialScore::after_day(prefix.ledger, simulation.score);
     std::cout << "ledger_before=" << prefix.ledger.lifetime_distinct() << '/'
               << prefix.ledger.totalDailyDistinct << '/' << prefix.ledger.totalServings << '\n';
-    std::cout << "day_score=" << std::popcount(simulation.score.brands) << '/'
+    std::cout << "day_score=" << udon::brand_count(simulation.score.brands) << '/'
               << simulation.score.dailyDistinct << '/' << simulation.score.servings << '\n';
     std::cout << "score_after=" << after.lifetimeDistinct << '/'
               << after.totalDailyDistinct << '/' << after.totalServings << '\n';
@@ -552,11 +552,13 @@ struct SparseRouteChoice {
         std::uint32_t> rank;
 };
 
-void print_sparse_exchange(
+[[nodiscard]] udon::DayPlan print_sparse_exchange(
     const ReplayPrefix& prefix,
-    const udon::DayPlan& frozenWitness) {
-    constexpr std::uint64_t kMaximumSettledStates = 1250000U;
-    constexpr std::size_t kMaximumRoutes = 32U;
+    const udon::DayPlan& frozenWitness,
+    std::uint64_t maximumSettledStates = 1250000U,
+    udon::AgentIndex selectedAgent = udon::kInvalidAgent,
+    std::size_t maximumRoutes = 32U,
+    bool enableTerminalMarginal = false) {
     const udon::ExactStepSimulator simulator(prefix.config);
     const udon::IndependentDayValidator validator(prefix.config);
     const udon::SimulationResult baseline = simulator.simulate(
@@ -574,13 +576,13 @@ void print_sparse_exchange(
     std::uint32_t protectedGlobalMask = 0U;
     udon::DayPlan globalPlan = frozenWitness;
 
-    std::uint64_t preferredBrands = 0U;
+    udon::BrandMask preferredBrands;
     for (std::int32_t brand = 0; brand < prefix.config.brand_count(); ++brand) {
         if (!udon::has_brand(prefix.ledger.lifetimeBrands, brand)) {
             preferredBrands |= udon::brand_bit(brand);
         }
     }
-    const std::int32_t minimumSpots = preferredBrands != 0U
+    const std::int32_t minimumSpots = preferredBrands.any()
         ? 1
         : std::min<std::int32_t>(
               std::max(1, prefix.config.brand_count() - 1),
@@ -597,6 +599,10 @@ void print_sparse_exchange(
     for (udon::AgentIndex agent = 0;
          agent < prefix.config.agent_count();
          ++agent) {
+        if (selectedAgent != udon::kInvalidAgent &&
+            agent != selectedAgent) {
+            continue;
+        }
         const udon::AgentState& agentState = prefix.targetState.agents.at(
             static_cast<std::size_t>(agent));
         if (agentState.kind != udon::AgentKind::Patrol) {
@@ -711,11 +717,11 @@ void print_sparse_exchange(
         std::unordered_set<std::uint32_t> protectedEmittedMasks;
         protectedEmittedMasks.reserve(1U << 16U);
         std::vector<SparseRouteChoice> retained;
-        retained.reserve(kMaximumRoutes);
+        retained.reserve(maximumRoutes);
         std::vector<SparseRouteChoice> protectedRetained;
-        protectedRetained.reserve(kMaximumRoutes);
+        protectedRetained.reserve(maximumRoutes);
         std::uint64_t settledStates = 0U;
-        while (!queue.empty() && settledStates < kMaximumSettledStates) {
+        while (!queue.empty() && settledStates < maximumSettledStates) {
             const auto [
                 queuedCardinality,
                 queuedSteps,
@@ -736,7 +742,7 @@ void print_sparse_exchange(
                     static_cast<std::size_t>(current.cell)) !=
                     udon::kInvalidSpot &&
                 emittedMasks.insert(current.mask).second) {
-                std::uint64_t brands = 0U;
+                udon::BrandMask brands;
                 std::int32_t servingPotential = 0;
                 for (std::size_t spot = 0;
                      spot < prefix.config.spots.size();
@@ -772,8 +778,8 @@ void print_sparse_exchange(
                 }
                 const auto rank = std::tuple{
                     static_cast<std::int32_t>(
-                        std::popcount(brands & preferredBrands)),
-                    static_cast<std::int32_t>(std::popcount(brands)),
+                        udon::brand_intersection_count(brands, preferredBrands)),
+                    udon::brand_count(brands),
                     servingPotential,
                     static_cast<std::int32_t>(std::popcount(current.mask)),
                     -static_cast<std::int32_t>(current.usedSteps),
@@ -782,7 +788,7 @@ void print_sparse_exchange(
                     -current.cell,
                     std::numeric_limits<std::uint32_t>::max() - current.mask};
                 SparseRouteChoice choice{labelIndex, current.mask, rank};
-                if (retained.size() < kMaximumRoutes) {
+                if (retained.size() < maximumRoutes) {
                     retained.push_back(choice);
                 } else {
                     const auto worst = std::min_element(
@@ -802,7 +808,7 @@ void print_sparse_exchange(
                 current.cell == baseline.finalAgents.at(
                     static_cast<std::size_t>(agent)).position &&
                 protectedEmittedMasks.insert(current.mask).second) {
-                std::uint64_t brands = 0U;
+                udon::BrandMask brands;
                 std::int32_t servingPotential = 0;
                 for (std::size_t spot = 0;
                      spot < prefix.config.spots.size();
@@ -819,8 +825,8 @@ void print_sparse_exchange(
                 }
                 const auto rank = std::tuple{
                     static_cast<std::int32_t>(
-                        std::popcount(brands & preferredBrands)),
-                    static_cast<std::int32_t>(std::popcount(brands)),
+                        udon::brand_intersection_count(brands, preferredBrands)),
+                    udon::brand_count(brands),
                     servingPotential,
                     static_cast<std::int32_t>(std::popcount(current.mask)),
                     -static_cast<std::int32_t>(current.usedSteps),
@@ -829,7 +835,7 @@ void print_sparse_exchange(
                     -current.cell,
                     std::numeric_limits<std::uint32_t>::max() - current.mask};
                 SparseRouteChoice choice{labelIndex, current.mask, rank};
-                if (protectedRetained.size() < kMaximumRoutes) {
+                if (protectedRetained.size() < maximumRoutes) {
                     protectedRetained.push_back(choice);
                 } else {
                     const auto worst = std::min_element(
@@ -956,15 +962,15 @@ void print_sparse_exchange(
                 agentBest = score;
                 agentBestMask = choice.mask;
             }
-            const std::uint64_t baselineLifetime =
+            const udon::BrandMask baselineLifetime =
                 prefix.ledger.lifetimeBrands | baseline.score.brands;
-            const std::uint64_t candidateLifetime =
+            const udon::BrandMask candidateLifetime =
                 prefix.ledger.lifetimeBrands | simulation.score.brands;
             const bool protectedImprovement =
                 udon::protected_slack_transition_dominates(
                     baseline,
                     simulation) &&
-                (baselineLifetime & ~candidateLifetime) == 0U &&
+                baselineLifetime.is_subset_of(candidateLifetime) &&
                 simulation.score.dailyDistinct >= baseline.score.dailyDistinct &&
                 simulation.score.servings >= baseline.score.servings &&
                 (simulation.score.dailyDistinct > baseline.score.dailyDistinct ||
@@ -986,6 +992,7 @@ void print_sparse_exchange(
             }
         }
         std::cout << "sparse_agent=" << agent
+                  << " cap=" << maximumSettledStates
                   << " settled=" << settledStates
                   << " labels=" << labels.size()
                   << " emitted_masks=" << emittedMasks.size()
@@ -1028,7 +1035,9 @@ void print_sparse_exchange(
                   << udon::serialize_day_plan(globalPlan).dump() << '\n';
     }
     if (prefix.targetState.dayNumber == prefix.config.day_count()) {
-        const udon::ProtectedSlackRefiner refiner(prefix.config);
+        udon::ProtectedSlackRefiner refiner(prefix.config);
+        refiner.enableTerminalPairExchange = true;
+        refiner.enableTerminalMarginalReservoir = enableTerminalMarginal;
         const udon::ProtectedSlackResult sidecar =
             refiner.refine_terminal_sparse(
                 prefix.targetState,
@@ -1054,9 +1063,158 @@ void print_sparse_exchange(
                   << sidecar.firstRoundScore.lifetimeDistinct << '/'
                   << sidecar.firstRoundScore.totalDailyDistinct << '/'
                   << sidecar.firstRoundScore.totalServings
+                  << " canonical="
+                  << sidecar.canonicalTerminalScore.lifetimeDistinct << '/'
+                  << sidecar.canonicalTerminalScore.totalDailyDistinct << '/'
+                  << sidecar.canonicalTerminalScore.totalServings
+                  << " marginal_routes="
+                  << sidecar.diagnostics.terminalMarginalRoutes
+                  << " marginal_valid="
+                  << sidecar.diagnostics.terminalMarginalValidPlans
+                  << " marginal_acceptances="
+                  << sidecar.diagnostics.terminalMarginalAcceptances
                   << " deadline=" << sidecar.diagnostics.deadlineReached
                   << '\n';
     }
+    return globalPlan;
+}
+
+struct ClosedLoopSuffixResult {
+    udon::OfficialScore score;
+    std::vector<udon::OfficialScore> cumulativeByDay;
+};
+
+[[nodiscard]] ClosedLoopSuffixResult run_closed_loop_suffix(
+    const std::vector<udon::JsonValue>& events,
+    std::int32_t targetDay,
+    const udon::DayPlan& forcedRoot,
+    const std::string& label) {
+    const auto setupEvent = std::find_if(
+        events.begin(),
+        events.end(),
+        [](const udon::JsonValue& event) {
+            return event.at("kind").string() == "setup";
+        });
+    if (setupEvent == events.end()) {
+        throw std::runtime_error("replay has no setup event");
+    }
+    const udon::BtcAdapterOptions adapterOptions{5000};
+    const udon::MatchConfig config =
+        udon::parse_btc_setup(setupEvent->at("body"), adapterOptions);
+    const ReplayPrefix prefix = reconstruct_prefix(events, targetDay);
+    udon::DeadlineCalibration calibration;
+    calibration.version = "btc-http-local-budget-v8-idempotent-ack-resend";
+    calibration.networkFloor = std::chrono::milliseconds{1600};
+    calibration.networkPercent = 20;
+    calibration.certificationPercent = 20;
+    const std::int32_t solveBudgetMs = static_cast<std::int32_t>(
+        udon::competition_compute_budget(std::chrono::milliseconds{5000}).count());
+    calibration.normalThreshold = std::chrono::milliseconds{solveBudgetMs};
+    calibration.version += "-logic-normal";
+    udon::UdonShieldEngine engine(
+        config,
+        {},
+        calibration,
+        udon::RoutePoolSearch::SinglePass,
+        7,
+        false,
+        7);
+    engine.set_short_horizon_role_fallback(true);
+    static_cast<void>(engine.select_roles_until(
+        std::chrono::milliseconds{solveBudgetMs},
+        3));
+
+    const udon::ExactStepSimulator simulator(config);
+    const udon::IndependentDayValidator validator(config);
+    udon::MatchLedger ledger = prefix.ledger;
+    std::vector<udon::AgentState> counterfactualAgents;
+    ClosedLoopSuffixResult result;
+    std::int32_t expectedDay = targetDay;
+    for (const udon::JsonValue& event : events) {
+        if (event.at("kind").string() != "day_state") {
+            continue;
+        }
+        const std::int64_t atUnixMs = event.at("atUnixMs").integer();
+        udon::DayState state = udon::parse_btc_day_state(
+            config,
+            event.at("body"),
+            std::chrono::system_clock::time_point{
+                std::chrono::milliseconds{atUnixMs}},
+            adapterOptions);
+        if (state.dayNumber != expectedDay) {
+            continue;
+        }
+        if (!counterfactualAgents.empty()) {
+            state.agents = counterfactualAgents;
+        }
+
+        const bool root = state.dayNumber == targetDay;
+        std::optional<udon::DecisionResult> decision;
+        udon::DayPlan plan;
+        const std::chrono::steady_clock::time_point started =
+            std::chrono::steady_clock::now();
+        if (root) {
+            plan = forcedRoot;
+        } else {
+            decision.emplace(engine.solve_day(
+                state,
+                ledger,
+                std::chrono::milliseconds{solveBudgetMs}));
+            plan = decision->candidate.plan;
+        }
+        const std::chrono::milliseconds elapsed =
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                std::chrono::steady_clock::now() - started);
+        const udon::SimulationResult simulation =
+            simulator.simulate(state, plan, false);
+        const udon::SimulationResult validation =
+            validator.validate(state, plan, false);
+        std::string mismatch;
+        if (!simulation.valid ||
+            !validator.agrees_with(simulation, validation, mismatch)) {
+            throw std::runtime_error(
+                label + " closed-loop plan failed exact agreement: " + mismatch);
+        }
+        ledger.apply(simulation.score);
+        counterfactualAgents = simulation.finalAgents;
+        if (root) {
+            // The forced root has no production CandidateProfile. This exact
+            // applied-transition boundary is deliberately used for both the
+            // control and sparse arms so the suffix comparison differs only in
+            // root plan/state, while subsequent days use the canonical engine.
+            engine.record_applied_transition(state, simulation);
+        } else {
+            engine.record_submitted(*decision, elapsed);
+        }
+        const udon::OfficialScore cumulative{
+            ledger.lifetime_distinct(),
+            ledger.totalDailyDistinct,
+            ledger.totalServings,
+        };
+        result.cumulativeByDay.push_back(cumulative);
+        result.score = cumulative;
+        std::cout << "closed_loop=" << label
+                  << " day=" << state.dayNumber
+                  << " score=" << cumulative.lifetimeDistinct << '/'
+                  << cumulative.totalDailyDistinct << '/'
+                  << cumulative.totalServings
+                  << " daily=" << simulation.score.dailyDistinct << '/'
+                  << simulation.score.servings
+                  << " root=" << (root ? 1 : 0)
+                  << " elapsed_ms=" << elapsed.count() << '\n';
+        ++expectedDay;
+        if (expectedDay > config.day_count()) {
+            break;
+        }
+    }
+    if (expectedDay <= config.day_count()) {
+        throw std::runtime_error(label + " closed-loop replay ended early");
+    }
+    std::cout << "closed_loop_summary=" << label
+              << " score=" << result.score.lifetimeDistinct << '/'
+              << result.score.totalDailyDistinct << '/'
+              << result.score.totalServings << '\n';
+    return result;
 }
 
 void print_complete_resource_team_dp(
@@ -1140,7 +1298,7 @@ void print_complete_resource_team_dp(
     }
 
     std::vector<std::array<std::uint8_t, 16>> suffixReach(patrols.size() + 1U);
-    std::vector<std::uint64_t> suffixBrands(patrols.size() + 1U, 0U);
+    std::vector<udon::BrandMask> suffixBrands(patrols.size() + 1U);
     for (std::size_t depth = patrols.size(); depth-- > 0U;) {
         suffixReach.at(depth) = suffixReach.at(depth + 1U);
         suffixBrands.at(depth) = suffixBrands.at(depth + 1U);
@@ -1176,7 +1334,7 @@ void print_complete_resource_team_dp(
     const auto search = [&](auto&& self,
                             std::size_t depth,
                             std::int32_t servings,
-                            std::uint64_t brands) -> bool {
+                            udon::BrandMask brands) -> bool {
         ++nodes;
         std::int32_t optimisticServings = servings;
         for (std::size_t spot = 0; spot < prefix.config.spots.size(); ++spot) {
@@ -1189,8 +1347,7 @@ void print_complete_resource_team_dp(
                 suffixReach.at(depth).at(spot));
         }
         if (optimisticServings < targetServings ||
-            static_cast<std::int32_t>(std::popcount(brands | suffixBrands.at(depth))) <
-                targetDailyDistinct) {
+            udon::brand_count(brands | suffixBrands.at(depth)) < targetDailyDistinct) {
             return false;
         }
         if (!memo.at(depth).insert(count_key()).second) {
@@ -1198,7 +1355,7 @@ void print_complete_resource_team_dp(
         }
         if (depth == patrols.size()) {
             if (servings >= targetServings &&
-                static_cast<std::int32_t>(std::popcount(brands)) >= targetDailyDistinct) {
+                udon::brand_count(brands) >= targetDailyDistinct) {
                 solution = choices;
                 return true;
             }
@@ -1211,7 +1368,7 @@ void print_complete_resource_team_dp(
                 static_cast<std::size_t>(routeIndex));
             std::uint32_t incremented = 0U;
             std::int32_t addedServings = 0;
-            std::uint64_t addedBrands = 0U;
+            udon::BrandMask addedBrands;
             for (std::size_t spot = 0; spot < prefix.config.spots.size(); ++spot) {
                 if ((route.spotMask & (std::uint32_t{1} << spot)) == 0U) {
                     continue;
@@ -1286,17 +1443,27 @@ void print_complete_resource_team_dp(
 
 int main(int argc, char** argv) {
     try {
-        if (argc != 4 && argc != 5) {
+        if (argc != 4 && argc != 5 && argc != 6 && argc != 7) {
             throw std::invalid_argument(
-                "usage: claim_probe REPLAY PLAN DAY [frontier-agent0|alns|one-exchange|complete-exchange|team-dp|sparse-exchange] or claim_probe REPLAY --recorded-sparse-exchange DAY");
+                "usage: claim_probe REPLAY PLAN DAY [frontier-agent0|alns|one-exchange|complete-exchange|team-dp|sparse-exchange] or claim_probe REPLAY --recorded-sparse-exchange DAY or claim_probe REPLAY --recorded-sparse-closed-loop DAY or claim_probe REPLAY --recorded-terminal-marginal DAY or claim_probe REPLAY --recorded-sparse-budget DAY AGENT MAX_STATES [MAX_ROUTES]");
         }
         const std::int32_t targetDay = std::stoi(argv[3]);
         const std::vector<udon::JsonValue> events = read_replay(argv[1]);
         const ReplayPrefix prefix = reconstruct_prefix(events, targetDay);
         const bool recordedSparse =
             argc == 4 && std::string{argv[2]} == "--recorded-sparse-exchange";
+        const bool recordedSparseClosedLoop =
+            argc == 4 && std::string{argv[2]} == "--recorded-sparse-closed-loop";
+        const bool recordedTerminalMarginal =
+            argc == 4 && std::string{argv[2]} == "--recorded-terminal-marginal";
+        const bool recordedSparseBudget =
+            (argc == 6 || argc == 7) &&
+            std::string{argv[2]} == "--recorded-sparse-budget";
         const udon::DayPlan plan = recordedSparse
             ? recorded_plan_for_day(events, prefix.config, targetDay)
+            : (recordedSparseClosedLoop || recordedTerminalMarginal ||
+               recordedSparseBudget)
+                ? recorded_plan_for_day(events, prefix.config, targetDay)
             : udon::parse_day_plan(
                   prefix.config,
                   udon::JsonValue::parse(read_file(argv[2])));
@@ -1309,8 +1476,47 @@ int main(int argc, char** argv) {
             throw std::runtime_error("frozen plan failed exact agreement: " + mismatch);
         }
         print_probe(prefix, plan, simulation);
-        if (recordedSparse) {
-            print_sparse_exchange(prefix, plan);
+        if (recordedTerminalMarginal) {
+            static_cast<void>(print_sparse_exchange(
+                prefix,
+                plan,
+                1250000U,
+                1,
+                32U,
+                true));
+        } else if (recordedSparseBudget) {
+            const udon::AgentIndex selectedAgent = std::stoi(argv[4]);
+            const std::uint64_t maximumSettledStates = std::stoull(argv[5]);
+            const std::size_t maximumRoutes = argc == 7
+                ? static_cast<std::size_t>(std::stoull(argv[6]))
+                : 32U;
+            static_cast<void>(print_sparse_exchange(
+                prefix,
+                plan,
+                maximumSettledStates,
+                selectedAgent,
+                maximumRoutes));
+        } else if (recordedSparseClosedLoop) {
+            const udon::DayPlan sparse = print_sparse_exchange(prefix, plan);
+            const ClosedLoopSuffixResult control = run_closed_loop_suffix(
+                events,
+                targetDay,
+                plan,
+                "recorded-root");
+            const ClosedLoopSuffixResult forced = run_closed_loop_suffix(
+                events,
+                targetDay,
+                sparse,
+                "sparse-root");
+            std::cout << "closed_loop_delta="
+                      << forced.score.lifetimeDistinct - control.score.lifetimeDistinct
+                      << '/'
+                      << forced.score.totalDailyDistinct - control.score.totalDailyDistinct
+                      << '/'
+                      << forced.score.totalServings - control.score.totalServings
+                      << '\n';
+        } else if (recordedSparse) {
+            static_cast<void>(print_sparse_exchange(prefix, plan));
         } else if (argc == 5) {
             const std::string mode{argv[4]};
             if (mode == "frontier-agent0") {
@@ -1324,7 +1530,7 @@ int main(int argc, char** argv) {
             } else if (mode == "team-dp") {
                 print_complete_resource_team_dp(prefix, plan);
             } else if (mode == "sparse-exchange") {
-                print_sparse_exchange(prefix, plan);
+                static_cast<void>(print_sparse_exchange(prefix, plan));
             } else {
                 throw std::invalid_argument("unknown probe mode");
             }

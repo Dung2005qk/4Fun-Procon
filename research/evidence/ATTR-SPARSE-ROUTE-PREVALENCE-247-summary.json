@@ -1,0 +1,112 @@
+{
+  "aggregate_score_delta": [
+    0,
+    -1,
+    510
+  ],
+  "experiment": "ATTR-SPARSE-ROUTE-PREVALENCE-247",
+  "first_difference_tiers": {
+    "0": 4,
+    "2": 1,
+    "3": 19
+  },
+  "gain_tail": {
+    "max": 69,
+    "sum": 568
+  },
+  "loss_tail": {
+    "min": -54,
+    "sum": -55
+  },
+  "pairs": 24,
+  "safety": {
+    "parent": {
+      "checkpoint_closed_loop_failures": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_sparse_failure": 0
+    },
+    "sparse": {
+      "checkpoint_closed_loop_failures": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_sparse_failure": 0
+    }
+  },
+  "sparse_work": {
+    "immediate_serving_gain": 575,
+    "representatives": 742,
+    "routes": 50488,
+    "takeovers": 119,
+    "valid": 50488
+  },
+  "strata": {
+    "fuel:default": {
+      "win": 4
+    },
+    "fuel:generated": {
+      "tie": 2,
+      "win": 4
+    },
+    "fuel:high": {
+      "tie": 1,
+      "win": 5
+    },
+    "fuel:low": {
+      "loss": 2,
+      "tie": 1,
+      "win": 5
+    },
+    "players:10": {
+      "loss": 1,
+      "win": 7
+    },
+    "players:8": {
+      "loss": 1,
+      "tie": 2,
+      "win": 7
+    },
+    "players:9": {
+      "tie": 2,
+      "win": 4
+    },
+    "role:deadline": {
+      "tie": 3,
+      "win": 9
+    },
+    "role:fixed": {
+      "loss": 2,
+      "tie": 1,
+      "win": 9
+    },
+    "suite:general": {
+      "loss": 1,
+      "tie": 3
+    },
+    "suite:multiteam-12": {
+      "tie": 1,
+      "win": 3
+    },
+    "suite:multiteam-16": {
+      "win": 6
+    },
+    "suite:multiteam-24": {
+      "win": 6
+    },
+    "suite:multiteam-32": {
+      "loss": 1,
+      "win": 3
+    }
+  },
+  "wtl": [
+    18,
+    4,
+    2
+  ]
+}

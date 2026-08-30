@@ -4653,7 +4653,7 @@ DecisionResult UdonShieldEngine::solve_day(
     result.audit.portfolioTerminalCellsByAgent.reserve(
         portfolio.columnsByAgent.size());
     for (const std::vector<RouteColumn>& columns : portfolio.columnsByAgent) {
-        std::uint64_t brands = 0;
+        BrandMask brands;
         std::int32_t maximumServings = 0;
         std::int32_t harvestExtensions = 0;
         std::vector<CellId> terminalCells;
@@ -4665,7 +4665,7 @@ DecisionResult UdonShieldEngine::solve_day(
             terminalCells.push_back(column.terminalCell);
         }
         result.audit.portfolioColumnsByAgent.push_back(static_cast<std::int32_t>(columns.size()));
-        result.audit.portfolioBrandCountsByAgent.push_back(static_cast<std::int32_t>(std::popcount(brands)));
+        result.audit.portfolioBrandCountsByAgent.push_back(brand_count(brands));
         result.audit.portfolioMaximumServingsByAgent.push_back(maximumServings);
         result.audit.portfolioHarvestExtensionsByAgent.push_back(harvestExtensions);
         result.audit.portfolioTerminalCellsByAgent.push_back(

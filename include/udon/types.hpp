@@ -4,11 +4,15 @@
 #include <bit>
 #include <array>
 #include <chrono>
+#include <compare>
 #include <cstdint>
 #include <cstdlib>
 #include <limits>
 #include <map>
+#include <memory>
 #include <optional>
+#include <ostream>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
@@ -26,7 +30,278 @@ constexpr std::int32_t kDirectionCount = 6;
 constexpr std::int32_t kMaximumAgents = 8;
 constexpr std::int32_t kMaximumMapSide = 32;
 constexpr std::int32_t kMaximumCells = kMaximumMapSide * kMaximumMapSide;
+constexpr std::int32_t kMaximumBrands = kMaximumCells;
 inline constexpr std::chrono::milliseconds kCompetitionComputeHardCap{5000};
+
+class BrandMask {
+public:
+    static constexpr std::size_t kWordBits = 64U;
+    static constexpr std::size_t kWordCount =
+        static_cast<std::size_t>(kMaximumBrands) / kWordBits;
+    static constexpr std::size_t kHighWordCount = kWordCount - 1U;
+    using HighWords = std::array<std::uint64_t, kHighWordCount>;
+
+    BrandMask() = default;
+    BrandMask(std::uint64_t low) noexcept : low_(low) {}
+    BrandMask(const BrandMask& other)
+        : low_(other.low_),
+          high_(other.high_ == nullptr
+              ? nullptr
+              : std::make_unique<HighWords>(*other.high_)) {}
+    BrandMask(BrandMask&&) noexcept = default;
+
+    BrandMask& operator=(const BrandMask& other) {
+        if (this == &other) {
+            return *this;
+        }
+        low_ = other.low_;
+        high_ = other.high_ == nullptr
+            ? nullptr
+            : std::make_unique<HighWords>(*other.high_);
+        return *this;
+    }
+
+    BrandMask& operator=(BrandMask&&) noexcept = default;
+
+    [[nodiscard]] bool test(std::int32_t index) const noexcept {
+        if (index < 0 || index >= kMaximumBrands) {
+            return false;
+        }
+        const std::size_t word = static_cast<std::size_t>(index) / kWordBits;
+        const std::uint64_t bit =
+            std::uint64_t{1} << (static_cast<std::size_t>(index) % kWordBits);
+        return word == 0U
+            ? (low_ & bit) != 0U
+            : high_ != nullptr && (high_->at(word - 1U) & bit) != 0U;
+    }
+
+    void set(std::int32_t index) {
+        if (index < 0 || index >= kMaximumBrands) {
+            throw std::out_of_range("brand index exceeds the official map capacity");
+        }
+        const std::size_t word = static_cast<std::size_t>(index) / kWordBits;
+        const std::uint64_t bit =
+            std::uint64_t{1} << (static_cast<std::size_t>(index) % kWordBits);
+        if (word == 0U) {
+            low_ |= bit;
+            return;
+        }
+        ensure_unique_high();
+        high_->at(word - 1U) |= bit;
+    }
+
+    [[nodiscard]] std::int32_t count() const noexcept {
+        std::int32_t result = static_cast<std::int32_t>(std::popcount(low_));
+        if (high_ != nullptr) {
+            for (const std::uint64_t word : *high_) {
+                result += static_cast<std::int32_t>(std::popcount(word));
+            }
+        }
+        return result;
+    }
+
+    [[nodiscard]] bool any() const noexcept {
+        if (low_ != 0U) {
+            return true;
+        }
+        return high_ != nullptr && std::any_of(
+            high_->begin(),
+            high_->end(),
+            [](std::uint64_t word) { return word != 0U; });
+    }
+
+    [[nodiscard]] bool is_subset_of(const BrandMask& other) const noexcept {
+        if ((low_ & ~other.low_) != 0U) {
+            return false;
+        }
+        if (high_ == nullptr) {
+            return true;
+        }
+        for (std::size_t index = 0; index < kHighWordCount; ++index) {
+            const std::uint64_t otherWord = other.high_ == nullptr
+                ? 0U
+                : other.high_->at(index);
+            if ((high_->at(index) & ~otherWord) != 0U) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    [[nodiscard]] std::int32_t intersection_count(const BrandMask& other) const noexcept {
+        std::int32_t result = static_cast<std::int32_t>(
+            std::popcount(low_ & other.low_));
+        if (high_ == nullptr || other.high_ == nullptr) {
+            return result;
+        }
+        for (std::size_t index = 0; index < kHighWordCount; ++index) {
+            result += static_cast<std::int32_t>(std::popcount(
+                high_->at(index) & other.high_->at(index)));
+        }
+        return result;
+    }
+
+    [[nodiscard]] std::int32_t difference_count(const BrandMask& other) const noexcept {
+        std::int32_t result = static_cast<std::int32_t>(
+            std::popcount(low_ & ~other.low_));
+        if (high_ == nullptr) {
+            return result;
+        }
+        for (std::size_t index = 0; index < kHighWordCount; ++index) {
+            const std::uint64_t otherWord = other.high_ == nullptr
+                ? 0U
+                : other.high_->at(index);
+            result += static_cast<std::int32_t>(std::popcount(
+                high_->at(index) & ~otherWord));
+        }
+        return result;
+    }
+
+    [[nodiscard]] BrandMask without(const BrandMask& other) const {
+        BrandMask result{low_ & ~other.low_};
+        if (high_ == nullptr) {
+            return result;
+        }
+        for (std::size_t index = 0; index < kHighWordCount; ++index) {
+            const std::uint64_t otherWord = other.high_ == nullptr
+                ? 0U
+                : other.high_->at(index);
+            const std::uint64_t difference = high_->at(index) & ~otherWord;
+            if (difference != 0U) {
+                result.ensure_unique_high();
+                result.high_->at(index) = difference;
+            }
+        }
+        return result;
+    }
+
+    BrandMask& operator|=(const BrandMask& other) {
+        low_ |= other.low_;
+        if (other.high_ == nullptr) {
+            return *this;
+        }
+        ensure_unique_high();
+        for (std::size_t index = 0; index < kHighWordCount; ++index) {
+            high_->at(index) |= other.high_->at(index);
+        }
+        return *this;
+    }
+
+    BrandMask& operator&=(const BrandMask& other) {
+        low_ &= other.low_;
+        if (high_ == nullptr) {
+            return *this;
+        }
+        if (other.high_ == nullptr) {
+            high_.reset();
+            return *this;
+        }
+        ensure_unique_high();
+        bool anyHigh = false;
+        for (std::size_t index = 0; index < kHighWordCount; ++index) {
+            high_->at(index) &= other.high_->at(index);
+            anyHigh = anyHigh || high_->at(index) != 0U;
+        }
+        if (!anyHigh) {
+            high_.reset();
+        }
+        return *this;
+    }
+
+    [[nodiscard]] std::string wire_string() const {
+        if (high_ == nullptr) {
+            return std::to_string(low_);
+        }
+        std::string result = std::to_string(low_);
+        for (const std::uint64_t word : *high_) {
+            result.push_back(':');
+            result += std::to_string(word);
+        }
+        return result;
+    }
+
+    [[nodiscard]] friend BrandMask operator|(BrandMask left, const BrandMask& right) {
+        left |= right;
+        return left;
+    }
+
+    [[nodiscard]] friend BrandMask operator&(BrandMask left, const BrandMask& right) {
+        left &= right;
+        return left;
+    }
+
+    [[nodiscard]] friend bool operator==(const BrandMask& left, const BrandMask& right) noexcept {
+        if (left.low_ != right.low_) {
+            return false;
+        }
+        if (left.high_ == nullptr || right.high_ == nullptr) {
+            const HighWords* present = left.high_ != nullptr
+                ? left.high_.get()
+                : right.high_.get();
+            return present == nullptr || std::all_of(
+                present->begin(),
+                present->end(),
+                [](std::uint64_t word) { return word == 0U; });
+        }
+        return *left.high_ == *right.high_;
+    }
+
+    [[nodiscard]] friend std::strong_ordering operator<=> (
+        const BrandMask& left,
+        const BrandMask& right) noexcept {
+        for (std::size_t offset = kHighWordCount; offset > 0U; --offset) {
+            const std::uint64_t leftWord = left.high_ == nullptr
+                ? 0U
+                : left.high_->at(offset - 1U);
+            const std::uint64_t rightWord = right.high_ == nullptr
+                ? 0U
+                : right.high_->at(offset - 1U);
+            if (leftWord < rightWord) {
+                return std::strong_ordering::less;
+            }
+            if (leftWord > rightWord) {
+                return std::strong_ordering::greater;
+            }
+        }
+        return left.low_ <=> right.low_;
+    }
+
+    friend std::ostream& operator<<(std::ostream& stream, const BrandMask& mask) {
+        return stream << mask.wire_string();
+    }
+
+private:
+    void ensure_unique_high() {
+        if (high_ == nullptr) {
+            high_ = std::make_unique<HighWords>();
+        }
+    }
+
+    std::uint64_t low_ = 0U;
+    std::unique_ptr<HighWords> high_;
+};
+
+[[nodiscard]] inline BrandMask brand_difference(
+    const BrandMask& left,
+    const BrandMask& right) {
+    return left.without(right);
+}
+
+[[nodiscard]] inline std::int32_t brand_count(const BrandMask& mask) noexcept {
+    return mask.count();
+}
+
+[[nodiscard]] inline std::int32_t brand_intersection_count(
+    const BrandMask& left,
+    const BrandMask& right) noexcept {
+    return left.intersection_count(right);
+}
+
+[[nodiscard]] inline std::int32_t brand_difference_count(
+    const BrandMask& left,
+    const BrandMask& right) noexcept {
+    return left.difference_count(right);
+}
 
 [[nodiscard]] constexpr std::chrono::milliseconds competition_compute_budget(
     std::chrono::milliseconds requested) noexcept {
@@ -237,18 +512,18 @@ struct DayState {
 };
 
 struct DayScore {
-    std::uint64_t brands = 0;
+    BrandMask brands;
     std::int32_t dailyDistinct = 0;
     std::int32_t servings = 0;
 };
 
 struct MatchLedger {
-    std::uint64_t lifetimeBrands = 0;
+    BrandMask lifetimeBrands;
     std::int32_t totalDailyDistinct = 0;
     std::int32_t totalServings = 0;
 
     [[nodiscard]] std::int32_t lifetime_distinct() const {
-        return static_cast<std::int32_t>(std::popcount(lifetimeBrands));
+        return brand_count(lifetimeBrands);
     }
 
     void apply(const DayScore& score) {
@@ -265,7 +540,7 @@ struct OfficialScore {
 
     [[nodiscard]] static OfficialScore after_day(const MatchLedger& ledger, const DayScore& dayScore) {
         return OfficialScore{
-            static_cast<std::int32_t>(std::popcount(ledger.lifetimeBrands | dayScore.brands)),
+            brand_count(ledger.lifetimeBrands | dayScore.brands),
             ledger.totalDailyDistinct + dayScore.dailyDistinct,
             ledger.totalServings + dayScore.servings,
         };
@@ -337,12 +612,14 @@ struct SimulationResult {
     return 0;
 }
 
-[[nodiscard]] inline bool has_brand(std::uint64_t mask, std::int32_t brandIndex) {
-    return (mask & (std::uint64_t{1} << static_cast<std::uint32_t>(brandIndex))) != 0;
+[[nodiscard]] inline bool has_brand(const BrandMask& mask, std::int32_t brandIndex) {
+    return mask.test(brandIndex);
 }
 
-[[nodiscard]] inline std::uint64_t brand_bit(std::int32_t brandIndex) {
-    return std::uint64_t{1} << static_cast<std::uint32_t>(brandIndex);
+[[nodiscard]] inline BrandMask brand_bit(std::int32_t brandIndex) {
+    BrandMask result;
+    result.set(brandIndex);
+    return result;
 }
 
 }

@@ -122,13 +122,13 @@ void probe_day(
         return;
     }
 
-    std::uint64_t preferredBrands = 0U;
+    udon::BrandMask preferredBrands;
     for (std::int32_t brand = 0; brand < config.brand_count(); ++brand) {
         if (!udon::has_brand(ledger.lifetimeBrands, brand)) {
             preferredBrands |= udon::brand_bit(brand);
         }
     }
-    if (preferredBrands == 0U) {
+    if (!preferredBrands.any()) {
         for (std::int32_t brand = 0; brand < config.brand_count(); ++brand) {
             if (!udon::has_brand(incumbentSimulation.score.brands, brand)) {
                 preferredBrands |= udon::brand_bit(brand);
@@ -145,7 +145,7 @@ void probe_day(
         {"raised-global", 1, 128U, 8000000ULL, false},
         {"raised-target", 1, 128U, 8000000ULL, true},
     };
-    const std::uint64_t incumbentLifetime =
+    const udon::BrandMask incumbentLifetime =
         ledger.lifetimeBrands | incumbentSimulation.score.brands;
 
     for (std::size_t tier = 0; tier < 4; ++tier) {
@@ -230,9 +230,9 @@ void probe_day(
                         ++counters.fuel;
                         continue;
                     }
-                    const std::uint64_t challengerLifetime =
+                    const udon::BrandMask challengerLifetime =
                         ledger.lifetimeBrands | detailed.score.brands;
-                    if ((incumbentLifetime & ~challengerLifetime) != 0U) {
+                    if (!incumbentLifetime.is_subset_of(challengerLifetime)) {
                         ++counters.brand;
                         continue;
                     }

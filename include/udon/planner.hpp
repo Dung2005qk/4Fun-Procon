@@ -60,7 +60,7 @@ struct RouteColumn {
     AgentPlan actions;
     CellId terminalCell = kInvalidCell;
     std::int32_t terminalFuel = 0;
-    std::uint64_t estimatedBrands = 0;
+    BrandMask estimatedBrands;
     std::int32_t estimatedServings = 0;
     SparseRoadFootprint heuristicFootprint;
     SparseRoadFootprint fullFootprint;

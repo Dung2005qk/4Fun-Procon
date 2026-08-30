@@ -1,0 +1,59 @@
+{
+  "aggregate_score_delta": [0, 0, 277],
+  "candidate_work": {
+    "deadline_days": 2,
+    "representatives": 801,
+    "routes": 54867,
+    "settled": 34879057,
+    "strict": 31902,
+    "supplied": 515,
+    "valid": 54867
+  },
+  "experiment": "SCORE-SPARSE-ROUTE-CANDIDATE-SUPPLY-248",
+  "first_difference_tiers": {"0": 10, "3": 20},
+  "gain_tail": {"max": 34, "sum": 351},
+  "loss_tail": {"min": -74, "sum": -74},
+  "pairs": 30,
+  "phase": "development",
+  "response_ms": {
+    "parent": {"max": 3018},
+    "sparse": {"max": 3020}
+  },
+  "safety": {
+    "parent": {
+      "checkpoint_closed_loop_failures": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_sparse_failure": 0
+    },
+    "sparse": {
+      "checkpoint_closed_loop_failures": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_sparse_failure": 0
+    }
+  },
+  "strata": {
+    "fuel:default": {"win": 5},
+    "fuel:generated": {"tie": 4, "win": 3},
+    "fuel:high": {"tie": 3, "win": 4},
+    "fuel:low": {"loss": 1, "tie": 3, "win": 7},
+    "players:10": {"loss": 1, "tie": 1, "win": 8},
+    "players:8": {"tie": 6, "win": 6},
+    "players:9": {"tie": 3, "win": 5},
+    "role:deadline": {"tie": 6, "win": 9},
+    "role:fixed": {"loss": 1, "tie": 4, "win": 10},
+    "suite:general": {"tie": 6},
+    "suite:multiteam-12": {"tie": 3, "win": 3},
+    "suite:multiteam-16": {"win": 8},
+    "suite:multiteam-24": {"tie": 1, "win": 5},
+    "suite:multiteam-32": {"loss": 1, "win": 3}
+  },
+  "wtl": [19, 10, 1]
+}

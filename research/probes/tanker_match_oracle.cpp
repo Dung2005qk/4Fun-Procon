@@ -1422,7 +1422,7 @@ int main(int argc, char** argv) try {
                         std::cout << "shared-column,agent=" << agent
                                   << ",id=" << column.columnId
                                   << ",servings=" << column.estimatedServings
-                                  << ",brands=" << std::popcount(
+                                  << ",brands=" << udon::brand_count(
                                          column.estimatedBrands)
                                   << ",escort=" << column.escortGroup
                                   << ",required=";

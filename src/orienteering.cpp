@@ -119,8 +119,11 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
     const AgentState& agent = state.agents.at(static_cast<std::size_t>(agentIndex));
     const std::int32_t daySteps = config.steps_for_day(state.dayNumber);
     if (agent.kind != AgentKind::Patrol || daySteps <= 0 || daySteps >= kUnreachable ||
+        daySteps > static_cast<std::int32_t>(
+            std::numeric_limits<std::uint16_t>::max()) ||
         !exact_orienteering_dense_state_supported(config) ||
-        agent.fuel < 2 * daySteps) {
+        static_cast<std::int64_t>(agent.fuel) <
+            2LL * static_cast<std::int64_t>(daySteps)) {
         return result;
     }
     const std::uint32_t maskCount = std::uint32_t{1} <<
@@ -513,7 +516,7 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
             if (distance.at(id) == kUnreachable) {
                 continue;
             }
-            std::uint64_t brands = 0U;
+            BrandMask brands;
             std::int32_t servingPotential = 0;
             for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
                 if ((mask & (std::uint32_t{1} << spot)) == 0U) {
@@ -524,7 +527,7 @@ ExactOrienteeringReachability enumerate_exact_high_fuel_routes(
             }
             const auto rank = std::tuple{
                 static_cast<std::int32_t>(patrolFuel.at(id)),
-                -static_cast<std::int32_t>(std::popcount(brands)),
+                -brand_count(brands),
                 -servingPotential,
                 -static_cast<std::int32_t>(std::popcount(mask)),
                 static_cast<std::int32_t>(distance.at(id)),
@@ -574,6 +577,17 @@ struct SparseRouteChoice {
     std::uint32_t label = 0U;
 };
 
+using SparseTerminalMarginalRank = std::tuple<
+    std::int32_t,
+    std::int32_t,
+    std::int32_t,
+    SparseRouteRank>;
+
+struct SparseTerminalMarginalChoice {
+    SparseTerminalMarginalRank rank;
+    std::uint32_t label = 0U;
+};
+
 ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
     const MatchConfig& config,
     const DayState& state,
@@ -581,9 +595,10 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
     std::int32_t minimumSpots,
     std::size_t maximumRoutes,
     std::uint64_t maximumSettledStates,
-    std::uint64_t preferredBrands,
+    BrandMask preferredBrands,
     std::optional<CellId> requiredTerminal,
-    std::optional<std::chrono::steady_clock::time_point> deadline) {
+    std::optional<std::chrono::steady_clock::time_point> deadline,
+    const TerminalMarginalRouteContext* terminalMarginalContext) {
     ExactOrienteeringReachability result;
     if (agentIndex < 0 ||
         agentIndex >= static_cast<AgentIndex>(state.agents.size()) ||
@@ -605,7 +620,11 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
     const std::int32_t daySteps = config.steps_for_day(state.dayNumber);
     if (agent.kind != AgentKind::Patrol || daySteps <= 0 ||
         daySteps >= kUnreachable || agent.fuel < 0 ||
-        agent.fuel >= kUnreachable) {
+        agent.fuel >= kUnreachable ||
+        daySteps > static_cast<std::int32_t>(
+            std::numeric_limits<std::uint16_t>::max()) ||
+        agent.fuel > static_cast<std::int32_t>(
+            std::numeric_limits<std::uint16_t>::max())) {
         return result;
     }
     result.supported = true;
@@ -735,7 +754,7 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
     }
     const auto route_rank = [&config, preferredBrands](
                                 const SparseResourceLabel& label) {
-        std::uint64_t brands = 0U;
+        BrandMask brands;
         std::int32_t servingPotential = 0;
         for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
             if ((label.mask &
@@ -763,17 +782,47 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
             }
         }
         return SparseRouteRank{
-            static_cast<std::int32_t>(
-                std::popcount(brands & preferredBrands)),
-            static_cast<std::int32_t>(std::popcount(brands)),
+            brand_intersection_count(brands, preferredBrands),
+            brand_count(brands),
             servingPotential,
             static_cast<std::int32_t>(std::popcount(label.mask)),
             -static_cast<std::int32_t>(label.usedSteps),
             -static_cast<std::int32_t>(label.usedFuel),
             -terminalBrandDistance,
             -label.cell,
-            std::numeric_limits<std::uint32_t>::max() - label.mask};
+             std::numeric_limits<std::uint32_t>::max() - label.mask};
     };
+    const bool terminalMarginalEnabled =
+        terminalMarginalContext != nullptr &&
+        terminalMarginalContext->incumbentClaimsWithoutAgent.size() ==
+            config.spots.size();
+    const auto terminal_marginal_rank =
+        [&config,
+         terminalMarginalContext,
+         &route_rank](const SparseResourceLabel& label) {
+            BrandMask dayBrands;
+            std::int32_t servings = 0;
+            for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+                const std::int32_t claims =
+                    terminalMarginalContext->incumbentClaimsWithoutAgent.at(spot) +
+                    (((label.mask &
+                       (std::uint32_t{1} << static_cast<std::uint32_t>(spot))) !=
+                      0U)
+                         ? 1
+                         : 0);
+                if (claims <= 0) {
+                    continue;
+                }
+                dayBrands |= brand_bit(config.spots.at(spot).brandIndex);
+                servings += std::min(config.spots.at(spot).stock, claims);
+            }
+            return SparseTerminalMarginalRank{
+                brand_count(
+                    terminalMarginalContext->lifetimeBrands | dayBrands),
+                brand_count(dayBrands),
+                servings,
+                route_rank(label)};
+        };
     const auto retain = [maximumRoutes](
                             std::vector<SparseRouteChoice>& choices,
                             SparseRouteChoice candidate) {
@@ -796,8 +845,10 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
     emittedMasks.reserve(1U << 16U);
     std::vector<SparseRouteChoice> retained;
     std::vector<SparseRouteChoice> supplemental;
+    std::vector<SparseTerminalMarginalChoice> terminalMarginal;
     retained.reserve(maximumRoutes);
     supplemental.reserve(maximumRoutes);
+    terminalMarginal.reserve(maximumRoutes);
     std::uint64_t processedEntries = 0U;
     while (!queue.empty() && result.settledStates < maximumSettledStates) {
         if ((processedEntries++ & 4095U) == 0U && deadline_expired()) {
@@ -829,6 +880,25 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
             retain(retained, SparseRouteChoice{rank, labelIndex});
             if (preferredBrands != 0U) {
                 retain(supplemental, SparseRouteChoice{rank, labelIndex});
+            }
+            if (terminalMarginalEnabled) {
+                const SparseTerminalMarginalChoice candidate{
+                    terminal_marginal_rank(current),
+                    labelIndex};
+                if (terminalMarginal.size() < maximumRoutes) {
+                    terminalMarginal.push_back(candidate);
+                } else {
+                    const auto worst = std::min_element(
+                        terminalMarginal.begin(),
+                        terminalMarginal.end(),
+                        [](const SparseTerminalMarginalChoice& left,
+                           const SparseTerminalMarginalChoice& right) {
+                            return left.rank < right.rank;
+                        });
+                    if (worst->rank < candidate.rank) {
+                        *worst = candidate;
+                    }
+                }
             }
         }
 
@@ -914,6 +984,17 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
     };
     append_choices(retained, result.maximalRoutes);
     append_choices(supplemental, result.supplementalRoutes);
+    std::sort(
+        terminalMarginal.begin(),
+        terminalMarginal.end(),
+        [](const SparseTerminalMarginalChoice& left,
+           const SparseTerminalMarginalChoice& right) {
+            return left.rank > right.rank;
+        });
+    result.terminalMarginalRoutes.reserve(terminalMarginal.size());
+    for (const SparseTerminalMarginalChoice& choice : terminalMarginal) {
+        result.terminalMarginalRoutes.push_back(reconstruct(choice.label));
+    }
     return result;
 }
 
@@ -924,7 +1005,7 @@ ExactOrienteeringReachability enumerate_resource_routes(
     std::optional<std::int32_t> minimumSpots,
     std::size_t maximumRoutes,
     std::uint64_t maximumSettledStates,
-    std::uint64_t preferredBrands,
+    BrandMask preferredBrands,
     std::optional<std::chrono::steady_clock::time_point> deadline) {
     ExactOrienteeringReachability result;
     if (agentIndex < 0 ||
@@ -939,10 +1020,16 @@ ExactOrienteeringReachability enumerate_resource_routes(
     const std::int32_t daySteps = config.steps_for_day(state.dayNumber);
     if (agent.kind != AgentKind::Patrol || daySteps <= 0 ||
         daySteps >= kUnreachable || agent.fuel < 0 ||
-        agent.fuel >= kUnreachable || config.spots.size() > 16U) {
+        agent.fuel >= kUnreachable || config.spots.size() > 16U ||
+        daySteps > static_cast<std::int32_t>(
+            std::numeric_limits<std::uint16_t>::max()) ||
+        agent.fuel > static_cast<std::int32_t>(
+            std::numeric_limits<std::uint16_t>::max())) {
         return result;
     }
-    if (!minimumSpots.has_value() && agent.fuel >= 2 * daySteps) {
+    if (!minimumSpots.has_value() &&
+        static_cast<std::int64_t>(agent.fuel) >=
+            2LL * static_cast<std::int64_t>(daySteps)) {
         return enumerate_exact_high_fuel_routes(
             config,
             state,
@@ -1067,10 +1154,10 @@ ExactOrienteeringReachability enumerate_resource_routes(
     std::unordered_set<std::uint32_t> anytimeMasks;
     std::vector<MoveCost> moveCosts(cellCount);
     std::vector<std::uint32_t> destinationSpotBits(cellCount, 0U);
-    std::vector<std::uint64_t> brandMaskBySpotMask;
+    std::vector<BrandMask> brandMaskBySpotMask;
     std::vector<std::int32_t> servingPotentialBySpotMask;
     if (preferredBrands != 0U) {
-        brandMaskBySpotMask.assign(maskCount, 0U);
+        brandMaskBySpotMask.assign(maskCount, BrandMask{});
         servingPotentialBySpotMask.assign(maskCount, 0);
         for (std::uint32_t mask = 1U; mask < maskCount; ++mask) {
             const std::uint32_t bit = std::countr_zero(mask);
@@ -1212,13 +1299,11 @@ ExactOrienteeringReachability enumerate_resource_routes(
                     std::int32_t usedFuel,
                     std::int32_t brandDistance,
                     CellId terminalCell) {
-                    const std::uint64_t brands =
+                    const BrandMask brands =
                         brandMaskBySpotMask.at(routeMask);
                     return std::tuple{
-                        static_cast<std::int32_t>(
-                            std::popcount(brands & preferredBrands)),
-                        static_cast<std::int32_t>(
-                            std::popcount(brands)),
+                        brand_intersection_count(brands, preferredBrands),
+                        brand_count(brands),
                         servingPotentialBySpotMask.at(routeMask),
                         static_cast<std::int32_t>(
                             std::popcount(routeMask)),
@@ -1276,10 +1361,10 @@ ExactOrienteeringReachability enumerate_resource_routes(
                     std::vector<std::int32_t> retainedBrandCounts(
                         static_cast<std::size_t>(config.brand_count()),
                         0);
-                    std::uint64_t retainedBrands = 0U;
+                    BrandMask retainedBrands;
                     for (const ExactOrienteeringRoute& route :
                          result.supplementalRoutes) {
-                        const std::uint64_t brands =
+                        const BrandMask brands =
                             brandMaskBySpotMask.at(route.spotMask);
                         retainedBrands |= brands;
                         for (std::int32_t brand = 0;
@@ -1291,16 +1376,16 @@ ExactOrienteeringReachability enumerate_resource_routes(
                             }
                         }
                     }
-                    const std::uint64_t candidateBrands =
+                    const BrandMask candidateBrands =
                         brandMaskBySpotMask.at(mask);
                     const bool expandsCoverage =
-                        (candidateBrands & ~retainedBrands) != 0U;
+                        brand_difference(candidateBrands, retainedBrands).any();
                     auto worstSafe = result.supplementalRoutes.end();
                     for (auto existing =
                              result.supplementalRoutes.begin();
                          existing != result.supplementalRoutes.end();
                          ++existing) {
-                        const std::uint64_t existingBrands =
+                        const BrandMask existingBrands =
                             brandMaskBySpotMask.at(existing->spotMask);
                         bool safe = true;
                         for (std::int32_t brand = 0;
@@ -1609,7 +1694,7 @@ ExactOrienteeringReachability enumerate_resource_routes(
                 continue;
             }
             const std::uint32_t id = state_id(mask, targetCell);
-            std::uint64_t brands = 0U;
+            BrandMask brands;
             std::int32_t servingPotential = 0;
             for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
                 if ((mask & (std::uint32_t{1} << spot)) == 0U) {
@@ -1629,7 +1714,7 @@ ExactOrienteeringReachability enumerate_resource_routes(
                 }
                 const auto rank = std::tuple{
                     static_cast<std::int32_t>(label.usedFuel),
-                    -static_cast<std::int32_t>(std::popcount(brands)),
+                    -brand_count(brands),
                     -servingPotential,
                     -static_cast<std::int32_t>(std::popcount(mask)),
                     static_cast<std::int32_t>(label.usedSteps),
@@ -1679,7 +1764,7 @@ ExactOrienteeringReachability enumerate_anytime_resource_routes(
     std::size_t maximumRoutes,
     std::uint64_t maximumSettledStates,
     std::optional<std::chrono::steady_clock::time_point> deadline,
-    std::uint64_t preferredBrands) {
+    BrandMask preferredBrands) {
     if (minimumSpots <= 0 || maximumRoutes == 0U ||
         maximumSettledStates == 0U) {
         return {};
@@ -1699,7 +1784,7 @@ ExactOrienteeringReachability enumerate_anytime_resource_routes(
     }
     const auto route_brand_mask =
         [&config](std::uint32_t spotMask) {
-            std::uint64_t brands = 0U;
+            BrandMask brands;
             for (std::size_t spot = 0;
                  spot < config.spots.size();
                  ++spot) {
@@ -1737,12 +1822,11 @@ ExactOrienteeringReachability enumerate_anytime_resource_routes(
         [&route_brand_mask,
          &serving_potential,
          preferredBrands](const ExactOrienteeringRoute& route) {
-            const std::uint64_t brands =
+            const BrandMask brands =
                 route_brand_mask(route.spotMask);
             return std::tuple{
-                static_cast<std::int32_t>(
-                    std::popcount(brands & preferredBrands)),
-                static_cast<std::int32_t>(std::popcount(brands)),
+                brand_intersection_count(brands, preferredBrands),
+                brand_count(brands),
                 serving_potential(route.spotMask),
                 static_cast<std::int32_t>(
                     std::popcount(route.spotMask)),
@@ -1803,7 +1887,8 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes(
     std::size_t maximumRoutes,
     std::uint64_t maximumSettledStates,
     std::optional<std::chrono::steady_clock::time_point> deadline,
-    std::uint64_t preferredBrands) {
+    BrandMask preferredBrands,
+    const TerminalMarginalRouteContext* terminalMarginalContext) {
     return enumerate_sparse_anytime_resource_routes_impl(
         config,
         state,
@@ -1813,7 +1898,8 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes(
         maximumSettledStates,
         preferredBrands,
         std::nullopt,
-        deadline);
+        deadline,
+        terminalMarginalContext);
 }
 
 ExactOrienteeringReachability
@@ -1826,7 +1912,8 @@ enumerate_sparse_anytime_resource_routes_to_terminal(
     std::size_t maximumRoutes,
     std::uint64_t maximumSettledStates,
     std::optional<std::chrono::steady_clock::time_point> deadline,
-    std::uint64_t preferredBrands) {
+    BrandMask preferredBrands,
+    const TerminalMarginalRouteContext* terminalMarginalContext) {
     return enumerate_sparse_anytime_resource_routes_impl(
         config,
         state,
@@ -1836,7 +1923,8 @@ enumerate_sparse_anytime_resource_routes_to_terminal(
         maximumSettledStates,
         preferredBrands,
         requiredTerminal,
-        deadline);
+        deadline,
+        terminalMarginalContext);
 }
 
 }

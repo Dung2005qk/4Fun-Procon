@@ -191,7 +191,8 @@ struct TeamSolution {
         throw std::invalid_argument("orienteering reachability requires a patrol");
     }
     const std::int32_t daySteps = config.steps_for_day(state.dayNumber);
-    if (agent.fuel < 2 * daySteps) {
+    if (static_cast<std::int64_t>(agent.fuel) <
+        2LL * static_cast<std::int64_t>(daySteps)) {
         throw std::runtime_error(
             "time-only exact oracle requires patrol fuel >= 2 * daySteps");
     }
@@ -631,8 +632,8 @@ public:
     }
 
 private:
-    [[nodiscard]] std::uint64_t brand_mask(std::uint16_t spots) const {
-        std::uint64_t brands = 0U;
+    [[nodiscard]] udon::BrandMask brand_mask(std::uint16_t spots) const {
+        udon::BrandMask brands;
         for (std::size_t spot = 0; spot < config_.spots.size(); ++spot) {
             if ((spots & (std::uint16_t{1} << spot)) != 0U &&
                 config_.spots.at(spot).stock > 0) {
@@ -642,9 +643,9 @@ private:
         return brands;
     }
 
-    [[nodiscard]] std::uint64_t brand_mask_from_counts(
+    [[nodiscard]] udon::BrandMask brand_mask_from_counts(
         const std::array<std::uint8_t, 16>& counts) const {
-        std::uint64_t brands = 0U;
+        udon::BrandMask brands;
         for (std::size_t spot = 0; spot < config_.spots.size(); ++spot) {
             if (counts.at(spot) > 0U && config_.spots.at(spot).stock > 0) {
                 brands |= udon::brand_bit(config_.spots.at(spot).brandIndex);
@@ -679,7 +680,7 @@ private:
             }
         }
         score.brands = static_cast<std::int32_t>(
-            std::popcount(brand_mask_from_counts(counts)));
+            udon::brand_count(brand_mask_from_counts(counts)));
         return score;
     }
 
@@ -687,9 +688,9 @@ private:
         std::size_t depth,
         const std::array<std::uint8_t, 16>& counts,
         LexScore score) const {
-        const std::uint64_t possibleBrands = brand_mask_from_counts(counts) |
+        const udon::BrandMask possibleBrands = brand_mask_from_counts(counts) |
             brand_mask(suffixSpots_.at(depth));
-        score.brands = static_cast<std::int32_t>(std::popcount(possibleBrands));
+        score.brands = udon::brand_count(possibleBrands);
         for (std::size_t spot = 0; spot < config_.spots.size(); ++spot) {
             const std::int32_t capacity = std::min(
                 config_.spots.at(spot).stock,
@@ -1268,11 +1269,11 @@ int main(int argumentCount, char** arguments) {
                     return reachability.at(left).maximalMasks.size() <
                         reachability.at(right).maximalMasks.size();
                 });
-            std::vector<std::uint64_t> suffixBrands(ordering.size() + 1U, 0U);
+            std::vector<udon::BrandMask> suffixBrands(ordering.size() + 1U);
             std::vector<std::array<std::uint8_t, 16>> suffixReachCount(
                 ordering.size() + 1U);
             const auto brands_for = [&replay](std::uint16_t mask) {
-                std::uint64_t brands = 0U;
+                udon::BrandMask brands;
                 for (std::size_t spot = 0; spot < replay.config.spots.size(); ++spot) {
                     if ((mask & (std::uint16_t{1} << spot)) != 0U &&
                         replay.config.spots.at(spot).stock > 0) {
@@ -1311,7 +1312,7 @@ int main(int argumentCount, char** arguments) {
             const auto search = [&](auto&& self,
                                     std::size_t depth,
                                     std::int32_t servings,
-                                    std::uint64_t brands) -> bool {
+                                    udon::BrandMask brands) -> bool {
                 ++nodes;
                 std::int32_t optimisticServings = servings;
                 for (std::size_t spot = 0; spot < replay.config.spots.size(); ++spot) {
@@ -1323,8 +1324,8 @@ int main(int argumentCount, char** arguments) {
                         suffixReachCount.at(depth).at(spot));
                 }
                 if (optimisticServings < feasibleServings ||
-                    static_cast<std::int32_t>(std::popcount(
-                        brands | suffixBrands.at(depth))) < replay.config.brand_count()) {
+                    udon::brand_count(brands | suffixBrands.at(depth)) <
+                        replay.config.brand_count()) {
                     return false;
                 }
                 if (!memo.at(depth).insert(count_key()).second) {
@@ -1332,8 +1333,7 @@ int main(int argumentCount, char** arguments) {
                 }
                 if (depth == ordering.size()) {
                     return servings >= feasibleServings &&
-                        static_cast<std::int32_t>(std::popcount(brands)) ==
-                            replay.config.brand_count();
+                        udon::brand_count(brands) == replay.config.brand_count();
                 }
                 const AgentReachability& agent = reachability.at(ordering.at(depth));
                 for (const std::uint16_t mask : agent.maximalMasks) {

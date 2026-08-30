@@ -2476,6 +2476,8 @@ void run_http(const RuntimeOptions& options) {
                                 publicContinuationRemainingMs};
                         udon::ProtectedSlackRefiner publicSlackRefiner =
                             slackRefiner;
+                        publicSlackRefiner.enableTerminalMarginalReservoir =
+                            true;
                         if (state.dayNumber == config.day_count()) {
                             publicContinuation =
                                 publicSlackRefiner.refine_terminal_sparse(
@@ -2791,7 +2793,8 @@ void run_http(const RuntimeOptions& options) {
                         "publicContinuationFailure",
                         udon::JsonValue(
                             publicContinuation.diagnostics.sparseFailure ||
-                            publicContinuation.diagnostics.middayFailure));
+                            publicContinuation.diagnostics.middayFailure ||
+                            publicContinuation.diagnostics.terminalMarginalFailure));
                     telemetry.emplace(
                         "publicContinuationSparseRoutes",
                         udon::JsonValue(
@@ -2804,17 +2807,54 @@ void run_http(const RuntimeOptions& options) {
                         "publicContinuationGeneratedPlans",
                         udon::JsonValue(
                             publicContinuation.diagnostics.generatedPlans +
-                            publicContinuation.diagnostics.middayGeneratedPlans));
+                            publicContinuation.diagnostics.middayGeneratedPlans +
+                            publicContinuation.diagnostics
+                                .terminalMarginalGeneratedPlans));
                     telemetry.emplace(
                         "publicContinuationValidPlans",
                         udon::JsonValue(
                             publicContinuation.diagnostics.validPlans +
-                            publicContinuation.diagnostics.middayValidPlans));
+                            publicContinuation.diagnostics.middayValidPlans +
+                            publicContinuation.diagnostics
+                                .terminalMarginalValidPlans));
                     telemetry.emplace(
                         "publicContinuationAcceptances",
                         udon::JsonValue(
                             publicContinuation.diagnostics.strictTerminalImprovements +
-                            publicContinuation.diagnostics.middayChainAcceptances));
+                            publicContinuation.diagnostics.middayChainAcceptances +
+                            publicContinuation.diagnostics
+                                .terminalMarginalAcceptances));
+                    telemetry.emplace(
+                        "publicContinuationTerminalMarginalRoutes",
+                        udon::JsonValue(
+                            publicContinuation.diagnostics.terminalMarginalRoutes));
+                    telemetry.emplace(
+                        "publicContinuationTerminalMarginalGeneratedPlans",
+                        udon::JsonValue(
+                            publicContinuation.diagnostics
+                                .terminalMarginalGeneratedPlans));
+                    telemetry.emplace(
+                        "publicContinuationTerminalMarginalValidPlans",
+                        udon::JsonValue(
+                            publicContinuation.diagnostics
+                                .terminalMarginalValidPlans));
+                    telemetry.emplace(
+                        "publicContinuationTerminalMarginalAcceptances",
+                        udon::JsonValue(
+                            publicContinuation.diagnostics
+                                .terminalMarginalAcceptances));
+                    telemetry.emplace(
+                        "publicContinuationTerminalMarginalRounds",
+                        udon::JsonValue(
+                            publicContinuation.diagnostics.terminalMarginalRounds));
+                    telemetry.emplace(
+                        "publicContinuationTerminalMarginalDeadlineRollback",
+                        udon::JsonValue(
+                            publicContinuation.diagnostics.terminalMarginalDeadline));
+                    telemetry.emplace(
+                        "publicContinuationTerminalMarginalFailure",
+                        udon::JsonValue(
+                            publicContinuation.diagnostics.terminalMarginalFailure));
                     telemetry.emplace(
                         "checkpointDailyDistinct",
                         udon::JsonValue(static_cast<std::int64_t>(

@@ -1,8 +1,1289 @@
 # UDON-SHIELD Research State
 
-Updated: 2026-08-28
+Updated: 2026-08-31
 
-## Current phase — competition checkpoint `18ecdd3`; performance audit closed
+## Closed accepted — SCORE-TERMINAL-STOCK-MARGINAL-RESERVOIR-258
+
+Experiment 257 proves a fresh terminal candidate-supply gap without changing
+the canonical queue or operation cap. On consumed `m-5155` day 7 patrol 1,
+the full `1.25m` discovered stream still reconstructs 2993 unique
+general-plus-protected routes and exact-valid mask `0xF230` raises the fully
+refined plan from `6/42/192` to `6/42/193`. The unchanged final heuristic
+top-32 pool has already evicted it. Reducing the cap to the observed `1m`
+prefix, reranking the canonical pool or running a second solver is forbidden.
+
+The candidate adds one bounded 32-route terminal marginal reservoir while the
+same sparse enumerator visits its existing stream. For each patrol, the rank is
+the exact official terminal-day marginal tuple implied by public spot stock,
+the ledger and all other agents' incumbent claims, with the existing stable
+route rank only as a tie-break. Canonical maximal/supplemental retention,
+queue, Pareto dominance, `1.25m` settled cap, one-agent ascent and accepted pair
+exchange run unchanged and reach their fixed point first. Only remaining public
+time may evaluate the additive reservoir. Any takeover still requires exact
+simulation, independent-validator agreement and a strict official terminal-day
+gain; deadline, failure, invalidity or no gain returns the complete canonical
+result. The switch is default-off for same-binary causal measurement and will
+be enabled only on the public-continuation copy, never in the canonical
+`5000 ms` checkpoint.
+
+Before production source change, the fresh development and one-time sealed
+holdout were frozen in
+`research/holdouts/SCORE-TERMINAL-STOCK-MARGINAL-RESERVOIR-258.csv`, SHA256
+`0408971890500E70D4ABD2E909345C6F212A4DB946EB9555C35D11FBEC7D372A`.
+Development has 30 cases and holdout 54 cases across windows
+`5000/10000/15000`, players `8/9/10`, general and 12/16/24/32 maps,
+low/default/high/generated fuel and fixed/deadline roles. The consumed 257
+replay has attribution authority only and appears in neither split.
+
+The development gate requires all 30 atomic cases; exact score, plan, state and
+ledger equivalence on every `5000 ms` case; zero internal causal loss or
+component regression; at least one strict gain in a longer public window; zero
+invalid, emergency, canonical-prefix mismatch, marginal-rank mismatch,
+reservoir failure or uncertified takeover; and strict gains must be reported by
+window/player/map/fuel/role stratum. Only then may the sealed holdout open once
+on an existing authorized VM. Holdout acceptance requires no component loss,
+positive strict gain on fresh evidence, bounded deadline behavior, unchanged
+`5000 ms` checkpoint and zero safety/certificate failure; no fixed W/L ratio or
+weighted tier sum substitutes for the official paired verdict.
+
+Invariants: final day only; canonical parent path and fallback are complete
+before the suffix; no main-search, role, queue, cap, route feasibility, Pareto,
+simulator, validator, score, network reserve or nonterminal change; no replay,
+mask, seed, map, fuel, role, player, bot, opponent or match dispatcher; local
+latency has no promotion authority; BTC target-host is mandatory after any
+accepted holdout. Functionality-preservation answers: (1) this removes,
+disables, defers or reduces no designed functionality because the canonical
+pool and result remain the authoritative prefix/fallback and the new reservoir
+is additive; (2) nothing is deleted.
+
+The development implementation is now frozen. Windows historical binary
+SHA256 is
+`19F9A528DB330BEF93A801CA381D01C9E506AF704AE1EED5D1A7CD51792BE9E9`,
+case-atomic runner SHA256 is
+`B1049FE6594CBBBAE8D7EFC3A71487E8D1A52F9D6E2BFA32ABCF388CACF90544`
+and summarizer SHA256 is
+`32D886448D5ADFDA49EAD81561C928826611981138DAC0678CADD4F883413AD3`.
+Unit tests pass. A direct consumed-replay mechanism check returns canonical
+`6/42/192` and marginal `6/42/196` through four exact dual-valid terminal
+acceptances with zero deadline. This is attribution/smoke evidence only; it
+does not contribute to development or promotion.
+
+Development completed all 30 atomic cases and passed every preregistered gate.
+Same-run causal W/T/L is `5/25/0`, all five first differences are tier 3,
+aggregate delta is `0/0/+13`, gain tail is `+5` and there is no loss tail.
+The `5000 ms` lane is exact-equivalent on score, plan, state and ledger;
+`10000 ms` contributes `+8` and `15000 ms` contributes `+5`. Both role modes,
+both longer windows, players 9/10 and map sizes 16/24/32 have strict gains.
+All invalid, emergency, checkpoint, reservoir and registered failure counters
+are zero, as are marginal deadline rollbacks. Development log SHA256 is
+`61F52590CBCDDEBD2A357A3E72A4CDB18F12536AABE21412A41338F3E8AE7106`
+and summary SHA256 is
+`5E32457B4C861A04C4A2226148105C1F5FA103FFB9991DCA1893482B8267652D`.
+
+The exact candidate source archive SHA256 is
+`0DB3AF350A7666C6FA08ED91E06AC1E018D525AF3F1CF52142628B87051A0715`.
+The existing authorized VM rebuilt it with passing unit tests; frozen Linux
+historical binary SHA256 is
+`1744BC2BC7E2899BB8622A3297C27BF3E32A64ACB9146F2452962C38E9D7A6B7`
+and VM case-atomic runner SHA256 is
+`2D8D8E8ED5677C78B6D3508B7D8B4F12DE3244EBABED9AC4B995554027B03A6E`.
+The one-time 54-case sealed VM holdout may now open without any source, metric
+or gate change.
+
+The one-time VM holdout completed all 54 atomic cases and is accepted. Causal
+W/T/L is `11/43/0`, aggregate delta `0/0/+33`, gain tail `+8`, with every
+first difference at tier 3 and no loss or component regression. The `5000 ms`
+lane is `0/18/0` with exact score/plan/state/ledger equivalence; `10000 ms`
+is `7/11/0` for `+15` and `15000 ms` is `4/14/0` for `+18`. Gains span both
+role modes, players 8/9 and map sizes 16/24/32. All invalid, emergency,
+checkpoint, reservoir and registered failure counters are zero; marginal
+deadline rollbacks are also zero. Holdout log SHA256 is
+`894BD3923E545455706308A08AE6B1A637EE841EE388B71D0802F4B74035392D`
+and summary SHA256 is
+`ECA738C6DD084AB1A0A49F8220A1F104B9B77B6B3D9733CDC0C1D1C3A03DA245`.
+The sealed evidence is now consumed and must never be reopened or tuned.
+
+Production integration is limited to enabling this exact accepted switch on
+the already-authorized public-continuation refiner copy. The canonical main,
+role selection and complete checkpoint remain capped at `5000 ms`; no other
+search, score, deadline, network, fallback or nonterminal behavior changes.
+
+The fresh production integration matrix passed W/T/L `4/26/0`, aggregate
+official delta `0/0/+12`, exact score/plan/state/ledger equivalence on every
+`5000 ms` case and zero safety, deadline or registered failure. Its log SHA256
+is `2AF5397EFAAFAB189EA42518160F992E20F739F055A9FA492436CB55C75DDAB6`
+and summary SHA256 is
+`518D29E6335038ECF7DBB21822B323050B3A29341DF20101710BFD3686634C06`.
+
+The first target-host run revealed that the already-existing
+`terminalMarginal*` diagnostics were not serialized into BTC replay telemetry.
+The final integration wires those fields into `protected_slack` and includes
+them in aggregate continuation work/failure counters without changing any
+plan, score, deadline, validation or submission semantics. Unit tests pass and
+the final Windows BTC binary SHA256 is
+`4250FD0283D0869DDA5B15AB64DDB127AFB872937C6DF77635AAC01CC9D1508B`.
+
+BTC target-host `m-5299` (hard, exactly three bots, 7d, 24x24, low fuel,
+`10000 ms` public window) completed `7/7` valid ACKs and replay-check reconciled
+`6/6` transitions. Maximum action response was `4703 ms`, maximum canonical
+decision time `3377 ms`, and there was no fallback, deadline, failure or safety
+event. Its terminal reservoir had no route on that fixture and failed closed
+without rollback. Replay SHA256 is
+`DDE69CF2D690174F7827AC6EBC2E6B389C38C0CC12E1A1A2D1CFB8B4904BFA08`.
+
+The active-mechanism stress gate `m-5300` (hard, exactly three bots, 10d,
+32x32, 8 agents, 24 spots, default fuel, `10000 ms` public window) completed
+`10/10` valid ACKs and reconciled `9/9` transitions. Maximum action response
+was `7395 ms` and maximum canonical decision time `3376 ms`. On the terminal
+day the reservoir evaluated `384` routes, generated `291` plans, dual-validated
+all `291` and accepted one strict official gain; zero deadline rollback,
+failure, fallback or safety event occurred. Replay SHA256 is
+`6D6B1CCB51D661506640E61E96109C1F576DD5492737579D3433315D9EBD0251`.
+Both runs happened to rank first, but rank has no promotion authority.
+
+Experiment 258 is accepted for the canonical production line. Its independent
+score gate, production equivalence and active target-host gate are complete;
+the sealed holdout is consumed and no source candidate remains open. Full
+closure is preserved in
+`research/evidence/SCORE-TERMINAL-STOCK-MARGINAL-RESERVOIR-258-production.md`.
+
+## Closed positive attribution — ATTR-MULTITEAM-MEDIUM-ROLE-DEFICIT-257
+
+Qualifying hard three-bot row 11, `m-5155`, is a fresh seven-day 16x16,
+60-step, six-agent, sixteen-spot, six-brand medium-fuel counterexample under
+server-published `10000 ms` daily windows. Canonical `18ecdd3` behavior selected
+`PPPPPT` and finished fourth at `6/42/192` behind `226/204/204`. Replay SHA256
+is `03A494B4616CCA911C63E76CEEEC6751D6056C5BAE19470F3B4EA8B64389C7C3`;
+replay-check proves 7/7 exact-valid actions, independent-validator agreement and
+6/6 reconciled transitions. The canonical main/role checkpoint remained
+`5000 ms`; public continuation was authorized and dual-valid but found no
+strict gain on days 1--6, while the terminal refiner raised day 7 from 28 to 33.
+
+The first read-only discriminator is role composition. The unchanged diagnostic
+rollout ranks the live `PPPPPT` arm first but gives the all-patrol arm the same
+two first tiers and a higher incomplete coarse serving score (`6/42/120` versus
+`6/42/107`). This is not causal evidence. Freeze the consumed replay and run
+only masks 32 and 0 closed-loop in forward and reverse order at the canonical
+`5000 ms` checkpoint. A role successor is allowed only if the all-patrol gain is
+order-stable, material and not already explained by the accepted long-horizon
+incomplete-role fallback or prior role-identity/trajectory closures. Otherwise
+close role and continue attribution from the selected-plan/master residual.
+
+The closed-loop role discriminator is negative and order-stable. Mask 32
+(`PPPPPT`) returned `6/41/151` in both positions. Mask 0 (`PPPPPP`) returned
+`6/41/126` and `6/39/119`, losing tier 2 in one order and never approaching the
+live checkpoint-plus-continuation score `6/42/192`. The incomplete coarse
+rollout's apparent all-patrol serving advantage is therefore misleading; role
+composition does not explain this loss and no role successor is permitted.
+
+Selected-plan telemetry now exposes the admissible residual. The exact master
+hit its deadline with `searchComplete=false` on all seven days; its public upper
+exceeded the selected cumulative serving score by `+2,+5,+3,+4,+4,+6,+6`.
+Public continuation generated and dual-validated 128--161 plans per nonterminal
+day but accepted none. Before designing a new master or integration policy, run
+the already-frozen 245 probe binary (SHA256
+`05E2FEE7EB8777B41D208002D17AC98C8E17939E265E10C05785B50FC1752E87`)
+at exactly 50,000 settled states for each recorded patrol/day. Report the best
+unrestricted and protected same-terminal one-agent exchange. This is candidate-
+supply attribution only; a changed-terminal gain remains governed by the
+already-closed 249--254 certificate family.
+
+sparse probe finds only the already-known changed-terminal residual on days 1--6:
+best current-day gains are `+3,+3,+3,+2,+3,+2`, while protected same-terminal
+best ties the incumbent for every patrol and day. Day 7 is different and safe:
+agent 1 route mask `0xF230` raises the fully refined live plan from `6/42/192`
+to exact-valid `6/42/193`. Reapplying the unchanged production terminal sidecar
+to that same authoritative plan returns `6/42/192`, evaluates 157 dual-valid
+plans, reports zero strict improvement and exits without deadline. The +1 is
+therefore a terminal route-supply miss, not missing public time or coordinate
+iteration.
+
+Before designing a candidate, reuse the exact cap ladder already frozen by 245
+on only day 7 agent 1: `50k,100k,250k,500k,750k,1m,1.25m` settled states,
+with the unchanged 32+32 retained ranking. This distinguishes non-monotonic
+route eviction at larger search caps from a representation/ranking mismatch
+between the probe and production enumerator. No threshold may be added after
+observing the ladder.
+
+The fixed ladder proves non-monotonic retention. At caps `50k,100k,250k,500k`
+the exact-valid best remains `6/42/193` through mask `0xF230`; at `750k` and
+`1m` another exact-valid mask `0x92F0` also yields `193`. At the production
+`1.25m` cap, all 64 retained general-plus-protected routes tie the incumbent
+`6/42/192`. Emitted general masks rise monotonically
+`290,453,836,1278,1654,2231,2644`; protected masks rise
+`20,37,84,182,230,288,363`. Therefore deeper search discovers more masks but
+the bounded final rank evicts every known strict terminal gain. This is not a
+deadline, iteration, representation or insufficient-cap gap, and choosing
+`1m` would be forbidden post-hoc threshold tuning.
+
+The final read-only discriminator is a full discovered-frontier audit at the
+unchanged `1.25m` settled-state cap for only consumed day 7 agent 1. Extend the
+research-only probe, not production, so its retention bound can exceed the
+2644 emitted masks; exact-simulate and independently validate each reconstructed
+one-agent substitution and count strict official improvements. This establishes
+whether the winning mask remains reconstructible at the production search depth
+and whether an additive terminal-only stock-aware marginal reservoir is a real
+general successor. The only admissible SCORE mechanism is additive: canonical
+32-route enumeration and parent terminal ascent execute unchanged first; an
+extra bounded reservoir may observe the same discovered stream and can replace
+the incumbent only after exact terminal-day official strict gain plus independent
+validation. It may not reduce the state cap, reorder the queue, replace the
+canonical pool, affect nonterminal days or use a replay-specific mask/threshold.
+
+Invariants: attribution only; no production source change, holdout or promotion;
+official lexicographic score; exact simulator and independent validator;
+authoritative outer deadline with unchanged `5000 ms` canonical checkpoint; no
+match, replay, map, fuel, bot, opponent or mask dispatcher. The consumed replay
+cannot tune a successor. Functionality-preservation answers: (1) this removes,
+disables, defers or reduces no designed functionality; (2) nothing is deleted.
+
+## Closed known residual — ATTR-MULTITEAM-SPARSE-ROUTE-SUPPLY-256
+
+Experiment 255 rules out role composition as the cause of `m-4980`. The next
+read-only step applies the already-frozen 50,000-state sparse route enumerator
+from 245 independently to each recorded patrol on every day of the consumed
+replay. Each returned one-agent exchange is checked by the exact simulator and
+independent validator against the recorded root. This tests whether the new
+low-agent deficit is again candidate supply before audit/F0, without changing a
+cap, accepting a changed future state, or tuning to this match.
+
+Frozen replay SHA256 is
+`7FBE47F316E89E5D6D75DF4999F94FB60423FA3F5DD3ADF6D7CC7B987498A236` and
+the unchanged research-only probe SHA256 is
+`05E2FEE7EB8777B41D208002D17AC98C8E17939E265E10C05785B50FC1752E87`.
+Only causal attribution is allowed. A current-day changed-terminal gain cannot
+promote a source patch; it must first be classified against the existing
+nonterminal state certificate and, if genuinely new, generalized on wholly
+fresh 8/9/10-team evidence before any SCORE successor.
+
+The fixed 50,000-state lane found an exact-valid changed-terminal improvement
+for both patrols on every nonterminal day. Best cumulative gains over the
+recorded root were `+5,+4,+5,+5,+4,+4,+4,+4,+6`; terminal day 10 had no gain.
+Every protected same-terminal best tied the root exactly. A closed-loop causal
+probe forced only the independently enumerated sparse day-1 root, then returned
+days 2--10 to the unchanged canonical engine. It finished `6/60/158` versus
+the recorded-root control `6/60/154`, proving `+4` persists but remains below
+the live 168 continuation result and far below the best bot's 198.
+
+Verdict: real candidate-supply counterexample, but not a new integration gap.
+It exactly reproduces the changed-terminal residual already generalized by 249
+and rejected for unsafe takeover by 250/251; 252--254 then exhausted the current
+state-equivalence/permutation certificate family. No SCORE successor is opened
+and row 11 may proceed with canonical behavior. Reopen only with a genuinely
+new executable whole-future state-dominance invariant, not another current-day
+takeover, one-shot bound, role permutation or fixture dispatcher.
+
+Functionality-preservation answers: (1) 256 changes no production behavior and
+removes, disables, defers or reduces no designed functionality; (2) nothing is
+deleted.
+
+## Closed negative attribution — ATTR-MULTITEAM-LOW-AGENT-DEFICIT-255
+
+Qualifying row 10, `m-4980`, is a fresh hard three-bot counterexample on a
+server-published `10000 ms` window: ten days, 32x32, 100 steps/day, three
+agents, 32 spots, six brands and medium fuel. Canonical behavior finished fourth
+at `6/60/168` behind `198/196/189`. Replay-check reproduces `6/60/168`; all ten
+days are exact-valid, the independent validator agrees, and all nine transitions
+reconcile. This is not a protocol, invalidity or submission failure.
+
+The first attribution step was read-only and source-free. All seven structurally
+valid three-agent role masks were replayed closed-loop in forward and reverse
+order with the same canonical `5000 ms` checkpoint; mask 7 was correctly
+rejected because it leaves no patrol. The recorded arm is mask 1 (`TPP`).
+
+Forward/reverse final scores were: all-patrol mask 0 `6/43/102` and
+`6/43/100`; one-tanker masks 1/2/4 `6/60/153,156,154` and
+`6/60/155,150,150`; two-tanker masks 3/5/6 `6/60/84`, `6/55/79`,
+`6/56/75` and `6/59/84`, `6/58/81`, `6/60/88`. The live mask-1 checkpoint
+was 156 and its already-promoted continuation raised the authoritative result
+to 168. Composition is therefore correct at one tanker; identity variation is
+small and wall-clock-sensitive and cannot explain the 30-serving deficit to the
+best bot. Existing master-pool upper bounds exceed the selected cumulative score
+by at most two servings on any day, while public continuation produced only
+dual-valid no-gain alternatives before the terminal lift. Verdict: role gap
+closed negative; candidate supply is the next admissible attribution.
+
+Functionality-preservation answers: (1) 255 removed, disabled, deferred or reduced
+no designed functionality because it changes no source and only replays a
+consumed counterexample; (2) nothing is deleted. A SCORE successor is permitted
+only if attribution identifies a new public-state invariant not already closed
+by 229--254; replay-, mask-, map- and bot-specific dispatch remain forbidden.
+
+## Closed negative — SCORE-CAUSAL-PERSISTENT-AGENT-PERMUTATION-254
+
+Experiment 253 failed its frozen independent-arm gate, but complete attribution
+showed every loss and every `5000 ms` mismatch occurred when the candidate arm
+performed zero permutation takeover. All four actual takeovers were certified
+strict local gains and occurred only in non-losing pairs. The fresh gap is
+therefore measurement authority: two separately timed solver invocations cannot
+prove causal equivalence or regression for an internally certified no-op/gain.
+
+Experiment 254 retests exactly the same bounded persistent role-preserving agent
+permutation mechanism with one authoritative solver invocation and an internal
+same-parent counterfactual. The complete accepted public-continuation plan,
+state and ledger are frozen as the causal shadow. The candidate may replace that
+plan only after exact simulation plus independent validation prove a strict
+official current-day gain, identical own-road footprint, and exact complete
+end-of-day state under a non-identity role-preserving permutation. The actual
+physical ledger and mapping then advance while the causal shadow advances from
+the already-complete incumbent from that same invocation. Match-end W/T/L is
+computed from actual versus causal-shadow official score, never from another
+deadline-bound arm. At `5000 ms` the mechanism is an internal exact no-op and
+must emit score, plan-hash, state and ledger equivalence from the same execution.
+
+Before source change, the fresh development and one-time sealed holdout were
+frozen in
+`research/holdouts/SCORE-CAUSAL-PERSISTENT-AGENT-PERMUTATION-254.csv`, SHA256
+`68B09332375155D3719543B0D4DB1D8604D18C8475E3D70A67A799ED4AD934A3`.
+Development has 30 single-run causal cases from seeds `9760000..9765101`;
+holdout has 54 cases from seeds `9770000..9775103`. Both cover windows
+`5000/10000/15000`, players 8/9/10, general and 12/16/24/32 maps, every fuel
+profile and fixed/deadline roles. The consumed 253 development and its retired
+unopened holdout have no authority for 254.
+
+The frozen development gate requires all 30 atomic cases plus matching
+`case_complete` rows and one `run_complete`; exact internal score, per-day plan
+hash, state and ledger equivalence on every `5000 ms` case; zero causal loss or
+component regression; strictly positive aggregate causal official score at both
+`10000` and `15000 ms`; zero invalid, emergency, registered failure, mapping,
+role, shadow-state, shadow-ledger or uncertified-takeover counter; and at least
+three certified takeovers spanning both longer windows, both role modes, at
+least two player counts and two map strata. No partial row has authority. Only
+a complete pass may open the sealed holdout once on an authorized VM.
+
+Functionality-preservation answers: (1) 254 removes, disables, defers or reduces
+no designed solver, continuation, certificate, validator, checkpoint, replay,
+ACK or fallback capability; it adds a bounded certified transition after the
+complete incumbent and causal telemetry; (2) nothing is deleted, so no active-
+equivalent deletion claim is required. One solver path remains canonical; no
+second solver, map/seed/fuel/role/player/opponent dispatcher or weakened
+certificate is allowed.
+
+The implementation and tools are frozen for development. Candidate binary
+SHA256 is
+`3260C73B94D088089760B425B386AAFA0F8A38B8F1B28DEF20D6F44C3CC16299`;
+runner SHA256 is
+`800A76FAE54E900F5ED88777449B022A24B6F36B9210D274D876E29D262ABB37`;
+summarizer SHA256 is
+`04AF980AE2ECEB2D56EB8FADE9B7CFD56D67A4A2228D4C02B474E8D3A3031277`.
+The runner validated all 24 manifest rows and exact 30/54 split counts before
+evidence creation. A same-process `5000 ms` smoke had exact causal parent score
+and every per-day plan hash, while the consumed 253 witness at seed `9744000`
+produced one causal takeover and exact `6/60/558 -> 6/60/559` gain with zero
+mapping, role, state, ledger, invalid or certificate failure. All three CTest
+targets pass. These smokes are implementation checks only and have no promotion
+authority.
+
+Development then completed exactly 30 causal cases with 30 matching
+`case_complete` rows, one `run_complete` marker, empty stderr and matching frozen
+manifest/runner/summarizer hashes. The causal W/T/L was `3/27/0`; all three
+differences were tier 3 and aggregate delta was `0/0/+5`, split as
+`10000 ms: +3`, `15000 ms: +2`, and exact zero at `5000 ms`. Every `5000 ms`
+case preserved internal score, per-day plan hash, state and ledger equivalence.
+The three certified takeovers span windows `10000/15000`, fixed/deadline roles,
+players `8/9/10`, and map strata 16/24. All invalid, emergency, registered
+failure, mapping, role, shadow-state, shadow-ledger, causal-noop and uncertified-
+takeover counters are zero; there is no causal loss or component regression.
+
+Verdict: development passes every preregistered gate and authorizes the one-time
+sealed 54-case holdout on an existing authorized VM. Development log SHA256 is
+`288415688CC22A2B5EE208DFB08E8378982EBA68E9E19D6408D8D14025D62693` and
+summary SHA256 is
+`BCE4D30A33C426EAD4879E11ECE9E5F808612A2B0C612EF557A4DEE422B202DF`.
+The development effect is deliberately small and has no promotion authority by
+itself; production remains canonical `18ecdd3` behavior until the sealed holdout,
+protected integration lanes and BTC target-host gates all pass.
+
+For the authorized VM holdout, the exact frozen source archive SHA256 is
+`323851DA4D84CD3A40C11BB491795DA297A1B3B262806FE09FE6ECD3D1CEA22F`,
+the GCC 13.3 Linux tournament binary SHA256 is
+`1A40F68D143C950DBE5853A3224CA956369608A71ACD52988F395D4AA3609A65`,
+and the case-atomic VM runner SHA256 is
+`0E635E0B59D3DDD9A72A6DDF01FC9E76E6BA4A8C8F8A05F56853281A761B9B45`.
+The manifest remains the pre-source-change frozen hash above. The VM runner may
+write only the 54 holdout cases, one atomic result file per case, and one combined
+log after all files exist; partial scores have no authority.
+
+The one-time sealed VM holdout completed exactly 54 atomic results with no
+partial file, one `run_complete` marker, empty stderr and all frozen hashes
+matching. Causal W/T/L was `3/51/0`; every difference was tier 3 and aggregate
+delta was `0/0/+6`, split as `5000 ms: 0`, `10000 ms: +1`, and
+`15000 ms: +5`. Every `5000 ms` case preserved exact internal score, per-day
+plan hash, state and ledger equivalence. There was no component regression,
+invalid, emergency, registered failure, mapping, role, shadow-state,
+shadow-ledger, causal-noop or uncertified takeover failure.
+
+The frozen breadth gate nevertheless failed: all three certified takeovers were
+in `deadline` role mode and the complete `fixed` role stratum was `0/27/0`.
+Changing that gate, adding a role dispatcher or calling a no-loss result a pass
+after seeing the holdout is forbidden. Verdict: rejected at sealed holdout; no
+production integration, BTC gate or commit is authorized. Production remains
+canonical `18ecdd3` behavior. The research-only historical harness switch remains
+default-off solely to preserve reproducible evidence; it is not on the production
+runtime path and removes or reduces no canonical function.
+
+Holdout log SHA256 is
+`08EEB621C45070077E17DF26B7015C4268D1D95A9A18B93AA3DC1748F8D8F007` and
+summary SHA256 is
+`E83E2D290FEC9B02808A5EDA1ED3411F302051AAA4B323A2B5CB3694E31D7A38`.
+Experiments 252--254 close the role-preserving permutation axis. Reopen only
+from a fresh invariant that predicts role-independent score yield on wholly
+fresh unopened evidence; never reuse the consumed 254 holdout or tune to its
+fixed-role inertness.
+
+The preregistered 30-match BTC operational screen resumed at qualifying row 10
+with unchanged canonical `18ecdd3` production behavior. Every qualifying match
+remains hard difficulty, exactly three BTC bots and a server-published
+`10000 ms` response setting, with parameters inside the published official
+domain. The local `--response-ms 5000` flag is correct: the engine clamps that
+requested checkpoint budget to the canonical `5000 ms`, while BTC `daySeconds`
+and authoritative per-day `endsAt` expose the outer public window to the already
+promoted certified continuation. Passing `10000` to the flag is unnecessary and
+would be clamped to the same checkpoint budget.
+
+Existing `m-4980` is therefore qualifying row 10, not an excluded run. Its
+replay setup is 10 days, 32x32, 100 steps/day, three agents, 32 spots, six
+brands, medium fuel, four total players and `daySeconds=10` on every day. It
+finished fourth at `6/60/168` behind `198/196/189`; all ten action responses
+were accepted and the outer window authorized continuation. The screen is
+stopped at this fresh loss for exact replay validation and causal attribution
+before any row 11 or source change. The closed 244--254 evidence bounds the
+consumed `m-4959` gap and promotes no candidate; it does not classify `m-4980`.
+
+## Closed negative — SCORE-PERSISTENT-AGENT-PERMUTATION-253
+
+Experiment 252-v2 completed all 24 fresh official-domain cases with 24 matching
+`case_complete` rows, one `run_complete`, empty stderr and matching frozen hashes.
+Five matches and seven days yielded non-identity permutation-certified strict
+improvements, spanning players 8/9/10, fixed and deadline roles, map suites
+16/24/32, and low/default/high fuel. The probe examined 3,730 directed tasks,
+102,701 routes and 1,621,286 crossed pairs; 1,111,368 plans were dual-valid and
+434 satisfied the exact state/traffic/score certificate. The best certified
+plans added 29 servings in total, with zero invalid, emergency, registered
+failure or incumbent mutation. Log SHA256 is
+`AA440C683DCEC37F6A14DF296A587379FC32CD9A19CCB1CEBA7B546146221218` and summary
+SHA256 is
+`829D000611E355FD836086CC48CE738D6F06C4D4BCB86E586ECF9E159AAF29EC`.
+
+Verdict: accepted attribution; a separate SCORE successor is qualified. Before
+any production source change, experiment 253 must freeze wholly fresh development
+and sealed holdout seeds and specify one persistent bijection between logical
+solver agents and physical wire agents. The logical state passed to the unchanged
+solver must remain the protected incumbent state; candidate actions must be
+mapped back to physical indices; exact simulation and independent validation
+must run on the authoritative physical state; ACK, next-day reconciliation,
+session checkpoints and cold replay resume must preserve the same bijection.
+Any ambiguity, non-bijection, role mismatch, missing checkpoint field, invalid
+plan, deadline, exception or non-strict certified gain returns the exact parent
+path. Global canonical agent reordering, a second solver, map/seed/fuel/role
+routing or an identity-insensitive approximation remain forbidden by experiment
+173.
+
+Functionality-preservation answers: (1) 253 may add a certified transition and
+state adapter but may not remove, disable, defer or reduce any canonical solver,
+certificate, validator, checkpoint, replay or fallback path; (2) no deletion is
+planned, so no equivalent-replacement claim is required.
+
+The 253 development and sealed holdout were frozen before source change in
+`research/holdouts/SCORE-PERSISTENT-AGENT-PERMUTATION-253.csv`, SHA256
+`ABFBB07922280A76F06D4D0BFDA490268F5F10E4C81C8FA356E25ED7095340BC`.
+Development contains 30 fresh pairs / 60 atomic results from seeds
+`9740000..9745101`; the one-time sealed holdout contains 54 pairs / 108 results
+from seeds `9750000..9755103`. Both cover the canonical `5000 ms` equivalence
+lane and public windows `10000/15000 ms`, players 8/9/10, general and
+12/16/24/32 maps, all fuel profiles, and fixed/deadline roles.
+
+The frozen development gate requires: exact parent score and plan-hash
+equivalence on every `5000 ms` pair; zero loss at every official tier; positive
+aggregate score at the two longer windows; zero invalid, emergency, registered
+failure, mapping non-bijection, role mismatch, shadow-state mismatch, shadow-
+ledger mismatch and uncertified takeover; and at least three certified takeovers
+spanning both longer windows, both role modes, at least two player counts and two
+map strata. No partial result has authority. Only a complete passing development
+run may open the sealed holdout once.
+
+The implementation is now frozen for development. It keeps the accepted public
+continuation as a logical shadow and maintains a separate actual ledger plus one
+bijective logical-to-physical agent map. A certified crossed-terminal candidate
+is exact-simulated and independently validated on the physical state, mapped
+back to wire indices, and accepted only if remapping its complete final state
+recovers the exact shadow state while score strictly improves and the road
+footprint is unchanged. The search returns on the first complete certificate;
+deadline or no gain keeps the already validated physical parent plan. No solver,
+refiner, validator, checkpoint or fallback was removed or weakened. Unit,
+strategy-smoke and master-oracle tests pass, an old consumed 252-v2 witness
+completed one persistent takeover with `+3` servings and zero mapping/shadow/
+certificate failure, and a direct `5000 ms` smoke produced exact parent score and
+per-day plan hashes.
+
+Frozen candidate binary SHA256 is
+`89EC2323D18396E81AB824658476B6555C8B7404424C33B5893E0598E0CC399A`;
+runner SHA256 is
+`0E05EFC3DE9A63C437404EB947C41123CBB122B79EEF2607B1898BD82B8BF13D`;
+summarizer SHA256 is
+`AA579E1575010DCB35E1745B8769D66A8886BDAEF5066EE50276DD610F9BD5A3`.
+The runner validated all 24 frozen manifest rows, 30 development pairs and 54
+sealed holdout pairs before creating evidence. Local timing remains
+non-authoritative; the sealed holdout remains unopened.
+
+Development then completed exactly 60 results and 60 matching `case_complete`
+rows with one `run_complete`, empty stderr, matching frozen hashes and zero
+invalid, emergency, registered failure, mapping, role, shadow-state,
+shadow-ledger or uncertified-takeover counter. Paired official W/T/L was
+`8/19/3`, all first differences were tier 3, and aggregate delta was `-40`
+servings. Window deltas were `5000: -62`, `10000: +46`, `15000: -24`;
+three `5000 ms` pairs also failed the frozen score/plan-hash equivalence gate.
+Only one player-count stratum contained a takeover. The frozen development gate
+therefore failed and the sealed holdout was not opened. Log SHA256 is
+`F9F821E705E1DDBE345FF5DEA18ED2531B6DB098B3477D3E0B060F6BBE4F21C7`;
+summary SHA256 is
+`B74100260C534E4F5F7DEBD1AB440AC0A8848C0E983119F905CDEB49DD8E42BE`.
+
+Verdict: rejected at development and revert the 253 runtime adapter. Complete
+post-run attribution found that every one of the three losses and every 5000-ms
+equivalence mismatch occurred in a candidate case with zero permutation
+takeover. Conversely, all four certified takeovers occurred only in non-losing
+cases and contributed positive local certified gain. This does not rescue 253:
+its preregistered independent deadline-bound paired gate still failed. It does
+show that the mechanism itself was not causally falsified and exposes a fresh
+measurement gap: independent wall-clock arms cannot establish equivalence for a
+feature that is a provable no-op at 5000 ms. A successor is allowed only with
+wholly fresh seeds/holdout and a same-parent in-process causal counterfactual
+that compares the actual candidate transition against its own already-complete
+shadow incumbent. The consumed 253 development cases and its unopened but
+retired holdout may never promote that successor.
+
+## Closed positive attribution — ATTR-PERMUTED-TERMINAL-PAIR-YIELD-252-v2
+
+Experiments 250 and 251 proved that a strict current-day score gain is not a
+future certificate: even one changed-state takeover can lose tier 2 or create a
+large tier-3 tail. Experiment 252 asks an earlier attribution-only question
+before any further production mechanism is designed. It searches the unchanged
+accepted incumbent for two-Patrol replacements whose end-of-day physical state
+is exactly the incumbent state up to a non-identity role-preserving permutation of agent
+identity: identical aggregate road footprint, identical terminal cell and fuel
+multiset within each role, and componentwise non-regressing official score with
+at least one strict gain. This is stronger than the ordinary fuel-dominance
+certificate; no surplus fuel is admitted in this first probe.
+
+The probe enumerates at most 50,000 sparse states and 32 retained routes per
+directed `(Patrol, partner incumbent terminal)` task using the existing
+target-terminal sparse enumerator and the 249-qualified `minimumSpots=1` domain
+while any preferred brand remains, then exact-simulates and independently
+validates crossed route pairs. It records tasks, routes, cross-terminal pairs,
+dual-valid plans and non-identity permutation-certified strict improvements but never
+applies a plan or changes the authoritative trajectory.
+An internal incumbent plan-hash guard must remain exact. There is no holdout and
+no promotion authority.
+
+V1 started six atomic cases but was stopped before any result telemetry was
+inspected or aggregated when a static code audit found that its certificate
+also admitted the identity permutation. Its log SHA256 is
+`DADB7DBBBD6669FFDF3FE8A0A6D12EE05155B9E990D22B7BA409315ED2C96845`;
+those rows are invalid operational evidence and must never be resumed,
+aggregated or mixed with v2.
+
+Before the v2 source correction, the replacement fresh official-domain manifest
+was frozen at
+`research/holdouts/ATTR-PERMUTED-TERMINAL-PAIR-YIELD-252-v2.csv`, SHA256
+`015FFC8F3B0A2FE82A862160FD29CBAB422484FD01C456083288FF83488A9E20`.
+It contains 24 fixtures across players 8/9/10, general and 12/16/24/32 maps,
+low/default/high/generated fuel and fixed/deadline roles. A SCORE successor is
+allowed only if at least three matches contain a certified strict improvement,
+spanning at least two player counts, two map-size strata and both role modes,
+with zero invalid/emergency/failure and zero incumbent mutation. Otherwise the
+pair-permutation axis closes without production change. Any successor must use
+wholly fresh seeds and implement one canonical persistent logical-to-physical
+agent remap so the bounded solver observes the exact incumbent logical state;
+direct canonical reordering, a duplicate solver or fixture routing is forbidden.
+
+The frozen v2 observational binary SHA256 is
+`C888319A69F4AE16A832CC69E3844407162F002C9AFAD4C073B55D9B1633FBF0`;
+runner SHA256 is
+`88F88BBADB57A7E11A228658DCC321C058873BCFDFB7CF304AD91E1E47F21939`;
+wrapper summarizer SHA256 is
+`9BF98175CE36AE3B58C58F92ED89B4681E508BBFDD17026C71D81031683A22DD`
+and its frozen delegate SHA256 is
+`75B595B06EFD243A3CA3FAA720DA1527DB2317E2DDAFF249184039DD200C6ECB`.
+The v2 runner validated all 12 rows and 24 replacement cases before evidence
+creation. A pre-v1-evidence smoke caught and corrected an initially over-strict
+`minimumSpots=brand_count-1` wiring; neither smoke result is experiment evidence.
+
+Functionality-preservation answers: (1) 252 removes, disables, defers or reduces
+no designed functionality because it is observational instrumentation after the
+complete incumbent and never affects submitted actions; (2) it deletes nothing,
+so no replacement-equivalence claim is required.
+
+## Current phase — SCORE-ONE-SHOT-SPARSE-SIDECAR-251 closed negative
+
+Experiment 250 proved both sides of the residual: the current-day sparse
+neighborhood has broad causal value, but nine changed-state takeovers can drift
+far enough to create a `-13` terminal tail. Experiment 251 tested one new general
+invariant only: the complete unchanged solver and accepted protected checkpoint
+refinements remain the incumbent; the same capped sparse sidecar may replace it
+at most once in the entire match. A no-gain day leaves the opportunity unused
+for a later day. After the first dual-validated strict current-day improvement,
+the exact applied transition becomes authoritative and the sidecar is disabled
+for all remaining days. There is no gain threshold and no routing by suite,
+map, fuel, horizon, role, player count, seed, opponent or match ID.
+
+The fixed operation domain remains one representative per distinct public
+patrol `(position,fuel)`, at most 50,000 settled states and 64 retained routes
+per representative, one-agent exact replacements, no coordinate iteration, no
+master/F0 reinjection and no solver rerun. It uses only time left inside the
+same absolute `5000 ms` checkpoint. Deadline, exception, invalidity or no strict
+official gain returns the exact incumbent. The one-shot bound is not claimed as
+a future-state certificate; paired closed-loop evidence retains promotion
+authority.
+
+Before source change, the fresh development and sealed holdout were frozen in
+`research/holdouts/SCORE-ONE-SHOT-SPARSE-SIDECAR-251.csv`, SHA256
+`8A00B64171CB529ADF04AC230C348132F5849E07472DEF99CFBA375C0AF66811`.
+The frozen same-binary candidate SHA256 is
+`5EEAE0F67770FC9AC3311E79801465DAE0EE927143A4ADE1599D546CBB613B7B`;
+runner SHA256 is
+`41298441CDBD8223942510839DE21E884DABE20701ED03A885E13C9E96CCC485`;
+summarizer SHA256 is
+`015ABF2185F3AF923CEAF7BFCFDF6A9C59226267F4FDFD0E5BD58E4798C3F140`.
+Development contains 30 pairs / 60 atomic results from seeds
+`9680000..9685101`; the sealed holdout contains 54 pairs / 108 atomic results
+from seeds `9690000..9695103`. Both cover players 8/9/10, 8/12/16/24/32 maps,
+4/5/7/10-day horizons, low/default/high/generated fuel and fixed/deadline roles
+under the corrected official-domain generator.
+
+Development gate is frozen unchanged for safety and downside: exact result /
+completion bijection; zero invalid, emergency or registered failure; at most
+one takeover per match; no tier-1/2 loss; positive official aggregate; gains in
+players 8/9/10 and both roles; no public axis stratum with losses greater than
+wins; each tier-3 loss at most 10 and total loss tail below 10% of gains. Instead
+of comparing plan hashes across two independent deadline-bound parent runs, the
+harness must prove inside each sidecar call that every no-takeover return is
+byte-identical to that call's own incumbent; any mismatch is a hard failure.
+Development completed exactly 60 results and 60 matching `case_complete` rows
+with one `run_complete` marker and empty stderr. Paired official W/T/L was
+`16/10/4`; first differences were ten ties, one tier-2 loss and nineteen tier-3
+differences. Aggregate component delta was `0/-1/+95`; gains totalled `+134`
+with maximum `+25`, while losses totalled `-49` with minimum `-39`. Players
+8/9/10 were respectively `3/7/2`, `5/3/0` and `8/0/2`; the 10-day stratum was
+`0/1/3` and multiteam-32 was `0/1/3`. Both arms had zero invalid, emergency and
+registered failure counters. Every match respected the one-takeover cap and
+the causal no-takeover self-mismatch counter was zero.
+
+Verdict: rejected at development. The candidate failed the frozen no-tier-2-
+loss gate, positive aggregate gate, bounded tier-3 tail gate, total loss-tail
+gate and no-losing-public-stratum gate. The sealed holdout remains unopened.
+Development log SHA256 is
+`18751968221AF6225C5A464A221C15FCE77EB33CB0B879DF840DAF97B120FCCD`;
+summary SHA256 is
+`F8DD24F76BEBB4FFA8984ADEF568C3EDF8266FE53FEE6D908D433DACEE994E82`.
+
+The general conclusion is stronger than "use fewer takeovers": even one strict
+current-day gain can lose tier 2 through the changed authoritative terminal
+state. A successor may not repeat an unprotected current-day takeover, tune a
+gain threshold or dispatch on public fixture axes. Reopen this residual only
+with a state-coupled future certificate, or by enriching the existing canonical
+candidate/master path while leaving its selection and transition proof intact.
+No successor is registered until that earliest missing canonical-stage boundary
+is identified from fresh attribution.
+
+Functionality-preservation answers for closure: (1) reverting 251 removes no
+designed production functionality; the switch was default-off, never promoted
+and failed its preregistered development gate, while the frozen binary and exact
+evidence preserve the research implementation; (2) canonical production remains
+the active complete implementation for every caller and consumer.
+
+## Closed negative — SCORE-CURRENT-DAY-SPARSE-SIDECAR-250
+
+Experiment 250 tests the direct mechanism qualified by 249 without repeating
+the rejected integration paths of 176, 179, 190 or 248. The complete unchanged
+solver and every accepted protected checkpoint refinement remain the incumbent.
+Only after that incumbent exists, and only inside the same absolute `5000 ms`
+checkpoint boundary, the candidate may enumerate one capped sparse pool for
+each distinct public patrol `(position,fuel)` representative and exact-evaluate
+one-agent replacements. It may retain only the best strict official current-day
+improvement accepted by both the exact simulator and independent validator.
+Deadline, failure, invalidity or no strict gain returns the exact incumbent.
+
+This is not a second full solver and does not feed routes back into the master,
+rerun F0, alter certificates, or predict a realized suffix. It is one bounded
+post-incumbent local neighborhood: at most 50,000 settled states and 64 retained
+routes per representative, no coordinate iteration. Unlike protected public
+continuation, this candidate deliberately permits a changed end-of-day state;
+the exact applied transition becomes the next authoritative parent. Therefore
+promotion authority comes only from paired closed-loop evidence with bounded
+downside, not from a false nonterminal monotonicity claim.
+
+Before source change, development and sealed holdout were frozen together in
+`research/holdouts/SCORE-CURRENT-DAY-SPARSE-SIDECAR-250.csv`, SHA256
+`7FFEAD5590F017B79C0DDC87DFB4F03EE2420CA2DBD8FA90C79C08A193054D58`.
+The frozen same-binary development candidate is
+`build-contract-fix/udonshield_historical_tournament.exe`, SHA256
+`81A041C14A2EC73591C521BC2481E8C55608E022E825B76DD23FE3822B8A421C`.
+The corrected case-atomic runner SHA256 is
+`BE5A058BEF6BABFAF739A2BDA5ED6E1A73F81836129ECCE4C9520C50A99C98C7`;
+the frozen summarizer SHA256 is
+`7E98E9A9A66A114B6B5EA4F845B09DC985D2018E1CD94C75D374ACABA995AB1A`.
+The initial launcher invocation used an absolute output path against a runner
+that unconditionally joined it to the workspace, failed before creating the
+experiment log, and is preserved only as invalid pre-run operational stderr.
+Development has 30 pairs / 60 atomic results from fresh seeds
+`9660000..9665101`; sealed holdout has 54 pairs / 108 atomic results from fresh
+seeds `9670000..9675103`. Both cover public players 8/9/10, 8/12/16/24/32
+maps, 4/5/7/10-day horizons, low/default/high/generated fuel and fixed/deadline
+roles. The corrected official-domain generator enforces `stock <= agents/team`.
+Both arms must use one binary with only the default-off sidecar switch changed.
+
+Development gate: exact result/completion bijection; zero invalid, emergency or
+registered failure; no tier-1/2 loss; official aggregate positive; strict gains
+must span players 8/9/10 and both role modes; no public map/fuel/role stratum may
+have more losses than wins; any tier-3 loss must be at most 10 servings and the
+total loss tail must remain below 10% of the gain tail. Mechanism telemetry must
+show valid routes and takeovers, and every no-takeover plan hash must equal the
+control. The holdout may open once only if all gates pass clearly. Promotion
+then additionally requires the same holdout gates, protected checkpoint
+regression/equivalence lanes and BTC target-host lifecycle/latency/safety at the
+authoritative public deadline; local latency has no authority.
+
+Development completed exactly 60 results / 30 pairs with a result/completion
+bijection, one `run_complete` marker and zero stderr. Paired W/T/L is `20/9/1`;
+all 21 differences are tier 3 and aggregate delta is `0/0/+401`. Gains sum to
+`+414` with maximum `+39`; the single loss is `-13`. It occurs on public
+players-10, low-fuel, fixed-role, 10-day multi-team-32 seed `9664000`: the
+sidecar makes nine changed-state takeovers, leads by `+3` after day 9, then
+loses 16 servings relative to control on the terminal day and finishes
+`6/60/702` versus `6/60/715`. All invalid, emergency and registered failure
+counters are zero; candidate telemetry records 114 takeovers and 49,105
+dual-valid plans.
+
+The preregistered development gate fails in two independent ways. The `-13`
+tail exceeds the fixed per-case bound of 10. Three no-takeover multi-team-12
+pairs tie exact score but differ in plan hash because the deadline-bound parent
+itself reaches different equal-score plans between the sequential runs; the
+gate nevertheless required exact plan-hash equivalence and cannot be changed
+after observation. The sealed 108-result holdout remains unopened. Development
+log SHA256 is
+`E5BE8FF938CE7A4086FFBAEA3A1AB2A399B7897D476519F0744AE345772EA524`;
+summary SHA256 is
+`72F918DE5DA88315861B98B5F5CA2F1998224539DB39298B93B6A13CB13FFC93`.
+
+The mechanism-level result is not circular: repeated changed-state current-day
+takeovers can create real positive global lift, but their uncontrolled state
+drift reproduces the known nonterminal downside and is not promotable. A fresh
+successor may test the new general invariant "at most one accepted changed-state
+sidecar transition per match" because the rejected loss and one tie each have
+nine takeovers while the m-4959 causal witness needs one. It must use wholly
+fresh development/holdout seeds and must not tune a gain threshold or dispatch
+on suite, map, fuel, horizon, role, player count, seed or opponent.
+
+Functionality-preservation answers for closure: (1) reverting 250 removes no
+designed production functionality; the flag was default-off, never promoted and
+failed its preregistered gate, while the frozen binary and all evidence preserve
+the exact research implementation; (2) canonical production remains the active
+complete incumbent for every caller and consumer. No accepted capability is
+deleted or weakened.
+
+## Closed positive predecessor — ATTR-SPARSE-ROUTE-PREVALENCE-249
+
+The consumed 247/248 evidence is domain-contaminated by the old uncapped stock
+generator, while the server-authoritative m-4959 route-supply witness remains a
+real exact-valid counterexample. Experiment 249 repeated only the attribution
+question on a wholly fresh, corrected official-domain manifest; it changed no
+production behavior and had no promotion authority.
+
+The frozen 24-pair matrix is
+`research/holdouts/ATTR-SPARSE-ROUTE-PREVALENCE-249.csv`, SHA256
+`2E4F5289871D1A76611CD5CB1C367C4E5A7B5F56CC7B034E661CFE07587D3939`.
+It covers public players 8/9/10, 8/12/16/24/32 maps, 4/5/7/10-day horizons,
+low/default/high/generated fuel and fixed/deadline roles using fresh seeds
+`9650000..9655101`. The corrected generator caps every stock at actual agent
+count; the parser enforces the same invariant. The frozen no-production-change
+historical binary SHA256 is
+`07F9E0CE5AC63F01F23E0B6990B276B32CD65B4632C9AD1813969B42416CAF79`;
+runner SHA256 is
+`769BD1C682FB4FC437116D937EF33E179B839F5283B4B872BD7761151D569A10`;
+summarizer SHA256 is
+`FCC4CC58BE8F590577A59014AF4ED28EAE829B983B48D8FE0F304B83A51721D0`.
+Validation passed before evidence creation. The run then completed exactly 48
+results, 48 matching `case_complete` rows and one `run_complete` marker. Paired
+W/T/L is `19/3/2`; first differences are three ties, one tier-2 improvement and
+twenty tier-3 differences. Aggregate component delta is `0/+1/+556`. Gains sum
+to `+545` with maximum `+68`; the only losses are two isolated `-1` serving
+tails. Both arms have zero invalid, emergency and every registered failure
+counter. Players 8/9/10 are respectively `5/1/2`, `6/2/0`, `8/0/0`; deadline
+role is `10/2/0`, fixed role `9/1/2`. The tier-2 gain is multi-team-16 seed
+`9655101`, `6/27/157 -> 6/28/171`. The losses are general low-fuel seed
+`9650000`, `6/24/35 -> 6/24/34`, and multi-team-24 default-fuel seed `9653001`,
+`6/42/397 -> 6/42/396`.
+
+Canonical log SHA256 is
+`A28DDF3CFA010A934D7CBC6D21BC558E207B2671ADC7A3C8BC0F56137303B119`;
+summary SHA256 is
+`56B22F02019E83A35FFFF6622649BBBFCB1E0C657E00B5ABBF3C463B48280996`.
+
+The mechanism is unchanged attribution: parent plan versus exact-applied
+current-day sparse one-patrol exchange, at most 64 routes and 50,000 settled
+states per stable `(position,fuel)` representative. Exact simulator,
+independent validator and official lexicographic comparison remain mandatory.
+The result is broad across every public player count, both role modes, every
+fuel class and every non-general map-size stratum, with bounded downside and
+zero safety failure. Verdict: `positive-attribution-score-successor-qualified`.
+It authorizes a separate SCORE experiment from wholly new development/holdout
+seeds; it does not authorize production promotion. The successor must preserve
+the canonical candidate set and cannot repeat 248's post-master whole-plan
+injection, because the guaranteed-valid 248 subset retained a `-74` closed-loop
+tail. Experiments 176/179 also forbid changing the shared bounded pipeline by
+late exact columns under the same window without a new invariant. The active
+design question is therefore where sparse route supply can enter the existing
+single master pipeline while preserving its ordinary competition, proof and
+deadline semantics rather than directly forcing a current-day winner.
+
+Functionality-preservation answers: (1) 249 removed, disabled, deferred or
+reduced no designed production functionality; it was an isolated attribution
+arm; (2) nothing was deleted.
+
+## Closed predecessor — 247/248 domain-contaminated
+
+247 completed its attribution run with production source unchanged. The fresh
+24-pair multi-team sweep completed exactly 48 results and 48 matching
+`case_complete` rows: W/T/L `18/4/2`, first differences four ties, one tier-2
+loss and nineteen tier-3 differences, aggregate component delta `0/-1/+510`.
+Gains sum to `+568` with maximum `+69`; losses sum to `-55` with minimum `-54`.
+Players 8/9/10 are respectively `7/2/1`, `4/2/0`, `7/0/1`; deadline role is
+`9/3/0`, fixed role `9/1/2`. Both arms have zero invalid, emergency and all
+registered failure counters. Exact evidence is in
+`research/evidence/ATTR-SPARSE-ROUTE-PREVALENCE-247.md`; log SHA256
+`346CC953E2ED702C7035323D76A4FE3363C217899976418BA2AF2A67A1790425` and
+summary SHA256
+`A0E71E722515CA52315D083DF96CE914CA2C8ED499FB8BA45E017363BC3BCDAF`.
+
+A post-run deterministic fixture audit against the organizer rule
+`stock <= agents/team` found that 10 of 24 pairs were outside the official
+domain: every multiteam-12 and multiteam-16 pair used the old uncapped
+`1..8` stock generator. The 14 guaranteed-valid pairs are post-hoc diagnostic
+only and score `9/3/2`, aggregate component delta `0/-1/+306`; they retain the
+tier-2 loss on general seed `9620000` and the `-54` serving tail on
+multiteam-32 seed `9624001`. This supports the existence of the route class but
+cannot satisfy a preregistered prevalence gate. Verdict is therefore corrected
+to `inconclusive-domain-contaminated`, not accepted promotion attribution.
+
+The raw signal originally triggered a separate SCORE successor, but
+unconditional takeover remained forbidden. General seed `9620000` regresses
+`6/24/41 -> 6/23/37` at tier 2, and multiteam-32 seed `9624001` regresses
+`6/60/409 -> 6/60/355`. Experiment 248 therefore preserves every canonical
+candidate and uses the sparse mechanism only as additive candidate supply:
+from one deterministic current-day quality leader, enumerate at most 64 routes
+for every stable public patrol `(position,fuel)` representative with a fixed
+50,000-settled-state cap; exact-evaluate one-agent mutations and add only strict
+current-day improvements to the unchanged F0/profile/certificate pool. The
+existing comparator and transition certificate keep sole selection authority.
+Deadline, no-route or no-gain leaves the complete parent pool unchanged.
+
+Before source change, development and sealed holdout were frozen together in
+`research/holdouts/SCORE-SPARSE-ROUTE-CANDIDATE-SUPPLY-248.csv`, SHA256
+`329A7FA1FDF7CE94C3F6DFCBEC9DE50A582D6B9710615A2BD0F856911A9C6E2E`.
+Development is 30 pairs / 60 results and sealed holdout is 54 pairs / 108
+results, using fresh seeds, 8/9/10 players, general 8 and multi-team
+12/16/24/32 maps, 4/5/7/10 horizons, all fuel profiles and fixed/deadline
+roles. The sealed holdout was never opened.
+
+The frozen Windows candidate historical binary SHA256 is
+`F6ECBD84A76DB366C5512F4EC3A26E30B8A9E28E03FCD4E9696C008F6D3845E3`;
+the direct parent historical binary remains
+`55F09C751AEA2557FFB7F2BD0B66DD1EC918E778C4D223A8ADC7933F0D6A76F8`.
+The case-atomic runner SHA256 is
+`7B527F3690B84F33E192B3F568E148A9D1BDCAF138B34B1A893CDD528796301A`
+and the frozen summarizer SHA256 is
+`3070117147D6051A985B04C69D86F74C2896443765F7D94D3A62735E0241D44B`.
+Development completed exactly 60 results, 60 matching `case_complete` rows and
+one `run_complete` marker. The paired result was W/T/L `19/10/1`; all twenty
+differences were tier 3, aggregate delta `0/0/+277`, gains `+351` with maximum
+`+34`, and the sole loss was `-74`. Both arms had zero invalid, emergency and
+all registered failure counters. Log SHA256 is
+`D49A000B4DB1E651B327A4660F966D6A24C7F7543F0DA71655F75D1137885DBF`;
+summary SHA256 is
+`260AB5BD87AA0FC511EEA55272248BBFBF6B7CA8E145489676DE6A4AEECFA5D3`.
+
+This development evidence has no promotion authority because the frozen
+historical fixture generator was later proven to violate the official stock
+domain. It generated stock in `1..8` independently of actual agent count. A
+deterministic audit of the development split found exactly 15 of 30 paired
+fixtures outside the official rule `stock <= agents/team`. The old product
+parser incorrectly accepted them. On the 15 guaranteed-valid pairs, post-hoc
+diagnostic W/T/L is `8/6/1`, all differences tier 3, aggregate `+125` and the
+same `-74` tail. The completed symmetric A/B log is preserved as development
+telemetry, but neither the raw result nor this post-hoc subset can authorize
+opening the holdout.
+
+Verdict: `inconclusive-domain-contaminated-before-holdout`. The default-off 248 source
+change must be removed from the production tree. A successor may reopen only
+after the official-domain correctness integration, from a wholly fresh
+manifest/holdout and an independently justified mechanism; no seed or case from
+this consumed development split may be reused.
+
+Functionality-preservation answers: (1) closing 248 removes no designed
+production functionality because it never qualified and remained default-off;
+canonical production behavior is restored; (2) no active equivalent is being
+deleted because no 248 caller was ever enabled.
+
+## Closed predecessor — ATTR-SPARSE-ROUTE-PREVALENCE-247 domain-contaminated
+
+245 closed positive: the unchanged sparse route reaches `8/8/48`, mask `0xFFF`,
+at the first preregistered cap of only 50,000 settled states and stays identical
+at every cap through 1.25 million. The route is therefore not intrinsically a
+large-cap capability. Exact evidence is in
+`research/evidence/ATTR-SPARSE-ROUTE-DISCOVERY-BUDGET-245.md`.
+
+Before any production source change, 246 must test prevalence on fresh
+synthetic 8/9/10-team traffic fixtures. The fixed mechanism is one stable
+representative for each distinct public `(position,fuel)` patrol class, 50,000
+sparse states per representative, at most 64 routes, exact one-agent exchanges
+from the unchanged parent plan and official lexicographic comparison. The sweep must
+cover 4/5/10-day horizons, low/default/high fuel, 8/12/16/24/32 maps and both
+fixed and native role lanes. It has no promotion authority; it decides only
+whether a separate frozen SCORE candidate is worth opening. No elapsed local
+time may support performance claims.
+
+The first 246 runner stopped after eight atomic results because the product
+parser incorrectly imposed an undocumented map-dependent cap and rejected the
+officially valid `multiteam-12` value `daySteps=100`. No partial score was
+aggregated. V1 remains incomplete operational evidence and must not be resumed
+or mixed; the exact record is in
+`research/evidence/ATTR-SPARSE-ROUTE-PREVALENCE-246-operational-invalid.md`.
+
+The corrected 246-v2 runner then completed 44 atomic results with zero
+invalid/emergency before the product parser incorrectly rejected 18 spots on a
+16x16 map. The official rule has no `spots <= max(width,height)` limit; spots
+occupy distinct plain cells and franchise count ranges from one to the number
+of spots. It failed before result 45. V2 is also incomplete operational
+evidence and must not be resumed, aggregated or mixed; its exact record is in
+`research/evidence/ATTR-SPARSE-ROUTE-PREVALENCE-246-v2-operational-invalid.md`,
+SHA256 `B91891F6BE7029EC725D5A53E5B5325F6B42E54EDAB4B299CB2CE1D57FEBE948`.
+
+The single active replacement is `ATTR-SPARSE-ROUTE-PREVALENCE-247`. Its fresh
+24-pair manifest was frozen at
+`research/holdouts/ATTR-SPARSE-ROUTE-PREVALENCE-247.csv`, SHA256
+`EE08FDF1A997C21C11F84E19FD0AF23172B19F0B3C838647E153AEECC3FD0116`.
+Seeds `9620000..9625101` retain the preregistered 8/9/10 players, 8/12/16/24/32
+maps, 4/5/7/10 horizons, all fuel profiles and fixed/deadline roles. The runner validates
+all 12 rows, 24 unique pairs, public strata and exact frozen budgets before it
+creates an evidence log. Validation passed without opening score evidence.
+
+The unchanged corrected research binary SHA256 is
+`55F09C751AEA2557FFB7F2BD0B66DD1EC918E778C4D223A8ADC7933F0D6A76F8`;
+the frozen 247 runner is
+`47A1E5A535DCFA1465444E98B7FDF492E0695C306FDBB5012259B07A323201AF`;
+the frozen 247 summarizer is
+`569EE88302FD81AF6C4629877EF86F33D326FEC604EE31F4DA235B181C118B4E`.
+Production-library behavior and the fixed sparse attribution mechanism remain
+unchanged.
+
+Functionality-preservation answers: (1) closing invalid 246-v1/v2 and opening
+247 removes, disables, defers or reduces no designed production functionality;
+the replacement restores the complete intended multi-team evidence lane; (2)
+nothing is deleted.
+
+## Closed predecessor — ATTR-SPARSE-ROUTE-DISCOVERY-BUDGET-245 positive
+
+## Closed predecessor — ATTR-MULTITEAM-ROOT-CAUSAL-244 positive
+
+Qualifying row 9, `m-4959`, is a fresh hard three-bot counterexample: four
+days, 12x12, 96 steps/day, 10000-ms public response, eight agents, twelve
+server-authoritative spots, eight brands and low fuel. UDON-SHIELD is exact-
+valid on 4/4 days, both validators agree, all three transitions reconcile, but
+ranks fourth at `8/32/211` behind `234/224/220`. Replay SHA256 is
+`336CB23D6444668C85EFE4663F209FA5DD8561BD1EB57FD01904B93D1A6AD532`.
+
+Role identity is not the cause: the live seven-patrol/one-tanker mask 128 is
+`8/32/210` in the closed-loop checkpoint counterfactual, while all patrols
+regress tier 2 to `8/30/118`. The unchanged sparse probe finds exact-valid
+changed-terminal gains of `+4` on each of days 1--3 but no protected same-
+terminal gain. Unlike `m-4955`, the canonical master also reports a feasible-
+pool score upper about `+6` above the selected plan on every nonterminal day,
+hits its deadline, and skips about 5000 duplicate complete plan IDs on each of
+those days. That upper alone is not promotion evidence, but the exact-valid
+sparse root is a real current-day witness requiring closed-loop causal
+classification.
+
+`ATTR-MULTITEAM-ROOT-CAUSAL-244` is closed positive with no production change.
+The exact applied-transition causal harness reproduces the recorded-root control
+at `8/32/211`; forcing only the sparse day-1 root reaches `8/32/215`. Days 2--4
+contribute the identical `50/50/67` servings in both arms, so the day-1 `+4`
+persists closed-loop. The sparse full plan and its changed patrol route are
+absent from all 16 canonical day-1 audit candidates. The earliest loss is a
+real additive route-supply gap before audit/F0, not role identity, F0 order or
+suffix noise. Exact evidence is in
+`research/evidence/ATTR-MULTITEAM-ROOT-CAUSAL-244.md`.
+
+The consumed replay has no promotion authority and the witness alone still
+does not beat the strongest BTC bot. Before any source edit, a separate SCORE
+successor must define a public-state, additive route-supply mechanism that
+preserves every parent candidate and certificate, freeze fresh development and
+sealed-holdout manifests, and include synthetic 8/9/10-team traffic lanes.
+Broad nonterminal exact takeover and the rejected post-ACK/proof mechanisms are
+forbidden repeats. The 30-match screen remains stopped at row 9 until this gap
+is either closed by a qualified successor or bounded by a new negative sweep.
+
+Functionality-preservation answers: (1) 244 removed, disabled, deferred or
+reduced no designed production functionality; (2) nothing was deleted.
+
+## Closed predecessor — 30-match multi-team BTC screen resumed; ATTR-243 closed
+
+The official 2026 tournament format is multi-team only: 8 teams in rescue,
+9 teams in round 1 and semifinals, and 10 teams in the final. BTC exposes at
+most three bots, so all future BTC screen matches use three bots as the minimum
+available proxy; solo evidence has no tournament authority. Any traffic-aware
+candidate must additionally cover synthetic 8/9/10-team protected lanes.
+
+The canonical binary won qualifying row 5, `m-4954`, at `6/30/131`, with 5/5
+dual-valid days and 4/4 reconciled transitions. Qualifying row 6, `m-4955`, is a
+fresh hard three-bot counterexample: 10 days, 24x24, 80 steps/day, 10000-ms
+public response, eight agents, 24 spots, eight brands and high fuel. Every team
+tied tiers 1/2 at `8/80`; UDON-SHIELD scored 449 servings and ranked fourth
+behind 500/475/453. Its 10/10 days are exact-valid, both validators agree, and
+all nine transitions reconcile. Replay SHA256 is
+`63D361462D000C21F62EF72442084D1F08443AE871B9667A97F4C7C48919EBBD`.
+
+`ATTR-MULTITEAM-SERVING-DEFICIT-243` is closed with no source change. Role
+identity explains only `+4` in a closed-loop counterfactual (`441 -> 445`) and
+does not close the gap to 500. The unchanged sparse attribution probe finds a
+changed-terminal improvement on every nonterminal day (`+28` naive total) but
+zero protected transition-dominating improvement on 9/9 days. This is the same
+certificate-blocked residual already classified by 223 after accepted 219, not
+a new time or selection gap. Direct W0/proof/ACK consumers remain rejected by
+229--232. Terminal refinement correctly lifts day 10 from 45 to 54 because no
+future state remains. Exact compact evidence is in
+`research/evidence/ATTR-MULTITEAM-SERVING-DEFICIT-243.md` and its sparse log.
+
+No SCORE successor is justified. The 30-match campaign resumes at qualifying
+row 7 with three bots. Reopen this residual only from a new executable
+state-coupled whole-horizon certificate; a traffic-sensitive successor also
+requires a fresh causal mismatch and synthetic 8/9/10-team protected lanes.
+
+Functionality-preservation answers: (1) 243 changes no production behavior and
+removes, disables, defers or reduces no designed functionality; (2) nothing is
+deleted.
+
+## Closed predecessor — ATTR-MASTER-EQUALITY-DFS-242 negative/out-of-scope
+
+`m-4952` was exact-valid on 5/5 days and all four transitions reconciled, but it
+was a one-opponent fixture. The observational probe found no safe exact
+master-child merge. Reopen only from a fresh three-opponent counterexample and a
+new invariant; do not tune from consumed `m-4952` or repeat action-only merging.
+
+## Closed predecessor — 241 negative; screen resumed
+
+`ATTR-F0-WINDOW-DIFFICULTY-CROSS-241` completed exactly 256 atomic side
+results, 128 pairs and 64 unique fresh fixtures with zero partial files, one
+`run_complete` marker, empty stderr, matching frozen hashes and zero safety or
+correctness failure. The no-source-change attribution crossed every fixture at
+both 5000 and 15000 ms, reversed execution order between windows, and covered
+all four difficulty tiers, fixed/deadline roles and generated fuel profiles.
+
+The rejected-240 quality-order binary versus its frozen parent was
+`16/91/21`; all 37 first differences were tier 3, aggregate delta was
+`0/0/-187`, gains totalled `+92` with maximum `+18`, and losses totalled
+`-279` with minimum `-41`. The 5000-ms lane was `10/43/11`, net `-67`; the
+15000-ms lane was `6/48/10`, net `-120`. Both execution orders and both role
+modes were negative in both windows. The 15000-ms lane was negative for all
+three fuel regimes. Only one fixture changed from a 5000-ms loss to a 15000-ms
+win, while seven lost at both windows and 41 tied at both.
+
+Verdict: closed negative attribution. The apparent 240 public-window benefit
+does not reproduce after difficulty is crossed and cannot authorize a deadline,
+scale or interaction dispatcher. No SCORE successor is open. The representation-
+order phenomenon isolated by 239 remains real, but the direct quality-order
+repair is rejected both globally and conditionally. Reopen this axis only for a
+new causal mechanism that is not another ordering dispatcher and a genuinely
+fresh counterexample; never reuse consumed 240/241 fixtures for promotion.
+
+Production remains canonical `18ecdd3` behavior. The stopped 30-match hard BTC
+operational screen may now resume from match 3 using the unchanged canonical
+binary and its fixed 10000-ms response setting. Stop again at the first loss and
+classify it before continuing, exactly as preregistered.
+
+Frozen evidence is recorded in
+`research/evidence/ATTR-F0-WINDOW-DIFFICULTY-CROSS-241.md`. Summary SHA256 is
+`FF24B444A7675F007DB8E5C48DB4D37E0296C571A217AA4BFC48176E1B40CE1E`;
+VM archive SHA256 is
+`B251F945648FA7BF1347728EDC649CA072B410B2AED757208B0DF78F29095160`.
+
+Functionality-preservation answers: (1) closing 241 removes, disables, defers or
+reduces no designed production functionality because 241 changed no source and
+240 was already reverted; (2) nothing is deleted.
+
+## Closed predecessor — SCORE-F0-QUALITY-ORDER-240 rejected
+
+`ATTR-TIMED-PLANNER-BIFURCATION-239` is closed accepted-attribution with no
+source change. Same-binary mask-1 replay values varied from `4/28/74` and
+`4/28/97` to `4/28/131` and `4/28/134`; mask 4 stayed near `102--106`. This
+supersedes 237's claim that `131` versus `102` is a stable tanker-identity effect.
+
+Complete day-1 dumps locate the first causal boundary before W1 repair. The high
+and low runs share 13 of 16 candidates. The same high candidate is present in
+both, ties the exact current score at `4/4/18`, and is protected by no existing
+incumbent because every incumbent is lower. In the high basin it is stable-ID
+index 0, advances provisionally to `4/11/36`, certifies `4/20/67`, and is
+selected. In the low basin an index-0 candidate scoring only `3/3/4` consumes
+the shared provisional window; the high candidate at index 1 remains at its
+current floor and is not shortlisted. A different `4/4/18` terminal certifies
+only `4/17/60` and is selected.
+
+The source cause is representation-order deadline allocation. Candidate intake
+already establishes a deterministic total quality order by official current
+score, terminal slack, traffic safety and stable ID. After the 16 F0 IDs are
+chosen, production sorts them again by stable ID alone, then evaluates
+`provisional_profile` sequentially under one absolute deadline. Upstream cutoff
+variation changes one diversity ID and therefore which representation receives
+the only useful provisional slice.
+
+`SCORE-F0-QUALITY-ORDER-240` is the sole active source candidate. It removes
+only that second stable-ID sort and preserves the existing deterministic quality
+order through provisional evaluation. It adds no candidate, work, cap, time,
+solver, role policy or comparator. The fresh manifest was frozen before source
+change at `research/holdouts/SCORE-F0-QUALITY-ORDER-240.csv`, SHA256
+`1144BFC69B7C9582686D24FCB86800CE460281B0324B54604DBE555145BF415A`.
+Development contains 60 paired cases across four tiers, fixed/deadline roles and
+5000/15000-ms public windows. After the development gate passed, the 108-case
+holdout opened exactly once on the dedicated Spot VM `udon-f0-240-0829`.
+Consumed `m-4789` has causal-gate authority only.
+
+The frozen parent/candidate historical-tournament binary SHA256 values are
+`A5786150E4807FD2EE87CE2FFCEEB14CDE98E0A7D232E583FCBC04E81AE72E6E`
+and `07A8F321546475263286CCF7C54CEEBAFDF5E6C6796FD85E5960FC23F908F3A2`.
+The case-atomic initial runner, resume runner and frozen summarizer SHA256 values
+are `E020198828889FAF1F7A58F49C56D2DD862142298F3CA1A36F2A1D9D7E3352FC`,
+`B608AE478390ADDF5A2006A9EC241A569B4E38FA8A518FF39BFFEF0C17D1AB65`
+and `81350D6BDD32933AAEBBF91C2F6BFE28DADCF7DD855DAE5C280DCC21F217E7D8`.
+Both PowerShell runners and the Python summarizer passed syntax parsing before
+execution. The two consumed causal dumps have SHA256
+`BF71376C88755AC7A2F1DDDB2ACB2AD108E90BD9B6414C1F653479535ABB48AC`
+and `14437A3EA804FF37196E4FB389DA80EA608987D9706127B8C8E3D58079134BD1`.
+
+Development completed exactly 120 result rows, 120 matching `case_complete`
+rows and one `run_complete` marker with empty stderr. Candidate versus parent is
+`14/36/10` over 60 pairs; every first difference is tier 3. Aggregate official
+delta is `0/0/+95`, gain sum/tail `+251/+132`, loss sum/tail `-156/-105`, and
+every safety/failure counter is zero. Default fuel is `7/15/2` net `+78`, high
+fuel `6/9/5` net zero and low fuel `1/12/3` net `+17`. The 5000-ms public lane
+is `2/26/4` net `-10`; 15000 ms is `12/10/6` net `+105`. Medium is net `-10`
+and very-hard net `-40`, driven by one `-105` tail, so no local promotion is
+allowed. The development screen passes only because wins exceed losses,
+aggregate and maximum gains cover aggregate and maximum losses, both role modes
+and both window lanes contain gains, and no tier-1/tier-2 or safety regression
+exists. The sealed VM holdout is mandatory.
+
+Development log, JSON summary and Markdown evidence SHA256 values are
+`7266CF715870931E103587A33820B9B716F3B6E06B1EC0A667788FD28554F960`,
+`18F58CD6AA57839A2BC0FF92CEC0EABA482D7A0B77E36EEF60A9AE9667B41840`
+and `D4A359C52552EB47A9510BF500086D6DAA8ED3AFB7EEA8ACA3EFB1A7CBF34641`.
+The frozen clean-HEAD base archive, single candidate patch and VM runner SHA256
+values are `40EB04D74E9AA06998176B47FF11C02D7DD9682DA979BF8FBEA3B85FD1365066`,
+`D165A43BB6CF5D9E2686F10836493158E452BA169F53A55B691AF248A9CE269E`
+and `652557FADB1F359EFDF53D78FF2E283980E28198AEF13418A05E7ED198B8333F`.
+The dedicated Spot VM `udon-f0-240-0829` was created after explicit user
+continuation. Its Linux parent and candidate builds share the frozen base and
+differ only by the frozen patch; SHA256 values are
+`985C2BDA7872214A252A6284E7DB1B1256243D28110B0061F2F244FAF5950711` and
+`0874DBCA60FA9BEBAD85076BC67AF0622AC4FDCA3F3D85EE28847867ED5D1F6E`.
+The candidate Linux unit suite passed before the holdout opened.
+
+The case-atomic VM holdout completed exactly 216 side results with zero partial
+files, one `run_complete` marker, empty stderr, matching frozen hashes and safe
+memory. Candidate versus parent was `20/76/12`; every first difference was tier
+3, aggregate delta was `0/0/+57`, gain sum/tail `+231/+68`, loss sum/tail
+`-174/-42`, and every safety/failure counter was zero. The canonical 5000-ms
+lane repeated the development regression at `2/47/7`; easy was `2/21/5`, medium
+`0/26/2`, and low fuel `3/26/4`. The 15000-ms lane was positive at `18/29/5`.
+
+Parity-flipped order diagnostics bound the aggregate interpretation:
+candidate-first was `9/37/6`, net `+6`, while parent-first was `11/39/6`, net
+`+51`. The 5000-ms loss-count direction remained negative in both orders and
+the 15000-ms win-count direction remained positive in both. Verdict: rejected
+as a global production change. The scoped source change is reverted and
+canonical production behavior is restored. Holdout archive, combined log,
+summary and verdict Markdown SHA256 values are
+`90D3F8465E9B011A8B293AB53BA1F033CB326F721B074975CD57BF59D40C8786`,
+`B3546971ABD6ABBD1F3CB7E517E1E2981E2AC62BFA8A4A6A588EE6CA7F386EC1`,
+`830B8E61D636BF91D55207F816753C09704E7BFB01C54E57727A98400786AF19`
+and `76482EB1F400CD84AA6ECFBC6E00FCB01A6FB2976F419EA1C3CC3AB805B4B263`.
+
+The only admissible successor pre-gate comes from the development evidence
+recorded before this holdout opened: preserve exact parent behavior when no
+authoritative public continuation window exists and consider quality order only
+under an objective public-deadline signal. It requires a fresh manifest and a
+runtime-path proof that the 5000-ms main/checkpoint lane remains parent-equivalent;
+no 240 holdout case or tuned threshold may enter development.
+
+## Closed predecessor — role beam rejected
+
+`ATTR-ROLE-TRAJECTORY-BEAM-238` is closed rejected and its source is fully
+reverted. There is no active source candidate or holdout. Comparison against
+SCORE-ROLE-001 through 032 shows that prior candidates changed route width,
+wall-clock allocation, fixed work counts, centrality, all-patrol marginal
+contribution, tanker-count fallbacks, terminal fuel or a single production-like
+day. Every one still collapsed each role to one greedy day-end trajectory.
+Both m-1286 and fresh m-4789 tie or nearly tie early official score, then
+separate only after their terminal states feed later production decisions.
+
+The research-only two-trajectory mechanism did expose additional role fronts.
+On m-4789 it ranked mask 1 above production mask 4 and selected mask 2. Across
+30 fresh fixtures its changed-mask subset was 4/23/3, gains +85 and losses -43,
+but experiment 239 proves these separate timed closed loops are directional
+development evidence rather than a clean causal estimator.
+The gains included +24/+45/+10 from exposing two-tanker low-fuel fronts, but
+same-tanker-count identity changes lost -7/-7/-29. All four high-fuel controls
+were unchanged, so it did not resolve m-1286. Zero invalid/emergency occurred.
+
+The attribution manifest was frozen before source change at
+`research/holdouts/ATTR-ROLE-TRAJECTORY-BEAM-238.csv`, SHA256
+`9E2C38CD24AA6F34889242A114B9B6F517C537B037093B34FC81AA9D146F47CD`.
+It had no sealed promotion authority and no holdout was opened. The two-tanker
+gains duplicate the capability already accepted in SCORE-ROLE-023; guarding 238
+by tanker count or the observed low-fuel stratum would tune from consumed cases
+and repeat that research. The remaining identity tail has no state-coupled
+certificate. Evidence is in
+`research/evidence/ATTR-ROLE-TRAJECTORY-BEAM-238.md`.
+
+Do not reopen trajectory beams by changing width, work allocation, a fuel or
+tanker-count threshold, or fixture routing. Reopen the role-identity residual
+only with a new general certificate that bounds the downside of switching
+between equal-count role identities before the switch is made. Until then the
+canonical production checkpoint remains `18ecdd3`.
+
+## Closed predecessor — role-identity gap attributed
+
+The requested 30-match hard-difficulty BTC operational screen fixed the public
+response window at `10000 ms` and stopped at its first loss, after match two,
+exactly as preregistered. `m-4788` ranked first at `8/80/531`. Fresh `m-4789`
+ranked fourth at `4/28/110` versus bots at `4/28/112`, `4/28/135` and
+`4/28/144`. The loss is not a protocol, validity, network or deadline event:
+7/7 submitted days were HTTP 200 and exact-valid, the independent validator
+agreed on every day, 6/6 transitions reconciled and maximum response was
+`5704 ms` inside the `10000 ms` window.
+
+Attribution experiment `ATTR-ROLE-IDENTITY-237` is closed with no source change
+and superseded as measurement-confounded by experiment 239.
+Production selected one-tanker mask 4 (`PPTP`). Its incomplete timed role
+rollout ranked mask 4 first at `4/28/85`, ahead of mask 1 (`TPPP`) at
+`4/28/81`. Same-binary closed-loop counterfactuals instead produced mask 1
+`4/28/131`, mask 2 `4/28/118`, mask 8 `4/28/116` and mask 4 `4/28/102`.
+The decisive masks 1 and 4 initially reproduced exactly at `131` and `102` in
+reversed execution order, but later identical mask-1 runs returned `74`, `134`
+and `97`. These values therefore do not establish a role-identity ordering.
+
+The counterfactual retains observed external replay inputs while replacing the
+team's own closed-loop agent state, so it is development attribution rather
+than independent promotion evidence. No source candidate or holdout is open.
+No tanker-identity successor is authorized from 237. Experiment 239 traced the
+general planner-order cause and 240 is its only registered successor. Exact
+artifacts and hashes are recorded in
+`research/evidence/ATTR-ROLE-IDENTITY-237.md`.
+
+The canonical production checkpoint remains `18ecdd3`; the new attribution
+blocks a renewed claim of practical role ceiling but does not authorize an
+untested replacement.
+
+## Closed predecessor — competition checkpoint `18ecdd3`; performance audit closed
 
 Production source remains canonical checkpoint `18ecdd3`; the branch head
 immediately before this closure record was `81c28a13b0e199cdbb8aaaf130488640e0e0a472`.
@@ -2171,10 +3452,11 @@ high-fuel fixture under one shared absolute 5000-ms cap improves `6/60/509` to
 `6/60/512` with zero invalidity. These are semantic development results; local
 elapsed time has no performance authority.
 
-Fresh development ran across the registered map/fuel/role axes. Spot
-counts are intersected with the published protocol invariant
-`spotCount <= max(width,height)`, so 14x14 is an exact-feasible 12/14-spot
-control while denser counts are exercised on larger maps.
+Fresh development ran across the registered map/fuel/role axes. Its spot-count
+intersection used the then-local parser restriction
+`spotCount <= max(width,height)`, not an official protocol invariant. The
+14x14 12/14-spot controls and denser larger-map cases remain valid evidence;
+the statement that the protocol itself imposed that bound was incorrect.
 
 Development completed at `25/29/0` on 54 paired fixtures, +92 servings,
 maximum gain +9, zero invalid and zero loss. Exact-feasible easy controls and all

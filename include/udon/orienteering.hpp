@@ -26,8 +26,17 @@ struct ExactOrienteeringReachability {
     std::uint64_t settledStates = 0;
     std::vector<ExactOrienteeringRoute> maximalRoutes;
     std::vector<ExactOrienteeringRoute> supplementalRoutes;
+    // SCORE-TERMINAL-STOCK-MARGINAL-RESERVOIR-258 research candidate: an
+    // additive terminal-only pool ranked against the incumbent team's public
+    // stock claims. Canonical maximal/supplemental retention is unchanged.
+    std::vector<ExactOrienteeringRoute> terminalMarginalRoutes;
     std::vector<ExactOrienteeringRoute> terminalVariants;
     std::vector<ExactOrienteeringRoute> servedSpotFuelRoutes;
+};
+
+struct TerminalMarginalRouteContext {
+    BrandMask lifetimeBrands;
+    std::vector<std::int32_t> incumbentClaimsWithoutAgent;
 };
 
 [[nodiscard]] bool exact_orienteering_dense_state_supported(
@@ -53,7 +62,7 @@ struct ExactOrienteeringReachability {
     std::size_t maximumRoutes,
     std::uint64_t maximumSettledStates,
     std::optional<std::chrono::steady_clock::time_point> deadline = std::nullopt,
-    std::uint64_t preferredBrands = 0);
+    BrandMask preferredBrands = {});
 
 [[nodiscard]] ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes(
     const MatchConfig& config,
@@ -63,7 +72,8 @@ struct ExactOrienteeringReachability {
     std::size_t maximumRoutes,
     std::uint64_t maximumSettledStates,
     std::optional<std::chrono::steady_clock::time_point> deadline = std::nullopt,
-    std::uint64_t preferredBrands = 0);
+    BrandMask preferredBrands = {},
+    const TerminalMarginalRouteContext* terminalMarginalContext = nullptr);
 
 // Target-terminal sparse entry point introduced by attribution experiment 214
 // and consumed by the SCORE-MIDDAY-TARGET-FOLLOWUP-215 suffix.
@@ -80,6 +90,7 @@ enumerate_sparse_anytime_resource_routes_to_terminal(
     std::size_t maximumRoutes,
     std::uint64_t maximumSettledStates,
     std::optional<std::chrono::steady_clock::time_point> deadline = std::nullopt,
-    std::uint64_t preferredBrands = 0);
+    BrandMask preferredBrands = {},
+    const TerminalMarginalRouteContext* terminalMarginalContext = nullptr);
 
 }

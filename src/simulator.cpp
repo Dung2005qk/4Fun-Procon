@@ -382,7 +382,7 @@ SimulationResult ExactStepSimulator::simulate(
         const RuntimeAgent& runtime = runtimeAgents.at(static_cast<std::size_t>(agentIndex));
         result.finalAgents.push_back(runtime.state);
     }
-    result.score.dailyDistinct = static_cast<std::int32_t>(std::popcount(result.score.brands));
+    result.score.dailyDistinct = brand_count(result.score.brands);
     result.valid = true;
     return result;
 }

@@ -69,6 +69,58 @@ void require_throws(Function&& function, const std::string& message) {
     })";
 }
 
+[[nodiscard]] udon::JsonValue extended_brand_config_document(std::int32_t stock = 3) {
+    udon::JsonValue::Array rows;
+    for (std::int32_t row = 0; row < 9; ++row) {
+        udon::JsonValue::Array columns;
+        for (std::int32_t column = 0; column < 8; ++column) {
+            columns.emplace_back(std::int64_t{0});
+        }
+        rows.emplace_back(std::move(columns));
+    }
+
+    udon::JsonValue::Array spots;
+    for (std::int32_t index = 0; index < 65; ++index) {
+        udon::JsonValue::Object spot;
+        spot.emplace("brand", udon::JsonValue(static_cast<std::int64_t>(index)));
+        spot.emplace("pos", udon::JsonValue(static_cast<std::int64_t>(index)));
+        spot.emplace("stocks", udon::JsonValue(static_cast<std::int64_t>(stock)));
+        spots.emplace_back(std::move(spot));
+    }
+
+    udon::JsonValue::Object map;
+    map.emplace("height", udon::JsonValue(std::int64_t{9}));
+    map.emplace("width", udon::JsonValue(std::int64_t{8}));
+    map.emplace("cells", udon::JsonValue(std::move(rows)));
+
+    udon::JsonValue::Array agents;
+    agents.emplace_back(std::int64_t{65});
+    agents.emplace_back(std::int64_t{66});
+    agents.emplace_back(std::int64_t{67});
+
+    udon::JsonValue::Array daySeconds;
+    udon::JsonValue::Array daySteps;
+    for (const std::int64_t value : {15, 30, 45, 60}) {
+        daySeconds.emplace_back(value);
+    }
+    for (const std::int64_t value : {20, 32, 48, 100}) {
+        daySteps.emplace_back(value);
+    }
+
+    udon::JsonValue::Object config;
+    config.emplace("startsAt", udon::JsonValue(std::int64_t{1778227200}));
+    config.emplace("daySeconds", udon::JsonValue(std::move(daySeconds)));
+    config.emplace("daySteps", udon::JsonValue(std::move(daySteps)));
+    config.emplace("map", udon::JsonValue(std::move(map)));
+    config.emplace("spots", udon::JsonValue(std::move(spots)));
+    config.emplace("agents", udon::JsonValue(std::move(agents)));
+    config.emplace("fuelLimits", udon::JsonValue(std::int64_t{20}));
+    config.emplace("players", udon::JsonValue(std::int64_t{8}));
+    config.emplace("busyThreshold", udon::JsonValue(std::int64_t{7}));
+    config.emplace("jammedThreshold", udon::JsonValue(std::int64_t{20}));
+    return udon::JsonValue(std::move(config));
+}
+
 [[nodiscard]] udon::DayState fixture_state(const udon::MatchConfig& config) {
     return udon::parse_day_state(config, udon::JsonValue::parse(R"({
         "endsAt":1778227205,
@@ -926,6 +978,140 @@ void test_ledger_round_trip(const udon::MatchConfig& config) {
     require(parsed.lifetimeBrands == ledger.lifetimeBrands, "ledger brand round-trip changed coverage");
     require(parsed.totalDailyDistinct == ledger.totalDailyDistinct, "ledger daily total round-trip changed");
     require(parsed.totalServings == ledger.totalServings, "ledger serving total round-trip changed");
+}
+
+void test_full_official_brand_and_variable_day_domain() {
+    const udon::MatchConfig config = udon::parse_match_config(
+        extended_brand_config_document());
+    require(config.spots.size() == 65U, "parser must accept more than one spot per map side");
+    require(config.brand_count() == 65, "parser must retain every published franchise chain");
+    require(
+        config.daySeconds == std::vector<std::int32_t>({15, 30, 45, 60}) &&
+            config.daySteps == std::vector<std::int32_t>({20, 32, 48, 100}),
+        "per-day response and step schedules must remain distinct");
+    require(
+        config.busyThreshold == 7 && config.jammedThreshold == 20,
+        "match-specific traffic thresholds must not be clipped to undocumented local ranges");
+
+    udon::BrandMask mask = udon::brand_bit(0) | udon::brand_bit(64);
+    require(
+        udon::brand_count(mask) == 2 && udon::has_brand(mask, 0) &&
+            udon::has_brand(mask, 64),
+        "brand coverage must preserve bits on both sides of the historical 64-chain boundary");
+    require(
+        udon::brand_intersection_count(mask, udon::brand_bit(64)) == 1 &&
+            udon::brand_difference_count(mask, udon::brand_bit(0)) == 1,
+        "extended brand-mask set operations must remain exact");
+
+    udon::DayState state;
+    state.endsAt = config.startsAt + config.daySeconds.front();
+    state.dayNumber = 1;
+    state.roadStatuses.assign(
+        static_cast<std::size_t>(config.map.cell_count()),
+        udon::RoadStatus::Smooth);
+    for (const udon::CellId start : config.initialAgents) {
+        state.agents.push_back(udon::AgentState{udon::AgentKind::Patrol, start, config.fuelLimit});
+    }
+
+    udon::DayPlan pickupPlan;
+    pickupPlan.actions = {
+        {udon::PlanAction::move(5), udon::PlanAction::wait(18)},
+        {udon::PlanAction::wait(20)},
+        {udon::PlanAction::wait(20)},
+    };
+    const udon::ExactStepSimulator simulator(config);
+    const udon::SimulationResult pickup = simulator.simulate(state, pickupPlan, true);
+    require(pickup.valid, "65-chain fixture must execute through the exact simulator");
+    require(
+        pickup.score.dailyDistinct == 1 && pickup.score.servings == 1 &&
+            udon::has_brand(pickup.score.brands, 64),
+        "the exact simulator must score a chain beyond index 63");
+
+    udon::MatchLedger ledger;
+    ledger.apply(pickup.score);
+    ledger.lifetimeBrands |= udon::brand_bit(0);
+    const udon::MatchLedger parsed = udon::parse_match_ledger(
+        config,
+        udon::serialize_match_ledger(config, ledger));
+    require(
+        parsed.lifetimeBrands == ledger.lifetimeBrands && parsed.lifetime_distinct() == 2,
+        "extended lifetime coverage must survive the protocol ledger round-trip");
+
+    const udon::ParetoRouter router(config);
+    const udon::RouteColumnGenerator generator(config, router);
+    udon::ColumnGenerationOptions columnOptions;
+    columnOptions.enableExactHarvestOrienteering = true;
+    columnOptions.allowUncachedHarvestTargets = true;
+    columnOptions.maximumPathsPerTarget = 1;
+    columnOptions.maximumColumnsPerAgent = 12;
+    columnOptions.maximumTargetSpots = 8;
+    udon::MatchLedger planningLedger;
+    for (std::int32_t brand = 0; brand < 64; ++brand) {
+        planningLedger.lifetimeBrands |= udon::brand_bit(brand);
+    }
+    const udon::RoutePortfolio portfolio = generator.generate(
+        state,
+        planningLedger,
+        columnOptions);
+    require(
+        portfolio.columnsByAgent.size() == state.agents.size() &&
+            std::all_of(
+                portfolio.columnsByAgent.begin(),
+                portfolio.columnsByAgent.end(),
+                [](const std::vector<udon::RouteColumn>& columns) {
+                    return !columns.empty();
+                }),
+        "the general column generator must remain active beyond exact 16/32-spot accelerators");
+    require(
+        std::any_of(
+            portfolio.columnsByAgent.begin(),
+            portfolio.columnsByAgent.end(),
+            [](const std::vector<udon::RouteColumn>& columns) {
+                return std::any_of(
+                    columns.begin(),
+                    columns.end(),
+                    [](const udon::RouteColumn& column) {
+                        return udon::has_brand(column.estimatedBrands, 64);
+                    });
+            }),
+        "the production column path must expose a collectible chain beyond index 63");
+
+    udon::UdonShieldEngine engine(config);
+    const udon::DecisionResult decision = engine.solve_day(
+        state,
+        planningLedger,
+        std::chrono::milliseconds{100});
+    require(
+        decision.candidate.simulation.valid &&
+            udon::IndependentDayValidator(config)
+                .validate(state, decision.candidate.plan, false)
+                .valid,
+        "the end-to-end decision path must return a valid plan on the full chain domain");
+
+    state.dayNumber = 2;
+    state.endsAt += config.daySeconds.at(1);
+    require(
+        simulator.simulate(state, udon::make_wait_plan(config, 2), true).valid,
+        "day two must use its own published step budget");
+    udon::DayPlan staleDayOneLength;
+    staleDayOneLength.actions.assign(
+        static_cast<std::size_t>(config.agent_count()),
+        udon::AgentPlan{udon::PlanAction::wait(config.steps_for_day(1))});
+    require(
+        !simulator.simulate(state, staleDayOneLength, true).valid,
+        "a day-one action length must not be accepted on a longer day two");
+    udon::DayState longDay = state;
+    longDay.dayNumber = 4;
+    require(
+        simulator.simulate(longDay, udon::make_wait_plan(config, 4), true).valid,
+        "an official positive day-step budget must not be rejected by a fabricated map-dependent cap");
+
+    require_throws(
+        []() {
+            static_cast<void>(udon::parse_match_config(
+                extended_brand_config_document(4)));
+        },
+        "spot stock above the match agent count must be rejected");
 }
 
 void test_protocol_fail_closed_schema(const udon::MatchConfig& config) {
@@ -1811,7 +1997,7 @@ void test_anytime_orienteering_preserves_lexicographic_brands() {
         })"));
     const auto route_brands = [&config](
                                   const udon::ExactOrienteeringRoute& route) {
-        std::uint64_t brands = 0U;
+        udon::BrandMask brands;
         for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
             if ((route.spotMask & (std::uint32_t{1} << spot)) != 0U) {
                 brands |= udon::brand_bit(config.spots.at(spot).brandIndex);
@@ -1829,7 +2015,7 @@ void test_anytime_orienteering_preserves_lexicographic_brands() {
             100000,
             std::nullopt,
             udon::brand_bit(0) | udon::brand_bit(1));
-    std::uint64_t retainedBrands = 0U;
+    udon::BrandMask retainedBrands;
     for (const udon::ExactOrienteeringRoute& route :
          diverse.maximalRoutes) {
         retainedBrands |= route_brands(route);
@@ -2198,8 +2384,9 @@ void test_protected_slack_refiner(
                          incumbentSimulation.score.dailyDistinct ||
                      middayLive.simulation.score.servings >
                          incumbentSimulation.score.servings) &&
-                    (incumbentSimulation.score.brands &
-                     ~middayLive.simulation.score.brands) == 0U,
+                    !udon::brand_difference(
+                         incumbentSimulation.score.brands,
+                         middayLive.simulation.score.brands).any(),
                 "every mid-day acceptance must satisfy the full future-domain dominance certificate with a strict lexicographic day gain");
             const udon::ProtectedSlackResult middayFixedPoint =
                 middayRefiner.refine_midday_chains(
@@ -2511,12 +2698,12 @@ void test_fast_viability_no_tanker_claim_upper() {
             [3,3,3,3,3,3,3,3]
         ]},
         "spots":[
-            {"brand":10,"pos":16,"stocks":8},
-            {"brand":11,"pos":17,"stocks":8},
-            {"brand":12,"pos":18,"stocks":8},
-            {"brand":13,"pos":19,"stocks":8},
-            {"brand":14,"pos":20,"stocks":8},
-            {"brand":15,"pos":21,"stocks":8}
+            {"brand":10,"pos":16,"stocks":3},
+            {"brand":11,"pos":17,"stocks":3},
+            {"brand":12,"pos":18,"stocks":3},
+            {"brand":13,"pos":19,"stocks":3},
+            {"brand":14,"pos":20,"stocks":3},
+            {"brand":15,"pos":21,"stocks":3}
         ],
         "agents":[22,0,1],
         "fuelLimits":1,
@@ -4712,6 +4899,7 @@ int main() {
         test_even_row_geometry(config);
         test_cube_distance_and_pareto_pruning_equivalence(config);
         test_protocol_fail_closed_schema(config);
+        test_full_official_brand_and_variable_day_domain();
         test_exact_step_order(config, state);
         test_refuel_requires_full_colocation_step(config, state);
         test_invalid_duration_rejected(config, state);

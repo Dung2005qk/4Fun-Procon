@@ -46,9 +46,43 @@ các bằng chứng được dẫn bên dưới.
   BTC, vào/lặp lại hàng đợi, nối binary hiện tại bằng token đội đã cấp, retry khi
   cần, lưu replay và chạy replay-check phục vụ gate; không được hỏi xác nhận lại
   cho từng thao tác này.
+- Khi giao diện BTC hiện form đăng nhập, phải thử nút `Đăng nhập`
+  trước vì tài khoản đã được lưu trên tournament host; chỉ báo blocker
+  nếu phiên đăng nhập đã lưu thực sự thất bại. Không ghi token rõ vào
+  source, sổ tay, evidence hay artifact; chỉ truyền nó qua biến môi trường
+  của đúng tiến trình BTC.
 - Ủy quyền trên không bao gồm tạo/xóa VM hoặc tài nguyên cloud đáng kể, tạo/thu
   hồi credential, thao tác destructive hay thay đổi tài khoản. Các thao tác đó
   vẫn phải áp dụng gate an toàn và xin phép khi cần.
+
+### Thể thức multi-team chính thức và giới hạn của BTC
+
+- HEXUDON PROCON 2026 chính thức không có trận 1v1. Theo phụ lục hiện hành:
+  vòng 1 có 9 đội/trận, vòng cứu 8 đội/trận, bán kết 9 đội/trận và chung kết
+  10 đội trên cùng map.
+- Mọi nghiên cứu traffic/road/opponent phải xem 7--9 đối thủ đồng thời là môi
+  trường đích. Kết quả solo không có thẩm quyền block, promote hoặc tune
+  production.
+- UI luyện tập BTC hiện chỉ cho tối đa 3 bot. Vì vậy mọi trận BTC mới phải dùng
+  đúng 3 bot; đây chỉ là proxy multi-team tối thiểu và operational/counterexample
+  gate, không phải mô phỏng đầy đủ áp lực traffic của giải thật.
+- Protected matrix cho logic phụ thuộc traffic/opponent phải có lane synthetic
+  8, 9 và 10 đội dùng cùng ngưỡng/tích lũy traffic chính thức. Candidate không
+  được ký là bản thi đấu chỉ từ lane 4-team BTC.
+
+### Miền tham số gameplay chính thức
+
+- `width` và `height` nằm trong `[8,32]`; số agent mỗi đội nằm trong `[3,8]`.
+  Số spot không bị chặn bởi `max(width,height)`: nó chỉ bị giới hạn bởi các ô
+  Plain hợp lệ, khác vị trí xuất phát, và mỗi spot có đúng một franchise.
+- Số franchise nằm trong `[1, số spot]`; stock từng spot nằm trong
+  `[1, số agent/đội]`. Fixture, generator và validator nghiên cứu phải giữ đúng
+  các ràng buộc này trước khi đóng băng manifest.
+- `daySteps` và `daySeconds` là mảng theo ngày, được phép thay đổi giữa các ngày
+  và chỉ yêu cầu dương theo tài liệu công bố; cấm suy ra giới hạn phụ thuộc kích
+  thước map nếu nguồn chính thức không quy định.
+- `busyThreshold` và `jammedThreshold` là tham số theo trận, dương và
+  `jammedThreshold > busyThreshold`; cấm áp giới hạn trên không có trong luật.
 
 ### Định nghĩa top 1 tổng quát và hội tụ thực tế
 

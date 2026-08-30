@@ -1,0 +1,9 @@
+lane,source,first_seed,cases,budget_ms,role_mode,fuel,horizon,gate
+development-positive,"BTC m-4789 frozen setup/replay SHA256 7AE05FC74B426B1E7802F392AB4783D6DAC576ACD69AEA360B84FEDCD68CC301",0,1,5000,deadline,low,7,"candidate evidence must rank mask1 above mask4 without changing exact validity; closed-loop attribution floor is mask1 4/28/131 versus mask4 4/28/102"
+archive-positive,"recorded SCORE-ROLE-030 m-1286 evidence",0,1,5000,deadline,high,10,"mechanism must explain rather than contradict exact mask1 6/60/422 versus mask4 6/60/412; no replay-specific branch"
+archive-negative,"recorded m-0929;m-1143;m-1138;m-1241;m-1255;m-1264;m-1266;m-1285 role evidence",0,8,5000,mixed,mixed,4-10,"do not repeat centrality, tanker-count, day1-marginal, terminal-fuel or wider-rollout failures; no known tier1/tier2 regression"
+fresh-general,"generated six-family fixtures",952000,8,5000,deadline,generated,4-5,"same-binary flag-off/on paired score, selected mask and exact validation; zero invalid/emergency"
+fresh-medium-low,"btc-medium 20x20, four agents, 18 spots",952100,6,5000,deadline,low,7,"four-agent nearby control; paired official score and selected role; zero invalid/emergency"
+fresh-hard-mixed,"btc-hard 26x26, six agents",952200,6,5000,deadline,generated,8,"larger-agent generality control; paired official score and role; zero invalid/emergency"
+fresh-large-low,"btc-large 32x32, eight agents, 12 spots",952300,6,5000,deadline,low,10,"protect accepted one/two-tanker behavior; paired official score and role; zero invalid/emergency"
+fresh-large-high,"btc-large 32x32, eight agents, 12 spots",952400,4,5000,deadline,high,10,"protect SCORE-ROLE-030 class; paired official score and role; zero invalid/emergency"

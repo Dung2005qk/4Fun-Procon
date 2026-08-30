@@ -1,0 +1,52 @@
+{
+  "aggregate_score_delta": [0, 0, 95],
+  "experiment": "SCORE-F0-QUALITY-ORDER-240",
+  "first_difference_tiers": {"0": 36, "3": 24},
+  "gain_tail": {"max": 132, "sum": 251},
+  "loss_tail": {"min": -105, "sum": -156},
+  "pairs": 60,
+  "phase": "development",
+  "plan_hash_days": {"equal": 239, "total": 444},
+  "safety": {
+    "parent": {
+      "checkpoint_closed_loop_failures": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_sparse_failure": 0
+    },
+    "candidate": {
+      "checkpoint_closed_loop_failures": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_sparse_failure": 0
+    }
+  },
+  "strata": {
+    "fuel:default": {"win": 7, "tie": 15, "loss": 2, "net_servings": 78},
+    "fuel:high": {"win": 6, "tie": 9, "loss": 5, "net_servings": 0},
+    "fuel:low": {"win": 1, "tie": 12, "loss": 3, "net_servings": 17},
+    "role:deadline": {"win": 6, "tie": 21, "loss": 3},
+    "role:fixed": {"win": 8, "tie": 15, "loss": 7},
+    "suite:stratified-easy": {"win": 0, "tie": 16, "loss": 0, "net_servings": 0},
+    "suite:stratified-medium": {"win": 2, "tie": 10, "loss": 4, "net_servings": -10},
+    "suite:stratified-hard": {"win": 6, "tie": 6, "loss": 2, "net_servings": 145},
+    "suite:stratified-very-hard": {"win": 6, "tie": 4, "loss": 4, "net_servings": -40},
+    "window:5000": {"win": 2, "tie": 26, "loss": 4, "net_servings": -10},
+    "window:15000": {"win": 12, "tie": 10, "loss": 6, "net_servings": 105}
+  },
+  "work": {
+    "parent_combinations": 2658363,
+    "candidate_combinations": 2654618,
+    "parent_max_ms": 3027,
+    "candidate_max_ms": 3026,
+    "parent_mean_ms_sum": 154328,
+    "candidate_mean_ms_sum": 154554
+  },
+  "wtl": [14, 36, 10]
+}

@@ -21,6 +21,13 @@ struct ProtectedSlackDiagnostics {
     std::int64_t strictTerminalImprovements = 0;
     std::int64_t terminalSparseRounds = 0;
     std::int64_t terminalPairAcceptances = 0;
+    std::int64_t terminalMarginalRoutes = 0;
+    std::int64_t terminalMarginalGeneratedPlans = 0;
+    std::int64_t terminalMarginalValidPlans = 0;
+    std::int64_t terminalMarginalAcceptances = 0;
+    std::int64_t terminalMarginalRounds = 0;
+    bool terminalMarginalDeadline = false;
+    bool terminalMarginalFailure = false;
     std::int64_t middayRoutes = 0;
     std::int64_t middayGeneratedPlans = 0;
     std::int64_t middayValidPlans = 0;
@@ -45,6 +52,7 @@ struct ProtectedSlackResult {
     SimulationResult simulation;
     OfficialScore scoreAfterToday;
     OfficialScore firstRoundScore;
+    OfficialScore canonicalTerminalScore;
     ProtectedSlackDiagnostics diagnostics;
     bool improved = false;
     AgentIndex witnessAgent = kInvalidAgent;
@@ -86,6 +94,12 @@ public:
     // Production (btc_main) enables it; the default stays off so research
     // harnesses keep a byte-identical 191 parent for causal A/B runs.
     bool enableTerminalPairExchange = false;
+
+    // SCORE-TERMINAL-STOCK-MARGINAL-RESERVOIR-258 research switch. The
+    // canonical terminal ascent and pair fixed point remain the complete
+    // prefix/fallback; only remaining public time may evaluate the additive
+    // stock-aware route reservoir. Production stays off until promotion.
+    bool enableTerminalMarginalReservoir = false;
 
     // Registered SCORE-MIDDAY-CHAIN-ADOPTION-210 (research A/B only until
     // accepted): mid-day one-agent deep-chain substitution accepted solely

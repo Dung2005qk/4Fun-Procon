@@ -50,7 +50,7 @@ struct BuiltRoute {
 struct RouteOption {
     AgentPlan actions;
     std::vector<SpotIndex> reached;
-    std::uint64_t brands = 0;
+    BrandMask brands;
     std::int64_t localValue = 0;
 };
 
@@ -184,7 +184,7 @@ void merge_diagnostics(
     const MatchConfig& config,
     const MatchLedger& ledger,
     const SimulationResult& simulation) {
-    const std::uint64_t collected = ledger.lifetimeBrands | simulation.score.brands;
+    const BrandMask collected = ledger.lifetimeBrands | simulation.score.brands;
     std::int32_t total = 0;
     for (std::int32_t brand = 0; brand < config.brand_count(); ++brand) {
         if (has_brand(collected, brand)) {
@@ -844,16 +844,16 @@ void append_path(
                 if (expanded.built.reached.size() != expanded.sequence.size()) {
                     continue;
                 }
-                std::uint64_t brands = 0;
+                BrandMask brands;
                 for (const SpotIndex reached : expanded.built.reached) {
                     brands |= brand_bit(
                         config.spots.at(static_cast<std::size_t>(reached)).brandIndex);
                 }
-                const std::int32_t newBrands = static_cast<std::int32_t>(
-                    std::popcount(brands & ~ledger.lifetimeBrands));
+                const std::int32_t newBrands =
+                    brand_difference_count(brands, ledger.lifetimeBrands);
                 expanded.value =
                     static_cast<std::int64_t>(newBrands) * 1000000000LL +
-                    static_cast<std::int64_t>(std::popcount(brands)) * 1000000LL +
+                    static_cast<std::int64_t>(brand_count(brands)) * 1000000LL +
                     static_cast<std::int64_t>(expanded.built.reached.size()) * 10000LL +
                     expanded.built.terminalFuel * 10LL -
                     expanded.built.elapsed;

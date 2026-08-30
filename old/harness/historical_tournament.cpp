@@ -10,9 +10,11 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <unordered_set>
 #include <vector>
 
 #include "udon/decision.hpp"
+#include "udon/orienteering.hpp"
 #include "udon/protocol.hpp"
 #include "udon/simulator.hpp"
 #include "udon/slack_refiner.hpp"
@@ -64,10 +66,15 @@ struct Options {
     bool publicWindowApply = false;
     bool checkpointClosedLoop = false;
     std::int32_t spotCount = 0;
+    std::int32_t playersOverride = 0;
+    std::uint64_t sparseRouteStates = 0;
+    std::uint64_t permutedTerminalProbeStates = 0;
+    std::uint64_t causalPermutedTerminalApplyStates = 0;
     std::string fuelProfile = "generated";
     bool protectedWaitDetours = false;
     bool protectedWaitClosedLoop = false;
     bool terminalPairExchange = false;
+    bool terminalMarginalReservoir = false;
     bool middayChainAdoption = false;
     bool middayPairExchange = false;
     bool middayTargetTerminalFollowup = false;
@@ -130,6 +137,15 @@ struct Metrics {
     udon::OfficialScore terminalSparseParentScore;
     udon::OfficialScore terminalSparseFirstRoundScore;
     udon::OfficialScore terminalSparseRefinedScore;
+    std::int64_t terminalMarginalRoutes = 0;
+    std::int64_t terminalMarginalPlans = 0;
+    std::int64_t terminalMarginalValid = 0;
+    std::int64_t terminalMarginalAcceptances = 0;
+    std::int64_t terminalMarginalRounds = 0;
+    std::int32_t terminalMarginalDeadline = 0;
+    std::int32_t terminalMarginalFailure = 0;
+    udon::OfficialScore terminalMarginalParentScore;
+    udon::OfficialScore terminalMarginalRefinedScore;
     std::int64_t middayRoutes = 0;
     std::int64_t middayPlans = 0;
     std::int64_t middayValid = 0;
@@ -166,6 +182,40 @@ struct Metrics {
     std::int64_t publicWindowProbeAcceptances = 0;
     std::int32_t checkpointClosedLoopTakeovers = 0;
     std::int32_t checkpointClosedLoopFailures = 0;
+    std::int64_t sparseRouteRepresentatives = 0;
+    std::int64_t sparseRoutes = 0;
+    std::int64_t sparseValidPlans = 0;
+    std::int32_t sparseTakeovers = 0;
+    std::int64_t sparseServingGain = 0;
+    std::int64_t permutedProbeTasks = 0;
+    std::int64_t permutedProbeRoutes = 0;
+    std::int64_t permutedProbeCrossPairs = 0;
+    std::int64_t permutedProbeValidPlans = 0;
+    std::int64_t permutedProbeCertified = 0;
+    std::int32_t permutedProbeYieldDays = 0;
+    std::int64_t permutedProbeLifetimeGain = 0;
+    std::int64_t permutedProbeDailyGain = 0;
+    std::int64_t permutedProbeServingGain = 0;
+    std::int32_t permutedProbeMutationFailures = 0;
+    udon::OfficialScore permutedCausalParentScore;
+    std::vector<udon::OfficialScore> permutedCausalDayScores;
+    std::vector<std::uint64_t> permutedCausalPlanHashes;
+    std::int64_t permutedApplyTasks = 0;
+    std::int64_t permutedApplyRoutes = 0;
+    std::int64_t permutedApplyCrossPairs = 0;
+    std::int64_t permutedApplyValidPlans = 0;
+    std::int64_t permutedApplyCertified = 0;
+    std::int32_t permutedApplyTakeovers = 0;
+    std::int64_t permutedApplyLifetimeGain = 0;
+    std::int64_t permutedApplyDailyGain = 0;
+    std::int64_t permutedApplyServingGain = 0;
+    std::int32_t permutedApplyDeadlineDays = 0;
+    std::int32_t permutedApplyMappingFailures = 0;
+    std::int32_t permutedApplyRoleFailures = 0;
+    std::int32_t permutedApplyShadowStateFailures = 0;
+    std::int32_t permutedApplyShadowLedgerFailures = 0;
+    std::int32_t permutedApplyUncertifiedTakeovers = 0;
+    std::int32_t permutedCausalNoopFailures = 0;
 };
 
 [[nodiscard]] std::uint64_t plan_hash(const udon::DayPlan& plan) {
@@ -182,6 +232,473 @@ struct Metrics {
         }
     }
     return hash;
+}
+
+struct SparseCurrentDayChoice {
+    udon::DayPlan plan;
+    udon::SimulationResult simulation;
+    udon::OfficialScore scoreAfterToday;
+    std::int32_t representatives = 0;
+    std::int64_t routes = 0;
+    std::int64_t validPlans = 0;
+    bool improved = false;
+};
+
+[[nodiscard]] SparseCurrentDayChoice sparse_current_day_exchange(
+    const udon::MatchConfig& config,
+    const udon::DayState& state,
+    const udon::MatchLedger& ledger,
+    const udon::DayPlan& parentPlan,
+    const udon::SimulationResult& parentSimulation,
+    std::uint64_t maximumSettledStates) {
+    SparseCurrentDayChoice result;
+    result.plan = parentPlan;
+    result.simulation = parentSimulation;
+    result.scoreAfterToday = udon::OfficialScore::after_day(
+        ledger,
+        parentSimulation.score);
+    if (maximumSettledStates == 0U || config.spots.size() > 32U) {
+        return result;
+    }
+
+    udon::BrandMask preferredBrands;
+    for (std::int32_t brand = 0; brand < config.brand_count(); ++brand) {
+        if (!udon::has_brand(ledger.lifetimeBrands, brand)) {
+            preferredBrands |= udon::brand_bit(brand);
+        }
+    }
+    const std::int32_t minimumSpots = preferredBrands.any()
+        ? 1
+        : std::min<std::int32_t>(
+              std::max(1, config.brand_count() - 1),
+              static_cast<std::int32_t>(config.spots.size()));
+    std::vector<udon::AgentIndex> representatives;
+    for (udon::AgentIndex agent = 0;
+         agent < config.agent_count();
+         ++agent) {
+        const udon::AgentState& agentState = state.agents.at(
+            static_cast<std::size_t>(agent));
+        if (agentState.kind != udon::AgentKind::Patrol) {
+            continue;
+        }
+        const bool represented = std::any_of(
+            representatives.begin(),
+            representatives.end(),
+            [&state, &agentState](udon::AgentIndex existing) {
+                const udon::AgentState& existingState = state.agents.at(
+                    static_cast<std::size_t>(existing));
+                return existingState.position == agentState.position &&
+                    existingState.fuel == agentState.fuel;
+            });
+        if (!represented) {
+            representatives.push_back(agent);
+        }
+    }
+    result.representatives = static_cast<std::int32_t>(
+        representatives.size());
+
+    const udon::ExactStepSimulator simulator(config);
+    const udon::IndependentDayValidator validator(config);
+    for (const udon::AgentIndex agent : representatives) {
+        const udon::ExactOrienteeringReachability reachability =
+            udon::enumerate_sparse_anytime_resource_routes(
+                config,
+                state,
+                agent,
+                minimumSpots,
+                64U,
+                maximumSettledStates,
+                std::nullopt,
+                preferredBrands);
+        std::vector<const udon::ExactOrienteeringRoute*> routes;
+        routes.reserve(
+            reachability.maximalRoutes.size() +
+            reachability.supplementalRoutes.size());
+        for (const udon::ExactOrienteeringRoute& route :
+             reachability.maximalRoutes) {
+            routes.push_back(&route);
+        }
+        for (const udon::ExactOrienteeringRoute& route :
+             reachability.supplementalRoutes) {
+            routes.push_back(&route);
+        }
+        result.routes += static_cast<std::int64_t>(routes.size());
+        for (const udon::ExactOrienteeringRoute* route : routes) {
+            udon::DayPlan mutation = parentPlan;
+            mutation.actions.at(static_cast<std::size_t>(agent)) =
+                route->actions;
+            const udon::SimulationResult simulation = simulator.simulate(
+                state,
+                mutation,
+                false);
+            const udon::SimulationResult validation = validator.validate(
+                state,
+                mutation,
+                false);
+            std::string mismatch;
+            if (!simulation.valid ||
+                !validator.agrees_with(simulation, validation, mismatch)) {
+                continue;
+            }
+            ++result.validPlans;
+            const udon::OfficialScore score = udon::OfficialScore::after_day(
+                ledger,
+                simulation.score);
+            if (result.scoreAfterToday < score) {
+                result.plan = std::move(mutation);
+                result.simulation = simulation;
+                result.scoreAfterToday = score;
+                result.improved = true;
+            }
+        }
+    }
+    return result;
+}
+
+struct PermutedTerminalPairProbe {
+    udon::DayPlan plan;
+    udon::SimulationResult simulation;
+    std::vector<std::size_t> baselineToCandidate;
+    std::int64_t tasks = 0;
+    std::int64_t routes = 0;
+    std::int64_t crossPairs = 0;
+    std::int64_t validPlans = 0;
+    std::int64_t certifiedPlans = 0;
+    udon::OfficialScore parentScore;
+    udon::OfficialScore bestScore;
+    bool improved = false;
+    bool deadlineReached = false;
+};
+
+[[nodiscard]] std::optional<std::vector<std::size_t>>
+exact_role_permutation_mapping(
+    const std::vector<udon::AgentState>& baseline,
+    const std::vector<udon::AgentState>& candidate) {
+    if (baseline.size() != candidate.size()) {
+        return std::nullopt;
+    }
+    std::vector<bool> used(candidate.size(), false);
+    std::vector<std::size_t> baselineToCandidate;
+    baselineToCandidate.reserve(baseline.size());
+    for (const udon::AgentState& expected : baseline) {
+        bool matched = false;
+        for (std::size_t index = 0; index < candidate.size(); ++index) {
+            const udon::AgentState& actual = candidate.at(index);
+            if (!used.at(index) && expected.kind == actual.kind &&
+                expected.position == actual.position &&
+                expected.fuel == actual.fuel) {
+                used.at(index) = true;
+                baselineToCandidate.push_back(index);
+                matched = true;
+                break;
+            }
+        }
+        if (!matched) {
+            return std::nullopt;
+        }
+    }
+    return baselineToCandidate;
+}
+
+[[nodiscard]] std::vector<std::size_t> identity_agent_mapping(
+    std::size_t agentCount) {
+    std::vector<std::size_t> mapping(agentCount);
+    std::iota(mapping.begin(), mapping.end(), std::size_t{0});
+    return mapping;
+}
+
+[[nodiscard]] bool valid_agent_mapping(
+    const std::vector<std::size_t>& mapping,
+    std::size_t agentCount) {
+    if (mapping.size() != agentCount) {
+        return false;
+    }
+    std::vector<bool> used(agentCount, false);
+    for (const std::size_t physical : mapping) {
+        if (physical >= agentCount || used.at(physical)) {
+            return false;
+        }
+        used.at(physical) = true;
+    }
+    return true;
+}
+
+[[nodiscard]] std::vector<udon::AgentState> physical_agents_in_logical_order(
+    const std::vector<udon::AgentState>& physicalAgents,
+    const std::vector<std::size_t>& logicalToPhysical) {
+    if (!valid_agent_mapping(logicalToPhysical, physicalAgents.size())) {
+        throw std::invalid_argument("invalid logical-to-physical agent mapping");
+    }
+    std::vector<udon::AgentState> logicalAgents;
+    logicalAgents.reserve(physicalAgents.size());
+    for (const std::size_t physical : logicalToPhysical) {
+        logicalAgents.push_back(physicalAgents.at(physical));
+    }
+    return logicalAgents;
+}
+
+[[nodiscard]] udon::DayPlan physical_plan_from_logical(
+    const udon::DayPlan& logicalPlan,
+    const std::vector<std::size_t>& logicalToPhysical) {
+    if (!valid_agent_mapping(logicalToPhysical, logicalPlan.actions.size())) {
+        throw std::invalid_argument("invalid logical plan agent mapping");
+    }
+    udon::DayPlan physicalPlan;
+    physicalPlan.actions.resize(logicalPlan.actions.size());
+    for (std::size_t logical = 0; logical < logicalPlan.actions.size(); ++logical) {
+        physicalPlan.actions.at(logicalToPhysical.at(logical)) =
+            logicalPlan.actions.at(logical);
+    }
+    return physicalPlan;
+}
+
+[[nodiscard]] std::vector<std::size_t> advance_agent_mapping(
+    const std::vector<std::size_t>& logicalToPhysical,
+    const std::vector<std::size_t>& baselineToCandidate) {
+    if (!valid_agent_mapping(logicalToPhysical, baselineToCandidate.size()) ||
+        !valid_agent_mapping(baselineToCandidate, logicalToPhysical.size())) {
+        return {};
+    }
+    std::vector<std::size_t> nextMapping(baselineToCandidate.size());
+    for (std::size_t baseline = 0;
+         baseline < baselineToCandidate.size();
+         ++baseline) {
+        nextMapping.at(baseline) = logicalToPhysical.at(
+            baselineToCandidate.at(baseline));
+    }
+    return nextMapping;
+}
+
+[[nodiscard]] bool exact_agent_state_vector(
+    const std::vector<udon::AgentState>& left,
+    const std::vector<udon::AgentState>& right) {
+    return left.size() == right.size() &&
+        std::equal(
+            left.begin(),
+            left.end(),
+            right.begin(),
+            [](const udon::AgentState& lhs,
+               const udon::AgentState& rhs) {
+                return lhs.kind == rhs.kind &&
+                    lhs.position == rhs.position &&
+                    lhs.fuel == rhs.fuel;
+            });
+}
+
+[[nodiscard]] bool strict_permuted_terminal_improvement(
+    const udon::MatchLedger& ledger,
+    const udon::SimulationResult& baseline,
+    const udon::SimulationResult& candidate) {
+    const bool identityState =
+        baseline.finalAgents.size() == candidate.finalAgents.size() &&
+        std::equal(
+            baseline.finalAgents.begin(),
+            baseline.finalAgents.end(),
+            candidate.finalAgents.begin(),
+            [](const udon::AgentState& left,
+               const udon::AgentState& right) {
+                return left.kind == right.kind &&
+                    left.position == right.position &&
+                    left.fuel == right.fuel;
+            });
+    if (!baseline.valid || !candidate.valid || identityState ||
+        baseline.roadFootprint != candidate.roadFootprint ||
+        !exact_role_permutation_mapping(
+             baseline.finalAgents,
+             candidate.finalAgents).has_value()) {
+        return false;
+    }
+    const udon::BrandMask baselineLifetime =
+        ledger.lifetimeBrands | baseline.score.brands;
+    const udon::BrandMask candidateLifetime =
+        ledger.lifetimeBrands | candidate.score.brands;
+    if (udon::brand_difference(baselineLifetime, candidateLifetime).any() ||
+        candidate.score.dailyDistinct < baseline.score.dailyDistinct ||
+        candidate.score.servings < baseline.score.servings) {
+        return false;
+    }
+    return baselineLifetime != candidateLifetime ||
+        candidate.score.dailyDistinct > baseline.score.dailyDistinct ||
+        candidate.score.servings > baseline.score.servings;
+}
+
+[[nodiscard]] PermutedTerminalPairProbe probe_permuted_terminal_pairs(
+    const udon::MatchConfig& config,
+    const udon::DayState& state,
+    const udon::MatchLedger& ledger,
+    const udon::DayPlan& parentPlan,
+    const udon::SimulationResult& parentSimulation,
+    std::uint64_t maximumSettledStates,
+    std::optional<std::chrono::steady_clock::time_point> deadline = std::nullopt,
+    bool stopOnFirst = false) {
+    PermutedTerminalPairProbe result;
+    result.plan = parentPlan;
+    result.simulation = parentSimulation;
+    result.parentScore = udon::OfficialScore::after_day(
+        ledger,
+        parentSimulation.score);
+    result.bestScore = result.parentScore;
+    if (maximumSettledStates == 0U || config.spots.empty() ||
+        config.spots.size() > 32U || !parentSimulation.valid) {
+        return result;
+    }
+    const auto expired = [&deadline]() {
+        return deadline.has_value() &&
+            std::chrono::steady_clock::now() >= *deadline;
+    };
+
+    udon::BrandMask preferredBrands;
+    for (std::int32_t brand = 0; brand < config.brand_count(); ++brand) {
+        if (!udon::has_brand(ledger.lifetimeBrands, brand)) {
+            preferredBrands |= udon::brand_bit(brand);
+        }
+    }
+    const bool hasMissingLifetimeBrand = preferredBrands.any();
+    if (!hasMissingLifetimeBrand) {
+        for (std::int32_t brand = 0; brand < config.brand_count(); ++brand) {
+            if (!udon::has_brand(parentSimulation.score.brands, brand)) {
+                preferredBrands |= udon::brand_bit(brand);
+            }
+        }
+    }
+    const std::int32_t minimumSpots = hasMissingLifetimeBrand
+        ? 1
+        : std::min<std::int32_t>(
+              std::max(1, config.brand_count() - 1),
+              static_cast<std::int32_t>(config.spots.size()));
+    std::vector<udon::AgentIndex> patrols;
+    for (udon::AgentIndex agent = 0;
+         agent < config.agent_count();
+         ++agent) {
+        if (state.agents.at(static_cast<std::size_t>(agent)).kind ==
+            udon::AgentKind::Patrol) {
+            patrols.push_back(agent);
+        }
+    }
+
+    const udon::ExactStepSimulator simulator(config);
+    const udon::IndependentDayValidator validator(config);
+    std::unordered_set<std::uint64_t> planHashes;
+    planHashes.insert(plan_hash(parentPlan));
+    for (std::size_t leftOffset = 0;
+         leftOffset + 1U < patrols.size();
+         ++leftOffset) {
+        for (std::size_t rightOffset = leftOffset + 1U;
+             rightOffset < patrols.size();
+             ++rightOffset) {
+            if (expired()) {
+                result.deadlineReached = true;
+                return result;
+            }
+            const udon::AgentIndex left = patrols.at(leftOffset);
+            const udon::AgentIndex right = patrols.at(rightOffset);
+            const udon::CellId leftTerminal = parentSimulation.finalAgents.at(
+                static_cast<std::size_t>(left)).position;
+            const udon::CellId rightTerminal = parentSimulation.finalAgents.at(
+                static_cast<std::size_t>(right)).position;
+            const udon::ExactOrienteeringReachability leftReachability =
+                udon::enumerate_sparse_anytime_resource_routes_to_terminal(
+                    config,
+                    state,
+                    left,
+                    rightTerminal,
+                    minimumSpots,
+                    32U,
+                    maximumSettledStates,
+                    deadline,
+                    preferredBrands);
+            const udon::ExactOrienteeringReachability rightReachability =
+                udon::enumerate_sparse_anytime_resource_routes_to_terminal(
+                    config,
+                    state,
+                    right,
+                    leftTerminal,
+                    minimumSpots,
+                    32U,
+                    maximumSettledStates,
+                    deadline,
+                    preferredBrands);
+            if (expired()) {
+                result.deadlineReached = true;
+                return result;
+            }
+            result.tasks += 2;
+            std::vector<const udon::ExactOrienteeringRoute*> leftRoutes;
+            std::vector<const udon::ExactOrienteeringRoute*> rightRoutes;
+            const auto append_routes = [](
+                const udon::ExactOrienteeringReachability& reachability,
+                std::vector<const udon::ExactOrienteeringRoute*>& routes) {
+                for (const udon::ExactOrienteeringRoute& route :
+                     reachability.maximalRoutes) {
+                    routes.push_back(&route);
+                }
+                for (const udon::ExactOrienteeringRoute& route :
+                     reachability.supplementalRoutes) {
+                    routes.push_back(&route);
+                }
+            };
+            append_routes(leftReachability, leftRoutes);
+            append_routes(rightReachability, rightRoutes);
+            result.routes += static_cast<std::int64_t>(
+                leftRoutes.size() + rightRoutes.size());
+            for (const udon::ExactOrienteeringRoute* leftRoute : leftRoutes) {
+                for (const udon::ExactOrienteeringRoute* rightRoute :
+                     rightRoutes) {
+                    ++result.crossPairs;
+                    if ((result.crossPairs & 1023) == 0 && expired()) {
+                        result.deadlineReached = true;
+                        return result;
+                    }
+                    udon::DayPlan candidate = parentPlan;
+                    candidate.actions.at(static_cast<std::size_t>(left)) =
+                        leftRoute->actions;
+                    candidate.actions.at(static_cast<std::size_t>(right)) =
+                        rightRoute->actions;
+                    if (!planHashes.insert(plan_hash(candidate)).second) {
+                        continue;
+                    }
+                    const udon::SimulationResult simulation =
+                        simulator.simulate(state, candidate, false);
+                    const udon::SimulationResult validation =
+                        validator.validate(state, candidate, false);
+                    std::string mismatch;
+                    if (!simulation.valid ||
+                        !validator.agrees_with(
+                            simulation,
+                            validation,
+                            mismatch)) {
+                        continue;
+                    }
+                    ++result.validPlans;
+                    if (!strict_permuted_terminal_improvement(
+                            ledger,
+                            parentSimulation,
+                            simulation)) {
+                        continue;
+                    }
+                    ++result.certifiedPlans;
+                    const udon::OfficialScore candidateScore =
+                        udon::OfficialScore::after_day(
+                            ledger,
+                            simulation.score);
+                    if (result.bestScore < candidateScore) {
+                        result.bestScore = candidateScore;
+                        result.plan = candidate;
+                        result.simulation = simulation;
+                        result.baselineToCandidate =
+                            *exact_role_permutation_mapping(
+                                parentSimulation.finalAgents,
+                                simulation.finalAgents);
+                        result.improved = true;
+                        if (stopOnFirst) {
+                            return result;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return result;
 }
 
 [[nodiscard]] std::vector<std::int32_t> plain_map(std::size_t cellCount) {
@@ -236,6 +753,9 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         if (fixture.family == "high-stock") {
             stock = 3 + static_cast<std::int32_t>(random() % 3U);
         }
+        stock = std::min(
+            stock,
+            static_cast<std::int32_t>(fixture.starts.size()));
         fixture.spots.push_back(SpotSpec{
             100 + brandIndex,
             cells.at(static_cast<std::size_t>(4 + spotIndex)),
@@ -411,6 +931,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         if (fixture.family == "high-stock") {
             stock = 5 + static_cast<std::int32_t>(random() % 4U);
         }
+        stock = std::min(stock, agentCount);
         fixture.spots.push_back(SpotSpec{
             brandIndex,
             plainCells.at(static_cast<std::size_t>(agentCount + spotIndex)),
@@ -480,10 +1001,19 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         fixture = generated_btc_large_fixture(seed, 26, 8, 6, spotCount);
     } else if (options.suite == "stratified-very-hard") {
         fixture = generated_btc_large_fixture(seed, 32, 10, 8, spotCount);
+    } else if (options.suite == "multiteam-12") {
+        fixture = generated_btc_large_fixture(seed, 12, 4, 4, spotCount);
+    } else if (options.suite == "multiteam-16") {
+        fixture = generated_btc_large_fixture(seed, 16, 5, 6, spotCount);
+    } else if (options.suite == "multiteam-24") {
+        fixture = generated_btc_large_fixture(seed, 24, 7, 8, spotCount);
+    } else if (options.suite == "multiteam-32") {
+        fixture = generated_btc_large_fixture(seed, 32, 10, 8, spotCount);
     } else {
         fixture = generated_btc_large_fixture(seed, 32, 10, 8, spotCount);
     }
-    if (options.suite.starts_with("stratified-")) {
+    if (options.suite.starts_with("stratified-") ||
+        options.suite.starts_with("multiteam-")) {
         fixture.name = options.suite + "-" + fixture.family +
             "-seed-" + std::to_string(seed);
     }
@@ -499,7 +1029,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                options.suite == "stratified-easy-brand8" ||
                options.suite == "stratified-medium" ||
                options.suite == "stratified-hard" ||
-               options.suite == "stratified-very-hard") {
+               options.suite == "stratified-very-hard" ||
+               options.suite.starts_with("multiteam-")) {
         if (options.fuelProfile == "generated") {
             const std::uint64_t profile = seed % 9U;
             if (profile < 3U) {
@@ -512,7 +1043,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                 fixture.fuelLimit = 3 * fixture.daySteps.front();
             }
         }
-    } else if (options.suite != "btc-large") {
+    } else if (options.suite != "btc-large" &&
+               !options.suite.starts_with("multiteam-")) {
         throw std::invalid_argument("unknown suite: " + options.suite);
     }
     if (options.fuelProfile == "default") {
@@ -797,8 +1329,12 @@ void preserve_plain_cells(FixtureSpec& fixture) {
     udon::MatchLedger ledger;
     udon::MatchLedger virtualLedger;
     udon::MatchLedger richerLedger;
+    udon::MatchLedger richerShadowLedger;
     std::vector<udon::AgentState> virtualAgents = agents;
     std::vector<udon::AgentState> richerAgents = agents;
+    std::vector<udon::AgentState> richerShadowAgents = agents;
+    std::vector<std::size_t> richerLogicalToPhysical =
+        identity_agent_mapping(agents.size());
     const udon::ExactStepSimulator simulator(config);
     const udon::IndependentDayValidator validator(config);
     udon::ProtectedSlackRefiner slackRefiner(config);
@@ -814,11 +1350,12 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             0));
     const std::vector<std::vector<std::int32_t>> opponentFootprints =
         opponent_footprints(fixture, config);
-
     for (std::int32_t day = 1; day <= config.day_count(); ++day) {
         const bool checkpointClosedLoopActive =
             options.checkpointClosedLoop &&
             options.publicWindowProbeBudget.count() > 5000;
+        const bool causalPermutationActive = checkpointClosedLoopActive &&
+            options.causalPermutedTerminalApplyStates > 0U;
         udon::DayState state;
         state.endsAt = config.startsAt + static_cast<std::int64_t>(day) * 5;
         state.dayNumber = day;
@@ -831,8 +1368,48 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         }
         udon::DayState richerState = state;
         if (checkpointClosedLoopActive) {
-            richerState.agents = richerAgents;
+            richerState.agents = causalPermutationActive
+                ? richerShadowAgents
+                : richerAgents;
         }
+        udon::DayState richerPhysicalState = state;
+        if (causalPermutationActive) {
+            richerPhysicalState.agents = richerAgents;
+            if (!valid_agent_mapping(
+                    richerLogicalToPhysical,
+                    richerAgents.size())) {
+                ++metrics.permutedApplyMappingFailures;
+                throw std::runtime_error(
+                    "causal persistent permutation mapping is not bijective for " +
+                    fixture.name + " on day " + std::to_string(day));
+            }
+            const std::vector<udon::AgentState> mappedPhysical =
+                physical_agents_in_logical_order(
+                    richerAgents,
+                    richerLogicalToPhysical);
+            bool roleMismatch = false;
+            for (std::size_t index = 0; index < mappedPhysical.size(); ++index) {
+                roleMismatch = roleMismatch ||
+                    mappedPhysical.at(index).kind !=
+                        richerShadowAgents.at(index).kind;
+            }
+            if (roleMismatch) {
+                ++metrics.permutedApplyRoleFailures;
+                throw std::runtime_error(
+                    "causal persistent permutation role mapping mismatch for " +
+                    fixture.name + " on day " + std::to_string(day));
+            }
+            if (!exact_agent_state_vector(
+                    mappedPhysical,
+                    richerShadowAgents)) {
+                ++metrics.permutedApplyShadowStateFailures;
+                throw std::runtime_error(
+                    "causal persistent permutation state mapping mismatch for " +
+                    fixture.name + " on day " + std::to_string(day));
+            }
+        }
+        const udon::MatchLedger& richerPlanningLedger =
+            causalPermutationActive ? richerShadowLedger : richerLedger;
 
         const auto started = std::chrono::steady_clock::now();
         udon::DecisionResult decision =
@@ -859,7 +1436,6 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         metrics.cacheEligible += decision.cacheRepair.eligibleContingencies;
         metrics.cacheReused += decision.cacheRepair.reusedContingencies;
         metrics.cacheRejected += decision.cacheRepair.rejectedContingencies;
-
         udon::SimulationResult detailed =
             simulator.simulate(state, decision.candidate.plan, false);
         const udon::SimulationResult independent =
@@ -879,6 +1455,9 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         udon::DayPlan appliedPlan = decision.candidate.plan;
         udon::DayPlan richerAppliedPlan = appliedPlan;
         udon::SimulationResult richerDetailed;
+        udon::DayPlan richerPhysicalAppliedPlan = richerAppliedPlan;
+        udon::SimulationResult richerPhysicalDetailed;
+        bool sparseRouteApplied = false;
         std::uint64_t appliedPlanHash =
             plan_hash(decision.candidate.plan);
         std::string virtualMismatch;
@@ -1218,7 +1797,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                 std::string replayMismatch;
                 udon::MatchLedger checkpointAfter = ledger;
                 checkpointAfter.apply(detailed.score);
-                udon::MatchLedger richerAfter = richerLedger;
+                udon::MatchLedger richerAfter = richerPlanningLedger;
                 if (!replayedCheckpoint.valid ||
                     !validator.agrees_with(
                         replayedCheckpoint,
@@ -1250,6 +1829,8 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                 // snapshot, so its extra work cannot warm or otherwise alter
                 // the checkpoint refiner on a later day.
                 udon::ProtectedSlackRefiner publicSlackRefiner = slackRefiner;
+                publicSlackRefiner.enableTerminalMarginalReservoir =
+                    options.terminalMarginalReservoir;
                 ++metrics.publicWindowProbeDays;
                 constexpr auto kTransportSafety =
                     std::chrono::milliseconds{1100};
@@ -1259,14 +1840,14 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                 continuation.plan = richerAppliedPlan;
                 continuation.simulation = richerDetailed;
                 continuation.scoreAfterToday =
-                    udon::OfficialScore::after_day(
-                        richerLedger,
+                        udon::OfficialScore::after_day(
+                        richerPlanningLedger,
                         richerDetailed.score);
                 if (std::chrono::steady_clock::now() < publicDeadline) {
                     if (day == config.day_count()) {
                         continuation = publicSlackRefiner.refine_terminal_sparse(
                             richerState,
-                            richerLedger,
+                            richerPlanningLedger,
                             richerAppliedPlan,
                             richerDetailed,
                             publicDeadline);
@@ -1278,11 +1859,33 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                             continuation.diagnostics.validPlans;
                         metrics.publicWindowProbeAcceptances +=
                             continuation.diagnostics.strictTerminalImprovements;
+                        metrics.terminalMarginalRoutes +=
+                            continuation.diagnostics.terminalMarginalRoutes;
+                        metrics.terminalMarginalPlans +=
+                            continuation.diagnostics.terminalMarginalGeneratedPlans;
+                        metrics.terminalMarginalValid +=
+                            continuation.diagnostics.terminalMarginalValidPlans;
+                        metrics.terminalMarginalAcceptances +=
+                            continuation.diagnostics.terminalMarginalAcceptances;
+                        metrics.terminalMarginalRounds +=
+                            continuation.diagnostics.terminalMarginalRounds;
+                        metrics.terminalMarginalDeadline +=
+                            continuation.diagnostics.terminalMarginalDeadline
+                            ? 1
+                            : 0;
+                        metrics.terminalMarginalFailure +=
+                            continuation.diagnostics.terminalMarginalFailure
+                            ? 1
+                            : 0;
+                        metrics.terminalMarginalParentScore =
+                            continuation.canonicalTerminalScore;
+                        metrics.terminalMarginalRefinedScore =
+                            continuation.scoreAfterToday;
                     } else {
                         const udon::ProtectedSlackResult waitContinuation =
                             publicSlackRefiner.refine_wait_detours(
                                 richerState,
-                                richerLedger,
+                                richerPlanningLedger,
                                 richerAppliedPlan,
                                 richerDetailed,
                                 publicDeadline);
@@ -1290,7 +1893,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                         const udon::ProtectedSlackResult middayContinuation =
                             publicSlackRefiner.refine_midday_chains(
                                 richerState,
-                                richerLedger,
+                                richerPlanningLedger,
                                 waitContinuation.plan,
                                 waitContinuation.simulation,
                                 publicDeadline);
@@ -1332,7 +1935,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                     }
                     const udon::OfficialScore richerCheckpointScore =
                         udon::OfficialScore::after_day(
-                            richerLedger,
+                            richerPlanningLedger,
                             richerDetailed.score);
                     if (!(richerCheckpointScore <
                           continuation.scoreAfterToday)) {
@@ -1358,7 +1961,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                     richerDetailed = continuation.simulation;
                 }
 
-                udon::MatchLedger candidateAfter = richerLedger;
+                udon::MatchLedger candidateAfter = richerPlanningLedger;
                 candidateAfter.apply(richerDetailed.score);
                 const bool terminalDay = day == config.day_count();
                 const bool completeCheckpointDominates =
@@ -1376,9 +1979,232 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                         "public continuation failed complete checkpoint dominance for " +
                         fixture.name + " on day " + std::to_string(day));
                 }
+
+                if (causalPermutationActive) {
+                    // SCORE-CAUSAL-PERSISTENT-AGENT-PERMUTATION-254. The
+                    // already-complete public continuation above is the one
+                    // causal parent. The logical shadow stays on that exact
+                    // transition; only the physical wire identity and actual
+                    // score ledger may advance after the full certificate.
+                    const auto validatePhysicalPlan = [&](const udon::DayPlan& plan) {
+                        const udon::SimulationResult simulated =
+                            simulator.simulate(richerPhysicalState, plan, false);
+                        const udon::SimulationResult validated =
+                            validator.validate(richerPhysicalState, plan, false);
+                        std::string physicalMismatch;
+                        if (!simulated.valid ||
+                            !validator.agrees_with(
+                                simulated,
+                                validated,
+                                physicalMismatch)) {
+                            ++metrics.permutedApplyUncertifiedTakeovers;
+                            throw std::runtime_error(
+                                "causal persistent permutation physical plan failed validation for " +
+                                fixture.name + " on day " +
+                                std::to_string(day) + ": " + physicalMismatch);
+                        }
+                        return simulated;
+                    };
+                    richerPhysicalAppliedPlan = physical_plan_from_logical(
+                        richerAppliedPlan,
+                        richerLogicalToPhysical);
+                    richerPhysicalDetailed = validatePhysicalPlan(
+                        richerPhysicalAppliedPlan);
+                    const std::vector<udon::AgentState> baselineLogicalFinal =
+                        physical_agents_in_logical_order(
+                            richerPhysicalDetailed.finalAgents,
+                            richerLogicalToPhysical);
+                    if (!exact_agent_state_vector(
+                            baselineLogicalFinal,
+                            richerDetailed.finalAgents) ||
+                        richerPhysicalDetailed.roadFootprint !=
+                            richerDetailed.roadFootprint ||
+                        richerPhysicalDetailed.score.brands !=
+                            richerDetailed.score.brands ||
+                        richerPhysicalDetailed.score.dailyDistinct !=
+                            richerDetailed.score.dailyDistinct ||
+                        richerPhysicalDetailed.score.servings !=
+                            richerDetailed.score.servings) {
+                        ++metrics.permutedApplyShadowStateFailures;
+                        throw std::runtime_error(
+                            "causal persistent permutation baseline remap lost logical equivalence for " +
+                            fixture.name + " on day " + std::to_string(day));
+                    }
+
+                    if (day < config.day_count()) {
+                        constexpr auto kPermutationValidationReserve =
+                            std::chrono::milliseconds{75};
+                        const auto permutationDeadline =
+                            publicDeadline - kPermutationValidationReserve;
+                        PermutedTerminalPairProbe permutationProbe;
+                        if (std::chrono::steady_clock::now() <
+                            permutationDeadline) {
+                            permutationProbe = probe_permuted_terminal_pairs(
+                                config,
+                                richerState,
+                                richerPlanningLedger,
+                                richerAppliedPlan,
+                                richerDetailed,
+                                options.causalPermutedTerminalApplyStates,
+                                permutationDeadline,
+                                true);
+                        } else {
+                            permutationProbe.deadlineReached = true;
+                        }
+                        metrics.permutedApplyTasks += permutationProbe.tasks;
+                        metrics.permutedApplyRoutes += permutationProbe.routes;
+                        metrics.permutedApplyCrossPairs +=
+                            permutationProbe.crossPairs;
+                        metrics.permutedApplyValidPlans +=
+                            permutationProbe.validPlans;
+                        metrics.permutedApplyCertified +=
+                            permutationProbe.certifiedPlans;
+                        metrics.permutedApplyDeadlineDays +=
+                            permutationProbe.deadlineReached ? 1 : 0;
+                        if (permutationProbe.improved &&
+                            !permutationProbe.deadlineReached) {
+                            const std::vector<std::size_t> nextMapping =
+                                advance_agent_mapping(
+                                    richerLogicalToPhysical,
+                                    permutationProbe.baselineToCandidate);
+                            if (!valid_agent_mapping(
+                                    nextMapping,
+                                    richerAgents.size())) {
+                                ++metrics.permutedApplyMappingFailures;
+                                throw std::runtime_error(
+                                    "causal persistent permutation produced a non-bijective mapping for " +
+                                    fixture.name + " on day " +
+                                    std::to_string(day));
+                            }
+                            const udon::DayPlan physicalCandidate =
+                                physical_plan_from_logical(
+                                    permutationProbe.plan,
+                                    richerLogicalToPhysical);
+                            const udon::SimulationResult physicalCandidateDetailed =
+                                validatePhysicalPlan(physicalCandidate);
+                            const std::vector<udon::AgentState> remappedFinal =
+                                physical_agents_in_logical_order(
+                                    physicalCandidateDetailed.finalAgents,
+                                    nextMapping);
+                            if (!exact_agent_state_vector(
+                                    remappedFinal,
+                                    richerDetailed.finalAgents) ||
+                                physicalCandidateDetailed.roadFootprint !=
+                                    permutationProbe.simulation.roadFootprint ||
+                                physicalCandidateDetailed.score.brands !=
+                                    permutationProbe.simulation.score.brands ||
+                                physicalCandidateDetailed.score.dailyDistinct !=
+                                    permutationProbe.simulation.score.dailyDistinct ||
+                                physicalCandidateDetailed.score.servings !=
+                                    permutationProbe.simulation.score.servings) {
+                                ++metrics.permutedApplyShadowStateFailures;
+                                ++metrics.permutedApplyUncertifiedTakeovers;
+                                throw std::runtime_error(
+                                    "causal persistent permutation candidate failed physical/shadow certificate for " +
+                                    fixture.name + " on day " +
+                                    std::to_string(day));
+                            }
+                            const udon::OfficialScore physicalParentScore =
+                                udon::OfficialScore::after_day(
+                                    richerLedger,
+                                    richerPhysicalDetailed.score);
+                            const udon::OfficialScore physicalCandidateScore =
+                                udon::OfficialScore::after_day(
+                                    richerLedger,
+                                    physicalCandidateDetailed.score);
+                            if (physicalParentScore < physicalCandidateScore) {
+                                ++metrics.permutedApplyTakeovers;
+                                metrics.permutedApplyLifetimeGain +=
+                                    physicalCandidateScore.lifetimeDistinct -
+                                    physicalParentScore.lifetimeDistinct;
+                                metrics.permutedApplyDailyGain +=
+                                    physicalCandidateScore.totalDailyDistinct -
+                                    physicalParentScore.totalDailyDistinct;
+                                metrics.permutedApplyServingGain +=
+                                    physicalCandidateScore.totalServings -
+                                    physicalParentScore.totalServings;
+                                richerPhysicalAppliedPlan = physicalCandidate;
+                                richerPhysicalDetailed = physicalCandidateDetailed;
+                                richerLogicalToPhysical = nextMapping;
+                            }
+                        }
+                    }
+                }
+
+            }
+            if (options.permutedTerminalProbeStates > 0U &&
+                day < config.day_count()) {
+                const std::uint64_t incumbentHashBefore =
+                    plan_hash(appliedPlan);
+                const PermutedTerminalPairProbe probe =
+                    probe_permuted_terminal_pairs(
+                        config,
+                        state,
+                        ledger,
+                        appliedPlan,
+                        detailed,
+                        options.permutedTerminalProbeStates);
+                metrics.permutedProbeTasks += probe.tasks;
+                metrics.permutedProbeRoutes += probe.routes;
+                metrics.permutedProbeCrossPairs += probe.crossPairs;
+                metrics.permutedProbeValidPlans += probe.validPlans;
+                metrics.permutedProbeCertified += probe.certifiedPlans;
+                if (probe.certifiedPlans > 0) {
+                    ++metrics.permutedProbeYieldDays;
+                    metrics.permutedProbeLifetimeGain +=
+                        probe.bestScore.lifetimeDistinct -
+                        probe.parentScore.lifetimeDistinct;
+                    metrics.permutedProbeDailyGain +=
+                        probe.bestScore.totalDailyDistinct -
+                        probe.parentScore.totalDailyDistinct;
+                    metrics.permutedProbeServingGain +=
+                        probe.bestScore.totalServings -
+                        probe.parentScore.totalServings;
+                }
+                if (plan_hash(appliedPlan) != incumbentHashBefore) {
+                    ++metrics.permutedProbeMutationFailures;
+                    throw std::runtime_error(
+                        "permuted-terminal attribution mutated incumbent for " +
+                        fixture.name + " on day " + std::to_string(day));
+                }
+            }
+            if (options.sparseRouteStates > 0U) {
+                const udon::OfficialScore parentScore =
+                    udon::OfficialScore::after_day(ledger, detailed.score);
+                const SparseCurrentDayChoice sparse =
+                    sparse_current_day_exchange(
+                        config,
+                        state,
+                        ledger,
+                        appliedPlan,
+                        detailed,
+                        options.sparseRouteStates);
+                metrics.sparseRouteRepresentatives +=
+                    sparse.representatives;
+                metrics.sparseRoutes += sparse.routes;
+                metrics.sparseValidPlans += sparse.validPlans;
+                if (sparse.improved) {
+                    appliedPlan = sparse.plan;
+                    detailed = sparse.simulation;
+                    appliedPlanHash = plan_hash(appliedPlan);
+                    sparseRouteApplied = true;
+                    ++metrics.sparseTakeovers;
+                    if (parentScore.lifetimeDistinct ==
+                            sparse.scoreAfterToday.lifetimeDistinct &&
+                        parentScore.totalDailyDistinct ==
+                            sparse.scoreAfterToday.totalDailyDistinct) {
+                        metrics.sparseServingGain +=
+                            sparse.scoreAfterToday.totalServings -
+                            parentScore.totalServings;
+                    }
+                }
             }
             udon::DecisionResult acknowledgedDecision = *selectedDecision;
-            engine.record_submitted(*selectedDecision, elapsed);
+            if (sparseRouteApplied) {
+                engine.record_applied_transition(state, detailed);
+            } else {
+                engine.record_submitted(*selectedDecision, elapsed);
+            }
             if (options.postAckBudget.count() > 0 &&
                 day < config.day_count()) {
                 ++metrics.postAckCalls;
@@ -1431,8 +2257,15 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         }
         ledger.apply(detailed.score);
         if (checkpointClosedLoopActive) {
-            richerLedger.apply(richerDetailed.score);
+            if (causalPermutationActive) {
+                richerShadowLedger.apply(richerDetailed.score);
+                richerLedger.apply(richerPhysicalDetailed.score);
+            } else {
+                richerLedger.apply(richerDetailed.score);
+            }
             const bool terminalDay = day == config.day_count();
+            const udon::MatchLedger& causalRicherLedger =
+                causalPermutationActive ? richerShadowLedger : richerLedger;
             const bool closedLoopRelationValid =
                 (terminalDay ||
                  udon::protected_slack_transition_dominates(
@@ -1440,12 +2273,22 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                      richerDetailed)) &&
                 udon::protected_slack_ledger_relation_for_day(
                     ledger,
-                    richerLedger,
+                    causalRicherLedger,
                     terminalDay);
             if (!closedLoopRelationValid) {
                 ++metrics.checkpointClosedLoopFailures;
                 throw std::runtime_error(
                     "checkpoint closed-loop relation failed for " +
+                    fixture.name + " on day " + std::to_string(day));
+            }
+            if (causalPermutationActive &&
+                !udon::protected_slack_ledger_relation_for_day(
+                    richerShadowLedger,
+                    richerLedger,
+                    terminalDay)) {
+                ++metrics.permutedApplyShadowLedgerFailures;
+                throw std::runtime_error(
+                    "causal persistent permutation actual ledger lost shadow dominance for " +
                     fixture.name + " on day " + std::to_string(day));
             }
         }
@@ -1476,7 +2319,11 @@ void preserve_plain_cells(FixtureSpec& fixture) {
                 });
         }
         const udon::SimulationResult& reportedDetailed =
-            checkpointClosedLoopActive ? richerDetailed : detailed;
+            checkpointClosedLoopActive
+            ? (causalPermutationActive
+                   ? richerPhysicalDetailed
+                   : richerDetailed)
+            : detailed;
         const udon::MatchLedger& reportedLedger =
             checkpointClosedLoopActive ? richerLedger : ledger;
         metrics.exactDayScores.push_back(reportedDetailed.score);
@@ -1487,8 +2334,22 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         });
         metrics.planHashes.push_back(
             checkpointClosedLoopActive
-            ? plan_hash(richerAppliedPlan)
+            ? plan_hash(
+                  causalPermutationActive
+                  ? richerPhysicalAppliedPlan
+                  : richerAppliedPlan)
             : appliedPlanHash);
+        const udon::MatchLedger& causalParentLedger =
+            causalPermutationActive ? richerShadowLedger : reportedLedger;
+        metrics.permutedCausalDayScores.push_back(udon::OfficialScore{
+            causalParentLedger.lifetime_distinct(),
+            causalParentLedger.totalDailyDistinct,
+            causalParentLedger.totalServings,
+        });
+        metrics.permutedCausalPlanHashes.push_back(
+            causalPermutationActive
+            ? plan_hash(richerAppliedPlan)
+            : metrics.planHashes.back());
         metrics.deadlineDays.push_back(decision.diagnostics.deadlineReached);
         metrics.exactSupportedAgents.push_back(
             decision.audit.columnGeneration.exactOrienteeringSupportedAgents);
@@ -1500,7 +2361,12 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             decision.audit.columnGeneration.exactOrienteeringLocalServings);
         agents = detailed.finalAgents;
         if (checkpointClosedLoopActive) {
-            richerAgents = richerDetailed.finalAgents;
+            if (causalPermutationActive) {
+                richerShadowAgents = richerDetailed.finalAgents;
+                richerAgents = richerPhysicalDetailed.finalAgents;
+            } else {
+                richerAgents = richerDetailed.finalAgents;
+            }
         }
         if (options.protectedWaitClosedLoop) {
             virtualAgents = virtualDetailed.finalAgents;
@@ -1523,11 +2389,43 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             ? richerLedger.totalServings
             : ledger.totalServings,
     };
+    if (options.terminalMarginalReservoir &&
+        metrics.terminalMarginalParentScore == udon::OfficialScore{}) {
+        // A 5000-ms lane, or a longer lane with no post-checkpoint time, never
+        // enters the marginal suffix. Its exact causal parent is therefore the
+        // emitted canonical result itself.
+        metrics.terminalMarginalParentScore = metrics.score;
+        metrics.terminalMarginalRefinedScore = metrics.score;
+    }
     metrics.checkpointClosedLoopParentScore = udon::OfficialScore{
         ledger.lifetime_distinct(),
         ledger.totalDailyDistinct,
         ledger.totalServings,
     };
+    metrics.permutedCausalParentScore =
+        options.causalPermutedTerminalApplyStates > 0U &&
+            options.checkpointClosedLoop &&
+            options.publicWindowProbeBudget.count() > 5000
+        ? udon::OfficialScore{
+              richerShadowLedger.lifetime_distinct(),
+              richerShadowLedger.totalDailyDistinct,
+              richerShadowLedger.totalServings,
+          }
+        : metrics.score;
+    if (options.causalPermutedTerminalApplyStates > 0U &&
+        options.publicWindowProbeBudget.count() <= 5000 &&
+        (metrics.permutedCausalParentScore.lifetimeDistinct !=
+             metrics.score.lifetimeDistinct ||
+         metrics.permutedCausalParentScore.totalDailyDistinct !=
+             metrics.score.totalDailyDistinct ||
+         metrics.permutedCausalParentScore.totalServings !=
+             metrics.score.totalServings ||
+         metrics.permutedCausalPlanHashes != metrics.planHashes)) {
+        ++metrics.permutedCausalNoopFailures;
+        throw std::runtime_error(
+            "causal persistent permutation changed the 5000-ms no-op lane for " +
+            fixture.name);
+    }
     if (options.protectedWaitClosedLoop) {
         metrics.protectedVirtualScore = udon::OfficialScore{
             virtualLedger.lifetime_distinct(),
@@ -1600,12 +2498,22 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             options.checkpointClosedLoop = enabled == "1";
         } else if (value == "--spot-count") {
             options.spotCount = std::stoi(next());
+        } else if (value == "--players") {
+            options.playersOverride = std::stoi(next());
+        } else if (value == "--sparse-route-states") {
+            options.sparseRouteStates = std::stoull(next());
+        } else if (value == "--permuted-terminal-probe-states") {
+            options.permutedTerminalProbeStates = std::stoull(next());
+        } else if (value == "--causal-permuted-terminal-apply-states") {
+            options.causalPermutedTerminalApplyStates = std::stoull(next());
         } else if (value == "--fuel-profile") {
             options.fuelProfile = next();
         } else if (value == "--protected-wait-detours") {
             options.protectedWaitDetours = true;
         } else if (value == "--terminal-pair") {
             options.terminalPairExchange = std::stoi(next()) != 0;
+        } else if (value == "--terminal-marginal-reservoir") {
+            options.terminalMarginalReservoir = std::stoi(next()) != 0;
         } else if (value == "--midday-chain") {
             options.middayChainAdoption = std::stoi(next()) != 0;
         } else if (value == "--midday-pair") {
@@ -1634,7 +2542,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         options.publicWindowProbeBudget.count() < 0 ||
         options.postAckBudget.count() < 0 ||
         options.postAckSliceBudget.count() <= 0 ||
-        options.spotCount < 0) {
+        options.spotCount < 0 || options.playersOverride < 0) {
         throw std::invalid_argument(
             "--version, --track, positive --seeds, --budget-ms and --role-ms are required");
     }
@@ -1642,6 +2550,21 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         !options.protectedWaitClosedLoop) {
         throw std::invalid_argument(
             "--checkpoint-closed-loop requires --protected-wait-closed-loop");
+    }
+    if (options.causalPermutedTerminalApplyStates > 0U &&
+        (!options.checkpointClosedLoop ||
+         !options.protectedWaitClosedLoop)) {
+        throw std::invalid_argument(
+            "--causal-permuted-terminal-apply-states requires checkpoint and protected-wait closed loop");
+    }
+    if (options.sparseRouteStates > 0U &&
+        (options.protectedRefineBudget.count() > 0 ||
+         options.protectedWaitDetours ||
+         options.terminalSparseBudget.count() > 0 ||
+         options.publicWindowProbeBudget.count() > 0 ||
+         options.postAckBudget.count() > 0)) {
+        throw std::invalid_argument(
+            "--sparse-route-states is isolated attribution and cannot be mixed with refiners or post-ACK work");
     }
     if (options.roleMode != "exhaustive" &&
         options.roleMode != "deadline" &&
@@ -1680,6 +2603,7 @@ void print_result(
               << ",harvest_mode=" << kHarnessHarvestMode
               << ",future_harvest_mode=" << kHarnessFutureHarvestMode
               << ",role_mode=" << options.roleMode
+              << ",players=" << fixture.players
               << ",spot_count=" << fixture.spots.size()
               << ",fuel_profile=" << options.fuelProfile
               << ",fixture=" << fixture.name
@@ -1784,6 +2708,28 @@ void print_result(
               << metrics.terminalSparseRefinedScore.lifetimeDistinct << '/'
               << metrics.terminalSparseRefinedScore.totalDailyDistinct << '/'
               << metrics.terminalSparseRefinedScore.totalServings
+              << ",terminal_marginal_routes="
+              << metrics.terminalMarginalRoutes
+              << ",terminal_marginal_plans="
+              << metrics.terminalMarginalPlans
+              << ",terminal_marginal_valid="
+              << metrics.terminalMarginalValid
+              << ",terminal_marginal_acceptances="
+              << metrics.terminalMarginalAcceptances
+              << ",terminal_marginal_rounds="
+              << metrics.terminalMarginalRounds
+              << ",terminal_marginal_deadline="
+              << metrics.terminalMarginalDeadline
+              << ",terminal_marginal_failure="
+              << metrics.terminalMarginalFailure
+              << ",terminal_marginal_parent="
+              << metrics.terminalMarginalParentScore.lifetimeDistinct << '/'
+              << metrics.terminalMarginalParentScore.totalDailyDistinct << '/'
+              << metrics.terminalMarginalParentScore.totalServings
+              << ",terminal_marginal_refined="
+              << metrics.terminalMarginalRefinedScore.lifetimeDistinct << '/'
+              << metrics.terminalMarginalRefinedScore.totalDailyDistinct << '/'
+              << metrics.terminalMarginalRefinedScore.totalServings
               << ",midday_routes=" << metrics.middayRoutes
               << ",midday_plans=" << metrics.middayPlans
               << ",midday_valid=" << metrics.middayValid
@@ -1838,6 +2784,76 @@ void print_result(
               << metrics.checkpointClosedLoopTakeovers
               << ",checkpoint_closed_loop_failures="
               << metrics.checkpointClosedLoopFailures
+              << ",sparse_route_states="
+              << options.sparseRouteStates
+              << ",sparse_route_representatives="
+              << metrics.sparseRouteRepresentatives
+              << ",sparse_routes=" << metrics.sparseRoutes
+              << ",sparse_valid=" << metrics.sparseValidPlans
+              << ",sparse_takeovers=" << metrics.sparseTakeovers
+              << ",sparse_serving_gain=" << metrics.sparseServingGain
+              << ",permuted_probe_states="
+              << options.permutedTerminalProbeStates
+              << ",permuted_probe_tasks="
+              << metrics.permutedProbeTasks
+              << ",permuted_probe_routes="
+              << metrics.permutedProbeRoutes
+              << ",permuted_probe_cross_pairs="
+              << metrics.permutedProbeCrossPairs
+              << ",permuted_probe_valid="
+              << metrics.permutedProbeValidPlans
+              << ",permuted_probe_certified="
+              << metrics.permutedProbeCertified
+              << ",permuted_probe_yield_days="
+              << metrics.permutedProbeYieldDays
+              << ",permuted_probe_lifetime_gain="
+              << metrics.permutedProbeLifetimeGain
+              << ",permuted_probe_daily_gain="
+              << metrics.permutedProbeDailyGain
+              << ",permuted_probe_serving_gain="
+              << metrics.permutedProbeServingGain
+              << ",permuted_probe_mutation_failures="
+              << metrics.permutedProbeMutationFailures
+              << ",permuted_causal_parent_lifetime="
+              << metrics.permutedCausalParentScore.lifetimeDistinct
+              << ",permuted_causal_parent_daily="
+              << metrics.permutedCausalParentScore.totalDailyDistinct
+              << ",permuted_causal_parent_servings="
+              << metrics.permutedCausalParentScore.totalServings
+              << ",permuted_apply_states="
+              << options.causalPermutedTerminalApplyStates
+              << ",permuted_apply_tasks="
+              << metrics.permutedApplyTasks
+              << ",permuted_apply_routes="
+              << metrics.permutedApplyRoutes
+              << ",permuted_apply_cross_pairs="
+              << metrics.permutedApplyCrossPairs
+              << ",permuted_apply_valid="
+              << metrics.permutedApplyValidPlans
+              << ",permuted_apply_certified="
+              << metrics.permutedApplyCertified
+              << ",permuted_apply_takeovers="
+              << metrics.permutedApplyTakeovers
+              << ",permuted_apply_lifetime_gain="
+              << metrics.permutedApplyLifetimeGain
+              << ",permuted_apply_daily_gain="
+              << metrics.permutedApplyDailyGain
+              << ",permuted_apply_serving_gain="
+              << metrics.permutedApplyServingGain
+              << ",permuted_apply_deadline_days="
+              << metrics.permutedApplyDeadlineDays
+              << ",permuted_apply_mapping_failures="
+              << metrics.permutedApplyMappingFailures
+              << ",permuted_apply_role_failures="
+              << metrics.permutedApplyRoleFailures
+              << ",permuted_apply_shadow_state_failures="
+              << metrics.permutedApplyShadowStateFailures
+              << ",permuted_apply_shadow_ledger_failures="
+              << metrics.permutedApplyShadowLedgerFailures
+              << ",permuted_apply_uncertified_takeovers="
+              << metrics.permutedApplyUncertifiedTakeovers
+              << ",permuted_causal_noop_failures="
+              << metrics.permutedCausalNoopFailures
               << ",cache_eligible=" << metrics.cacheEligible
               << ",cache_reused=" << metrics.cacheReused
               << ",cache_rejected=" << metrics.cacheRejected
@@ -1880,6 +2896,14 @@ void print_result(
                 std::cout << "0/0/0";
             }
             std::cout
+                      << ",causal_parent_cumulative="
+                      << metrics.permutedCausalDayScores.at(day).lifetimeDistinct
+                      << '/'
+                      << metrics.permutedCausalDayScores.at(day).totalDailyDistinct
+                      << '/'
+                      << metrics.permutedCausalDayScores.at(day).totalServings
+                      << ",causal_parent_plan_hash="
+                      << metrics.permutedCausalPlanHashes.at(day)
                       << ",plan_hash=" << metrics.planHashes.at(day)
                       << ",response_ms=" << metrics.responseTimes.at(day)
                       << ",deadline=" << (metrics.deadlineDays.at(day) ? 1 : 0)
@@ -1902,9 +2926,12 @@ int main(int argumentCount, char** arguments) {
     try {
         const Options options = parse_options(argumentCount, arguments);
         for (std::int32_t offset = 0; offset < options.seedCount; ++offset) {
-            const FixtureSpec fixture = make_fixture(
+            FixtureSpec fixture = make_fixture(
                 options,
                 options.firstSeed + static_cast<std::uint64_t>(offset));
+            if (options.playersOverride > 0) {
+                fixture.players = options.playersOverride;
+            }
             print_result(fixture, options, run_fixture(fixture, options));
         }
         return 0;

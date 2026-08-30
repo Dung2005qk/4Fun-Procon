@@ -1,0 +1,159 @@
+{
+  "aggregate_score_delta": [
+    0,
+    0,
+    401
+  ],
+  "candidate_work": {
+    "deadline_days": 0,
+    "failure_days": 0,
+    "plans": 49105,
+    "representatives": 701,
+    "routes": 49105,
+    "settled": 30658683,
+    "strict": 230,
+    "takeovers": 114,
+    "valid": 49105
+  },
+  "experiment": "SCORE-CURRENT-DAY-SPARSE-SIDECAR-250",
+  "first_difference_tiers": {
+    "0": 9,
+    "3": 21
+  },
+  "gain_tail": {
+    "max": 39,
+    "sum": 414
+  },
+  "gate": {
+    "each_tier3_loss_at_most_10": false,
+    "gain_in_fixed_and_deadline_roles": true,
+    "gain_in_players_8_9_10": true,
+    "no_public_stratum_losses_exceed_wins": true,
+    "no_takeover_plan_hash_equivalence": false,
+    "no_tier1_or_tier2_loss": true,
+    "passed": false,
+    "positive_official_aggregate": true,
+    "total_loss_tail_below_10_percent_of_gains": true,
+    "zero_safety": true
+  },
+  "loss_tail": {
+    "min": -13,
+    "sum": -13
+  },
+  "no_takeover_hash_failures": [
+    "multiteam-12:9661100",
+    "multiteam-12:9661101",
+    "multiteam-12:9661102"
+  ],
+  "pairs": 30,
+  "phase": "development",
+  "response_ms_local_non_authoritative": {
+    "parent": {
+      "max": 3018
+    },
+    "sidecar": {
+      "max": 3019
+    }
+  },
+  "safety": {
+    "parent": {
+      "checkpoint_closed_loop_failures": 0,
+      "current_day_sparse_failure_days": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_sparse_failure": 0
+    },
+    "sidecar": {
+      "checkpoint_closed_loop_failures": 0,
+      "current_day_sparse_failure_days": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_sparse_failure": 0
+    }
+  },
+  "strata": {
+    "fuel:default": {
+      "win": 5
+    },
+    "fuel:generated": {
+      "tie": 2,
+      "win": 5
+    },
+    "fuel:high": {
+      "tie": 3,
+      "win": 4
+    },
+    "fuel:low": {
+      "loss": 1,
+      "tie": 4,
+      "win": 6
+    },
+    "horizon:10": {
+      "loss": 1,
+      "tie": 1,
+      "win": 2
+    },
+    "horizon:4": {
+      "tie": 8,
+      "win": 3
+    },
+    "horizon:5": {
+      "win": 9
+    },
+    "horizon:7": {
+      "win": 6
+    },
+    "players:10": {
+      "loss": 1,
+      "tie": 1,
+      "win": 8
+    },
+    "players:8": {
+      "tie": 6,
+      "win": 6
+    },
+    "players:9": {
+      "tie": 2,
+      "win": 6
+    },
+    "role:deadline": {
+      "tie": 5,
+      "win": 10
+    },
+    "role:fixed": {
+      "loss": 1,
+      "tie": 4,
+      "win": 10
+    },
+    "suite:general": {
+      "tie": 5,
+      "win": 1
+    },
+    "suite:multiteam-12": {
+      "tie": 3,
+      "win": 3
+    },
+    "suite:multiteam-16": {
+      "win": 8
+    },
+    "suite:multiteam-24": {
+      "win": 6
+    },
+    "suite:multiteam-32": {
+      "loss": 1,
+      "tie": 1,
+      "win": 2
+    }
+  },
+  "wtl": [
+    20,
+    9,
+    1
+  ]
+}

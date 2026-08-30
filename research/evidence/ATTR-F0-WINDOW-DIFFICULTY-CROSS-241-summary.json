@@ -1,0 +1,88 @@
+{
+  "aggregate_score_delta": [
+    0,
+    0,
+    -187
+  ],
+  "crossed_outcomes": {
+    "5000:loss|15000:loss": 7,
+    "5000:loss|15000:tie": 3,
+    "5000:loss|15000:win": 1,
+    "5000:tie|15000:loss": 2,
+    "5000:tie|15000:tie": 41,
+    "5000:win|15000:loss": 1,
+    "5000:win|15000:tie": 4,
+    "5000:win|15000:win": 5
+  },
+  "experiment": "ATTR-F0-WINDOW-DIFFICULTY-CROSS-241",
+  "first_difference_tiers": {
+    "0": 91,
+    "3": 37
+  },
+  "gain_tail": {
+    "max": 18,
+    "sum": 92
+  },
+  "groups": {
+    "fuel:default|window:15000": {"aggregate_score_delta": [0, 0, -33], "wtl": [2, 16, 3]},
+    "fuel:default|window:5000": {"aggregate_score_delta": [0, 0, -27], "wtl": [2, 13, 6]},
+    "fuel:high|window:15000": {"aggregate_score_delta": [0, 0, -6], "wtl": [2, 18, 4]},
+    "fuel:high|window:5000": {"aggregate_score_delta": [0, 0, 10], "wtl": [5, 17, 2]},
+    "fuel:low|window:15000": {"aggregate_score_delta": [0, 0, -81], "wtl": [2, 14, 3]},
+    "fuel:low|window:5000": {"aggregate_score_delta": [0, 0, -50], "wtl": [3, 13, 3]},
+    "global": {"aggregate_score_delta": [0, 0, -187], "wtl": [16, 91, 21]},
+    "order:candidate-first|window:15000": {"aggregate_score_delta": [0, 0, -69], "wtl": [3, 23, 6]},
+    "order:candidate-first|window:5000": {"aggregate_score_delta": [0, 0, -60], "wtl": [5, 23, 4]},
+    "order:parent-first|window:15000": {"aggregate_score_delta": [0, 0, -51], "wtl": [3, 25, 4]},
+    "order:parent-first|window:5000": {"aggregate_score_delta": [0, 0, -7], "wtl": [5, 20, 7]},
+    "role:deadline|window:15000": {"aggregate_score_delta": [0, 0, -51], "wtl": [3, 25, 4]},
+    "role:deadline|window:5000": {"aggregate_score_delta": [0, 0, -25], "wtl": [5, 23, 4]},
+    "role:fixed|window:15000": {"aggregate_score_delta": [0, 0, -69], "wtl": [3, 23, 6]},
+    "role:fixed|window:5000": {"aggregate_score_delta": [0, 0, -42], "wtl": [5, 20, 7]},
+    "suite:stratified-easy|window:15000": {"aggregate_score_delta": [0, 0, 1], "wtl": [1, 13, 2]},
+    "suite:stratified-easy|window:5000": {"aggregate_score_delta": [0, 0, 2], "wtl": [1, 14, 1]},
+    "suite:stratified-hard|window:15000": {"aggregate_score_delta": [0, 0, -11], "wtl": [0, 14, 2]},
+    "suite:stratified-hard|window:5000": {"aggregate_score_delta": [0, 0, 12], "wtl": [2, 11, 3]},
+    "suite:stratified-medium|window:15000": {"aggregate_score_delta": [0, 0, 0], "wtl": [0, 16, 0]},
+    "suite:stratified-medium|window:5000": {"aggregate_score_delta": [0, 0, -1], "wtl": [0, 15, 1]},
+    "suite:stratified-very-hard|window:15000": {"aggregate_score_delta": [0, 0, -110], "wtl": [5, 5, 6]},
+    "suite:stratified-very-hard|window:5000": {"aggregate_score_delta": [0, 0, -80], "wtl": [7, 3, 6]},
+    "window:15000": {"aggregate_score_delta": [0, 0, -120], "wtl": [6, 48, 10]},
+    "window:5000": {"aggregate_score_delta": [0, 0, -67], "wtl": [10, 43, 11]}
+  },
+  "loss_tail": {
+    "min": -41,
+    "sum": -279
+  },
+  "pairs": 128,
+  "plan_hash_days": {
+    "equal": 0,
+    "total": 960
+  },
+  "safety": {
+    "candidate": {
+      "checkpoint_closed_loop_failures": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_sparse_failure": 0
+    },
+    "parent": {
+      "checkpoint_closed_loop_failures": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_sparse_failure": 0
+    }
+  },
+  "unique_fixtures": 64,
+  "wtl": [
+    16,
+    91,
+    21
+  ]
+}

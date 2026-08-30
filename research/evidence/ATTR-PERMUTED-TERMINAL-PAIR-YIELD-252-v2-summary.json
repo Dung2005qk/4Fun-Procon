@@ -1,0 +1,85 @@
+{
+  "experiment": "ATTR-PERMUTED-TERMINAL-PAIR-YIELD-252-v2",
+  "mutation_failures": 0,
+  "qualified_for_score_successor": true,
+  "results": 24,
+  "safety": {
+    "checkpoint_closed_loop_failures": 0,
+    "emergency": 0,
+    "invalid": 0,
+    "midday_failure_days": 0,
+    "permuted_probe_mutation_failures": 0,
+    "protected_terminal_invalid": 0,
+    "public_window_probe_failure_days": 0,
+    "terminal_sparse_failure": 0
+  },
+  "work": {
+    "certified": 434,
+    "cross_pairs": 1621286,
+    "daily_gain": 0,
+    "lifetime_gain": 0,
+    "routes": 102701,
+    "serving_gain": 29,
+    "tasks": 3730,
+    "valid": 1111368
+  },
+  "yield_strata": {
+    "fuel": {
+      "default": 1,
+      "high": 2,
+      "low": 2
+    },
+    "players": {
+      "10": 2,
+      "8": 2,
+      "9": 1
+    },
+    "role": {
+      "deadline": 3,
+      "fixed": 2
+    },
+    "suite": {
+      "multiteam-16": 1,
+      "multiteam-24": 2,
+      "multiteam-32": 2
+    }
+  },
+  "yielded_cases": [
+    {
+      "seed": 9732100,
+      "suite": "multiteam-16"
+    },
+    {
+      "seed": 9733001,
+      "suite": "multiteam-24"
+    },
+    {
+      "seed": 9733100,
+      "suite": "multiteam-24"
+    },
+    {
+      "seed": 9734000,
+      "suite": "multiteam-32"
+    },
+    {
+      "seed": 9734101,
+      "suite": "multiteam-32"
+    }
+  ],
+  "yielded_days": 7,
+  "yielded_matches": 5,
+  "yielded_players": [
+    "10",
+    "8",
+    "9"
+  ],
+  "yielded_roles": [
+    "deadline",
+    "fixed"
+  ],
+  "yielded_suites": [
+    "multiteam-16",
+    "multiteam-24",
+    "multiteam-32"
+  ]
+}
