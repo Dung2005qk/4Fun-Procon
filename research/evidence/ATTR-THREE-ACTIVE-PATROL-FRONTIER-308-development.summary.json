@@ -1,0 +1,179 @@
+{
+  "experiment": "ATTR-THREE-ACTIVE-PATROL-FRONTIER-308",
+  "phase": "development-attribution",
+  "cases": 4,
+  "traces": 16,
+  "log_sha256": "3F4749228566CAFF00ACB5596C478EBC7B68F2FA91EDC1596FB4795643C73A4E",
+  "classifications": {
+    "terminal-state-supply": 3,
+    "frontier-not-shortlisted": 1
+  },
+  "causal_days": {
+    "1": 4
+  },
+  "recurrent_mechanism": true,
+  "score_successor_authorized": true,
+  "holdout_open_authorized": false,
+  "results": [
+    {
+      "seed": 10500000,
+      "family": "three-balanced",
+      "gain": 1,
+      "causal_day": 1,
+      "classification": "terminal-state-supply",
+      "oracle_state_matches": 0,
+      "state_disposition": "absent",
+      "state_certified": false,
+      "state_selected": false,
+      "state_lower": [
+        0,
+        0,
+        0
+      ],
+      "state_upper": [
+        0,
+        0,
+        0
+      ],
+      "selected_score": [
+        5,
+        5,
+        10
+      ],
+      "selected_lower": [
+        5,
+        20,
+        35
+      ],
+      "selected_upper": [
+        5,
+        20,
+        38
+      ],
+      "oracle_agents": "17@9|17@5|18@5",
+      "head_agents": "19@7|20@8|17@4",
+      "oracle_plan": "2.-16|5.5.5.5.5.-8|5.5.5.5.5.-8",
+      "head_plan": "2.2.2.-12|5.5.-14|5.5.5.5.5.5.-6"
+    },
+    {
+      "seed": 10500001,
+      "family": "three-balanced",
+      "gain": 2,
+      "causal_day": 1,
+      "classification": "terminal-state-supply",
+      "oracle_state_matches": 0,
+      "state_disposition": "absent",
+      "state_certified": false,
+      "state_selected": false,
+      "state_lower": [
+        0,
+        0,
+        0
+      ],
+      "state_upper": [
+        0,
+        0,
+        0
+      ],
+      "selected_score": [
+        5,
+        5,
+        10
+      ],
+      "selected_lower": [
+        5,
+        20,
+        35
+      ],
+      "selected_upper": [
+        5,
+        20,
+        38
+      ],
+      "oracle_agents": "17@9|17@5|18@5",
+      "head_agents": "19@7|20@8|17@4",
+      "oracle_plan": "2.-14|5.5.5.5.5.-6|5.5.5.5.5.-6",
+      "head_plan": "2.2.2.-10|5.5.-12|5.5.5.5.5.5.-4"
+    },
+    {
+      "seed": 10500100,
+      "family": "three-duplicate",
+      "gain": 1,
+      "causal_day": 1,
+      "classification": "terminal-state-supply",
+      "oracle_state_matches": 0,
+      "state_disposition": "absent",
+      "state_certified": false,
+      "state_selected": false,
+      "state_lower": [
+        0,
+        0,
+        0
+      ],
+      "state_upper": [
+        0,
+        0,
+        0
+      ],
+      "selected_score": [
+        4,
+        4,
+        10
+      ],
+      "selected_lower": [
+        4,
+        16,
+        35
+      ],
+      "selected_upper": [
+        4,
+        16,
+        39
+      ],
+      "oracle_agents": "17@9|17@5|18@5",
+      "head_agents": "21@5|17@5|23@10",
+      "oracle_plan": "2.-15|5.5.5.5.5.-7|5.5.5.5.5.-7",
+      "head_plan": "2.2.2.2.2.-7|5.5.5.5.5.-7|-17"
+    },
+    {
+      "seed": 10500101,
+      "family": "three-duplicate",
+      "gain": 1,
+      "causal_day": 1,
+      "classification": "frontier-not-shortlisted",
+      "oracle_state_matches": 1,
+      "state_disposition": "not-shortlisted",
+      "state_certified": false,
+      "state_selected": false,
+      "state_lower": [
+        0,
+        0,
+        0
+      ],
+      "state_upper": [
+        4,
+        16,
+        38
+      ],
+      "selected_score": [
+        4,
+        4,
+        10
+      ],
+      "selected_lower": [
+        4,
+        16,
+        36
+      ],
+      "selected_upper": [
+        4,
+        16,
+        39
+      ],
+      "oracle_agents": "17@9|17@5|18@5",
+      "head_agents": "21@5|17@5|23@10",
+      "oracle_plan": "2.-16|5.5.5.5.5.-8|5.5.5.5.5.-8",
+      "head_plan": "2.2.2.2.2.-8|5.5.5.5.5.-8|-18"
+    }
+  ]
+}

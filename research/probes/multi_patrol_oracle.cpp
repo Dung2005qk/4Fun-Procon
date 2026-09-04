@@ -43,6 +43,12 @@ struct ManifestRow {
     std::int32_t horizon = 0;
     std::uint64_t firstSeed = 0;
     std::int32_t count = 0;
+    std::int32_t activeAgents = 2;
+    std::int32_t totalAgents = 3;
+    std::int32_t spotCount = 0;
+    std::int32_t players = 4;
+    std::string roleMode = "all-patrol";
+    std::string oracleScope;
 };
 
 struct Options {
@@ -147,6 +153,24 @@ struct LayerEntry {
     udon::AgentPlan firstPlan;
     udon::AgentPlan secondPlan;
     bool swapForNextDay = false;
+};
+
+using ThreeMatchKey = std::tuple<
+    udon::CellId,
+    std::int32_t,
+    udon::CellId,
+    std::int32_t,
+    udon::CellId,
+    std::int32_t,
+    udon::BrandMask>;
+
+struct ThreeLayerEntry {
+    ThreeMatchKey key{};
+    std::int32_t totalDailyDistinct = 0;
+    std::int32_t totalServings = 0;
+    std::int32_t parentIndex = -1;
+    std::array<udon::AgentPlan, 3> plans;
+    std::array<std::size_t, 3> nextToCurrent{0U, 1U, 2U};
 };
 
 struct OracleResult {
@@ -361,8 +385,14 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
         throw std::runtime_error("cannot open manifest: " + path);
     }
     std::string line;
-    if (!std::getline(input, line) ||
-        line != "experiment_id,split,family,fuel_profile,horizon,first_seed,count,active_agents,total_agents,spot_count,role_mode,oracle_scope") {
+    if (!std::getline(input, line)) {
+        throw std::runtime_error("multi-patrol oracle manifest is empty");
+    }
+    const bool legacySchema =
+        line == "experiment_id,split,family,fuel_profile,horizon,first_seed,count,active_agents,total_agents,spot_count,role_mode,oracle_scope";
+    const bool threeActiveSchema =
+        line == "experiment_id,split,family,fuel_profile,players,horizon,first_seed,count,active_agents,total_agents,spot_count,role_mode,oracle_scope";
+    if (!legacySchema && !threeActiveSchema) {
         throw std::runtime_error("unexpected multi-patrol oracle manifest schema");
     }
     std::vector<ManifestRow> rows;
@@ -371,6 +401,39 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
             continue;
         }
         const std::vector<std::string> fields = split_csv(line);
+        if (threeActiveSchema) {
+            if (fields.size() != 13U ||
+                fields.at(0) != "CEILING-THREE-ACTIVE-PATROL-306") {
+                throw std::runtime_error("invalid three-patrol manifest row: " + line);
+            }
+            if (fields.at(1) != split) {
+                continue;
+            }
+            const std::int32_t players = std::stoi(fields.at(4));
+            if (players < 8 || players > 10 || fields.at(5) != "4" ||
+                fields.at(8) != "3" || fields.at(9) != "3" ||
+                fields.at(10) != "5" || fields.at(11) != "all-patrol" ||
+                fields.at(12) !=
+                    "complete-three-active-patrol-roadless-full-match-dp") {
+                throw std::runtime_error(
+                    "three-patrol manifest row violates exact scope: " + line);
+            }
+            rows.push_back(ManifestRow{
+                fields.at(0),
+                fields.at(2),
+                fields.at(3),
+                std::stoi(fields.at(5)),
+                std::stoull(fields.at(6)),
+                std::stoi(fields.at(7)),
+                std::stoi(fields.at(8)),
+                std::stoi(fields.at(9)),
+                std::stoi(fields.at(10)),
+                players,
+                fields.at(11),
+                fields.at(12),
+            });
+            continue;
+        }
         if (fields.size() != 12U ||
             (fields.at(0) != "CEILING-MULTI-PATROL-085" &&
              fields.at(0) != "CEILING-BRANCH-PATROL-089" &&
@@ -456,6 +519,12 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
             std::stoi(fields.at(4)),
             std::stoull(fields.at(5)),
             std::stoi(fields.at(6)),
+            std::stoi(fields.at(7)),
+            std::stoi(fields.at(8)),
+            std::stoi(fields.at(9)),
+            adversarial ? 2 : 4,
+            fields.at(10),
+            fields.at(11),
         });
     }
     if (rows.empty()) {
@@ -465,17 +534,18 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
 }
 
 [[nodiscard]] std::vector<std::int32_t> base_brands(const std::string& family) {
-    if (family == "duplicate-brand") {
+    if (family == "duplicate-brand" || family == "three-duplicate") {
         return {100, 100, 200, 300, 400};
     }
-    if (family == "coverage-trap") {
+    if (family == "coverage-trap" || family == "three-coverage") {
         return {100, 100, 200, 200, 999};
     }
-    if (family == "terminal-separation") {
+    if (family == "terminal-separation" || family == "three-terminal") {
         return {100, 200, 200, 300, 900};
     }
     if (family == "balanced" || family == "stock-contention" ||
-        family == "fuel-allocation") {
+        family == "fuel-allocation" || family == "three-balanced" ||
+        family == "three-stock" || family == "three-fuel") {
         return {100, 200, 300, 400, 500};
     }
     if (family == "branched-duplicate") {
@@ -582,6 +652,8 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
 [[nodiscard]] Fixture make_fixture(const ManifestRow& row, std::uint64_t seed) {
     constexpr std::int32_t side = 8;
     constexpr std::int32_t cells = side * side;
+    const bool threeActive =
+        row.experimentId == "CEILING-THREE-ACTIVE-PATROL-306";
     std::vector<std::int32_t> terrain(
         static_cast<std::size_t>(cells),
         static_cast<std::int32_t>(udon::Terrain::Pond));
@@ -674,7 +746,7 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
         terrain.at(11) = static_cast<std::int32_t>(udon::Terrain::Mountain);
         spotCells = {10, 17, 18, 19, 20, 26};
     } else {
-        for (udon::CellId cell = 16; cell <= 22; ++cell) {
+        for (udon::CellId cell = 16; cell <= (threeActive ? 23 : 22); ++cell) {
             terrain.at(static_cast<std::size_t>(cell)) =
                 static_cast<std::int32_t>(udon::Terrain::Plain);
         }
@@ -688,7 +760,8 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
                 mix64(seed ^ (static_cast<std::uint64_t>(right) << 17U));
         });
     std::vector<std::int32_t> brands = base_brands(row.family);
-    if (row.family == "terminal-separation" || row.family == "terminal-fork" ||
+    if (row.family == "terminal-separation" || row.family == "three-terminal" ||
+        row.family == "terminal-fork" ||
         row.family == "terminal-loop" || row.family == "traffic-terminal" ||
         row.family == "terminal-perimeter" || row.family == "terminal-ladder" ||
         row.family == "terminal-diamond" ||
@@ -771,7 +844,8 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
             document << ',';
         }
         std::int32_t stock = 2;
-        if (row.family == "stock-contention" || row.family == "coverage-trap" ||
+        if (row.family == "stock-contention" || row.family == "three-stock" ||
+            row.family == "coverage-trap" || row.family == "three-coverage" ||
             row.family == "stock-race" || row.family == "rare-fork" ||
             row.family == "stock-crossing" || row.family == "rare-loop" ||
             row.family == "traffic-stock" || row.family == "stock-perimeter" ||
@@ -781,7 +855,8 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
             row.family == "stock-bottleneck" ||
             row.family == "rare-bottleneck") {
             stock = 1;
-        } else if (row.family == "fuel-allocation" || row.family == "fuel-split" ||
+        } else if (row.family == "fuel-allocation" || row.family == "three-fuel" ||
+            row.family == "fuel-split" ||
             row.family == "fuel-circuit" || row.family == "fuel-perimeter" ||
             row.family == "fuel-ladder" || row.family == "fuel-diamond" ||
             row.family == "fuel-bottleneck") {
@@ -793,9 +868,10 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
     }
     document << "],\"agents\":[" << (bottleneck ? 25 : (diamond ? 18 : (trafficAware ? 25 : (ladder ? 18 : (perimeter ? 18 : (cyclic ? 18 : 16)))))) << ','
              << (adversarialTraffic ? 0 : (bottleneck ? 36 : (diamond ? 35 : (trafficAware ? 28 : (ladder ? 29 : (perimeter ? 37 : (cyclic ? 36 : (branched ? 21 : 22))))))))
-             << ',' << (adversarialTraffic ? 7 : 0)
+             << ',' << (threeActive ? 23 : (adversarialTraffic ? 7 : 0))
              << "],\"fuelLimits\":" << fuelLimit
-             << ",\"players\":" << (adversarialTraffic ? 2 : 4)
+             << ",\"players\":"
+             << (threeActive ? row.players : (adversarialTraffic ? 2 : 4))
              << ",\"busyThreshold\":2,\"jammedThreshold\":4}";
 
     Fixture fixture;
@@ -838,6 +914,11 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
     }
     if (!trafficAware && !fixture.config.roadCells.empty()) {
         throw std::runtime_error("multi-patrol exact domain unexpectedly contains roads");
+    }
+    if (threeActive &&
+        (fixture.config.agent_count() != 3 || fixture.config.spots.size() != 5U ||
+         fixture.config.players != row.players)) {
+        throw std::runtime_error("three-patrol fixture violates frozen domain");
     }
     return fixture;
 }
@@ -1201,6 +1282,33 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
     return {first.position, first.fuel, second.position, second.fuel, false};
 }
 
+struct CanonicalTriple {
+    std::array<std::pair<udon::CellId, std::int32_t>, 3> states;
+    std::array<std::size_t, 3> nextToCurrent{0U, 1U, 2U};
+};
+
+[[nodiscard]] CanonicalTriple canonical_triple(
+    const std::array<const DayOutcome*, 3>& outcomes) {
+    std::array<std::tuple<udon::CellId, std::int32_t, std::size_t>, 3> tagged;
+    for (std::size_t index = 0; index < tagged.size(); ++index) {
+        tagged.at(index) = {
+            outcomes.at(index)->position,
+            outcomes.at(index)->fuel,
+            index,
+        };
+    }
+    std::sort(tagged.begin(), tagged.end());
+    CanonicalTriple canonical;
+    for (std::size_t index = 0; index < tagged.size(); ++index) {
+        canonical.states.at(index) = {
+            std::get<0>(tagged.at(index)),
+            std::get<1>(tagged.at(index)),
+        };
+        canonical.nextToCurrent.at(index) = std::get<2>(tagged.at(index));
+    }
+    return canonical;
+}
+
 [[nodiscard]] std::pair<udon::BrandMask, std::int32_t> joint_day_score(
     const udon::MatchConfig& config,
     std::uint32_t firstMask,
@@ -1213,6 +1321,28 @@ canonical_pair(const DayOutcome& first, const DayOutcome& second) {
         const std::int32_t claims =
             ((firstMask & bit) != 0U ? 1 : 0) +
             ((secondMask & bit) != 0U ? 1 : 0);
+        if (claims == 0) {
+            continue;
+        }
+        const udon::Spot& spot = config.spots.at(spotIndex);
+        servings += std::min(claims, spot.stock);
+        brands |= udon::brand_bit(spot.brandIndex);
+    }
+    return {brands, servings};
+}
+
+[[nodiscard]] std::pair<udon::BrandMask, std::int32_t> joint_day_score(
+    const udon::MatchConfig& config,
+    const std::array<std::uint32_t, 3>& masks) {
+    udon::BrandMask brands;
+    std::int32_t servings = 0;
+    for (std::size_t spotIndex = 0; spotIndex < config.spots.size(); ++spotIndex) {
+        const std::uint32_t bit =
+            std::uint32_t{1} << static_cast<std::uint32_t>(spotIndex);
+        const std::int32_t claims = static_cast<std::int32_t>(std::count_if(
+            masks.begin(),
+            masks.end(),
+            [bit](std::uint32_t mask) { return (mask & bit) != 0U; }));
         if (claims == 0) {
             continue;
         }
@@ -2145,6 +2275,345 @@ struct RootStreamResult {
     return result;
 }
 
+[[nodiscard]] bool accumulated_better(
+    std::int32_t dailyDistinct,
+    std::int32_t servings,
+    const ThreeLayerEntry& incumbent) {
+    return dailyDistinct > incumbent.totalDailyDistinct ||
+        (dailyDistinct == incumbent.totalDailyDistinct &&
+         servings > incumbent.totalServings);
+}
+
+[[nodiscard]] std::vector<ThreeLayerEntry> prune_three_layer(
+    std::vector<ThreeLayerEntry> entries) {
+    std::vector<bool> dominated(entries.size(), false);
+    using PhysicalKey =
+        std::tuple<udon::CellId, udon::CellId, udon::CellId>;
+    std::map<PhysicalKey, std::vector<std::size_t>> groups;
+    for (std::size_t index = 0; index < entries.size(); ++index) {
+        groups[{
+            std::get<0>(entries.at(index).key),
+            std::get<2>(entries.at(index).key),
+            std::get<4>(entries.at(index).key),
+        }].push_back(index);
+    }
+    for (const auto& [physical, indices] : groups) {
+        static_cast<void>(physical);
+        for (const std::size_t left : indices) {
+            const udon::BrandMask leftLifetime =
+                std::get<6>(entries.at(left).key);
+            for (const std::size_t right : indices) {
+                if (left == right) {
+                    continue;
+                }
+                const udon::BrandMask rightLifetime =
+                    std::get<6>(entries.at(right).key);
+                const bool fuelNoWorse =
+                    std::get<1>(entries.at(right).key) >=
+                        std::get<1>(entries.at(left).key) &&
+                    std::get<3>(entries.at(right).key) >=
+                        std::get<3>(entries.at(left).key) &&
+                    std::get<5>(entries.at(right).key) >=
+                        std::get<5>(entries.at(left).key);
+                const bool lifetimeSuperset =
+                    leftLifetime.is_subset_of(rightLifetime);
+                const bool scoreNoWorse =
+                    entries.at(right).totalDailyDistinct >=
+                        entries.at(left).totalDailyDistinct &&
+                    entries.at(right).totalServings >=
+                        entries.at(left).totalServings;
+                const bool strict = rightLifetime != leftLifetime ||
+                    entries.at(right).totalDailyDistinct >
+                        entries.at(left).totalDailyDistinct ||
+                    entries.at(right).totalServings >
+                        entries.at(left).totalServings ||
+                    std::get<1>(entries.at(right).key) >
+                        std::get<1>(entries.at(left).key) ||
+                    std::get<3>(entries.at(right).key) >
+                        std::get<3>(entries.at(left).key) ||
+                    std::get<5>(entries.at(right).key) >
+                        std::get<5>(entries.at(left).key);
+                if (fuelNoWorse && lifetimeSuperset && scoreNoWorse && strict) {
+                    dominated.at(left) = true;
+                    break;
+                }
+            }
+        }
+    }
+    std::vector<ThreeLayerEntry> frontier;
+    frontier.reserve(entries.size());
+    for (std::size_t index = 0; index < entries.size(); ++index) {
+        if (!dominated.at(index)) {
+            frontier.push_back(std::move(entries.at(index)));
+        }
+    }
+    return frontier;
+}
+
+[[nodiscard]] OracleResult solve_three_oracle(const Fixture& fixture) {
+    if (fixture.config.agent_count() != 3 || !fixture.config.roadCells.empty()) {
+        throw std::runtime_error(
+            "three-patrol oracle requires exactly three agents and no roads");
+    }
+
+    std::array<std::tuple<udon::CellId, std::int32_t, std::size_t>, 3> initial;
+    for (std::size_t index = 0; index < initial.size(); ++index) {
+        initial.at(index) = {
+            fixture.config.initialAgents.at(index),
+            fixture.config.fuelLimit,
+            index,
+        };
+    }
+    std::sort(initial.begin(), initial.end());
+
+    std::vector<std::vector<ThreeLayerEntry>> layers;
+    layers.push_back(std::vector<ThreeLayerEntry>{ThreeLayerEntry{
+        ThreeMatchKey{
+            std::get<0>(initial.at(0)),
+            std::get<1>(initial.at(0)),
+            std::get<0>(initial.at(1)),
+            std::get<1>(initial.at(1)),
+            std::get<0>(initial.at(2)),
+            std::get<1>(initial.at(2)),
+            udon::BrandMask{},
+        },
+    }});
+
+    using DayCacheKey =
+        std::tuple<std::int32_t, udon::CellId, std::int32_t>;
+    std::map<DayCacheKey, std::vector<DayOutcome>> cache;
+    const std::vector<udon::RoadStatus> smooth(
+        static_cast<std::size_t>(fixture.config.map.cell_count()),
+        udon::RoadStatus::Smooth);
+    OracleResult result;
+
+    for (std::int32_t day = 1; day <= fixture.config.day_count(); ++day) {
+        const std::vector<ThreeLayerEntry>& current = layers.back();
+        std::vector<ThreeLayerEntry> next;
+        std::map<ThreeMatchKey, std::size_t> retained;
+        for (std::size_t parentIndex = 0; parentIndex < current.size();
+             ++parentIndex) {
+            const ThreeLayerEntry& parent = current.at(parentIndex);
+            const std::array<udon::CellId, 3> positions{
+                std::get<0>(parent.key),
+                std::get<2>(parent.key),
+                std::get<4>(parent.key),
+            };
+            const std::array<std::int32_t, 3> fuels{
+                std::get<1>(parent.key),
+                std::get<3>(parent.key),
+                std::get<5>(parent.key),
+            };
+            std::array<const std::vector<DayOutcome>*, 3> outcomes{};
+            for (std::size_t agent = 0; agent < outcomes.size(); ++agent) {
+                const DayCacheKey cacheKey{day, positions.at(agent), fuels.at(agent)};
+                auto found = cache.find(cacheKey);
+                if (found == cache.end()) {
+                    found = cache.emplace(
+                        cacheKey,
+                        enumerate_day(
+                            fixture.config,
+                            day,
+                            positions.at(agent),
+                            fuels.at(agent),
+                            smooth)).first;
+                    ++result.dailyEnumerations;
+                }
+                outcomes.at(agent) = &found->second;
+            }
+
+            for (const DayOutcome& first : *outcomes.at(0)) {
+                for (const DayOutcome& second : *outcomes.at(1)) {
+                    for (const DayOutcome& third : *outcomes.at(2)) {
+                        const std::array<const DayOutcome*, 3> chosen{
+                            &first,
+                            &second,
+                            &third,
+                        };
+                        const auto [dailyBrands, dailyServings] =
+                            joint_day_score(
+                                fixture.config,
+                                std::array<std::uint32_t, 3>{
+                                    first.spotMask,
+                                    second.spotMask,
+                                    third.spotMask,
+                                });
+                        const CanonicalTriple canonical =
+                            canonical_triple(chosen);
+                        const ThreeMatchKey key{
+                            canonical.states.at(0).first,
+                            canonical.states.at(0).second,
+                            canonical.states.at(1).first,
+                            canonical.states.at(1).second,
+                            canonical.states.at(2).first,
+                            canonical.states.at(2).second,
+                            std::get<6>(parent.key) | dailyBrands,
+                        };
+                        const std::int32_t nextDaily =
+                            parent.totalDailyDistinct +
+                            udon::brand_count(dailyBrands);
+                        const std::int32_t nextServings =
+                            parent.totalServings + dailyServings;
+                        const auto found = retained.find(key);
+                        if (found != retained.end() &&
+                            !accumulated_better(
+                                nextDaily,
+                                nextServings,
+                                next.at(found->second))) {
+                            continue;
+                        }
+                        ThreeLayerEntry candidate;
+                        candidate.key = key;
+                        candidate.totalDailyDistinct = nextDaily;
+                        candidate.totalServings = nextServings;
+                        candidate.parentIndex =
+                            static_cast<std::int32_t>(parentIndex);
+                        candidate.plans = {
+                            first.actions,
+                            second.actions,
+                            third.actions,
+                        };
+                        candidate.nextToCurrent = canonical.nextToCurrent;
+                        if (found == retained.end()) {
+                            retained.emplace(key, next.size());
+                            next.push_back(std::move(candidate));
+                        } else {
+                            next.at(found->second) = std::move(candidate);
+                        }
+                    }
+                }
+            }
+        }
+        next = prune_three_layer(std::move(next));
+        if (next.empty()) {
+            return result;
+        }
+        result.maximumFrontier = std::max(result.maximumFrontier, next.size());
+        layers.push_back(std::move(next));
+    }
+
+    const std::vector<ThreeLayerEntry>& finalLayer = layers.back();
+    std::size_t bestIndex = 0;
+    udon::OfficialScore bestScore{
+        udon::brand_count(std::get<6>(finalLayer.front().key)),
+        finalLayer.front().totalDailyDistinct,
+        finalLayer.front().totalServings,
+    };
+    for (std::size_t index = 1; index < finalLayer.size(); ++index) {
+        const ThreeLayerEntry& candidate = finalLayer.at(index);
+        const udon::OfficialScore score{
+            udon::brand_count(std::get<6>(candidate.key)),
+            candidate.totalDailyDistinct,
+            candidate.totalServings,
+        };
+        if (bestScore < score) {
+            bestScore = score;
+            bestIndex = index;
+        }
+    }
+
+    struct AbstractDay {
+        std::array<udon::AgentPlan, 3> plans;
+        std::array<std::size_t, 3> nextToCurrent{0U, 1U, 2U};
+        ThreeMatchKey terminal{};
+    };
+    std::vector<AbstractDay> abstractDays(
+        static_cast<std::size_t>(fixture.config.day_count()));
+    std::size_t currentIndex = bestIndex;
+    for (std::int32_t day = fixture.config.day_count(); day >= 1; --day) {
+        const ThreeLayerEntry& entry =
+            layers.at(static_cast<std::size_t>(day)).at(currentIndex);
+        abstractDays.at(static_cast<std::size_t>(day - 1)) = AbstractDay{
+            entry.plans,
+            entry.nextToCurrent,
+            entry.key,
+        };
+        currentIndex = static_cast<std::size_t>(entry.parentIndex);
+    }
+
+    std::vector<udon::AgentState> agents;
+    for (const udon::CellId start : fixture.config.initialAgents) {
+        agents.push_back(udon::AgentState{
+            udon::AgentKind::Patrol,
+            start,
+            fixture.config.fuelLimit,
+        });
+    }
+    std::array<std::size_t, 3> abstractToPhysical{
+        std::get<2>(initial.at(0)),
+        std::get<2>(initial.at(1)),
+        std::get<2>(initial.at(2)),
+    };
+    udon::MatchLedger ledger;
+    for (std::int32_t day = 1; day <= fixture.config.day_count(); ++day) {
+        const AbstractDay& abstract =
+            abstractDays.at(static_cast<std::size_t>(day - 1));
+        udon::DayPlan plan;
+        plan.actions.resize(3U);
+        for (std::size_t slot = 0; slot < abstract.plans.size(); ++slot) {
+            plan.actions.at(abstractToPhysical.at(slot)) =
+                abstract.plans.at(slot);
+        }
+        const udon::DayState state = day_state(fixture.config, day, agents);
+        udon::SimulationResult simulation;
+        std::string mismatch;
+        if (!validates(fixture.config, state, plan, simulation, mismatch)) {
+            throw std::runtime_error(
+                "three-patrol oracle witness validation failed: " + mismatch);
+        }
+        agents = simulation.finalAgents;
+        ledger.apply(simulation.score);
+        std::array<std::size_t, 3> nextMapping{};
+        for (std::size_t slot = 0; slot < nextMapping.size(); ++slot) {
+            nextMapping.at(slot) =
+                abstractToPhysical.at(abstract.nextToCurrent.at(slot));
+        }
+        abstractToPhysical = nextMapping;
+
+        const std::array<udon::CellId, 3> expectedPositions{
+            std::get<0>(abstract.terminal),
+            std::get<2>(abstract.terminal),
+            std::get<4>(abstract.terminal),
+        };
+        const std::array<std::int32_t, 3> expectedFuels{
+            std::get<1>(abstract.terminal),
+            std::get<3>(abstract.terminal),
+            std::get<5>(abstract.terminal),
+        };
+        for (std::size_t slot = 0; slot < expectedPositions.size(); ++slot) {
+            const udon::AgentState& actual =
+                agents.at(abstractToPhysical.at(slot));
+            if (actual.position != expectedPositions.at(slot) ||
+                actual.fuel != expectedFuels.at(slot)) {
+                throw std::runtime_error(
+                    "three-patrol witness disagrees with canonical terminal state");
+            }
+        }
+        if (ledger.lifetimeBrands != std::get<6>(abstract.terminal)) {
+            throw std::runtime_error(
+                "three-patrol witness disagrees with canonical lifetime mask");
+        }
+        result.plans.push_back(std::move(plan));
+        result.cumulative.push_back(udon::OfficialScore{
+            ledger.lifetime_distinct(),
+            ledger.totalDailyDistinct,
+            ledger.totalServings,
+        });
+        result.terminalAgents.push_back(agents);
+    }
+    result.score = udon::OfficialScore{
+        ledger.lifetime_distinct(),
+        ledger.totalDailyDistinct,
+        ledger.totalServings,
+    };
+    if (!(result.score == bestScore)) {
+        throw std::runtime_error(
+            "three-patrol oracle witness score disagrees with complete DP");
+    }
+    result.valid = true;
+    return result;
+}
+
 [[nodiscard]] HeadResult solve_head(const Fixture& fixture) {
     udon::UdonShieldEngine engine(
         fixture.config,
@@ -2443,6 +2912,50 @@ void record_summary(
             output << '|';
         }
         output << agents.at(index).position << '@' << agents.at(index).fuel;
+    }
+    return output.str();
+}
+
+using TerminalResourceSignature =
+    std::vector<std::pair<udon::CellId, std::int32_t>>;
+
+[[nodiscard]] TerminalResourceSignature terminal_resource_signature(
+    const std::vector<udon::AgentState>& agents) {
+    TerminalResourceSignature signature;
+    signature.reserve(agents.size());
+    for (const udon::AgentState& agent : agents) {
+        signature.emplace_back(agent.position, agent.fuel);
+    }
+    std::sort(signature.begin(), signature.end());
+    return signature;
+}
+
+[[nodiscard]] TerminalResourceSignature terminal_resource_signature(
+    const udon::CandidateAuditRecord& record) {
+    if (record.terminalCells.size() != record.terminalFuel.size()) {
+        throw std::runtime_error(
+            "candidate audit terminal cell/fuel widths disagree");
+    }
+    TerminalResourceSignature signature;
+    signature.reserve(record.terminalCells.size());
+    for (std::size_t index = 0; index < record.terminalCells.size(); ++index) {
+        signature.emplace_back(
+            record.terminalCells.at(index),
+            record.terminalFuel.at(index));
+    }
+    std::sort(signature.begin(), signature.end());
+    return signature;
+}
+
+[[nodiscard]] std::string terminal_resource_text(
+    const udon::CandidateAuditRecord& record) {
+    std::ostringstream output;
+    for (std::size_t index = 0; index < record.terminalCells.size(); ++index) {
+        if (index != 0U) {
+            output << '|';
+        }
+        output << record.terminalCells.at(index) << '@'
+               << record.terminalFuel.at(index);
     }
     return output.str();
 }
@@ -6604,7 +7117,10 @@ int main(int argc, char** argv) {
                     }
                     continue;
                 }
-                const OracleResult oracle = solve_oracle(fixture);
+                const OracleResult oracle =
+                    row.experimentId == "CEILING-THREE-ACTIVE-PATROL-306"
+                    ? solve_three_oracle(fixture)
+                    : solve_oracle(fixture);
                 const HeadResult head = solve_head(fixture);
                 record_summary(summary, oracle, head, seed);
                 record_summary(strata[{row.family, row.fuelProfile}], oracle, head, seed);
@@ -6612,6 +7128,9 @@ int main(int argc, char** argv) {
                 std::cout << "case,seed=" << seed
                           << ",family=" << row.family
                           << ",fuel=" << row.fuelProfile
+                          << ",players=" << fixture.config.players
+                          << ",agents=" << fixture.config.agent_count()
+                          << ",horizon=" << fixture.config.day_count()
                           << ",oracle=" << score_text(oracle.score)
                           << ",head=" << score_text(head.score)
                           << ",tier=" << tier
@@ -6627,13 +7146,45 @@ int main(int argc, char** argv) {
                             udon::serialize_day_plan(oracle.plans.at(day)).dump();
                         const std::string headId =
                             udon::serialize_day_plan(head.plans.at(day)).dump();
-                        const std::int32_t oracleAuditMatches =
-                            static_cast<std::int32_t>(std::count_if(
-                                head.audits.at(day).candidates.begin(),
-                                head.audits.at(day).candidates.end(),
-                                [&oracleId](const udon::CandidateAuditRecord& candidate) {
-                                    return candidate.stableId == oracleId;
-                                }));
+                        const udon::DecisionAudit& audit = head.audits.at(day);
+                        const TerminalResourceSignature oracleTerminal =
+                            terminal_resource_signature(
+                                oracle.terminalAgents.at(day));
+                        std::int32_t oracleAuditMatches = 0;
+                        std::int32_t oracleStateMatches = 0;
+                        bool oracleStateCertified = false;
+                        bool oracleStateSelected = false;
+                        const udon::CandidateAuditRecord* exactMatch = nullptr;
+                        const udon::CandidateAuditRecord* stateMatch = nullptr;
+                        const udon::CandidateAuditRecord* selected = nullptr;
+                        for (const udon::CandidateAuditRecord& candidate :
+                             audit.candidates) {
+                            if (candidate.stableId == oracleId) {
+                                ++oracleAuditMatches;
+                                if (exactMatch == nullptr) {
+                                    exactMatch = &candidate;
+                                }
+                            }
+                            if (candidate.scoreAfterToday ==
+                                    oracle.cumulative.at(day) &&
+                                terminal_resource_signature(candidate) ==
+                                    oracleTerminal) {
+                                ++oracleStateMatches;
+                                oracleStateCertified =
+                                    oracleStateCertified || candidate.certified;
+                                oracleStateSelected =
+                                    oracleStateSelected || candidate.selected;
+                                if (stateMatch == nullptr ||
+                                    candidate.selected ||
+                                    (candidate.certified &&
+                                     !stateMatch->certified)) {
+                                    stateMatch = &candidate;
+                                }
+                            }
+                            if (candidate.selected) {
+                                selected = &candidate;
+                            }
+                        }
                         std::cout << "trace,seed=" << seed
                                   << ",day=" << (day + 1U)
                                   << ",oracle_score=" << score_text(oracle.cumulative.at(day))
@@ -6643,13 +7194,60 @@ int main(int argc, char** argv) {
                                   << ",oracle_plan=" << plan_text(oracle.plans.at(day))
                                   << ",head_plan=" << plan_text(head.plans.at(day))
                                   << ",oracle_audit_matches=" << oracleAuditMatches
-                                  << ",audit_candidates=" << head.audits.at(day).candidates.size()
+                                  << ",oracle_state_matches=" << oracleStateMatches
+                                  << ",audit_candidates=" << audit.candidates.size()
+                                  << ",selection_reason=" << audit.selectionReason
+                                  << ",exact_disposition="
+                                  << (exactMatch == nullptr
+                                          ? "absent"
+                                          : exactMatch->disposition)
+                                  << ",exact_certified="
+                                  << (exactMatch != nullptr && exactMatch->certified)
+                                  << ",exact_selected="
+                                  << (exactMatch != nullptr && exactMatch->selected)
+                                  << ",state_disposition="
+                                  << (stateMatch == nullptr
+                                          ? "absent"
+                                          : stateMatch->disposition)
+                                  << ",state_certified="
+                                  << oracleStateCertified
+                                  << ",state_selected="
+                                  << oracleStateSelected
+                                  << ",state_lower="
+                                  << (stateMatch == nullptr
+                                          ? "0/0/0"
+                                          : score_text(
+                                                stateMatch->finalCertifiedLowerBound))
+                                  << ",state_upper="
+                                  << (stateMatch == nullptr
+                                          ? "0/0/0"
+                                          : score_text(stateMatch->validUpperBound))
+                                  << ",selected_score="
+                                  << (selected == nullptr
+                                          ? "0/0/0"
+                                          : score_text(selected->scoreAfterToday))
+                                  << ",selected_lower="
+                                  << (selected == nullptr
+                                          ? "0/0/0"
+                                          : score_text(
+                                                selected->finalCertifiedLowerBound))
+                                  << ",selected_upper="
+                                  << (selected == nullptr
+                                          ? "0/0/0"
+                                          : score_text(selected->validUpperBound))
+                                  << ",selected_terminal="
+                                  << (selected == nullptr
+                                          ? "none"
+                                          : terminal_resource_text(*selected))
                                   << ",oracle_id=" << oracleId
                                   << ",head_id=" << headId
                                   << '\n';
                     }
-                    attribute_oracle_path(fixture, oracle, head);
-                    attribute_w1_continuation(fixture, oracle);
+                    if (row.experimentId !=
+                        "CEILING-THREE-ACTIVE-PATROL-306") {
+                        attribute_oracle_path(fixture, oracle, head);
+                        attribute_w1_continuation(fixture, oracle);
+                    }
                 }
             }
             if (options.maximumMatches > 0 && summary.cases >= options.maximumMatches) {

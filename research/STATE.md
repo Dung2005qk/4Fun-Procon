@@ -2,6 +2,184 @@
 
 Updated: 2026-09-04
 
+## Closed positive frontier attribution — ATTR-THREE-ACTIVE-PATROL-FRONTIER-308
+
+Experiment 307 proves that all four exact 306 losses become causally distinct
+on day 1 while current-day official scores are still tied.  Direct stable-plan
+membership classifies three cases as missing candidate supply and one as a
+present-but-unselected candidate.  Because Patrol identities are interchangeable,
+stable-plan equality is stricter than the state needed by the future solver.
+Before designing a SCORE mechanism, experiment 308 must distinguish a genuine
+missing terminal resource state from an equivalent state hidden behind an
+agent permutation, then identify whether any equivalent state was shortlisted,
+certified or selected.
+
+The frozen attribution manifest
+`research/holdouts/ATTR-THREE-ACTIVE-PATROL-FRONTIER-308.csv` contains exactly
+the four consumed 306 development wins and has SHA256
+`2BC105B7009F1E3017D7DB960C21D10E4C8A525EFCAA410EA414A119732159CE`.
+No sealed holdout case is opened.  The observational probe compares sorted
+`(terminalCell, terminalFuel)` multisets plus exact cumulative official score
+for every day-1 production candidate, and records shortlist, certificate and
+selection disposition for equivalent and selected candidates.  A recurrent
+absence proves a terminal-state supply gap; recurrent presence without repair
+proves a bounded frontier-retention gap; recurrent certified rejection proves
+a comparator gap.  Only one recurring class in at least two independent cases
+can authorize a separately frozen SCORE successor.
+
+Frozen additive research source SHA256 is
+`0DCA1AE3CE4ACF74B6C0B2EBE22ADB8E05E398E6177A97FB90A633249AA1A411`;
+Linux observational binary SHA256 is
+`F67A09C4790B1F5CBC86B4DDF0A71EE0C487C6AB2D5AB11A61E9234F8CD6D314`.
+The unchanged case-atomic runner SHA256 is
+`716A6352C43E516D0AD0AE08B1BFF1A0091A5F215E9FE093DB2C19749F369467`
+and the frozen permutation-invariant summarizer SHA256 is
+`8BF446149B3B8C6EBABAA1922FB3F957CBB2A257C22DF212367D64AF12D10B42`.
+
+The run completed exactly four cases and sixteen traces with zero stderr.
+All four permutation-invariant causal divergences remain on day 1 at equal
+current-day score.  The exact oracle terminal cell/fuel multiset is absent
+from all 16 production candidates in three independent cases spanning both
+balanced and duplicate families.  In the fourth case it is present once, but
+remains `not-shortlisted`, uncertified and unselected.  This proves a recurrent
+terminal-resource frontier supply/retention gap rather than an agent-label
+artifact or a final comparator error.  Complete log SHA256 is
+`3F4749228566CAFF00ACB5596C478EBC7B68F2FA91EDC1596FB4795643C73A4E`;
+summary SHA256 is
+`AE52BAE2D0A700FF1485E71E3D417AE7CA770D04F305A358F870093D5F172B39`.
+The preregistered gate authorizes a separate SCORE successor that preserves a
+bounded, permutation-invariant terminal cell/fuel frontier for equal-score
+multi-agent plans.  It does not authorize changing production or opening the
+sealed 306 holdout before that successor freezes its own fresh development
+split, code and acceptance gate.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; the planned change is additive research-only
+telemetry; (2) nothing is deleted and production source/runtime remain unchanged.
+
+## Closed causal attribution — ATTR-THREE-ACTIVE-PATROL-CAUSALITY-307
+
+The complete 306 development oracle found four exact feasible wins over
+canonical production 258, all at official tier 3 and all in independent
+low-fuel cases from two structural families.  Before any production source
+change, experiment 307 replays exactly those four already-consumed development
+counterexamples with the frozen 306 exact oracle and unchanged production
+planner, emitting per-day plans, cumulative scores, terminal position/fuel and
+production candidate-membership evidence.
+
+The frozen attribution manifest
+`research/holdouts/ATTR-THREE-ACTIVE-PATROL-CAUSALITY-307.csv` has SHA256
+`2BC105B7009F1E3017D7DB960C21D10E4C8A525EFCAA410EA414A119732159CE`.
+It contains only seeds `10500000`, `10500001`, `10500100` and `10500101`
+from the complete 306 development log; no sealed 306 holdout row is opened.
+The exact oracle source and Linux binary remain frozen at
+`ABBD6C7854E1910E9B5F27C979F8436894D3D474C092DEAB2F2BEB7B6D33AC89`
+and
+`A5F6A39F68A66854C34FFCF377FE00AD88E103129D4E62195DD6A45CADDDEB34`.
+The case-atomic VM trace runner SHA256 is
+`716A6352C43E516D0AD0AE08B1BFF1A0091A5F215E9FE093DB2C19749F369467`
+and the summarizer SHA256 is
+`29007A6419C1647E5869C70EF6015C2FC295BA6DC25FC4914885E14BEFFC7857`.
+
+The preregistered classification uses the first day on which the oracle and
+production differ in cumulative official score or terminal agent state.  At
+that shared-prefix state, zero exact oracle-plan matches in the production
+audit is a candidate-supply gap; a positive match is a selection gap.  The
+same classification in at least two independent seeds is a recurrent invariant
+mechanism and may authorize a separate SCORE successor with a fresh frozen
+gate.  It still does not authorize opening the 306 holdout or modifying
+production inside attribution 307.
+
+The run completed exactly four cases and sixteen day traces with zero stderr.
+All four first causal divergences occur on day 1 at equal current-day official
+score.  Direct stable-plan membership classified seeds `10500000`, `10500001`
+and `10500100` as candidate-supply (`0/16` exact matches), while `10500101`
+contained one exact oracle-plan match but production selected another plan.
+Candidate-supply therefore recurs in three independent cases, satisfying the
+narrow preregistered successor gate, but the mixed fourth case requires
+permutation-invariant frontier attribution 308 before a production mechanism
+is designed.  Complete log SHA256 is
+`C9658D14D6F059ADEB00FAEC3A981EA27C45AD0E058FC504E393096A3E08CF90`;
+summary SHA256 is
+`C2B0C349FFD9471CD9D95A1F5883142CA61F33BA3396669D47BCE80DFA3B6F44`.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this is read-only research replay; (2) nothing
+is deleted and production source/runtime remain unchanged.
+
+## Closed exact ceiling attribution — CEILING-THREE-ACTIVE-PATROL-306
+
+Experiment 305 proved that the broad 304 optimality envelopes are arithmetic
+relaxations rather than feasible missing plans.  The next authorized way to
+reopen score work is therefore an exact counterexample, not another bound or
+search-order heuristic.  Existing full-match oracle 085 activates only two
+interchangeable Patrols and isolates the third agent.  It does not prove that
+canonical production allocates brands, stock, fuel and terminal position well
+enough when the official minimum of three Patrols are simultaneously active.
+
+Experiment 306 adds a research-only complete roadless full-match DP for three
+interchangeable active Patrols.  It enumerates every fuel/step-feasible daily
+outcome per Patrol, composes all three with exact per-Spot stock accounting,
+canonicalizes agent symmetry, retains the exact official-score Pareto frontier
+by joint terminal position/fuel and lifetime mask, reconstructs the winning
+trajectory, and replays it through both the exact simulator and independent
+validator.  The comparison target is unchanged canonical accepted production
+258 at the protected `5000 ms` checkpoint.
+
+The frozen manifest
+`research/holdouts/CEILING-THREE-ACTIVE-PATROL-306.csv` has SHA256
+`1353981266D1C41B232C4F2AEF2D92B0D46F5EF36BA6FD846E76B4187C2B08AF`.
+Development contains 12 fresh four-day cases across six structural families,
+low/default/high fuel and public player counts 8/9/10; 24 fresh cases are
+sealed as holdout.  Every fixture is an official 8x8, three-agent, five-Spot
+all-Patrol configuration.  No seed overlaps prior registered evidence.
+Frozen research source SHA256 is
+`ABBD6C7854E1910E9B5F27C979F8436894D3D474C092DEAB2F2BEB7B6D33AC89`;
+Windows research binary SHA256 is
+`4BF11F2D1F7384A813FEE355F206C5BF9CC19EE6790DF733AE31B19AE511B656`;
+Linux VM research binary SHA256 is
+`A5F6A39F68A66854C34FFCF377FE00AD88E103129D4E62195DD6A45CADDDEB34`.
+The initial monolithic local runner was interrupted after 15 minutes before it
+wrote any evidence; it is invalid pre-evidence operational history and may not
+be resumed or interpreted.  The first VM launch was issued twice after its SSH
+wrapper timed out while detached workers survived; `logs306-v2-invalid` is
+preserved invalid operational evidence and none of its result files may enter
+the experiment.  All duplicate processes were terminated before v3.  Frozen
+case-atomic exclusive-lock VM runner SHA256 is
+`54A3FD62298DCE3C37706D7F206B5FD53CE38B26661A3873989E8F39443D7F99`;
+and corrected summarizer SHA256 is
+`D555BA3CF422DE55051950E9EFC71810BCE154A9CB0C52820132CB4D28C8704F`.
+The VM runner executes distinct seeds in parallel, writes one atomic result per
+seed, and combines only after all 12 development cases finish; it does not
+alter oracle semantics or open the sealed holdout.
+
+Development completed exactly 12/12 cases with zero partial file, zero stderr,
+zero invalidity and a unique `run_complete`.  Oracle-versus-production W/T/L
+was `4/8/0`; all four wins were first-open tier 3, with gains `+1,+2,+1,+1`.
+They recur across two `three-balanced` and two `three-duplicate` low-fuel
+fixtures at public player counts 8 and 9.  Default/high fuel and the remaining
+four families tied.  Maximum exact frontier was `136011`.  Complete evidence
+log SHA256 is
+`BDEC34C4D5B65AE49A463616408E6B871872DC318386988A4499BC87C606E3B5`;
+summary SHA256 is
+`694DA48DF24E4D092F16796F0A2150DD4C3B592A74ADD25991EF39B2C9BB0FAC`.
+This satisfies only the preregistered causal-attribution gate: holdout and a
+SCORE patch remain unauthorized pending 307.
+
+The development oracle is valid only if enumeration completes and every
+reconstructed day agrees between the exact simulator and independent
+validator with zero invalid/emergency event.  Zero oracle win closes this
+ceiling axis and leaves holdout sealed.  Any exact lexicographic oracle win is
+a real feasible development counterexample and authorizes read-only causal
+attribution only; it does not authorize a production patch or opening holdout.
+A later SCORE successor requires one invariant mechanism recurring in at least
+two independent development cases and must freeze its own code, comparator and
+gate before the 306 holdout can open once.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; production source and runtime stay unchanged;
+(2) nothing is deleted.  The new code is an additive research oracle only.
+
 ## Closed negative causal attribution — ATTR-OPTIMALITY-ENVELOPE-CAUSALITY-305
 
 Experiment 304 confirmed broad, valid non-absolute envelopes, but prevalence

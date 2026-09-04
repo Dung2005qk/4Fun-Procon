@@ -1,0 +1,140 @@
+{
+  "cases": 12,
+  "causal_attribution_authorized": true,
+  "experiment": "CEILING-THREE-ACTIVE-PATROL-306",
+  "first_open_tiers": {
+    "3": 4
+  },
+  "holdout_open_authorized": false,
+  "log_sha256": "BDEC34C4D5B65AE49A463616408E6B871872DC318386988A4499BC87C606E3B5",
+  "maximum_exact_frontier": 136011,
+  "oracle_head_wtl": {
+    "losses": 0,
+    "ties": 8,
+    "wins": 4
+  },
+  "phase": "development",
+  "score_successor_authorized": false,
+  "strata": {
+    "family": {
+      "three-balanced": {
+        "win": 2
+      },
+      "three-coverage": {
+        "tie": 2
+      },
+      "three-duplicate": {
+        "win": 2
+      },
+      "three-fuel": {
+        "tie": 2
+      },
+      "three-stock": {
+        "tie": 2
+      },
+      "three-terminal": {
+        "tie": 2
+      }
+    },
+    "fuel": {
+      "default": {
+        "tie": 4
+      },
+      "high": {
+        "tie": 4
+      },
+      "low": {
+        "win": 4
+      }
+    },
+    "players": {
+      "10": {
+        "tie": 4
+      },
+      "8": {
+        "tie": 2,
+        "win": 2
+      },
+      "9": {
+        "tie": 2,
+        "win": 2
+      }
+    }
+  },
+  "verdict": "exact-gap-found-attribution-required",
+  "wins": [
+    {
+      "family": "three-balanced",
+      "first_tier": 3,
+      "fuel": "low",
+      "gain": 1,
+      "head": [
+        5,
+        20,
+        37
+      ],
+      "oracle": [
+        5,
+        20,
+        38
+      ],
+      "players": 8,
+      "seed": 10500000
+    },
+    {
+      "family": "three-balanced",
+      "first_tier": 3,
+      "fuel": "low",
+      "gain": 2,
+      "head": [
+        5,
+        20,
+        36
+      ],
+      "oracle": [
+        5,
+        20,
+        38
+      ],
+      "players": 8,
+      "seed": 10500001
+    },
+    {
+      "family": "three-duplicate",
+      "first_tier": 3,
+      "fuel": "low",
+      "gain": 1,
+      "head": [
+        4,
+        16,
+        37
+      ],
+      "oracle": [
+        4,
+        16,
+        38
+      ],
+      "players": 9,
+      "seed": 10500100
+    },
+    {
+      "family": "three-duplicate",
+      "first_tier": 3,
+      "fuel": "low",
+      "gain": 1,
+      "head": [
+        4,
+        16,
+        37
+      ],
+      "oracle": [
+        4,
+        16,
+        38
+      ],
+      "players": 9,
+      "seed": 10500101
+    }
+  ],
+  "zero_invalid": true
+}

@@ -1,0 +1,111 @@
+{
+  "experiment": "ATTR-THREE-ACTIVE-PATROL-CAUSALITY-307",
+  "phase": "development-attribution",
+  "cases": 4,
+  "traces": 16,
+  "log_sha256": "C9658D14D6F059ADEB00FAEC3A981EA27C45AD0E058FC504E393096A3E08CF90",
+  "classifications": {
+    "candidate-supply": 3,
+    "selection": 1
+  },
+  "causal_days": {
+    "1": 4
+  },
+  "recurrent_mechanism": true,
+  "score_successor_authorized": true,
+  "holdout_open_authorized": false,
+  "results": [
+    {
+      "seed": 10500000,
+      "family": "three-balanced",
+      "gain": 1,
+      "causal_day": 1,
+      "classification": "candidate-supply",
+      "oracle_audit_matches": 0,
+      "audit_candidates": 16,
+      "oracle_score_at_causal_day": [
+        5,
+        5,
+        10
+      ],
+      "head_score_at_causal_day": [
+        5,
+        5,
+        10
+      ],
+      "oracle_agents": "17@9|17@5|18@5",
+      "head_agents": "19@7|20@8|17@4",
+      "oracle_plan": "2.-16|5.5.5.5.5.-8|5.5.5.5.5.-8",
+      "head_plan": "2.2.2.-12|5.5.-14|5.5.5.5.5.5.-6"
+    },
+    {
+      "seed": 10500001,
+      "family": "three-balanced",
+      "gain": 2,
+      "causal_day": 1,
+      "classification": "candidate-supply",
+      "oracle_audit_matches": 0,
+      "audit_candidates": 16,
+      "oracle_score_at_causal_day": [
+        5,
+        5,
+        10
+      ],
+      "head_score_at_causal_day": [
+        5,
+        5,
+        10
+      ],
+      "oracle_agents": "17@9|17@5|18@5",
+      "head_agents": "19@7|20@8|17@4",
+      "oracle_plan": "2.-14|5.5.5.5.5.-6|5.5.5.5.5.-6",
+      "head_plan": "2.2.2.-10|5.5.-12|5.5.5.5.5.5.-4"
+    },
+    {
+      "seed": 10500100,
+      "family": "three-duplicate",
+      "gain": 1,
+      "causal_day": 1,
+      "classification": "candidate-supply",
+      "oracle_audit_matches": 0,
+      "audit_candidates": 16,
+      "oracle_score_at_causal_day": [
+        4,
+        4,
+        10
+      ],
+      "head_score_at_causal_day": [
+        4,
+        4,
+        10
+      ],
+      "oracle_agents": "17@9|17@5|18@5",
+      "head_agents": "21@5|17@5|23@10",
+      "oracle_plan": "2.-15|5.5.5.5.5.-7|5.5.5.5.5.-7",
+      "head_plan": "2.2.2.2.2.-7|5.5.5.5.5.-7|-17"
+    },
+    {
+      "seed": 10500101,
+      "family": "three-duplicate",
+      "gain": 1,
+      "causal_day": 1,
+      "classification": "selection",
+      "oracle_audit_matches": 1,
+      "audit_candidates": 16,
+      "oracle_score_at_causal_day": [
+        4,
+        4,
+        10
+      ],
+      "head_score_at_causal_day": [
+        4,
+        4,
+        10
+      ],
+      "oracle_agents": "17@9|17@5|18@5",
+      "head_agents": "21@5|17@5|23@10",
+      "oracle_plan": "2.-16|5.5.5.5.5.-8|5.5.5.5.5.-8",
+      "head_plan": "2.2.2.2.2.-8|5.5.5.5.5.-8|-18"
+    }
+  ]
+}
