@@ -2,7 +2,7 @@
 
 Updated: 2026-09-05
 
-## Active exact prevalence attribution — CEILING-THREE-ACTIVE-PATROL-LOW-FUEL-PREVALENCE-312
+## Closed positive exact prevalence attribution — CEILING-THREE-ACTIVE-PATROL-LOW-FUEL-PREVALENCE-312
 
 Experiment 306 found four complete-oracle wins over canonical accepted
 production 258 in twelve fresh roadless three-Patrol cases.  All four occurred
@@ -44,6 +44,21 @@ Failure closes this exact low-fuel prevalence direction without opening the
 holdout or changing production.  Neither result directly authorizes a SCORE
 candidate, cap/order change, dispatcher, 306/311 holdout opening or relaxation
 of the canonical 5000-ms checkpoint.
+
+The complete development run passed that attribution gate.  It produced exactly
+twelve atomic results, twelve matching `case_complete` markers and one
+`run_complete`, with zero stderr, partial, invalid or validation failure.  The
+exact oracle versus canonical 258 was W/T/L `6/6/0`; all six wins first differed
+at official tier 3, with gains `+2,+1,+2,+2,+1,+1` (aggregate `+9`) across the
+balanced, duplicate and terminal families and public player counts 8/9/10.
+Maximum retained exact frontier size was 23704.  Development log SHA256 is
+`45EEEDD866D22D45AF24D6CD17ECF6C93E9C0FBA9E72FE749DD5AE4BB150C0D5` and
+summary SHA256 is
+`38281BF020481E6E02275049635B35603F6E5DA68CDB898ED6562FCAEF98D3A6`.
+The twenty-four-case sealed holdout remains unopened.  This closes 312 as
+positive recurrent-gap attribution only: it authorizes a separate read-only
+causal attribution experiment on these fresh development wins, but does not
+authorize a SCORE successor or any production change by itself.
 
 The existing authorized VM `udon-f0-240-0829` may run the exact sweep in an
 exclusive experiment directory with one case at a time so production timing is

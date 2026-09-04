@@ -1,0 +1,166 @@
+{
+  "cases": 12,
+  "causal_attribution_authorized": true,
+  "experiment": "CEILING-THREE-ACTIVE-PATROL-LOW-FUEL-PREVALENCE-312",
+  "first_open_tiers": {
+    "3": 6
+  },
+  "holdout_open_authorized": false,
+  "log_sha256": "45EEEDD866D22D45AF24D6CD17ECF6C93E9C0FBA9E72FE749DD5AE4BB150C0D5",
+  "maximum_exact_frontier": 23704,
+  "oracle_head_wtl": {
+    "losses": 0,
+    "ties": 6,
+    "wins": 6
+  },
+  "phase": "development",
+  "recurrent_exact_gap": true,
+  "score_successor_authorized": false,
+  "strata": {
+    "family": {
+      "three-balanced": {
+        "win": 2
+      },
+      "three-coverage": {
+        "tie": 2
+      },
+      "three-duplicate": {
+        "win": 2
+      },
+      "three-fuel": {
+        "tie": 2
+      },
+      "three-stock": {
+        "tie": 2
+      },
+      "three-terminal": {
+        "win": 2
+      }
+    },
+    "players": {
+      "10": {
+        "tie": 2,
+        "win": 2
+      },
+      "8": {
+        "tie": 2,
+        "win": 2
+      },
+      "9": {
+        "tie": 2,
+        "win": 2
+      }
+    }
+  },
+  "verdict": "recurrent-fresh-exact-gap-attribution-only",
+  "winning_families": [
+    "three-balanced",
+    "three-duplicate",
+    "three-terminal"
+  ],
+  "wins": [
+    {
+      "family": "three-balanced",
+      "first_tier": 3,
+      "gain": 2,
+      "head": [
+        5,
+        20,
+        36
+      ],
+      "oracle": [
+        5,
+        20,
+        38
+      ],
+      "players": 8,
+      "seed": 10700000
+    },
+    {
+      "family": "three-balanced",
+      "first_tier": 3,
+      "gain": 1,
+      "head": [
+        5,
+        20,
+        37
+      ],
+      "oracle": [
+        5,
+        20,
+        38
+      ],
+      "players": 8,
+      "seed": 10700001
+    },
+    {
+      "family": "three-duplicate",
+      "first_tier": 3,
+      "gain": 2,
+      "head": [
+        4,
+        16,
+        36
+      ],
+      "oracle": [
+        4,
+        16,
+        38
+      ],
+      "players": 9,
+      "seed": 10700100
+    },
+    {
+      "family": "three-duplicate",
+      "first_tier": 3,
+      "gain": 2,
+      "head": [
+        4,
+        16,
+        36
+      ],
+      "oracle": [
+        4,
+        16,
+        38
+      ],
+      "players": 9,
+      "seed": 10700101
+    },
+    {
+      "family": "three-terminal",
+      "first_tier": 3,
+      "gain": 1,
+      "head": [
+        4,
+        16,
+        37
+      ],
+      "oracle": [
+        4,
+        16,
+        38
+      ],
+      "players": 10,
+      "seed": 10700500
+    },
+    {
+      "family": "three-terminal",
+      "first_tier": 3,
+      "gain": 1,
+      "head": [
+        4,
+        16,
+        37
+      ],
+      "oracle": [
+        4,
+        16,
+        38
+      ],
+      "players": 10,
+      "seed": 10700501
+    }
+  ],
+  "zero_invalid": true
+}
