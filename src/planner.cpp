@@ -1163,6 +1163,265 @@ select_coordinated_exact_orienteering_routes(
     return select_routes(best);
 }
 
+struct ExactBundleResourceProfile {
+    std::vector<const ExactOrienteeringRoute*> routes;
+    std::int32_t patrolFuelUsed = 0;
+    std::int32_t terminalOnSpot = 0;
+    std::int32_t totalTerminalBrandDistance = 0;
+    std::int32_t worstTerminalBrandDistance = 0;
+    std::int32_t usedSteps = 0;
+    std::string terminalSignature;
+};
+
+[[nodiscard]] ExactOrienteeringBeamState summarize_exact_bundle(
+    const MatchConfig& config,
+    const std::vector<const ExactOrienteeringRoute*>& routes) {
+    ExactOrienteeringBeamState result;
+    result.routeByAgent.fill(-1);
+    for (const ExactOrienteeringRoute* route : routes) {
+        if (route == nullptr) {
+            continue;
+        }
+        result.usedSteps += route->usedSteps;
+        for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
+            if ((route->spotMask & (std::uint32_t{1} << spot)) == 0U) {
+                continue;
+            }
+            const std::uint8_t capacity = static_cast<std::uint8_t>(std::clamp(
+                config.spots.at(spot).stock,
+                0,
+                config.agent_count()));
+            if (result.spotCounts.at(spot) < capacity) {
+                ++result.spotCounts.at(spot);
+                ++result.servings;
+            }
+        }
+        result.brands |= exact_orienteering_brand_mask(config, route->spotMask);
+    }
+    return result;
+}
+
+[[nodiscard]] ExactBundleResourceProfile profile_exact_bundle(
+    const DayState& state,
+    std::vector<const ExactOrienteeringRoute*> routes) {
+    ExactBundleResourceProfile profile;
+    profile.routes = std::move(routes);
+    std::vector<std::tuple<std::uint8_t, CellId, std::int32_t>> terminalState;
+    terminalState.reserve(profile.routes.size());
+    for (std::size_t agent = 0; agent < profile.routes.size(); ++agent) {
+        const ExactOrienteeringRoute* route = profile.routes.at(agent);
+        if (route == nullptr) {
+            continue;
+        }
+        profile.patrolFuelUsed += route->patrolFuel;
+        profile.terminalOnSpot += route->terminalOnSpot ? 1 : 0;
+        profile.totalTerminalBrandDistance += route->terminalBrandDistance;
+        profile.worstTerminalBrandDistance = std::max(
+            profile.worstTerminalBrandDistance,
+            route->terminalBrandDistance);
+        profile.usedSteps += route->usedSteps;
+        terminalState.emplace_back(
+            static_cast<std::uint8_t>(state.agents.at(agent).kind),
+            route->terminalCell,
+            std::max(0, state.agents.at(agent).fuel - route->patrolFuel));
+    }
+    std::sort(terminalState.begin(), terminalState.end());
+    std::ostringstream signature;
+    for (const auto& [kind, cell, fuel] : terminalState) {
+        signature << static_cast<std::int32_t>(kind) << ':' << cell << ':' << fuel << ';';
+    }
+    profile.terminalSignature = signature.str();
+    return profile;
+}
+
+[[nodiscard]] bool exact_bundle_resource_dominates(
+    const ExactBundleResourceProfile& left,
+    const ExactBundleResourceProfile& right) {
+    const bool noWorse =
+        left.patrolFuelUsed <= right.patrolFuelUsed &&
+        left.terminalOnSpot >= right.terminalOnSpot &&
+        left.totalTerminalBrandDistance <= right.totalTerminalBrandDistance &&
+        left.worstTerminalBrandDistance <= right.worstTerminalBrandDistance;
+    const bool strict =
+        left.patrolFuelUsed < right.patrolFuelUsed ||
+        left.terminalOnSpot > right.terminalOnSpot ||
+        left.totalTerminalBrandDistance < right.totalTerminalBrandDistance ||
+        left.worstTerminalBrandDistance < right.worstTerminalBrandDistance;
+    return noWorse && strict;
+}
+
+[[nodiscard]] std::vector<std::vector<const ExactOrienteeringRoute*>>
+select_coordinated_exact_orienteering_frontier_routes(
+    const MatchConfig& config,
+    const DayState& state,
+    const MatchLedger& ledger,
+    const std::vector<std::vector<const ExactOrienteeringRoute*>>& canonicalBundles,
+    std::int32_t maximumAdditionalBundles,
+    std::optional<std::chrono::steady_clock::time_point> deadline,
+    ColumnGenerationDiagnostics* diagnostics) {
+    std::vector<std::vector<const ExactOrienteeringRoute*>> result;
+    if (maximumAdditionalBundles <= 0 || canonicalBundles.empty() ||
+        !std::all_of(
+            canonicalBundles.front().begin(),
+            canonicalBundles.front().end(),
+            [](const auto* route) { return route != nullptr; })) {
+        return result;
+    }
+    const auto deadline_expired = [&deadline, diagnostics]() {
+        if (!deadline.has_value() || std::chrono::steady_clock::now() < *deadline) {
+            return false;
+        }
+        if (diagnostics != nullptr) {
+            diagnostics->deadlineReached = true;
+        }
+        return true;
+    };
+    const ExactOrienteeringBeamState primaryState =
+        summarize_exact_bundle(config, canonicalBundles.front());
+    const OfficialScore primaryScore = exact_orienteering_score(ledger, primaryState);
+    std::vector<ExactBundleResourceProfile> candidates;
+    std::set<std::string> seenSignatures;
+    std::set<std::string> seenPlans;
+    const auto plan_key = [&config, &state](
+                              const std::vector<const ExactOrienteeringRoute*>& routes) {
+        DayPlan plan;
+        plan.actions.reserve(routes.size());
+        for (const ExactOrienteeringRoute* route : routes) {
+            plan.actions.push_back(
+                route != nullptr ? route->actions : wait_actions(config, state));
+        }
+        return canonical_plan_bytes(plan);
+    };
+    std::vector<std::vector<const ExactOrienteeringRoute*>> completeCanonical;
+    for (const auto& bundle : canonicalBundles) {
+        seenPlans.insert(plan_key(bundle));
+        if (!std::all_of(bundle.begin(), bundle.end(), [](const auto* route) {
+                return route != nullptr;
+            })) {
+            continue;
+        }
+        ExactBundleResourceProfile profile = profile_exact_bundle(state, bundle);
+        seenSignatures.insert(profile.terminalSignature);
+        candidates.push_back(std::move(profile));
+        completeCanonical.push_back(bundle);
+    }
+    const std::size_t canonicalCandidateCount = candidates.size();
+    std::size_t considered = 0U;
+    for (const auto& base : completeCanonical) {
+        for (const auto& donor : completeCanonical) {
+            for (std::size_t agent = 0; agent < base.size(); ++agent) {
+                if ((considered++ & 255U) == 0U && deadline_expired()) {
+                    break;
+                }
+                if (base.at(agent) == donor.at(agent) ||
+                    same_agent_plan(base.at(agent)->actions, donor.at(agent)->actions)) {
+                    continue;
+                }
+                std::vector<const ExactOrienteeringRoute*> alternative = base;
+                alternative.at(agent) = donor.at(agent);
+                if (exact_orienteering_score(
+                        ledger,
+                        summarize_exact_bundle(config, alternative)) != primaryScore) {
+                    continue;
+                }
+                if (!seenPlans.insert(plan_key(alternative)).second) {
+                    continue;
+                }
+                ExactBundleResourceProfile profile =
+                    profile_exact_bundle(state, std::move(alternative));
+                if (!seenSignatures.insert(profile.terminalSignature).second) {
+                    continue;
+                }
+                candidates.push_back(std::move(profile));
+            }
+        }
+    }
+    if (diagnostics != nullptr) {
+        diagnostics->exactOrienteeringFrontierCandidates +=
+            static_cast<std::int32_t>(candidates.size() - canonicalCandidateCount);
+    }
+    std::vector<std::size_t> frontier;
+    for (std::size_t candidate = canonicalCandidateCount;
+         candidate < candidates.size();
+         ++candidate) {
+        bool dominated = false;
+        for (std::size_t other = canonicalCandidateCount;
+             other < candidates.size();
+             ++other) {
+            if (candidate != other &&
+                exact_bundle_resource_dominates(candidates.at(other), candidates.at(candidate))) {
+                dominated = true;
+                break;
+            }
+        }
+        if (!dominated) {
+            frontier.push_back(candidate);
+        }
+    }
+    const auto select_best = [&candidates, &frontier, &result](const auto& rank) {
+        std::optional<std::size_t> best;
+        for (const std::size_t candidate : frontier) {
+            const bool alreadySelected = std::any_of(
+                result.begin(),
+                result.end(),
+                [&candidates, candidate](const auto& routes) {
+                    return routes == candidates.at(candidate).routes;
+                });
+            if (!alreadySelected &&
+                (!best.has_value() || rank(candidates.at(candidate)) < rank(candidates.at(*best)))) {
+                best = candidate;
+            }
+        }
+        if (best.has_value()) {
+            result.push_back(candidates.at(*best).routes);
+        }
+    };
+    while (result.size() < static_cast<std::size_t>(maximumAdditionalBundles)) {
+        const std::size_t before = result.size();
+        select_best([](const ExactBundleResourceProfile& profile) {
+            return std::tuple{
+                profile.patrolFuelUsed,
+                -profile.terminalOnSpot,
+                profile.worstTerminalBrandDistance,
+                profile.totalTerminalBrandDistance,
+                profile.usedSteps,
+                profile.terminalSignature};
+        });
+        if (result.size() >= static_cast<std::size_t>(maximumAdditionalBundles)) {
+            break;
+        }
+        select_best([](const ExactBundleResourceProfile& profile) {
+            return std::tuple{
+                -profile.terminalOnSpot,
+                profile.patrolFuelUsed,
+                profile.worstTerminalBrandDistance,
+                profile.totalTerminalBrandDistance,
+                profile.usedSteps,
+                profile.terminalSignature};
+        });
+        if (result.size() >= static_cast<std::size_t>(maximumAdditionalBundles)) {
+            break;
+        }
+        select_best([](const ExactBundleResourceProfile& profile) {
+            return std::tuple{
+                profile.worstTerminalBrandDistance,
+                profile.totalTerminalBrandDistance,
+                profile.patrolFuelUsed,
+                -profile.terminalOnSpot,
+                profile.usedSteps,
+                profile.terminalSignature};
+        });
+        if (result.size() == before) {
+            break;
+        }
+    }
+    if (diagnostics != nullptr) {
+        diagnostics->exactOrienteeringFrontierBundles +=
+            static_cast<std::int32_t>(result.size());
+    }
+    return result;
+}
+
 enum class ExactTerminalObjective : std::uint8_t {
     Fuel,
     BrandAccess,
@@ -2551,6 +2810,25 @@ RoutePortfolio RouteColumnGenerator::generate(
             if (hasAlignedRoute) {
                 coordinatedExactRouteBundles.push_back(std::move(aligned));
             }
+        }
+        const std::int32_t maximumAdditionalFrontierBundles = std::clamp(
+            options.maximumCoordinatedExactBundles - 1,
+            0,
+            3);
+        if (maximumAdditionalFrontierBundles > 0) {
+            std::vector<std::vector<const ExactOrienteeringRoute*>> frontier =
+                select_coordinated_exact_orienteering_frontier_routes(
+                    config_,
+                    state,
+                    ledger,
+                    coordinatedExactRouteBundles,
+                    maximumAdditionalFrontierBundles,
+                    options.deadline,
+                    diagnostics);
+            coordinatedExactRouteBundles.insert(
+                coordinatedExactRouteBundles.end(),
+                std::make_move_iterator(frontier.begin()),
+                std::make_move_iterator(frontier.end()));
         }
         std::set<std::string> seenExactPlans;
         std::erase_if(

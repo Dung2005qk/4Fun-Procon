@@ -2,6 +2,76 @@
 
 Updated: 2026-09-04
 
+## Closed positive research prototype — ATTR-COORDINATED-EXACT-BUNDLE-FRONTIER-310
+
+Experiment 309 locates the same earliest loss in all four consumed 306 wins:
+the exact per-agent route exists in the complete enumerator but the canonical
+portfolio exposes only one coordinated team bundle.  The missing route is a
+single-Patrol substitution relative to that existing bundle; injecting exactly
+that route lets the unchanged 32-candidate master retain the exact oracle
+outcome in `4/4`.  Wider generic route or master caps are not authorized because
+235/236/240 already falsified cap/order sweeps and because the current primary
+bundle must not be displaced.
+
+310 is a research-only additive prototype.  The current coordinated selector is
+called unchanged and its primary bundle remains first.  When an explicit
+research option requests more than one bundle, the generator may append at most
+three unique single-Patrol substitutions that (a) preserve the primary bundle's
+exact current-day official score, (b) differ in permutation-invariant terminal
+cell/fuel state, and (c) are nondominated across remaining Patrol fuel,
+terminal-on-Spot count and terminal brand-access distance.  Existing
+master/F0/profile/exact-simulator/independent-validator/transition authority is
+unchanged; generic column limits, candidate limits, score ordering and deadlines
+are not widened.
+
+Development reuses only the four already-consumed 306 wins from manifest SHA256
+`2BC105B7009F1E3017D7DB960C21D10E4C8A525EFCAA410EA414A119732159CE`.
+The off lane must be action/score/state/ledger identical to parent `40bdf8b`.
+The on lane must emit a qualifying extra bundle and recover the exact oracle
+outcome in at least two independent seeds without invalidity, emergency or
+deadline failure.  A recurrent recovery authorizes a separately frozen SCORE
+successor on fresh development and the still-sealed 306 holdout; otherwise 310
+closes without a SCORE experiment.  Consumed cases have no promotion authority.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; the default remains the existing single bundle
+and the prototype is additive only; (2) nothing is deleted, so no replacement
+equivalence is required.
+
+All four case-atomic runs completed with empty stderr.  The default/off lane
+created zero frontier candidates and zero frontier bundles in every case.  The
+on lane found `46/46/47/47` unique equal-score crossover candidates and retained
+exactly three bounded frontier bundles per case.  The unchanged 32-candidate
+master then retained both the exact oracle plan and its exact outcome in `4/4`;
+the generated portfolio contained all three oracle routes (`111`) throughout.
+Master nodes were `3438/3419/3528/3241`, only three more than the corresponding
+off lane.  This recurs across both balanced and duplicate low-fuel families and
+passes the preregistered attribution gate.
+
+The final mechanism is more precise than the initial primary-only sketch: the
+needed oracle combines Patrol routes already present in two different canonical
+aligned bundles.  The prototype therefore forms only one-Patrol crossovers
+between complete canonical exact bundles, never invents or imports an
+unapproved route, keeps every canonical bundle first, filters the new crossover
+pool by its own resource Pareto frontier and appends at most three.  Source
+SHA256 values are `0D9566FD09CC47DB17E2B7F61D9EEF70F0E0E3313B1B99FD9F5CD7796AB984EE`
+for `include/udon/planner.hpp`,
+`D9E0A81253619039BEB74D19A1278A11A48DC483B85DF346536F91A7683AF40C`
+for `src/planner.cpp` and
+`221547286BC011CBE1F4C3D1768294501FB600846B91BA480636E81BF5D489F3`
+for the probe.  Frozen Windows oracle binary SHA256 is
+`9E6E77D602BB127DDDAA9775DD8E665D98007AA2A693A37EF32CC5849CFF9504`;
+runner and summarizer SHA256 values are
+`B71D050B88FC3AC6A11A4C2DFA312069BB1602A67EA8EC3BC94117F9CE21322F`
+and `9C56781C49BE8A79EDD30437CF8C09F65A9E753992604FE6595E69B5DF34AA23`.
+Complete log SHA256 is
+`F6347DDC344330D1DBAB30E04F3859563AF13889CA99E9921651435A64ABD7A5`;
+summary SHA256 is
+`BF9E8903AF117198D68C092902E92AEDBCD57A256E0C4EEFA0CA98B45CB3A8AB`.
+Verdict: positive attribution only.  A separate SCORE experiment may wire this
+already-frozen option through the unchanged production decision path and test
+same-binary off/on at 5000 ms on fresh development; no holdout has opened.
+
 ## Closed positive pipeline attribution — ATTR-THREE-ACTIVE-PATROL-PIPELINE-309
 
 Experiment 308 proves a recurrent day-1, equal-current-score terminal-resource

@@ -5103,6 +5103,47 @@ void attribute_oracle_day(
                   << ",master_outcome="
                   << contains_outcome(completeCurrentCandidates, *exact)
                   << '\n';
+
+        udon::ColumnGenerationOptions frontierCurrent = completeCurrent;
+        frontierCurrent.maximumCoordinatedExactBundles = 4;
+        udon::ColumnGenerationDiagnostics frontierCurrentDiagnostics;
+        const udon::RoutePortfolio frontierCurrentPortfolio = generator.generate(
+            state,
+            ledger,
+            frontierCurrent,
+            &frontierCurrentDiagnostics);
+        udon::MasterDiagnostics frontierCurrentMasterDiagnostics;
+        const std::vector<udon::MasterCandidate> frontierCurrentCandidates =
+            master.solve(
+                state,
+                ledger,
+                frontierCurrentPortfolio,
+                masterOptions,
+                frontierCurrentMasterDiagnostics);
+        std::cout << "exact_bundle_frontier_attribute,seed=" << fixture.seed
+                  << ",day=" << day
+                  << ",off_frontier_candidates="
+                  << completeCurrentDiagnostics.exactOrienteeringFrontierCandidates
+                  << ",off_frontier_bundles="
+                  << completeCurrentDiagnostics.exactOrienteeringFrontierBundles
+                  << ",on_frontier_candidates="
+                  << frontierCurrentDiagnostics.exactOrienteeringFrontierCandidates
+                  << ",on_frontier_bundles="
+                  << frontierCurrentDiagnostics.exactOrienteeringFrontierBundles
+                  << ",off_bundles="
+                  << completeCurrentDiagnostics.exactOrienteeringBundles
+                  << ",on_bundles="
+                  << frontierCurrentDiagnostics.exactOrienteeringBundles
+                  << ",oracle_mask="
+                  << portfolio_plan_mask(frontierCurrentPortfolio, oraclePlan)
+                  << ",master_exact="
+                  << contains_candidate(frontierCurrentCandidates, *exact)
+                  << ",master_outcome="
+                  << contains_outcome(frontierCurrentCandidates, *exact)
+                  << ",best=" << best_candidate_score(frontierCurrentCandidates)
+                  << ",nodes="
+                  << frontierCurrentMasterDiagnostics.combinationsVisited
+                  << '\n';
     }
 
     udon::RoutePortfolio forcedBundle = merged;

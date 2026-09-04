@@ -124,6 +124,11 @@ struct ColumnGenerationOptions {
     bool enableExactHarvestOrienteering = false;
     bool enableFuelConstrainedExactHarvestOrienteering = false;
     bool enableAnytimeFuelConstrainedHarvestOrienteering = false;
+    // Research option for ATTR-COORDINATED-EXACT-BUNDLE-FRONTIER-310.
+    // One preserves the canonical coordinated bundle path exactly.  Larger
+    // values may only append bounded equal-current-score resource-frontier
+    // bundles; they never replace the canonical first bundle.
+    std::int32_t maximumCoordinatedExactBundles = 1;
     std::int32_t maximumHarvestExtensionSources = 1;
     std::int32_t maximumHarvestExtensionDepth = 2;
     std::optional<std::chrono::steady_clock::time_point> deadline;
@@ -142,6 +147,8 @@ struct ColumnGenerationDiagnostics {
     std::uint64_t exactOrienteeringSettledStates = 0;
     std::uint64_t exactOrienteeringTerminalVariants = 0;
     std::int32_t exactOrienteeringBundles = 0;
+    std::int32_t exactOrienteeringFrontierCandidates = 0;
+    std::int32_t exactOrienteeringFrontierBundles = 0;
     std::int32_t exactOrienteeringSeedServings = 0;
     std::int32_t exactOrienteeringLocalServings = 0;
     std::uint64_t exactOrienteeringFeasibilityNodes = 0;
