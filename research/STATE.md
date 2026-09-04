@@ -58,8 +58,8 @@ the Windows research binary SHA256 is
 The exclusive case-atomic VM runner and frozen summarizer SHA256 values are
 `6AB73E3E4CEFE3D57C647CB8E756BFF7610D164F5942B998336A7321F491AC39`
 and `56B3FA4A5888938E42155F450E92964A3E6F3640B77595C98C9EA77A76EB696F`.
-The Linux research binary will be built once from this exact source snapshot
-and its hash recorded before the formal runner starts.
+The Linux research binary built once from this exact source snapshot has SHA256
+`9348B01F5D1A48C3B2958FDDF6878518C50C4143065EE801FFD7F4BCCF1977FB`.
 
 Functionality-preservation answers: (1) no designed functionality is removed,
 disabled, deferred or reduced; this is additive research-only exact attribution
