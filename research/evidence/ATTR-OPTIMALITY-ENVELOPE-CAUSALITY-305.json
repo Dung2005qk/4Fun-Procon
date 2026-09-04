@@ -1,0 +1,46 @@
+{
+  "candidate_by_terminal": {
+    "nonterminal:open": 181,
+    "terminal:closed": 36
+  },
+  "candidate_gap_exactly_nonterminal": true,
+  "exact_feasible_challenger_records": 0,
+  "experiment": "ATTR-OPTIMALITY-ENVELOPE-CAUSALITY-305",
+  "input_manifest_sha256": "E4CFE6C8F00AAD9DA18BD89CF8B070249DB3EA84E569CF51C4626AEEC4210F84",
+  "next_authorized_axis": "fresh exact-oracle counterexample with three active Patrols on official 8/9/10-team configs",
+  "score_successor_authorized": false,
+  "source_checks": {
+    "candidate_upper_calls_fast_viability": true,
+    "today_upper_is_master_optimistic_bound": true,
+    "viability_daily_relaxation": true
+  },
+  "source_classification": {
+    "candidate_horizon": "next-state fast-viability resource relaxation, not a feasible witness",
+    "today_portfolio": "master optimistic relaxation over generated columns, not an emitted challenger",
+    "viability_horizon": "per-brand reachability plus agent-day/stock capacity relaxation, not a joint plan"
+  },
+  "sources_ok": true,
+  "split_counts": {
+    "development": {
+      "cases": 12,
+      "day_roots": 72
+    },
+    "holdout": {
+      "cases": 24,
+      "day_roots": 145
+    }
+  },
+  "today_by_portfolio_completion": {
+    "complete:closed": 21,
+    "complete:open": 8,
+    "incomplete:closed": 45,
+    "incomplete:open": 143
+  },
+  "total_day_roots": 217,
+  "upper_bound_equalities": {
+    "candidate_equals_absolute": 13,
+    "candidate_equals_viability": 13,
+    "viability_equals_absolute": 214
+  },
+  "verdict": "closed-noncausal-bound-telemetry"
+}

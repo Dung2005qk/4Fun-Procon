@@ -1,0 +1,144 @@
+{
+  "cases": 12,
+  "component_gap_sums": {
+    "absolute": [
+      0,
+      1236,
+      29300
+    ],
+    "candidate": [
+      0,
+      1236,
+      25335
+    ],
+    "today": [
+      0,
+      0,
+      206
+    ],
+    "viability": [
+      0,
+      1236,
+      29300
+    ]
+  },
+  "day_roots": 72,
+  "experiment": "ATTR-OPTIMALITY-ENVELOPE-PREVALENCE-304",
+  "gate_pass": true,
+  "high_tier_non_absolute": {
+    "breadth": {
+      "fuel_profiles": [
+        "default",
+        "generated",
+        "high",
+        "low"
+      ],
+      "players": [
+        8,
+        9,
+        10
+      ],
+      "public_windows_ms": [
+        5000,
+        10000,
+        15000
+      ],
+      "role_modes": [
+        "deadline",
+        "fixed"
+      ],
+      "suites": [
+        "general",
+        "multiteam-12",
+        "multiteam-16",
+        "multiteam-24",
+        "multiteam-32"
+      ]
+    },
+    "gate": true,
+    "roots": 60
+  },
+  "invalid_envelopes": 0,
+  "only_absolute_open_roots": 0,
+  "phase": "development",
+  "portfolio_search_complete_days": 6,
+  "safety": {
+    "checkpoint_closed_loop_failures": 0,
+    "emergency": 0,
+    "invalid": 0,
+    "invalid_optimality_envelopes": 0,
+    "midday_failure_days": 0,
+    "permuted_apply_mapping_failures": 0,
+    "permuted_apply_role_failures": 0,
+    "permuted_apply_shadow_ledger_failures": 0,
+    "permuted_apply_shadow_state_failures": 0,
+    "permuted_causal_noop_failures": 0,
+    "permuted_probe_mutation_failures": 0,
+    "protected_terminal_invalid": 0,
+    "public_window_probe_failure_days": 0,
+    "terminal_marginal_failure": 0,
+    "terminal_sparse_failure": 0
+  },
+  "safety_gate": true,
+  "tier3_non_absolute": {
+    "breadth": {
+      "fuel_profiles": [
+        "default",
+        "generated",
+        "high",
+        "low"
+      ],
+      "players": [
+        8,
+        9,
+        10
+      ],
+      "public_windows_ms": [
+        5000,
+        10000,
+        15000
+      ],
+      "role_modes": [
+        "deadline",
+        "fixed"
+      ],
+      "suites": [
+        "general",
+        "multiteam-12",
+        "multiteam-16",
+        "multiteam-24",
+        "multiteam-32"
+      ]
+    },
+    "gate": true,
+    "roots": 45,
+    "threshold": 18
+  },
+  "tier_counts_closed_tier1_tier2_tier3": {
+    "absolute": [
+      2,
+      0,
+      60,
+      10
+    ],
+    "candidate": [
+      12,
+      0,
+      60,
+      0
+    ],
+    "today": [
+      31,
+      0,
+      0,
+      41
+    ],
+    "viability": [
+      2,
+      0,
+      60,
+      10
+    ]
+  },
+  "viability_deadline_days": 0
+}

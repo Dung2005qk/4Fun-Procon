@@ -104,6 +104,13 @@ struct Metrics {
     std::vector<std::uint64_t> exactSettledStates;
     std::vector<std::int32_t> exactSeedServings;
     std::vector<std::int32_t> exactLocalServings;
+    std::array<std::int32_t, 4> todayOpenTierCounts{};
+    std::array<std::int32_t, 4> candidateOpenTierCounts{};
+    std::array<std::int32_t, 4> viabilityOpenTierCounts{};
+    std::array<std::int32_t, 4> absoluteOpenTierCounts{};
+    std::int32_t invalidOptimalityEnvelopes = 0;
+    std::int32_t viabilityDeadlineDays = 0;
+    std::vector<udon::OptimalityGapDiagnostics> optimalityGaps;
     std::int32_t protectedTerminalAttempts = 0;
     std::int32_t protectedTerminalTakeovers = 0;
     std::int32_t protectedTerminalInvalid = 0;
@@ -1433,6 +1440,31 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         metrics.combinationsVisited += decision.diagnostics.combinationsVisited;
         metrics.searchCompleteDays += decision.diagnostics.searchComplete ? 1 : 0;
         metrics.searchDeadlineDays += decision.diagnostics.deadlineReached ? 1 : 0;
+        const udon::OptimalityGapDiagnostics& optimalityGap =
+            decision.audit.optimalityGap;
+        const auto recordGap = [&metrics](
+                                   const udon::LexicographicGapDiagnostics& gap,
+                                   std::array<std::int32_t, 4>& counts) {
+            if (gap.firstOpenTier < 0 || gap.firstOpenTier > 3) {
+                throw std::runtime_error(
+                    "optimality envelope emitted an invalid first-open tier");
+            }
+            ++counts.at(static_cast<std::size_t>(gap.firstOpenTier));
+            metrics.invalidOptimalityEnvelopes += gap.validEnvelope ? 0 : 1;
+        };
+        recordGap(optimalityGap.todayPortfolio, metrics.todayOpenTierCounts);
+        recordGap(
+            optimalityGap.candidateHorizon,
+            metrics.candidateOpenTierCounts);
+        recordGap(
+            optimalityGap.viabilityHorizon,
+            metrics.viabilityOpenTierCounts);
+        recordGap(
+            optimalityGap.absoluteHorizon,
+            metrics.absoluteOpenTierCounts);
+        metrics.viabilityDeadlineDays +=
+            optimalityGap.viabilityDeadlineReached ? 1 : 0;
+        metrics.optimalityGaps.push_back(optimalityGap);
         metrics.cacheEligible += decision.cacheRepair.eligibleContingencies;
         metrics.cacheReused += decision.cacheRepair.reusedContingencies;
         metrics.cacheRejected += decision.cacheRepair.rejectedContingencies;
@@ -2616,6 +2648,30 @@ void print_result(
               << ",emergency=" << metrics.emergencyDays
               << ",search_complete_days=" << metrics.searchCompleteDays
               << ",search_deadline_days=" << metrics.searchDeadlineDays
+              << ",today_open_tiers="
+              << metrics.todayOpenTierCounts.at(0) << '/'
+              << metrics.todayOpenTierCounts.at(1) << '/'
+              << metrics.todayOpenTierCounts.at(2) << '/'
+              << metrics.todayOpenTierCounts.at(3)
+              << ",candidate_open_tiers="
+              << metrics.candidateOpenTierCounts.at(0) << '/'
+              << metrics.candidateOpenTierCounts.at(1) << '/'
+              << metrics.candidateOpenTierCounts.at(2) << '/'
+              << metrics.candidateOpenTierCounts.at(3)
+              << ",viability_open_tiers="
+              << metrics.viabilityOpenTierCounts.at(0) << '/'
+              << metrics.viabilityOpenTierCounts.at(1) << '/'
+              << metrics.viabilityOpenTierCounts.at(2) << '/'
+              << metrics.viabilityOpenTierCounts.at(3)
+              << ",absolute_open_tiers="
+              << metrics.absoluteOpenTierCounts.at(0) << '/'
+              << metrics.absoluteOpenTierCounts.at(1) << '/'
+              << metrics.absoluteOpenTierCounts.at(2) << '/'
+              << metrics.absoluteOpenTierCounts.at(3)
+              << ",invalid_optimality_envelopes="
+              << metrics.invalidOptimalityEnvelopes
+              << ",viability_deadline_days="
+              << metrics.viabilityDeadlineDays
               << ",combinations=" << metrics.combinationsVisited
               << ",role_mask=" << metrics.roleMask
               << ",exact_supported_agent_days="
@@ -2875,6 +2931,8 @@ void print_result(
             const udon::DayScore& exact = metrics.exactDayScores.at(day);
             const udon::OfficialScore& cumulative =
                 metrics.cumulativeDayScores.at(day);
+            const udon::OptimalityGapDiagnostics& gap =
+                metrics.optimalityGaps.at(day);
             std::cout << "day_detail"
                       << ",version=" << options.version
                       << ",track=" << options.track
@@ -2915,6 +2973,74 @@ void print_result(
                       << metrics.exactSeedServings.at(day)
                       << ",exact_local_servings="
                       << metrics.exactLocalServings.at(day)
+                      << ",portfolio_search_complete="
+                      << (gap.portfolioSearchComplete ? 1 : 0)
+                      << ",viability_deadline="
+                      << (gap.viabilityDeadlineReached ? 1 : 0)
+                      << ",today_lower="
+                      << gap.todayPortfolio.lowerBound.lifetimeDistinct << '/'
+                      << gap.todayPortfolio.lowerBound.totalDailyDistinct << '/'
+                      << gap.todayPortfolio.lowerBound.totalServings
+                      << ",today_upper="
+                      << gap.todayPortfolio.upperBound.lifetimeDistinct << '/'
+                      << gap.todayPortfolio.upperBound.totalDailyDistinct << '/'
+                      << gap.todayPortfolio.upperBound.totalServings
+                      << ",today_gap="
+                      << gap.todayPortfolio.componentGaps.at(0) << '/'
+                      << gap.todayPortfolio.componentGaps.at(1) << '/'
+                      << gap.todayPortfolio.componentGaps.at(2)
+                      << ",today_open_tier="
+                      << gap.todayPortfolio.firstOpenTier
+                      << ",today_valid_envelope="
+                      << (gap.todayPortfolio.validEnvelope ? 1 : 0)
+                      << ",candidate_lower="
+                      << gap.candidateHorizon.lowerBound.lifetimeDistinct << '/'
+                      << gap.candidateHorizon.lowerBound.totalDailyDistinct << '/'
+                      << gap.candidateHorizon.lowerBound.totalServings
+                      << ",candidate_upper="
+                      << gap.candidateHorizon.upperBound.lifetimeDistinct << '/'
+                      << gap.candidateHorizon.upperBound.totalDailyDistinct << '/'
+                      << gap.candidateHorizon.upperBound.totalServings
+                      << ",candidate_gap="
+                      << gap.candidateHorizon.componentGaps.at(0) << '/'
+                      << gap.candidateHorizon.componentGaps.at(1) << '/'
+                      << gap.candidateHorizon.componentGaps.at(2)
+                      << ",candidate_open_tier="
+                      << gap.candidateHorizon.firstOpenTier
+                      << ",candidate_valid_envelope="
+                      << (gap.candidateHorizon.validEnvelope ? 1 : 0)
+                      << ",viability_lower="
+                      << gap.viabilityHorizon.lowerBound.lifetimeDistinct << '/'
+                      << gap.viabilityHorizon.lowerBound.totalDailyDistinct << '/'
+                      << gap.viabilityHorizon.lowerBound.totalServings
+                      << ",viability_upper="
+                      << gap.viabilityHorizon.upperBound.lifetimeDistinct << '/'
+                      << gap.viabilityHorizon.upperBound.totalDailyDistinct << '/'
+                      << gap.viabilityHorizon.upperBound.totalServings
+                      << ",viability_gap="
+                      << gap.viabilityHorizon.componentGaps.at(0) << '/'
+                      << gap.viabilityHorizon.componentGaps.at(1) << '/'
+                      << gap.viabilityHorizon.componentGaps.at(2)
+                      << ",viability_open_tier="
+                      << gap.viabilityHorizon.firstOpenTier
+                      << ",viability_valid_envelope="
+                      << (gap.viabilityHorizon.validEnvelope ? 1 : 0)
+                      << ",absolute_lower="
+                      << gap.absoluteHorizon.lowerBound.lifetimeDistinct << '/'
+                      << gap.absoluteHorizon.lowerBound.totalDailyDistinct << '/'
+                      << gap.absoluteHorizon.lowerBound.totalServings
+                      << ",absolute_upper="
+                      << gap.absoluteHorizon.upperBound.lifetimeDistinct << '/'
+                      << gap.absoluteHorizon.upperBound.totalDailyDistinct << '/'
+                      << gap.absoluteHorizon.upperBound.totalServings
+                      << ",absolute_gap="
+                      << gap.absoluteHorizon.componentGaps.at(0) << '/'
+                      << gap.absoluteHorizon.componentGaps.at(1) << '/'
+                      << gap.absoluteHorizon.componentGaps.at(2)
+                      << ",absolute_open_tier="
+                      << gap.absoluteHorizon.firstOpenTier
+                      << ",absolute_valid_envelope="
+                      << (gap.absoluteHorizon.validEnvelope ? 1 : 0)
                       << '\n';
         }
     }

@@ -2,6 +2,138 @@
 
 Updated: 2026-09-04
 
+## Closed negative causal attribution — ATTR-OPTIMALITY-ENVELOPE-CAUSALITY-305
+
+Experiment 304 confirmed broad, valid non-absolute envelopes, but prevalence
+alone cannot distinguish an attainable missed witness from a deliberately
+coarse relaxation.  In its sealed holdout, `candidateHorizon` is closed exactly
+24 times—the number of matches—and open at tier 2 exactly 121 times—the number
+of non-terminal day roots.  Before any search change, experiment 305 performs a
+read-only structural audit over the consumed 304 logs and the frozen bound
+producer source.
+
+The frozen input manifest
+`research/holdouts/ATTR-OPTIMALITY-ENVELOPE-CAUSALITY-305.csv` has SHA256
+`E4CFE6C8F00AAD9DA18BD89CF8B070249DB3EA84E569CF51C4626AEEC4210F84`.
+It pins both complete 304 logs and summaries, the 304 manifest, `decision.cpp`
+and `planner.cpp`.  The audit must classify candidate gaps by terminal status,
+compare candidate/viability/absolute bounds, cross current-day gaps with master
+completion/deadline, and verify from source whether each upper is a feasible
+witness or a relaxation.
+
+A new candidate-supply SCORE axis is authorized only by a recurrent open
+current-day root where the supposedly complete master has an exact feasible
+challenger absent from the chosen candidate set.  An open bound alone, or a gap
+that is exactly implied by remaining-day all-brand/all-stock arithmetic, closes
+305 as non-causal telemetry.  No production source change, rerun, holdout,
+threshold, cap or dispatcher is authorized inside 305.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; the audit is read-only; (2) nothing is deleted.
+
+The frozen audit completed over all 217 day roots from the complete 304
+development and consumed holdout evidence.  `candidateHorizon` was open on all
+181 non-terminal roots and closed on all 36 terminal roots, an exact structural
+match.  It equalled `absoluteHorizon` on only 13 roots and
+`viabilityHorizon` on only 13; `viabilityHorizon` equalled the absolute bound on
+214 roots.  `todayPortfolio` crossed master completion as
+complete/closed `21`, complete/open `8`, incomplete/closed `45` and
+incomplete/open `143`.  No exact feasible challenger record exists in the
+frozen evidence.
+
+Source tracing confirms that `candidateHorizon` calls the next-state
+`FastViabilityAnalyzer` upper bound; viability multiplies per-brand
+reachability and agent-day/stock capacity over remaining days; and
+`todayPortfolio` uses the master's optimistic relaxation.  None is an emitted
+joint feasible plan.  Therefore the broad 304 prevalence is non-causal bound
+telemetry, not evidence that canonical production missed 181 attainable
+witnesses.  No SCORE successor is authorized.
+
+Frozen audit script SHA256 is
+`700D109DE88B0170ED34BE7C2C6553F1ED89FDE08361FC2749016E780559C4BB`;
+evidence SHA256 is
+`F5D7E254AC2EE79A0C1390F586343722DFB0DB0498F7498D0B26251EBA84ECCA`.
+Verdict: `closed-noncausal-bound-telemetry`.  The next authorized axis is a
+fresh exact full-match oracle with three simultaneously active Patrols on
+official 8/9/10-team configurations; it must find a feasible lexicographically
+better plan before any production mechanism may be proposed.
+
+## Closed confirmed-bound attribution — ATTR-OPTIMALITY-ENVELOPE-PREVALENCE-304
+
+Experiments 297--300 established an exact and materially cheaper required-
+terminal lower-bound capability, but direct integration 301 changed bounded
+work order and regressed, while 302--303 found neither a single loss mechanism
+nor an order-identical sidecar boundary.  The next useful question is therefore
+not another RCSP implementation: it is which already-computed canonical
+optimality envelope remains open on fresh official-domain 8/9/10-team states.
+
+Experiment 304 is instrumentation-only.  The historical tournament harness
+will emit the existing `DecisionAudit::optimalityGap` fields for
+`todayPortfolio`, `candidateHorizon`, `viabilityHorizon` and
+`absoluteHorizon`, including lower/upper scores, component gaps, first open
+tier, envelope validity, portfolio completeness and viability deadline state.
+It does not alter production source, candidate generation, ordering, budgets,
+selection, simulator, validator or score.
+
+The frozen manifest
+`research/holdouts/ATTR-OPTIMALITY-ENVELOPE-PREVALENCE-304.csv` has SHA256
+`D908B37A1787ACDDF01BB0DF9D34078EFE08EF18808CB4957A7D294CBA3B2DF4`.
+Development contains 12 fresh cases; the sealed holdout contains 24 fresh cases.
+Together they cover players 8/9/10, map suites general and 12/16/24/32, low/
+default/high/generated fuel, fixed/deadline role selection, and public windows
+5000/10000/15000 ms.  Canonical main remains `3375 ms` inside the protected
+`5000 ms` checkpoint and all accepted-258 continuation mechanisms remain on.
+Frozen harness source SHA256 is
+`469F19D32C3111719BDC85EE10D69F2646C962438F9B0CDD7D837AA7D97FE3EF`;
+research binary SHA256 is
+`33888811F62CB3BF5316A41328315D8077458344CB6C4F71AA2DC3815E134827`;
+runner SHA256 is
+`5D2EC28341209D1EBA7443684A8DA685ED8784DB6EF4B883CCC0AD925AB9201D`;
+and summarizer SHA256 is
+`71EF9FE1370F2412EFC5EB17CAB2E2BE513CD78EA9E1027991053DF8F1D76AAF`.
+
+Development authorizes opening the frozen holdout only with zero invalid,
+emergency, failure or invalid-envelope event and a recurrent non-absolute gap:
+either first-open tier 1/2 on at least four day roots spanning at least two map
+suites, two fuel profiles, two player counts and both role modes; or tier 3 on
+at least 25% of measured day roots spanning at least three map suites, three
+fuel profiles and both role modes.  If only `absoluteHorizon` remains open, the
+result is a loose physical upper bound and 304 closes without a successor.
+Even a confirmed gap has attribution authority only; a causal mechanism and a
+separate fresh SCORE experiment are still required before any production
+change.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; the change is research-harness telemetry only;
+(2) nothing is deleted, so no active-equivalent proof is required.
+
+Development completed all 12 cases and 72 day roots with zero invalid,
+emergency, failure or invalid-envelope event.  `candidateHorizon` was closed on
+12 roots and open at tier 2 on 60; `viabilityHorizon` was closed on 2, open at
+tier 2 on 60 and tier 3 on 10; `todayPortfolio` was closed on 31 and open at
+tier 3 on 41.  Non-absolute tier-1/2 gaps occurred on 60 roots and tier-3 gaps
+on 45, spanning all five suites, all four fuel profiles, players 8/9/10, both
+role modes and all three public windows.  The preregistered development gate
+passes and authorizes the one-time sealed holdout.
+
+Development log SHA256 is
+`511052468657374CA3F7283B808F3BC6DAD43E85EF8D5DD777CEA9C1955615FE`;
+summary SHA256 is
+`76CBF5A90A1051A56AB9A7614210A9992FF0FF53EE004CE254FE6AD013D73A9B`.
+The holdout may confirm prevalence only; it cannot promote a mechanism.
+
+The one-time holdout completed all 24 cases and 145 day roots with zero safety
+or envelope failure.  `candidateHorizon` was closed/tier1/tier2/tier3
+`24/0/121/0`; `viabilityHorizon` was `1/0/122/22`; `todayPortfolio` was
+`35/0/0/110`.  High-tier non-absolute gaps occurred on 122 roots and tier-3
+gaps on 118, again spanning every registered suite, fuel profile, player count,
+role mode and public window.  Holdout log SHA256 is
+`127B144E38F092A43D86C571605F525958EE57507EACBF09E9FED2EEB48B207D`;
+summary SHA256 is
+`1C8E5561646E8A2745F3558BD0D04C72BE188CB59D22B208066574B5BC0158F8`.
+Verdict: confirmed attribution only.  Prevalence is real; attainability remains
+unproven and is the sole question delegated to 305.
+
 ## Closed architecture attribution — ATTR-TARGET-FOLLOWUP-PREFIX-FEASIBILITY-303
 
 Capability 300 is exact and fast, but direct timed integration 301 failed and
