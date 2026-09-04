@@ -2,6 +2,66 @@
 
 Updated: 2026-09-04
 
+## Closed positive pipeline attribution — ATTR-THREE-ACTIVE-PATROL-PIPELINE-309
+
+Experiment 308 proves a recurrent day-1, equal-current-score terminal-resource
+frontier gap, but its final 16-candidate audit cannot distinguish missing
+single-agent routes from a lost master combination or later F0/repair filtering.
+Changing diversity, ordering or candidate caps before locating that boundary
+would repeat rejected experiments 235/236/240.
+
+Experiment 309 therefore reuses only the four already-consumed 306 development
+wins from frozen manifest
+`research/holdouts/ATTR-THREE-ACTIVE-PATROL-FRONTIER-308.csv`, SHA256
+`2BC105B7009F1E3017D7DB960C21D10E4C8A525EFCAA410EA414A119732159CE`.
+The unchanged frozen 306 Linux binary and source SHA256 values are
+`A5F6A39F68A66854C34FFCF377FE00AD88E103129D4E62195DD6A45CADDDEB34`
+and `ABBD6C7854E1910E9B5F27C979F8436894D3D474C092DEAB2F2BEB7B6D33AC89`.
+The case-atomic VM runner and summarizer SHA256 values are
+`5A70751B5D52501859AC6335A8B76A88D1082C3A30C81A72F37F437E7CF909B9`
+and `B3901D550BC5994F5034389469D9C55F156AA5738BF156260F944F2B7574AF75`.
+For each day-1 oracle plan, the unchanged research probe reports exact per-agent
+route membership at production and wider portfolio caps, exact/outcome membership
+after the 32- and 256-candidate master, F0-16 membership with and without the
+existing valid-upper ordering, and profile/certificate dominance. No sealed 306
+holdout row is opened and no production source is changed.
+
+Classification is preregistered as follows: any missing per-agent route is a
+route-supply boundary; all routes present but no master outcome is a master
+composition/retention boundary; master outcome present but absent from F0 is an
+F0-retention boundary; F0 presence without repair/selection is a profile-shortlist
+boundary. A class recurring in at least two independent seeds authorizes exactly
+one separately frozen SCORE successor at that stage. Mixed or nonrecurrent
+evidence closes this direct mechanism and requires a new invariant, not a cap or
+ordering sweep.
+
+All four atomic cases completed on the existing authorized VM with empty stderr
+and one `run_complete` marker. The first boundary is identical in all four:
+production legacy/expanded/merged route masks are `011`, while wider 32- and
+64-column portfolios contain all three exact per-agent routes (`111`). Merely
+widening the master candidate count cannot recover an absent production route.
+Adding exactly the one missing oracle route to the unchanged merged portfolio
+makes the 32-candidate master retain the exact outcome in `4/4`; all wider
+augmented masters do likewise. The exact-orienteering enumeration itself is
+complete for all three agents, so the failure is the single coordinated-bundle
+representative exposed to the canonical portfolio, not reachability.
+
+The profile comparison certifies both observed plans but neither dominates the
+other under the existing nonterminal witness, confirming that a post-master
+takeover would repeat the uncontrolled state-drift failure of 250/251. Verdict:
+positive attribution. A separate research prototype may retain the existing
+coordinated exact bundle plus a bounded permutation-invariant frontier of
+equal-current-score bundle assignments; it must not widen generic caps, replace
+the current bundle, or bypass the existing master/F0/profile/transition path.
+Complete log SHA256 is
+`362AB13F5D8A6145905BC1BBFBA8E46BDBAA9D8E88C70135F07F973A7587C4EC`;
+summary SHA256 is
+`DDA4C788D58E01961C98CCDD3E025D3BB811E46A407A106119941E8884932759`.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; 309 is read-only attribution over consumed
+development evidence; (2) nothing is deleted and production remains unchanged.
+
 ## Closed positive frontier attribution — ATTR-THREE-ACTIVE-PATROL-FRONTIER-308
 
 Experiment 307 proves that all four exact 306 losses become causally distinct
