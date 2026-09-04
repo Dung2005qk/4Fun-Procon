@@ -58,6 +58,37 @@ Functionality-preservation answers: (1) no designed functionality is removed,
 disabled, deferred or reduced; this was a read-only counterfactual; (2) nothing
 is deleted, so no active-equivalent replacement proof is required.
 
+## Closed architecture audit — external algorithms do not justify a pre-contest reopen
+
+The literature/implementation audit in
+`research/evidence/LITERATURE-ALGORITHM-AUDIT-2026-09-04.md` compared the
+remaining UDON-SHIELD gaps with exact resource-constrained shortest path,
+branch-and-price Team Orienteering, lexicographic goal search, synchronized
+primary/support vehicle routing, adaptive stochastic orienteering, robust
+baseline improvement and anytime heuristic search. Report SHA256 is
+`17536F592A3245122E6574E507DEE2C8A03BAC05B7F1D0F1F67DCFD211A2EF72`.
+
+No paper supplies a drop-in solution to the combined multi-day, endogenous
+multi-team traffic, synchronized refuel and strict lexicographic problem. The
+highest-value distinct future direction is incumbent-goal lexicographic
+bidirectional resource-constrained pricing: use safe forward/backward label
+joins and the protected incumbent as an admissible lexicographic target so the
+route generator reaches a stronger frontier with fewer settled states. This is
+an architecture/capability hypothesis, not a score candidate. It requires an
+independent in-place implementation, exhaustive frontier-equivalence proof and
+fresh frozen development/holdout evidence; it is not authorized as a six-day
+pre-contest production change.
+
+Operationally, do not start another blind three-bot BTC batch and do not wait
+passively. Freeze canonical 258, rehearse the clean Release artifact and
+token/protocol lifecycle, and prefer genuinely diverse human-opponent official-
+domain multi-team evidence. A fresh authoritative counterexample or rules
+change can still reopen a bounded attribution under the existing contract.
+
+Functionality-preservation answers: (1) this audit removes, disables, defers or
+reduces no designed functionality; (2) nothing is deleted, so no
+active-equivalent replacement proof is required.
+
 ## Current decision — no active experiment; canonical 258 remains
 
 The fresh mechanism authorized by attribution 294 failed its complete
