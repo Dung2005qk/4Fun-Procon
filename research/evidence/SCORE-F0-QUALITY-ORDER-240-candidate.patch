@@ -1,0 +1,17 @@
+diff --git a/src/decision.cpp b/src/decision.cpp
+index 4ae5187..84f74cb 100644
+--- a/src/decision.cpp
++++ b/src/decision.cpp
+@@ -5037,12 +5037,6 @@ DecisionResult UdonShieldEngine::solve_day(
+             f0Candidates.push_back(std::move(candidate));
+         }
+     }
+-    std::sort(
+-        f0Candidates.begin(),
+-        f0Candidates.end(),
+-        [](const MasterCandidate& left, const MasterCandidate& right) {
+-            return left.stableId < right.stableId;
+-        });
+     candidates = std::move(f0Candidates);
+ 
+     std::vector<CandidateEvaluation> evaluations;

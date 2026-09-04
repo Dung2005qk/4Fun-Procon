@@ -1,0 +1,8 @@
+Get-FileHash : The term 'Get-FileHash' is not recognized as the name of a cmdlet, function, script file, or operable 
+program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At C:\Users\LMC\Desktop\4Fun\research\probes\run_master_leaf_cost_234.ps1:10 char:18
++ $manifestHash = (Get-FileHash -Algorithm SHA256 -LiteralPath $Manifes ...
++                  ~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (Get-FileHash:String) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 

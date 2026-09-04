@@ -1,0 +1,149 @@
+{
+  "aggregate_score_delta": [
+    0,
+    0,
+    150
+  ],
+  "candidate_work": {
+    "consumer_columns": 2632,
+    "provider_columns": 666,
+    "selected_consumers": 14,
+    "selected_providers": 24
+  },
+  "experiment": "SCORE-MULTI-WAYPOINT-TANKER-PROVIDER-286",
+  "first_difference_tiers": {
+    "0": 12,
+    "3": 18
+  },
+  "gain_tail": {
+    "max": 80,
+    "sum": 170
+  },
+  "gate": {
+    "candidate_generated_multi_waypoint_supply": true,
+    "candidate_selected_multi_waypoint_supply": true,
+    "canonical_checkpoint_bounded": true,
+    "gain_mass_at_least_twice_loss_mass": true,
+    "minimum_strict_wins": true,
+    "no_tier1_or_tier2_loss": true,
+    "paired_wins_exceed_losses": true,
+    "parent_flag_is_operation_isolated": true,
+    "passed": false,
+    "tier3_downside_bounded_to_four": false,
+    "wins_span_two_fuel_profiles": true,
+    "wins_span_two_map_suites": true,
+    "wins_span_two_player_strata": true,
+    "wins_span_two_tanker_identities": true,
+    "zero_invalid_or_emergency": true
+  },
+  "loss_tail": {
+    "min": -7,
+    "sum": -20
+  },
+  "paired_cases": 30,
+  "paired_wtl": [
+    12,
+    12,
+    6
+  ],
+  "phase": "development",
+  "response_ms_local_non_authoritative": {
+    "candidate_max": 3018,
+    "parent_max": 3019
+  },
+  "safety": {
+    "candidate_emergency": 0,
+    "candidate_invalid": 0,
+    "parent_emergency": 0,
+    "parent_invalid": 0
+  },
+  "strata": {
+    "fuel:default": {
+      "loss": 2,
+      "tie": 1,
+      "win": 2
+    },
+    "fuel:generated": {
+      "loss": 1,
+      "tie": 3,
+      "win": 3
+    },
+    "fuel:high": {
+      "loss": 1,
+      "tie": 3,
+      "win": 3
+    },
+    "fuel:low": {
+      "loss": 2,
+      "tie": 5,
+      "win": 4
+    },
+    "players:10": {
+      "loss": 1,
+      "tie": 3,
+      "win": 6
+    },
+    "players:8": {
+      "loss": 2,
+      "tie": 5,
+      "win": 3
+    },
+    "players:9": {
+      "loss": 3,
+      "tie": 4,
+      "win": 3
+    },
+    "role_mask:1": {
+      "loss": 2,
+      "tie": 3,
+      "win": 1
+    },
+    "role_mask:16": {
+      "loss": 1,
+      "tie": 1,
+      "win": 1
+    },
+    "role_mask:2": {
+      "loss": 1,
+      "tie": 3,
+      "win": 3
+    },
+    "role_mask:32": {
+      "loss": 1,
+      "win": 1
+    },
+    "role_mask:4": {
+      "tie": 2,
+      "win": 3
+    },
+    "role_mask:64": {
+      "loss": 1,
+      "win": 1
+    },
+    "role_mask:8": {
+      "tie": 3,
+      "win": 2
+    },
+    "suite:general": {
+      "loss": 1,
+      "tie": 5
+    },
+    "suite:multiteam-12": {
+      "tie": 5,
+      "win": 1
+    },
+    "suite:multiteam-16": {
+      "loss": 3,
+      "tie": 2,
+      "win": 3
+    },
+    "suite:multiteam-24": {
+      "loss": 1,
+      "win": 5
+    },
+    "suite:multiteam-32": {
+      "loss": 1,
+      "win": 3
+    }
+  }
+}

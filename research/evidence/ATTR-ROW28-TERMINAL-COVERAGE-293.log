@@ -1,0 +1,21 @@
+ledger_before=6/24/99
+day_score=5/5/6
+score_after=6/29/105
+agent=0 kind=patrol claims=1 served=1 path_steps=60 raw_path_fuel=0 initial_fuel=2 spots=5:5 terminal=11:2
+agent=1 kind=patrol claims=2 served=2 path_steps=60 raw_path_fuel=4 initial_fuel=4 spots=6:0,8:2 terminal=20:0
+agent=2 kind=patrol claims=1 served=1 path_steps=60 raw_path_fuel=0 initial_fuel=1 spots=3:3 terminal=91:1
+agent=3 kind=patrol claims=1 served=1 path_steps=60 raw_path_fuel=0 initial_fuel=1 spots=13:1 terminal=15:1
+agent=4 kind=patrol claims=1 served=1 path_steps=60 raw_path_fuel=0 initial_fuel=1 spots=11:5 terminal=156:1
+spot=3 brand=3 cell=91 stock=4 served=1 denied=0 agents=2S
+spot=5 brand=5 cell=11 stock=3 served=1 denied=0 agents=0S
+spot=6 brand=0 cell=16 stock=3 served=1 denied=0 agents=1S
+spot=8 brand=2 cell=20 stock=4 served=1 denied=0 agents=1S
+spot=11 brand=5 cell=156 stock=2 served=1 denied=0 agents=4S
+spot=13 brand=1 cell=15 stock=2 served=1 denied=0 agents=3S
+sparse_agent=1 cap=1250000 settled=46 labels=46 emitted_masks=0 protected_masks=0 retained=0 valid=0 best=6/29/105 mask=0x0 protected=6/29/105 protected_mask=0x0
+sparse_global_best=6/29/105 baseline=6/29/105 agent=-1 mask=0x0
+sparse_protected_best=6/29/105 baseline=6/29/105 agent=-1 mask=0x0
+road_equivalent_summary exact=0 strict=0 strict_changed_terminal=0 baseline=6/29/105 best=6/29/105 agent=-1 mask=0x0 terminal_distance=0 fuel_delta=0
+traffic_nonincreasing_summary candidates=0 strict=0 strict_changed_terminal=0 baseline=6/29/105 best=6/29/105 agent=-1 mask=0x0 terminal_distance=0 fuel_delta=0 road_reduction=0
+terminal_sidecar=6/29/105 improved=0 agent=-1 routes=0 generated=0 valid=0 strict=0 rounds=0 round1=6/29/105 canonical=6/29/105 marginal_routes=0 marginal_valid=0 marginal_acceptances=0 deadline=0
+run_complete cases=1 failures=0

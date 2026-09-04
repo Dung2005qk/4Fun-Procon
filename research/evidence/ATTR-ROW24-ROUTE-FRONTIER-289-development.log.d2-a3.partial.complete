@@ -1,0 +1,28 @@
+case_begin case=d2-a3 day=2 agent=3 started=2026-09-02T15:34:20.3544250+00:00 max_states=50000 max_routes=64
+ledger_before=5/5/32
+day_score=5/5/28
+score_after=5/10/60
+agent=0 kind=patrol claims=7 served=7 path_steps=72 raw_path_fuel=46 initial_fuel=139 spots=7:2,8:3,9:4,3:3,11:1,0:0,1:1 terminal=43:138
+agent=1 kind=patrol claims=9 served=8 path_steps=72 raw_path_fuel=51 initial_fuel=127 spots=10:0,9:4,8:3,7:2,11:1,3:3,4:4,1:1,0:0 terminal=90:144
+agent=2 kind=patrol claims=7 served=5 path_steps=72 raw_path_fuel=50 initial_fuel=96 spots=6:1,9:4,8:3,3:3,11:1,7:2,0:0 terminal=90:144
+agent=3 kind=patrol claims=8 served=8 path_steps=72 raw_path_fuel=56 initial_fuel=111 spots=2:2,9:4,8:3,3:3,11:1,7:2,0:0,1:1 terminal=43:138
+agent=4 kind=tanker claims=0 served=0 path_steps=72 raw_path_fuel=5 initial_fuel=144 spots= terminal=90:144
+spot=0 brand=0 cell=90 stock=5 served=4 denied=0 agents=0S,1S,3S,2S
+spot=1 brand=1 cell=43 stock=3 served=3 denied=0 agents=1S,0S,3S
+spot=2 brand=2 cell=7 stock=1 served=1 denied=0 agents=3S
+spot=3 brand=3 cell=13 stock=3 served=3 denied=1 agents=0S,3S,2S,1D
+spot=4 brand=4 cell=40 stock=1 served=1 denied=0 agents=1S
+spot=6 brand=1 cell=35 stock=2 served=1 denied=0 agents=2S
+spot=7 brand=2 cell=129 stock=3 served=3 denied=1 agents=0S,1S,3S,2D
+spot=8 brand=3 cell=125 stock=5 served=4 denied=0 agents=0S,1S,3S,2S
+spot=9 brand=4 cell=76 stock=5 served=4 denied=0 agents=1S,3S,0S,2S
+spot=10 brand=0 cell=108 stock=3 served=1 denied=0 agents=1S
+spot=11 brand=1 cell=17 stock=3 served=3 denied=1 agents=0S,1S,3S,2D
+sparse_agent=3 cap=50000 settled=50000 labels=51222 emitted_masks=117 protected_masks=79 retained=128 valid=128 best=5/10/63 mask=0xF7F protected=5/10/60 protected_mask=0x0
+sparse_global_best=5/10/63 baseline=5/10/60 agent=3 mask=0xF7F
+sparse_protected_best=5/10/60 baseline=5/10/60 agent=-1 mask=0x0
+road_equivalent_summary exact=0 strict=0 strict_changed_terminal=0 baseline=5/10/60 best=5/10/60 agent=-1 mask=0x0 terminal_distance=0 fuel_delta=0
+traffic_nonincreasing_summary candidates=33 strict=17 strict_changed_terminal=10 baseline=5/10/60 best=5/10/62 agent=3 mask=0xF66 terminal_distance=10 fuel_delta=-60 road_reduction=10
+sparse_best_plan=[[-1,5,5,5,5,0,0,0,1,0,0,0,0,0,5,2,2,2,2,3,3,3,3,3,3,3,3,3,0,5,5,0,0,0,1,1,1,-9],[-1,1,2,1,2,1,2,3,4,3,3,2,2,2,2,0,0,0,0,0,0,0,0,0,5,5,5,5,2,2,3,3,2,2,2,4,4,3,4,-8],[-1,4,5,5,4,5,5,4,4,5,3,4,3,3,0,0,0,0,0,0,0,0,0,2,2,2,2,3,3,3,3,3,3,3,3,3,0,5,5,0,0,-1],[-1,2,3,2,2,3,4,5,5,4,5,0,0,0,5,5,5,5,5,2,2,3,3,3,3,4,2,3,3,4,4,0,5,5,5,5,5],[0,0,1,2,-65]]
+case_complete case=d2-a3 exit=0
+case_elapsed_ms case=d2-a3 value=196

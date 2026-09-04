@@ -1,0 +1,154 @@
+{
+  "aggregate_score_delta": [
+    0,
+    1,
+    45
+  ],
+  "candidate_work": {
+    "atomicity_failures": 2,
+    "consumer_columns": 2529,
+    "provider_columns": 642,
+    "selected_consumers": 2,
+    "selected_providers": 1
+  },
+  "experiment": "SCORE-ATOMIC-MULTI-WAYPOINT-TANKER-GROUP-287",
+  "first_difference_tiers": {
+    "0": 12,
+    "2": 1,
+    "3": 17
+  },
+  "gain_tail": {
+    "max": 36,
+    "sum": 65
+  },
+  "gate": {
+    "candidate_generated_multi_waypoint_supply": true,
+    "candidate_selected_complete_multi_waypoint_groups": true,
+    "canonical_checkpoint_bounded": true,
+    "gain_mass_at_least_twice_loss_mass": true,
+    "minimum_strict_wins": true,
+    "no_tier1_or_tier2_loss": true,
+    "paired_wins_exceed_losses": true,
+    "parent_flag_is_operation_isolated": true,
+    "passed": false,
+    "tier3_downside_bounded_to_four": false,
+    "wins_span_two_fuel_profiles": true,
+    "wins_span_two_map_suites": true,
+    "wins_span_two_player_strata": true,
+    "wins_span_two_tanker_identities": true,
+    "zero_atomicity_failure": false,
+    "zero_invalid_or_emergency": true
+  },
+  "loss_tail": {
+    "min": -6,
+    "sum": -20
+  },
+  "paired_cases": 30,
+  "paired_wtl": [
+    10,
+    12,
+    8
+  ],
+  "phase": "development",
+  "response_ms_local_non_authoritative": {
+    "candidate_max": 3020,
+    "parent_max": 3018
+  },
+  "safety": {
+    "candidate_emergency": 0,
+    "candidate_invalid": 0,
+    "parent_emergency": 0,
+    "parent_invalid": 0
+  },
+  "strata": {
+    "fuel:default": {
+      "loss": 1,
+      "tie": 3,
+      "win": 1
+    },
+    "fuel:generated": {
+      "loss": 2,
+      "tie": 3,
+      "win": 2
+    },
+    "fuel:high": {
+      "loss": 3,
+      "tie": 3,
+      "win": 1
+    },
+    "fuel:low": {
+      "loss": 2,
+      "tie": 3,
+      "win": 6
+    },
+    "players:10": {
+      "loss": 3,
+      "tie": 2,
+      "win": 5
+    },
+    "players:8": {
+      "loss": 3,
+      "tie": 4,
+      "win": 3
+    },
+    "players:9": {
+      "loss": 2,
+      "tie": 6,
+      "win": 2
+    },
+    "role_mask:1": {
+      "loss": 1,
+      "tie": 2,
+      "win": 3
+    },
+    "role_mask:16": {
+      "loss": 1,
+      "tie": 1,
+      "win": 1
+    },
+    "role_mask:2": {
+      "loss": 2,
+      "tie": 3,
+      "win": 2
+    },
+    "role_mask:32": {
+      "tie": 2
+    },
+    "role_mask:4": {
+      "loss": 1,
+      "tie": 1,
+      "win": 3
+    },
+    "role_mask:64": {
+      "loss": 2
+    },
+    "role_mask:8": {
+      "loss": 1,
+      "tie": 3,
+      "win": 1
+    },
+    "suite:general": {
+      "tie": 4,
+      "win": 2
+    },
+    "suite:multiteam-12": {
+      "loss": 1,
+      "tie": 4,
+      "win": 1
+    },
+    "suite:multiteam-16": {
+      "loss": 3,
+      "tie": 2,
+      "win": 3
+    },
+    "suite:multiteam-24": {
+      "loss": 2,
+      "tie": 2,
+      "win": 2
+    },
+    "suite:multiteam-32": {
+      "loss": 2,
+      "win": 2
+    }
+  }
+}

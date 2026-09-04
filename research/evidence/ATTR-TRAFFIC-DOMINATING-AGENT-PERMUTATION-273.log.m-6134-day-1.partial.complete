@@ -1,0 +1,25 @@
+case_begin replay=m-6134 day=1 stratum=early started=2026-08-31T15:39:56.3614644+00:00 max_states=50000 max_routes=32
+ledger_before=0/0/0
+day_score=7/7/36
+score_after=7/7/36
+agent=0 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=43 initial_fuel=192 spots=5:5,2:2,3:3,15:1,12:5,14:0,13:6 terminal=251:149
+agent=1 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=60 initial_fuel=192 spots=13:6,3:3,5:5,15:1,12:5,10:3,11:4 terminal=146:184
+agent=2 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=58 initial_fuel=192 spots=13:6,3:3,5:5,15:1,12:5,10:3,11:4 terminal=146:184
+agent=3 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=11 initial_fuel=192 spots= terminal=33:192
+agent=4 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=61 initial_fuel=192 spots=2:2,5:5,13:6,3:3,10:3,11:4,15:1,14:0 terminal=230:177
+agent=5 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=65 initial_fuel=192 spots=5:5,15:1,12:5,10:3,9:2,4:4,6:6 terminal=143:158
+spot=2 brand=2 cell=104 stock=2 served=2 denied=0 agents=4S,0S
+spot=3 brand=3 cell=134 stock=4 served=4 denied=0 agents=2S,1S,0S,4S
+spot=4 brand=4 cell=138 stock=1 served=1 denied=0 agents=5S
+spot=5 brand=5 cell=52 stock=6 served=5 denied=0 agents=5S,0S,4S,2S,1S
+spot=6 brand=6 cell=143 stock=1 served=1 denied=0 agents=5S
+spot=9 brand=2 cell=6 stock=1 served=1 denied=0 agents=5S
+spot=10 brand=3 cell=33 stock=6 served=4 denied=0 agents=5S,4S,2S,1S
+spot=11 brand=4 cell=146 stock=3 served=3 denied=0 agents=4S,2S,1S
+spot=12 brand=5 cell=242 stock=4 served=4 denied=0 agents=5S,0S,2S,1S
+spot=13 brand=6 cell=251 stock=6 served=4 denied=0 agents=2S,1S,4S,0S
+spot=14 brand=0 cell=230 stock=3 served=2 denied=0 agents=0S,4S
+spot=15 brand=1 cell=180 stock=6 served=5 denied=0 agents=5S,0S,2S,1S,4S
+traffic_permutation_summary states=50000 max_routes=32 tasks=20 routes=1066 cross_pairs=28584 invalid=0 validator_mismatch=0 valid=28584 road_equal=4 strict_road_dominating=4 mapped_dominating=0 exact_fuel_certified=0 strict_fuel_certified=0 traffic_certified=0 parent=7/7/36 best=7/7/36 left=-1 right=-1 min_fuel_delta=0 max_fuel_delta=0 road_reduction=0 incumbent_mutated=0
+case_complete replay=m-6134 day=1 exit=0
+case_elapsed_ms replay=m-6134 day=1 value=897

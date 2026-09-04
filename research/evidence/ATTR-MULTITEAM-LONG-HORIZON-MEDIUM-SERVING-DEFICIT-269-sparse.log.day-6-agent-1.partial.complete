@@ -1,0 +1,26 @@
+case_begin day=6 agent=1 started=2026-08-31T13:22:12.7242029+00:00 max_states=50000 max_routes=64
+ledger_before=7/35/187
+day_score=7/7/37
+score_after=7/42/224
+agent=0 kind=patrol claims=8 served=7 path_steps=96 raw_path_fuel=49 initial_fuel=168 spots=4:4,13:6,3:3,5:5,10:3,15:1,12:5,11:4 terminal=146:186
+agent=1 kind=patrol claims=7 served=5 path_steps=96 raw_path_fuel=49 initial_fuel=188 spots=12:5,13:6,3:3,5:5,10:3,15:1,14:0 terminal=230:187
+agent=2 kind=patrol claims=9 served=9 path_steps=96 raw_path_fuel=58 initial_fuel=188 spots=14:0,13:6,3:3,5:5,10:3,15:1,12:5,11:4,2:2 terminal=104:174
+agent=3 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=4 initial_fuel=192 spots= terminal=242:192
+agent=4 kind=patrol claims=10 served=9 path_steps=96 raw_path_fuel=62 initial_fuel=188 spots=14:0,13:6,3:3,5:5,10:3,15:1,12:5,11:4,2:2,4:4 terminal=138:170
+agent=5 kind=patrol claims=8 served=7 path_steps=96 raw_path_fuel=42 initial_fuel=166 spots=3:3,5:5,10:3,15:1,12:5,14:0,13:6,4:4 terminal=138:172
+spot=2 brand=2 cell=104 stock=2 served=2 denied=0 agents=2S,4S
+spot=3 brand=3 cell=134 stock=4 served=4 denied=1 agents=5S,2S,4S,0S,1D
+spot=4 brand=4 cell=138 stock=1 served=1 denied=2 agents=0S,5D,4D
+spot=5 brand=5 cell=52 stock=6 served=5 denied=0 agents=5S,2S,4S,0S,1S
+spot=10 brand=3 cell=33 stock=6 served=5 denied=0 agents=5S,2S,4S,0S,1S
+spot=11 brand=4 cell=146 stock=3 served=3 denied=0 agents=2S,4S,0S
+spot=12 brand=5 cell=242 stock=4 served=4 denied=1 agents=1S,5S,2S,4S,0D
+spot=13 brand=6 cell=251 stock=6 served=5 denied=0 agents=2S,4S,0S,1S,5S
+spot=14 brand=0 cell=230 stock=3 served=3 denied=1 agents=2S,4S,5S,1D
+spot=15 brand=1 cell=180 stock=6 served=5 denied=0 agents=5S,2S,4S,0S,1S
+sparse_agent=1 cap=50000 settled=50000 labels=51664 emitted_masks=211 protected_masks=26 retained=87 valid=87 best=7/42/227 mask=0x9F7D protected=7/42/224 protected_mask=0x0
+sparse_global_best=7/42/227 baseline=7/42/224 agent=1 mask=0x9F7D
+sparse_protected_best=7/42/224 baseline=7/42/224 agent=-1 mask=0x0
+sparse_best_plan=[[-1,3,4,4,4,3,3,3,0,5,0,0,0,0,0,0,0,0,0,0,0,0,5,5,3,3,3,3,4,4,3,3,3,4,4,4,4,0,0,0,1,1,1,-18],[-1,1,1,1,1,0,0,5,2,2,1,2,2,2,1,1,2,3,3,2,2,2,2,2,0,0,1,1,0,0,0,5,5,5,5,5,0,5,5,4,4,4,5,0,5,5,-6],[-1,2,2,2,2,3,0,5,0,0,0,0,0,0,0,0,0,0,0,0,5,5,3,3,3,3,4,4,3,3,3,4,4,4,4,0,0,0,1,1,1,2,2,2,2,2,1,1,1,-7],[4,4,4,4,-88],[-1,2,2,2,2,3,0,5,0,0,0,0,0,0,0,0,0,0,0,0,5,5,3,3,3,3,4,4,3,3,3,4,4,4,4,0,0,0,1,1,1,2,2,2,2,2,1,1,1,3,3,2,-2],[-1,0,0,0,0,0,0,5,5,3,3,3,3,4,4,3,3,3,4,4,4,4,2,2,2,1,2,2,2,2,2,3,0,0,0,0,1,1,1,-23]]
+case_complete day=6 agent=1 exit=0
+case_elapsed_ms day=6 agent=1 value=72

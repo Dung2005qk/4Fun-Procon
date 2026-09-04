@@ -1,0 +1,32 @@
+case_id=01-m6134-d1 replay=m-6134-ab3d699-series.jsonl day=1 stratum=early started_unix_ms=1788192133702
+ledger_before=0/0/0
+day_score=7/7/36
+score_after=7/7/36
+agent=0 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=43 initial_fuel=192 spots=5:5,2:2,3:3,15:1,12:5,14:0,13:6 terminal=251:149
+agent=1 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=60 initial_fuel=192 spots=13:6,3:3,5:5,15:1,12:5,10:3,11:4 terminal=146:184
+agent=2 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=58 initial_fuel=192 spots=13:6,3:3,5:5,15:1,12:5,10:3,11:4 terminal=146:184
+agent=3 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=11 initial_fuel=192 spots= terminal=33:192
+agent=4 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=61 initial_fuel=192 spots=2:2,5:5,13:6,3:3,10:3,11:4,15:1,14:0 terminal=230:177
+agent=5 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=65 initial_fuel=192 spots=5:5,15:1,12:5,10:3,9:2,4:4,6:6 terminal=143:158
+spot=2 brand=2 cell=104 stock=2 served=2 denied=0 agents=4S,0S
+spot=3 brand=3 cell=134 stock=4 served=4 denied=0 agents=2S,1S,0S,4S
+spot=4 brand=4 cell=138 stock=1 served=1 denied=0 agents=5S
+spot=5 brand=5 cell=52 stock=6 served=5 denied=0 agents=5S,0S,4S,2S,1S
+spot=6 brand=6 cell=143 stock=1 served=1 denied=0 agents=5S
+spot=9 brand=2 cell=6 stock=1 served=1 denied=0 agents=5S
+spot=10 brand=3 cell=33 stock=6 served=4 denied=0 agents=5S,4S,2S,1S
+spot=11 brand=4 cell=146 stock=3 served=3 denied=0 agents=4S,2S,1S
+spot=12 brand=5 cell=242 stock=4 served=4 denied=0 agents=5S,0S,2S,1S
+spot=13 brand=6 cell=251 stock=6 served=4 denied=0 agents=2S,1S,4S,0S
+spot=14 brand=0 cell=230 stock=3 served=2 denied=0 agents=0S,4S
+spot=15 brand=1 cell=180 stock=6 served=5 denied=0 agents=5S,0S,2S,1S,4S
+sparse_agent=0 cap=50000 settled=50000 labels=50897 emitted_masks=132 protected_masks=37 retained=55 valid=55 best=7/7/39 mask=0xEFAE protected=7/7/36 protected_mask=0x0
+sparse_agent=1 cap=50000 settled=50000 labels=50858 emitted_masks=160 protected_masks=27 retained=59 valid=59 best=7/7/39 mask=0xEDBE protected=7/7/36 protected_mask=0x0
+sparse_agent=2 cap=50000 settled=50000 labels=50841 emitted_masks=87 protected_masks=32 retained=64 valid=64 best=7/7/39 mask=0xEFBE protected=7/7/36 protected_mask=0x0
+sparse_agent=4 cap=50000 settled=50000 labels=50879 emitted_masks=134 protected_masks=36 retained=56 valid=56 best=7/7/39 mask=0xEFAE protected=7/7/36 protected_mask=0x0
+sparse_agent=5 cap=50000 settled=50000 labels=50637 emitted_masks=126 protected_masks=37 retained=59 valid=59 best=7/7/39 mask=0xAFFE protected=7/7/36 protected_mask=0x0
+sparse_global_best=7/7/39 baseline=7/7/36 agent=0 mask=0xEFAE
+sparse_protected_best=7/7/36 baseline=7/7/36 agent=-1 mask=0x0
+sparse_best_plan=[[4,5,5,4,4,4,5,4,4,0,0,5,0,1,1,1,1,1,0,5,5,1,1,2,2,2,2,2,2,3,5,4,4,3,4,3,4,3,3,3,4,4,4,4,2,2,2,2,3,1,1,2,2,3,3,-2],[3,4,3,3,3,0,5,0,0,0,0,0,0,0,0,0,0,0,3,3,4,4,4,3,3,4,4,4,4,4,1,1,0,1,1,1,0,0,0,0,0,0,1,3,3,3,3,4,4,4,-6],[4,4,4,0,5,0,0,0,0,0,0,0,0,0,0,0,3,3,4,4,4,3,3,4,4,4,4,4,1,1,0,1,1,1,0,0,0,0,0,0,1,3,3,3,3,4,4,4,-8],[0,5,0,0,5,5,5,5,5,-80],[0,5,0,0,0,5,5,2,3,3,3,3,3,3,3,3,3,3,3,3,0,5,0,0,0,0,0,0,0,0,0,0,0,0,5,5,3,3,3,3,4,4,4,2,3,3,3,3,3,2,-7],[5,5,3,3,4,4,4,3,3,4,4,4,4,4,1,1,0,1,1,1,0,0,0,0,0,0,1,1,1,2,2,2,2,3,3,4,3,4,3,3,3,2,2,3,2,2,2,2,1,-14]]
+stage_membership strict=1 changed_agents=1 agent=0 route_present=0 full_plan_present=0 baseline=7/7/36 sparse=7/7/39 portfolio_columns=96 agent_columns=16 exact_supported=0 exact_bundles=0 candidates=32 combinations=1356 master_complete=1 master_deadline=0
+case_complete=01-m6134-d1 exit_code=0 elapsed_ms=561

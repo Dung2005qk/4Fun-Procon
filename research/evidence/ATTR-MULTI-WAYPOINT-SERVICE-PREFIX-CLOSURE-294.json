@@ -1,0 +1,1572 @@
+{
+  "atomicity_failures_287": 2,
+  "authority": "consumed-attribution-only",
+  "evidence_286": {
+    "classes": {
+      "consumer-only": {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "first_difference_gain_mass": 0,
+        "first_difference_loss_mass": 0,
+        "fuels": [
+          "low"
+        ],
+        "players": [
+          8
+        ],
+        "seeds": [
+          9960000
+        ],
+        "suites": [
+          "general"
+        ],
+        "wtl": {
+          "loss": 0,
+          "tie": 1,
+          "win": 0
+        }
+      },
+      "inactive": {
+        "aggregate_delta": [
+          0,
+          0,
+          18
+        ],
+        "first_difference_gain_mass": 19,
+        "first_difference_loss_mass": 1,
+        "fuels": [
+          "default",
+          "generated",
+          "high",
+          "low"
+        ],
+        "players": [
+          8,
+          9,
+          10
+        ],
+        "seeds": [
+          9960001,
+          9960002,
+          9960100,
+          9960101,
+          9961001,
+          9961002,
+          9961100,
+          9961101,
+          9961102,
+          9962000,
+          9962001,
+          9962101,
+          9963101,
+          9965001,
+          9965100
+        ],
+        "suites": [
+          "general",
+          "multiteam-12",
+          "multiteam-16",
+          "multiteam-24"
+        ],
+        "wtl": {
+          "loss": 1,
+          "tie": 9,
+          "win": 5
+        }
+      },
+      "matched-provider-consumer": {
+        "aggregate_delta": [
+          0,
+          0,
+          133
+        ],
+        "first_difference_gain_mass": 133,
+        "first_difference_loss_mass": 0,
+        "fuels": [
+          "generated",
+          "low"
+        ],
+        "players": [
+          9,
+          10
+        ],
+        "seeds": [
+          9960102,
+          9964000,
+          9964001,
+          9965000
+        ],
+        "suites": [
+          "general",
+          "multiteam-24",
+          "multiteam-32"
+        ],
+        "wtl": {
+          "loss": 0,
+          "tie": 1,
+          "win": 3
+        }
+      },
+      "orphan-provider": {
+        "aggregate_delta": [
+          0,
+          0,
+          -1
+        ],
+        "first_difference_gain_mass": 18,
+        "first_difference_loss_mass": 19,
+        "fuels": [
+          "default",
+          "generated",
+          "high",
+          "low"
+        ],
+        "players": [
+          8,
+          9,
+          10
+        ],
+        "seeds": [
+          9961000,
+          9962002,
+          9962100,
+          9962102,
+          9963000,
+          9963001,
+          9963100,
+          9964100,
+          9964101,
+          9965101
+        ],
+        "suites": [
+          "multiteam-12",
+          "multiteam-16",
+          "multiteam-24",
+          "multiteam-32"
+        ],
+        "wtl": {
+          "loss": 5,
+          "tie": 1,
+          "win": 4
+        }
+      }
+    },
+    "pairs": [
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "consumer-only",
+        "experiment": "286",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "low",
+        "outcome": "tie",
+        "players": 8,
+        "role_mask": 1,
+        "seed": 9960000,
+        "selected_consumers": 2,
+        "selected_providers": 0,
+        "suite": "general"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          -1
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "286",
+        "first_difference_delta": -1,
+        "first_difference_tier": 3,
+        "fuel": "low",
+        "outcome": "loss",
+        "players": 8,
+        "role_mask": 1,
+        "seed": 9960001,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "general"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "286",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "low",
+        "outcome": "tie",
+        "players": 8,
+        "role_mask": 1,
+        "seed": 9960002,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "general"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "286",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "generated",
+        "outcome": "tie",
+        "players": 9,
+        "role_mask": 2,
+        "seed": 9960100,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "general"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "286",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "generated",
+        "outcome": "tie",
+        "players": 9,
+        "role_mask": 2,
+        "seed": 9960101,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "general"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "matched-provider-consumer",
+        "experiment": "286",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "generated",
+        "outcome": "tie",
+        "players": 9,
+        "role_mask": 2,
+        "seed": 9960102,
+        "selected_consumers": 3,
+        "selected_providers": 1,
+        "suite": "general"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "orphan-provider",
+        "experiment": "286",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "low",
+        "outcome": "tie",
+        "players": 10,
+        "role_mask": 4,
+        "seed": 9961000,
+        "selected_consumers": 0,
+        "selected_providers": 1,
+        "suite": "multiteam-12"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "286",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "low",
+        "outcome": "tie",
+        "players": 10,
+        "role_mask": 4,
+        "seed": 9961001,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-12"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          4
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "286",
+        "first_difference_delta": 4,
+        "first_difference_tier": 3,
+        "fuel": "low",
+        "outcome": "win",
+        "players": 10,
+        "role_mask": 4,
+        "seed": 9961002,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-12"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "286",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "high",
+        "outcome": "tie",
+        "players": 8,
+        "role_mask": 8,
+        "seed": 9961100,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-12"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "286",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "high",
+        "outcome": "tie",
+        "players": 8,
+        "role_mask": 8,
+        "seed": 9961101,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-12"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "286",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "high",
+        "outcome": "tie",
+        "players": 8,
+        "role_mask": 8,
+        "seed": 9961102,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-12"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "286",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "default",
+        "outcome": "tie",
+        "players": 9,
+        "role_mask": 1,
+        "seed": 9962000,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-16"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          2
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "286",
+        "first_difference_delta": 2,
+        "first_difference_tier": 3,
+        "fuel": "default",
+        "outcome": "win",
+        "players": 9,
+        "role_mask": 1,
+        "seed": 9962001,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-16"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          -6
+        ],
+        "atomicity_failures": 0,
+        "class": "orphan-provider",
+        "experiment": "286",
+        "first_difference_delta": -6,
+        "first_difference_tier": 3,
+        "fuel": "default",
+        "outcome": "loss",
+        "players": 9,
+        "role_mask": 1,
+        "seed": 9962002,
+        "selected_consumers": 0,
+        "selected_providers": 1,
+        "suite": "multiteam-16"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          4
+        ],
+        "atomicity_failures": 0,
+        "class": "orphan-provider",
+        "experiment": "286",
+        "first_difference_delta": 4,
+        "first_difference_tier": 3,
+        "fuel": "low",
+        "outcome": "win",
+        "players": 10,
+        "role_mask": 16,
+        "seed": 9962100,
+        "selected_consumers": 0,
+        "selected_providers": 1,
+        "suite": "multiteam-16"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "286",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "low",
+        "outcome": "tie",
+        "players": 10,
+        "role_mask": 16,
+        "seed": 9962101,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-16"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          -4
+        ],
+        "atomicity_failures": 0,
+        "class": "orphan-provider",
+        "experiment": "286",
+        "first_difference_delta": -4,
+        "first_difference_tier": 3,
+        "fuel": "low",
+        "outcome": "loss",
+        "players": 10,
+        "role_mask": 16,
+        "seed": 9962102,
+        "selected_consumers": 0,
+        "selected_providers": 1,
+        "suite": "multiteam-16"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          8
+        ],
+        "atomicity_failures": 0,
+        "class": "orphan-provider",
+        "experiment": "286",
+        "first_difference_delta": 8,
+        "first_difference_tier": 3,
+        "fuel": "high",
+        "outcome": "win",
+        "players": 8,
+        "role_mask": 2,
+        "seed": 9963000,
+        "selected_consumers": 0,
+        "selected_providers": 1,
+        "suite": "multiteam-24"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          4
+        ],
+        "atomicity_failures": 0,
+        "class": "orphan-provider",
+        "experiment": "286",
+        "first_difference_delta": 4,
+        "first_difference_tier": 3,
+        "fuel": "high",
+        "outcome": "win",
+        "players": 8,
+        "role_mask": 2,
+        "seed": 9963001,
+        "selected_consumers": 0,
+        "selected_providers": 2,
+        "suite": "multiteam-24"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          -1
+        ],
+        "atomicity_failures": 0,
+        "class": "orphan-provider",
+        "experiment": "286",
+        "first_difference_delta": -1,
+        "first_difference_tier": 3,
+        "fuel": "default",
+        "outcome": "loss",
+        "players": 9,
+        "role_mask": 32,
+        "seed": 9963100,
+        "selected_consumers": 0,
+        "selected_providers": 1,
+        "suite": "multiteam-24"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          7
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "286",
+        "first_difference_delta": 7,
+        "first_difference_tier": 3,
+        "fuel": "default",
+        "outcome": "win",
+        "players": 9,
+        "role_mask": 32,
+        "seed": 9963101,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-24"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          29
+        ],
+        "atomicity_failures": 0,
+        "class": "matched-provider-consumer",
+        "experiment": "286",
+        "first_difference_delta": 29,
+        "first_difference_tier": 3,
+        "fuel": "low",
+        "outcome": "win",
+        "players": 10,
+        "role_mask": 4,
+        "seed": 9964000,
+        "selected_consumers": 5,
+        "selected_providers": 4,
+        "suite": "multiteam-32"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          80
+        ],
+        "atomicity_failures": 0,
+        "class": "matched-provider-consumer",
+        "experiment": "286",
+        "first_difference_delta": 80,
+        "first_difference_tier": 3,
+        "fuel": "low",
+        "outcome": "win",
+        "players": 10,
+        "role_mask": 4,
+        "seed": 9964001,
+        "selected_consumers": 3,
+        "selected_providers": 2,
+        "suite": "multiteam-32"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          2
+        ],
+        "atomicity_failures": 0,
+        "class": "orphan-provider",
+        "experiment": "286",
+        "first_difference_delta": 2,
+        "first_difference_tier": 3,
+        "fuel": "high",
+        "outcome": "win",
+        "players": 8,
+        "role_mask": 64,
+        "seed": 9964100,
+        "selected_consumers": 0,
+        "selected_providers": 3,
+        "suite": "multiteam-32"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          -7
+        ],
+        "atomicity_failures": 0,
+        "class": "orphan-provider",
+        "experiment": "286",
+        "first_difference_delta": -7,
+        "first_difference_tier": 3,
+        "fuel": "high",
+        "outcome": "loss",
+        "players": 8,
+        "role_mask": 64,
+        "seed": 9964101,
+        "selected_consumers": 0,
+        "selected_providers": 4,
+        "suite": "multiteam-32"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          24
+        ],
+        "atomicity_failures": 0,
+        "class": "matched-provider-consumer",
+        "experiment": "286",
+        "first_difference_delta": 24,
+        "first_difference_tier": 3,
+        "fuel": "generated",
+        "outcome": "win",
+        "players": 10,
+        "role_mask": 8,
+        "seed": 9965000,
+        "selected_consumers": 1,
+        "selected_providers": 1,
+        "suite": "multiteam-24"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          3
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "286",
+        "first_difference_delta": 3,
+        "first_difference_tier": 3,
+        "fuel": "generated",
+        "outcome": "win",
+        "players": 10,
+        "role_mask": 8,
+        "seed": 9965001,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-24"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          3
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "286",
+        "first_difference_delta": 3,
+        "first_difference_tier": 3,
+        "fuel": "generated",
+        "outcome": "win",
+        "players": 9,
+        "role_mask": 2,
+        "seed": 9965100,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-16"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          -1
+        ],
+        "atomicity_failures": 0,
+        "class": "orphan-provider",
+        "experiment": "286",
+        "first_difference_delta": -1,
+        "first_difference_tier": 3,
+        "fuel": "generated",
+        "outcome": "loss",
+        "players": 9,
+        "role_mask": 2,
+        "seed": 9965101,
+        "selected_consumers": 0,
+        "selected_providers": 1,
+        "suite": "multiteam-16"
+      }
+    ]
+  },
+  "evidence_287": {
+    "classes": {
+      "inactive": {
+        "aggregate_delta": [
+          0,
+          1,
+          38
+        ],
+        "first_difference_gain_mass": 58,
+        "first_difference_loss_mass": 20,
+        "fuels": [
+          "default",
+          "generated",
+          "high",
+          "low"
+        ],
+        "players": [
+          8,
+          9,
+          10
+        ],
+        "seeds": [
+          9980000,
+          9980001,
+          9980002,
+          9980100,
+          9980101,
+          9980102,
+          9981000,
+          9981001,
+          9981002,
+          9981100,
+          9981101,
+          9981102,
+          9982000,
+          9982001,
+          9982002,
+          9982100,
+          9982101,
+          9982102,
+          9983000,
+          9983001,
+          9983100,
+          9983101,
+          9984000,
+          9984100,
+          9984101,
+          9985000,
+          9985001,
+          9985100,
+          9985101
+        ],
+        "suites": [
+          "general",
+          "multiteam-12",
+          "multiteam-16",
+          "multiteam-24",
+          "multiteam-32"
+        ],
+        "wtl": {
+          "loss": 8,
+          "tie": 12,
+          "win": 9
+        }
+      },
+      "matched-provider-consumer": {
+        "aggregate_delta": [
+          0,
+          0,
+          7
+        ],
+        "first_difference_gain_mass": 7,
+        "first_difference_loss_mass": 0,
+        "fuels": [
+          "low"
+        ],
+        "players": [
+          10
+        ],
+        "seeds": [
+          9984001
+        ],
+        "suites": [
+          "multiteam-32"
+        ],
+        "wtl": {
+          "loss": 0,
+          "tie": 0,
+          "win": 1
+        }
+      }
+    },
+    "pairs": [
+      {
+        "aggregate_delta": [
+          0,
+          1,
+          1
+        ],
+        "atomicity_failures": 2,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 1,
+        "first_difference_tier": 2,
+        "fuel": "low",
+        "outcome": "win",
+        "players": 8,
+        "role_mask": 1,
+        "seed": 9980000,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "general"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          1
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 1,
+        "first_difference_tier": 3,
+        "fuel": "low",
+        "outcome": "win",
+        "players": 8,
+        "role_mask": 1,
+        "seed": 9980001,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "general"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "low",
+        "outcome": "tie",
+        "players": 8,
+        "role_mask": 1,
+        "seed": 9980002,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "general"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "generated",
+        "outcome": "tie",
+        "players": 9,
+        "role_mask": 2,
+        "seed": 9980100,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "general"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "generated",
+        "outcome": "tie",
+        "players": 9,
+        "role_mask": 2,
+        "seed": 9980101,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "general"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "generated",
+        "outcome": "tie",
+        "players": 9,
+        "role_mask": 2,
+        "seed": 9980102,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "general"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          -2
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": -2,
+        "first_difference_tier": 3,
+        "fuel": "low",
+        "outcome": "loss",
+        "players": 10,
+        "role_mask": 4,
+        "seed": 9981000,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-12"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "low",
+        "outcome": "tie",
+        "players": 10,
+        "role_mask": 4,
+        "seed": 9981001,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-12"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          3
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 3,
+        "first_difference_tier": 3,
+        "fuel": "low",
+        "outcome": "win",
+        "players": 10,
+        "role_mask": 4,
+        "seed": 9981002,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-12"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "high",
+        "outcome": "tie",
+        "players": 8,
+        "role_mask": 8,
+        "seed": 9981100,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-12"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "high",
+        "outcome": "tie",
+        "players": 8,
+        "role_mask": 8,
+        "seed": 9981101,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-12"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "high",
+        "outcome": "tie",
+        "players": 8,
+        "role_mask": 8,
+        "seed": 9981102,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-12"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          -1
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": -1,
+        "first_difference_tier": 3,
+        "fuel": "default",
+        "outcome": "loss",
+        "players": 9,
+        "role_mask": 1,
+        "seed": 9982000,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-16"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "default",
+        "outcome": "tie",
+        "players": 9,
+        "role_mask": 1,
+        "seed": 9982001,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-16"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          1
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 1,
+        "first_difference_tier": 3,
+        "fuel": "default",
+        "outcome": "win",
+        "players": 9,
+        "role_mask": 1,
+        "seed": 9982002,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-16"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "low",
+        "outcome": "tie",
+        "players": 10,
+        "role_mask": 16,
+        "seed": 9982100,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-16"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          -1
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": -1,
+        "first_difference_tier": 3,
+        "fuel": "low",
+        "outcome": "loss",
+        "players": 10,
+        "role_mask": 16,
+        "seed": 9982101,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-16"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          3
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 3,
+        "first_difference_tier": 3,
+        "fuel": "low",
+        "outcome": "win",
+        "players": 10,
+        "role_mask": 16,
+        "seed": 9982102,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-16"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          -1
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": -1,
+        "first_difference_tier": 3,
+        "fuel": "high",
+        "outcome": "loss",
+        "players": 8,
+        "role_mask": 2,
+        "seed": 9983000,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-24"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          4
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 4,
+        "first_difference_tier": 3,
+        "fuel": "high",
+        "outcome": "win",
+        "players": 8,
+        "role_mask": 2,
+        "seed": 9983001,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-24"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "default",
+        "outcome": "tie",
+        "players": 9,
+        "role_mask": 32,
+        "seed": 9983100,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-24"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          0
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 0,
+        "first_difference_tier": 0,
+        "fuel": "default",
+        "outcome": "tie",
+        "players": 9,
+        "role_mask": 32,
+        "seed": 9983101,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-24"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          36
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 36,
+        "first_difference_tier": 3,
+        "fuel": "low",
+        "outcome": "win",
+        "players": 10,
+        "role_mask": 4,
+        "seed": 9984000,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-32"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          7
+        ],
+        "atomicity_failures": 0,
+        "class": "matched-provider-consumer",
+        "experiment": "287",
+        "first_difference_delta": 7,
+        "first_difference_tier": 3,
+        "fuel": "low",
+        "outcome": "win",
+        "players": 10,
+        "role_mask": 4,
+        "seed": 9984001,
+        "selected_consumers": 2,
+        "selected_providers": 1,
+        "suite": "multiteam-32"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          -3
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": -3,
+        "first_difference_tier": 3,
+        "fuel": "high",
+        "outcome": "loss",
+        "players": 8,
+        "role_mask": 64,
+        "seed": 9984100,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-32"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          -3
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": -3,
+        "first_difference_tier": 3,
+        "fuel": "high",
+        "outcome": "loss",
+        "players": 8,
+        "role_mask": 64,
+        "seed": 9984101,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-32"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          8
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 8,
+        "first_difference_tier": 3,
+        "fuel": "generated",
+        "outcome": "win",
+        "players": 10,
+        "role_mask": 8,
+        "seed": 9985000,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-24"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          -3
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": -3,
+        "first_difference_tier": 3,
+        "fuel": "generated",
+        "outcome": "loss",
+        "players": 10,
+        "role_mask": 8,
+        "seed": 9985001,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-24"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          1
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": 1,
+        "first_difference_tier": 3,
+        "fuel": "generated",
+        "outcome": "win",
+        "players": 9,
+        "role_mask": 2,
+        "seed": 9985100,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-16"
+      },
+      {
+        "aggregate_delta": [
+          0,
+          0,
+          -6
+        ],
+        "atomicity_failures": 0,
+        "class": "inactive",
+        "experiment": "287",
+        "first_difference_delta": -6,
+        "first_difference_tier": 3,
+        "fuel": "generated",
+        "outcome": "loss",
+        "players": 9,
+        "role_mask": 2,
+        "seed": 9985101,
+        "selected_consumers": 0,
+        "selected_providers": 0,
+        "suite": "multiteam-16"
+      }
+    ]
+  },
+  "experiment": "ATTR-MULTI-WAYPOINT-SERVICE-PREFIX-CLOSURE-294",
+  "gate": {
+    "all_286_losses_worse_than_four_are_orphan_providers": true,
+    "all_frozen_artifacts_verified": true,
+    "fixed_287_group_is_unsafe_or_too_inert": true,
+    "matched_286_selection_has_no_loss": true,
+    "matched_286_selection_has_positive_gain_mass": true,
+    "matched_286_selection_spans_two_fuels": true,
+    "matched_286_selection_spans_two_suites": true,
+    "passed": true,
+    "source_proves_distinct_event_set_family": true
+  },
+  "limitations": [
+    "286/287 cases are consumed and cannot promote or tune a successor.",
+    "Selection counters are case aggregates, not per-event causal telemetry.",
+    "The recovered source audit authorizes a fresh test; it does not prove score benefit."
+  ],
+  "manifest_sha256": "75FAD77BE4960F7218456404BDDB86CEF2F695D537934AA2C26C2E01C03A0908",
+  "selected_complete_groups_287": 1,
+  "source_patch": {
+    "calls": {
+      "286": {
+        "122833": "call_VeaRr3PWDc6TpUARnOpUYjgG",
+        "122841": "call_Ex71lFJwwKLmVe60uG7wavOe",
+        "122846": "call_uxiTtcKLL0JejZ2nQxayusWi",
+        "122856": "call_96mQbgbariFqnWHINIBOy70f",
+        "122861": "call_FkBCe5Bf9yRyOjk3AStwqJNn",
+        "122866": "call_ldbUFMf8uTo25ai2aegeEUdl",
+        "122872": "call_xmJRVyzYqdHbO06ADuhUjYPx"
+      },
+      "287": {
+        "123293": "call_AwmvBNFYotXcqwREVvuutr1x",
+        "123298": "call_gTMcwdu48emVqo6VIVFXteHj",
+        "123303": "call_bqorXwV6Marv2R5iut9feQaK",
+        "123313": "call_l2mNS2NpcuIpxuuYUPHDiWcQ",
+        "123318": "call_tnB5gVCjp8xW683V6d3SOwae",
+        "123323": "call_B8eUU7arltcUnFnkUWRhQAsG",
+        "123333": "call_vcpPTQLjmpmoBXqw6ZbO6UlA",
+        "123342": "call_G6zdAcMZIirZ53WZiSgDJV90",
+        "123352": "call_yLrNefavf3CIk95rXDSaVAAh",
+        "123365": "call_uRSPhqsw8CYE2NIEl13ODHcJ"
+      }
+    },
+    "facts": {
+      "286_builds_two_exact_consumer_event_sets": true,
+      "286_enumerates_ordered_distinct_patrol_pairs": true,
+      "286_has_no_service_group_identity": true,
+      "287_has_no_two_agent_service_group": true,
+      "287_requires_exactly_three_agents": true,
+      "287_requires_full_fixed_group_mask": true,
+      "287_requires_one_provider_two_consumers": true
+    },
+    "path": "research\\evidence\\ATTR-MULTI-WAYPOINT-SERVICE-PREFIX-CLOSURE-294-source.patch",
+    "sha256": "D03A5483BB0F87990FB731D0BB1EDCD13A2DD5DD06EF98617C0E1A8C8C6A0CA3"
+  },
+  "successor_invariant": "Generate independently exact and revalidated one-event and two-event service groups before master selection. Each group owns immutable provider actions, event times, terminal state and road footprint; never truncate or rewrite a selected provider route.",
+  "tail_losses_286": [
+    {
+      "aggregate_delta": [
+        0,
+        0,
+        -6
+      ],
+      "atomicity_failures": 0,
+      "class": "orphan-provider",
+      "experiment": "286",
+      "first_difference_delta": -6,
+      "first_difference_tier": 3,
+      "fuel": "default",
+      "outcome": "loss",
+      "players": 9,
+      "role_mask": 1,
+      "seed": 9962002,
+      "selected_consumers": 0,
+      "selected_providers": 1,
+      "suite": "multiteam-16"
+    },
+    {
+      "aggregate_delta": [
+        0,
+        0,
+        -7
+      ],
+      "atomicity_failures": 0,
+      "class": "orphan-provider",
+      "experiment": "286",
+      "first_difference_delta": -7,
+      "first_difference_tier": 3,
+      "fuel": "high",
+      "outcome": "loss",
+      "players": 8,
+      "role_mask": 64,
+      "seed": 9964101,
+      "selected_consumers": 0,
+      "selected_providers": 4,
+      "suite": "multiteam-32"
+    }
+  ],
+  "verdict": "qualified-for-separate-fresh-score-successor",
+  "verified_artifacts": [
+    {
+      "path": "research\\evidence\\SCORE-MULTI-WAYPOINT-TANKER-PROVIDER-286-development.log",
+      "sha256": "E0671322A941559DB5D00BEB436674A6C25C6CB80A93D3AB3736BBC6043E07E1"
+    },
+    {
+      "path": "research\\evidence\\SCORE-MULTI-WAYPOINT-TANKER-PROVIDER-286-development-summary.json",
+      "sha256": "DC4686FB95439BD92B934793536434FB4EB76AD9AAE581A9D9B1E15FF4B5F0F8"
+    },
+    {
+      "path": "research\\evidence\\SCORE-ATOMIC-MULTI-WAYPOINT-TANKER-GROUP-287-development.log",
+      "sha256": "85D3618CD91D2326BBF94A71D3C1CE7B71E84324579AF6223565B1E04A6E4D7D"
+    },
+    {
+      "path": "research\\evidence\\SCORE-ATOMIC-MULTI-WAYPOINT-TANKER-GROUP-287-development-summary.txt",
+      "sha256": "CF4DBC55CDA84ACE425620AF37F463A068A43D386D143CBB252BFA179D2CD04B"
+    }
+  ]
+}

@@ -1,0 +1,186 @@
+case_begin replay=m-6134 day=1 stratum=early started=2026-08-31T15:29:58.0484579+00:00 max_actions=8 max_paths=4 labels=64
+ledger_before=0/0/0
+day_score=7/7/36
+score_after=7/7/36
+agent=0 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=43 initial_fuel=192 spots=5:5,2:2,3:3,15:1,12:5,14:0,13:6 terminal=251:149
+agent=1 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=60 initial_fuel=192 spots=13:6,3:3,5:5,15:1,12:5,10:3,11:4 terminal=146:184
+agent=2 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=58 initial_fuel=192 spots=13:6,3:3,5:5,15:1,12:5,10:3,11:4 terminal=146:184
+agent=3 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=11 initial_fuel=192 spots= terminal=33:192
+agent=4 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=61 initial_fuel=192 spots=2:2,5:5,13:6,3:3,10:3,11:4,15:1,14:0 terminal=230:177
+agent=5 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=65 initial_fuel=192 spots=5:5,15:1,12:5,10:3,9:2,4:4,6:6 terminal=143:158
+spot=2 brand=2 cell=104 stock=2 served=2 denied=0 agents=4S,0S
+spot=3 brand=3 cell=134 stock=4 served=4 denied=0 agents=2S,1S,0S,4S
+spot=4 brand=4 cell=138 stock=1 served=1 denied=0 agents=5S
+spot=5 brand=5 cell=52 stock=6 served=5 denied=0 agents=5S,0S,4S,2S,1S
+spot=6 brand=6 cell=143 stock=1 served=1 denied=0 agents=5S
+spot=9 brand=2 cell=6 stock=1 served=1 denied=0 agents=5S
+spot=10 brand=3 cell=33 stock=6 served=4 denied=0 agents=5S,4S,2S,1S
+spot=11 brand=4 cell=146 stock=3 served=3 denied=0 agents=4S,2S,1S
+spot=12 brand=5 cell=242 stock=4 served=4 denied=0 agents=5S,0S,2S,1S
+spot=13 brand=6 cell=251 stock=6 served=4 denied=0 agents=2S,1S,4S,0S
+spot=14 brand=0 cell=230 stock=3 served=2 denied=0 agents=0S,4S
+spot=15 brand=1 cell=180 stock=6 served=5 denied=0 agents=5S,0S,2S,1S,4S
+offroad_segment_summary max_actions=8 max_paths=4 labels=64 considered=1748 eligible=13 route_pairs=21 generated=1 invalid=0 validator_mismatch=0 valid=1 road_equal=1 state_dominating=1 strict_protected=0 parent=7/7/36 best=7/7/36 agent=-1 begin=0 end=0 spot=-1 duration=0 fuel_delta=0 incumbent_mutated=0
+case_complete replay=m-6134 day=1 exit=0
+case_elapsed_ms replay=m-6134 day=1 value=67
+
+case_begin replay=m-6134 day=4 stratum=middle started=2026-08-31T15:29:58.1391474+00:00 max_actions=8 max_paths=4 labels=64
+ledger_before=7/21/111
+day_score=7/7/38
+score_after=7/28/149
+agent=0 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=40 initial_fuel=188 spots=12:5,13:6,3:3,5:5,10:3,9:2,8:1 terminal=25:174
+agent=1 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=60 initial_fuel=188 spots=14:0,13:6,3:3,5:5,15:1,12:5,10:3,11:4 terminal=146:150
+agent=2 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=52 initial_fuel=182 spots=11:4,5:5,10:3,3:3,13:6,1:1,7:0,2:2 terminal=104:158
+agent=3 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=5 initial_fuel=192 spots= terminal=134:192
+agent=4 kind=patrol claims=8 served=6 path_steps=96 raw_path_fuel=61 initial_fuel=110 spots=0:0,13:6,3:3,5:5,15:1,12:5,11:4,2:2 terminal=104:155
+agent=5 kind=patrol claims=9 served=9 path_steps=96 raw_path_fuel=67 initial_fuel=168 spots=4:4,13:6,3:3,5:5,15:1,12:5,14:0,2:2,8:1 terminal=25:146
+spot=0 brand=0 cell=79 stock=6 served=1 denied=0 agents=4S
+spot=1 brand=1 cell=221 stock=4 served=1 denied=0 agents=2S
+spot=2 brand=2 cell=104 stock=2 served=2 denied=1 agents=2S,5S,4D
+spot=3 brand=3 cell=134 stock=4 served=4 denied=1 agents=1S,5S,0S,2S,4D
+spot=4 brand=4 cell=138 stock=1 served=1 denied=0 agents=5S
+spot=5 brand=5 cell=52 stock=6 served=5 denied=0 agents=2S,1S,5S,0S,4S
+spot=7 brand=0 cell=255 stock=6 served=1 denied=0 agents=2S
+spot=8 brand=1 cell=25 stock=3 served=2 denied=0 agents=0S,5S
+spot=9 brand=2 cell=6 stock=1 served=1 denied=0 agents=0S
+spot=10 brand=3 cell=33 stock=6 served=3 denied=0 agents=2S,0S,1S
+spot=11 brand=4 cell=146 stock=3 served=3 denied=0 agents=2S,4S,1S
+spot=12 brand=5 cell=242 stock=4 served=4 denied=0 agents=0S,1S,5S,4S
+spot=13 brand=6 cell=251 stock=6 served=5 denied=0 agents=1S,5S,0S,4S,2S
+spot=14 brand=0 cell=230 stock=3 served=2 denied=0 agents=1S,5S
+spot=15 brand=1 cell=180 stock=6 served=3 denied=0 agents=1S,5S,4S
+offroad_segment_summary max_actions=8 max_paths=4 labels=64 considered=1756 eligible=23 route_pairs=29 generated=13 invalid=0 validator_mismatch=0 valid=13 road_equal=13 state_dominating=13 strict_protected=0 parent=7/28/149 best=7/28/149 agent=-1 begin=0 end=0 spot=-1 duration=0 fuel_delta=0 incumbent_mutated=0
+case_complete replay=m-6134 day=4 exit=0
+case_elapsed_ms replay=m-6134 day=4 value=48
+
+case_begin replay=m-6134 day=8 stratum=late started=2026-08-31T15:29:58.1926320+00:00 max_actions=8 max_paths=4 labels=64
+ledger_before=7/49/261
+day_score=7/7/39
+score_after=7/56/300
+agent=0 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=40 initial_fuel=188 spots=12:5,13:6,3:3,5:5,10:3,9:2,8:1 terminal=25:182
+agent=1 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=46 initial_fuel=171 spots=2:2,5:5,10:3,15:1,12:5,14:0,13:6,4:4 terminal=138:157
+agent=2 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=68 initial_fuel=189 spots=11:4,5:5,10:3,13:6,3:3,2:2,8:1,0:0 terminal=79:134
+agent=3 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=11 initial_fuel=192 spots= terminal=33:192
+agent=4 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=60 initial_fuel=183 spots=14:0,13:6,3:3,5:5,15:1,12:5,10:3,11:4 terminal=146:184
+agent=5 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=60 initial_fuel=183 spots=14:0,13:6,3:3,5:5,15:1,12:5,10:3,11:4 terminal=146:184
+spot=0 brand=0 cell=79 stock=6 served=1 denied=0 agents=2S
+spot=2 brand=2 cell=104 stock=2 served=2 denied=0 agents=1S,2S
+spot=3 brand=3 cell=134 stock=4 served=4 denied=0 agents=4S,5S,0S,2S
+spot=4 brand=4 cell=138 stock=1 served=1 denied=0 agents=1S
+spot=5 brand=5 cell=52 stock=6 served=5 denied=0 agents=1S,2S,4S,5S,0S
+spot=8 brand=1 cell=25 stock=3 served=2 denied=0 agents=0S,2S
+spot=9 brand=2 cell=6 stock=1 served=1 denied=0 agents=0S
+spot=10 brand=3 cell=33 stock=6 served=5 denied=0 agents=1S,2S,0S,4S,5S
+spot=11 brand=4 cell=146 stock=3 served=3 denied=0 agents=2S,4S,5S
+spot=12 brand=5 cell=242 stock=4 served=4 denied=0 agents=0S,1S,4S,5S
+spot=13 brand=6 cell=251 stock=6 served=5 denied=0 agents=4S,5S,0S,2S,1S
+spot=14 brand=0 cell=230 stock=3 served=3 denied=0 agents=4S,5S,1S
+spot=15 brand=1 cell=180 stock=6 served=3 denied=0 agents=1S,4S,5S
+offroad_segment_summary max_actions=8 max_paths=4 labels=64 considered=1724 eligible=27 route_pairs=33 generated=11 invalid=0 validator_mismatch=0 valid=11 road_equal=11 state_dominating=11 strict_protected=0 parent=7/56/300 best=7/56/300 agent=-1 begin=0 end=0 spot=-1 duration=0 fuel_delta=0 incumbent_mutated=0
+case_complete replay=m-6134 day=8 exit=0
+case_elapsed_ms replay=m-6134 day=8 value=48
+
+case_begin replay=m-6213 day=1 stratum=early started=2026-08-31T15:29:58.2447915+00:00 max_actions=8 max_paths=4 labels=64
+ledger_before=0/0/0
+day_score=8/8/60
+score_after=8/8/60
+agent=0 kind=patrol claims=11 served=11 path_steps=144 raw_path_fuel=90 initial_fuel=432 spots=4:4,17:1,14:6,8:0,6:6,19:3,23:7,11:3,2:2,10:2,5:5 terminal=405:342
+agent=1 kind=patrol claims=8 served=8 path_steps=144 raw_path_fuel=62 initial_fuel=432 spots=8:0,6:6,19:3,4:4,2:2,9:1,7:7,5:5 terminal=405:397
+agent=2 kind=patrol claims=8 served=8 path_steps=144 raw_path_fuel=85 initial_fuel=432 spots=5:5,7:7,10:2,4:4,8:0,6:6,19:3,9:1 terminal=491:391
+agent=3 kind=patrol claims=9 served=9 path_steps=144 raw_path_fuel=125 initial_fuel=432 spots=5:5,17:1,7:7,10:2,4:4,8:0,6:6,19:3,3:3 terminal=434:406
+agent=4 kind=patrol claims=8 served=8 path_steps=144 raw_path_fuel=88 initial_fuel=432 spots=17:1,5:5,4:4,8:0,6:6,19:3,23:7,16:0 terminal=552:400
+agent=5 kind=tanker claims=0 served=0 path_steps=144 raw_path_fuel=4 initial_fuel=432 spots= terminal=104:432
+agent=6 kind=patrol claims=8 served=8 path_steps=144 raw_path_fuel=96 initial_fuel=432 spots=5:5,4:4,11:3,12:4,16:0,23:7,9:1,10:2 terminal=349:385
+agent=7 kind=patrol claims=8 served=8 path_steps=144 raw_path_fuel=67 initial_fuel=432 spots=6:6,8:0,19:3,4:4,2:2,9:1,7:7,5:5 terminal=405:397
+spot=2 brand=2 cell=249 stock=3 served=3 denied=0 agents=1S,7S,0S
+spot=3 brand=3 cell=434 stock=1 served=1 denied=0 agents=3S
+spot=4 brand=4 cell=104 stock=8 served=7 denied=0 agents=0S,1S,2S,6S,7S,4S,3S
+spot=5 brand=5 cell=405 stock=8 served=7 denied=0 agents=3S,2S,6S,4S,1S,7S,0S
+spot=6 brand=6 cell=194 stock=7 served=6 denied=0 agents=7S,1S,0S,2S,4S,3S
+spot=7 brand=7 cell=569 stock=7 served=4 denied=0 agents=2S,3S,1S,7S
+spot=8 brand=0 cell=49 stock=8 served=6 denied=0 agents=1S,7S,0S,2S,4S,3S
+spot=9 brand=1 cell=491 stock=5 served=4 denied=0 agents=1S,7S,2S,6S
+spot=10 brand=2 cell=349 stock=5 served=4 denied=0 agents=2S,3S,0S,6S
+spot=11 brand=3 cell=342 stock=2 served=2 denied=0 agents=6S,0S
+spot=12 brand=4 cell=533 stock=6 served=1 denied=0 agents=6S
+spot=14 brand=6 cell=10 stock=4 served=1 denied=0 agents=0S
+spot=16 brand=0 cell=552 stock=5 served=2 denied=0 agents=6S,4S
+spot=17 brand=1 cell=16 stock=8 served=3 denied=0 agents=4S,0S,3S
+spot=19 brand=3 cell=288 stock=6 served=6 denied=0 agents=1S,7S,0S,2S,4S,3S
+spot=23 brand=7 cell=529 stock=4 served=3 denied=0 agents=0S,6S,4S
+offroad_segment_summary max_actions=8 max_paths=4 labels=64 considered=3900 eligible=31 route_pairs=46 generated=3 invalid=0 validator_mismatch=0 valid=3 road_equal=3 state_dominating=3 strict_protected=0 parent=8/8/60 best=8/8/60 agent=-1 begin=0 end=0 spot=-1 duration=0 fuel_delta=0 incumbent_mutated=0
+case_complete replay=m-6213 day=1 exit=0
+case_elapsed_ms replay=m-6213 day=1 value=68
+
+case_begin replay=m-6213 day=5 stratum=middle started=2026-08-31T15:29:58.3168877+00:00 max_actions=8 max_paths=4 labels=64
+ledger_before=8/32/250
+day_score=8/8/60
+score_after=8/40/310
+agent=0 kind=patrol claims=8 served=8 path_steps=144 raw_path_fuel=71 initial_fuel=432 spots=8:0,14:6,17:1,6:6,19:3,23:7,12:4,10:2 terminal=349:361
+agent=1 kind=patrol claims=10 served=10 path_steps=144 raw_path_fuel=84 initial_fuel=399 spots=9:1,5:5,7:7,2:2,4:4,17:1,14:6,0:0,18:2,10:2 terminal=349:315
+agent=2 kind=patrol claims=8 served=8 path_steps=144 raw_path_fuel=71 initial_fuel=432 spots=8:0,14:6,17:1,6:6,19:3,23:7,12:4,10:2 terminal=349:361
+agent=3 kind=patrol claims=9 served=9 path_steps=144 raw_path_fuel=103 initial_fuel=381 spots=5:5,7:7,0:0,17:1,18:2,20:4,11:3,6:6,8:0 terminal=194:426
+agent=4 kind=patrol claims=9 served=9 path_steps=144 raw_path_fuel=76 initial_fuel=383 spots=13:5,5:5,7:7,2:2,4:4,8:0,6:6,19:3,9:1 terminal=491:399
+agent=5 kind=tanker claims=0 served=0 path_steps=144 raw_path_fuel=0 initial_fuel=432 spots= terminal=49:432
+agent=6 kind=patrol claims=8 served=8 path_steps=144 raw_path_fuel=72 initial_fuel=381 spots=5:5,7:7,2:2,4:4,8:0,6:6,19:3,9:1 terminal=491:399
+agent=7 kind=patrol claims=9 served=8 path_steps=144 raw_path_fuel=72 initial_fuel=432 spots=8:0,14:6,17:1,4:4,11:3,2:2,10:2,5:5,7:7 terminal=569:360
+spot=0 brand=0 cell=159 stock=7 served=2 denied=0 agents=3S,1S
+spot=2 brand=2 cell=249 stock=3 served=3 denied=1 agents=6S,4S,1S,7D
+spot=4 brand=4 cell=104 stock=8 served=4 denied=0 agents=7S,6S,4S,1S
+spot=5 brand=5 cell=405 stock=8 served=5 denied=0 agents=3S,6S,4S,1S,7S
+spot=6 brand=6 cell=194 stock=7 served=5 denied=0 agents=0S,2S,6S,4S,3S
+spot=7 brand=7 cell=569 stock=7 served=5 denied=0 agents=3S,6S,4S,1S,7S
+spot=8 brand=0 cell=49 stock=8 served=6 denied=0 agents=0S,2S,7S,6S,4S,3S
+spot=9 brand=1 cell=491 stock=5 served=3 denied=0 agents=1S,6S,4S
+spot=10 brand=2 cell=349 stock=5 served=4 denied=0 agents=7S,0S,2S,1S
+spot=11 brand=3 cell=342 stock=2 served=2 denied=0 agents=7S,3S
+spot=12 brand=4 cell=533 stock=6 served=2 denied=0 agents=0S,2S
+spot=13 brand=5 cell=503 stock=3 served=1 denied=0 agents=4S
+spot=14 brand=6 cell=10 stock=4 served=4 denied=0 agents=0S,2S,7S,1S
+spot=17 brand=1 cell=16 stock=8 served=5 denied=0 agents=0S,2S,7S,3S,1S
+spot=18 brand=2 cell=281 stock=3 served=2 denied=0 agents=3S,1S
+spot=19 brand=3 cell=288 stock=6 served=4 denied=0 agents=0S,2S,6S,4S
+spot=20 brand=4 cell=447 stock=4 served=1 denied=0 agents=3S
+spot=23 brand=7 cell=529 stock=4 served=2 denied=0 agents=0S,2S
+offroad_segment_summary max_actions=8 max_paths=4 labels=64 considered=3700 eligible=77 route_pairs=91 generated=49 invalid=0 validator_mismatch=0 valid=49 road_equal=49 state_dominating=48 strict_protected=0 parent=8/40/310 best=8/40/310 agent=-1 begin=0 end=0 spot=-1 duration=0 fuel_delta=0 incumbent_mutated=0
+case_complete replay=m-6213 day=5 exit=0
+case_elapsed_ms replay=m-6213 day=5 value=84
+
+case_begin replay=m-6213 day=8 stratum=late started=2026-08-31T15:29:58.4077800+00:00 max_actions=8 max_paths=4 labels=64
+ledger_before=8/56/437
+day_score=8/8/65
+score_after=8/64/502
+agent=0 kind=patrol claims=10 served=10 path_steps=144 raw_path_fuel=83 initial_fuel=303 spots=16:0,23:7,12:4,4:4,8:0,6:6,19:3,2:2,9:1,5:5 terminal=405:389
+agent=1 kind=patrol claims=9 served=9 path_steps=144 raw_path_fuel=72 initial_fuel=406 spots=8:0,14:6,17:1,4:4,11:3,2:2,10:2,5:5,7:7 terminal=569:334
+agent=2 kind=patrol claims=8 served=8 path_steps=144 raw_path_fuel=71 initial_fuel=406 spots=8:0,14:6,17:1,6:6,19:3,23:7,12:4,10:2 terminal=349:397
+agent=3 kind=patrol claims=8 served=8 path_steps=144 raw_path_fuel=71 initial_fuel=415 spots=8:0,14:6,17:1,6:6,19:3,23:7,12:4,10:2 terminal=349:397
+agent=4 kind=patrol claims=11 served=11 path_steps=144 raw_path_fuel=71 initial_fuel=426 spots=15:7,17:1,0:0,4:4,8:0,6:6,19:3,2:2,10:2,5:5,13:5 terminal=503:395
+agent=5 kind=tanker claims=0 served=0 path_steps=144 raw_path_fuel=19 initial_fuel=432 spots= terminal=194:432
+agent=6 kind=patrol claims=9 served=9 path_steps=144 raw_path_fuel=86 initial_fuel=423 spots=22:6,17:1,5:5,4:4,8:0,6:6,19:3,23:7,16:0 terminal=552:414
+agent=7 kind=patrol claims=10 served=10 path_steps=144 raw_path_fuel=111 initial_fuel=400 spots=13:5,5:5,7:7,0:0,17:1,18:2,20:4,11:3,6:6,8:0 terminal=194:432
+spot=0 brand=0 cell=159 stock=7 served=2 denied=0 agents=4S,7S
+spot=2 brand=2 cell=249 stock=3 served=3 denied=0 agents=1S,4S,0S
+spot=4 brand=4 cell=104 stock=8 served=4 denied=0 agents=4S,0S,1S,6S
+spot=5 brand=5 cell=405 stock=8 served=5 denied=0 agents=7S,6S,1S,4S,0S
+spot=6 brand=6 cell=194 stock=7 served=6 denied=0 agents=2S,3S,4S,0S,6S,7S
+spot=7 brand=7 cell=569 stock=7 served=2 denied=0 agents=7S,1S
+spot=8 brand=0 cell=49 stock=8 served=7 denied=0 agents=1S,2S,3S,4S,0S,6S,7S
+spot=9 brand=1 cell=491 stock=5 served=1 denied=0 agents=0S
+spot=10 brand=2 cell=349 stock=5 served=4 denied=0 agents=1S,4S,2S,3S
+spot=11 brand=3 cell=342 stock=2 served=2 denied=0 agents=1S,7S
+spot=12 brand=4 cell=533 stock=6 served=3 denied=0 agents=0S,2S,3S
+spot=13 brand=5 cell=503 stock=3 served=2 denied=0 agents=7S,4S
+spot=14 brand=6 cell=10 stock=4 served=3 denied=0 agents=1S,2S,3S
+spot=15 brand=7 cell=46 stock=3 served=1 denied=0 agents=4S
+spot=16 brand=0 cell=552 stock=5 served=2 denied=0 agents=0S,6S
+spot=17 brand=1 cell=16 stock=8 served=6 denied=0 agents=4S,6S,1S,2S,3S,7S
+spot=18 brand=2 cell=281 stock=3 served=1 denied=0 agents=7S
+spot=19 brand=3 cell=288 stock=6 served=5 denied=0 agents=2S,3S,4S,0S,6S
+spot=20 brand=4 cell=447 stock=4 served=1 denied=0 agents=7S
+spot=22 brand=6 cell=95 stock=2 served=1 denied=0 agents=6S
+spot=23 brand=7 cell=529 stock=4 served=4 denied=0 agents=0S,2S,3S,6S
+offroad_segment_summary max_actions=8 max_paths=4 labels=64 considered=3844 eligible=89 route_pairs=132 generated=59 invalid=0 validator_mismatch=0 valid=59 road_equal=59 state_dominating=59 strict_protected=0 parent=8/64/502 best=8/64/502 agent=-1 begin=0 end=0 spot=-1 duration=0 fuel_delta=0 incumbent_mutated=0
+case_complete replay=m-6213 day=8 exit=0
+case_elapsed_ms replay=m-6213 day=8 value=92
+
+run_complete cases=6 max_actions=8 max_paths=4 labels=64

@@ -1,0 +1,806 @@
+case_begin id=m8135-d1 replay=artifacts/btc/m-8135-ab3d699-series.jsonl day=1
+ledger_before=0/0/0
+day_score=3/3/50
+score_after=3/3/50
+agent=0 kind=patrol claims=7 served=7 path_steps=120 raw_path_fuel=76 initial_fuel=240 spots=20:2,4:1,11:2,6:0,21:0,2:2,17:2 terminal=4:164
+agent=1 kind=patrol claims=8 served=7 path_steps=120 raw_path_fuel=61 initial_fuel=240 spots=1:1,0:0,23:2,8:2,20:2,4:1,9:0,16:1 terminal=252:179
+agent=2 kind=patrol claims=7 served=7 path_steps=120 raw_path_fuel=88 initial_fuel=240 spots=20:2,23:2,8:2,11:2,3:0,10:1,22:1 terminal=431:152
+agent=3 kind=patrol claims=7 served=7 path_steps=120 raw_path_fuel=64 initial_fuel=240 spots=20:2,23:2,15:0,4:1,9:0,16:1,19:1 terminal=199:176
+agent=4 kind=patrol claims=7 served=7 path_steps=120 raw_path_fuel=98 initial_fuel=240 spots=20:2,6:0,9:0,11:2,10:1,22:1,13:1 terminal=475:142
+agent=5 kind=patrol claims=8 served=8 path_steps=120 raw_path_fuel=62 initial_fuel=240 spots=1:1,0:0,23:2,19:1,2:2,21:0,6:0,14:2 terminal=210:178
+agent=6 kind=patrol claims=7 served=7 path_steps=120 raw_path_fuel=65 initial_fuel=240 spots=1:1,6:0,8:2,23:2,15:0,20:2,4:1 terminal=519:175
+spot=0 brand=0 cell=290 stock=4 served=2 denied=0 agents=5S,1S
+spot=1 brand=1 cell=147 stock=6 served=3 denied=0 agents=5S,6S,1S
+spot=2 brand=2 cell=56 stock=4 served=2 denied=0 agents=0S,5S
+spot=3 brand=0 cell=46 stock=3 served=1 denied=0 agents=2S
+spot=4 brand=1 cell=519 stock=5 served=4 denied=0 agents=0S,3S,1S,6S
+spot=6 brand=0 cell=87 stock=7 served=4 denied=0 agents=4S,6S,0S,5S
+spot=8 brand=2 cell=483 stock=3 served=3 denied=0 agents=2S,1S,6S
+spot=9 brand=0 cell=350 stock=5 served=3 denied=0 agents=4S,3S,1S
+spot=10 brand=1 cell=333 stock=5 served=2 denied=0 agents=4S,2S
+spot=11 brand=2 cell=167 stock=7 served=3 denied=0 agents=0S,4S,2S
+spot=13 brand=1 cell=475 stock=4 served=1 denied=0 agents=4S
+spot=14 brand=2 cell=210 stock=4 served=1 denied=0 agents=5S
+spot=15 brand=0 cell=558 stock=3 served=2 denied=0 agents=3S,6S
+spot=16 brand=1 cell=252 stock=1 served=1 denied=1 agents=3S,1D
+spot=17 brand=2 cell=4 stock=1 served=1 denied=0 agents=0S
+spot=19 brand=1 cell=199 stock=4 served=2 denied=0 agents=5S,3S
+spot=20 brand=2 cell=490 stock=6 served=6 denied=0 agents=2S,4S,0S,3S,1S,6S
+spot=21 brand=0 cell=12 stock=3 served=2 denied=0 agents=0S,5S
+spot=22 brand=1 cell=431 stock=2 served=2 denied=0 agents=4S,2S
+spot=23 brand=2 cell=552 stock=7 served=5 denied=0 agents=2S,3S,5S,1S,6S
+factor_portfolio columns=12/12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=21 refuel=0 escort=0 bundle=21 reservation=0 brand=21
+factor_components constraint=[0,1,2,3,4,5,6] conservative=[0,1,2,3,4,5,6] conservative_largest=7 full_product=35831808 independent_work=35831808 reduction=1.000000
+case_complete id=m8135-d1 elapsed_ms=254
+case_begin id=m8135-d2 replay=artifacts/btc/m-8135-ab3d699-series.jsonl day=2
+ledger_before=3/3/50
+day_score=3/3/26
+score_after=3/6/76
+agent=0 kind=patrol claims=6 served=6 path_steps=120 raw_path_fuel=72 initial_fuel=164 spots=17:2,1:1,0:0,23:2,8:2,11:2 terminal=167:92
+agent=1 kind=patrol claims=3 served=3 path_steps=120 raw_path_fuel=23 initial_fuel=179 spots=16:1,6:0,11:2 terminal=167:156
+agent=2 kind=patrol claims=4 served=4 path_steps=120 raw_path_fuel=25 initial_fuel=152 spots=22:1,10:1,11:2,6:0 terminal=87:127
+agent=3 kind=patrol claims=4 served=3 path_steps=120 raw_path_fuel=42 initial_fuel=176 spots=19:1,16:1,11:2,6:0 terminal=87:134
+agent=4 kind=patrol claims=4 served=4 path_steps=120 raw_path_fuel=27 initial_fuel=142 spots=13:1,10:1,11:2,6:0 terminal=87:115
+agent=5 kind=patrol claims=3 served=3 path_steps=120 raw_path_fuel=20 initial_fuel=178 spots=14:2,6:0,11:2 terminal=167:158
+agent=6 kind=patrol claims=3 served=3 path_steps=120 raw_path_fuel=65 initial_fuel=175 spots=4:1,6:0,20:2 terminal=490:110
+spot=0 brand=0 cell=290 stock=4 served=1 denied=0 agents=0S
+spot=1 brand=1 cell=147 stock=6 served=1 denied=0 agents=0S
+spot=4 brand=1 cell=519 stock=5 served=1 denied=0 agents=6S
+spot=6 brand=0 cell=87 stock=7 served=6 denied=0 agents=5S,1S,6S,2S,3S,4S
+spot=8 brand=2 cell=483 stock=3 served=1 denied=0 agents=0S
+spot=10 brand=1 cell=333 stock=5 served=2 denied=0 agents=2S,4S
+spot=11 brand=2 cell=167 stock=7 served=6 denied=0 agents=2S,3S,4S,5S,1S,0S
+spot=13 brand=1 cell=475 stock=4 served=1 denied=0 agents=4S
+spot=14 brand=2 cell=210 stock=4 served=1 denied=0 agents=5S
+spot=16 brand=1 cell=252 stock=1 served=1 denied=1 agents=1S,3D
+spot=17 brand=2 cell=4 stock=1 served=1 denied=0 agents=0S
+spot=19 brand=1 cell=199 stock=4 served=1 denied=0 agents=3S
+spot=20 brand=2 cell=490 stock=6 served=1 denied=0 agents=6S
+spot=22 brand=1 cell=431 stock=2 served=1 denied=0 agents=2S
+spot=23 brand=2 cell=552 stock=7 served=1 denied=0 agents=0S
+factor_portfolio columns=12/12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=21 refuel=0 escort=0 bundle=21 reservation=0 brand=21
+factor_components constraint=[0,1,2,3,4,5,6] conservative=[0,1,2,3,4,5,6] conservative_largest=7 full_product=35831808 independent_work=35831808 reduction=1.000000
+case_complete id=m8135-d2 elapsed_ms=493
+case_begin id=m8135-d3 replay=artifacts/btc/m-8135-ab3d699-series.jsonl day=3
+ledger_before=3/6/76
+day_score=3/3/26
+score_after=3/9/102
+agent=0 kind=patrol claims=3 served=3 path_steps=120 raw_path_fuel=24 initial_fuel=92 spots=11:2,6:0,10:1 terminal=333:68
+agent=1 kind=patrol claims=3 served=3 path_steps=120 raw_path_fuel=24 initial_fuel=156 spots=11:2,6:0,10:1 terminal=333:132
+agent=2 kind=patrol claims=5 served=5 path_steps=120 raw_path_fuel=46 initial_fuel=127 spots=6:0,11:2,14:2,16:1,1:1 terminal=147:81
+agent=3 kind=patrol claims=5 served=4 path_steps=120 raw_path_fuel=46 initial_fuel=134 spots=6:0,11:2,14:2,16:1,1:1 terminal=147:88
+agent=4 kind=patrol claims=5 served=4 path_steps=120 raw_path_fuel=46 initial_fuel=115 spots=6:0,11:2,14:2,16:1,1:1 terminal=147:69
+agent=5 kind=patrol claims=3 served=3 path_steps=120 raw_path_fuel=24 initial_fuel=158 spots=11:2,6:0,10:1 terminal=333:134
+agent=6 kind=patrol claims=4 served=4 path_steps=120 raw_path_fuel=23 initial_fuel=110 spots=20:2,4:1,15:0,23:2 terminal=552:87
+spot=1 brand=1 cell=147 stock=6 served=3 denied=0 agents=2S,3S,4S
+spot=4 brand=1 cell=519 stock=5 served=1 denied=0 agents=6S
+spot=6 brand=0 cell=87 stock=7 served=6 denied=0 agents=2S,3S,4S,0S,1S,5S
+spot=10 brand=1 cell=333 stock=5 served=3 denied=0 agents=0S,1S,5S
+spot=11 brand=2 cell=167 stock=7 served=6 denied=0 agents=0S,1S,5S,2S,3S,4S
+spot=14 brand=2 cell=210 stock=4 served=3 denied=0 agents=2S,3S,4S
+spot=15 brand=0 cell=558 stock=3 served=1 denied=0 agents=6S
+spot=16 brand=1 cell=252 stock=1 served=1 denied=2 agents=2S,3D,4D
+spot=20 brand=2 cell=490 stock=6 served=1 denied=0 agents=6S
+spot=23 brand=2 cell=552 stock=7 served=1 denied=0 agents=6S
+factor_portfolio columns=12/12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=21 refuel=0 escort=0 bundle=21 reservation=0 brand=21
+factor_components constraint=[0,1,2,3,4,5,6] conservative=[0,1,2,3,4,5,6] conservative_largest=7 full_product=35831808 independent_work=35831808 reduction=1.000000
+case_complete id=m8135-d3 elapsed_ms=948
+case_begin id=m8135-d4 replay=artifacts/btc/m-8135-ab3d699-series.jsonl day=4
+ledger_before=3/9/102
+day_score=3/3/28
+score_after=3/12/130
+agent=0 kind=patrol claims=3 served=3 path_steps=120 raw_path_fuel=21 initial_fuel=68 spots=10:1,11:2,6:0 terminal=87:47
+agent=1 kind=patrol claims=3 served=3 path_steps=120 raw_path_fuel=21 initial_fuel=132 spots=10:1,11:2,6:0 terminal=87:111
+agent=2 kind=patrol claims=5 served=5 path_steps=120 raw_path_fuel=69 initial_fuel=81 spots=1:1,0:0,23:2,8:2,11:2 terminal=167:12
+agent=3 kind=patrol claims=5 served=5 path_steps=120 raw_path_fuel=69 initial_fuel=88 spots=1:1,0:0,23:2,8:2,11:2 terminal=167:19
+agent=4 kind=patrol claims=5 served=5 path_steps=120 raw_path_fuel=69 initial_fuel=69 spots=1:1,0:0,23:2,8:2,11:2 terminal=167:0
+agent=5 kind=patrol claims=3 served=3 path_steps=120 raw_path_fuel=21 initial_fuel=134 spots=10:1,11:2,6:0 terminal=87:113
+agent=6 kind=patrol claims=4 served=4 path_steps=120 raw_path_fuel=38 initial_fuel=87 spots=7:1,1:1,0:0,23:2 terminal=552:49
+spot=0 brand=0 cell=290 stock=4 served=4 denied=0 agents=2S,3S,4S,6S
+spot=1 brand=1 cell=147 stock=6 served=4 denied=0 agents=2S,3S,4S,6S
+spot=6 brand=0 cell=87 stock=7 served=3 denied=0 agents=0S,1S,5S
+spot=7 brand=1 cell=384 stock=3 served=1 denied=0 agents=6S
+spot=8 brand=2 cell=483 stock=3 served=3 denied=0 agents=2S,3S,4S
+spot=10 brand=1 cell=333 stock=5 served=3 denied=0 agents=0S,1S,5S
+spot=11 brand=2 cell=167 stock=7 served=6 denied=0 agents=0S,1S,5S,2S,3S,4S
+spot=23 brand=2 cell=552 stock=7 served=4 denied=0 agents=2S,3S,4S,6S
+factor_portfolio columns=12/12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=21 refuel=0 escort=0 bundle=21 reservation=0 brand=21
+factor_components constraint=[0,1,2,3,4,5,6] conservative=[0,1,2,3,4,5,6] conservative_largest=7 full_product=35831808 independent_work=35831808 reduction=1.000000
+case_complete id=m8135-d4 elapsed_ms=1183
+case_begin id=m8135-d5 replay=artifacts/btc/m-8135-ab3d699-series.jsonl day=5
+ledger_before=3/12/130
+day_score=3/3/52
+score_after=3/15/182
+agent=0 kind=patrol claims=10 served=10 path_steps=120 raw_path_fuel=47 initial_fuel=47 spots=6:0,21:0,2:2,19:1,1:1,0:0,7:1,8:2,15:0,20:2 terminal=490:0
+agent=1 kind=patrol claims=13 served=13 path_steps=120 raw_path_fuel=67 initial_fuel=111 spots=6:0,21:0,2:2,17:2,1:1,19:1,16:1,5:2,20:2,15:0,8:2,7:1,0:0 terminal=290:44
+agent=2 kind=patrol claims=3 served=3 path_steps=120 raw_path_fuel=12 initial_fuel=12 spots=11:2,3:0,14:2 terminal=210:0
+agent=3 kind=patrol claims=4 served=4 path_steps=120 raw_path_fuel=19 initial_fuel=19 spots=11:2,3:0,14:2,10:1 terminal=333:0
+agent=4 kind=patrol claims=1 served=1 path_steps=120 raw_path_fuel=0 initial_fuel=0 spots=11:2 terminal=167:0
+agent=5 kind=patrol claims=13 served=11 path_steps=120 raw_path_fuel=74 initial_fuel=113 spots=6:0,21:0,2:2,17:2,1:1,19:1,16:1,9:0,14:2,10:1,22:1,13:1,4:1 terminal=519:39
+agent=6 kind=patrol claims=10 served=10 path_steps=120 raw_path_fuel=49 initial_fuel=49 spots=23:2,8:2,15:0,20:2,4:1,13:1,22:1,10:1,14:2,6:0 terminal=87:0
+spot=0 brand=0 cell=290 stock=4 served=2 denied=0 agents=0S,1S
+spot=1 brand=1 cell=147 stock=6 served=3 denied=0 agents=0S,1S,5S
+spot=2 brand=2 cell=56 stock=4 served=3 denied=0 agents=0S,1S,5S
+spot=3 brand=0 cell=46 stock=3 served=2 denied=0 agents=2S,3S
+spot=4 brand=1 cell=519 stock=5 served=2 denied=0 agents=6S,5S
+spot=5 brand=2 cell=369 stock=3 served=1 denied=0 agents=1S
+spot=6 brand=0 cell=87 stock=7 served=4 denied=0 agents=0S,1S,5S,6S
+spot=7 brand=1 cell=384 stock=3 served=2 denied=0 agents=0S,1S
+spot=8 brand=2 cell=483 stock=3 served=3 denied=0 agents=6S,0S,1S
+spot=9 brand=0 cell=350 stock=5 served=1 denied=0 agents=5S
+spot=10 brand=1 cell=333 stock=5 served=3 denied=0 agents=3S,6S,5S
+spot=11 brand=2 cell=167 stock=7 served=3 denied=0 agents=2S,3S,4S
+spot=13 brand=1 cell=475 stock=4 served=2 denied=0 agents=6S,5S
+spot=14 brand=2 cell=210 stock=4 served=4 denied=0 agents=2S,3S,5S,6S
+spot=15 brand=0 cell=558 stock=3 served=3 denied=0 agents=6S,0S,1S
+spot=16 brand=1 cell=252 stock=1 served=1 denied=1 agents=1S,5D
+spot=17 brand=2 cell=4 stock=1 served=1 denied=1 agents=1S,5D
+spot=19 brand=1 cell=199 stock=4 served=3 denied=0 agents=0S,1S,5S
+spot=20 brand=2 cell=490 stock=6 served=3 denied=0 agents=6S,1S,0S
+spot=21 brand=0 cell=12 stock=3 served=3 denied=0 agents=0S,1S,5S
+spot=22 brand=1 cell=431 stock=2 served=2 denied=0 agents=6S,5S
+spot=23 brand=2 cell=552 stock=7 served=1 denied=0 agents=6S
+factor_portfolio columns=12/12/12/12/2/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=21 refuel=0 escort=0 bundle=21 reservation=0 brand=21
+factor_components constraint=[0,1,2,3,4,5,6] conservative=[0,1,2,3,4,5,6] conservative_largest=7 full_product=5971968 independent_work=5971968 reduction=1.000000
+case_complete id=m8135-d5 elapsed_ms=1366
+case_begin id=m8385-d1 replay=artifacts/btc/m-8385-ab3d699-series.jsonl day=1
+ledger_before=0/0/0
+day_score=5/5/36
+score_after=5/5/36
+agent=0 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=60 initial_fuel=180 spots=7:2,8:3,3:3,2:2,10:0,6:1,4:4 terminal=106:164
+agent=1 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=54 initial_fuel=180 spots=7:2,2:2,3:3,8:3,4:4,15:0,11:1 terminal=4:139
+agent=2 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=79 initial_fuel=180 spots=7:2,8:3,1:1,2:2,10:0,4:4,13:3 terminal=110:155
+agent=3 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=47 initial_fuel=180 spots=8:3,4:4,13:3,2:2,10:0,6:1,12:2 terminal=191:168
+agent=4 kind=patrol claims=8 served=8 path_steps=90 raw_path_fuel=47 initial_fuel=180 spots=7:2,14:4,0:0,3:3,8:3,11:1,5:0,1:1 terminal=98:133
+agent=5 kind=tanker claims=0 served=0 path_steps=90 raw_path_fuel=9 initial_fuel=180 spots= terminal=184:180
+spot=0 brand=0 cell=194 stock=3 served=1 denied=0 agents=4S
+spot=1 brand=1 cell=98 stock=4 served=2 denied=0 agents=2S,4S
+spot=2 brand=2 cell=184 stock=6 served=4 denied=0 agents=1S,0S,3S,2S
+spot=3 brand=3 cell=148 stock=4 served=3 denied=0 agents=1S,0S,4S
+spot=4 brand=4 cell=106 stock=4 served=4 denied=0 agents=3S,1S,0S,2S
+spot=5 brand=0 cell=16 stock=2 served=1 denied=0 agents=4S
+spot=6 brand=1 cell=221 stock=4 served=2 denied=0 agents=0S,3S
+spot=7 brand=2 cell=213 stock=6 served=4 denied=0 agents=4S,0S,1S,2S
+spot=8 brand=3 cell=71 stock=6 served=5 denied=0 agents=3S,0S,2S,1S,4S
+spot=10 brand=0 cell=249 stock=4 served=3 denied=0 agents=0S,3S,2S
+spot=11 brand=1 cell=4 stock=4 served=2 denied=0 agents=4S,1S
+spot=12 brand=2 cell=191 stock=3 served=1 denied=0 agents=3S
+spot=13 brand=3 cell=110 stock=4 served=2 denied=0 agents=3S,2S
+spot=14 brand=4 cell=240 stock=3 served=1 denied=0 agents=4S
+spot=15 brand=0 cell=11 stock=1 served=1 denied=0 agents=1S
+factor_portfolio columns=12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=10 refuel=0 escort=0 bundle=15 reservation=0 brand=10
+factor_components constraint=[0,1,2,3,4,5] conservative=[0,1,2,3,4,5] conservative_largest=6 full_product=2985984 independent_work=2985984 reduction=1.000000
+case_complete id=m8385-d1 elapsed_ms=1470
+case_begin id=m8385-d2 replay=artifacts/btc/m-8385-ab3d699-series.jsonl day=2
+ledger_before=5/5/36
+day_score=5/5/37
+score_after=5/10/73
+agent=0 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=52 initial_fuel=164 spots=4:4,8:3,2:2,7:2,0:0,1:1,3:3 terminal=148:165
+agent=1 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=69 initial_fuel=139 spots=11:1,8:3,2:2,7:2,0:0,14:4,3:3 terminal=148:166
+agent=2 kind=patrol claims=8 served=8 path_steps=90 raw_path_fuel=65 initial_fuel=155 spots=13:3,8:3,2:2,4:4,7:2,0:0,1:1,3:3 terminal=148:165
+agent=3 kind=patrol claims=8 served=8 path_steps=90 raw_path_fuel=66 initial_fuel=168 spots=12:2,2:2,8:3,7:2,6:1,10:0,4:4,13:3 terminal=110:153
+agent=4 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=51 initial_fuel=133 spots=1:1,2:2,7:2,8:3,4:4,15:0,9:4 terminal=45:149
+agent=5 kind=tanker claims=0 served=0 path_steps=90 raw_path_fuel=6 initial_fuel=180 spots= terminal=213:180
+spot=0 brand=0 cell=194 stock=3 served=3 denied=0 agents=0S,1S,2S
+spot=1 brand=1 cell=98 stock=4 served=3 denied=0 agents=4S,0S,2S
+spot=2 brand=2 cell=184 stock=6 served=5 denied=0 agents=4S,3S,0S,1S,2S
+spot=3 brand=3 cell=148 stock=4 served=3 denied=0 agents=0S,1S,2S
+spot=4 brand=4 cell=106 stock=4 served=4 denied=0 agents=0S,2S,4S,3S
+spot=6 brand=1 cell=221 stock=4 served=1 denied=0 agents=3S
+spot=7 brand=2 cell=213 stock=6 served=5 denied=0 agents=4S,3S,0S,1S,2S
+spot=8 brand=3 cell=71 stock=6 served=5 denied=0 agents=0S,1S,2S,3S,4S
+spot=9 brand=4 cell=45 stock=3 served=1 denied=0 agents=4S
+spot=10 brand=0 cell=249 stock=4 served=1 denied=0 agents=3S
+spot=11 brand=1 cell=4 stock=4 served=1 denied=0 agents=1S
+spot=12 brand=2 cell=191 stock=3 served=1 denied=0 agents=3S
+spot=13 brand=3 cell=110 stock=4 served=2 denied=0 agents=2S,3S
+spot=14 brand=4 cell=240 stock=3 served=1 denied=0 agents=1S
+spot=15 brand=0 cell=11 stock=1 served=1 denied=0 agents=4S
+factor_portfolio columns=12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=10 refuel=0 escort=0 bundle=15 reservation=0 brand=10
+factor_components constraint=[0,1,2,3,4,5] conservative=[0,1,2,3,4,5] conservative_largest=6 full_product=2985984 independent_work=2985984 reduction=1.000000
+case_complete id=m8385-d2 elapsed_ms=1584
+case_begin id=m8385-d3 replay=artifacts/btc/m-8385-ab3d699-series.jsonl day=3
+ledger_before=5/10/73
+day_score=5/5/36
+score_after=5/15/109
+agent=0 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=48 initial_fuel=165 spots=3:3,7:2,2:2,8:3,0:0,14:4,1:1 terminal=98:180
+agent=1 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=48 initial_fuel=166 spots=3:3,7:2,2:2,8:3,0:0,14:4,1:1 terminal=98:180
+agent=2 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=48 initial_fuel=165 spots=3:3,7:2,2:2,8:3,0:0,14:4,1:1 terminal=98:180
+agent=3 kind=patrol claims=8 served=8 path_steps=90 raw_path_fuel=56 initial_fuel=153 spots=13:3,8:3,2:2,7:2,4:4,15:0,11:1,5:0 terminal=16:97
+agent=4 kind=patrol claims=8 served=7 path_steps=90 raw_path_fuel=53 initial_fuel=149 spots=9:4,8:3,2:2,4:4,13:3,7:2,0:0,1:1 terminal=98:180
+agent=5 kind=tanker claims=0 served=0 path_steps=90 raw_path_fuel=8 initial_fuel=180 spots= terminal=98:180
+spot=0 brand=0 cell=194 stock=3 served=3 denied=1 agents=0S,1S,2S,4D
+spot=1 brand=1 cell=98 stock=4 served=4 denied=0 agents=0S,1S,2S,4S
+spot=2 brand=2 cell=184 stock=6 served=5 denied=0 agents=0S,1S,2S,4S,3S
+spot=3 brand=3 cell=148 stock=4 served=3 denied=0 agents=0S,1S,2S
+spot=4 brand=4 cell=106 stock=4 served=2 denied=0 agents=4S,3S
+spot=5 brand=0 cell=16 stock=2 served=1 denied=0 agents=3S
+spot=7 brand=2 cell=213 stock=6 served=5 denied=0 agents=0S,1S,2S,3S,4S
+spot=8 brand=3 cell=71 stock=6 served=5 denied=0 agents=4S,3S,0S,1S,2S
+spot=9 brand=4 cell=45 stock=3 served=1 denied=0 agents=4S
+spot=11 brand=1 cell=4 stock=4 served=1 denied=0 agents=3S
+spot=13 brand=3 cell=110 stock=4 served=2 denied=0 agents=3S,4S
+spot=14 brand=4 cell=240 stock=3 served=3 denied=0 agents=0S,1S,2S
+spot=15 brand=0 cell=11 stock=1 served=1 denied=0 agents=3S
+factor_portfolio columns=12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=10 refuel=0 escort=0 bundle=15 reservation=0 brand=10
+factor_components constraint=[0,1,2,3,4,5] conservative=[0,1,2,3,4,5] conservative_largest=6 full_product=2985984 independent_work=2985984 reduction=1.000000
+case_complete id=m8385-d3 elapsed_ms=1716
+case_begin id=m8385-d4 replay=artifacts/btc/m-8385-ab3d699-series.jsonl day=4
+ledger_before=5/15/109
+day_score=5/5/33
+score_after=5/20/142
+agent=0 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=58 initial_fuel=180 spots=1:1,8:3,2:2,7:2,0:0,14:4,3:3 terminal=148:158
+agent=1 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=58 initial_fuel=180 spots=1:1,8:3,2:2,7:2,0:0,14:4,3:3 terminal=148:158
+agent=2 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=58 initial_fuel=180 spots=1:1,8:3,2:2,7:2,0:0,14:4,3:3 terminal=148:158
+agent=3 kind=patrol claims=8 served=7 path_steps=90 raw_path_fuel=57 initial_fuel=97 spots=5:0,8:3,2:2,7:2,1:1,4:4,13:3,9:4 terminal=45:159
+agent=4 kind=patrol claims=7 served=5 path_steps=90 raw_path_fuel=58 initial_fuel=180 spots=1:1,8:3,2:2,7:2,0:0,14:4,3:3 terminal=148:158
+agent=5 kind=tanker claims=0 served=0 path_steps=90 raw_path_fuel=0 initial_fuel=180 spots= terminal=98:180
+spot=0 brand=0 cell=194 stock=3 served=3 denied=1 agents=0S,1S,2S,4D
+spot=1 brand=1 cell=98 stock=4 served=4 denied=1 agents=0S,1S,2S,4S,3D
+spot=2 brand=2 cell=184 stock=6 served=5 denied=0 agents=0S,1S,2S,4S,3S
+spot=3 brand=3 cell=148 stock=4 served=4 denied=0 agents=0S,1S,2S,4S
+spot=4 brand=4 cell=106 stock=4 served=1 denied=0 agents=3S
+spot=5 brand=0 cell=16 stock=2 served=1 denied=0 agents=3S
+spot=7 brand=2 cell=213 stock=6 served=5 denied=0 agents=3S,0S,1S,2S,4S
+spot=8 brand=3 cell=71 stock=6 served=5 denied=0 agents=0S,1S,2S,4S,3S
+spot=9 brand=4 cell=45 stock=3 served=1 denied=0 agents=3S
+spot=13 brand=3 cell=110 stock=4 served=1 denied=0 agents=3S
+spot=14 brand=4 cell=240 stock=3 served=3 denied=1 agents=0S,1S,2S,4D
+factor_portfolio columns=12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=10 refuel=0 escort=10 bundle=15 reservation=0 brand=10
+factor_components constraint=[0,1,2,3,4,5] conservative=[0,1,2,3,4,5] conservative_largest=6 full_product=2985984 independent_work=2985984 reduction=1.000000
+case_complete id=m8385-d4 elapsed_ms=1790
+case_begin id=m8385-d5 replay=artifacts/btc/m-8385-ab3d699-series.jsonl day=5
+ledger_before=5/20/142
+day_score=5/5/37
+score_after=5/25/179
+agent=0 kind=patrol claims=8 served=8 path_steps=90 raw_path_fuel=64 initial_fuel=158 spots=3:3,7:2,2:2,8:3,0:0,14:4,1:1,5:0 terminal=98:180
+agent=1 kind=patrol claims=8 served=8 path_steps=90 raw_path_fuel=64 initial_fuel=158 spots=3:3,7:2,2:2,8:3,0:0,14:4,1:1,5:0 terminal=98:180
+agent=2 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=49 initial_fuel=158 spots=3:3,7:2,2:2,8:3,4:4,15:0,11:1 terminal=4:109
+agent=3 kind=patrol claims=8 served=7 path_steps=90 raw_path_fuel=57 initial_fuel=159 spots=9:4,8:3,2:2,4:4,13:3,7:2,0:0,1:1 terminal=98:180
+agent=4 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=52 initial_fuel=158 spots=3:3,7:2,2:2,8:3,0:0,14:4,1:1 terminal=98:180
+agent=5 kind=tanker claims=0 served=0 path_steps=90 raw_path_fuel=0 initial_fuel=180 spots= terminal=98:180
+spot=0 brand=0 cell=194 stock=3 served=3 denied=1 agents=0S,1S,4S,3D
+spot=1 brand=1 cell=98 stock=4 served=4 denied=0 agents=0S,1S,4S,3S
+spot=2 brand=2 cell=184 stock=6 served=5 denied=0 agents=0S,1S,2S,4S,3S
+spot=3 brand=3 cell=148 stock=4 served=4 denied=0 agents=0S,1S,2S,4S
+spot=4 brand=4 cell=106 stock=4 served=2 denied=0 agents=3S,2S
+spot=5 brand=0 cell=16 stock=2 served=2 denied=0 agents=0S,1S
+spot=7 brand=2 cell=213 stock=6 served=5 denied=0 agents=0S,1S,2S,4S,3S
+spot=8 brand=3 cell=71 stock=6 served=5 denied=0 agents=3S,0S,1S,4S,2S
+spot=9 brand=4 cell=45 stock=3 served=1 denied=0 agents=3S
+spot=11 brand=1 cell=4 stock=4 served=1 denied=0 agents=2S
+spot=13 brand=3 cell=110 stock=4 served=1 denied=0 agents=3S
+spot=14 brand=4 cell=240 stock=3 served=3 denied=0 agents=0S,1S,4S
+spot=15 brand=0 cell=11 stock=1 served=1 denied=0 agents=2S
+factor_portfolio columns=12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=10 refuel=0 escort=0 bundle=15 reservation=0 brand=10
+factor_components constraint=[0,1,2,3,4,5] conservative=[0,1,2,3,4,5] conservative_largest=6 full_product=2985984 independent_work=2985984 reduction=1.000000
+case_complete id=m8385-d5 elapsed_ms=1894
+case_begin id=m8385-d6 replay=artifacts/btc/m-8385-ab3d699-series.jsonl day=6
+ledger_before=5/25/179
+day_score=5/5/31
+score_after=5/30/210
+agent=0 kind=patrol claims=6 served=6 path_steps=90 raw_path_fuel=51 initial_fuel=180 spots=1:1,7:2,8:3,2:2,10:0,4:4 terminal=106:156
+agent=1 kind=patrol claims=6 served=6 path_steps=90 raw_path_fuel=51 initial_fuel=180 spots=1:1,7:2,8:3,2:2,10:0,4:4 terminal=106:156
+agent=2 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=44 initial_fuel=109 spots=8:3,11:1,2:2,7:2,0:0,14:4,3:3 terminal=148:65
+agent=3 kind=patrol claims=6 served=6 path_steps=90 raw_path_fuel=51 initial_fuel=180 spots=1:1,7:2,8:3,2:2,10:0,4:4 terminal=106:156
+agent=4 kind=patrol claims=6 served=6 path_steps=90 raw_path_fuel=51 initial_fuel=180 spots=1:1,7:2,8:3,2:2,10:0,4:4 terminal=106:156
+agent=5 kind=tanker claims=0 served=0 path_steps=90 raw_path_fuel=0 initial_fuel=180 spots= terminal=98:180
+spot=0 brand=0 cell=194 stock=3 served=1 denied=0 agents=2S
+spot=1 brand=1 cell=98 stock=4 served=4 denied=0 agents=0S,1S,3S,4S
+spot=2 brand=2 cell=184 stock=6 served=5 denied=0 agents=2S,0S,1S,3S,4S
+spot=3 brand=3 cell=148 stock=4 served=1 denied=0 agents=2S
+spot=4 brand=4 cell=106 stock=4 served=4 denied=0 agents=0S,1S,3S,4S
+spot=7 brand=2 cell=213 stock=6 served=5 denied=0 agents=0S,1S,3S,4S,2S
+spot=8 brand=3 cell=71 stock=6 served=5 denied=0 agents=2S,0S,1S,3S,4S
+spot=10 brand=0 cell=249 stock=4 served=4 denied=0 agents=0S,1S,3S,4S
+spot=11 brand=1 cell=4 stock=4 served=1 denied=0 agents=2S
+spot=14 brand=4 cell=240 stock=3 served=1 denied=0 agents=2S
+factor_portfolio columns=12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=10 refuel=0 escort=10 bundle=15 reservation=0 brand=10
+factor_components constraint=[0,1,2,3,4,5] conservative=[0,1,2,3,4,5] conservative_largest=6 full_product=2985984 independent_work=2985984 reduction=1.000000
+case_complete id=m8385-d6 elapsed_ms=2014
+case_begin id=m8385-d7 replay=artifacts/btc/m-8385-ab3d699-series.jsonl day=7
+ledger_before=5/30/210
+day_score=5/5/35
+score_after=5/35/245
+agent=0 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=50 initial_fuel=156 spots=4:4,8:3,2:2,7:2,0:0,1:1,3:3 terminal=148:176
+agent=1 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=50 initial_fuel=156 spots=4:4,8:3,2:2,7:2,0:0,1:1,3:3 terminal=148:176
+agent=2 kind=patrol claims=8 served=8 path_steps=90 raw_path_fuel=66 initial_fuel=65 spots=3:3,7:2,2:2,8:3,0:0,14:4,1:1,5:0 terminal=98:180
+agent=3 kind=patrol claims=7 served=7 path_steps=90 raw_path_fuel=55 initial_fuel=156 spots=4:4,8:3,2:2,7:2,15:0,11:1,5:0 terminal=16:101
+agent=4 kind=patrol claims=6 served=6 path_steps=90 raw_path_fuel=36 initial_fuel=156 spots=4:4,8:3,2:2,7:2,1:1,3:3 terminal=148:176
+agent=5 kind=tanker claims=0 served=0 path_steps=90 raw_path_fuel=0 initial_fuel=180 spots= terminal=98:180
+spot=0 brand=0 cell=194 stock=3 served=3 denied=0 agents=2S,0S,1S
+spot=1 brand=1 cell=98 stock=4 served=4 denied=0 agents=4S,0S,1S,2S
+spot=2 brand=2 cell=184 stock=6 served=5 denied=0 agents=0S,1S,3S,4S,2S
+spot=3 brand=3 cell=148 stock=4 served=4 denied=0 agents=2S,4S,0S,1S
+spot=4 brand=4 cell=106 stock=4 served=4 denied=0 agents=0S,1S,3S,4S
+spot=5 brand=0 cell=16 stock=2 served=2 denied=0 agents=3S,2S
+spot=7 brand=2 cell=213 stock=6 served=5 denied=0 agents=2S,3S,4S,0S,1S
+spot=8 brand=3 cell=71 stock=6 served=5 denied=0 agents=0S,1S,3S,4S,2S
+spot=11 brand=1 cell=4 stock=4 served=1 denied=0 agents=3S
+spot=14 brand=4 cell=240 stock=3 served=1 denied=0 agents=2S
+spot=15 brand=0 cell=11 stock=1 served=1 denied=0 agents=3S
+factor_portfolio columns=12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=10 refuel=0 escort=0 bundle=15 reservation=0 brand=10
+factor_components constraint=[0,1,2,3,4,5] conservative=[0,1,2,3,4,5] conservative_largest=6 full_product=2985984 independent_work=2985984 reduction=1.000000
+case_complete id=m8385-d7 elapsed_ms=2097
+case_begin id=m8385-d8 replay=artifacts/btc/m-8385-ab3d699-series.jsonl day=8
+ledger_before=5/35/245
+day_score=5/5/54
+score_after=5/40/299
+agent=0 kind=patrol claims=12 served=12 path_steps=90 raw_path_fuel=54 initial_fuel=176 spots=3:3,0:0,7:2,2:2,10:0,6:1,12:2,13:3,9:4,4:4,8:3,11:1 terminal=4:122
+agent=1 kind=patrol claims=12 served=12 path_steps=90 raw_path_fuel=50 initial_fuel=176 spots=3:3,0:0,7:2,2:2,10:0,6:1,12:2,13:3,4:4,8:3,11:1,5:0 terminal=16:126
+agent=2 kind=patrol claims=13 served=8 path_steps=90 raw_path_fuel=58 initial_fuel=180 spots=1:1,3:3,0:0,7:2,2:2,10:0,6:1,12:2,13:3,9:4,15:0,8:3,4:4 terminal=106:122
+agent=3 kind=patrol claims=12 served=10 path_steps=90 raw_path_fuel=61 initial_fuel=101 spots=5:0,11:1,8:3,4:4,13:3,9:4,15:0,2:2,7:2,0:0,3:3,1:1 terminal=98:180
+agent=4 kind=patrol claims=12 served=12 path_steps=90 raw_path_fuel=51 initial_fuel=176 spots=3:3,0:0,7:2,2:2,10:0,6:1,12:2,13:3,4:4,8:3,11:1,1:1 terminal=98:180
+agent=5 kind=tanker claims=0 served=0 path_steps=90 raw_path_fuel=0 initial_fuel=180 spots= terminal=98:180
+spot=0 brand=0 cell=194 stock=3 served=3 denied=2 agents=0S,1S,4S,2D,3D
+spot=1 brand=1 cell=98 stock=4 served=3 denied=0 agents=2S,4S,3S
+spot=2 brand=2 cell=184 stock=6 served=5 denied=0 agents=0S,1S,4S,2S,3S
+spot=3 brand=3 cell=148 stock=4 served=4 denied=1 agents=0S,1S,4S,2S,3D
+spot=4 brand=4 cell=106 stock=4 served=4 denied=1 agents=3S,1S,4S,0S,2D
+spot=5 brand=0 cell=16 stock=2 served=2 denied=0 agents=3S,1S
+spot=6 brand=1 cell=221 stock=4 served=4 denied=0 agents=0S,1S,4S,2S
+spot=7 brand=2 cell=213 stock=6 served=5 denied=0 agents=0S,1S,4S,2S,3S
+spot=8 brand=3 cell=71 stock=6 served=5 denied=0 agents=3S,1S,4S,0S,2S
+spot=9 brand=4 cell=45 stock=3 served=3 denied=0 agents=3S,0S,2S
+spot=10 brand=0 cell=249 stock=4 served=4 denied=0 agents=0S,1S,4S,2S
+spot=11 brand=1 cell=4 stock=4 served=4 denied=0 agents=3S,1S,4S,0S
+spot=12 brand=2 cell=191 stock=3 served=3 denied=1 agents=0S,1S,4S,2D
+spot=13 brand=3 cell=110 stock=4 served=4 denied=1 agents=3S,0S,1S,4S,2D
+spot=15 brand=0 cell=11 stock=1 served=1 denied=1 agents=3S,2D
+factor_portfolio columns=12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=10 refuel=0 escort=1 bundle=15 reservation=0 brand=10
+factor_components constraint=[0,1,2,3,4,5] conservative=[0,1,2,3,4,5] conservative_largest=6 full_product=2985984 independent_work=2985984 reduction=1.000000
+case_complete id=m8385-d8 elapsed_ms=2192
+case_begin id=m8615-d1 replay=artifacts/btc/m-8615-ab3d699-series.jsonl day=1
+ledger_before=0/0/0
+day_score=5/5/32
+score_after=5/5/32
+agent=0 kind=patrol claims=12 served=11 path_steps=72 raw_path_fuel=54 initial_fuel=144 spots=6:1,5:0,2:2,11:1,1:1,4:4,3:3,10:0,9:4,0:0,8:3,7:2 terminal=129:139
+agent=1 kind=patrol claims=11 served=9 path_steps=72 raw_path_fuel=50 initial_fuel=144 spots=6:1,5:0,2:2,11:1,4:4,1:1,7:2,8:3,0:0,9:4,10:0 terminal=108:127
+agent=2 kind=patrol claims=11 served=5 path_steps=72 raw_path_fuel=50 initial_fuel=144 spots=8:3,0:0,9:4,10:0,3:3,4:4,1:1,11:1,2:2,5:0,6:1 terminal=35:96
+agent=3 kind=patrol claims=11 served=7 path_steps=72 raw_path_fuel=40 initial_fuel=144 spots=7:2,8:3,0:0,9:4,4:4,3:3,11:1,1:1,6:1,5:0,2:2 terminal=7:111
+agent=4 kind=tanker claims=0 served=0 path_steps=72 raw_path_fuel=1 initial_fuel=144 spots= terminal=125:144
+spot=0 brand=0 cell=90 stock=5 served=4 denied=0 agents=2S,3S,1S,0S
+spot=1 brand=1 cell=43 stock=3 served=3 denied=1 agents=0S,1S,3S,2D
+spot=2 brand=2 cell=7 stock=1 served=1 denied=3 agents=0S,1D,2D,3D
+spot=3 brand=3 cell=13 stock=3 served=3 denied=0 agents=3S,0S,2S
+spot=4 brand=4 cell=40 stock=1 served=1 denied=3 agents=1S,3D,0D,2D
+spot=5 brand=0 cell=21 stock=1 served=1 denied=3 agents=0S,1D,2D,3D
+spot=6 brand=1 cell=35 stock=2 served=2 denied=2 agents=0S,1S,3D,2D
+spot=7 brand=2 cell=129 stock=3 served=3 denied=0 agents=3S,1S,0S
+spot=8 brand=3 cell=125 stock=5 served=4 denied=0 agents=2S,3S,1S,0S
+spot=9 brand=4 cell=76 stock=5 served=4 denied=0 agents=2S,3S,1S,0S
+spot=10 brand=0 cell=108 stock=3 served=3 denied=0 agents=2S,0S,1S
+spot=11 brand=1 cell=17 stock=3 served=3 denied=1 agents=0S,1S,3S,2D
+factor_portfolio columns=12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=6 refuel=0 escort=0 bundle=10 reservation=0 brand=6
+factor_components constraint=[0,1,2,3,4] conservative=[0,1,2,3,4] conservative_largest=5 full_product=248832 independent_work=248832 reduction=1.000000
+case_complete id=m8615-d1 elapsed_ms=2259
+case_begin id=m8615-d2 replay=artifacts/btc/m-8615-ab3d699-series.jsonl day=2
+ledger_before=5/5/32
+day_score=5/5/28
+score_after=5/10/60
+agent=0 kind=patrol claims=7 served=7 path_steps=72 raw_path_fuel=46 initial_fuel=139 spots=7:2,8:3,9:4,3:3,11:1,0:0,1:1 terminal=43:138
+agent=1 kind=patrol claims=9 served=8 path_steps=72 raw_path_fuel=51 initial_fuel=127 spots=10:0,9:4,8:3,7:2,11:1,3:3,4:4,1:1,0:0 terminal=90:144
+agent=2 kind=patrol claims=7 served=5 path_steps=72 raw_path_fuel=50 initial_fuel=96 spots=6:1,9:4,8:3,3:3,11:1,7:2,0:0 terminal=90:144
+agent=3 kind=patrol claims=8 served=8 path_steps=72 raw_path_fuel=56 initial_fuel=111 spots=2:2,9:4,8:3,3:3,11:1,7:2,0:0,1:1 terminal=43:138
+agent=4 kind=tanker claims=0 served=0 path_steps=72 raw_path_fuel=5 initial_fuel=144 spots= terminal=90:144
+spot=0 brand=0 cell=90 stock=5 served=4 denied=0 agents=0S,1S,3S,2S
+spot=1 brand=1 cell=43 stock=3 served=3 denied=0 agents=1S,0S,3S
+spot=2 brand=2 cell=7 stock=1 served=1 denied=0 agents=3S
+spot=3 brand=3 cell=13 stock=3 served=3 denied=1 agents=0S,3S,2S,1D
+spot=4 brand=4 cell=40 stock=1 served=1 denied=0 agents=1S
+spot=6 brand=1 cell=35 stock=2 served=1 denied=0 agents=2S
+spot=7 brand=2 cell=129 stock=3 served=3 denied=1 agents=0S,1S,3S,2D
+spot=8 brand=3 cell=125 stock=5 served=4 denied=0 agents=0S,1S,3S,2S
+spot=9 brand=4 cell=76 stock=5 served=4 denied=0 agents=1S,3S,0S,2S
+spot=10 brand=0 cell=108 stock=3 served=1 denied=0 agents=1S
+spot=11 brand=1 cell=17 stock=3 served=3 denied=1 agents=0S,1S,3S,2D
+factor_portfolio columns=12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=6 refuel=0 escort=0 bundle=10 reservation=0 brand=6
+factor_components constraint=[0,1,2,3,4] conservative=[0,1,2,3,4] conservative_largest=5 full_product=248832 independent_work=248832 reduction=1.000000
+case_complete id=m8615-d2 elapsed_ms=2317
+case_begin id=m8615-d3 replay=artifacts/btc/m-8615-ab3d699-series.jsonl day=3
+ledger_before=5/10/60
+day_score=5/5/28
+score_after=5/15/88
+agent=0 kind=patrol claims=8 served=6 path_steps=72 raw_path_fuel=49 initial_fuel=138 spots=1:1,9:4,8:3,3:3,11:1,7:2,0:0,4:4 terminal=40:140
+agent=1 kind=patrol claims=11 served=11 path_steps=72 raw_path_fuel=44 initial_fuel=144 spots=0:0,7:2,8:3,9:4,1:1,4:4,3:3,11:1,2:2,5:0,6:1 terminal=35:100
+agent=2 kind=patrol claims=11 served=7 path_steps=72 raw_path_fuel=44 initial_fuel=144 spots=0:0,7:2,8:3,9:4,1:1,4:4,3:3,11:1,2:2,5:0,6:1 terminal=35:100
+agent=3 kind=patrol claims=4 served=4 path_steps=72 raw_path_fuel=19 initial_fuel=138 spots=1:1,7:2,0:0,9:4 terminal=76:142
+agent=4 kind=tanker claims=0 served=0 path_steps=72 raw_path_fuel=0 initial_fuel=144 spots= terminal=90:144
+spot=0 brand=0 cell=90 stock=5 served=4 denied=0 agents=1S,2S,3S,0S
+spot=1 brand=1 cell=43 stock=3 served=3 denied=1 agents=0S,3S,1S,2D
+spot=2 brand=2 cell=7 stock=1 served=1 denied=1 agents=1S,2D
+spot=3 brand=3 cell=13 stock=3 served=3 denied=0 agents=0S,1S,2S
+spot=4 brand=4 cell=40 stock=1 served=1 denied=2 agents=1S,2D,0D
+spot=5 brand=0 cell=21 stock=1 served=1 denied=1 agents=1S,2D
+spot=6 brand=1 cell=35 stock=2 served=2 denied=0 agents=1S,2S
+spot=7 brand=2 cell=129 stock=3 served=3 denied=1 agents=1S,2S,3S,0D
+spot=8 brand=3 cell=125 stock=5 served=3 denied=0 agents=0S,1S,2S
+spot=9 brand=4 cell=76 stock=5 served=4 denied=0 agents=0S,1S,2S,3S
+spot=11 brand=1 cell=17 stock=3 served=3 denied=0 agents=0S,1S,2S
+factor_portfolio columns=12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=6 refuel=0 escort=3 bundle=10 reservation=0 brand=6
+factor_components constraint=[0,1,2,3,4] conservative=[0,1,2,3,4] conservative_largest=5 full_product=248832 independent_work=248832 reduction=1.000000
+case_complete id=m8615-d3 elapsed_ms=2374
+case_begin id=m8615-d4 replay=artifacts/btc/m-8615-ab3d699-series.jsonl day=4
+ledger_before=5/15/88
+day_score=5/5/26
+score_after=5/20/114
+agent=0 kind=patrol claims=7 served=7 path_steps=72 raw_path_fuel=49 initial_fuel=140 spots=4:4,9:4,8:3,3:3,7:2,0:0,1:1 terminal=43:91
+agent=1 kind=patrol claims=8 served=7 path_steps=72 raw_path_fuel=48 initial_fuel=100 spots=6:1,8:3,3:3,11:1,2:2,5:0,4:4,1:1 terminal=43:123
+agent=2 kind=patrol claims=6 served=6 path_steps=72 raw_path_fuel=51 initial_fuel=100 spots=6:1,8:3,9:4,7:2,3:3,11:1 terminal=17:144
+agent=3 kind=patrol claims=7 served=6 path_steps=72 raw_path_fuel=33 initial_fuel=142 spots=9:4,4:4,0:0,8:3,7:2,1:1,11:1 terminal=17:144
+agent=4 kind=tanker claims=0 served=0 path_steps=72 raw_path_fuel=9 initial_fuel=144 spots= terminal=17:144
+spot=0 brand=0 cell=90 stock=5 served=2 denied=0 agents=3S,0S
+spot=1 brand=1 cell=43 stock=3 served=3 denied=0 agents=3S,1S,0S
+spot=2 brand=2 cell=7 stock=1 served=1 denied=0 agents=1S
+spot=3 brand=3 cell=13 stock=3 served=3 denied=0 agents=0S,1S,2S
+spot=4 brand=4 cell=40 stock=1 served=1 denied=2 agents=0S,3D,1D
+spot=5 brand=0 cell=21 stock=1 served=1 denied=0 agents=1S
+spot=6 brand=1 cell=35 stock=2 served=2 denied=0 agents=1S,2S
+spot=7 brand=2 cell=129 stock=3 served=3 denied=0 agents=3S,2S,0S
+spot=8 brand=3 cell=125 stock=5 served=4 denied=0 agents=0S,1S,2S,3S
+spot=9 brand=4 cell=76 stock=5 served=3 denied=0 agents=3S,0S,2S
+spot=11 brand=1 cell=17 stock=3 served=3 denied=0 agents=3S,1S,2S
+factor_portfolio columns=12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=6 refuel=0 escort=0 bundle=10 reservation=0 brand=6
+factor_components constraint=[0,1,2,3,4] conservative=[0,1,2,3,4] conservative_largest=5 full_product=248832 independent_work=248832 reduction=1.000000
+case_complete id=m8615-d4 elapsed_ms=2429
+case_begin id=m8615-d5 replay=artifacts/btc/m-8615-ab3d699-series.jsonl day=5
+ledger_before=5/20/114
+day_score=5/5/28
+score_after=5/25/142
+agent=0 kind=patrol claims=8 served=6 path_steps=72 raw_path_fuel=49 initial_fuel=91 spots=1:1,9:4,8:3,3:3,11:1,7:2,0:0,4:4 terminal=40:120
+agent=1 kind=patrol claims=4 served=4 path_steps=72 raw_path_fuel=19 initial_fuel=123 spots=1:1,7:2,0:0,9:4 terminal=76:104
+agent=2 kind=patrol claims=11 served=11 path_steps=72 raw_path_fuel=40 initial_fuel=144 spots=11:1,3:3,4:4,9:4,0:0,8:3,7:2,1:1,2:2,5:0,6:1 terminal=35:104
+agent=3 kind=patrol claims=11 served=7 path_steps=72 raw_path_fuel=40 initial_fuel=144 spots=11:1,3:3,4:4,9:4,0:0,8:3,7:2,1:1,2:2,5:0,6:1 terminal=35:104
+agent=4 kind=tanker claims=0 served=0 path_steps=72 raw_path_fuel=0 initial_fuel=144 spots= terminal=17:144
+spot=0 brand=0 cell=90 stock=5 served=4 denied=0 agents=1S,2S,3S,0S
+spot=1 brand=1 cell=43 stock=3 served=3 denied=1 agents=0S,1S,2S,3D
+spot=2 brand=2 cell=7 stock=1 served=1 denied=1 agents=2S,3D
+spot=3 brand=3 cell=13 stock=3 served=3 denied=0 agents=2S,3S,0S
+spot=4 brand=4 cell=40 stock=1 served=1 denied=2 agents=2S,3D,0D
+spot=5 brand=0 cell=21 stock=1 served=1 denied=1 agents=2S,3D
+spot=6 brand=1 cell=35 stock=2 served=2 denied=0 agents=2S,3S
+spot=7 brand=2 cell=129 stock=3 served=3 denied=1 agents=1S,2S,3S,0D
+spot=8 brand=3 cell=125 stock=5 served=3 denied=0 agents=0S,2S,3S
+spot=9 brand=4 cell=76 stock=5 served=4 denied=0 agents=0S,2S,3S,1S
+spot=11 brand=1 cell=17 stock=3 served=3 denied=0 agents=2S,3S,0S
+factor_portfolio columns=12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=6 refuel=0 escort=3 bundle=10 reservation=0 brand=6
+factor_components constraint=[0,1,2,3,4] conservative=[0,1,2,3,4] conservative_largest=5 full_product=248832 independent_work=248832 reduction=1.000000
+case_complete id=m8615-d5 elapsed_ms=2484
+case_begin id=m8615-d6 replay=artifacts/btc/m-8615-ab3d699-series.jsonl day=6
+ledger_before=5/25/142
+day_score=5/5/32
+score_after=5/30/174
+agent=0 kind=patrol claims=10 served=10 path_steps=72 raw_path_fuel=49 initial_fuel=120 spots=4:4,11:1,2:2,1:1,0:0,9:4,3:3,10:0,8:3,7:2 terminal=129:97
+agent=1 kind=patrol claims=10 served=7 path_steps=72 raw_path_fuel=45 initial_fuel=104 spots=9:4,0:0,8:3,7:2,1:1,2:2,5:0,11:1,3:3,10:0 terminal=108:131
+agent=2 kind=patrol claims=10 served=8 path_steps=72 raw_path_fuel=34 initial_fuel=104 spots=6:1,5:0,2:2,11:1,4:4,1:1,0:0,9:4,8:3,7:2 terminal=129:120
+agent=3 kind=patrol claims=10 served=7 path_steps=72 raw_path_fuel=36 initial_fuel=104 spots=6:1,5:0,2:2,11:1,4:4,9:4,0:0,8:3,10:0,3:3 terminal=13:118
+agent=4 kind=tanker claims=0 served=0 path_steps=72 raw_path_fuel=0 initial_fuel=144 spots= terminal=17:144
+spot=0 brand=0 cell=90 stock=5 served=4 denied=0 agents=1S,0S,3S,2S
+spot=1 brand=1 cell=43 stock=3 served=3 denied=0 agents=0S,2S,1S
+spot=2 brand=2 cell=7 stock=1 served=1 denied=3 agents=0S,2D,3D,1D
+spot=3 brand=3 cell=13 stock=3 served=3 denied=0 agents=0S,1S,3S
+spot=4 brand=4 cell=40 stock=1 served=1 denied=2 agents=0S,2D,3D
+spot=5 brand=0 cell=21 stock=1 served=1 denied=2 agents=2S,3D,1D
+spot=6 brand=1 cell=35 stock=2 served=2 denied=0 agents=2S,3S
+spot=7 brand=2 cell=129 stock=3 served=3 denied=0 agents=1S,2S,0S
+spot=8 brand=3 cell=125 stock=5 served=4 denied=0 agents=1S,3S,2S,0S
+spot=9 brand=4 cell=76 stock=5 served=4 denied=0 agents=1S,3S,0S,2S
+spot=10 brand=0 cell=108 stock=3 served=3 denied=0 agents=3S,0S,1S
+spot=11 brand=1 cell=17 stock=3 served=3 denied=1 agents=0S,2S,3S,1D
+factor_portfolio columns=12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=6 refuel=0 escort=0 bundle=10 reservation=0 brand=6
+factor_components constraint=[0,1,2,3,4] conservative=[0,1,2,3,4] conservative_largest=5 full_product=248832 independent_work=248832 reduction=1.000000
+case_complete id=m8615-d6 elapsed_ms=2544
+case_begin id=m9515-d1 replay=artifacts/btc/m-9515-ab3d699-series.jsonl day=1
+ledger_before=0/0/0
+day_score=8/8/41
+score_after=8/8/41
+agent=0 kind=patrol claims=6 served=6 path_steps=96 raw_path_fuel=61 initial_fuel=192 spots=8:0,1:1,18:2,5:5,4:4,14:6 terminal=225:181
+agent=1 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=3 initial_fuel=192 spots= terminal=75:192
+agent=2 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=68 initial_fuel=192 spots=18:2,1:1,8:0,23:7,17:1,13:5,3:3 terminal=324:124
+agent=3 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=48 initial_fuel=192 spots=18:2,1:1,8:0,23:7,7:7,2:2,19:3 terminal=564:144
+agent=4 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=63 initial_fuel=192 spots=8:0,15:7,3:3,18:2,14:6,5:5,4:4 terminal=75:192
+agent=5 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=83 initial_fuel=192 spots=18:2,16:0,0:0,6:6,11:3,5:5,4:4 terminal=75:192
+agent=6 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=73 initial_fuel=192 spots=18:2,5:5,16:0,8:0,23:7,22:6,1:1 terminal=110:119
+spot=0 brand=0 cell=363 stock=3 served=1 denied=0 agents=5S
+spot=1 brand=1 cell=110 stock=4 served=4 denied=0 agents=2S,3S,0S,6S
+spot=2 brand=2 cell=495 stock=5 served=1 denied=0 agents=3S
+spot=3 brand=3 cell=324 stock=2 served=2 denied=0 agents=4S,2S
+spot=4 brand=4 cell=75 stock=5 served=3 denied=0 agents=0S,4S,5S
+spot=5 brand=5 cell=196 stock=5 served=4 denied=0 agents=6S,0S,4S,5S
+spot=6 brand=6 cell=510 stock=4 served=1 denied=0 agents=5S
+spot=7 brand=7 cell=256 stock=1 served=1 denied=0 agents=3S
+spot=8 brand=0 cell=16 stock=7 served=5 denied=0 agents=4S,0S,2S,3S,6S
+spot=11 brand=3 cell=552 stock=2 served=1 denied=0 agents=5S
+spot=13 brand=5 cell=359 stock=2 served=1 denied=0 agents=2S
+spot=14 brand=6 cell=225 stock=3 served=2 denied=0 agents=4S,0S
+spot=15 brand=7 cell=22 stock=7 served=1 denied=0 agents=4S
+spot=16 brand=0 cell=288 stock=5 served=2 denied=0 agents=5S,6S
+spot=17 brand=1 cell=402 stock=6 served=1 denied=0 agents=2S
+spot=18 brand=2 cell=392 stock=6 served=6 denied=0 agents=2S,3S,6S,5S,4S,0S
+spot=19 brand=3 cell=564 stock=1 served=1 denied=0 agents=3S
+spot=22 brand=6 cell=91 stock=3 served=1 denied=0 agents=6S
+spot=23 brand=7 cell=90 stock=3 served=3 denied=0 agents=2S,3S,6S
+factor_portfolio columns=12/12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=15 refuel=0 escort=0 bundle=21 reservation=0 brand=15
+factor_components constraint=[0,1,2,3,4,5,6] conservative=[0,1,2,3,4,5,6] conservative_largest=7 full_product=35831808 independent_work=35831808 reduction=1.000000
+case_complete id=m9515-d1 elapsed_ms=2856
+case_begin id=m9515-d2 replay=artifacts/btc/m-9515-ab3d699-series.jsonl day=2
+ledger_before=8/8/41
+day_score=8/8/40
+score_after=8/16/81
+agent=0 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=53 initial_fuel=181 spots=14:6,18:2,5:5,4:4,8:0,23:7,1:1 terminal=110:167
+agent=1 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=0 initial_fuel=192 spots= terminal=75:192
+agent=2 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=51 initial_fuel=124 spots=3:3,18:2,1:1,8:0,23:7,7:7,2:2,17:1 terminal=402:73
+agent=3 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=47 initial_fuel=144 spots=19:3,18:2,2:2,17:1,8:0,23:7,22:6,21:5 terminal=143:97
+agent=4 kind=patrol claims=6 served=5 path_steps=96 raw_path_fuel=73 initial_fuel=192 spots=4:4,15:7,3:3,18:2,14:6,5:5 terminal=196:119
+agent=5 kind=patrol claims=6 served=4 path_steps=96 raw_path_fuel=73 initial_fuel=192 spots=4:4,15:7,3:3,18:2,14:6,5:5 terminal=196:119
+agent=6 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=65 initial_fuel=119 spots=1:1,8:0,15:7,3:3,18:2,14:6,5:5,4:4 terminal=75:192
+spot=1 brand=1 cell=110 stock=4 served=3 denied=0 agents=6S,2S,0S
+spot=2 brand=2 cell=495 stock=5 served=2 denied=0 agents=3S,2S
+spot=3 brand=3 cell=324 stock=2 served=2 denied=2 agents=2S,6S,4D,5D
+spot=4 brand=4 cell=75 stock=5 served=4 denied=0 agents=4S,5S,0S,6S
+spot=5 brand=5 cell=196 stock=5 served=4 denied=0 agents=0S,6S,4S,5S
+spot=7 brand=7 cell=256 stock=1 served=1 denied=0 agents=2S
+spot=8 brand=0 cell=16 stock=7 served=4 denied=0 agents=6S,2S,0S,3S
+spot=14 brand=6 cell=225 stock=3 served=3 denied=1 agents=0S,6S,4S,5D
+spot=15 brand=7 cell=22 stock=7 served=3 denied=0 agents=6S,4S,5S
+spot=17 brand=1 cell=402 stock=6 served=2 denied=0 agents=3S,2S
+spot=18 brand=2 cell=392 stock=6 served=6 denied=0 agents=2S,0S,3S,6S,4S,5S
+spot=19 brand=3 cell=564 stock=1 served=1 denied=0 agents=3S
+spot=21 brand=5 cell=143 stock=3 served=1 denied=0 agents=3S
+spot=22 brand=6 cell=91 stock=3 served=1 denied=0 agents=3S
+spot=23 brand=7 cell=90 stock=3 served=3 denied=0 agents=2S,0S,3S
+factor_portfolio columns=12/12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=15 refuel=0 escort=3 bundle=21 reservation=0 brand=15
+factor_components constraint=[0,1,2,3,4,5,6] conservative=[0,1,2,3,4,5,6] conservative_largest=7 full_product=35831808 independent_work=35831808 reduction=1.000000
+case_complete id=m9515-d2 elapsed_ms=3141
+case_begin id=m9515-d3 replay=artifacts/btc/m-9515-ab3d699-series.jsonl day=3
+ledger_before=8/16/81
+day_score=8/8/42
+score_after=8/24/123
+agent=0 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=50 initial_fuel=167 spots=1:1,8:0,23:7,17:1,18:2,3:3,14:6,5:5 terminal=196:117
+agent=1 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=0 initial_fuel=192 spots= terminal=75:192
+agent=2 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=40 initial_fuel=73 spots=17:1,2:2,18:2,1:1,8:0,23:7,22:6,21:5 terminal=143:33
+agent=3 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=47 initial_fuel=97 spots=21:5,15:7,8:0,23:7,17:1,2:2,19:3,6:6 terminal=510:50
+agent=4 kind=patrol claims=7 served=6 path_steps=96 raw_path_fuel=53 initial_fuel=119 spots=5:5,18:2,4:4,8:0,23:7,22:6,1:1 terminal=110:166
+agent=5 kind=patrol claims=6 served=5 path_steps=96 raw_path_fuel=48 initial_fuel=119 spots=5:5,18:2,4:4,8:0,23:7,22:6 terminal=91:171
+agent=6 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=56 initial_fuel=192 spots=4:4,8:0,1:1,18:2,5:5,14:6,3:3 terminal=324:136
+spot=1 brand=1 cell=110 stock=4 served=4 denied=0 agents=0S,6S,2S,4S
+spot=2 brand=2 cell=495 stock=5 served=2 denied=0 agents=2S,3S
+spot=3 brand=3 cell=324 stock=2 served=2 denied=0 agents=0S,6S
+spot=4 brand=4 cell=75 stock=5 served=3 denied=0 agents=6S,4S,5S
+spot=5 brand=5 cell=196 stock=5 served=4 denied=0 agents=4S,5S,6S,0S
+spot=6 brand=6 cell=510 stock=4 served=1 denied=0 agents=3S
+spot=8 brand=0 cell=16 stock=7 served=6 denied=0 agents=0S,3S,6S,2S,4S,5S
+spot=14 brand=6 cell=225 stock=3 served=2 denied=0 agents=0S,6S
+spot=15 brand=7 cell=22 stock=7 served=1 denied=0 agents=3S
+spot=17 brand=1 cell=402 stock=6 served=3 denied=0 agents=2S,0S,3S
+spot=18 brand=2 cell=392 stock=6 served=5 denied=0 agents=4S,5S,2S,0S,6S
+spot=19 brand=3 cell=564 stock=1 served=1 denied=0 agents=3S
+spot=21 brand=5 cell=143 stock=3 served=2 denied=0 agents=3S,2S
+spot=22 brand=6 cell=91 stock=3 served=3 denied=0 agents=2S,4S,5S
+spot=23 brand=7 cell=90 stock=3 served=3 denied=2 agents=0S,3S,2S,4D,5D
+factor_portfolio columns=12/12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=15 refuel=0 escort=1 bundle=21 reservation=0 brand=15
+factor_components constraint=[0,1,2,3,4,5,6] conservative=[0,1,2,3,4,5,6] conservative_largest=7 full_product=35831808 independent_work=35831808 reduction=1.000000
+case_complete id=m9515-d3 elapsed_ms=3412
+case_begin id=m9515-d4 replay=artifacts/btc/m-9515-ab3d699-series.jsonl day=4
+ledger_before=8/24/123
+day_score=8/8/41
+score_after=8/32/164
+agent=0 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=52 initial_fuel=117 spots=5:5,18:2,1:1,8:0,23:7,17:1,12:4 terminal=573:168
+agent=1 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=18 initial_fuel=192 spots= terminal=16:192
+agent=2 kind=patrol claims=8 served=7 path_steps=96 raw_path_fuel=33 initial_fuel=33 spots=21:5,9:1,7:7,14:6,1:1,8:0,23:7,22:6 terminal=91:188
+agent=3 kind=patrol claims=8 served=6 path_steps=96 raw_path_fuel=45 initial_fuel=50 spots=6:6,18:2,2:2,1:1,8:0,23:7,22:6,21:5 terminal=143:183
+agent=4 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=65 initial_fuel=166 spots=1:1,8:0,15:7,3:3,18:2,14:6,5:5,4:4 terminal=75:101
+agent=5 kind=patrol claims=6 served=6 path_steps=96 raw_path_fuel=43 initial_fuel=171 spots=22:6,8:0,23:7,17:1,15:7,21:5 terminal=143:128
+agent=6 kind=patrol claims=8 served=7 path_steps=96 raw_path_fuel=53 initial_fuel=136 spots=3:3,18:2,1:1,8:0,23:7,7:7,2:2,12:4 terminal=573:163
+spot=1 brand=1 cell=110 stock=4 served=4 denied=1 agents=4S,6S,0S,2S,3D
+spot=2 brand=2 cell=495 stock=5 served=2 denied=0 agents=3S,6S
+spot=3 brand=3 cell=324 stock=2 served=2 denied=0 agents=6S,4S
+spot=4 brand=4 cell=75 stock=5 served=1 denied=0 agents=4S
+spot=5 brand=5 cell=196 stock=5 served=2 denied=0 agents=0S,4S
+spot=6 brand=6 cell=510 stock=4 served=1 denied=0 agents=3S
+spot=7 brand=7 cell=256 stock=1 served=1 denied=1 agents=2S,6D
+spot=8 brand=0 cell=16 stock=7 served=6 denied=0 agents=4S,5S,6S,0S,2S,3S
+spot=9 brand=1 cell=212 stock=1 served=1 denied=0 agents=2S
+spot=12 brand=4 cell=573 stock=5 served=2 denied=0 agents=0S,6S
+spot=14 brand=6 cell=225 stock=3 served=2 denied=0 agents=2S,4S
+spot=15 brand=7 cell=22 stock=7 served=2 denied=0 agents=4S,5S
+spot=17 brand=1 cell=402 stock=6 served=2 denied=0 agents=5S,0S
+spot=18 brand=2 cell=392 stock=6 served=4 denied=0 agents=6S,3S,0S,4S
+spot=21 brand=5 cell=143 stock=3 served=3 denied=0 agents=2S,5S,3S
+spot=22 brand=6 cell=91 stock=3 served=3 denied=0 agents=5S,2S,3S
+spot=23 brand=7 cell=90 stock=3 served=3 denied=2 agents=5S,6S,0S,2D,3D
+factor_portfolio columns=12/12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=15 refuel=0 escort=0 bundle=21 reservation=0 brand=15
+factor_components constraint=[0,1,2,3,4,5,6] conservative=[0,1,2,3,4,5,6] conservative_largest=7 full_product=35831808 independent_work=35831808 reduction=1.000000
+case_complete id=m9515-d4 elapsed_ms=3689
+case_begin id=m9515-d5 replay=artifacts/btc/m-9515-ab3d699-series.jsonl day=5
+ledger_before=8/32/164
+day_score=8/8/43
+score_after=8/40/207
+agent=0 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=43 initial_fuel=168 spots=12:4,17:1,2:2,1:1,8:0,23:7,22:6,21:5 terminal=143:183
+agent=1 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=0 initial_fuel=192 spots= terminal=16:192
+agent=2 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=64 initial_fuel=188 spots=22:6,8:0,15:7,3:3,18:2,17:1,13:5 terminal=359:132
+agent=3 kind=patrol claims=9 served=7 path_steps=96 raw_path_fuel=54 initial_fuel=183 spots=21:5,9:1,3:3,18:2,1:1,8:0,23:7,22:6,15:7 terminal=22:183
+agent=4 kind=patrol claims=7 served=6 path_steps=96 raw_path_fuel=68 initial_fuel=101 spots=4:4,8:0,1:1,18:2,3:3,7:7,13:5 terminal=359:142
+agent=5 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=47 initial_fuel=128 spots=21:5,15:7,8:0,23:7,17:1,2:2,19:3,6:6 terminal=510:158
+agent=6 kind=patrol claims=8 served=7 path_steps=96 raw_path_fuel=43 initial_fuel=163 spots=12:4,17:1,2:2,1:1,8:0,23:7,22:6,21:5 terminal=143:183
+spot=1 brand=1 cell=110 stock=4 served=4 denied=0 agents=4S,0S,6S,3S
+spot=2 brand=2 cell=495 stock=5 served=3 denied=0 agents=0S,6S,5S
+spot=3 brand=3 cell=324 stock=2 served=2 denied=1 agents=3S,2S,4D
+spot=4 brand=4 cell=75 stock=5 served=1 denied=0 agents=4S
+spot=6 brand=6 cell=510 stock=4 served=1 denied=0 agents=5S
+spot=7 brand=7 cell=256 stock=1 served=1 denied=0 agents=4S
+spot=8 brand=0 cell=16 stock=7 served=6 denied=0 agents=2S,5S,4S,0S,6S,3S
+spot=9 brand=1 cell=212 stock=1 served=1 denied=0 agents=3S
+spot=12 brand=4 cell=573 stock=5 served=2 denied=0 agents=0S,6S
+spot=13 brand=5 cell=359 stock=2 served=2 denied=0 agents=4S,2S
+spot=15 brand=7 cell=22 stock=7 served=3 denied=0 agents=5S,2S,3S
+spot=17 brand=1 cell=402 stock=6 served=4 denied=0 agents=0S,6S,5S,2S
+spot=18 brand=2 cell=392 stock=6 served=3 denied=0 agents=3S,4S,2S
+spot=19 brand=3 cell=564 stock=1 served=1 denied=0 agents=5S
+spot=21 brand=5 cell=143 stock=3 served=3 denied=1 agents=3S,5S,0S,6D
+spot=22 brand=6 cell=91 stock=3 served=3 denied=1 agents=2S,0S,6S,3D
+spot=23 brand=7 cell=90 stock=3 served=3 denied=1 agents=5S,0S,6S,3D
+factor_portfolio columns=12/12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=15 refuel=0 escort=0 bundle=21 reservation=0 brand=15
+factor_components constraint=[0,1,2,3,4,5,6] conservative=[0,1,2,3,4,5,6] conservative_largest=7 full_product=35831808 independent_work=35831808 reduction=1.000000
+case_complete id=m9515-d5 elapsed_ms=3975
+case_begin id=m9515-d6 replay=artifacts/btc/m-9515-ab3d699-series.jsonl day=6
+ledger_before=8/40/207
+day_score=8/8/44
+score_after=8/48/251
+agent=0 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=56 initial_fuel=183 spots=21:5,15:7,3:3,18:2,1:1,8:0,22:6 terminal=91:188
+agent=1 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=0 initial_fuel=192 spots= terminal=16:192
+agent=2 kind=patrol claims=9 served=8 path_steps=96 raw_path_fuel=61 initial_fuel=132 spots=13:5,9:1,23:7,8:0,1:1,18:2,3:3,14:6,4:4 terminal=75:147
+agent=3 kind=patrol claims=8 served=7 path_steps=96 raw_path_fuel=59 initial_fuel=183 spots=15:7,8:0,23:7,17:1,18:2,3:3,14:6,5:5 terminal=196:141
+agent=4 kind=patrol claims=8 served=6 path_steps=96 raw_path_fuel=49 initial_fuel=142 spots=13:5,9:1,23:7,8:0,1:1,18:2,17:1,2:2 terminal=495:159
+agent=5 kind=patrol claims=7 served=5 path_steps=96 raw_path_fuel=64 initial_fuel=158 spots=6:6,18:2,0:0,16:0,8:0,23:7,1:1 terminal=110:185
+agent=6 kind=patrol claims=11 served=11 path_steps=96 raw_path_fuel=49 initial_fuel=183 spots=21:5,9:1,23:7,22:6,8:0,1:1,7:7,17:1,2:2,19:3,6:6 terminal=510:158
+spot=0 brand=0 cell=363 stock=3 served=1 denied=0 agents=5S
+spot=1 brand=1 cell=110 stock=4 served=4 denied=1 agents=2S,4S,6S,0S,5D
+spot=2 brand=2 cell=495 stock=5 served=2 denied=0 agents=6S,4S
+spot=3 brand=3 cell=324 stock=2 served=2 denied=1 agents=0S,2S,3D
+spot=4 brand=4 cell=75 stock=5 served=1 denied=0 agents=2S
+spot=5 brand=5 cell=196 stock=5 served=1 denied=0 agents=3S
+spot=6 brand=6 cell=510 stock=4 served=2 denied=0 agents=5S,6S
+spot=7 brand=7 cell=256 stock=1 served=1 denied=0 agents=6S
+spot=8 brand=0 cell=16 stock=7 served=6 denied=0 agents=3S,2S,4S,6S,5S,0S
+spot=9 brand=1 cell=212 stock=1 served=1 denied=2 agents=6S,2D,4D
+spot=13 brand=5 cell=359 stock=2 served=2 denied=0 agents=2S,4S
+spot=14 brand=6 cell=225 stock=3 served=2 denied=0 agents=2S,3S
+spot=15 brand=7 cell=22 stock=7 served=2 denied=0 agents=3S,0S
+spot=16 brand=0 cell=288 stock=5 served=1 denied=0 agents=5S
+spot=17 brand=1 cell=402 stock=6 served=3 denied=0 agents=3S,6S,4S
+spot=18 brand=2 cell=392 stock=6 served=5 denied=0 agents=5S,0S,2S,4S,3S
+spot=19 brand=3 cell=564 stock=1 served=1 denied=0 agents=6S
+spot=21 brand=5 cell=143 stock=3 served=2 denied=0 agents=0S,6S
+spot=22 brand=6 cell=91 stock=3 served=2 denied=0 agents=6S,0S
+spot=23 brand=7 cell=90 stock=3 served=3 denied=2 agents=6S,3S,2S,4D,5D
+factor_portfolio columns=12/12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=15 refuel=0 escort=0 bundle=21 reservation=0 brand=15
+factor_components constraint=[0,1,2,3,4,5,6] conservative=[0,1,2,3,4,5,6] conservative_largest=7 full_product=35831808 independent_work=35831808 reduction=1.000000
+case_complete id=m9515-d6 elapsed_ms=4280
+case_begin id=m9515-d7 replay=artifacts/btc/m-9515-ab3d699-series.jsonl day=7
+ledger_before=8/48/251
+day_score=8/8/42
+score_after=8/56/293
+agent=0 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=64 initial_fuel=188 spots=22:6,8:0,15:7,3:3,18:2,17:1,13:5 terminal=359:132
+agent=1 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=0 initial_fuel=192 spots= terminal=16:192
+agent=2 kind=patrol claims=7 served=6 path_steps=96 raw_path_fuel=68 initial_fuel=147 spots=4:4,8:0,1:1,18:2,3:3,7:7,13:5 terminal=359:142
+agent=3 kind=patrol claims=6 served=6 path_steps=96 raw_path_fuel=49 initial_fuel=141 spots=5:5,18:2,4:4,8:0,23:7,22:6 terminal=91:188
+agent=4 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=46 initial_fuel=159 spots=2:2,17:1,12:4,1:1,8:0,23:7,22:6,21:5 terminal=143:183
+agent=5 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=65 initial_fuel=185 spots=1:1,8:0,15:7,3:3,18:2,14:6,5:5,4:4 terminal=75:131
+agent=6 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=64 initial_fuel=158 spots=6:6,18:2,0:0,16:0,8:0,23:7,1:1 terminal=110:185
+spot=0 brand=0 cell=363 stock=3 served=1 denied=0 agents=6S
+spot=1 brand=1 cell=110 stock=4 served=4 denied=0 agents=5S,2S,4S,6S
+spot=2 brand=2 cell=495 stock=5 served=1 denied=0 agents=4S
+spot=3 brand=3 cell=324 stock=2 served=2 denied=1 agents=0S,5S,2D
+spot=4 brand=4 cell=75 stock=5 served=3 denied=0 agents=2S,3S,5S
+spot=5 brand=5 cell=196 stock=5 served=2 denied=0 agents=3S,5S
+spot=6 brand=6 cell=510 stock=4 served=1 denied=0 agents=6S
+spot=7 brand=7 cell=256 stock=1 served=1 denied=0 agents=2S
+spot=8 brand=0 cell=16 stock=7 served=6 denied=0 agents=0S,5S,2S,3S,4S,6S
+spot=12 brand=4 cell=573 stock=5 served=1 denied=0 agents=4S
+spot=13 brand=5 cell=359 stock=2 served=2 denied=0 agents=2S,0S
+spot=14 brand=6 cell=225 stock=3 served=1 denied=0 agents=5S
+spot=15 brand=7 cell=22 stock=7 served=2 denied=0 agents=0S,5S
+spot=16 brand=0 cell=288 stock=5 served=1 denied=0 agents=6S
+spot=17 brand=1 cell=402 stock=6 served=2 denied=0 agents=4S,0S
+spot=18 brand=2 cell=392 stock=6 served=5 denied=0 agents=6S,3S,2S,0S,5S
+spot=21 brand=5 cell=143 stock=3 served=1 denied=0 agents=4S
+spot=22 brand=6 cell=91 stock=3 served=3 denied=0 agents=0S,3S,4S
+spot=23 brand=7 cell=90 stock=3 served=3 denied=0 agents=3S,4S,6S
+factor_portfolio columns=12/12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=15 refuel=0 escort=0 bundle=21 reservation=0 brand=15
+factor_components constraint=[0,1,2,3,4,5,6] conservative=[0,1,2,3,4,5,6] conservative_largest=7 full_product=35831808 independent_work=35831808 reduction=1.000000
+case_complete id=m9515-d7 elapsed_ms=4592
+case_begin id=m9515-d8 replay=artifacts/btc/m-9515-ab3d699-series.jsonl day=8
+ledger_before=8/56/293
+day_score=8/8/44
+score_after=8/64/337
+agent=0 kind=patrol claims=9 served=9 path_steps=96 raw_path_fuel=57 initial_fuel=132 spots=13:5,9:1,23:7,8:0,1:1,18:2,3:3,14:6,4:4 terminal=75:192
+agent=1 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=18 initial_fuel=192 spots= terminal=75:192
+agent=2 kind=patrol claims=9 served=6 path_steps=96 raw_path_fuel=57 initial_fuel=142 spots=13:5,9:1,23:7,8:0,1:1,18:2,3:3,14:6,4:4 terminal=75:192
+agent=3 kind=patrol claims=7 served=6 path_steps=96 raw_path_fuel=49 initial_fuel=188 spots=22:6,8:0,23:7,17:1,1:1,10:2,4:4 terminal=75:192
+agent=4 kind=patrol claims=8 served=7 path_steps=96 raw_path_fuel=47 initial_fuel=183 spots=21:5,15:7,8:0,23:7,17:1,2:2,19:3,6:6 terminal=510:136
+agent=5 kind=patrol claims=6 served=6 path_steps=96 raw_path_fuel=51 initial_fuel=131 spots=4:4,8:0,1:1,18:2,17:1,2:2 terminal=495:152
+agent=6 kind=patrol claims=11 served=10 path_steps=96 raw_path_fuel=68 initial_fuel=185 spots=1:1,8:0,23:7,22:6,15:7,9:1,3:3,18:2,14:6,5:5,4:4 terminal=75:192
+spot=1 brand=1 cell=110 stock=4 served=4 denied=1 agents=6S,5S,0S,2S,3D
+spot=2 brand=2 cell=495 stock=5 served=2 denied=0 agents=4S,5S
+spot=3 brand=3 cell=324 stock=2 served=2 denied=1 agents=6S,0S,2D
+spot=4 brand=4 cell=75 stock=5 served=5 denied=0 agents=5S,3S,0S,2S,6S
+spot=5 brand=5 cell=196 stock=5 served=1 denied=0 agents=6S
+spot=6 brand=6 cell=510 stock=4 served=1 denied=0 agents=4S
+spot=8 brand=0 cell=16 stock=7 served=6 denied=0 agents=3S,6S,4S,5S,0S,2S
+spot=9 brand=1 cell=212 stock=1 served=1 denied=2 agents=0S,2D,6D
+spot=10 brand=2 cell=31 stock=3 served=1 denied=0 agents=3S
+spot=13 brand=5 cell=359 stock=2 served=2 denied=0 agents=0S,2S
+spot=14 brand=6 cell=225 stock=3 served=3 denied=0 agents=6S,0S,2S
+spot=15 brand=7 cell=22 stock=7 served=2 denied=0 agents=4S,6S
+spot=17 brand=1 cell=402 stock=6 served=3 denied=0 agents=3S,4S,5S
+spot=18 brand=2 cell=392 stock=6 served=4 denied=0 agents=5S,0S,2S,6S
+spot=19 brand=3 cell=564 stock=1 served=1 denied=0 agents=4S
+spot=21 brand=5 cell=143 stock=3 served=1 denied=0 agents=4S
+spot=22 brand=6 cell=91 stock=3 served=2 denied=0 agents=3S,6S
+spot=23 brand=7 cell=90 stock=3 served=3 denied=2 agents=3S,6S,0S,2D,4D
+factor_portfolio columns=12/12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=15 refuel=0 escort=0 bundle=21 reservation=0 brand=15
+factor_components constraint=[0,1,2,3,4,5,6] conservative=[0,1,2,3,4,5,6] conservative_largest=7 full_product=35831808 independent_work=35831808 reduction=1.000000
+case_complete id=m9515-d8 elapsed_ms=4943
+case_begin id=m9515-d9 replay=artifacts/btc/m-9515-ab3d699-series.jsonl day=9
+ledger_before=8/64/337
+day_score=8/8/52
+score_after=8/72/389
+agent=0 kind=patrol claims=11 served=10 path_steps=96 raw_path_fuel=65 initial_fuel=192 spots=4:4,20:4,10:2,14:6,18:2,3:3,1:1,8:0,23:7,22:6,21:5 terminal=143:162
+agent=1 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=16 initial_fuel=192 spots= terminal=392:192
+agent=2 kind=patrol claims=10 served=8 path_steps=96 raw_path_fuel=67 initial_fuel=192 spots=4:4,20:4,10:2,14:6,5:5,16:0,0:0,18:2,3:3,17:1 terminal=402:172
+agent=3 kind=patrol claims=12 served=7 path_steps=96 raw_path_fuel=71 initial_fuel=192 spots=4:4,20:4,10:2,14:6,18:2,3:3,7:7,9:1,21:5,22:6,23:7,8:0 terminal=16:156
+agent=4 kind=patrol claims=11 served=10 path_steps=96 raw_path_fuel=64 initial_fuel=136 spots=6:6,18:2,3:3,7:7,22:6,23:7,8:0,1:1,5:5,16:0,0:0 terminal=363:72
+agent=5 kind=patrol claims=10 served=10 path_steps=96 raw_path_fuel=57 initial_fuel=152 spots=2:2,17:1,7:7,3:3,18:2,6:6,0:0,16:0,5:5,4:4 terminal=75:164
+agent=6 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=42 initial_fuel=192 spots=4:4,18:2,1:1,8:0,23:7,22:6,21:5 terminal=143:166
+spot=0 brand=0 cell=363 stock=3 served=3 denied=0 agents=5S,2S,4S
+spot=1 brand=1 cell=110 stock=4 served=3 denied=0 agents=6S,4S,0S
+spot=2 brand=2 cell=495 stock=5 served=1 denied=0 agents=5S
+spot=3 brand=3 cell=324 stock=2 served=2 denied=3 agents=4S,5S,0D,3D,2D
+spot=4 brand=4 cell=75 stock=5 served=5 denied=0 agents=0S,2S,3S,6S,5S
+spot=5 brand=5 cell=196 stock=5 served=3 denied=0 agents=2S,4S,5S
+spot=6 brand=6 cell=510 stock=4 served=2 denied=0 agents=4S,5S
+spot=7 brand=7 cell=256 stock=1 served=1 denied=2 agents=5S,4D,3D
+spot=8 brand=0 cell=16 stock=7 served=4 denied=0 agents=4S,6S,0S,3S
+spot=9 brand=1 cell=212 stock=1 served=1 denied=0 agents=3S
+spot=10 brand=2 cell=31 stock=3 served=3 denied=0 agents=0S,2S,3S
+spot=14 brand=6 cell=225 stock=3 served=3 denied=0 agents=0S,2S,3S
+spot=16 brand=0 cell=288 stock=5 served=3 denied=0 agents=2S,5S,4S
+spot=17 brand=1 cell=402 stock=6 served=2 denied=0 agents=5S,2S
+spot=18 brand=2 cell=392 stock=6 served=6 denied=0 agents=4S,6S,5S,0S,3S,2S
+spot=20 brand=4 cell=0 stock=1 served=1 denied=2 agents=0S,2D,3D
+spot=21 brand=5 cell=143 stock=3 served=3 denied=0 agents=6S,3S,0S
+spot=22 brand=6 cell=91 stock=3 served=3 denied=1 agents=4S,6S,0S,3D
+spot=23 brand=7 cell=90 stock=3 served=3 denied=1 agents=4S,6S,0S,3D
+factor_portfolio columns=12/12/12/12/12/12/12 generation_deadline=0 reservations=0 proven_reservations=0
+factor_edges spot=15 refuel=0 escort=10 bundle=21 reservation=0 brand=15
+factor_components constraint=[0,1,2,3,4,5,6] conservative=[0,1,2,3,4,5,6] conservative_largest=7 full_product=35831808 independent_work=35831808 reduction=1.000000
+case_complete id=m9515-d9 elapsed_ms=5195
+run_complete cases=28 elapsed_ms=5197

@@ -1,0 +1,1015 @@
+# experiment=286 session_line=122833 call_id=call_VeaRr3PWDc6TpUARnOpUYjgG
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\include\udon\planner.hpp
+@@
+     bool harvestExtension = false;
+     bool exactOrienteering = false;
++    bool multiWaypointTankerProvider = false;
++    bool multiWaypointTankerConsumer = false;
+@@
+     bool enableAnytimeFuelConstrainedHarvestOrienteering = false;
++    bool enableMultiWaypointTankerProviders = false;
+     std::int32_t maximumHarvestExtensionSources = 1;
+     std::int32_t maximumHarvestExtensionDepth = 2;
++    std::int32_t maximumMultiWaypointTankerProviders = 4;
+@@
+     std::int32_t exactOrienteeringLocalServings = 0;
++    std::int32_t multiWaypointTankerProviderColumns = 0;
++    std::int32_t multiWaypointTankerConsumerColumns = 0;
+*** Update File: C:\Users\LMC\Desktop\4Fun\include\udon\decision.hpp
+@@
+     void set_short_horizon_role_fallback(bool enabled);
++    void set_multi_waypoint_tanker_providers(bool enabled);
+@@
+     std::vector<std::vector<CellId>> portfolioTerminalCellsByAgent;
+     ColumnGenerationDiagnostics columnGeneration;
++    std::int32_t selectedMultiWaypointTankerProviders = 0;
++    std::int32_t selectedMultiWaypointTankerConsumers = 0;
+@@
+     bool shortHorizonRoleFallback_ = false;
++    bool multiWaypointTankerProviders_ = false;
+*** End Patch
+# experiment=286 session_line=122841 call_id=call_Ex71lFJwwKLmVe60uG7wavOe
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\include\udon\planner.hpp
+@@
+     bool hasExactTimeline = false;
+     bool harvestExtension = false;
+     bool exactOrienteering = false;
++    bool multiWaypointTankerProvider = false;
++    bool multiWaypointTankerConsumer = false;
+@@
+     bool enableFuelConstrainedExactHarvestOrienteering = false;
+     bool enableAnytimeFuelConstrainedHarvestOrienteering = false;
++    bool enableMultiWaypointTankerProviders = false;
+     std::int32_t maximumHarvestExtensionSources = 1;
+     std::int32_t maximumHarvestExtensionDepth = 2;
++    std::int32_t maximumMultiWaypointTankerProviders = 4;
+@@
+     std::int32_t exactOrienteeringSeedServings = 0;
+     std::int32_t exactOrienteeringLocalServings = 0;
++    std::int32_t multiWaypointTankerProviderColumns = 0;
++    std::int32_t multiWaypointTankerConsumerColumns = 0;
+*** Update File: C:\Users\LMC\Desktop\4Fun\include\udon\decision.hpp
+@@
+     std::vector<std::int32_t> portfolioHarvestExtensionsByAgent;
+     std::vector<std::vector<CellId>> portfolioTerminalCellsByAgent;
+     ColumnGenerationDiagnostics columnGeneration;
++    std::int32_t selectedMultiWaypointTankerProviders = 0;
++    std::int32_t selectedMultiWaypointTankerConsumers = 0;
+@@
+     void set_short_horizon_role_fallback(bool enabled);
++    void set_multi_waypoint_tanker_providers(bool enabled);
+@@
+     bool requireUndominatedCurrentFloor_ = false;
+     bool shortHorizonRoleFallback_ = false;
++    bool multiWaypointTankerProviders_ = false;
+*** End Patch
+# experiment=286 session_line=122846 call_id=call_uxiTtcKLL0JejZ2nQxayusWi
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\src\planner.cpp
+@@
+ [[nodiscard]] AgentPlan rendezvous_actions(
+@@
+     return result;
+ }
++
++[[nodiscard]] AgentPlan multi_rendezvous_provider_actions(
++    const MatchConfig& config,
++    const DayState& state,
++    std::int32_t initialWait,
++    const ParetoPath& firstArrival,
++    const ParetoPath& secondArrival) {
++    const std::int32_t used = initialWait + firstArrival.travelSteps + 1 +
++        secondArrival.travelSteps + 1;
++    const std::int32_t daySteps = config.steps_for_day(state.dayNumber);
++    if (initialWait < 0 || used > daySteps) {
++        throw std::invalid_argument(
++            "multi-rendezvous provider route exceeds the current day budget");
++    }
++    AgentPlan result;
++    result.reserve(static_cast<std::size_t>(
++        firstArrival.directions.size() + secondArrival.directions.size() + 4U));
++    if (initialWait > 0) {
++        result.push_back(PlanAction::wait(initialWait));
++    }
++    for (const std::int32_t direction : firstArrival.directions) {
++        result.push_back(PlanAction::move(direction));
++    }
++    result.push_back(PlanAction::wait(1));
++    for (const std::int32_t direction : secondArrival.directions) {
++        result.push_back(PlanAction::move(direction));
++    }
++    result.push_back(PlanAction::wait(1));
++    const std::int32_t remaining = daySteps - used;
++    if (remaining > 0) {
++        result.push_back(PlanAction::wait(remaining));
++    }
++    return result;
++}
+*** End Patch
+# experiment=286 session_line=122856 call_id=call_96mQbgbariFqnWHINIBOy70f
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\src\planner.cpp
+@@
+     for (AgentIndex patrolIndex = 0;
+          patrolIndex < config_.agent_count() && createdRendezvous < rendezvousLimit && !deadline_expired();
+          ++patrolIndex) {
+@@
+             }
+         }
+     }
++
++    if (options.enableMultiWaypointTankerProviders &&
++        options.maximumMultiWaypointTankerProviders > 0 &&
++        !deadline_expired()) {
++        struct ProviderPair {
++            AgentIndex tanker = kInvalidAgent;
++            AgentIndex firstPatrol = kInvalidAgent;
++            AgentIndex secondPatrol = kInvalidAgent;
++            std::int32_t fuelDeficit = 0;
++            std::int32_t hexTravel = 0;
++        };
++        std::vector<ProviderPair> providerPairs;
++        for (AgentIndex tankerIndex = 0;
++             tankerIndex < config_.agent_count();
++             ++tankerIndex) {
++            const AgentState& tanker =
++                state.agents.at(static_cast<std::size_t>(tankerIndex));
++            if (tanker.kind != AgentKind::Tanker) {
++                continue;
++            }
++            for (AgentIndex firstPatrol = 0;
++                 firstPatrol < config_.agent_count();
++                 ++firstPatrol) {
++                const AgentState& first =
++                    state.agents.at(static_cast<std::size_t>(firstPatrol));
++                if (first.kind != AgentKind::Patrol) {
++                    continue;
++                }
++                for (AgentIndex secondPatrol = 0;
++                     secondPatrol < config_.agent_count();
++                     ++secondPatrol) {
++                    const AgentState& second =
++                        state.agents.at(static_cast<std::size_t>(secondPatrol));
++                    if (second.kind != AgentKind::Patrol ||
++                        secondPatrol == firstPatrol) {
++                        continue;
++                    }
++                    providerPairs.push_back(ProviderPair{
++                        tankerIndex,
++                        firstPatrol,
++                        secondPatrol,
++                        std::max(0, config_.fuelLimit - first.fuel) +
++                            std::max(0, config_.fuelLimit - second.fuel),
++                        config_.map.hex_distance(tanker.position, first.position) +
++                            config_.map.hex_distance(first.position, second.position),
++                    });
++                }
++            }
++        }
++        std::sort(
++            providerPairs.begin(),
++            providerPairs.end(),
++            [](const ProviderPair& left, const ProviderPair& right) {
++                if (left.fuelDeficit != right.fuelDeficit) {
++                    return left.fuelDeficit > right.fuelDeficit;
++                }
++                if (left.hexTravel != right.hexTravel) {
++                    return left.hexTravel < right.hexTravel;
++                }
++                return std::tie(
++                           left.tanker,
++                           left.firstPatrol,
++                           left.secondPatrol) <
++                    std::tie(
++                           right.tanker,
++                           right.firstPatrol,
++                           right.secondPatrol);
++            });
++
++        const std::int32_t daySteps =
++            config_.steps_for_day(state.dayNumber);
++        const auto path_or_empty =
++            [this, &state, &criticalRoads, &find_paths, &options](
++                CellId start,
++                CellId target,
++                std::int32_t maximumTravelSteps,
++                bool patrol,
++                std::int32_t maximumFuel) -> std::optional<ParetoPath> {
++                if (start == target) {
++                    return ParetoPath{};
++                }
++                ParetoSearchOptions pathOptions;
++                pathOptions.maximumTravelSteps = maximumTravelSteps;
++                pathOptions.maximumPatrolFuel = maximumFuel;
++                pathOptions.maximumLabelsPerCell = 32;
++                pathOptions.maximumPaths = 1;
++                pathOptions.patrol = patrol;
++                pathOptions.criticalRoads = criticalRoads;
++                pathOptions.deadline = options.deadline;
++                const std::vector<ParetoPath> paths =
++                    find_paths(start, target, pathOptions);
++                if (paths.empty()) {
++                    return std::nullopt;
++                }
++                return paths.front();
++            };
++        const auto build_consumers =
++            [this,
++             &state,
++             &ledger,
++             &rendezvousTargets,
++             &criticalRoads,
++             &path_or_empty,
++             daySteps](
++                AgentIndex patrolIndex,
++                std::int32_t refuelStep) {
++                std::vector<RouteColumn> consumers;
++                const AgentState& patrol =
++                    state.agents.at(static_cast<std::size_t>(patrolIndex));
++                const std::int32_t targetLimit = std::min<std::int32_t>(
++                    8,
++                    static_cast<std::int32_t>(rendezvousTargets.size()));
++                for (std::int32_t targetOffset = 0;
++                     targetOffset < targetLimit && consumers.size() < 2U;
++                     ++targetOffset) {
++                    const SpotIndex spotIndex = rendezvousTargets.at(
++                        static_cast<std::size_t>(targetOffset));
++                    const Spot& spot = config_.spots.at(
++                        static_cast<std::size_t>(spotIndex));
++                    const std::optional<ParetoPath> departure = path_or_empty(
++                        patrol.position,
++                        spot.position,
++                        daySteps - refuelStep,
++                        true,
++                        config_.fuelLimit);
++                    if (!departure.has_value() ||
++                        departure->travelSteps > daySteps - refuelStep) {
++                        continue;
++                    }
++                    RouteColumn consumer;
++                    consumer.agent = patrolIndex;
++                    consumer.actions = rendezvous_actions(
++                        config_,
++                        state,
++                        refuelStep - 1,
++                        ParetoPath{},
++                        *departure,
++                        1);
++                    consumer.terminalCell = spot.position;
++                    consumer.terminalFuel =
++                        config_.fuelLimit - departure->patrolFuel;
++                    consumer.estimatedBrands = brand_bit(spot.brandIndex);
++                    consumer.estimatedServings = 1;
++                    consumer.heuristicFootprint =
++                        departure->heuristicFootprint;
++                    consumer.requiredRefuels.push_back(
++                        RefuelEvent{patrol.position, refuelStep});
++                    consumer.multiWaypointTankerConsumer = true;
++                    consumer.priority =
++                        reservation_priority(
++                            std::vector<MandatoryReservation>{},
++                            state,
++                            spotIndex) +
++                        (!has_brand(ledger.lifetimeBrands, spot.brandIndex)
++                             ? 1700000
++                             : 1600000) +
++                        (config_.brand_count() -
++                         brand_rarity(config_, spot.brandIndex)) *
++                            1000 +
++                        spot.stock * 10 - refuelStep -
++                        departure->travelSteps;
++                    consumers.push_back(std::move(consumer));
++                }
++                return consumers;
++            };
++
++        std::int32_t createdProviders = 0;
++        for (const ProviderPair& pair : providerPairs) {
++            if (createdProviders >=
++                    options.maximumMultiWaypointTankerProviders ||
++                deadline_expired()) {
++                break;
++            }
++            const AgentState& tanker =
++                state.agents.at(static_cast<std::size_t>(pair.tanker));
++            const AgentState& first = state.agents.at(
++                static_cast<std::size_t>(pair.firstPatrol));
++            const AgentState& second = state.agents.at(
++                static_cast<std::size_t>(pair.secondPatrol));
++            const std::optional<ParetoPath> firstArrival = path_or_empty(
++                tanker.position,
++                first.position,
++                daySteps - 2,
++                false,
++                0);
++            if (!firstArrival.has_value()) {
++                continue;
++            }
++            const std::int32_t remainingForSecond =
++                daySteps - firstArrival->travelSteps - 2;
++            if (remainingForSecond < 0) {
++                continue;
++            }
++            const std::optional<ParetoPath> secondArrival = path_or_empty(
++                first.position,
++                second.position,
++                remainingForSecond,
++                false,
++                0);
++            if (!secondArrival.has_value()) {
++                continue;
++            }
++            const std::int32_t firstRefuelStep =
++                firstArrival->travelSteps + 1;
++            const std::int32_t secondRefuelStep =
++                firstRefuelStep + secondArrival->travelSteps + 1;
++            if (secondRefuelStep >= daySteps) {
++                continue;
++            }
++            std::vector<RouteColumn> firstConsumers = build_consumers(
++                pair.firstPatrol,
++                firstRefuelStep);
++            std::vector<RouteColumn> secondConsumers = build_consumers(
++                pair.secondPatrol,
++                secondRefuelStep);
++            if (firstConsumers.empty() || secondConsumers.empty()) {
++                continue;
++            }
++
++            RouteColumn provider;
++            provider.columnId = nextColumnId++;
++            provider.agent = pair.tanker;
++            provider.actions = multi_rendezvous_provider_actions(
++                config_,
++                state,
++                0,
++                *firstArrival,
++                *secondArrival);
++            provider.terminalCell = second.position;
++            provider.terminalFuel = tanker.fuel;
++            provider.heuristicFootprint = firstArrival->heuristicFootprint;
++            for (const auto& [road, stays] :
++                 secondArrival->heuristicFootprint.entries) {
++                provider.heuristicFootprint.add(road, stays);
++            }
++            provider.multiWaypointTankerProvider = true;
++            provider.priority = 1800000 + pair.fuelDeficit * 100 -
++                firstArrival->travelSteps - secondArrival->travelSteps;
++            portfolio.columnsByAgent.at(
++                static_cast<std::size_t>(pair.tanker)).push_back(
++                    std::move(provider));
++            if (diagnostics != nullptr) {
++                ++diagnostics->multiWaypointTankerProviderColumns;
++            }
++            const auto append_consumers =
++                [&portfolio, &nextColumnId, diagnostics](
++                    AgentIndex patrolIndex,
++                    std::vector<RouteColumn>& consumers) {
++                    for (RouteColumn& consumer : consumers) {
++                        consumer.columnId = nextColumnId++;
++                        portfolio.columnsByAgent.at(
++                            static_cast<std::size_t>(patrolIndex)).push_back(
++                                std::move(consumer));
++                        if (diagnostics != nullptr) {
++                            ++diagnostics->multiWaypointTankerConsumerColumns;
++                        }
++                    }
++                };
++            append_consumers(pair.firstPatrol, firstConsumers);
++            append_consumers(pair.secondPatrol, secondConsumers);
++            ++createdProviders;
++        }
++    }
+ 
+     std::vector<SpotIndex> dockingTargets;
+*** End Patch
+# experiment=286 session_line=122861 call_id=call_FkBCe5Bf9yRyOjk3AStwqJNn
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\src\planner.cpp
+@@
+              &ledger,
+              &rendezvousTargets,
+              &criticalRoads,
++             &options,
+              &path_or_empty,
+@@
+                         reservation_priority(
+-                            std::vector<MandatoryReservation>{},
++                            options.mandatoryReservations,
+*** End Patch
+# experiment=286 session_line=122866 call_id=call_ldbUFMf8uTo25ai2aegeEUdl
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\src\planner.cpp
+@@
+              &state,
+              &ledger,
+              &rendezvousTargets,
+-             &criticalRoads,
+              &options,
+*** End Patch
+# experiment=286 session_line=122872 call_id=call_xmJRVyzYqdHbO06ADuhUjYPx
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\src\decision.cpp
+@@
+ void UdonShieldEngine::set_short_horizon_role_fallback(bool enabled) {
+     shortHorizonRoleFallback_ = enabled;
+ }
++
++void UdonShieldEngine::set_multi_waypoint_tanker_providers(bool enabled) {
++    multiWaypointTankerProviders_ = enabled;
++}
+@@
+     generationOptions.enableAnytimeFuelConstrainedHarvestOrienteering =
+         generationOptions.enableFuelConstrainedExactHarvestOrienteering;
++    generationOptions.enableMultiWaypointTankerProviders =
++        multiWaypointTankerProviders_;
+@@
+     if (!detailed.valid || !validator_.agrees_with(detailed, validation, mismatch)) {
+         throw std::runtime_error("final candidate failed independent validation: " + mismatch);
+     }
+     result.candidate.simulation = detailed;
++    const auto same_actions = [](const AgentPlan& left, const AgentPlan& right) {
++        return left.size() == right.size() && std::equal(
++            left.begin(),
++            left.end(),
++            right.begin(),
++            [](const PlanAction& leftAction, const PlanAction& rightAction) {
++                return leftAction.kind == rightAction.kind &&
++                    leftAction.value == rightAction.value;
++            });
++    };
++    for (AgentIndex agentIndex = 0;
++         agentIndex < config_.agent_count();
++         ++agentIndex) {
++        const AgentPlan& selectedActions = result.candidate.plan.actions.at(
++            static_cast<std::size_t>(agentIndex));
++        const std::vector<RouteColumn>& columns = portfolio.columnsByAgent.at(
++            static_cast<std::size_t>(agentIndex));
++        result.audit.selectedMultiWaypointTankerProviders +=
++            std::any_of(
++                columns.begin(),
++                columns.end(),
++                [&selectedActions, &same_actions](const RouteColumn& column) {
++                    return column.multiWaypointTankerProvider &&
++                        same_actions(column.actions, selectedActions);
++                })
++            ? 1
++            : 0;
++        result.audit.selectedMultiWaypointTankerConsumers +=
++            std::any_of(
++                columns.begin(),
++                columns.end(),
++                [&selectedActions, &same_actions](const RouteColumn& column) {
++                    return column.multiWaypointTankerConsumer &&
++                        same_actions(column.actions, selectedActions);
++                })
++            ? 1
++            : 0;
++    }
+     result.profile = std::move(certifiedPool.at(selected).profile);
+*** End Patch
+# experiment=287 session_line=123293 call_id=call_AwmvBNFYotXcqwREVvuutr1x
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\include\udon\planner.hpp
+@@
+     bool exactOrienteering = false;
+     bool multiWaypointTankerProvider = false;
+     bool multiWaypointTankerConsumer = false;
++    std::int32_t multiWaypointServiceGroup = -1;
++    std::uint32_t multiWaypointServiceAgentMask = 0;
+     std::int32_t harvestExtensionSourceRank = 0;
+*** Update File: C:\Users\LMC\Desktop\4Fun\include\udon\decision.hpp
+@@
+     ColumnGenerationDiagnostics columnGeneration;
+     std::int32_t selectedMultiWaypointTankerProviders = 0;
+     std::int32_t selectedMultiWaypointTankerConsumers = 0;
++    std::int32_t multiWaypointAtomicityFailures = 0;
+*** Update File: C:\Users\LMC\Desktop\4Fun\src\planner.cpp
+@@
+ struct SynchronizationAvailability {
+     std::vector<std::uint32_t> escortAgentMasks;
+     std::vector<std::uint32_t> escortTankerMasks;
++    std::vector<std::uint32_t> multiWaypointAgentMasks;
++    std::vector<std::uint32_t> multiWaypointRequiredMasks;
++    std::vector<std::uint32_t> multiWaypointProviderMasks;
++    std::vector<std::uint32_t> multiWaypointConsumerMasks;
+     std::unordered_map<std::uint64_t, std::uint32_t> refuelProviderMasks;
+ };
+*** End Patch
+# experiment=287 session_line=123298 call_id=call_gTMcwdu48emVqo6VIVFXteHj
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\src\planner.cpp
+@@
+ [[nodiscard]] bool synchronized_selection_is_valid(
+     const DayState& state,
+     const std::vector<const RouteColumn*>& selected) {
++    struct MultiWaypointGroup {
++        std::uint32_t requiredMask = 0;
++        std::uint32_t selectedMask = 0;
++        std::int32_t providers = 0;
++        std::int32_t consumers = 0;
++        bool consistent = true;
++    };
+     std::map<std::int32_t, std::int32_t> contingencyBundles;
+     std::map<std::int32_t, std::vector<AgentIndex>> groups;
++    std::map<std::int32_t, MultiWaypointGroup> multiWaypointGroups;
+     for (AgentIndex agentIndex = 0; agentIndex < static_cast<AgentIndex>(selected.size()); ++agentIndex) {
+         const RouteColumn* column = selected.at(static_cast<std::size_t>(agentIndex));
+@@
+         if (column->escortGroup >= 0) {
+             groups[column->escortGroup].push_back(agentIndex);
+         }
++        if (column->multiWaypointServiceGroup >= 0) {
++            MultiWaypointGroup& group =
++                multiWaypointGroups[column->multiWaypointServiceGroup];
++            if (group.requiredMask == 0) {
++                group.requiredMask = column->multiWaypointServiceAgentMask;
++            } else if (group.requiredMask != column->multiWaypointServiceAgentMask) {
++                group.consistent = false;
++            }
++            const std::uint32_t agentMask =
++                std::uint32_t{1} << static_cast<std::uint32_t>(agentIndex);
++            group.selectedMask |= agentMask;
++            group.providers += column->multiWaypointTankerProvider ? 1 : 0;
++            group.consumers += column->multiWaypointTankerConsumer ? 1 : 0;
++            if ((column->multiWaypointTankerProvider ==
++                 column->multiWaypointTankerConsumer) ||
++                (column->multiWaypointServiceAgentMask & agentMask) == 0U) {
++                group.consistent = false;
++            }
++        }
+@@
+     for (const auto& [groupId, agents] : groups) {
+@@
+         }
+     }
++    for (const auto& [groupId, group] : multiWaypointGroups) {
++        static_cast<void>(groupId);
++        if (!group.consistent || std::popcount(group.requiredMask) != 3 ||
++            group.selectedMask != group.requiredMask || group.providers != 1 ||
++            group.consumers != 2) {
++            return false;
++        }
++    }
+*** End Patch
+# experiment=287 session_line=123303 call_id=call_bqorXwV6Marv2R5iut9feQaK
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\src\planner.cpp
+@@
+     struct ActiveGroup {
+         std::int32_t groupId = -1;
+         std::int32_t selectedMembers = 0;
+         std::int32_t selectedTankers = 0;
+     };
++    struct ActiveMultiWaypointGroup {
++        std::int32_t groupId = -1;
++        std::uint32_t requiredMask = 0;
++        std::uint32_t selectedMask = 0;
++        std::int32_t selectedProviders = 0;
++        std::int32_t selectedConsumers = 0;
++        bool consistent = true;
++    };
+     std::array<ActiveGroup, static_cast<std::size_t>(kMaximumAgents)> activeGroups{};
+     std::size_t activeGroupCount = 0;
++    std::array<ActiveMultiWaypointGroup, static_cast<std::size_t>(kMaximumAgents)>
++        activeMultiWaypointGroups{};
++    std::size_t activeMultiWaypointGroupCount = 0;
+     std::uint32_t assignedAgentMask = 0;
+@@
+         assignedAgentMask |=
+             std::uint32_t{1} << static_cast<std::uint32_t>(agentIndex);
++        if (column->multiWaypointServiceGroup >= 0) {
++            auto service = std::find_if(
++                activeMultiWaypointGroups.begin(),
++                activeMultiWaypointGroups.begin() +
++                    static_cast<std::ptrdiff_t>(activeMultiWaypointGroupCount),
++                [column](const ActiveMultiWaypointGroup& group) {
++                    return group.groupId == column->multiWaypointServiceGroup;
++                });
++            if (service == activeMultiWaypointGroups.begin() +
++                    static_cast<std::ptrdiff_t>(activeMultiWaypointGroupCount)) {
++                if (activeMultiWaypointGroupCount >= activeMultiWaypointGroups.size()) {
++                    return false;
++                }
++                service = activeMultiWaypointGroups.begin() +
++                    static_cast<std::ptrdiff_t>(activeMultiWaypointGroupCount);
++                *service = ActiveMultiWaypointGroup{
++                    column->multiWaypointServiceGroup,
++                    column->multiWaypointServiceAgentMask};
++                ++activeMultiWaypointGroupCount;
++            } else if (service->requiredMask !=
++                       column->multiWaypointServiceAgentMask) {
++                service->consistent = false;
++            }
++            const std::uint32_t agentMask =
++                std::uint32_t{1} << static_cast<std::uint32_t>(agentIndex);
++            service->selectedMask |= agentMask;
++            service->selectedProviders +=
++                column->multiWaypointTankerProvider ? 1 : 0;
++            service->selectedConsumers +=
++                column->multiWaypointTankerConsumer ? 1 : 0;
++            if ((column->multiWaypointTankerProvider ==
++                 column->multiWaypointTankerConsumer) ||
++                (column->multiWaypointServiceAgentMask & agentMask) == 0U) {
++                service->consistent = false;
++            }
++        }
+         if (column->escortGroup < 0) {
+             continue;
+@@
+     for (std::size_t groupIndex = 0; groupIndex < activeGroupCount; ++groupIndex) {
+@@
+         }
+     }
++    for (std::size_t groupIndex = 0;
++         groupIndex < activeMultiWaypointGroupCount;
++         ++groupIndex) {
++        const ActiveMultiWaypointGroup& active =
++            activeMultiWaypointGroups.at(groupIndex);
++        const std::size_t groupOffset = static_cast<std::size_t>(active.groupId);
++        if (!active.consistent || std::popcount(active.requiredMask) != 3 ||
++            groupOffset >= availability.multiWaypointAgentMasks.size() ||
++            groupOffset >= availability.multiWaypointRequiredMasks.size() ||
++            availability.multiWaypointRequiredMasks.at(groupOffset) !=
++                active.requiredMask ||
++            (active.selectedMask & ~active.requiredMask) != 0U) {
++            return false;
++        }
++        const std::uint32_t unassignedRequired =
++            active.requiredMask & ~assignedAgentMask;
++        if ((unassignedRequired &
++             ~availability.multiWaypointAgentMasks.at(groupOffset)) != 0U) {
++            return false;
++        }
++        const std::uint32_t availableProviderMask =
++            groupOffset < availability.multiWaypointProviderMasks.size()
++            ? availability.multiWaypointProviderMasks.at(groupOffset) &
++                unassignedRequired
++            : 0U;
++        const std::uint32_t availableConsumerMask =
++            groupOffset < availability.multiWaypointConsumerMasks.size()
++            ? availability.multiWaypointConsumerMasks.at(groupOffset) &
++                unassignedRequired
++            : 0U;
++        if (active.selectedProviders > 1 || active.selectedConsumers > 2 ||
++            (active.selectedProviders == 0 && availableProviderMask == 0U) ||
++            active.selectedConsumers +
++                    static_cast<std::int32_t>(std::popcount(availableConsumerMask)) <
++                2) {
++            return false;
++        }
++    }
+ 
+     for (AgentIndex patrolIndex = 0; patrolIndex < static_cast<AgentIndex>(selected.size()); ++patrolIndex) {
+*** End Patch
+# experiment=287 session_line=123313 call_id=call_l2mNS2NpcuIpxuuYUPHDiWcQ
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\src\planner.cpp
+@@
+                 columns.end(),
+                 [](const RouteColumn& column) {
+-                    return column.escortGroup >= 0 || !column.requiredRefuels.empty();
++                    return column.escortGroup >= 0 ||
++                        column.multiWaypointServiceGroup >= 0 ||
++                        !column.requiredRefuels.empty();
+                 });
+@@
+                 if (column.escortGroup >= 0) {
+@@
+                     }
+                 }
++                if (column.multiWaypointServiceGroup >= 0) {
++                    const std::size_t groupOffset = static_cast<std::size_t>(
++                        column.multiWaypointServiceGroup);
++                    if (groupOffset >=
++                        synchronizationAvailability.multiWaypointAgentMasks.size()) {
++                        const std::size_t size = groupOffset + 1U;
++                        synchronizationAvailability.multiWaypointAgentMasks.resize(size);
++                        synchronizationAvailability.multiWaypointRequiredMasks.resize(size);
++                        synchronizationAvailability.multiWaypointProviderMasks.resize(size);
++                        synchronizationAvailability.multiWaypointConsumerMasks.resize(size);
++                    }
++                    synchronizationAvailability.multiWaypointAgentMasks.at(
++                        groupOffset) |= agentMask;
++                    std::uint32_t& required =
++                        synchronizationAvailability.multiWaypointRequiredMasks.at(
++                            groupOffset);
++                    if (required == 0U) {
++                        required = column.multiWaypointServiceAgentMask;
++                    } else if (required != column.multiWaypointServiceAgentMask) {
++                        required = std::numeric_limits<std::uint32_t>::max();
++                    }
++                    if (column.multiWaypointTankerProvider) {
++                        synchronizationAvailability.multiWaypointProviderMasks.at(
++                            groupOffset) |= agentMask;
++                    }
++                    if (column.multiWaypointTankerConsumer) {
++                        synchronizationAvailability.multiWaypointConsumerMasks.at(
++                            groupOffset) |= agentMask;
++                    }
++                }
+                 if (isTanker) {
+*** End Patch
+# experiment=287 session_line=123318 call_id=call_tnB5gVCjp8xW683V6d3SOwae
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\src\planner.cpp
+@@
+     portfolio.columnsByAgent.resize(static_cast<std::size_t>(config_.agent_count()));
+     std::int32_t nextColumnId = 0;
+     std::int32_t nextEscortGroup = 0;
++    std::int32_t nextMultiWaypointServiceGroup = 0;
+@@
+             if (firstConsumers.empty() || secondConsumers.empty()) {
+                 continue;
+             }
++            const std::int32_t serviceGroup =
++                nextMultiWaypointServiceGroup++;
++            const std::uint32_t serviceAgentMask =
++                (std::uint32_t{1} << static_cast<std::uint32_t>(pair.tanker)) |
++                (std::uint32_t{1} <<
++                 static_cast<std::uint32_t>(pair.firstPatrol)) |
++                (std::uint32_t{1} <<
++                 static_cast<std::uint32_t>(pair.secondPatrol));
+ 
+             RouteColumn provider;
+@@
+             }
+             provider.multiWaypointTankerProvider = true;
++            provider.multiWaypointServiceGroup = serviceGroup;
++            provider.multiWaypointServiceAgentMask = serviceAgentMask;
+             provider.priority = 1800000 + pair.fuelDeficit * 100 -
+@@
+             const auto append_consumers =
+-                [&portfolio, &nextColumnId, diagnostics](
++                [&portfolio,
++                 &nextColumnId,
++                 diagnostics,
++                 serviceGroup,
++                 serviceAgentMask](
+                     AgentIndex patrolIndex,
+                     std::vector<RouteColumn>& consumers) {
+                     for (RouteColumn& consumer : consumers) {
+                         consumer.columnId = nextColumnId++;
++                        consumer.multiWaypointServiceGroup = serviceGroup;
++                        consumer.multiWaypointServiceAgentMask = serviceAgentMask;
+*** End Patch
+# experiment=287 session_line=123323 call_id=call_B8eUU7arltcUnFnkUWRhQAsG
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\src\planner.cpp
+@@
+             const std::string leftKey = actions_key(
+                 left.actions,
+                 left.escortGroup,
+                 left.contingencyBundle,
+-                left.requiredRefuels);
++                left.requiredRefuels) +
++                "|mwg=" + std::to_string(left.multiWaypointServiceGroup);
+             const std::string rightKey = actions_key(
+                 right.actions,
+                 right.escortGroup,
+                 right.contingencyBundle,
+-                right.requiredRefuels);
++                right.requiredRefuels) +
++                "|mwg=" + std::to_string(right.multiWaypointServiceGroup);
+@@
+         const std::string key = actions_key(
+             column.actions,
+             column.escortGroup,
+             column.contingencyBundle,
+-            column.requiredRefuels);
++            column.requiredRefuels) +
++            "|mwg=" + std::to_string(column.multiWaypointServiceGroup);
+*** End Patch
+# experiment=287 session_line=123333 call_id=call_vcpPTQLjmpmoBXqw6ZbO6UlA
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\src\decision.cpp
+@@
+-    for (AgentIndex agentIndex = 0;
+-         agentIndex < config_.agent_count();
+-         ++agentIndex) {
++    struct MatchedMultiWaypointGroup {
++        std::uint32_t requiredMask = 0;
++        std::uint32_t selectedMask = 0;
++        std::uint32_t providerMask = 0;
++        std::uint32_t consumerMask = 0;
++        bool consistent = true;
++    };
++    std::map<std::int32_t, MatchedMultiWaypointGroup>
++        matchedMultiWaypointGroups;
++    bool matchedAnyMultiWaypointColumn = false;
++    for (AgentIndex agentIndex = 0;
++         agentIndex < config_.agent_count();
++         ++agentIndex) {
+         const AgentPlan& selectedActions = result.candidate.plan.actions.at(
+             static_cast<std::size_t>(agentIndex));
+         const std::vector<RouteColumn>& columns = portfolio.columnsByAgent.at(
+             static_cast<std::size_t>(agentIndex));
+-        result.audit.selectedMultiWaypointTankerProviders +=
+-            std::any_of(
+-                columns.begin(),
+-                columns.end(),
+-                [&selectedActions, &same_actions](const RouteColumn& column) {
+-                    return column.multiWaypointTankerProvider &&
+-                        same_actions(column.actions, selectedActions);
+-                })
+-            ? 1
+-            : 0;
+-        result.audit.selectedMultiWaypointTankerConsumers +=
+-            std::any_of(
+-                columns.begin(),
+-                columns.end(),
+-                [&selectedActions, &same_actions](const RouteColumn& column) {
+-                    return column.multiWaypointTankerConsumer &&
+-                        same_actions(column.actions, selectedActions);
+-                })
+-            ? 1
+-            : 0;
++        const std::uint32_t agentMask =
++            std::uint32_t{1} << static_cast<std::uint32_t>(agentIndex);
++        for (const RouteColumn& column : columns) {
++            if (column.multiWaypointServiceGroup < 0 ||
++                !same_actions(column.actions, selectedActions)) {
++                continue;
++            }
++            matchedAnyMultiWaypointColumn = true;
++            MatchedMultiWaypointGroup& group =
++                matchedMultiWaypointGroups[column.multiWaypointServiceGroup];
++            if (group.requiredMask == 0U) {
++                group.requiredMask = column.multiWaypointServiceAgentMask;
++            } else if (group.requiredMask !=
++                       column.multiWaypointServiceAgentMask) {
++                group.consistent = false;
++            }
++            group.selectedMask |= agentMask;
++            if (column.multiWaypointTankerProvider) {
++                group.providerMask |= agentMask;
++            }
++            if (column.multiWaypointTankerConsumer) {
++                group.consumerMask |= agentMask;
++            }
++        }
++    }
++    std::int32_t completeMultiWaypointGroups = 0;
++    for (const auto& [groupId, group] : matchedMultiWaypointGroups) {
++        static_cast<void>(groupId);
++        if (group.consistent && std::popcount(group.requiredMask) == 3 &&
++            group.selectedMask == group.requiredMask &&
++            std::popcount(group.providerMask) == 1 &&
++            std::popcount(group.consumerMask) == 2) {
++            ++completeMultiWaypointGroups;
++        }
++    }
++    result.audit.selectedMultiWaypointTankerProviders =
++        completeMultiWaypointGroups;
++    result.audit.selectedMultiWaypointTankerConsumers =
++        2 * completeMultiWaypointGroups;
++    if (matchedAnyMultiWaypointColumn && completeMultiWaypointGroups == 0) {
++        ++result.audit.multiWaypointAtomicityFailures;
+     }
+*** End Patch
+# experiment=287 session_line=123342 call_id=call_G6zdAcMZIirZ53WZiSgDJV90
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\old\harness\historical_tournament.cpp
+@@
+     std::int64_t multiWaypointConsumerColumns = 0;
+     std::int64_t multiWaypointSelectedProviders = 0;
+     std::int64_t multiWaypointSelectedConsumers = 0;
++    std::int64_t multiWaypointAtomicityFailures = 0;
+@@
+         metrics.multiWaypointSelectedConsumers +=
+             decision.audit.selectedMultiWaypointTankerConsumers;
++        metrics.multiWaypointAtomicityFailures +=
++            decision.audit.multiWaypointAtomicityFailures;
+@@
+               << ",multi_waypoint_selected_consumers="
+               << metrics.multiWaypointSelectedConsumers
++              << ",multi_waypoint_atomicity_failures="
++              << metrics.multiWaypointAtomicityFailures
+*** End Patch
+# experiment=287 session_line=123352 call_id=call_yLrNefavf3CIk95rXDSaVAAh
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\tests\test_main.cpp
+@@
+ void test_multi_waypoint_tanker_provider_supply(
+@@
+         "multi-waypoint generation diagnostics must report provider and consumer supply");
+ }
++
++void test_multi_waypoint_service_group_is_atomic(
++    const udon::MatchConfig& config,
++    const udon::DayState& state) {
++    udon::DayState atomicState = state;
++    atomicState.agents.at(0).position = 16;
++    atomicState.agents.at(0).fuel = 1;
++    atomicState.agents.at(1).position = 16;
++    atomicState.agents.at(2).position = 16;
++    atomicState.agents.at(2).fuel = 1;
++    const std::uint32_t requiredMask = 0b111U;
++    const udon::RefuelEvent event{16, 1};
++    const auto make_wait = [&config](udon::AgentIndex agent) {
++        udon::RouteColumn column;
++        column.columnId = agent;
++        column.agent = agent;
++        column.actions = udon::AgentPlan{
++            udon::PlanAction::wait(config.steps_for_day(1))};
++        column.terminalCell = 16;
++        return column;
++    };
++
++    udon::RoutePortfolio complete;
++    complete.columnsByAgent.resize(3U);
++    udon::RouteColumn firstConsumer = make_wait(0);
++    firstConsumer.multiWaypointTankerConsumer = true;
++    firstConsumer.multiWaypointServiceGroup = 7;
++    firstConsumer.multiWaypointServiceAgentMask = requiredMask;
++    firstConsumer.requiredRefuels.push_back(event);
++    complete.columnsByAgent.at(0).push_back(firstConsumer);
++    udon::RouteColumn provider = make_wait(1);
++    provider.multiWaypointTankerProvider = true;
++    provider.multiWaypointServiceGroup = 7;
++    provider.multiWaypointServiceAgentMask = requiredMask;
++    provider.providedRefuels.push_back(event);
++    complete.columnsByAgent.at(1).push_back(provider);
++    udon::RouteColumn secondConsumer = make_wait(2);
++    secondConsumer.multiWaypointTankerConsumer = true;
++    secondConsumer.multiWaypointServiceGroup = 7;
++    secondConsumer.multiWaypointServiceAgentMask = requiredMask;
++    secondConsumer.requiredRefuels.push_back(event);
++    complete.columnsByAgent.at(2).push_back(secondConsumer);
++
++    const udon::ExactStepSimulator simulator(config);
++    const udon::IndependentDayValidator validator(config);
++    const udon::RouteMaster master(config, simulator, validator);
++    udon::MasterOptions options;
++    options.maximumCombinations = 1;
++    options.maximumCandidates = 1;
++    options.maximumResolveRounds = 1;
++    udon::MasterDiagnostics diagnostics;
++    require(
++        !master.solve(
++             atomicState,
++             udon::MatchLedger{},
++             complete,
++             options,
++             diagnostics).empty(),
++        "one provider plus both required Patrol consumers must form an admissible atomic group");
++
++    udon::RoutePortfolio incomplete = complete;
++    incomplete.columnsByAgent.at(2).front() = make_wait(2);
++    require(
++        master.solve(
++            atomicState,
++            udon::MatchLedger{},
++            incomplete,
++            options,
++            diagnostics).empty(),
++        "the master must reject a multi-waypoint provider with only one matching consumer");
++
++    udon::RoutePortfolio orphan = complete;
++    orphan.columnsByAgent.at(0).front() = make_wait(0);
++    orphan.columnsByAgent.at(2).front() = make_wait(2);
++    require(
++        master.solve(
++            atomicState,
++            udon::MatchLedger{},
++            orphan,
++            options,
++            diagnostics).empty(),
++        "the master must reject an orphan multi-waypoint Tanker provider");
++}
+ 
+ void test_normal_decision_requires_certified_witnesses(const udon::MatchConfig& config, const udon::DayState& state) {
+@@
+         test_multi_patrol_lockstep_escort(config, state);
+         test_multi_waypoint_tanker_provider_supply(config, state);
++        test_multi_waypoint_service_group_is_atomic(config, state);
+*** End Patch
+# experiment=287 session_line=123365 call_id=call_uRSPhqsw8CYE2NIEl13ODHcJ
+*** Begin Patch
+*** Update File: C:\Users\LMC\Desktop\4Fun\src\planner.cpp
+@@
+         }
+     }
++    for (const auto& [groupId, group] : multiWaypointGroups) {
++        static_cast<void>(groupId);
++        if (!group.consistent || std::popcount(group.requiredMask) != 3 ||
++            group.selectedMask != group.requiredMask || group.providers != 1 ||
++            group.consumers != 2) {
++            return false;
++        }
++    }
+     for (AgentIndex agentIndex = 0; agentIndex < static_cast<AgentIndex>(selected.size()); ++agentIndex) {
+@@
+-    for (const auto& [groupId, group] : multiWaypointGroups) {
+-        static_cast<void>(groupId);
+-        if (!group.consistent || std::popcount(group.requiredMask) != 3 ||
+-            group.selectedMask != group.requiredMask || group.providers != 1 ||
+-            group.consumers != 2) {
+-            return false;
+-        }
+-    }
+-
+     if (options.enableMultiWaypointTankerProviders &&
+*** End Patch

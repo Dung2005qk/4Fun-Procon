@@ -1,0 +1,33 @@
+case_begin replay=m-6213 day=5 stratum=middle started=2026-08-31T15:40:00.2179908+00:00 max_states=50000 max_routes=32
+ledger_before=8/32/250
+day_score=8/8/60
+score_after=8/40/310
+agent=0 kind=patrol claims=8 served=8 path_steps=144 raw_path_fuel=71 initial_fuel=432 spots=8:0,14:6,17:1,6:6,19:3,23:7,12:4,10:2 terminal=349:361
+agent=1 kind=patrol claims=10 served=10 path_steps=144 raw_path_fuel=84 initial_fuel=399 spots=9:1,5:5,7:7,2:2,4:4,17:1,14:6,0:0,18:2,10:2 terminal=349:315
+agent=2 kind=patrol claims=8 served=8 path_steps=144 raw_path_fuel=71 initial_fuel=432 spots=8:0,14:6,17:1,6:6,19:3,23:7,12:4,10:2 terminal=349:361
+agent=3 kind=patrol claims=9 served=9 path_steps=144 raw_path_fuel=103 initial_fuel=381 spots=5:5,7:7,0:0,17:1,18:2,20:4,11:3,6:6,8:0 terminal=194:426
+agent=4 kind=patrol claims=9 served=9 path_steps=144 raw_path_fuel=76 initial_fuel=383 spots=13:5,5:5,7:7,2:2,4:4,8:0,6:6,19:3,9:1 terminal=491:399
+agent=5 kind=tanker claims=0 served=0 path_steps=144 raw_path_fuel=0 initial_fuel=432 spots= terminal=49:432
+agent=6 kind=patrol claims=8 served=8 path_steps=144 raw_path_fuel=72 initial_fuel=381 spots=5:5,7:7,2:2,4:4,8:0,6:6,19:3,9:1 terminal=491:399
+agent=7 kind=patrol claims=9 served=8 path_steps=144 raw_path_fuel=72 initial_fuel=432 spots=8:0,14:6,17:1,4:4,11:3,2:2,10:2,5:5,7:7 terminal=569:360
+spot=0 brand=0 cell=159 stock=7 served=2 denied=0 agents=3S,1S
+spot=2 brand=2 cell=249 stock=3 served=3 denied=1 agents=6S,4S,1S,7D
+spot=4 brand=4 cell=104 stock=8 served=4 denied=0 agents=7S,6S,4S,1S
+spot=5 brand=5 cell=405 stock=8 served=5 denied=0 agents=3S,6S,4S,1S,7S
+spot=6 brand=6 cell=194 stock=7 served=5 denied=0 agents=0S,2S,6S,4S,3S
+spot=7 brand=7 cell=569 stock=7 served=5 denied=0 agents=3S,6S,4S,1S,7S
+spot=8 brand=0 cell=49 stock=8 served=6 denied=0 agents=0S,2S,7S,6S,4S,3S
+spot=9 brand=1 cell=491 stock=5 served=3 denied=0 agents=1S,6S,4S
+spot=10 brand=2 cell=349 stock=5 served=4 denied=0 agents=7S,0S,2S,1S
+spot=11 brand=3 cell=342 stock=2 served=2 denied=0 agents=7S,3S
+spot=12 brand=4 cell=533 stock=6 served=2 denied=0 agents=0S,2S
+spot=13 brand=5 cell=503 stock=3 served=1 denied=0 agents=4S
+spot=14 brand=6 cell=10 stock=4 served=4 denied=0 agents=0S,2S,7S,1S
+spot=17 brand=1 cell=16 stock=8 served=5 denied=0 agents=0S,2S,7S,3S,1S
+spot=18 brand=2 cell=281 stock=3 served=2 denied=0 agents=3S,1S
+spot=19 brand=3 cell=288 stock=6 served=4 denied=0 agents=0S,2S,6S,4S
+spot=20 brand=4 cell=447 stock=4 served=1 denied=0 agents=3S
+spot=23 brand=7 cell=529 stock=4 served=2 denied=0 agents=0S,2S
+traffic_permutation_summary states=50000 max_routes=32 tasks=42 routes=945 cross_pairs=10574 invalid=0 validator_mismatch=0 valid=10574 road_equal=0 strict_road_dominating=0 mapped_dominating=0 exact_fuel_certified=0 strict_fuel_certified=0 traffic_certified=0 parent=8/40/310 best=8/40/310 left=-1 right=-1 min_fuel_delta=0 max_fuel_delta=0 road_reduction=0 incumbent_mutated=0
+case_complete replay=m-6213 day=5 exit=0
+case_elapsed_ms replay=m-6213 day=5 value=981

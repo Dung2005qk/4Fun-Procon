@@ -1,0 +1,26 @@
+case_begin day=7 agent=5 started=2026-08-31T13:22:13.3794724+00:00 max_states=50000 max_routes=64
+ledger_before=7/42/224
+day_score=7/7/37
+score_after=7/49/261
+agent=0 kind=patrol claims=7 served=6 path_steps=96 raw_path_fuel=58 initial_fuel=186 spots=11:4,5:5,13:6,3:3,10:3,15:1,12:5 terminal=242:188
+agent=1 kind=patrol claims=9 served=9 path_steps=96 raw_path_fuel=57 initial_fuel=187 spots=14:0,13:6,3:3,5:5,10:3,15:1,12:5,11:4,2:2 terminal=104:171
+agent=2 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=61 initial_fuel=174 spots=2:2,5:5,13:6,3:3,10:3,15:1,11:4 terminal=146:189
+agent=3 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=4 initial_fuel=192 spots= terminal=180:192
+agent=4 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=48 initial_fuel=170 spots=4:4,13:6,3:3,5:5,10:3,15:1,12:5,14:0 terminal=230:183
+agent=5 kind=patrol claims=8 served=7 path_steps=96 raw_path_fuel=48 initial_fuel=172 spots=4:4,13:6,3:3,5:5,10:3,15:1,12:5,14:0 terminal=230:183
+spot=2 brand=2 cell=104 stock=2 served=2 denied=0 agents=2S,1S
+spot=3 brand=3 cell=134 stock=4 served=4 denied=1 agents=1S,4S,5S,2S,0D
+spot=4 brand=4 cell=138 stock=1 served=1 denied=1 agents=4S,5D
+spot=5 brand=5 cell=52 stock=6 served=5 denied=0 agents=2S,0S,1S,4S,5S
+spot=10 brand=3 cell=33 stock=6 served=5 denied=0 agents=1S,4S,5S,2S,0S
+spot=11 brand=4 cell=146 stock=3 served=3 denied=0 agents=0S,1S,2S
+spot=12 brand=5 cell=242 stock=4 served=4 denied=0 agents=1S,4S,5S,0S
+spot=13 brand=6 cell=251 stock=6 served=5 denied=0 agents=1S,4S,5S,2S,0S
+spot=14 brand=0 cell=230 stock=3 served=3 denied=0 agents=1S,4S,5S
+spot=15 brand=1 cell=180 stock=6 served=5 denied=0 agents=1S,4S,5S,0S,2S
+sparse_agent=5 cap=50000 settled=50000 labels=51235 emitted_masks=203 protected_masks=41 retained=102 valid=102 best=7/49/263 mask=0x8BFF protected=7/49/261 protected_mask=0x0
+sparse_global_best=7/49/263 baseline=7/49/261 agent=5 mask=0x8BFF
+sparse_protected_best=7/49/261 baseline=7/49/261 agent=-1 mask=0x0
+sparse_best_plan=[[-1,0,1,1,1,1,1,2,3,3,3,3,3,3,3,3,3,3,3,3,0,5,0,0,0,0,0,0,0,0,0,0,0,0,5,5,3,3,3,3,4,4,3,3,3,4,4,4,4,-9],[-1,2,2,2,2,3,0,5,0,0,0,0,0,0,0,0,0,0,0,0,5,5,3,3,3,3,4,4,3,3,3,4,4,4,4,0,0,0,1,1,1,1,1,2,2,2,2,1,2,-8],[-1,5,0,0,0,5,5,2,3,3,3,3,3,3,3,3,3,3,3,3,0,5,0,0,0,0,0,0,0,0,0,0,0,0,5,5,2,2,3,3,3,3,3,3,5,4,4,4,0,0,5,-5],[1,1,1,1,-88],[-1,3,4,4,4,3,3,3,0,5,0,0,0,0,0,0,0,0,0,0,0,0,5,5,3,3,3,3,4,4,3,3,3,4,4,4,4,2,2,2,1,2,-20],[-1,5,0,0,5,4,4,5,4,4,4,0,0,5,0,1,1,1,1,1,1,1,1,2,2,2,3,2,2,2,2,2,3,3,3,4,3,4,3,4,4,4,4,4,2,3,3,-8]]
+case_complete day=7 agent=5 exit=0
+case_elapsed_ms day=7 agent=5 value=82

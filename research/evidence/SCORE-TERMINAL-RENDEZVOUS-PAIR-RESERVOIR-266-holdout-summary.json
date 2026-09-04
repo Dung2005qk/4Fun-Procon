@@ -1,0 +1,169 @@
+{
+  "aggregate_score_delta": [
+    0,
+    0,
+    1
+  ],
+  "candidate_work": {
+    "acceptances": 1,
+    "deadline_rollbacks": 0,
+    "failures": 0,
+    "pairs": 6234,
+    "plans": 6234,
+    "valid": 6188
+  },
+  "cases": 54,
+  "causal_wtl": [
+    1,
+    53,
+    0
+  ],
+  "equivalence_5000_failures": [],
+  "experiment": "SCORE-TERMINAL-RENDEZVOUS-PAIR-RESERVOIR-266",
+  "first_difference_tiers": {
+    "0": 53,
+    "3": 1
+  },
+  "gain_tail": {
+    "max": 1,
+    "sum": 1
+  },
+  "gate": {
+    "at_least_two_strict_takeovers": false,
+    "complete_5000_internal_equivalence": true,
+    "gains_in_both_longer_windows": false,
+    "passed": false,
+    "positive_aggregate_official_gain": true,
+    "takeovers_span_at_least_two_public_axes": false,
+    "zero_causal_loss_or_component_regression": true,
+    "zero_safety_and_certificate_failures": true
+  },
+  "loss_tail": {
+    "min": 0,
+    "sum": 0
+  },
+  "phase": "holdout",
+  "response_ms_local_non_authoritative": {
+    "max": 3024
+  },
+  "safety": {
+    "checkpoint_closed_loop_failures": 0,
+    "emergency": 0,
+    "invalid": 0,
+    "midday_failure_days": 0,
+    "permuted_apply_mapping_failures": 0,
+    "permuted_apply_role_failures": 0,
+    "permuted_apply_shadow_ledger_failures": 0,
+    "permuted_apply_shadow_state_failures": 0,
+    "permuted_causal_noop_failures": 0,
+    "permuted_probe_mutation_failures": 0,
+    "protected_terminal_invalid": 0,
+    "public_window_probe_failure_days": 0,
+    "terminal_marginal_failure": 0,
+    "terminal_rendezvous_failure": 0,
+    "terminal_sparse_failure": 0
+  },
+  "strata": {
+    "fuel:default": {
+      "tie": 17,
+      "win": 1
+    },
+    "fuel:generated": {
+      "tie": 9
+    },
+    "fuel:high": {
+      "tie": 14
+    },
+    "fuel:low": {
+      "tie": 13
+    },
+    "horizon:10": {
+      "tie": 8
+    },
+    "horizon:4": {
+      "tie": 19
+    },
+    "horizon:5": {
+      "tie": 15
+    },
+    "horizon:7": {
+      "tie": 11,
+      "win": 1
+    },
+    "players:10": {
+      "tie": 22
+    },
+    "players:8": {
+      "tie": 17,
+      "win": 1
+    },
+    "players:9": {
+      "tie": 14
+    },
+    "role:deadline": {
+      "tie": 26,
+      "win": 1
+    },
+    "role:fixed": {
+      "tie": 27
+    },
+    "suite:general": {
+      "tie": 10
+    },
+    "suite:multiteam-12": {
+      "tie": 10
+    },
+    "suite:multiteam-16": {
+      "tie": 14
+    },
+    "suite:multiteam-24": {
+      "tie": 11,
+      "win": 1
+    },
+    "suite:multiteam-32": {
+      "tie": 8
+    },
+    "window:10000": {
+      "tie": 17,
+      "win": 1
+    },
+    "window:15000": {
+      "tie": 18
+    },
+    "window:5000": {
+      "tie": 18
+    }
+  },
+  "takeover_breadth": {
+    "matches": 1,
+    "players": [
+      "8"
+    ],
+    "roles": [
+      "deadline"
+    ],
+    "suites": [
+      "multiteam-24"
+    ],
+    "windows": [
+      "10000"
+    ]
+  },
+  "window_aggregate_score_delta": {
+    "10000": [
+      0,
+      0,
+      1
+    ],
+    "15000": [
+      0,
+      0,
+      0
+    ],
+    "5000": [
+      0,
+      0,
+      0
+    ]
+  }
+}

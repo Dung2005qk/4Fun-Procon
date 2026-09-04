@@ -1,0 +1,1628 @@
+{
+  "experiment": "ATTR-ROW24-ROUTE-FRONTIER-289",
+  "cases": 24,
+  "unrestricted_yielding": 11,
+  "protected_yielding": 0,
+  "road_equal_yielding": 0,
+  "traffic_nonincreasing_yielding": 1,
+  "road_equal_strict_candidates": 0.0,
+  "traffic_nonincreasing_strict_candidates": 17.0,
+  "by_day": [
+    {
+      "day": 1,
+      "unrestricted_yielding": 0,
+      "protected_yielding": 0,
+      "road_equal_yielding": 0,
+      "traffic_nonincreasing_yielding": 0,
+      "max_unrestricted_serving_delta": 0.0,
+      "max_protected_serving_delta": 0.0
+    },
+    {
+      "day": 2,
+      "unrestricted_yielding": 4,
+      "protected_yielding": 0,
+      "road_equal_yielding": 0,
+      "traffic_nonincreasing_yielding": 1,
+      "max_unrestricted_serving_delta": 3.0,
+      "max_protected_serving_delta": 0.0
+    },
+    {
+      "day": 3,
+      "unrestricted_yielding": 2,
+      "protected_yielding": 0,
+      "road_equal_yielding": 0,
+      "traffic_nonincreasing_yielding": 0,
+      "max_unrestricted_serving_delta": 2.0,
+      "max_protected_serving_delta": 0.0
+    },
+    {
+      "day": 4,
+      "unrestricted_yielding": 3,
+      "protected_yielding": 0,
+      "road_equal_yielding": 0,
+      "traffic_nonincreasing_yielding": 0,
+      "max_unrestricted_serving_delta": 3.0,
+      "max_protected_serving_delta": 0.0
+    },
+    {
+      "day": 5,
+      "unrestricted_yielding": 2,
+      "protected_yielding": 0,
+      "road_equal_yielding": 0,
+      "traffic_nonincreasing_yielding": 0,
+      "max_unrestricted_serving_delta": 2.0,
+      "max_protected_serving_delta": 0.0
+    },
+    {
+      "day": 6,
+      "unrestricted_yielding": 0,
+      "protected_yielding": 0,
+      "road_equal_yielding": 0,
+      "traffic_nonincreasing_yielding": 0,
+      "max_unrestricted_serving_delta": 0.0,
+      "max_protected_serving_delta": 0.0
+    }
+  ],
+  "roots": [
+    {
+      "case": "d1-a0",
+      "day": 1,
+      "agent": 0,
+      "baseline": [
+        5,
+        5,
+        32
+      ],
+      "unrestricted": [
+        5,
+        5,
+        32
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        0
+      ],
+      "unrestricted_agent": -1,
+      "unrestricted_mask": "0x0",
+      "protected": [
+        5,
+        5,
+        32
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        5,
+        32
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 5,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        5,
+        32
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d1-a1",
+      "day": 1,
+      "agent": 1,
+      "baseline": [
+        5,
+        5,
+        32
+      ],
+      "unrestricted": [
+        5,
+        5,
+        32
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        0
+      ],
+      "unrestricted_agent": -1,
+      "unrestricted_mask": "0x0",
+      "protected": [
+        5,
+        5,
+        32
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        5,
+        32
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 0,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        5,
+        32
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d1-a2",
+      "day": 1,
+      "agent": 2,
+      "baseline": [
+        5,
+        5,
+        32
+      ],
+      "unrestricted": [
+        5,
+        5,
+        32
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        0
+      ],
+      "unrestricted_agent": -1,
+      "unrestricted_mask": "0x0",
+      "protected": [
+        5,
+        5,
+        32
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        5,
+        32
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 20,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        5,
+        32
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d1-a3",
+      "day": 1,
+      "agent": 3,
+      "baseline": [
+        5,
+        5,
+        32
+      ],
+      "unrestricted": [
+        5,
+        5,
+        32
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        0
+      ],
+      "unrestricted_agent": -1,
+      "unrestricted_mask": "0x0",
+      "protected": [
+        5,
+        5,
+        32
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 6,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        5,
+        32
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 0,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        5,
+        32
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d2-a0",
+      "day": 2,
+      "agent": 0,
+      "baseline": [
+        5,
+        10,
+        60
+      ],
+      "unrestricted": [
+        5,
+        10,
+        63
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        3
+      ],
+      "unrestricted_agent": 0,
+      "unrestricted_mask": "0xFF7",
+      "protected": [
+        5,
+        10,
+        60
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        10,
+        60
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 0,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        10,
+        60
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d2-a1",
+      "day": 2,
+      "agent": 1,
+      "baseline": [
+        5,
+        10,
+        60
+      ],
+      "unrestricted": [
+        5,
+        10,
+        62
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        2
+      ],
+      "unrestricted_agent": 1,
+      "unrestricted_mask": "0xFFF",
+      "protected": [
+        5,
+        10,
+        60
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        10,
+        60
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 0,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        10,
+        60
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d2-a2",
+      "day": 2,
+      "agent": 2,
+      "baseline": [
+        5,
+        10,
+        60
+      ],
+      "unrestricted": [
+        5,
+        10,
+        62
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        2
+      ],
+      "unrestricted_agent": 2,
+      "unrestricted_mask": "0xFF7",
+      "protected": [
+        5,
+        10,
+        60
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        10,
+        60
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 0,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        10,
+        60
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d2-a3",
+      "day": 2,
+      "agent": 3,
+      "baseline": [
+        5,
+        10,
+        60
+      ],
+      "unrestricted": [
+        5,
+        10,
+        63
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        3
+      ],
+      "unrestricted_agent": 3,
+      "unrestricted_mask": "0xF7F",
+      "protected": [
+        5,
+        10,
+        60
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        10,
+        60
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 33,
+      "traffic_nonincreasing_strict": 17,
+      "traffic_nonincreasing_changed_terminal": 10,
+      "traffic_nonincreasing_best": [
+        5,
+        10,
+        62
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        2
+      ],
+      "traffic_nonincreasing_terminal_distance": 10,
+      "traffic_nonincreasing_fuel_delta": -60,
+      "traffic_nonincreasing_road_reduction": 10
+    },
+    {
+      "case": "d3-a0",
+      "day": 3,
+      "agent": 0,
+      "baseline": [
+        5,
+        15,
+        88
+      ],
+      "unrestricted": [
+        5,
+        15,
+        89
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        1
+      ],
+      "unrestricted_agent": 0,
+      "unrestricted_mask": "0xF3F",
+      "protected": [
+        5,
+        15,
+        88
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        15,
+        88
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 0,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        15,
+        88
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d3-a1",
+      "day": 3,
+      "agent": 1,
+      "baseline": [
+        5,
+        15,
+        88
+      ],
+      "unrestricted": [
+        5,
+        15,
+        88
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        0
+      ],
+      "unrestricted_agent": -1,
+      "unrestricted_mask": "0x0",
+      "protected": [
+        5,
+        15,
+        88
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        15,
+        88
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 1,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        15,
+        88
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d3-a2",
+      "day": 3,
+      "agent": 2,
+      "baseline": [
+        5,
+        15,
+        88
+      ],
+      "unrestricted": [
+        5,
+        15,
+        88
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        0
+      ],
+      "unrestricted_agent": -1,
+      "unrestricted_mask": "0x0",
+      "protected": [
+        5,
+        15,
+        88
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        15,
+        88
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 1,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        15,
+        88
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d3-a3",
+      "day": 3,
+      "agent": 3,
+      "baseline": [
+        5,
+        15,
+        88
+      ],
+      "unrestricted": [
+        5,
+        15,
+        90
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        2
+      ],
+      "unrestricted_agent": 3,
+      "unrestricted_mask": "0xF77",
+      "protected": [
+        5,
+        15,
+        88
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        15,
+        88
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 0,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        15,
+        88
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d4-a0",
+      "day": 4,
+      "agent": 0,
+      "baseline": [
+        5,
+        20,
+        114
+      ],
+      "unrestricted": [
+        5,
+        20,
+        114
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        0
+      ],
+      "unrestricted_agent": -1,
+      "unrestricted_mask": "0x0",
+      "protected": [
+        5,
+        20,
+        114
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        20,
+        114
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 0,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        20,
+        114
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d4-a1",
+      "day": 4,
+      "agent": 1,
+      "baseline": [
+        5,
+        20,
+        114
+      ],
+      "unrestricted": [
+        5,
+        20,
+        117
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        3
+      ],
+      "unrestricted_agent": 1,
+      "unrestricted_mask": "0xF7F",
+      "protected": [
+        5,
+        20,
+        114
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        20,
+        114
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 8,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        20,
+        114
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d4-a2",
+      "day": 4,
+      "agent": 2,
+      "baseline": [
+        5,
+        20,
+        114
+      ],
+      "unrestricted": [
+        5,
+        20,
+        115
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        1
+      ],
+      "unrestricted_agent": 2,
+      "unrestricted_mask": "0xFF7",
+      "protected": [
+        5,
+        20,
+        114
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        20,
+        114
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 0,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        20,
+        114
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d4-a3",
+      "day": 4,
+      "agent": 3,
+      "baseline": [
+        5,
+        20,
+        114
+      ],
+      "unrestricted": [
+        5,
+        20,
+        115
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        1
+      ],
+      "unrestricted_agent": 3,
+      "unrestricted_mask": "0xFF7",
+      "protected": [
+        5,
+        20,
+        114
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        20,
+        114
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 0,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        20,
+        114
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d5-a0",
+      "day": 5,
+      "agent": 0,
+      "baseline": [
+        5,
+        25,
+        142
+      ],
+      "unrestricted": [
+        5,
+        25,
+        143
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        1
+      ],
+      "unrestricted_agent": 0,
+      "unrestricted_mask": "0xF3F",
+      "protected": [
+        5,
+        25,
+        142
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        25,
+        142
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 0,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        25,
+        142
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d5-a1",
+      "day": 5,
+      "agent": 1,
+      "baseline": [
+        5,
+        25,
+        142
+      ],
+      "unrestricted": [
+        5,
+        25,
+        144
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        2
+      ],
+      "unrestricted_agent": 1,
+      "unrestricted_mask": "0xF77",
+      "protected": [
+        5,
+        25,
+        142
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        25,
+        142
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 0,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        25,
+        142
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d5-a2",
+      "day": 5,
+      "agent": 2,
+      "baseline": [
+        5,
+        25,
+        142
+      ],
+      "unrestricted": [
+        5,
+        25,
+        142
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        0
+      ],
+      "unrestricted_agent": -1,
+      "unrestricted_mask": "0x0",
+      "protected": [
+        5,
+        25,
+        142
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        25,
+        142
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 0,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        25,
+        142
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d5-a3",
+      "day": 5,
+      "agent": 3,
+      "baseline": [
+        5,
+        25,
+        142
+      ],
+      "unrestricted": [
+        5,
+        25,
+        142
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        0
+      ],
+      "unrestricted_agent": -1,
+      "unrestricted_mask": "0x0",
+      "protected": [
+        5,
+        25,
+        142
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        25,
+        142
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 0,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        25,
+        142
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d6-a0",
+      "day": 6,
+      "agent": 0,
+      "baseline": [
+        5,
+        30,
+        174
+      ],
+      "unrestricted": [
+        5,
+        30,
+        174
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        0
+      ],
+      "unrestricted_agent": -1,
+      "unrestricted_mask": "0x0",
+      "protected": [
+        5,
+        30,
+        174
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 0,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        30,
+        174
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 11,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        30,
+        174
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d6-a1",
+      "day": 6,
+      "agent": 1,
+      "baseline": [
+        5,
+        30,
+        174
+      ],
+      "unrestricted": [
+        5,
+        30,
+        174
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        0
+      ],
+      "unrestricted_agent": -1,
+      "unrestricted_mask": "0x0",
+      "protected": [
+        5,
+        30,
+        174
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 6,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        30,
+        174
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 2,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        30,
+        174
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d6-a2",
+      "day": 6,
+      "agent": 2,
+      "baseline": [
+        5,
+        30,
+        174
+      ],
+      "unrestricted": [
+        5,
+        30,
+        174
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        0
+      ],
+      "unrestricted_agent": -1,
+      "unrestricted_mask": "0x0",
+      "protected": [
+        5,
+        30,
+        174
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 5,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        30,
+        174
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 8,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        30,
+        174
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    },
+    {
+      "case": "d6-a3",
+      "day": 6,
+      "agent": 3,
+      "baseline": [
+        5,
+        30,
+        174
+      ],
+      "unrestricted": [
+        5,
+        30,
+        174
+      ],
+      "unrestricted_delta": [
+        0,
+        0,
+        0
+      ],
+      "unrestricted_agent": -1,
+      "unrestricted_mask": "0x0",
+      "protected": [
+        5,
+        30,
+        174
+      ],
+      "protected_delta": [
+        0,
+        0,
+        0
+      ],
+      "protected_agent": -1,
+      "protected_mask": "0x0",
+      "road_equal_candidates": 1,
+      "road_equal_strict": 0,
+      "road_equal_changed_terminal": 0,
+      "road_equal_best": [
+        5,
+        30,
+        174
+      ],
+      "road_equal_delta": [
+        0,
+        0,
+        0
+      ],
+      "road_equal_terminal_distance": 0,
+      "road_equal_fuel_delta": 0,
+      "traffic_nonincreasing_candidates": 2,
+      "traffic_nonincreasing_strict": 0,
+      "traffic_nonincreasing_changed_terminal": 0,
+      "traffic_nonincreasing_best": [
+        5,
+        30,
+        174
+      ],
+      "traffic_nonincreasing_delta": [
+        0,
+        0,
+        0
+      ],
+      "traffic_nonincreasing_terminal_distance": 0,
+      "traffic_nonincreasing_fuel_delta": 0,
+      "traffic_nonincreasing_road_reduction": 0
+    }
+  ]
+}

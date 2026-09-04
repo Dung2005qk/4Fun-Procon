@@ -1,0 +1,27 @@
+case_begin case=d4-a0 day=4 agent=0 started=2026-09-02T15:34:21.4185568+00:00 max_states=50000 max_routes=64
+ledger_before=5/15/88
+day_score=5/5/26
+score_after=5/20/114
+agent=0 kind=patrol claims=7 served=7 path_steps=72 raw_path_fuel=49 initial_fuel=140 spots=4:4,9:4,8:3,3:3,7:2,0:0,1:1 terminal=43:91
+agent=1 kind=patrol claims=8 served=7 path_steps=72 raw_path_fuel=48 initial_fuel=100 spots=6:1,8:3,3:3,11:1,2:2,5:0,4:4,1:1 terminal=43:123
+agent=2 kind=patrol claims=6 served=6 path_steps=72 raw_path_fuel=51 initial_fuel=100 spots=6:1,8:3,9:4,7:2,3:3,11:1 terminal=17:144
+agent=3 kind=patrol claims=7 served=6 path_steps=72 raw_path_fuel=33 initial_fuel=142 spots=9:4,4:4,0:0,8:3,7:2,1:1,11:1 terminal=17:144
+agent=4 kind=tanker claims=0 served=0 path_steps=72 raw_path_fuel=9 initial_fuel=144 spots= terminal=17:144
+spot=0 brand=0 cell=90 stock=5 served=2 denied=0 agents=3S,0S
+spot=1 brand=1 cell=43 stock=3 served=3 denied=0 agents=3S,1S,0S
+spot=2 brand=2 cell=7 stock=1 served=1 denied=0 agents=1S
+spot=3 brand=3 cell=13 stock=3 served=3 denied=0 agents=0S,1S,2S
+spot=4 brand=4 cell=40 stock=1 served=1 denied=2 agents=0S,3D,1D
+spot=5 brand=0 cell=21 stock=1 served=1 denied=0 agents=1S
+spot=6 brand=1 cell=35 stock=2 served=2 denied=0 agents=1S,2S
+spot=7 brand=2 cell=129 stock=3 served=3 denied=0 agents=3S,2S,0S
+spot=8 brand=3 cell=125 stock=5 served=4 denied=0 agents=0S,1S,2S,3S
+spot=9 brand=4 cell=76 stock=5 served=3 denied=0 agents=3S,0S,2S
+spot=11 brand=1 cell=17 stock=3 served=3 denied=0 agents=3S,1S,2S
+sparse_agent=0 cap=50000 settled=50000 labels=51078 emitted_masks=84 protected_masks=30 retained=94 valid=94 best=5/20/114 mask=0x0 protected=5/20/114 protected_mask=0x0
+sparse_global_best=5/20/114 baseline=5/20/114 agent=-1 mask=0x0
+sparse_protected_best=5/20/114 baseline=5/20/114 agent=-1 mask=0x0
+road_equivalent_summary exact=0 strict=0 strict_changed_terminal=0 baseline=5/20/114 best=5/20/114 agent=-1 mask=0x0 terminal_distance=0 fuel_delta=0
+traffic_nonincreasing_summary candidates=0 strict=0 strict_changed_terminal=0 baseline=5/20/114 best=5/20/114 agent=-1 mask=0x0 terminal_distance=0 fuel_delta=0 road_reduction=0
+case_complete case=d4-a0 exit=0
+case_elapsed_ms case=d4-a0 value=203

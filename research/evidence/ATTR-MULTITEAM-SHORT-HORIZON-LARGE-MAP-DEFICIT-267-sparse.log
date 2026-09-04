@@ -1,0 +1,1044 @@
+case_begin day=1 agent=0 max_states=50000 max_routes=64
+ledger_before=0/0/0
+day_score=8/8/36
+score_after=8/8/36
+agent=0 kind=patrol claims=4 served=4 path_steps=80 raw_path_fuel=40 initial_fuel=160 spots=12:4,5:5,14:6,20:4 terminal=848:155
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=65 initial_fuel=160 spots=4:4,14:6,20:4,22:6,25:1,16:0 terminal=168:110
+agent=2 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=49 initial_fuel=160 spots=22:6,10:2,12:4,27:3,13:5 terminal=563:111
+agent=3 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=74 initial_fuel=160 spots=26:2,22:6,15:7,20:4,14:6 terminal=1011:160
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=12 initial_fuel=160 spots= terminal=1011:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=40 initial_fuel=160 spots=22:6,15:7,17:1,21:5,24:0,26:2 terminal=807:120
+agent=6 kind=patrol claims=6 served=5 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=6:6,15:7,22:6,25:1,16:0,19:3 terminal=12:113
+agent=7 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=42 initial_fuel=160 spots=10:2,22:6,12:4,27:3,13:5 terminal=563:118
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=1S
+spot=5 brand=5 cell=955 stock=7 served=1 denied=0 agents=0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=6S
+spot=10 brand=2 cell=333 stock=5 served=2 denied=0 agents=7S,2S
+spot=12 brand=4 cell=406 stock=4 served=3 denied=0 agents=0S,2S,7S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=14 brand=6 cell=1011 stock=7 served=3 denied=0 agents=1S,0S,3S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=1 agents=5S,3S,6D
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=6S,1S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=5S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=6S
+spot=20 brand=4 cell=848 stock=4 served=3 denied=0 agents=1S,3S,0S
+spot=21 brand=5 cell=992 stock=5 served=1 denied=0 agents=5S
+spot=22 brand=6 cell=325 stock=7 served=6 denied=0 agents=5S,2S,7S,3S,6S,1S
+spot=24 brand=0 cell=836 stock=2 served=1 denied=0 agents=5S
+spot=25 brand=1 cell=297 stock=7 served=2 denied=0 agents=6S,1S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=3S,5S
+spot=27 brand=3 cell=505 stock=6 served=2 denied=0 agents=2S,7S
+sparse_agent=0 cap=50000 settled=50000 labels=51212 emitted_masks=301 protected_masks=19 retained=81 valid=81 best=8/8/39 mask=0x2401D01 protected=8/8/36 protected_mask=0x0
+sparse_global_best=8/8/39 baseline=8/8/36 agent=0 mask=0x2401D01
+sparse_protected_best=8/8/36 baseline=8/8/36 agent=-1 mask=0x0
+sparse_best_plan=[[0,0,0,0,0,0,0,5,4,4,4,4,4,4,4,0,5,0,5,5,5,5,5,5,5,0,5,5,5,5,5,4,5,5,2,3,3,2,3,3,-4],[4,4,4,4,4,4,4,4,4,4,4,4,4,5,0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,5,5,0,0,1,0,0,1,0,0,0,2,2,1,2,0,1,0,0,-1],[3,3,3,3,4,4,4,4,4,4,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,3,2,3,3,3,4,4,5,5,5,5,5,-6],[0,1,0,0,0,1,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,2,2,2,2,3,2,2,3,2,2,2,3,3,3,3,3,3,3,3,3,3,3,-7],[4,4,5,4,4,4,4,4,4,4,5,5,-56],[1,2,2,2,2,2,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,1,2,2,-6],[1,2,2,3,3,3,3,3,4,4,4,4,4,4,4,4,4,3,2,1,1,1,1,1,2,2,1,2,0,1,0,0,2,2,1,1,1,1,1,-10],[0,0,5,5,5,5,5,5,5,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,3,2,3,3,3,4,4,5,5,5,5,5,-2]]
+case_complete day=1 agent=0 exit=0
+case_begin day=1 agent=1 max_states=50000 max_routes=64
+ledger_before=0/0/0
+day_score=8/8/36
+score_after=8/8/36
+agent=0 kind=patrol claims=4 served=4 path_steps=80 raw_path_fuel=40 initial_fuel=160 spots=12:4,5:5,14:6,20:4 terminal=848:155
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=65 initial_fuel=160 spots=4:4,14:6,20:4,22:6,25:1,16:0 terminal=168:110
+agent=2 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=49 initial_fuel=160 spots=22:6,10:2,12:4,27:3,13:5 terminal=563:111
+agent=3 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=74 initial_fuel=160 spots=26:2,22:6,15:7,20:4,14:6 terminal=1011:160
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=12 initial_fuel=160 spots= terminal=1011:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=40 initial_fuel=160 spots=22:6,15:7,17:1,21:5,24:0,26:2 terminal=807:120
+agent=6 kind=patrol claims=6 served=5 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=6:6,15:7,22:6,25:1,16:0,19:3 terminal=12:113
+agent=7 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=42 initial_fuel=160 spots=10:2,22:6,12:4,27:3,13:5 terminal=563:118
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=1S
+spot=5 brand=5 cell=955 stock=7 served=1 denied=0 agents=0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=6S
+spot=10 brand=2 cell=333 stock=5 served=2 denied=0 agents=7S,2S
+spot=12 brand=4 cell=406 stock=4 served=3 denied=0 agents=0S,2S,7S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=14 brand=6 cell=1011 stock=7 served=3 denied=0 agents=1S,0S,3S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=1 agents=5S,3S,6D
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=6S,1S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=5S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=6S
+spot=20 brand=4 cell=848 stock=4 served=3 denied=0 agents=1S,3S,0S
+spot=21 brand=5 cell=992 stock=5 served=1 denied=0 agents=5S
+spot=22 brand=6 cell=325 stock=7 served=6 denied=0 agents=5S,2S,7S,3S,6S,1S
+spot=24 brand=0 cell=836 stock=2 served=1 denied=0 agents=5S
+spot=25 brand=1 cell=297 stock=7 served=2 denied=0 agents=6S,1S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=3S,5S
+spot=27 brand=3 cell=505 stock=6 served=2 denied=0 agents=2S,7S
+sparse_agent=1 cap=50000 settled=50000 labels=51137 emitted_masks=167 protected_masks=15 retained=68 valid=68 best=8/8/37 mask=0xD023202 protected=8/8/36 protected_mask=0x0
+sparse_global_best=8/8/37 baseline=8/8/36 agent=1 mask=0xD023202
+sparse_protected_best=8/8/36 baseline=8/8/36 agent=-1 mask=0x0
+sparse_best_plan=[[5,5,5,5,5,5,5,5,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,-3],[0,0,0,0,0,0,5,4,4,4,4,4,5,4,4,4,5,4,5,5,4,5,4,4,4,5,5,5,5,3,4,3,4,0,0,0,5,0,0,0,1,-4],[3,3,3,3,4,4,4,4,4,4,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,3,2,3,3,3,4,4,5,5,5,5,5,-6],[0,1,0,0,0,1,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,2,2,2,2,3,2,2,3,2,2,2,3,3,3,3,3,3,3,3,3,3,3,-7],[4,4,5,4,4,4,4,4,4,4,5,5,-56],[1,2,2,2,2,2,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,1,2,2,-6],[1,2,2,3,3,3,3,3,4,4,4,4,4,4,4,4,4,3,2,1,1,1,1,1,2,2,1,2,0,1,0,0,2,2,1,1,1,1,1,-10],[0,0,5,5,5,5,5,5,5,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,3,2,3,3,3,4,4,5,5,5,5,5,-2]]
+case_complete day=1 agent=1 exit=0
+case_begin day=1 agent=2 max_states=50000 max_routes=64
+ledger_before=0/0/0
+day_score=8/8/36
+score_after=8/8/36
+agent=0 kind=patrol claims=4 served=4 path_steps=80 raw_path_fuel=40 initial_fuel=160 spots=12:4,5:5,14:6,20:4 terminal=848:155
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=65 initial_fuel=160 spots=4:4,14:6,20:4,22:6,25:1,16:0 terminal=168:110
+agent=2 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=49 initial_fuel=160 spots=22:6,10:2,12:4,27:3,13:5 terminal=563:111
+agent=3 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=74 initial_fuel=160 spots=26:2,22:6,15:7,20:4,14:6 terminal=1011:160
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=12 initial_fuel=160 spots= terminal=1011:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=40 initial_fuel=160 spots=22:6,15:7,17:1,21:5,24:0,26:2 terminal=807:120
+agent=6 kind=patrol claims=6 served=5 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=6:6,15:7,22:6,25:1,16:0,19:3 terminal=12:113
+agent=7 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=42 initial_fuel=160 spots=10:2,22:6,12:4,27:3,13:5 terminal=563:118
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=1S
+spot=5 brand=5 cell=955 stock=7 served=1 denied=0 agents=0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=6S
+spot=10 brand=2 cell=333 stock=5 served=2 denied=0 agents=7S,2S
+spot=12 brand=4 cell=406 stock=4 served=3 denied=0 agents=0S,2S,7S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=14 brand=6 cell=1011 stock=7 served=3 denied=0 agents=1S,0S,3S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=1 agents=5S,3S,6D
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=6S,1S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=5S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=6S
+spot=20 brand=4 cell=848 stock=4 served=3 denied=0 agents=1S,3S,0S
+spot=21 brand=5 cell=992 stock=5 served=1 denied=0 agents=5S
+spot=22 brand=6 cell=325 stock=7 served=6 denied=0 agents=5S,2S,7S,3S,6S,1S
+spot=24 brand=0 cell=836 stock=2 served=1 denied=0 agents=5S
+spot=25 brand=1 cell=297 stock=7 served=2 denied=0 agents=6S,1S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=3S,5S
+spot=27 brand=3 cell=505 stock=6 served=2 denied=0 agents=2S,7S
+sparse_agent=2 cap=50000 settled=50000 labels=51107 emitted_masks=123 protected_masks=6 retained=66 valid=66 best=8/8/38 mask=0x74B0003 protected=8/8/36 protected_mask=0x0
+sparse_global_best=8/8/38 baseline=8/8/36 agent=2 mask=0x74B0003
+sparse_protected_best=8/8/36 baseline=8/8/36 agent=-1 mask=0x0
+sparse_best_plan=[[5,5,5,5,5,5,5,5,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,-3],[4,4,4,4,4,4,4,4,4,4,4,4,4,5,0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,5,5,0,0,1,0,0,1,0,0,0,2,2,1,2,0,1,0,0,-1],[2,2,2,2,4,4,4,4,4,5,5,3,3,3,4,5,4,5,5,2,3,3,2,3,3,4,4,5,4,4,5,4,4,4,4,3,4,3,3,1,2,2,3,4,3,4,-5],[0,1,0,0,0,1,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,2,2,2,2,3,2,2,3,2,2,2,3,3,3,3,3,3,3,3,3,3,3,-7],[4,4,5,4,4,4,4,4,4,4,5,5,-56],[1,2,2,2,2,2,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,1,2,2,-6],[1,2,2,3,3,3,3,3,4,4,4,4,4,4,4,4,4,3,2,1,1,1,1,1,2,2,1,2,0,1,0,0,2,2,1,1,1,1,1,-10],[0,0,5,5,5,5,5,5,5,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,3,2,3,3,3,4,4,5,5,5,5,5,-2]]
+case_complete day=1 agent=2 exit=0
+case_begin day=1 agent=3 max_states=50000 max_routes=64
+ledger_before=0/0/0
+day_score=8/8/36
+score_after=8/8/36
+agent=0 kind=patrol claims=4 served=4 path_steps=80 raw_path_fuel=40 initial_fuel=160 spots=12:4,5:5,14:6,20:4 terminal=848:155
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=65 initial_fuel=160 spots=4:4,14:6,20:4,22:6,25:1,16:0 terminal=168:110
+agent=2 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=49 initial_fuel=160 spots=22:6,10:2,12:4,27:3,13:5 terminal=563:111
+agent=3 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=74 initial_fuel=160 spots=26:2,22:6,15:7,20:4,14:6 terminal=1011:160
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=12 initial_fuel=160 spots= terminal=1011:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=40 initial_fuel=160 spots=22:6,15:7,17:1,21:5,24:0,26:2 terminal=807:120
+agent=6 kind=patrol claims=6 served=5 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=6:6,15:7,22:6,25:1,16:0,19:3 terminal=12:113
+agent=7 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=42 initial_fuel=160 spots=10:2,22:6,12:4,27:3,13:5 terminal=563:118
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=1S
+spot=5 brand=5 cell=955 stock=7 served=1 denied=0 agents=0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=6S
+spot=10 brand=2 cell=333 stock=5 served=2 denied=0 agents=7S,2S
+spot=12 brand=4 cell=406 stock=4 served=3 denied=0 agents=0S,2S,7S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=14 brand=6 cell=1011 stock=7 served=3 denied=0 agents=1S,0S,3S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=1 agents=5S,3S,6D
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=6S,1S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=5S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=6S
+spot=20 brand=4 cell=848 stock=4 served=3 denied=0 agents=1S,3S,0S
+spot=21 brand=5 cell=992 stock=5 served=1 denied=0 agents=5S
+spot=22 brand=6 cell=325 stock=7 served=6 denied=0 agents=5S,2S,7S,3S,6S,1S
+spot=24 brand=0 cell=836 stock=2 served=1 denied=0 agents=5S
+spot=25 brand=1 cell=297 stock=7 served=2 denied=0 agents=6S,1S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=3S,5S
+spot=27 brand=3 cell=505 stock=6 served=2 denied=0 agents=2S,7S
+sparse_agent=3 cap=50000 settled=50000 labels=51053 emitted_masks=137 protected_masks=2 retained=65 valid=65 best=8/8/40 mask=0x7428403 protected=8/8/36 protected_mask=0x0
+sparse_global_best=8/8/40 baseline=8/8/36 agent=3 mask=0x7428403
+sparse_protected_best=8/8/36 baseline=8/8/36 agent=-1 mask=0x0
+sparse_best_plan=[[5,5,5,5,5,5,5,5,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,-3],[4,4,4,4,4,4,4,4,4,4,4,4,4,5,0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,5,5,0,0,1,0,0,1,0,0,0,2,2,1,2,0,1,0,0,-1],[3,3,3,3,4,4,4,4,4,4,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,3,2,3,3,3,4,4,5,5,5,5,5,-6],[4,0,1,0,1,5,4,5,0,0,0,1,0,0,0,0,0,1,1,2,1,1,1,1,1,2,2,1,2,2,2,2,2,3,4,4,4,4,5,5,-5],[4,4,5,4,4,4,4,4,4,4,5,5,-56],[1,2,2,2,2,2,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,1,2,2,-6],[1,2,2,3,3,3,3,3,4,4,4,4,4,4,4,4,4,3,2,1,1,1,1,1,2,2,1,2,0,1,0,0,2,2,1,1,1,1,1,-10],[0,0,5,5,5,5,5,5,5,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,3,2,3,3,3,4,4,5,5,5,5,5,-2]]
+case_complete day=1 agent=3 exit=0
+case_begin day=1 agent=5 max_states=50000 max_routes=64
+ledger_before=0/0/0
+day_score=8/8/36
+score_after=8/8/36
+agent=0 kind=patrol claims=4 served=4 path_steps=80 raw_path_fuel=40 initial_fuel=160 spots=12:4,5:5,14:6,20:4 terminal=848:155
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=65 initial_fuel=160 spots=4:4,14:6,20:4,22:6,25:1,16:0 terminal=168:110
+agent=2 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=49 initial_fuel=160 spots=22:6,10:2,12:4,27:3,13:5 terminal=563:111
+agent=3 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=74 initial_fuel=160 spots=26:2,22:6,15:7,20:4,14:6 terminal=1011:160
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=12 initial_fuel=160 spots= terminal=1011:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=40 initial_fuel=160 spots=22:6,15:7,17:1,21:5,24:0,26:2 terminal=807:120
+agent=6 kind=patrol claims=6 served=5 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=6:6,15:7,22:6,25:1,16:0,19:3 terminal=12:113
+agent=7 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=42 initial_fuel=160 spots=10:2,22:6,12:4,27:3,13:5 terminal=563:118
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=1S
+spot=5 brand=5 cell=955 stock=7 served=1 denied=0 agents=0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=6S
+spot=10 brand=2 cell=333 stock=5 served=2 denied=0 agents=7S,2S
+spot=12 brand=4 cell=406 stock=4 served=3 denied=0 agents=0S,2S,7S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=14 brand=6 cell=1011 stock=7 served=3 denied=0 agents=1S,0S,3S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=1 agents=5S,3S,6D
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=6S,1S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=5S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=6S
+spot=20 brand=4 cell=848 stock=4 served=3 denied=0 agents=1S,3S,0S
+spot=21 brand=5 cell=992 stock=5 served=1 denied=0 agents=5S
+spot=22 brand=6 cell=325 stock=7 served=6 denied=0 agents=5S,2S,7S,3S,6S,1S
+spot=24 brand=0 cell=836 stock=2 served=1 denied=0 agents=5S
+spot=25 brand=1 cell=297 stock=7 served=2 denied=0 agents=6S,1S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=3S,5S
+spot=27 brand=3 cell=505 stock=6 served=2 denied=0 agents=2S,7S
+sparse_agent=5 cap=50000 settled=50000 labels=51067 emitted_masks=147 protected_masks=22 retained=79 valid=79 best=8/8/37 mask=0x7618001 protected=8/8/36 protected_mask=0x0
+sparse_global_best=8/8/37 baseline=8/8/36 agent=5 mask=0x7618001
+sparse_protected_best=8/8/36 baseline=8/8/36 agent=-1 mask=0x0
+sparse_best_plan=[[5,5,5,5,5,5,5,5,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,-3],[4,4,4,4,4,4,4,4,4,4,4,4,4,5,0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,5,5,0,0,1,0,0,1,0,0,0,2,2,1,2,0,1,0,0,-1],[3,3,3,3,4,4,4,4,4,4,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,3,2,3,3,3,4,4,5,5,5,5,5,-6],[0,1,0,0,0,1,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,2,2,2,2,3,2,2,3,2,2,2,3,3,3,3,3,3,3,3,3,3,3,-7],[4,4,5,4,4,4,4,4,4,4,5,5,-56],[3,3,3,3,2,1,1,1,1,1,2,2,1,2,0,1,0,0,3,3,4,4,4,3,3,3,3,4,4,4,4,4,4,4,3,4,3,3,5,4,5,4,4,5,5,4,4,4],[1,2,2,3,3,3,3,3,4,4,4,4,4,4,4,4,4,3,2,1,1,1,1,1,2,2,1,2,0,1,0,0,2,2,1,1,1,1,1,-10],[0,0,5,5,5,5,5,5,5,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,3,2,3,3,3,4,4,5,5,5,5,5,-2]]
+case_complete day=1 agent=5 exit=0
+case_begin day=1 agent=6 max_states=50000 max_routes=64
+ledger_before=0/0/0
+day_score=8/8/36
+score_after=8/8/36
+agent=0 kind=patrol claims=4 served=4 path_steps=80 raw_path_fuel=40 initial_fuel=160 spots=12:4,5:5,14:6,20:4 terminal=848:155
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=65 initial_fuel=160 spots=4:4,14:6,20:4,22:6,25:1,16:0 terminal=168:110
+agent=2 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=49 initial_fuel=160 spots=22:6,10:2,12:4,27:3,13:5 terminal=563:111
+agent=3 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=74 initial_fuel=160 spots=26:2,22:6,15:7,20:4,14:6 terminal=1011:160
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=12 initial_fuel=160 spots= terminal=1011:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=40 initial_fuel=160 spots=22:6,15:7,17:1,21:5,24:0,26:2 terminal=807:120
+agent=6 kind=patrol claims=6 served=5 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=6:6,15:7,22:6,25:1,16:0,19:3 terminal=12:113
+agent=7 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=42 initial_fuel=160 spots=10:2,22:6,12:4,27:3,13:5 terminal=563:118
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=1S
+spot=5 brand=5 cell=955 stock=7 served=1 denied=0 agents=0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=6S
+spot=10 brand=2 cell=333 stock=5 served=2 denied=0 agents=7S,2S
+spot=12 brand=4 cell=406 stock=4 served=3 denied=0 agents=0S,2S,7S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=14 brand=6 cell=1011 stock=7 served=3 denied=0 agents=1S,0S,3S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=1 agents=5S,3S,6D
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=6S,1S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=5S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=6S
+spot=20 brand=4 cell=848 stock=4 served=3 denied=0 agents=1S,3S,0S
+spot=21 brand=5 cell=992 stock=5 served=1 denied=0 agents=5S
+spot=22 brand=6 cell=325 stock=7 served=6 denied=0 agents=5S,2S,7S,3S,6S,1S
+spot=24 brand=0 cell=836 stock=2 served=1 denied=0 agents=5S
+spot=25 brand=1 cell=297 stock=7 served=2 denied=0 agents=6S,1S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=3S,5S
+spot=27 brand=3 cell=505 stock=6 served=2 denied=0 agents=2S,7S
+sparse_agent=6 cap=50000 settled=50000 labels=50967 emitted_masks=129 protected_masks=11 retained=71 valid=71 best=8/8/39 mask=0x7400047 protected=8/8/37 protected_mask=0x2490044
+sparse_global_best=8/8/39 baseline=8/8/36 agent=6 mask=0x7400047
+sparse_protected_best=8/8/37 baseline=8/8/36 agent=6 mask=0x2490044
+sparse_best_plan=[[5,5,5,5,5,5,5,5,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,-3],[4,4,4,4,4,4,4,4,4,4,4,4,4,5,0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,5,5,0,0,1,0,0,1,0,0,0,2,2,1,2,0,1,0,0,-1],[3,3,3,3,4,4,4,4,4,4,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,3,2,3,3,3,4,4,5,5,5,5,5,-6],[0,1,0,0,0,1,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,2,2,2,2,3,2,2,3,2,2,2,3,3,3,3,3,3,3,3,3,3,3,-7],[4,4,5,4,4,4,4,4,4,4,5,5,-56],[1,2,2,2,2,2,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,1,2,2,-6],[1,2,2,4,4,4,4,4,4,2,2,2,3,3,3,3,2,2,1,2,3,3,3,4,4,4,4,4,4,4,4,4,3,4,3,3,5,4,5,2,3,3,3,-2],[0,0,5,5,5,5,5,5,5,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,3,2,3,3,3,4,4,5,5,5,5,5,-2]]
+case_complete day=1 agent=6 exit=0
+case_begin day=1 agent=7 max_states=50000 max_routes=64
+ledger_before=0/0/0
+day_score=8/8/36
+score_after=8/8/36
+agent=0 kind=patrol claims=4 served=4 path_steps=80 raw_path_fuel=40 initial_fuel=160 spots=12:4,5:5,14:6,20:4 terminal=848:155
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=65 initial_fuel=160 spots=4:4,14:6,20:4,22:6,25:1,16:0 terminal=168:110
+agent=2 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=49 initial_fuel=160 spots=22:6,10:2,12:4,27:3,13:5 terminal=563:111
+agent=3 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=74 initial_fuel=160 spots=26:2,22:6,15:7,20:4,14:6 terminal=1011:160
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=12 initial_fuel=160 spots= terminal=1011:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=40 initial_fuel=160 spots=22:6,15:7,17:1,21:5,24:0,26:2 terminal=807:120
+agent=6 kind=patrol claims=6 served=5 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=6:6,15:7,22:6,25:1,16:0,19:3 terminal=12:113
+agent=7 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=42 initial_fuel=160 spots=10:2,22:6,12:4,27:3,13:5 terminal=563:118
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=1S
+spot=5 brand=5 cell=955 stock=7 served=1 denied=0 agents=0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=6S
+spot=10 brand=2 cell=333 stock=5 served=2 denied=0 agents=7S,2S
+spot=12 brand=4 cell=406 stock=4 served=3 denied=0 agents=0S,2S,7S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=14 brand=6 cell=1011 stock=7 served=3 denied=0 agents=1S,0S,3S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=1 agents=5S,3S,6D
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=6S,1S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=5S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=6S
+spot=20 brand=4 cell=848 stock=4 served=3 denied=0 agents=1S,3S,0S
+spot=21 brand=5 cell=992 stock=5 served=1 denied=0 agents=5S
+spot=22 brand=6 cell=325 stock=7 served=6 denied=0 agents=5S,2S,7S,3S,6S,1S
+spot=24 brand=0 cell=836 stock=2 served=1 denied=0 agents=5S
+spot=25 brand=1 cell=297 stock=7 served=2 denied=0 agents=6S,1S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=3S,5S
+spot=27 brand=3 cell=505 stock=6 served=2 denied=0 agents=2S,7S
+sparse_agent=7 cap=50000 settled=50000 labels=51136 emitted_masks=136 protected_masks=4 retained=65 valid=65 best=8/8/38 mask=0x7438402 protected=8/8/36 protected_mask=0x0
+sparse_global_best=8/8/38 baseline=8/8/36 agent=7 mask=0x7438402
+sparse_protected_best=8/8/36 baseline=8/8/36 agent=-1 mask=0x0
+sparse_best_plan=[[5,5,5,5,5,5,5,5,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,-3],[4,4,4,4,4,4,4,4,4,4,4,4,4,5,0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,5,5,0,0,1,0,0,1,0,0,0,2,2,1,2,0,1,0,0,-1],[3,3,3,3,4,4,4,4,4,4,5,5,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,2,3,2,3,3,3,4,4,5,5,5,5,5,-6],[0,1,0,0,0,1,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,2,2,2,2,3,2,2,3,2,2,2,3,3,3,3,3,3,3,3,3,3,3,-7],[4,4,5,4,4,4,4,4,4,4,5,5,-56],[1,2,2,2,2,2,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,1,2,2,-6],[1,2,2,3,3,3,3,3,4,4,4,4,4,4,4,4,4,3,2,1,1,1,1,1,2,2,1,2,0,1,0,0,2,2,1,1,1,1,1,-10],[0,0,5,0,5,5,5,5,0,1,0,0,4,4,4,4,4,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,3,3,1,2,2,3,4,3,4,-3]]
+case_complete day=1 agent=7 exit=0
+case_begin day=2 agent=0 max_states=50000 max_routes=64
+ledger_before=8/8/36
+day_score=8/8/36
+score_after=8/16/72
+agent=0 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=36 initial_fuel=155 spots=20:4,14:6,5:5,12:4,27:3 terminal=505:129
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=53 initial_fuel=110 spots=16:0,22:6,24:0,21:5,1:1,26:2 terminal=807:57
+agent=2 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=40 initial_fuel=111 spots=13:5,5:5,14:6,20:4,9:1 terminal=716:149
+agent=3 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=14:6,20:4,10:2,7:7,19:3,16:0 terminal=168:113
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=0 initial_fuel=160 spots= terminal=1011:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=56 initial_fuel=120 spots=26:2,22:6,15:7,17:1,21:5,24:0 terminal=836:64
+agent=6 kind=patrol claims=4 served=3 path_steps=80 raw_path_fuel=59 initial_fuel=113 spots=6:6,22:6,20:4,14:6 terminal=1011:160
+agent=7 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=40 initial_fuel=118 spots=13:5,5:5,14:6,20:4,9:1 terminal=716:149
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=1S
+spot=5 brand=5 cell=955 stock=7 served=3 denied=0 agents=2S,7S,0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=6S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=3S
+spot=9 brand=1 cell=716 stock=4 served=2 denied=0 agents=2S,7S
+spot=10 brand=2 cell=333 stock=5 served=1 denied=0 agents=3S
+spot=12 brand=4 cell=406 stock=4 served=1 denied=0 agents=0S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=14 brand=6 cell=1011 stock=7 served=5 denied=0 agents=3S,0S,2S,7S,6S
+spot=15 brand=7 cell=482 stock=2 served=1 denied=0 agents=5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=1S,3S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=5S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=3S
+spot=20 brand=4 cell=848 stock=4 served=4 denied=1 agents=0S,3S,2S,7S,6D
+spot=21 brand=5 cell=992 stock=5 served=2 denied=0 agents=1S,5S
+spot=22 brand=6 cell=325 stock=7 served=3 denied=0 agents=1S,5S,6S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=0 agents=1S,5S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=5S,1S
+spot=27 brand=3 cell=505 stock=6 served=1 denied=0 agents=0S
+sparse_agent=0 cap=50000 settled=50000 labels=51098 emitted_masks=24 protected_masks=1 retained=24 valid=24 best=8/16/74 mask=0x8145110 protected=8/16/72 protected_mask=0x0
+sparse_global_best=8/16/74 baseline=8/16/72 agent=0 mask=0x8145110
+sparse_protected_best=8/16/72 baseline=8/16/72 agent=-1 mask=0x0
+sparse_best_plan=[[-1,3,3,3,3,3,1,1,2,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,0,0,5,1,1,1,1,1,1,1,1,1,1,1,1,2,-2],[-1,4,4,4,4,4,3,3,3,4,4,3,3,3,4,4,4,3,4,4,4,4,4,4,5,5,4,4,4,2,2,2,2,1,1,2,2,0,1,1,0,-10],[-1,3,3,2,2,3,2,3,3,3,3,3,3,3,3,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,5,5,-12],[-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,5,5,5,4,4,4,4,4,5,5,-3],[-80],[-1,0,0,1,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,-3],[5,5,5,5,5,5,5,5,5,3,3,3,3,3,3,3,4,4,4,3,3,3,4,4,3,3,3,3,2,2,3,2,2,2,3,3,3,3,3,3,3,3,3,3,3,-2],[-1,3,3,2,2,3,2,3,3,3,3,3,3,3,3,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,5,5,-12]]
+case_complete day=2 agent=0 exit=0
+case_begin day=2 agent=1 max_states=50000 max_routes=64
+ledger_before=8/8/36
+day_score=8/8/36
+score_after=8/16/72
+agent=0 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=36 initial_fuel=155 spots=20:4,14:6,5:5,12:4,27:3 terminal=505:129
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=53 initial_fuel=110 spots=16:0,22:6,24:0,21:5,1:1,26:2 terminal=807:57
+agent=2 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=40 initial_fuel=111 spots=13:5,5:5,14:6,20:4,9:1 terminal=716:149
+agent=3 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=14:6,20:4,10:2,7:7,19:3,16:0 terminal=168:113
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=0 initial_fuel=160 spots= terminal=1011:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=56 initial_fuel=120 spots=26:2,22:6,15:7,17:1,21:5,24:0 terminal=836:64
+agent=6 kind=patrol claims=4 served=3 path_steps=80 raw_path_fuel=59 initial_fuel=113 spots=6:6,22:6,20:4,14:6 terminal=1011:160
+agent=7 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=40 initial_fuel=118 spots=13:5,5:5,14:6,20:4,9:1 terminal=716:149
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=1S
+spot=5 brand=5 cell=955 stock=7 served=3 denied=0 agents=2S,7S,0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=6S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=3S
+spot=9 brand=1 cell=716 stock=4 served=2 denied=0 agents=2S,7S
+spot=10 brand=2 cell=333 stock=5 served=1 denied=0 agents=3S
+spot=12 brand=4 cell=406 stock=4 served=1 denied=0 agents=0S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=14 brand=6 cell=1011 stock=7 served=5 denied=0 agents=3S,0S,2S,7S,6S
+spot=15 brand=7 cell=482 stock=2 served=1 denied=0 agents=5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=1S,3S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=5S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=3S
+spot=20 brand=4 cell=848 stock=4 served=4 denied=1 agents=0S,3S,2S,7S,6D
+spot=21 brand=5 cell=992 stock=5 served=2 denied=0 agents=1S,5S
+spot=22 brand=6 cell=325 stock=7 served=3 denied=0 agents=1S,5S,6S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=0 agents=1S,5S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=5S,1S
+spot=27 brand=3 cell=505 stock=6 served=1 denied=0 agents=0S
+sparse_agent=1 cap=50000 settled=50000 labels=51266 emitted_masks=96 protected_masks=16 retained=77 valid=77 best=8/16/75 mask=0x7638001 protected=8/16/72 protected_mask=0x0
+sparse_global_best=8/16/75 baseline=8/16/72 agent=1 mask=0x7638001
+sparse_protected_best=8/16/72 baseline=8/16/72 agent=-1 mask=0x0
+sparse_best_plan=[[-1,3,3,3,3,3,1,1,2,2,2,2,2,2,2,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1,1,2,3,3,3,-10],[-1,3,3,3,4,5,5,4,5,2,3,3,2,3,3,5,5,5,4,5,5,5,5,3,3,3,4,3,3,4,3,2,2,3,3,5,4,5,4,4,5,5,4,4,4],[-1,3,3,2,2,3,2,3,3,3,3,3,3,3,3,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,5,5,-12],[-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,5,5,5,4,4,4,4,4,5,5,-3],[-80],[-1,0,0,1,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,-3],[5,5,5,5,5,5,5,5,5,3,3,3,3,3,3,3,4,4,4,3,3,3,4,4,3,3,3,3,2,2,3,2,2,2,3,3,3,3,3,3,3,3,3,3,3,-2],[-1,3,3,2,2,3,2,3,3,3,3,3,3,3,3,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,5,5,-12]]
+case_complete day=2 agent=1 exit=0
+case_begin day=2 agent=2 max_states=50000 max_routes=64
+ledger_before=8/8/36
+day_score=8/8/36
+score_after=8/16/72
+agent=0 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=36 initial_fuel=155 spots=20:4,14:6,5:5,12:4,27:3 terminal=505:129
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=53 initial_fuel=110 spots=16:0,22:6,24:0,21:5,1:1,26:2 terminal=807:57
+agent=2 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=40 initial_fuel=111 spots=13:5,5:5,14:6,20:4,9:1 terminal=716:149
+agent=3 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=14:6,20:4,10:2,7:7,19:3,16:0 terminal=168:113
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=0 initial_fuel=160 spots= terminal=1011:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=56 initial_fuel=120 spots=26:2,22:6,15:7,17:1,21:5,24:0 terminal=836:64
+agent=6 kind=patrol claims=4 served=3 path_steps=80 raw_path_fuel=59 initial_fuel=113 spots=6:6,22:6,20:4,14:6 terminal=1011:160
+agent=7 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=40 initial_fuel=118 spots=13:5,5:5,14:6,20:4,9:1 terminal=716:149
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=1S
+spot=5 brand=5 cell=955 stock=7 served=3 denied=0 agents=2S,7S,0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=6S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=3S
+spot=9 brand=1 cell=716 stock=4 served=2 denied=0 agents=2S,7S
+spot=10 brand=2 cell=333 stock=5 served=1 denied=0 agents=3S
+spot=12 brand=4 cell=406 stock=4 served=1 denied=0 agents=0S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=14 brand=6 cell=1011 stock=7 served=5 denied=0 agents=3S,0S,2S,7S,6S
+spot=15 brand=7 cell=482 stock=2 served=1 denied=0 agents=5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=1S,3S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=5S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=3S
+spot=20 brand=4 cell=848 stock=4 served=4 denied=1 agents=0S,3S,2S,7S,6D
+spot=21 brand=5 cell=992 stock=5 served=2 denied=0 agents=1S,5S
+spot=22 brand=6 cell=325 stock=7 served=3 denied=0 agents=1S,5S,6S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=0 agents=1S,5S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=5S,1S
+spot=27 brand=3 cell=505 stock=6 served=1 denied=0 agents=0S
+sparse_agent=2 cap=50000 settled=50000 labels=51339 emitted_masks=27 protected_masks=2 retained=27 valid=27 best=8/16/75 mask=0xA403201 protected=8/16/72 protected_mask=0x0
+sparse_global_best=8/16/75 baseline=8/16/72 agent=2 mask=0xA403201
+sparse_protected_best=8/16/72 baseline=8/16/72 agent=-1 mask=0x0
+sparse_best_plan=[[-1,3,3,3,3,3,1,1,2,2,2,2,2,2,2,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1,1,2,3,3,3,-10],[-1,4,4,4,4,4,3,3,3,4,4,3,3,3,4,4,4,3,4,4,4,4,4,4,5,5,4,4,4,2,2,2,2,1,1,2,2,0,1,1,0,-10],[-1,1,1,1,1,1,2,2,3,3,3,4,4,5,5,5,4,4,4,5,5,5,4,5,5,4,5,0,0,0,0,0,0,0,1,0,0,0,1,1,5,5,4,5,-2],[-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,5,5,5,4,4,4,4,4,5,5,-3],[-80],[-1,0,0,1,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,-3],[5,5,5,5,5,5,5,5,5,3,3,3,3,3,3,3,4,4,4,3,3,3,4,4,3,3,3,3,2,2,3,2,2,2,3,3,3,3,3,3,3,3,3,3,3,-2],[-1,3,3,2,2,3,2,3,3,3,3,3,3,3,3,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,5,5,-12]]
+case_complete day=2 agent=2 exit=0
+case_begin day=2 agent=3 max_states=50000 max_routes=64
+ledger_before=8/8/36
+day_score=8/8/36
+score_after=8/16/72
+agent=0 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=36 initial_fuel=155 spots=20:4,14:6,5:5,12:4,27:3 terminal=505:129
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=53 initial_fuel=110 spots=16:0,22:6,24:0,21:5,1:1,26:2 terminal=807:57
+agent=2 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=40 initial_fuel=111 spots=13:5,5:5,14:6,20:4,9:1 terminal=716:149
+agent=3 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=14:6,20:4,10:2,7:7,19:3,16:0 terminal=168:113
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=0 initial_fuel=160 spots= terminal=1011:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=56 initial_fuel=120 spots=26:2,22:6,15:7,17:1,21:5,24:0 terminal=836:64
+agent=6 kind=patrol claims=4 served=3 path_steps=80 raw_path_fuel=59 initial_fuel=113 spots=6:6,22:6,20:4,14:6 terminal=1011:160
+agent=7 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=40 initial_fuel=118 spots=13:5,5:5,14:6,20:4,9:1 terminal=716:149
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=1S
+spot=5 brand=5 cell=955 stock=7 served=3 denied=0 agents=2S,7S,0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=6S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=3S
+spot=9 brand=1 cell=716 stock=4 served=2 denied=0 agents=2S,7S
+spot=10 brand=2 cell=333 stock=5 served=1 denied=0 agents=3S
+spot=12 brand=4 cell=406 stock=4 served=1 denied=0 agents=0S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=14 brand=6 cell=1011 stock=7 served=5 denied=0 agents=3S,0S,2S,7S,6S
+spot=15 brand=7 cell=482 stock=2 served=1 denied=0 agents=5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=1S,3S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=5S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=3S
+spot=20 brand=4 cell=848 stock=4 served=4 denied=1 agents=0S,3S,2S,7S,6D
+spot=21 brand=5 cell=992 stock=5 served=2 denied=0 agents=1S,5S
+spot=22 brand=6 cell=325 stock=7 served=3 denied=0 agents=1S,5S,6S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=0 agents=1S,5S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=5S,1S
+spot=27 brand=3 cell=505 stock=6 served=1 denied=0 agents=0S
+sparse_agent=3 cap=50000 settled=50000 labels=51360 emitted_masks=112 protected_masks=24 retained=79 valid=79 best=8/16/74 mask=0x6194201 protected=8/16/72 protected_mask=0x0
+sparse_global_best=8/16/74 baseline=8/16/72 agent=3 mask=0x6194201
+sparse_protected_best=8/16/72 baseline=8/16/72 agent=-1 mask=0x0
+sparse_best_plan=[[-1,3,3,3,3,3,1,1,2,2,2,2,2,2,2,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1,1,2,3,3,3,-10],[-1,4,4,4,4,4,3,3,3,4,4,3,3,3,4,4,4,3,4,4,4,4,4,4,5,5,4,4,4,2,2,2,2,1,1,2,2,0,1,1,0,-10],[-1,3,3,2,2,3,2,3,3,3,3,3,3,3,3,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,5,5,-12],[-1,0,0,0,0,0,0,0,0,0,5,5,4,4,4,5,5,5,5,0,0,1,0,1,1,1,1,1,1,1,0,0,0,1,1,0,1,0,0,2,2,1,1,1,1,1,-2],[-80],[-1,0,0,1,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,-3],[5,5,5,5,5,5,5,5,5,3,3,3,3,3,3,3,4,4,4,3,3,3,4,4,3,3,3,3,2,2,3,2,2,2,3,3,3,3,3,3,3,3,3,3,3,-2],[-1,3,3,2,2,3,2,3,3,3,3,3,3,3,3,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,5,5,-12]]
+case_complete day=2 agent=3 exit=0
+case_begin day=2 agent=5 max_states=50000 max_routes=64
+ledger_before=8/8/36
+day_score=8/8/36
+score_after=8/16/72
+agent=0 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=36 initial_fuel=155 spots=20:4,14:6,5:5,12:4,27:3 terminal=505:129
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=53 initial_fuel=110 spots=16:0,22:6,24:0,21:5,1:1,26:2 terminal=807:57
+agent=2 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=40 initial_fuel=111 spots=13:5,5:5,14:6,20:4,9:1 terminal=716:149
+agent=3 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=14:6,20:4,10:2,7:7,19:3,16:0 terminal=168:113
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=0 initial_fuel=160 spots= terminal=1011:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=56 initial_fuel=120 spots=26:2,22:6,15:7,17:1,21:5,24:0 terminal=836:64
+agent=6 kind=patrol claims=4 served=3 path_steps=80 raw_path_fuel=59 initial_fuel=113 spots=6:6,22:6,20:4,14:6 terminal=1011:160
+agent=7 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=40 initial_fuel=118 spots=13:5,5:5,14:6,20:4,9:1 terminal=716:149
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=1S
+spot=5 brand=5 cell=955 stock=7 served=3 denied=0 agents=2S,7S,0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=6S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=3S
+spot=9 brand=1 cell=716 stock=4 served=2 denied=0 agents=2S,7S
+spot=10 brand=2 cell=333 stock=5 served=1 denied=0 agents=3S
+spot=12 brand=4 cell=406 stock=4 served=1 denied=0 agents=0S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=14 brand=6 cell=1011 stock=7 served=5 denied=0 agents=3S,0S,2S,7S,6S
+spot=15 brand=7 cell=482 stock=2 served=1 denied=0 agents=5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=1S,3S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=5S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=3S
+spot=20 brand=4 cell=848 stock=4 served=4 denied=1 agents=0S,3S,2S,7S,6D
+spot=21 brand=5 cell=992 stock=5 served=2 denied=0 agents=1S,5S
+spot=22 brand=6 cell=325 stock=7 served=3 denied=0 agents=1S,5S,6S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=0 agents=1S,5S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=5S,1S
+spot=27 brand=3 cell=505 stock=6 served=1 denied=0 agents=0S
+sparse_agent=5 cap=50000 settled=50000 labels=51079 emitted_masks=115 protected_masks=4 retained=68 valid=68 best=8/16/74 mask=0x7429400 protected=8/16/72 protected_mask=0x0
+sparse_global_best=8/16/74 baseline=8/16/72 agent=5 mask=0x7429400
+sparse_protected_best=8/16/72 baseline=8/16/72 agent=-1 mask=0x0
+sparse_best_plan=[[-1,3,3,3,3,3,1,1,2,2,2,2,2,2,2,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1,1,2,3,3,3,-10],[-1,4,4,4,4,4,3,3,3,4,4,3,3,3,4,4,4,3,4,4,4,4,4,4,5,5,4,4,4,2,2,2,2,1,1,2,2,0,1,1,0,-10],[-1,3,3,2,2,3,2,3,3,3,3,3,3,3,3,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,5,5,-12],[-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,5,5,5,4,4,4,4,4,5,5,-3],[-80],[-1,5,4,5,0,0,0,1,0,0,0,0,0,1,1,2,1,1,1,1,1,2,1,2,2,2,2,2,2,3,2,2,2,2,2,2,2,3,2,3,-4],[5,5,5,5,5,5,5,5,5,3,3,3,3,3,3,3,4,4,4,3,3,3,4,4,3,3,3,3,2,2,3,2,2,2,3,3,3,3,3,3,3,3,3,3,3,-2],[-1,3,3,2,2,3,2,3,3,3,3,3,3,3,3,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,5,5,-12]]
+case_complete day=2 agent=5 exit=0
+case_begin day=2 agent=6 max_states=50000 max_routes=64
+ledger_before=8/8/36
+day_score=8/8/36
+score_after=8/16/72
+agent=0 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=36 initial_fuel=155 spots=20:4,14:6,5:5,12:4,27:3 terminal=505:129
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=53 initial_fuel=110 spots=16:0,22:6,24:0,21:5,1:1,26:2 terminal=807:57
+agent=2 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=40 initial_fuel=111 spots=13:5,5:5,14:6,20:4,9:1 terminal=716:149
+agent=3 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=14:6,20:4,10:2,7:7,19:3,16:0 terminal=168:113
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=0 initial_fuel=160 spots= terminal=1011:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=56 initial_fuel=120 spots=26:2,22:6,15:7,17:1,21:5,24:0 terminal=836:64
+agent=6 kind=patrol claims=4 served=3 path_steps=80 raw_path_fuel=59 initial_fuel=113 spots=6:6,22:6,20:4,14:6 terminal=1011:160
+agent=7 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=40 initial_fuel=118 spots=13:5,5:5,14:6,20:4,9:1 terminal=716:149
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=1S
+spot=5 brand=5 cell=955 stock=7 served=3 denied=0 agents=2S,7S,0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=6S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=3S
+spot=9 brand=1 cell=716 stock=4 served=2 denied=0 agents=2S,7S
+spot=10 brand=2 cell=333 stock=5 served=1 denied=0 agents=3S
+spot=12 brand=4 cell=406 stock=4 served=1 denied=0 agents=0S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=14 brand=6 cell=1011 stock=7 served=5 denied=0 agents=3S,0S,2S,7S,6S
+spot=15 brand=7 cell=482 stock=2 served=1 denied=0 agents=5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=1S,3S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=5S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=3S
+spot=20 brand=4 cell=848 stock=4 served=4 denied=1 agents=0S,3S,2S,7S,6D
+spot=21 brand=5 cell=992 stock=5 served=2 denied=0 agents=1S,5S
+spot=22 brand=6 cell=325 stock=7 served=3 denied=0 agents=1S,5S,6S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=0 agents=1S,5S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=5S,1S
+spot=27 brand=3 cell=505 stock=6 served=1 denied=0 agents=0S
+sparse_agent=6 cap=50000 settled=50000 labels=51355 emitted_masks=115 protected_masks=6 retained=68 valid=68 best=8/16/75 mask=0x74B8001 protected=8/16/72 protected_mask=0x0
+sparse_global_best=8/16/75 baseline=8/16/72 agent=6 mask=0x74B8001
+sparse_protected_best=8/16/72 baseline=8/16/72 agent=-1 mask=0x0
+sparse_best_plan=[[-1,3,3,3,3,3,1,1,2,2,2,2,2,2,2,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1,1,2,3,3,3,-10],[-1,4,4,4,4,4,3,3,3,4,4,3,3,3,4,4,4,3,4,4,4,4,4,4,5,5,4,4,4,2,2,2,2,1,1,2,2,0,1,1,0,-10],[-1,3,3,2,2,3,2,3,3,3,3,3,3,3,3,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,5,5,-12],[-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,5,5,5,4,4,4,4,4,5,5,-3],[-80],[-1,0,0,1,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,-3],[-1,4,4,4,4,4,5,5,3,3,3,4,5,5,4,5,2,3,3,2,3,3,5,5,5,4,5,5,5,5,3,3,3,4,3,3,4,3,4,3,3,1,2,2,-5],[-1,3,3,2,2,3,2,3,3,3,3,3,3,3,3,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,5,5,-12]]
+case_complete day=2 agent=6 exit=0
+case_begin day=2 agent=7 max_states=50000 max_routes=64
+ledger_before=8/8/36
+day_score=8/8/36
+score_after=8/16/72
+agent=0 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=36 initial_fuel=155 spots=20:4,14:6,5:5,12:4,27:3 terminal=505:129
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=53 initial_fuel=110 spots=16:0,22:6,24:0,21:5,1:1,26:2 terminal=807:57
+agent=2 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=40 initial_fuel=111 spots=13:5,5:5,14:6,20:4,9:1 terminal=716:149
+agent=3 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=14:6,20:4,10:2,7:7,19:3,16:0 terminal=168:113
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=0 initial_fuel=160 spots= terminal=1011:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=56 initial_fuel=120 spots=26:2,22:6,15:7,17:1,21:5,24:0 terminal=836:64
+agent=6 kind=patrol claims=4 served=3 path_steps=80 raw_path_fuel=59 initial_fuel=113 spots=6:6,22:6,20:4,14:6 terminal=1011:160
+agent=7 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=40 initial_fuel=118 spots=13:5,5:5,14:6,20:4,9:1 terminal=716:149
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=1S
+spot=5 brand=5 cell=955 stock=7 served=3 denied=0 agents=2S,7S,0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=6S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=3S
+spot=9 brand=1 cell=716 stock=4 served=2 denied=0 agents=2S,7S
+spot=10 brand=2 cell=333 stock=5 served=1 denied=0 agents=3S
+spot=12 brand=4 cell=406 stock=4 served=1 denied=0 agents=0S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=14 brand=6 cell=1011 stock=7 served=5 denied=0 agents=3S,0S,2S,7S,6S
+spot=15 brand=7 cell=482 stock=2 served=1 denied=0 agents=5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=1S,3S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=5S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=3S
+spot=20 brand=4 cell=848 stock=4 served=4 denied=1 agents=0S,3S,2S,7S,6D
+spot=21 brand=5 cell=992 stock=5 served=2 denied=0 agents=1S,5S
+spot=22 brand=6 cell=325 stock=7 served=3 denied=0 agents=1S,5S,6S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=0 agents=1S,5S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=5S,1S
+spot=27 brand=3 cell=505 stock=6 served=1 denied=0 agents=0S
+sparse_agent=7 cap=50000 settled=50000 labels=51339 emitted_masks=27 protected_masks=2 retained=27 valid=27 best=8/16/75 mask=0xA403201 protected=8/16/72 protected_mask=0x0
+sparse_global_best=8/16/75 baseline=8/16/72 agent=7 mask=0xA403201
+sparse_protected_best=8/16/72 baseline=8/16/72 agent=-1 mask=0x0
+sparse_best_plan=[[-1,3,3,3,3,3,1,1,2,2,2,2,2,2,2,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1,1,2,3,3,3,-10],[-1,4,4,4,4,4,3,3,3,4,4,3,3,3,4,4,4,3,4,4,4,4,4,4,5,5,4,4,4,2,2,2,2,1,1,2,2,0,1,1,0,-10],[-1,3,3,2,2,3,2,3,3,3,3,3,3,3,3,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,0,0,0,0,5,5,-12],[-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,5,5,5,4,4,4,4,4,5,5,-3],[-80],[-1,0,0,1,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,-3],[5,5,5,5,5,5,5,5,5,3,3,3,3,3,3,3,4,4,4,3,3,3,4,4,3,3,3,3,2,2,3,2,2,2,3,3,3,3,3,3,3,3,3,3,3,-2],[-1,1,1,1,1,1,2,2,3,3,3,4,4,5,5,5,4,4,4,5,5,5,4,5,5,4,5,0,0,0,0,0,0,0,1,0,0,0,1,1,5,5,4,5,-2]]
+case_complete day=2 agent=7 exit=0
+case_begin day=3 agent=0 max_states=50000 max_routes=64
+ledger_before=8/16/72
+day_score=8/8/40
+score_after=8/24/112
+agent=0 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=38 initial_fuel=129 spots=27:3,5:5,14:6,20:4,4:4 terminal=791:91
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=55 initial_fuel=57 spots=26:2,22:6,15:7,17:1,21:5,24:0 terminal=836:2
+agent=2 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=35 initial_fuel=149 spots=9:1,20:4,14:6,5:5,23:7,3:3 terminal=574:114
+agent=3 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=51 initial_fuel=113 spots=16:0,22:6,21:5,1:1,26:2 terminal=807:62
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=38 initial_fuel=160 spots= terminal=325:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=40 initial_fuel=64 spots=24:0,21:5,15:7,22:6,25:1,10:2 terminal=333:150
+agent=6 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=14:6,20:4,10:2,7:7,19:3,16:0 terminal=168:113
+agent=7 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=35 initial_fuel=149 spots=9:1,20:4,14:6,5:5,23:7,3:3 terminal=574:114
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=3S
+spot=3 brand=3 cell=574 stock=8 served=2 denied=0 agents=2S,7S
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=0S
+spot=5 brand=5 cell=955 stock=7 served=3 denied=0 agents=0S,2S,7S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=6S
+spot=9 brand=1 cell=716 stock=4 served=2 denied=0 agents=2S,7S
+spot=10 brand=2 cell=333 stock=5 served=2 denied=0 agents=6S,5S
+spot=14 brand=6 cell=1011 stock=7 served=4 denied=0 agents=6S,2S,7S,0S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=0 agents=1S,5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=3S,6S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=1S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=6S
+spot=20 brand=4 cell=848 stock=4 served=4 denied=0 agents=6S,2S,7S,0S
+spot=21 brand=5 cell=992 stock=5 served=3 denied=0 agents=5S,3S,1S
+spot=22 brand=6 cell=325 stock=7 served=3 denied=0 agents=3S,1S,5S
+spot=23 brand=7 cell=799 stock=2 served=2 denied=0 agents=2S,7S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=0 agents=5S,1S
+spot=25 brand=1 cell=297 stock=7 served=1 denied=0 agents=5S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=1S,3S
+spot=27 brand=3 cell=505 stock=6 served=1 denied=0 agents=0S
+sparse_agent=0 cap=50000 settled=50000 labels=51527 emitted_masks=109 protected_masks=1 retained=65 valid=65 best=8/24/115 mask=0xA403601 protected=8/24/112 protected_mask=0x0
+sparse_global_best=8/24/115 baseline=8/24/112 agent=0 mask=0xA403601
+sparse_protected_best=8/24/112 baseline=8/24/112 agent=-1 mask=0x0
+sparse_best_plan=[[-1,0,0,0,5,4,4,4,4,4,5,4,4,4,5,4,5,5,4,5,0,0,0,0,0,0,0,1,0,0,5,0,0,5,2,1,2,2,2,2,2,2,3,-2],[-1,0,1,0,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,-2],[-1,2,2,3,3,3,3,3,3,3,3,3,1,1,2,2,2,2,2,2,2,1,1,1,1,1,2,2,0,0,0,0,0,1,1,-12],[-1,4,4,4,4,4,3,3,3,4,4,3,3,3,4,4,4,4,4,5,4,4,4,4,4,4,4,4,2,2,2,2,1,1,2,2,0,1,1,0,-9],[0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,5,5,0,0,1,0,0,1,0,0,0,-40],[-1,4,4,5,5,4,4,4,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,1,2,1,1,1,1,1,2,1,2,2,2,2,2,2,3,-4],[-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,5,5,5,4,4,4,4,4,5,5,-3],[-1,2,2,3,3,3,3,3,3,3,3,3,1,1,2,2,2,2,2,2,2,1,1,1,1,1,2,2,0,0,0,0,0,1,1,-12]]
+case_complete day=3 agent=0 exit=0
+case_begin day=3 agent=1 max_states=50000 max_routes=64
+ledger_before=8/16/72
+day_score=8/8/40
+score_after=8/24/112
+agent=0 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=38 initial_fuel=129 spots=27:3,5:5,14:6,20:4,4:4 terminal=791:91
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=55 initial_fuel=57 spots=26:2,22:6,15:7,17:1,21:5,24:0 terminal=836:2
+agent=2 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=35 initial_fuel=149 spots=9:1,20:4,14:6,5:5,23:7,3:3 terminal=574:114
+agent=3 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=51 initial_fuel=113 spots=16:0,22:6,21:5,1:1,26:2 terminal=807:62
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=38 initial_fuel=160 spots= terminal=325:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=40 initial_fuel=64 spots=24:0,21:5,15:7,22:6,25:1,10:2 terminal=333:150
+agent=6 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=14:6,20:4,10:2,7:7,19:3,16:0 terminal=168:113
+agent=7 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=35 initial_fuel=149 spots=9:1,20:4,14:6,5:5,23:7,3:3 terminal=574:114
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=3S
+spot=3 brand=3 cell=574 stock=8 served=2 denied=0 agents=2S,7S
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=0S
+spot=5 brand=5 cell=955 stock=7 served=3 denied=0 agents=0S,2S,7S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=6S
+spot=9 brand=1 cell=716 stock=4 served=2 denied=0 agents=2S,7S
+spot=10 brand=2 cell=333 stock=5 served=2 denied=0 agents=6S,5S
+spot=14 brand=6 cell=1011 stock=7 served=4 denied=0 agents=6S,2S,7S,0S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=0 agents=1S,5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=3S,6S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=1S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=6S
+spot=20 brand=4 cell=848 stock=4 served=4 denied=0 agents=6S,2S,7S,0S
+spot=21 brand=5 cell=992 stock=5 served=3 denied=0 agents=5S,3S,1S
+spot=22 brand=6 cell=325 stock=7 served=3 denied=0 agents=3S,1S,5S
+spot=23 brand=7 cell=799 stock=2 served=2 denied=0 agents=2S,7S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=0 agents=5S,1S
+spot=25 brand=1 cell=297 stock=7 served=1 denied=0 agents=5S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=1S,3S
+spot=27 brand=3 cell=505 stock=6 served=1 denied=0 agents=0S
+sparse_agent=1 cap=50000 settled=50000 labels=51224 emitted_masks=140 protected_masks=3 retained=67 valid=67 best=8/24/114 mask=0x742A400 protected=8/24/112 protected_mask=0x0
+sparse_global_best=8/24/114 baseline=8/24/112 agent=1 mask=0x742A400
+sparse_protected_best=8/24/112 baseline=8/24/112 agent=-1 mask=0x0
+sparse_best_plan=[[-1,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,2,2,2,2,1,1,2,2,-9],[-1,5,4,5,0,0,0,1,0,0,0,0,0,1,1,2,1,1,1,1,1,2,1,2,2,2,2,2,2,3,3,3,3,3,3,2,2,3,3,-5],[-1,2,2,3,3,3,3,3,3,3,3,3,1,1,2,2,2,2,2,2,2,1,1,1,1,1,2,2,0,0,0,0,0,1,1,-12],[-1,4,4,4,4,4,3,3,3,4,4,3,3,3,4,4,4,4,4,5,4,4,4,4,4,4,4,4,2,2,2,2,1,1,2,2,0,1,1,0,-9],[0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,5,5,0,0,1,0,0,1,0,0,0,-40],[-1,4,4,5,5,4,4,4,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,1,2,1,1,1,1,1,2,1,2,2,2,2,2,2,3,-4],[-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,5,5,5,4,4,4,4,4,5,5,-3],[-1,2,2,3,3,3,3,3,3,3,3,3,1,1,2,2,2,2,2,2,2,1,1,1,1,1,2,2,0,0,0,0,0,1,1,-12]]
+case_complete day=3 agent=1 exit=0
+case_begin day=3 agent=2 max_states=50000 max_routes=64
+ledger_before=8/16/72
+day_score=8/8/40
+score_after=8/24/112
+agent=0 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=38 initial_fuel=129 spots=27:3,5:5,14:6,20:4,4:4 terminal=791:91
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=55 initial_fuel=57 spots=26:2,22:6,15:7,17:1,21:5,24:0 terminal=836:2
+agent=2 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=35 initial_fuel=149 spots=9:1,20:4,14:6,5:5,23:7,3:3 terminal=574:114
+agent=3 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=51 initial_fuel=113 spots=16:0,22:6,21:5,1:1,26:2 terminal=807:62
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=38 initial_fuel=160 spots= terminal=325:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=40 initial_fuel=64 spots=24:0,21:5,15:7,22:6,25:1,10:2 terminal=333:150
+agent=6 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=14:6,20:4,10:2,7:7,19:3,16:0 terminal=168:113
+agent=7 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=35 initial_fuel=149 spots=9:1,20:4,14:6,5:5,23:7,3:3 terminal=574:114
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=3S
+spot=3 brand=3 cell=574 stock=8 served=2 denied=0 agents=2S,7S
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=0S
+spot=5 brand=5 cell=955 stock=7 served=3 denied=0 agents=0S,2S,7S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=6S
+spot=9 brand=1 cell=716 stock=4 served=2 denied=0 agents=2S,7S
+spot=10 brand=2 cell=333 stock=5 served=2 denied=0 agents=6S,5S
+spot=14 brand=6 cell=1011 stock=7 served=4 denied=0 agents=6S,2S,7S,0S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=0 agents=1S,5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=3S,6S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=1S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=6S
+spot=20 brand=4 cell=848 stock=4 served=4 denied=0 agents=6S,2S,7S,0S
+spot=21 brand=5 cell=992 stock=5 served=3 denied=0 agents=5S,3S,1S
+spot=22 brand=6 cell=325 stock=7 served=3 denied=0 agents=3S,1S,5S
+spot=23 brand=7 cell=799 stock=2 served=2 denied=0 agents=2S,7S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=0 agents=5S,1S
+spot=25 brand=1 cell=297 stock=7 served=1 denied=0 agents=5S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=1S,3S
+spot=27 brand=3 cell=505 stock=6 served=1 denied=0 agents=0S
+sparse_agent=2 cap=50000 settled=50000 labels=51399 emitted_masks=26 protected_masks=2 retained=27 valid=27 best=8/24/113 mask=0x904238 protected=8/24/112 protected_mask=0x0
+sparse_global_best=8/24/113 baseline=8/24/112 agent=2 mask=0x904238
+sparse_protected_best=8/24/112 baseline=8/24/112 agent=-1 mask=0x0
+sparse_best_plan=[[-1,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,2,2,2,2,1,1,2,2,-9],[-1,0,1,0,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,-2],[-1,2,2,3,3,3,3,3,3,3,3,3,1,1,2,1,1,1,1,1,3,3,3,2,3,3,1,1,1,1,1,2,2,0,0,0,0,0,1,1,-1],[-1,4,4,4,4,4,3,3,3,4,4,3,3,3,4,4,4,4,4,5,4,4,4,4,4,4,4,4,2,2,2,2,1,1,2,2,0,1,1,0,-9],[0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,5,5,0,0,1,0,0,1,0,0,0,-40],[-1,4,4,5,5,4,4,4,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,1,2,1,1,1,1,1,2,1,2,2,2,2,2,2,3,-4],[-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,5,5,5,4,4,4,4,4,5,5,-3],[-1,2,2,3,3,3,3,3,3,3,3,3,1,1,2,2,2,2,2,2,2,1,1,1,1,1,2,2,0,0,0,0,0,1,1,-12]]
+case_complete day=3 agent=2 exit=0
+case_begin day=3 agent=3 max_states=50000 max_routes=64
+ledger_before=8/16/72
+day_score=8/8/40
+score_after=8/24/112
+agent=0 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=38 initial_fuel=129 spots=27:3,5:5,14:6,20:4,4:4 terminal=791:91
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=55 initial_fuel=57 spots=26:2,22:6,15:7,17:1,21:5,24:0 terminal=836:2
+agent=2 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=35 initial_fuel=149 spots=9:1,20:4,14:6,5:5,23:7,3:3 terminal=574:114
+agent=3 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=51 initial_fuel=113 spots=16:0,22:6,21:5,1:1,26:2 terminal=807:62
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=38 initial_fuel=160 spots= terminal=325:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=40 initial_fuel=64 spots=24:0,21:5,15:7,22:6,25:1,10:2 terminal=333:150
+agent=6 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=14:6,20:4,10:2,7:7,19:3,16:0 terminal=168:113
+agent=7 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=35 initial_fuel=149 spots=9:1,20:4,14:6,5:5,23:7,3:3 terminal=574:114
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=3S
+spot=3 brand=3 cell=574 stock=8 served=2 denied=0 agents=2S,7S
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=0S
+spot=5 brand=5 cell=955 stock=7 served=3 denied=0 agents=0S,2S,7S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=6S
+spot=9 brand=1 cell=716 stock=4 served=2 denied=0 agents=2S,7S
+spot=10 brand=2 cell=333 stock=5 served=2 denied=0 agents=6S,5S
+spot=14 brand=6 cell=1011 stock=7 served=4 denied=0 agents=6S,2S,7S,0S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=0 agents=1S,5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=3S,6S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=1S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=6S
+spot=20 brand=4 cell=848 stock=4 served=4 denied=0 agents=6S,2S,7S,0S
+spot=21 brand=5 cell=992 stock=5 served=3 denied=0 agents=5S,3S,1S
+spot=22 brand=6 cell=325 stock=7 served=3 denied=0 agents=3S,1S,5S
+spot=23 brand=7 cell=799 stock=2 served=2 denied=0 agents=2S,7S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=0 agents=5S,1S
+spot=25 brand=1 cell=297 stock=7 served=1 denied=0 agents=5S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=1S,3S
+spot=27 brand=3 cell=505 stock=6 served=1 denied=0 agents=0S
+sparse_agent=3 cap=50000 settled=50000 labels=51310 emitted_masks=111 protected_masks=20 retained=82 valid=82 best=8/24/115 mask=0xA413401 protected=8/24/112 protected_mask=0x0
+sparse_global_best=8/24/115 baseline=8/24/112 agent=3 mask=0xA413401
+sparse_protected_best=8/24/112 baseline=8/24/112 agent=-1 mask=0x0
+sparse_best_plan=[[-1,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,2,2,2,2,1,1,2,2,-9],[-1,0,1,0,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,-2],[-1,2,2,3,3,3,3,3,3,3,3,3,1,1,2,2,2,2,2,2,2,1,1,1,1,1,2,2,0,0,0,0,0,1,1,-12],[-1,3,3,3,4,4,5,5,5,2,3,3,2,3,3,2,2,1,1,1,1,3,3,3,3,3,2,2,3,3,1,1,1,1,1,2,2,3,3,3,-4],[0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,5,5,0,0,1,0,0,1,0,0,0,-40],[-1,4,4,5,5,4,4,4,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,1,2,1,1,1,1,1,2,1,2,2,2,2,2,2,3,-4],[-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,5,5,5,4,4,4,4,4,5,5,-3],[-1,2,2,3,3,3,3,3,3,3,3,3,1,1,2,2,2,2,2,2,2,1,1,1,1,1,2,2,0,0,0,0,0,1,1,-12]]
+case_complete day=3 agent=3 exit=0
+case_begin day=3 agent=5 max_states=50000 max_routes=64
+ledger_before=8/16/72
+day_score=8/8/40
+score_after=8/24/112
+agent=0 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=38 initial_fuel=129 spots=27:3,5:5,14:6,20:4,4:4 terminal=791:91
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=55 initial_fuel=57 spots=26:2,22:6,15:7,17:1,21:5,24:0 terminal=836:2
+agent=2 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=35 initial_fuel=149 spots=9:1,20:4,14:6,5:5,23:7,3:3 terminal=574:114
+agent=3 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=51 initial_fuel=113 spots=16:0,22:6,21:5,1:1,26:2 terminal=807:62
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=38 initial_fuel=160 spots= terminal=325:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=40 initial_fuel=64 spots=24:0,21:5,15:7,22:6,25:1,10:2 terminal=333:150
+agent=6 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=14:6,20:4,10:2,7:7,19:3,16:0 terminal=168:113
+agent=7 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=35 initial_fuel=149 spots=9:1,20:4,14:6,5:5,23:7,3:3 terminal=574:114
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=3S
+spot=3 brand=3 cell=574 stock=8 served=2 denied=0 agents=2S,7S
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=0S
+spot=5 brand=5 cell=955 stock=7 served=3 denied=0 agents=0S,2S,7S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=6S
+spot=9 brand=1 cell=716 stock=4 served=2 denied=0 agents=2S,7S
+spot=10 brand=2 cell=333 stock=5 served=2 denied=0 agents=6S,5S
+spot=14 brand=6 cell=1011 stock=7 served=4 denied=0 agents=6S,2S,7S,0S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=0 agents=1S,5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=3S,6S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=1S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=6S
+spot=20 brand=4 cell=848 stock=4 served=4 denied=0 agents=6S,2S,7S,0S
+spot=21 brand=5 cell=992 stock=5 served=3 denied=0 agents=5S,3S,1S
+spot=22 brand=6 cell=325 stock=7 served=3 denied=0 agents=3S,1S,5S
+spot=23 brand=7 cell=799 stock=2 served=2 denied=0 agents=2S,7S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=0 agents=5S,1S
+spot=25 brand=1 cell=297 stock=7 served=1 denied=0 agents=5S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=1S,3S
+spot=27 brand=3 cell=505 stock=6 served=1 denied=0 agents=0S
+sparse_agent=5 cap=50000 settled=50000 labels=51174 emitted_masks=128 protected_masks=17 retained=75 valid=75 best=8/24/113 mask=0x7438003 protected=8/24/112 protected_mask=0x0
+sparse_global_best=8/24/113 baseline=8/24/112 agent=5 mask=0x7438003
+sparse_protected_best=8/24/112 baseline=8/24/112 agent=-1 mask=0x0
+sparse_best_plan=[[-1,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,2,2,2,2,1,1,2,2,-9],[-1,0,1,0,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,-2],[-1,2,2,3,3,3,3,3,3,3,3,3,1,1,2,2,2,2,2,2,2,1,1,1,1,1,2,2,0,0,0,0,0,1,1,-12],[-1,4,4,4,4,4,3,3,3,4,4,3,3,3,4,4,4,4,4,5,4,4,4,4,4,4,4,4,2,2,2,2,1,1,2,2,0,1,1,0,-9],[0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,5,5,0,0,1,0,0,1,0,0,0,-40],[-1,1,2,2,3,4,3,4,0,0,0,0,0,0,0,0,0,0,0,0,1,1,2,1,1,1,1,1,2,3,3,2,3,3,0,0,0,1,1,0,1,0,0,-2],[-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,5,5,5,4,4,4,4,4,5,5,-3],[-1,2,2,3,3,3,3,3,3,3,3,3,1,1,2,2,2,2,2,2,2,1,1,1,1,1,2,2,0,0,0,0,0,1,1,-12]]
+case_complete day=3 agent=5 exit=0
+case_begin day=3 agent=6 max_states=50000 max_routes=64
+ledger_before=8/16/72
+day_score=8/8/40
+score_after=8/24/112
+agent=0 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=38 initial_fuel=129 spots=27:3,5:5,14:6,20:4,4:4 terminal=791:91
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=55 initial_fuel=57 spots=26:2,22:6,15:7,17:1,21:5,24:0 terminal=836:2
+agent=2 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=35 initial_fuel=149 spots=9:1,20:4,14:6,5:5,23:7,3:3 terminal=574:114
+agent=3 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=51 initial_fuel=113 spots=16:0,22:6,21:5,1:1,26:2 terminal=807:62
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=38 initial_fuel=160 spots= terminal=325:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=40 initial_fuel=64 spots=24:0,21:5,15:7,22:6,25:1,10:2 terminal=333:150
+agent=6 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=14:6,20:4,10:2,7:7,19:3,16:0 terminal=168:113
+agent=7 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=35 initial_fuel=149 spots=9:1,20:4,14:6,5:5,23:7,3:3 terminal=574:114
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=3S
+spot=3 brand=3 cell=574 stock=8 served=2 denied=0 agents=2S,7S
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=0S
+spot=5 brand=5 cell=955 stock=7 served=3 denied=0 agents=0S,2S,7S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=6S
+spot=9 brand=1 cell=716 stock=4 served=2 denied=0 agents=2S,7S
+spot=10 brand=2 cell=333 stock=5 served=2 denied=0 agents=6S,5S
+spot=14 brand=6 cell=1011 stock=7 served=4 denied=0 agents=6S,2S,7S,0S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=0 agents=1S,5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=3S,6S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=1S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=6S
+spot=20 brand=4 cell=848 stock=4 served=4 denied=0 agents=6S,2S,7S,0S
+spot=21 brand=5 cell=992 stock=5 served=3 denied=0 agents=5S,3S,1S
+spot=22 brand=6 cell=325 stock=7 served=3 denied=0 agents=3S,1S,5S
+spot=23 brand=7 cell=799 stock=2 served=2 denied=0 agents=2S,7S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=0 agents=5S,1S
+spot=25 brand=1 cell=297 stock=7 served=1 denied=0 agents=5S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=1S,3S
+spot=27 brand=3 cell=505 stock=6 served=1 denied=0 agents=0S
+sparse_agent=6 cap=50000 settled=50000 labels=51268 emitted_masks=99 protected_masks=21 retained=76 valid=76 best=8/24/114 mask=0x6194201 protected=8/24/112 protected_mask=0x0
+sparse_global_best=8/24/114 baseline=8/24/112 agent=6 mask=0x6194201
+sparse_protected_best=8/24/112 baseline=8/24/112 agent=-1 mask=0x0
+sparse_best_plan=[[-1,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,2,2,2,2,1,1,2,2,-9],[-1,0,1,0,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,-2],[-1,2,2,3,3,3,3,3,3,3,3,3,1,1,2,2,2,2,2,2,2,1,1,1,1,1,2,2,0,0,0,0,0,1,1,-12],[-1,4,4,4,4,4,3,3,3,4,4,3,3,3,4,4,4,4,4,5,4,4,4,4,4,4,4,4,2,2,2,2,1,1,2,2,0,1,1,0,-9],[0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,5,5,0,0,1,0,0,1,0,0,0,-40],[-1,4,4,5,5,4,4,4,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,1,2,1,1,1,1,1,2,1,2,2,2,2,2,2,3,-4],[-1,0,0,0,0,0,0,0,0,0,5,5,4,4,4,5,5,5,5,0,1,0,0,1,1,1,1,1,1,1,0,0,0,1,1,0,1,0,0,2,2,1,1,1,1,1,-1],[-1,2,2,3,3,3,3,3,3,3,3,3,1,1,2,2,2,2,2,2,2,1,1,1,1,1,2,2,0,0,0,0,0,1,1,-12]]
+case_complete day=3 agent=6 exit=0
+case_begin day=3 agent=7 max_states=50000 max_routes=64
+ledger_before=8/16/72
+day_score=8/8/40
+score_after=8/24/112
+agent=0 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=38 initial_fuel=129 spots=27:3,5:5,14:6,20:4,4:4 terminal=791:91
+agent=1 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=55 initial_fuel=57 spots=26:2,22:6,15:7,17:1,21:5,24:0 terminal=836:2
+agent=2 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=35 initial_fuel=149 spots=9:1,20:4,14:6,5:5,23:7,3:3 terminal=574:114
+agent=3 kind=patrol claims=5 served=5 path_steps=80 raw_path_fuel=51 initial_fuel=113 spots=16:0,22:6,21:5,1:1,26:2 terminal=807:62
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=38 initial_fuel=160 spots= terminal=325:160
+agent=5 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=40 initial_fuel=64 spots=24:0,21:5,15:7,22:6,25:1,10:2 terminal=333:150
+agent=6 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=47 initial_fuel=160 spots=14:6,20:4,10:2,7:7,19:3,16:0 terminal=168:113
+agent=7 kind=patrol claims=6 served=6 path_steps=80 raw_path_fuel=35 initial_fuel=149 spots=9:1,20:4,14:6,5:5,23:7,3:3 terminal=574:114
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=3S
+spot=3 brand=3 cell=574 stock=8 served=2 denied=0 agents=2S,7S
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=0S
+spot=5 brand=5 cell=955 stock=7 served=3 denied=0 agents=0S,2S,7S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=6S
+spot=9 brand=1 cell=716 stock=4 served=2 denied=0 agents=2S,7S
+spot=10 brand=2 cell=333 stock=5 served=2 denied=0 agents=6S,5S
+spot=14 brand=6 cell=1011 stock=7 served=4 denied=0 agents=6S,2S,7S,0S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=0 agents=1S,5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=3S,6S
+spot=17 brand=1 cell=707 stock=4 served=1 denied=0 agents=1S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=6S
+spot=20 brand=4 cell=848 stock=4 served=4 denied=0 agents=6S,2S,7S,0S
+spot=21 brand=5 cell=992 stock=5 served=3 denied=0 agents=5S,3S,1S
+spot=22 brand=6 cell=325 stock=7 served=3 denied=0 agents=3S,1S,5S
+spot=23 brand=7 cell=799 stock=2 served=2 denied=0 agents=2S,7S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=0 agents=5S,1S
+spot=25 brand=1 cell=297 stock=7 served=1 denied=0 agents=5S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=1S,3S
+spot=27 brand=3 cell=505 stock=6 served=1 denied=0 agents=0S
+sparse_agent=7 cap=50000 settled=50000 labels=51399 emitted_masks=26 protected_masks=2 retained=27 valid=27 best=8/24/113 mask=0x904238 protected=8/24/112 protected_mask=0x0
+sparse_global_best=8/24/113 baseline=8/24/112 agent=7 mask=0x904238
+sparse_protected_best=8/24/112 baseline=8/24/112 agent=-1 mask=0x0
+sparse_best_plan=[[-1,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,5,5,5,5,5,5,5,0,0,0,0,0,2,2,2,2,1,1,2,2,-9],[-1,0,1,0,0,1,1,0,1,1,0,0,1,0,0,0,4,4,4,4,4,5,3,3,3,4,3,3,4,3,4,4,4,4,4,4,4,4,1,1,1,1,1,2,2,-2],[-1,2,2,3,3,3,3,3,3,3,3,3,1,1,2,2,2,2,2,2,2,1,1,1,1,1,2,2,0,0,0,0,0,1,1,-12],[-1,4,4,4,4,4,3,3,3,4,4,3,3,3,4,4,4,4,4,5,4,4,4,4,4,4,4,4,2,2,2,2,1,1,2,2,0,1,1,0,-9],[0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,5,5,0,0,1,0,0,1,0,0,0,-40],[-1,4,4,5,5,4,4,4,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,1,2,1,1,1,1,1,2,1,2,2,2,2,2,2,3,-4],[-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,5,5,5,4,4,4,4,4,5,5,-3],[-1,2,2,3,3,3,3,3,3,3,3,3,1,1,2,1,1,1,1,1,3,3,3,2,3,3,1,1,1,1,1,2,2,0,0,0,0,0,1,1,-1]]
+case_complete day=3 agent=7 exit=0
+case_begin day=4 agent=0 max_states=50000 max_routes=64
+ledger_before=8/24/112
+day_score=8/8/49
+score_after=8/32/161
+agent=0 kind=patrol claims=7 served=7 path_steps=80 raw_path_fuel=41 initial_fuel=91 spots=4:4,5:5,23:7,3:3,11:3,8:0,18:2 terminal=29:50
+agent=1 kind=patrol claims=1 served=0 path_steps=80 raw_path_fuel=0 initial_fuel=2 spots=24:0 terminal=836:2
+agent=2 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=44 initial_fuel=114 spots=3:3,27:3,12:4,13:5,10:2,25:1,22:6,0:0 terminal=457:70
+agent=3 kind=patrol claims=9 served=9 path_steps=80 raw_path_fuel=55 initial_fuel=62 spots=26:2,24:0,17:1,15:7,22:6,25:1,16:0,19:3,6:6 terminal=3:7
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=33 initial_fuel=160 spots= terminal=848:160
+agent=5 kind=patrol claims=9 served=9 path_steps=80 raw_path_fuel=47 initial_fuel=150 spots=10:2,25:1,22:6,15:7,17:1,24:0,26:2,1:1,21:5 terminal=992:103
+agent=6 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=47 initial_fuel=113 spots=16:0,25:1,22:6,0:0,10:2,7:7,12:4,27:3 terminal=505:66
+agent=7 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=44 initial_fuel=114 spots=3:3,27:3,12:4,13:5,10:2,25:1,22:6,0:0 terminal=457:70
+spot=0 brand=0 cell=457 stock=5 served=3 denied=0 agents=6S,2S,7S
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=5S
+spot=3 brand=3 cell=574 stock=8 served=3 denied=0 agents=2S,7S,0S
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=0S
+spot=5 brand=5 cell=955 stock=7 served=1 denied=0 agents=0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=3S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=6S
+spot=8 brand=0 cell=186 stock=3 served=1 denied=0 agents=0S
+spot=10 brand=2 cell=333 stock=5 served=4 denied=0 agents=5S,6S,2S,7S
+spot=11 brand=3 cell=349 stock=3 served=1 denied=0 agents=0S
+spot=12 brand=4 cell=406 stock=4 served=3 denied=0 agents=2S,7S,6S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=0 agents=3S,5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=6S,3S
+spot=17 brand=1 cell=707 stock=4 served=2 denied=0 agents=3S,5S
+spot=18 brand=2 cell=29 stock=6 served=1 denied=0 agents=0S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=3S
+spot=21 brand=5 cell=992 stock=5 served=1 denied=0 agents=5S
+spot=22 brand=6 cell=325 stock=7 served=5 denied=0 agents=6S,5S,3S,2S,7S
+spot=23 brand=7 cell=799 stock=2 served=1 denied=0 agents=0S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=1 agents=3S,5S,1D
+spot=25 brand=1 cell=297 stock=7 served=5 denied=0 agents=6S,5S,3S,2S,7S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=3S,5S
+spot=27 brand=3 cell=505 stock=6 served=3 denied=0 agents=2S,7S,6S
+sparse_agent=0 cap=50000 settled=50000 labels=50851 emitted_masks=16 protected_masks=2 retained=16 valid=16 best=8/32/161 mask=0x0 protected=8/32/161 protected_mask=0x0
+sparse_global_best=8/32/161 baseline=8/32/161 agent=-1 mask=0x0
+sparse_protected_best=8/32/161 baseline=8/32/161 agent=-1 mask=0x0
+terminal_sidecar=8/32/161 improved=0 agent=-1 routes=15552 generated=14757 valid=14757 strict=0 rounds=0 round1=8/32/161 canonical=8/32/161 marginal_routes=0 marginal_valid=0 marginal_acceptances=0 deadline=0
+case_complete day=4 agent=0 exit=0
+case_begin day=4 agent=1 max_states=50000 max_routes=64
+ledger_before=8/24/112
+day_score=8/8/49
+score_after=8/32/161
+agent=0 kind=patrol claims=7 served=7 path_steps=80 raw_path_fuel=41 initial_fuel=91 spots=4:4,5:5,23:7,3:3,11:3,8:0,18:2 terminal=29:50
+agent=1 kind=patrol claims=1 served=0 path_steps=80 raw_path_fuel=0 initial_fuel=2 spots=24:0 terminal=836:2
+agent=2 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=44 initial_fuel=114 spots=3:3,27:3,12:4,13:5,10:2,25:1,22:6,0:0 terminal=457:70
+agent=3 kind=patrol claims=9 served=9 path_steps=80 raw_path_fuel=55 initial_fuel=62 spots=26:2,24:0,17:1,15:7,22:6,25:1,16:0,19:3,6:6 terminal=3:7
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=33 initial_fuel=160 spots= terminal=848:160
+agent=5 kind=patrol claims=9 served=9 path_steps=80 raw_path_fuel=47 initial_fuel=150 spots=10:2,25:1,22:6,15:7,17:1,24:0,26:2,1:1,21:5 terminal=992:103
+agent=6 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=47 initial_fuel=113 spots=16:0,25:1,22:6,0:0,10:2,7:7,12:4,27:3 terminal=505:66
+agent=7 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=44 initial_fuel=114 spots=3:3,27:3,12:4,13:5,10:2,25:1,22:6,0:0 terminal=457:70
+spot=0 brand=0 cell=457 stock=5 served=3 denied=0 agents=6S,2S,7S
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=5S
+spot=3 brand=3 cell=574 stock=8 served=3 denied=0 agents=2S,7S,0S
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=0S
+spot=5 brand=5 cell=955 stock=7 served=1 denied=0 agents=0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=3S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=6S
+spot=8 brand=0 cell=186 stock=3 served=1 denied=0 agents=0S
+spot=10 brand=2 cell=333 stock=5 served=4 denied=0 agents=5S,6S,2S,7S
+spot=11 brand=3 cell=349 stock=3 served=1 denied=0 agents=0S
+spot=12 brand=4 cell=406 stock=4 served=3 denied=0 agents=2S,7S,6S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=0 agents=3S,5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=6S,3S
+spot=17 brand=1 cell=707 stock=4 served=2 denied=0 agents=3S,5S
+spot=18 brand=2 cell=29 stock=6 served=1 denied=0 agents=0S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=3S
+spot=21 brand=5 cell=992 stock=5 served=1 denied=0 agents=5S
+spot=22 brand=6 cell=325 stock=7 served=5 denied=0 agents=6S,5S,3S,2S,7S
+spot=23 brand=7 cell=799 stock=2 served=1 denied=0 agents=0S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=1 agents=3S,5S,1D
+spot=25 brand=1 cell=297 stock=7 served=5 denied=0 agents=6S,5S,3S,2S,7S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=3S,5S
+spot=27 brand=3 cell=505 stock=6 served=3 denied=0 agents=2S,7S,6S
+sparse_agent=1 cap=50000 settled=38 labels=38 emitted_masks=0 protected_masks=0 retained=0 valid=0 best=8/32/161 mask=0x0 protected=8/32/161 protected_mask=0x0
+sparse_global_best=8/32/161 baseline=8/32/161 agent=-1 mask=0x0
+sparse_protected_best=8/32/161 baseline=8/32/161 agent=-1 mask=0x0
+terminal_sidecar=8/32/161 improved=0 agent=-1 routes=15552 generated=14757 valid=14757 strict=0 rounds=0 round1=8/32/161 canonical=8/32/161 marginal_routes=0 marginal_valid=0 marginal_acceptances=0 deadline=0
+case_complete day=4 agent=1 exit=0
+case_begin day=4 agent=2 max_states=50000 max_routes=64
+ledger_before=8/24/112
+day_score=8/8/49
+score_after=8/32/161
+agent=0 kind=patrol claims=7 served=7 path_steps=80 raw_path_fuel=41 initial_fuel=91 spots=4:4,5:5,23:7,3:3,11:3,8:0,18:2 terminal=29:50
+agent=1 kind=patrol claims=1 served=0 path_steps=80 raw_path_fuel=0 initial_fuel=2 spots=24:0 terminal=836:2
+agent=2 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=44 initial_fuel=114 spots=3:3,27:3,12:4,13:5,10:2,25:1,22:6,0:0 terminal=457:70
+agent=3 kind=patrol claims=9 served=9 path_steps=80 raw_path_fuel=55 initial_fuel=62 spots=26:2,24:0,17:1,15:7,22:6,25:1,16:0,19:3,6:6 terminal=3:7
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=33 initial_fuel=160 spots= terminal=848:160
+agent=5 kind=patrol claims=9 served=9 path_steps=80 raw_path_fuel=47 initial_fuel=150 spots=10:2,25:1,22:6,15:7,17:1,24:0,26:2,1:1,21:5 terminal=992:103
+agent=6 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=47 initial_fuel=113 spots=16:0,25:1,22:6,0:0,10:2,7:7,12:4,27:3 terminal=505:66
+agent=7 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=44 initial_fuel=114 spots=3:3,27:3,12:4,13:5,10:2,25:1,22:6,0:0 terminal=457:70
+spot=0 brand=0 cell=457 stock=5 served=3 denied=0 agents=6S,2S,7S
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=5S
+spot=3 brand=3 cell=574 stock=8 served=3 denied=0 agents=2S,7S,0S
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=0S
+spot=5 brand=5 cell=955 stock=7 served=1 denied=0 agents=0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=3S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=6S
+spot=8 brand=0 cell=186 stock=3 served=1 denied=0 agents=0S
+spot=10 brand=2 cell=333 stock=5 served=4 denied=0 agents=5S,6S,2S,7S
+spot=11 brand=3 cell=349 stock=3 served=1 denied=0 agents=0S
+spot=12 brand=4 cell=406 stock=4 served=3 denied=0 agents=2S,7S,6S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=0 agents=3S,5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=6S,3S
+spot=17 brand=1 cell=707 stock=4 served=2 denied=0 agents=3S,5S
+spot=18 brand=2 cell=29 stock=6 served=1 denied=0 agents=0S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=3S
+spot=21 brand=5 cell=992 stock=5 served=1 denied=0 agents=5S
+spot=22 brand=6 cell=325 stock=7 served=5 denied=0 agents=6S,5S,3S,2S,7S
+spot=23 brand=7 cell=799 stock=2 served=1 denied=0 agents=0S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=1 agents=3S,5S,1D
+spot=25 brand=1 cell=297 stock=7 served=5 denied=0 agents=6S,5S,3S,2S,7S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=3S,5S
+spot=27 brand=3 cell=505 stock=6 served=3 denied=0 agents=2S,7S,6S
+sparse_agent=2 cap=50000 settled=50000 labels=51238 emitted_masks=94 protected_masks=11 retained=71 valid=71 best=8/32/161 mask=0x0 protected=8/32/161 protected_mask=0x0
+sparse_global_best=8/32/161 baseline=8/32/161 agent=-1 mask=0x0
+sparse_protected_best=8/32/161 baseline=8/32/161 agent=-1 mask=0x0
+terminal_sidecar=8/32/161 improved=0 agent=-1 routes=15552 generated=14757 valid=14757 strict=0 rounds=0 round1=8/32/161 canonical=8/32/161 marginal_routes=0 marginal_valid=0 marginal_acceptances=0 deadline=0
+case_complete day=4 agent=2 exit=0
+case_begin day=4 agent=3 max_states=50000 max_routes=64
+ledger_before=8/24/112
+day_score=8/8/49
+score_after=8/32/161
+agent=0 kind=patrol claims=7 served=7 path_steps=80 raw_path_fuel=41 initial_fuel=91 spots=4:4,5:5,23:7,3:3,11:3,8:0,18:2 terminal=29:50
+agent=1 kind=patrol claims=1 served=0 path_steps=80 raw_path_fuel=0 initial_fuel=2 spots=24:0 terminal=836:2
+agent=2 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=44 initial_fuel=114 spots=3:3,27:3,12:4,13:5,10:2,25:1,22:6,0:0 terminal=457:70
+agent=3 kind=patrol claims=9 served=9 path_steps=80 raw_path_fuel=55 initial_fuel=62 spots=26:2,24:0,17:1,15:7,22:6,25:1,16:0,19:3,6:6 terminal=3:7
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=33 initial_fuel=160 spots= terminal=848:160
+agent=5 kind=patrol claims=9 served=9 path_steps=80 raw_path_fuel=47 initial_fuel=150 spots=10:2,25:1,22:6,15:7,17:1,24:0,26:2,1:1,21:5 terminal=992:103
+agent=6 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=47 initial_fuel=113 spots=16:0,25:1,22:6,0:0,10:2,7:7,12:4,27:3 terminal=505:66
+agent=7 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=44 initial_fuel=114 spots=3:3,27:3,12:4,13:5,10:2,25:1,22:6,0:0 terminal=457:70
+spot=0 brand=0 cell=457 stock=5 served=3 denied=0 agents=6S,2S,7S
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=5S
+spot=3 brand=3 cell=574 stock=8 served=3 denied=0 agents=2S,7S,0S
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=0S
+spot=5 brand=5 cell=955 stock=7 served=1 denied=0 agents=0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=3S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=6S
+spot=8 brand=0 cell=186 stock=3 served=1 denied=0 agents=0S
+spot=10 brand=2 cell=333 stock=5 served=4 denied=0 agents=5S,6S,2S,7S
+spot=11 brand=3 cell=349 stock=3 served=1 denied=0 agents=0S
+spot=12 brand=4 cell=406 stock=4 served=3 denied=0 agents=2S,7S,6S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=0 agents=3S,5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=6S,3S
+spot=17 brand=1 cell=707 stock=4 served=2 denied=0 agents=3S,5S
+spot=18 brand=2 cell=29 stock=6 served=1 denied=0 agents=0S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=3S
+spot=21 brand=5 cell=992 stock=5 served=1 denied=0 agents=5S
+spot=22 brand=6 cell=325 stock=7 served=5 denied=0 agents=6S,5S,3S,2S,7S
+spot=23 brand=7 cell=799 stock=2 served=1 denied=0 agents=0S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=1 agents=3S,5S,1D
+spot=25 brand=1 cell=297 stock=7 served=5 denied=0 agents=6S,5S,3S,2S,7S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=3S,5S
+spot=27 brand=3 cell=505 stock=6 served=3 denied=0 agents=2S,7S,6S
+sparse_agent=3 cap=50000 settled=50000 labels=51064 emitted_masks=94 protected_masks=15 retained=74 valid=74 best=8/32/161 mask=0x0 protected=8/32/161 protected_mask=0x0
+sparse_global_best=8/32/161 baseline=8/32/161 agent=-1 mask=0x0
+sparse_protected_best=8/32/161 baseline=8/32/161 agent=-1 mask=0x0
+terminal_sidecar=8/32/161 improved=0 agent=-1 routes=15552 generated=14757 valid=14757 strict=0 rounds=0 round1=8/32/161 canonical=8/32/161 marginal_routes=0 marginal_valid=0 marginal_acceptances=0 deadline=0
+case_complete day=4 agent=3 exit=0
+case_begin day=4 agent=5 max_states=50000 max_routes=64
+ledger_before=8/24/112
+day_score=8/8/49
+score_after=8/32/161
+agent=0 kind=patrol claims=7 served=7 path_steps=80 raw_path_fuel=41 initial_fuel=91 spots=4:4,5:5,23:7,3:3,11:3,8:0,18:2 terminal=29:50
+agent=1 kind=patrol claims=1 served=0 path_steps=80 raw_path_fuel=0 initial_fuel=2 spots=24:0 terminal=836:2
+agent=2 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=44 initial_fuel=114 spots=3:3,27:3,12:4,13:5,10:2,25:1,22:6,0:0 terminal=457:70
+agent=3 kind=patrol claims=9 served=9 path_steps=80 raw_path_fuel=55 initial_fuel=62 spots=26:2,24:0,17:1,15:7,22:6,25:1,16:0,19:3,6:6 terminal=3:7
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=33 initial_fuel=160 spots= terminal=848:160
+agent=5 kind=patrol claims=9 served=9 path_steps=80 raw_path_fuel=47 initial_fuel=150 spots=10:2,25:1,22:6,15:7,17:1,24:0,26:2,1:1,21:5 terminal=992:103
+agent=6 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=47 initial_fuel=113 spots=16:0,25:1,22:6,0:0,10:2,7:7,12:4,27:3 terminal=505:66
+agent=7 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=44 initial_fuel=114 spots=3:3,27:3,12:4,13:5,10:2,25:1,22:6,0:0 terminal=457:70
+spot=0 brand=0 cell=457 stock=5 served=3 denied=0 agents=6S,2S,7S
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=5S
+spot=3 brand=3 cell=574 stock=8 served=3 denied=0 agents=2S,7S,0S
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=0S
+spot=5 brand=5 cell=955 stock=7 served=1 denied=0 agents=0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=3S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=6S
+spot=8 brand=0 cell=186 stock=3 served=1 denied=0 agents=0S
+spot=10 brand=2 cell=333 stock=5 served=4 denied=0 agents=5S,6S,2S,7S
+spot=11 brand=3 cell=349 stock=3 served=1 denied=0 agents=0S
+spot=12 brand=4 cell=406 stock=4 served=3 denied=0 agents=2S,7S,6S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=0 agents=3S,5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=6S,3S
+spot=17 brand=1 cell=707 stock=4 served=2 denied=0 agents=3S,5S
+spot=18 brand=2 cell=29 stock=6 served=1 denied=0 agents=0S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=3S
+spot=21 brand=5 cell=992 stock=5 served=1 denied=0 agents=5S
+spot=22 brand=6 cell=325 stock=7 served=5 denied=0 agents=6S,5S,3S,2S,7S
+spot=23 brand=7 cell=799 stock=2 served=1 denied=0 agents=0S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=1 agents=3S,5S,1D
+spot=25 brand=1 cell=297 stock=7 served=5 denied=0 agents=6S,5S,3S,2S,7S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=3S,5S
+spot=27 brand=3 cell=505 stock=6 served=3 denied=0 agents=2S,7S,6S
+sparse_agent=5 cap=50000 settled=50000 labels=50986 emitted_masks=85 protected_masks=9 retained=64 valid=64 best=8/32/161 mask=0x0 protected=8/32/161 protected_mask=0x0
+sparse_global_best=8/32/161 baseline=8/32/161 agent=-1 mask=0x0
+sparse_protected_best=8/32/161 baseline=8/32/161 agent=-1 mask=0x0
+terminal_sidecar=8/32/161 improved=0 agent=-1 routes=15552 generated=14757 valid=14757 strict=0 rounds=0 round1=8/32/161 canonical=8/32/161 marginal_routes=0 marginal_valid=0 marginal_acceptances=0 deadline=0
+case_complete day=4 agent=5 exit=0
+case_begin day=4 agent=6 max_states=50000 max_routes=64
+ledger_before=8/24/112
+day_score=8/8/49
+score_after=8/32/161
+agent=0 kind=patrol claims=7 served=7 path_steps=80 raw_path_fuel=41 initial_fuel=91 spots=4:4,5:5,23:7,3:3,11:3,8:0,18:2 terminal=29:50
+agent=1 kind=patrol claims=1 served=0 path_steps=80 raw_path_fuel=0 initial_fuel=2 spots=24:0 terminal=836:2
+agent=2 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=44 initial_fuel=114 spots=3:3,27:3,12:4,13:5,10:2,25:1,22:6,0:0 terminal=457:70
+agent=3 kind=patrol claims=9 served=9 path_steps=80 raw_path_fuel=55 initial_fuel=62 spots=26:2,24:0,17:1,15:7,22:6,25:1,16:0,19:3,6:6 terminal=3:7
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=33 initial_fuel=160 spots= terminal=848:160
+agent=5 kind=patrol claims=9 served=9 path_steps=80 raw_path_fuel=47 initial_fuel=150 spots=10:2,25:1,22:6,15:7,17:1,24:0,26:2,1:1,21:5 terminal=992:103
+agent=6 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=47 initial_fuel=113 spots=16:0,25:1,22:6,0:0,10:2,7:7,12:4,27:3 terminal=505:66
+agent=7 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=44 initial_fuel=114 spots=3:3,27:3,12:4,13:5,10:2,25:1,22:6,0:0 terminal=457:70
+spot=0 brand=0 cell=457 stock=5 served=3 denied=0 agents=6S,2S,7S
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=5S
+spot=3 brand=3 cell=574 stock=8 served=3 denied=0 agents=2S,7S,0S
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=0S
+spot=5 brand=5 cell=955 stock=7 served=1 denied=0 agents=0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=3S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=6S
+spot=8 brand=0 cell=186 stock=3 served=1 denied=0 agents=0S
+spot=10 brand=2 cell=333 stock=5 served=4 denied=0 agents=5S,6S,2S,7S
+spot=11 brand=3 cell=349 stock=3 served=1 denied=0 agents=0S
+spot=12 brand=4 cell=406 stock=4 served=3 denied=0 agents=2S,7S,6S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=0 agents=3S,5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=6S,3S
+spot=17 brand=1 cell=707 stock=4 served=2 denied=0 agents=3S,5S
+spot=18 brand=2 cell=29 stock=6 served=1 denied=0 agents=0S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=3S
+spot=21 brand=5 cell=992 stock=5 served=1 denied=0 agents=5S
+spot=22 brand=6 cell=325 stock=7 served=5 denied=0 agents=6S,5S,3S,2S,7S
+spot=23 brand=7 cell=799 stock=2 served=1 denied=0 agents=0S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=1 agents=3S,5S,1D
+spot=25 brand=1 cell=297 stock=7 served=5 denied=0 agents=6S,5S,3S,2S,7S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=3S,5S
+spot=27 brand=3 cell=505 stock=6 served=3 denied=0 agents=2S,7S,6S
+sparse_agent=6 cap=50000 settled=50000 labels=51341 emitted_masks=106 protected_masks=5 retained=64 valid=64 best=8/32/161 mask=0x0 protected=8/32/161 protected_mask=0x0
+sparse_global_best=8/32/161 baseline=8/32/161 agent=-1 mask=0x0
+sparse_protected_best=8/32/161 baseline=8/32/161 agent=-1 mask=0x0
+terminal_sidecar=8/32/161 improved=0 agent=-1 routes=15552 generated=14757 valid=14757 strict=0 rounds=0 round1=8/32/161 canonical=8/32/161 marginal_routes=0 marginal_valid=0 marginal_acceptances=0 deadline=0
+case_complete day=4 agent=6 exit=0
+case_begin day=4 agent=7 max_states=50000 max_routes=64
+ledger_before=8/24/112
+day_score=8/8/49
+score_after=8/32/161
+agent=0 kind=patrol claims=7 served=7 path_steps=80 raw_path_fuel=41 initial_fuel=91 spots=4:4,5:5,23:7,3:3,11:3,8:0,18:2 terminal=29:50
+agent=1 kind=patrol claims=1 served=0 path_steps=80 raw_path_fuel=0 initial_fuel=2 spots=24:0 terminal=836:2
+agent=2 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=44 initial_fuel=114 spots=3:3,27:3,12:4,13:5,10:2,25:1,22:6,0:0 terminal=457:70
+agent=3 kind=patrol claims=9 served=9 path_steps=80 raw_path_fuel=55 initial_fuel=62 spots=26:2,24:0,17:1,15:7,22:6,25:1,16:0,19:3,6:6 terminal=3:7
+agent=4 kind=tanker claims=0 served=0 path_steps=80 raw_path_fuel=33 initial_fuel=160 spots= terminal=848:160
+agent=5 kind=patrol claims=9 served=9 path_steps=80 raw_path_fuel=47 initial_fuel=150 spots=10:2,25:1,22:6,15:7,17:1,24:0,26:2,1:1,21:5 terminal=992:103
+agent=6 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=47 initial_fuel=113 spots=16:0,25:1,22:6,0:0,10:2,7:7,12:4,27:3 terminal=505:66
+agent=7 kind=patrol claims=8 served=8 path_steps=80 raw_path_fuel=44 initial_fuel=114 spots=3:3,27:3,12:4,13:5,10:2,25:1,22:6,0:0 terminal=457:70
+spot=0 brand=0 cell=457 stock=5 served=3 denied=0 agents=6S,2S,7S
+spot=1 brand=1 cell=935 stock=1 served=1 denied=0 agents=5S
+spot=3 brand=3 cell=574 stock=8 served=3 denied=0 agents=2S,7S,0S
+spot=4 brand=4 cell=791 stock=2 served=1 denied=0 agents=0S
+spot=5 brand=5 cell=955 stock=7 served=1 denied=0 agents=0S
+spot=6 brand=6 cell=3 stock=2 served=1 denied=0 agents=3S
+spot=7 brand=7 cell=113 stock=1 served=1 denied=0 agents=6S
+spot=8 brand=0 cell=186 stock=3 served=1 denied=0 agents=0S
+spot=10 brand=2 cell=333 stock=5 served=4 denied=0 agents=5S,6S,2S,7S
+spot=11 brand=3 cell=349 stock=3 served=1 denied=0 agents=0S
+spot=12 brand=4 cell=406 stock=4 served=3 denied=0 agents=2S,7S,6S
+spot=13 brand=5 cell=563 stock=2 served=2 denied=0 agents=2S,7S
+spot=15 brand=7 cell=482 stock=2 served=2 denied=0 agents=3S,5S
+spot=16 brand=0 cell=168 stock=2 served=2 denied=0 agents=6S,3S
+spot=17 brand=1 cell=707 stock=4 served=2 denied=0 agents=3S,5S
+spot=18 brand=2 cell=29 stock=6 served=1 denied=0 agents=0S
+spot=19 brand=3 cell=12 stock=1 served=1 denied=0 agents=3S
+spot=21 brand=5 cell=992 stock=5 served=1 denied=0 agents=5S
+spot=22 brand=6 cell=325 stock=7 served=5 denied=0 agents=6S,5S,3S,2S,7S
+spot=23 brand=7 cell=799 stock=2 served=1 denied=0 agents=0S
+spot=24 brand=0 cell=836 stock=2 served=2 denied=1 agents=3S,5S,1D
+spot=25 brand=1 cell=297 stock=7 served=5 denied=0 agents=6S,5S,3S,2S,7S
+spot=26 brand=2 cell=807 stock=4 served=2 denied=0 agents=3S,5S
+spot=27 brand=3 cell=505 stock=6 served=3 denied=0 agents=2S,7S,6S
+sparse_agent=7 cap=50000 settled=50000 labels=51238 emitted_masks=94 protected_masks=11 retained=71 valid=71 best=8/32/161 mask=0x0 protected=8/32/161 protected_mask=0x0
+sparse_global_best=8/32/161 baseline=8/32/161 agent=-1 mask=0x0
+sparse_protected_best=8/32/161 baseline=8/32/161 agent=-1 mask=0x0
+terminal_sidecar=8/32/161 improved=0 agent=-1 routes=15552 generated=14757 valid=14757 strict=0 rounds=0 round1=8/32/161 canonical=8/32/161 marginal_routes=0 marginal_valid=0 marginal_acceptances=0 deadline=0
+case_complete day=4 agent=7 exit=0
+run_complete cases=28 max_states=50000 max_routes=64

@@ -1,0 +1,39 @@
+case_begin day=7 agent=2 started=2026-08-31T13:49:03.5165649+00:00 max_states=50000 max_routes=64
+ledger_before=8/48/372
+day_score=8/8/65
+score_after=8/56/437
+agent=0 kind=patrol claims=10 served=10 path_steps=144 raw_path_fuel=85 initial_fuel=388 spots=1:1,17:1,5:5,18:2,4:4,8:0,6:6,19:3,23:7,16:0 terminal=552:303
+agent=1 kind=patrol claims=9 served=9 path_steps=144 raw_path_fuel=101 initial_fuel=393 spots=9:1,5:5,7:7,10:2,4:4,17:1,0:0,14:6,8:0 terminal=49:406
+agent=2 kind=patrol claims=9 served=9 path_steps=144 raw_path_fuel=101 initial_fuel=393 spots=9:1,5:5,7:7,10:2,4:4,17:1,0:0,14:6,8:0 terminal=49:406
+agent=3 kind=patrol claims=9 served=9 path_steps=144 raw_path_fuel=104 initial_fuel=393 spots=5:5,18:2,4:4,10:2,7:7,0:0,17:1,14:6,8:0 terminal=49:415
+agent=4 kind=patrol claims=11 served=10 path_steps=144 raw_path_fuel=98 initial_fuel=406 spots=3:3,19:3,6:6,4:4,11:3,12:4,5:5,18:2,0:0,17:1,15:7 terminal=46:426
+agent=5 kind=tanker claims=0 served=0 path_steps=144 raw_path_fuel=11 initial_fuel=432 spots= terminal=16:432
+agent=6 kind=patrol claims=9 served=9 path_steps=144 raw_path_fuel=64 initial_fuel=386 spots=19:3,6:6,4:4,18:2,5:5,0:0,17:1,15:7,22:6 terminal=95:423
+agent=7 kind=patrol claims=10 served=9 path_steps=144 raw_path_fuel=73 initial_fuel=403 spots=11:3,4:4,6:6,8:0,14:6,17:1,15:7,18:2,5:5,13:5 terminal=503:400
+spot=0 brand=0 cell=159 stock=7 served=5 denied=0 agents=6S,3S,1S,2S,4S
+spot=1 brand=1 cell=165 stock=1 served=1 denied=0 agents=0S
+spot=3 brand=3 cell=434 stock=1 served=1 denied=0 agents=4S
+spot=4 brand=4 cell=104 stock=8 served=7 denied=0 agents=7S,6S,4S,3S,1S,2S,0S
+spot=5 brand=5 cell=405 stock=8 served=7 denied=0 agents=3S,1S,2S,0S,6S,4S,7S
+spot=6 brand=6 cell=194 stock=7 served=4 denied=0 agents=6S,4S,7S,0S
+spot=7 brand=7 cell=569 stock=7 served=3 denied=0 agents=1S,2S,3S
+spot=8 brand=0 cell=49 stock=8 served=5 denied=0 agents=7S,0S,1S,2S,3S
+spot=9 brand=1 cell=491 stock=5 served=2 denied=0 agents=1S,2S
+spot=10 brand=2 cell=349 stock=5 served=3 denied=0 agents=1S,2S,3S
+spot=11 brand=3 cell=342 stock=2 served=2 denied=0 agents=7S,4S
+spot=12 brand=4 cell=533 stock=6 served=1 denied=0 agents=4S
+spot=13 brand=5 cell=503 stock=3 served=1 denied=0 agents=7S
+spot=14 brand=6 cell=10 stock=4 served=4 denied=0 agents=7S,1S,2S,3S
+spot=15 brand=7 cell=46 stock=3 served=3 denied=0 agents=7S,6S,4S
+spot=16 brand=0 cell=552 stock=5 served=1 denied=0 agents=0S
+spot=17 brand=1 cell=16 stock=8 served=7 denied=0 agents=0S,7S,6S,1S,2S,3S,4S
+spot=18 brand=2 cell=281 stock=3 served=3 denied=2 agents=3S,6S,0S,4D,7D
+spot=19 brand=3 cell=288 stock=6 served=3 denied=0 agents=6S,4S,0S
+spot=22 brand=6 cell=95 stock=2 served=1 denied=0 agents=6S
+spot=23 brand=7 cell=529 stock=4 served=1 denied=0 agents=0S
+sparse_agent=2 cap=50000 settled=50000 labels=51227 emitted_masks=158 protected_masks=9 retained=72 valid=72 best=8/56/439 mask=0xF79E23 protected=8/56/437 protected_mask=0x0
+sparse_global_best=8/56/439 baseline=8/56/437 agent=2 mask=0xF79E23
+sparse_protected_best=8/56/437 baseline=8/56/437 agent=-1 mask=0x0
+sparse_best_plan=[[-1,0,0,0,0,0,0,5,5,3,4,4,3,3,3,3,3,3,4,3,3,3,3,3,3,0,0,5,5,0,0,0,0,0,0,0,5,5,0,0,0,5,5,5,0,5,0,5,5,5,5,5,3,3,3,3,4,4,4,4,4,4,3,3,3,3,3,3,4,4,4,4,4,5,-9],[-1,1,1,1,1,1,2,2,2,2,2,2,2,3,4,5,5,5,4,4,3,4,3,4,0,1,1,0,1,0,0,0,5,5,0,0,0,0,0,0,0,0,0,0,0,1,1,1,2,2,2,2,2,2,1,3,4,4,3,4,4,0,0,0,0,0,0,5,5,5,5,5,5,4,4,5,5,5,5,-6],[-1,1,1,2,2,2,0,0,0,0,2,1,1,1,2,0,0,0,0,1,0,1,1,1,0,1,2,2,2,2,2,3,3,3,4,4,4,4,3,3,3,3,3,4,4,4,4,0,5,5,5,5,5,5,5,4,5,5,5,5,5,0,0,5,4,4,3,3,3,4,4,4,5,5,5,5,4,5,-2],[-1,0,0,5,5,0,0,0,0,0,0,0,5,5,0,0,0,5,5,5,3,3,3,3,3,3,3,3,3,3,3,2,2,3,3,3,4,3,4,3,4,0,1,1,0,1,1,1,0,1,0,0,1,0,0,0,0,0,0,1,1,1,0,1,5,5,5,5,5,5,5,5,5,5,4,4,5,5,5,5,-5],[-1,0,1,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,3,3,3,4,4,4,4,4,4,4,4,4,3,3,3,4,4,4,1,1,1,1,1,1,2,2,2,2,2,1,2,2,2,2,2,2,2,3,0,0,5,5,0,0,0,0,0,0,0,1,0,1,1,1,0,1,2,2,2,2,2,3,-1],[1,1,1,2,2,2,2,2,2,1,-125],[-1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,3,3,3,2,2,3,3,3,3,3,3,3,2,2,3,3,0,0,0,0,0,0,5,0,0,0,0,0,1,1,1,0,1,2,2,2,2,2,3,3,3,-37],[-1,0,0,1,1,1,1,1,1,1,0,5,4,4,4,5,5,5,4,0,0,0,0,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,4,4,4,4,4,4,4,4,4,4,3,3,3,2,2,3,3,3,3,3,3,-13]]
+case_complete day=7 agent=2 exit=0
+case_elapsed_ms day=7 agent=2 value=124

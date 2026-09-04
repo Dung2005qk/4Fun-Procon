@@ -1,6 +1,2639 @@
 # UDON-SHIELD Research State
 
-Updated: 2026-08-31
+Updated: 2026-09-03
+
+## Current decision — no active experiment; canonical 258 remains
+
+The fresh mechanism authorized by attribution 294 failed its complete
+development gate in experiment 295. The 30-match BTC screen therefore does not
+authorize another blind BTC batch, and the old losses do not justify another
+variant of the already-exhausted role, refuel-group, deadline-bound portfolio
+or high-fuel long-horizon mechanisms. Canonical accepted production remains
+experiment 258 at commit `ab3d6999d60a7ca290a366bf235154178c6d721f`;
+the service-event source candidate has been fully reverted.
+
+The next permitted work is competition-readiness verification of the canonical
+binary, runbook, token/protocol lifecycle and artifact hashes. Score research
+may reopen only from a fresh authoritative rule/configuration change, a fresh
+real-opponent or BTC replay counterexample not already covered by the closed
+clusters, or a genuinely different state-coupled invariant recorded here and in
+`research/EXPERIMENTS.csv` before source change. Do not start another blind
+BTC series, reuse consumed holdouts or create another service-event-group
+variant merely by tuning rank, cap, priority or cutoff.
+
+Functionality-preservation answers: (1) no canonical designed functionality is
+removed, disabled, deferred or reduced; rejected experiment 295 was an opt-in
+research-only addition and canonical 258 remains intact; (2) no canonical
+implementation is deleted, so no active-equivalent replacement is required.
+
+## Closed relay audit — three narrow human-opponent games, no reopen
+
+The user identified the three newest relay artifacts `m-10505`, `m-10542` and
+`m-10543` as human-opponent games. Replay payloads contain only the generic
+opponent identifier `team-B`, so this identity is user-supplied provenance.
+All three artifacts are complete and are not the unrelated latest rows shown
+on the BTC team-history page.
+
+The three games repeat one exact core fixture: two teams, four days, 8x8 map,
+four agents, eight Spots/four brands, 32 steps per day, public 60000 ms and
+fuel 64. Normalized core SHA256 is
+`0C99E56B5C20674209F8673ACB9EAE6C56CF1AB2A3902156ABFA8BAE1C91DE2F`;
+map SHA256 is
+`972788E6CE4440C8DF7543807EEEDE7913A7B971A7B280FDDFABF1E063A67F86`.
+This is one repeated 1v1 lane, not three independent configurations, and it is
+outside the official 8--10-team target domain.
+
+Canonical production scores `4/16/60` in every game. It beats the opponent's
+`4/16/59` in `m-10505` and `m-10543`; `m-10542` is an exact gameplay tie at
+`4/16/60` and displays rank 2 only because total response is 10529 ms versus
+9154 ms. Gameplay W/T/L is therefore `2/1/0`, with no first-tier, second-tier
+or serving loss.
+
+Fresh production binary SHA256
+`B64C7EBDBB96AA02AA0EC52620C12C9F6937FEE546470549B8F5C777A8E3CC52`
+replay-checks all three artifacts with 12/12 HTTP-200 valid actions, 9/9
+reconciled transitions, zero validator disagreement/emergency, maximum response
+3015 ms and maximum decision total 2847 ms. Public continuation was authorized
+on all twelve days but made zero strict replacement, with zero failure,
+deadline event or terminal rollback. Replay SHA256 values are recorded in
+`research/evidence/RELAY-HUMAN-THREE-MATCH-AUDIT-2026-09-03.md`, whose SHA256
+is `608074384FC6AF8DBD27ACA246B00077B1D3F80E67C5579B7792615F296E5BDE`.
+
+Verdict: positive operational and narrow human-opponent sanity evidence, but no
+new logic gap and no authority to open a SCORE successor. Do not tune production
+from this repeated 1v1 fixture. Canonical 258 remains the competition build and
+the no-active-experiment decision above remains in force.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this is a read-only replay audit; (2) nothing is
+deleted, so no active-equivalent replacement is required.
+
+## Closed rejected development — SCORE-SERVICE-EVENT-SET-CLOSURE-295
+
+Positive attribution 294 authorized exactly one fresh successor to rejected
+286/287. Before source change, the experiment froze thirty paired development
+cases and fifty-four sealed holdout cases over 8/9/10 teams, maps
+8/12/16/24/32, all fuel profiles and multiple Tanker identities. Manifest
+SHA256 is
+`7CB896C1995156DC4ACA3D47E3FB3355A362BF964D289771A61E573F326A6152`;
+runner SHA256 is
+`62A2E03CCA602188434C3BFF5E1B6AC1BFB987230C4A347FFA1FBCF92A245142`;
+summarizer SHA256 is
+`AA8FDBE64946576ED8CB1021AD1123EB08EE2F6300EC9010B56450D56F5788B1`.
+The isolated same-binary candidate SHA256 is
+`6DBD09CA072545B62CBDF926C6DE0043C1D45FBC1EF060B10E5D719E0DB6C212`.
+
+Development completed atomically with exactly 60 result rows, 30 matching
+`case_complete` rows, one `run_complete`, empty stderr and zero
+invalid/emergency/atomicity failure. Log SHA256 is
+`DBC80E8869F359CE2BD5EE2568402D734F101ABB420099FD47F3F4AB468F0428`;
+summary SHA256 is
+`475ABBF79454FF22275501203D4BB8F1C2B01E296660F1CB1810B5CA8DE30475`.
+
+The candidate failed decisively: paired W/T/L `6/12/12`, aggregate official
+delta `0/-2/-35`, first-difference gain/loss mass `79/115`, one tier-2 loss
+and tier-3 loss tail to `-31`. It generated and selected both prefix/full
+groups without atomicity failure, so the failure is not missing wiring. Adding
+the columns changed bounded portfolio/master search and displaced stronger
+incumbents even in cases where the final selected plan reported no service
+group. This is a general search-interference regression, not a small accepted
+downside.
+
+Verdict: rejected before holdout. The sealed 54-case holdout was never opened.
+All 295 runtime and test changes were reverted; evidence and the failed
+mechanism remain preserved. Reopen only from a fresh authoritative
+counterexample and a different state-coupled refuel invariant that cannot
+perturb the canonical bounded search without a separately certified strict
+gain. Never reuse 286/287/295 consumed development seeds or relax this gate.
+
+Functionality-preservation answers: (1) no designed canonical functionality was
+removed or reduced; only a rejected opt-in research candidate was reverted;
+(2) nothing canonical was deleted.
+
+## Closed positive attribution — ATTR-MULTI-WAYPOINT-SERVICE-PREFIX-CLOSURE-294
+
+The closed 30-match BTC screen does not authorize another blind match batch and
+does not justify waiting for contest day: fifteen clean gameplay-score losses
+remain, but they collapse into previously recorded role, state-coupled proof,
+deadline-bound portfolio and high-fuel long-horizon classes.  The only fresh
+mechanism supported by the post-screen design audit is the boundary between the
+broad but unsafe multi-waypoint supply in 286 and the nearly inert fixed
+three-agent atomic group in 287.
+
+This attribution consumes only the already-opened complete development evidence
+from 286 and 287.  It must classify selections into inactive, consumer-only,
+orphan-provider and matched-provider/consumer classes, preserve official paired
+lexicographic outcomes and recover the exact historical source patch stream.
+The source audit must distinguish an exact service-event-set family from the
+unsound proposal to mutate or truncate a provider route after master selection.
+For an ordered pair of rendezvous events, the only admissible successor design
+is a set of independently generated, re-simulated and re-validated groups: a
+one-event prefix with exactly one provider and one matching consumer, plus the
+two-event column with exactly one provider and both matching consumers.  The
+reverse public ordering supplies the other one-event prefix.  Every group owns
+its own provider action, exact event times, terminal state and road footprint;
+no selected action is rewritten after optimization.
+
+Frozen input manifest
+`research/holdouts/ATTR-MULTI-WAYPOINT-SERVICE-PREFIX-CLOSURE-294.csv` SHA256 is
+`75FAD77BE4960F7218456404BDDB86CEF2F695D537934AA2C26C2E01C03A0908`.
+It references exactly 30 paired cases and 60 results from each complete 286/287
+development log and their frozen summaries.  These consumed cases have
+attribution authority only: they cannot tune, promote, open either sealed
+holdout or relax either historical gate.
+
+The preregistered attribution gate requires all four artifact hashes and atomic
+case/result counts to match; every 286 loss worse than the frozen `-4` bound to
+belong to the orphan-provider class; matched provider/consumer selections to
+have no loss and positive gain mass across at least two map and fuel strata;
+287 to show that fixed three-agent grouping has nonzero atomicity failure or
+insufficient selected-group breadth; and the recovered source to prove that a
+service-event-set family is distinct from 287 rather than a threshold change,
+dispatcher or post-selection mutation.  Passing authorizes only a separately
+frozen fresh-seed SCORE successor.  Failing closes this direction.
+
+The frozen audit completed successfully. All four artifact hashes, both
+30-case/60-result paired bijections and both completion markers match. In 286,
+the matched provider/consumer class is `3/1/0` with aggregate tier-3 `+133`,
+zero loss and breadth over general/multiteam-24/multiteam-32 plus generated/low
+fuel. Both losses beyond the frozen `-4` tail (`-6` and `-7`) are orphan
+providers; the entire orphan class is `4/1/5` with net `-1` and gain/loss mass
+`18/19`. Thus the dangerous tail is tied to incomplete service selection,
+while the matched signal remains case-aggregate attribution rather than
+promotion evidence.
+
+The recovered source patch proves 286 enumerated ordered distinct Patrol pairs
+and exact consumer refuel events but had no service-group identity. 287 then
+required a fixed three-agent mask, exactly one provider and exactly two
+consumers for every group; it had no two-agent group form. Development selected
+only one complete group and reported two atomicity failures. An immutable
+one-event/two-event group family is therefore mechanically distinct from both
+rejected candidates and is authorized as a separately frozen SCORE successor.
+It may not inherit a consumed seed or open either historical holdout.
+
+Probe SHA256 is
+`A7ABF7E0AC05CDF52FB891F3940243DA3602263D57D7D4ED5050101E56E96102`;
+JSON evidence SHA256 is
+`96E9FB90757A2D843E3A46079BE9DD9FE671E07D5A31455B026AD97DDB531C76`;
+recovered source patch SHA256 is
+`D03A5483BB0F87990FB731D0BB1EDCD13A2DD5DD06EF98617C0E1A8C8C6A0CA3`.
+Verdict: positive attribution; register SCORE-SERVICE-EVENT-SET-CLOSURE-295
+with fresh development and sealed holdout before source change.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this is read-only attribution over consumed
+evidence; (2) nothing is deleted, so no active-equivalent claim is required.
+
+## Fresh user-requested BTC replacement — m-9973 closed rank 1
+
+After the preceding lane had already expired, a fresh hard match was created
+and connected immediately: `m-9973`, exactly three bots, ten days, 32x32,
+128 steps/day, public `10000 ms`, eight agents, 32 Spots, ten brands and low
+fuel 128. Canonical accepted production 258 finished rank 1 at `10/100/611`;
+the bots scored `10/97/406`, `10/96/458` and `10/96/453`.
+
+The run is operationally clean: 10/10 action acknowledgements were HTTP 200 and
+valid, all nine inter-day transitions completed without an authoritative-state
+mismatch, stderr is empty, maximum response was `7245 ms`, maximum canonical
+main time was `3376 ms`, and there was no emergency or continuation failure.
+Public continuation was authorized on all ten days and produced seven strict
+improvements. Replay SHA256 is
+`9C00BB1A06A647FBD32318856C3B029AF6EDF9AAB85B16B1545C3B2207B89F91`.
+
+This match was created after the qualifying 30-match screen had already closed,
+so it is recorded as an additional operational pass and is not silently added
+as row 31 or used as promotion evidence.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; (2) nothing is deleted, so no active-equivalent
+claim is required.
+
+## BTC 30-match screen — closed
+
+The qualifying screen is complete: 14 strict official-score wins, one exact
+official-score tie and 15 gameplay-score losses. Three losses first differ at
+tier 2 and twelve at tier 3. Invalid operational attempts `m-8614` and `m-9598`
+are excluded. The exact row ledger and closure are preserved in
+`research/evidence/BTC-30-MATCH-SCREEN-2026-09-03.md`, SHA256
+`CB5713374E690BAAFA2B9E4BE50FD54E6A66E246D577869CCC714E7637BABCD4`.
+
+The screen rejects any claim that canonical production is already a final
+general champion: material known counterexample classes remain. It does not
+show a global protocol/runtime collapse, because multiple clean full-coverage
+wins span small, medium and large configurations. BTC remains a minimum
+failure/counterexample gate, never candidate-vs-parent promotion evidence.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; (2) nothing is deleted, so no active-equivalent
+claim is required.
+
+## BTC 30-match screen — qualifying row 29 closed rank 1; row 30 authorized
+
+The first row-29 attempt `m-9598` is invalid operational evidence and does not
+count toward the screen. The credential connection reached the expired match
+with HTTP 401 before setup, produced no replay row and submitted no action. It
+must never be treated as gameplay evidence.
+
+Replacement hard three-bot match `m-9920` used four days, an 8x8 map,
+64 steps/day, public `10000 ms`, eight agents, eight materialized Spots/eight
+brands and medium fuel 128. Canonical accepted production 258 finished rank 1
+at `8/32/128`; the bots scored `8/32/123`, `8/32/123` and `8/32/122`.
+All four actions plus assignment were HTTP 200 exact-valid, all three
+transitions reconcile, stderr is empty, maximum response was `4051 ms`, maximum
+main time was `3375 ms`, and there was no emergency. Replay SHA256 is
+`E9CEC0617126F98A4CEFFA53735ECFDA3F5812622D5FBF425430135B87D44E5C`.
+
+This is an operational/failure-gate pass only, not promotion evidence. It is a
+useful negative control against the recent losses: canonical still holds full
+coverage and a serving lead in the small dense eight-agent medium-fuel lane.
+Row 30 is authorized as the final fresh official-domain hard three-bot screen.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; (2) nothing is deleted, so no active-equivalent
+claim is required.
+
+## Closed attribution — ATTR-ROW28-TERMINAL-COVERAGE-293
+
+Qualifying hard three-bot row 28 `m-9594` used five days, a 16x16 map,
+60 steps/day, public `10000 ms`, five all-Patrol agents, sixteen materialized
+Spots, six brands and default fuel 120. Canonical accepted production 258
+finished fourth at `6/29/105`; all three bots reached full daily coverage at
+`6/30`, with servings 138/129/118. The first official difference is therefore
+a one-unit tier-2 daily-distinct loss, not response-time tie-breaking.
+
+The replay is operationally clean: 5/5 HTTP 200 exact-valid actions, 4/4
+reconciled transitions, zero stderr and emergency, maximum response `7772 ms`,
+and replay SHA256
+`F5F0C8CDE7D1EF3BBE584D138E7E1BB6BD127388F139B6C869913A10EADDA933`.
+Production covered all six brands on days 1--4 and only five on terminal day 5.
+The terminal RouteMaster completed its supplied combinations, but the
+independent generator reached its deadline and the accepted terminal marginal
+reservoir emitted zero route/plan. Public continuation was authorized with a
+`7372 ms` budget and did not reach its deadline, so outer-window starvation is
+not the explanation.
+
+Before classifying this as the already-closed 209/260 state-coupled
+position/sparse residual, run the unchanged accepted-258 terminal marginal
+probe once on the consumed recorded day-5 root. If it finds no strict tier-2
+gain, the immediate terminal neighborhood is exhausted and the loss is a fresh
+instance of the known prior-trajectory gap. If it finds full daily coverage,
+the observed live zero-yield exposes a narrower production candidate-supply
+mismatch that may authorize a separately frozen fresh-fixture successor. This
+replay has attribution authority only and cannot promote or tune a candidate.
+
+Frozen manifest
+`research/holdouts/ATTR-ROW28-TERMINAL-COVERAGE-293.csv` SHA256 is
+`BD159558588904D7272FE972ECC17F147EFCC415BB12A21244125035A27E332F`.
+The unchanged research probe binary SHA256 is
+`01329BA4EF91B02FE7A60D1D1A9E7D399BCFB0B3FD084127AC11DA1F0566A4C9`.
+The single frozen probe completed without failure. The recorded terminal root
+starts at ledger `6/24/99`; its plan scores `5/5/6` and ends `6/29/105`.
+All five Patrols enter day 5 with only 1--4 fuel. The search settles 46 labels
+but emits zero alternative masks, retained routes or valid candidates; global,
+protected, road-equivalent and traffic-nonincreasing best all remain
+`6/29/105`. Terminal sidecar telemetry is zero routes/plans/acceptances with
+`deadline=0`.
+
+This closes 293 as a fresh instance of the known 209/260 state-coupled
+prior-trajectory residual, not a new terminal candidate-supply mechanism. The
+missing brand is already unreachable by the accepted terminal marginal
+neighborhood from the carried day-5 position/fuel state. A repair would need a
+different nonterminal trajectory plus a sound full-remaining-horizon
+certificate; the weaker/changed-state variants in 164/167/168/176/180--184,
+209 and 229--232 are already rejected or inert. No SCORE successor is
+authorized. Raw log SHA256 is
+`26D0BF09D28C5C2C496BF92C164AB7303A484754EB9AE2BFF390EDB9655E9979`;
+report SHA256 is
+`288456C26A1774AFA96282A84519E0E904D60B19965FD7BCCAECE4B8EE41B495`.
+The BTC screen may resume at row 29 on a fresh official-domain configuration.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; (2) nothing is deleted, so no active-equivalent
+claim is required.
+
+## BTC 30-match screen — qualifying row 27 closed rank 1; row 28 authorized
+
+Hard three-bot match `m-9593` used seven days, 24x24, 84 steps/day, public
+`10000 ms`, six agents, 24 Spots, six brands and low fuel 84.  Canonical
+accepted production 258 finished rank 1 at `6/42/225`; the bots scored
+`6/42/169`, `6/42/139` and `6/42/138`.  All seven submissions were HTTP 200
+and valid, both validators agree, all six transitions reconcile, stderr is
+empty, maximum response was `7860 ms`, maximum main time was `3377 ms`, and
+there was no emergency.  Replay SHA256 is
+`203665BC350A439EE4B8EB156FEE4F80369B446F011B0743122FF81599F1D7E0`.
+
+This is an operational/failure-gate pass only, not promotion evidence.  In
+combination with row 26, it shows that the current severe losses are not a
+whole-domain protocol or validity failure: canonical still has large margin in
+this low-fuel medium lane, while high-fuel long-horizon and several
+candidate-supply/certificate lanes remain material gaps.  Row 28 is authorized
+with another fresh official-domain configuration.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; (2) nothing is deleted, so no active-equivalent
+claim is required.
+
+## Closed attribution — ATTR-ROW26-HIGH-FUEL-LARGE-THROUGHPUT-292
+
+Qualifying BTC row 26 `m-9592` used hard difficulty, exactly three bots, ten
+days, a 32x32 map, 96 steps/day, public `10000 ms`, eight agents, 32 Spots,
+ten brands and high fuel 288.  Canonical accepted production 258 used seven
+Patrols and Tanker agent 7 and finished fourth at `10/100/460`; the bots scored
+`10/100/615`, `10/100/595` and `10/100/576`.  The first official difference is
+a material 155-serving tier-3 deficit.
+
+This is clean operational evidence, not a protocol failure: all ten actions
+were HTTP 200 and valid, both validators agree, all nine transitions reconcile,
+stderr is empty, maximum response was `7683 ms`, maximum main time was
+`3382 ms`, and there was no emergency.  Replay SHA256 is
+`CE913C3772110BE9527B3C0ACD8FF3089EC74F2EDF7A51E98625623AD84C9AD0`.
+
+The telemetry is a fresh instance of closed experiment 270's high-fuel,
+long-horizon boundary rather than a new discriminator.  RouteMaster was
+incomplete and deadline-bound 10/10 days, the independent generator reached its
+deadline 10/10, and column generation reached its deadline 6/10.  Public
+continuation reached its deadline 10/10 after generating 507 plans, 500 valid,
+with zero certified nonterminal takeover.  Accepted terminal search lifted day
+10 from 28 to 61 servings and the match from the main checkpoint's 426 to 460,
+but did not close the 155-serving deficit.  Experiment 270 already observed the
+same one-Tanker signature on a ten-day, eight-agent, high-fuel fixture with a
+220-serving deficit; experiments 269--281 closed the unsafe changed-state and
+certificate successors, while 291 has now falsified simple exact master
+factorization.
+
+No source candidate or holdout is authorized.  Repeating role masks, sparse
+supply, continuation injection, cap increases or a fixture dispatcher would be
+circular or unsound.  Evidence report SHA256 is
+`991C598CE714C7FA1ED3EE0FA2D6AA4BD4697DF7749ADC0DB989A04FF14C3D6C` at
+`research/evidence/ATTR-ROW26-HIGH-FUEL-LARGE-THROUGHPUT-292.md`; the BTC screen
+may continue at row 27 with a fresh non-high-fuel configuration.  Reopen this
+class only from a new executable whole-future public-state dominance relation,
+authoritative opponent trajectories or an operation-equivalent capability
+improvement producing such proof on fresh evidence.
+
+Functionality-preservation answers: (1) no designed functionality was removed,
+disabled, deferred or reduced; this is read-only attribution; (2) nothing was
+deleted, so no active-equivalent claim is required.
+
+## Closed attribution — ATTR-MASTER-FACTOR-SEPARABILITY-291
+
+BTC rows 22--25 are four consecutive clean gameplay-score counterexamples on
+different 12x12, 16x16 and 24x24 configurations.  BTC rank is not promotion
+evidence, but the repeated losses and the large deficits on rows 22/23 make a
+fifth blind match lower-value than checking one new structural hypothesis from
+the independent report: RouteMaster may be spending its bounded search on a
+joint Cartesian product that contains exact independent components.
+
+This attribution does not assume that agents sharing a Spot are the only
+coupling.  At every recorded day root it regenerates a recorded-plan-seeded,
+production-width proxy portfolio and builds two deterministic agent graphs.
+The constraint graph contains an edge for shared Spot stock, a matched
+required/provided refuel event, a shared escort group, a shared complete
+contingency bundle, or joint ability to satisfy a proven mandatory reservation.
+The conservative exact-separability graph additionally connects agents whose
+possible route columns share a brand, because lifetime/daily distinct are
+global set-union objectives.  Component sizes, edge causes and raw Cartesian
+scale are attribution only; no alternate plan is applied.
+
+The frozen manifest has all 28 day roots of consumed replays `m-8135`,
+`m-8385`, `m-8615` and `m-9515`, spanning 5/6/7 agents and maps 12/16/24.  Its
+SHA256 is
+`AEA522CF303E2ADBE152E83EDEB0D8CA4EAB157C7F20FB8C539037B7E6313F92`.
+These consumed replays may falsify feasibility but can never promote or tune a
+candidate.  Before changing the research probe, the authorization gate is
+fixed: at least eight roots spanning at least three replays must retain a
+largest conservative component of at most four agents and show at least a
+fourfold raw-product reduction.  Passing authorizes only a separate exact
+factorized-merge oracle on fresh 8/9/10-team fixtures.  Failure closes simple
+factorization and resumes BTC row 26; it does not authorize cap increases,
+certificate relaxation, replay dispatch or repetition of experiments 269--290.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; the change is a read-only research probe; (2)
+nothing is deleted, so no active-equivalent claim is required.
+
+All 28 roots completed with matching `case_complete` markers, one
+`run_complete` marker and zero failure, invalid or reconstruction-mismatch
+record.  Every constraint graph and every conservative graph was a single full
+component: 5/5, 6/6 or 7/7 agents according to the replay.  Raw independent
+work therefore equalled the full Cartesian product, for reduction exactly
+`1.000000x` on every root.  The preregistered gate passed 0/28 roots and zero
+replays.  Simple factorization is closed; no fresh-fixture oracle or SCORE
+successor is authorized.  Complete log SHA256 is
+`BE88BB65F7EACD718DF4C0BC52DBD9EBD0AF96BE1C268B89DECA0786BF68FB6C` and
+report SHA256 is
+`22DC0B6B582468B5F53AC7B73AA33A44CE35C7169D92067B9E3A848AD8B66165`.
+BTC row 26 may resume.  Reopen only with a genuinely new exact coupling-state
+representation; deleting valid stock/synchronization/bundle/reservation/brand
+edges to manufacture components is forbidden.
+
+## Closed attribution — ATTR-ROW25-LONG-MEDIUM-MASTER-290
+
+Qualifying BTC row 25 `m-9515` used hard difficulty, exactly three bots, nine
+days, a 24x24 map, 96 steps/day, public `10000 ms`, seven agents, 24 Spots,
+eight brands and medium fuel 192.  Canonical production selected one Tanker at
+agent 1 and finished third at `8/72/389`, behind `8/72/424` and `8/72/392`
+and ahead of `8/72/351`.  All nine actions were HTTP 200 and exact-valid, all
+eight transitions reconciled, stderr was empty and maximum response was
+`8735 ms`.  Replay SHA256 is
+`7CAD9466EA007F7C9EBE595A0DC2847EA0461508FAFDC931FE314AD07BA1F243`.
+
+Read-only production telemetry closes this as a fresh instance of the known
+long-horizon medium-fuel candidate-supply/state-certificate boundary.  On all
+nine days, the portfolio and master were incomplete, the master and independent
+generator reached their deadlines, and the same-day upper exceeded the chosen
+lower by 1, 4, 3, 3, 5, 8, 2, 6 and 4 servings.  This is the same signature as
+consumed `m-6134`, whose corresponding gaps were 3, 4, 5, 5, 2, 8, 7, 3 and 4
+with every day likewise incomplete and deadline-bound.  The row-25 role scan
+contained seven distinct one-Tanker identities plus all-Patrol; no mask was
+duplicated, and the live identity was in the top rollout tie.
+
+Experiments 269--281 and 274--277 already traced this class.  Unrestricted
+sparse gains change terminal/fuel/traffic state; exact-road and weaker traffic
+relations do not certify the remaining future; additive canonical-master and
+protected-continuation successors did not pass their frozen gates.  Repeating
+those mechanisms, raising caps, spending extra time inside the canonical
+`5000 ms` main checkpoint or routing for this replay would be circular or break
+the runtime contract.  No source candidate or holdout is authorized.
+
+Evidence report SHA256 is
+`0AE66307B5B6FA8723BCDDB2B3B8C45BEC9FA64FB45C9528DE82FD7DF328CBC8` at
+`research/evidence/ATTR-ROW25-LONG-MEDIUM-MASTER-290.md`.  Reopen only with a
+genuinely new executable whole-future public-state dominance proof,
+authoritative opponent trajectory, or an operation-equivalent capability
+improvement producing that proof on fresh evidence.  The BTC screen may resume
+at qualifying row 26.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this is read-only attribution; (2) nothing is
+deleted, so no active-equivalent claim is required.
+
+## Closed attribution — ATTR-ROW24-ROUTE-FRONTIER-289
+
+Corrected 288-v2 closes role class and confirms only the previously known
+same-count role-identity residual.  The next discriminator therefore measures
+the existing route/master frontier at every recorded Patrol/day root of fresh
+row 24 `m-8615`, without changing or applying any plan.  Canonical production
+used one-Tanker mask 16, so the frozen matrix crosses days 1--6 with Patrol
+agents 0--3 for exactly twenty-four roots.
+
+Each root runs the unchanged research-only exact sparse enumerator for 50,000
+settled states and at most 64 retained routes.  Every one-agent substitution is
+checked by the exact simulator and independent validator.  The report separates
+unrestricted current-day gain from the production-authoritative protected
+same-terminal/fuel/complete-road-footprint relation.  Exact-road and
+componentwise-nonincreasing-road counters are retained only as diagnostics:
+experiments 271/273/278/279 already prove that neither weaker relation alone is
+a complete future-state certificate, so they cannot reopen a source candidate.
+
+Frozen manifest
+`research/holdouts/ATTR-ROW24-ROUTE-FRONTIER-289.csv` SHA256 is
+`C9F53460FBF188497C0747492B1A18DC09E23D1BD4634971C592743506EF91CD`.
+Frozen probe binary SHA256 is
+`964AC9D999284E3751B2C902D265E97C6F751F7DB2F20E222868088FB28DC5B8`;
+runner SHA256 is
+`540EAE72FC7D4DA1FC1BD688EA525E1DA70D5A505FC8EC6AD0A7BE6D660E6645`
+and summarizer SHA256 is
+`52FABB8EC2BDE7AAC2C3691FEE98D67EA8BFBF39B4F8E3FF15EA9CB7C14206E4`.
+The initial summarizer SHA256
+`9DCB5B8FB18EF47D7A07F0DAED597711A3E19F790AA76BD437F2949816C84522`
+failed before producing a summary because an unparenthesized PowerShell comma
+expression formed nested subtraction operands.  It is invalid pre-summary
+operational evidence; the corrected parser changes no experiment data or gate.
+Replay SHA256 remains
+`48C567D6922A732F5D8A055CAEB07B603AE66C04B4B5D909A3504EE29F48F784`.
+
+No partial result has authority.  If all nonterminal gains are unrestricted
+changed-state only, 289 closes as another instance of the known state-coupled
+certificate boundary.  A protected nonterminal gain can authorize a separate
+fresh-seed SCORE successor only after proving that its production-stage supply
+mechanism was not already closed.  A terminal-day strict gain missed by
+accepted 258 authorizes only a read-only stage-membership attribution before a
+successor is considered.  No result may restore rejected 286/287, relax a
+certificate, route by this replay or reuse a consumed holdout.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this is read-only attribution using the existing
+exact simulator and validator; (2) nothing is deleted, so no active-equivalent
+claim is required.
+
+All twenty-four atomic roots and one `run_complete` marker completed with zero
+partial, invalid or validator-mismatch evidence.  Eleven roots expose an
+unrestricted current-day gain: day 2 has four roots up to +3 servings, day 3
+two up to +2, day 4 three up to +3 and day 5 two up to +2; days 1 and 6 have
+none.  Protected gain is zero on all 24 roots, and exact-road strict gain is
+also zero.  Seventeen componentwise-lower-road candidates exist at one day-2
+root and its best gains two servings, but this is precisely the weaker relation
+already denied future-state authority by 279.
+
+Complete log SHA256 is
+`C2062C9BD16395916FB03A62ADEBD37B0E97FBD44AE91A4DED7A1486C38C8E38` and
+summary SHA256 is
+`442679BFC977B79A5A31DD6A041BE144581612E5FDE962D2E5A63800B2022329`.
+Verdict: closed known state-coupled certificate boundary, with no source
+candidate and no holdout.  Row 24 is not dismissed as ordinary variance: it is
+a real candidate-supply opportunity whose alternate terminal/fuel/traffic
+state cannot yet be certified for the remaining match.  Reopen only from a new
+executable whole-future dominance proof or authoritative opponent trajectory;
+never weaken the certificate or repeat 271/273/278/279.
+
+The hard three-bot BTC screen may now resume at row 25.  A rank 1 or exact
+official-score tie advances the screen; a fresh first-tier gameplay loss stops
+again for attribution.  BTC rank remains a failure gate, not promotion
+evidence.
+
+## Closed corrected attribution — ATTR-ROW24-DEFAULT-MEDIUM-ROLE-288-v2
+
+The first 288 runner omitted `--current-floor 1`.  Production HTTP constructs
+`MatchSession` with `requireUndominatedCurrentFloor=true`, whereas
+`replay-counterfactual` defaults that switch to false.  Consequently all twelve
+v1 cases are invalid methodological evidence: they are preserved but may not be
+aggregated, interpreted or mixed with v2.
+
+V2 repeats the same already-frozen twelve-case manifest and consumed replay,
+changing only the missing runtime-semantic flag.  It remains read-only
+attribution with no promotion authority.  Binary, replay and manifest hashes
+remain respectively
+`5FA10472D46E1136E3A2CFCD87FF26DA97C64575E42E2A385F1134CB44826F01`,
+`48C567D6922A732F5D8A055CAEB07B603AE66C04B4B5D909A3504EE29F48F784`
+and `DFD9A70A701F7B831AFFEC05907D4B267E8EDAB146D4A031EDC5416BBA125473`.
+Corrected runner SHA256 is
+`8B373244D536984FD9B2A695BC73843AE2AF3C6E52AB24EE3427AAC1F42F856F`;
+the unchanged summarizer SHA256 is
+`A6099108B93870B110E9C2EC508BA262CF8638376E4B585B3F25BFAE8CD1D7FB`.
+No partial result has authority.
+
+All twelve corrected atomic cases and the single `run_complete` marker
+completed.  Log SHA256 is
+`D258D84A55E7804912848488C311730819408A24BB67EC7BD091B31782537865` and
+summary SHA256 is
+`79C319D8B8C962AC4411303311DEDEC83C0C851862AEB4D950691A708DC0EA2D`.
+Forward/reverse terminal scores are: all-Patrol mask 0 `5/28/123` and
+`5/29/123`; one-Tanker masks 1 `5/30/175` and `5/30/176`, 2 `5/30/173`
+and `5/30/176`, 4 `5/30/172` and `5/30/173`, 8 `5/30/176` and
+`5/30/176`, and 16 `5/30/175` and `5/30/175`.  Every one-Tanker identity
+beats all-Patrol in both orders and there are zero direction reversals.  Masks
+1, 8 and 16 beat the live score 174 in both orders, but no identity reaches the
+winning bot score 182.
+
+This closes role class as the explanation and leaves only a small known
+same-count identity residual.  The timed production role evaluator scores every
+one-Tanker identity equally in this fixture, but static centrality, facility,
+marginal-Patrol, terminal-fuel, wider/longer rollout and trajectory-beam
+successors were already falsified by SCORE-ROLE-001--032 and experiments
+237--239/259.  A replay-specific identity switch would therefore repeat closed
+research and overfit consumed evidence.  No SCORE successor is authorized.
+The next permitted discriminator is read-only attribution of the existing
+route/master candidate frontier and its state-certificate boundary; it may not
+restore rejected 286/287 or relax any certificate.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; the correction restores production semantics in
+a read-only attribution runner; (2) nothing is deleted, so no replacement-
+equivalence proof is required.
+
+## Invalid methodological evidence — ATTR-ROW24-DEFAULT-MEDIUM-ROLE-288
+
+Qualifying BTC row 24 is the replacement hard three-bot match `m-8615`.
+The discarded predecessor `m-8614` is operationally invalid for gameplay: the
+credential handoff connected after the first deadline, assignment received
+`E_STALE_DAY`, no action was accepted and the match closed `0/0/0`.  Its replay
+SHA256 `47231C4264BB2DF2C0355EDEF07D40840496FBB0979F001F0B925B9231D67631`
+is preserved only as failure evidence and does not count toward the thirty-row
+screen.
+
+Replacement `m-8615` used hard difficulty, exactly three bots, six days, a
+12x12 map, 72 steps/day, public `10000 ms`, five agents, fifteen requested
+Spots, five brands and default fuel.  The server materialized twelve valid
+Spots and fuel 144.  Canonical accepted production 258 selected four Patrols
+and one Tanker and finished fourth at `5/30/174`; the bots scored
+`5/30/182`, `5/30/180` and `5/30/176`.  All six submissions returned HTTP 200
+and exact-valid, both validators agree, all five transitions reconcile, stderr
+is empty and maximum response was `6474 ms`.  Public continuation generated
+663 valid plans over nonterminal days but accepted no takeover.  Replay SHA256
+is `48C567D6922A732F5D8A055CAEB07B603AE66C04B4B5D909A3504EE29F48F784`;
+the exact rebuilt canonical binary SHA256 is
+`5FA10472D46E1136E3A2CFCD87FF26DA97C64575E42E2A385F1134CB44826F01`.
+This is a clean eight-serving tier-3 gameplay counterexample, so the BTC screen
+stops before row 25.
+
+Experiment 288 is read-only consumed-replay attribution.  It compares
+all-Patrol mask 0 with every one-Tanker identity 1/2/4/8/16 in forward and
+reverse order for the full six days at canonical `5000 ms`.  It may localize
+whether role class/identity can explain the fresh deficit, but cannot promote a
+candidate, tune this replay or open a holdout.  A separate SCORE successor is
+permitted only if the completed evidence exposes an order-stable, identity-
+broad public-state invariant that can be preregistered on fresh 8/9/10-team
+seeds; otherwise role closes and the next attribution must trace the existing
+master/candidate/certificate gap without repeating rejected 286/287.
+
+Frozen manifest
+`research/holdouts/ATTR-ROW24-DEFAULT-MEDIUM-ROLE-288.csv` has twelve atomic
+cases and SHA256
+`DFD9A70A701F7B831AFFEC05907D4B267E8EDAB146D4A031EDC5416BBA125473`.
+Runner SHA256 is
+`35CDF9B4E81F5024E6145113A0B00D55378F77AF96B5FE7F4F5C63D65ADFDAE6`;
+summarizer SHA256 is
+`A6099108B93870B110E9C2EC508BA262CF8638376E4B585B3F25BFAE8CD1D7FB`.
+The run completed all twelve atomic cases and one `run_complete` marker, but
+the missing production `current-floor` switch invalidates its conclusions. The
+evidence log SHA256 is
+`AB129EEE5FC738C2683C1EDFAD42A0134879DFEBDD414498AF827618A6330FEC` and
+the summary SHA256 is
+`8A69C25FE7388BE750E949FEF969B7894A394DCD2481850906B8F84426DA3694`.
+Forward/reverse terminal scores were: all-Patrol mask 0 `5/30/119` and
+`5/30/123`; one-Tanker masks 1 `5/30/176` and `5/30/175`, 2 `5/30/176` and
+`5/30/170`, 4 `5/30/172` and `5/30/174`, 8 `5/30/176` and `5/30/172`, and
+16 `5/30/175` and `5/30/174`.  These values are retained only to diagnose the
+runner mistake. They have no authority to close role attribution, authorize a
+SCORE successor or guide source changes, and must never be mixed with v2.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this is read-only attribution on a consumed
+replay; (2) nothing is deleted, so no replacement-equivalence proof is
+required.
+
+## Closed predecessor — BTC screen was ready to resume from row 24
+
+Experiments 286 and 287 are closed at development without opening either
+sealed holdout.  Their scoped source, harness and test changes have been
+removed; canonical accepted production 258 remains the only production logic.
+After a clean rebuild and the full protected test gate, resume the authorized
+hard BTC screen with exactly three bots and public `10000 ms` from row 24.  A
+fresh gameplay-score loss may open a new attribution axis; a rank 1 or exact
+official-score tie advances the series.  BTC rank itself remains only an
+asymmetric counterexample gate, never promotion evidence.
+
+Functionality-preservation answers: (1) no designed production functionality
+is removed, disabled, deferred or reduced; only rejected opt-in candidate
+changes from 286/287 were removed, while canonical production remains active;
+(2) nothing canonical was deleted, so no replacement-equivalence proof is
+required.
+
+## Closed development — SCORE-ATOMIC-MULTI-WAYPOINT-TANKER-GROUP-287
+
+Completed development 286 is strongly positive in breadth and mass but exposes
+one exact general failure mode: every material loss selects a moving
+multi-waypoint Tanker provider without selecting either matching Patrol
+consumer.  The two largest losses are `-6` and `-7` servings; the `-7` tail
+alone fails the frozen `-4` bound.  A provider without its two consumers does
+not implement the intended refuel topology, so allowing it is not a legitimate
+tradeoff between global gain and bounded loss; it is an incomplete atomic
+service group.
+
+Experiment 287 keeps the same single RouteColumnGenerator, RouteMaster, exact
+simulator, independent validator, official comparator and `3375 ms` harness
+budget inside the canonical `5000 ms` checkpoint.  It adds one invariant only:
+selecting any member of a multi-waypoint service group requires exactly its one
+Tanker provider and one matching consumer for each of the two distinct Patrol
+identities.  Partial branch feasibility must prove that every still-required
+agent can select a column from the same group; final synchronization must reject
+an orphan provider, a consumer without its provider, a one-consumer prefix or a
+mixed group.  This is not a dispatcher, threshold, second solver, cap increase
+or replay-specific rollback.  It repairs the semantics of the candidate supply
+localized by complete development, while default-off remains operation-
+equivalent to production.
+
+Fresh development and sealed holdout were frozen before this atomicity source
+change in
+`research/holdouts/SCORE-ATOMIC-MULTI-WAYPOINT-TANKER-GROUP-287.csv`:
+thirty paired development cases and fifty-four sealed paired holdout cases over
+8/9/10 teams, maps 8/12/16/24/32, all fuel profiles and multiple one-Tanker
+identities. Manifest SHA256 is
+`9B688B10E51E0C1260E5CA548F32099391C4A0A6A624D49B60B0E1361C91B3AF`;
+runner SHA256 is
+`AD9817614190885523D67082A35AF2515D6D0148E76D7BB04C497CCFA99D0E3C`;
+summarizer SHA256 is
+`099BDAA777B3EA302CAE19D2E686E8A060300CF2A874BA853F7F06888CB3CAF9`.
+The frozen same-binary Windows development candidate SHA256 is
+`E36C9BC90B2155E1A253AC0C35011BE0DF333B8E04BF262A1F57B81BDDDE2C18`.
+No prefix has authority and the holdout stays sealed unless development passes.
+
+The preregistered gate retains 286's broad-benefit/bounded-downside rules: zero
+invalid/emergency/atomicity failure, checkpoint bounded by `5000 ms`, parent
+flag isolation, generated supply, complete selected groups, no tier-1 or tier-2
+loss, every tier-3 loss at most four servings, wins greater than losses, at
+least four development wins (six holdout), gain mass at least twice loss mass,
+and wins across at least two player, map-suite, fuel and Tanker-identity strata.
+The gate is fixed before the source change and cannot be relaxed after results.
+
+All thirty development cases completed atomically with sixty paired results and
+one `run_complete`. Candidate versus parent is `10/12/8`; first differences are
+twelve ties, one tier-2 gain and seventeen tier-3 differences. Aggregate delta
+is `0/+1/+45`, gain/loss mass is `+65/-20`, and wins span the required player,
+map, fuel and Tanker-identity strata. However, the tier-3 loss tail reaches
+`-6`, and two action-provenance matches are reported as atomicity failures.
+Only one complete service group is actually selected across development
+(`1` provider and `2` consumers); most positive and negative differences arise
+from portfolio/search perturbation rather than use of the proposed topology.
+Thus both the frozen downside and zero-atomicity gates fail. The sealed holdout
+remains unopened. Complete log SHA256 is
+`85D3618CD91D2326BBF94A71D3C1CE7B71E84324579AF6223565B1E04A6E4D7D`;
+summary SHA256 is
+`CF4DBC55CDA84ACE425620AF37F463A068A43D386D143CBB252BFA179D2CD04B`.
+
+Verdict: rejected at development; no production change and no holdout opening.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; 287 makes the new optional three-agent service
+topology complete rather than accepting an orphan provider, while all canonical
+default-off logic remains active; (2) nothing is deleted, so no replacement-
+equivalence proof is required.
+
+## Closed development — SCORE-MULTI-WAYPOINT-TANKER-PROVIDER-286
+
+The closed positive attribution 285 satisfies the sole reopen condition from
+284: on the fresh eight-day row-23 counterexample, all six one-Tanker
+identities beat all Patrols in both execution orders, while canonical already
+selected exactly one Tanker.  The remaining actionable gap is therefore not
+role selection but candidate supply: the current RouteColumnGenerator can
+coordinate one Patrol with one Tanker at one rendezvous, or keep a co-located
+group in lockstep, but it cannot offer one Tanker route that visits two
+successive rendezvous and independently restores two Patrol routes.
+
+Experiment 286 adds only an opt-in candidate-supply mechanism inside the
+existing single RouteColumnGenerator and RouteMaster.  A Tanker may visit two
+Patrol start cells in a public-state order, wait one step at each, and expose
+both exact refuel events.  Matching Patrol columns may wait for their event and
+then continue toward ordinary public-priority Spot targets.  The existing
+partial synchronization feasibility test, exact simulator, independent
+validator, official lexicographic comparator, W1 certification and canonical
+`3375 ms` harness budget within the `5000 ms` checkpoint remain unchanged.
+The candidate may enumerate all legal Patrol identities but must rank and cap
+routes only by public state, fuel, travel time, brand rarity, stock and stable
+canonical tie-breaks.  It must not route by replay, seed, family, bot, opponent,
+match ID or consumed row 23, and it must not restore experiment 158, widen the
+portfolio cap, create a second solver, weaken `may_submit`, or spend public
+continuation time in the main solver.
+
+Development and the one-time holdout were frozen before the source change in
+`research/holdouts/SCORE-MULTI-WAYPOINT-TANKER-PROVIDER-286.csv`: thirty fresh
+paired development cases and fifty-four sealed paired holdout cases spanning
+8/9/10 teams, map sides 8/12/16/24/32, 4/5/7/10-day horizons, low/default/high/
+generated fuel and multiple one-Tanker identities.  Parent and candidate use
+the same binary, with the new option disabled/enabled, and execution order
+alternates by seed.  Manifest SHA256 is
+`C2BA2E7518402FA204FADB73138243FC29D33DFB0161AD6DB1A444B2B748B582`;
+runner SHA256 is
+`394D6CD58D2EF38DEB9B3A1BCBF643B0C68173D2A617183691E00957CED1BEE3`;
+summarizer SHA256 is
+`C4EA3188211091DE35CE0C5034E1995FE01868F1D62CBC56C96632194FF845FC`.
+No partial result has authority and the sealed split must not be opened unless
+development passes.
+
+The preregistered broad-benefit/bounded-downside gate deliberately does not
+require mechanical zero-loss.  It requires zero invalid/emergency, response
+bounded by the canonical checkpoint, parent flag isolation, generated and
+selected multi-waypoint supply, no tier-1 or tier-2 loss, every tier-3 loss at
+most four servings, paired wins greater than losses, at least four development
+wins (six on holdout), first-difference gain mass at least twice loss mass, and
+wins across at least two player, map-suite, fuel and Tanker-identity strata.
+All outcomes are reported as official paired W/T/L, first differing tier,
+gain/loss tails and strata; no weighted sum may decide promotion.
+
+All thirty development cases completed atomically with sixty paired results and
+one `run_complete`.  Candidate versus parent is `12/12/6`, all first
+differences are tier 3, aggregate delta is `0/0/+150`, gain mass is `+170`,
+loss mass is `-20`, and wins span the required player, map, fuel and Tanker
+identity strata.  Parent isolation, generated/selected supply, canonical
+checkpoint and zero invalid/emergency gates pass.  The loss tail is
+`-1/-6/-4/-1/-1/-7`; therefore the preregistered `-4` bound fails and the
+sealed holdout remains unopened.  Complete log SHA256 is
+`E0671322A941559DB5D00BEB436674A6C25C6CB80A93D3AB3736BBC6043E07E1`;
+summary SHA256 is
+`DC4686FB95439BD92B934793536434FB4EB76AD9AAE581A9D9B1E15FF4B5F0F8`.
+
+Complete attribution shows the intended mechanism rather than a random stratum
+dispatcher: each of the five losses of magnitude at least one where the new
+provider is selected has zero selected matching consumers, including both tail
+losses.  This authorizes only the separately frozen atomic-group successor 287;
+it does not authorize changing the loss threshold, opening 286's holdout, or
+tuning any consumed seed.
+
+Verdict: rejected at development; no production change and no holdout opening.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; the candidate only appends exact synchronized
+columns and the default-off parent path remains active; (2) nothing is deleted,
+so no replacement-equivalence proof is required.
+
+## Closed positive attribution — ATTR-COVERAGE-SATURATED-LONG-HORIZON-ROLE-285
+
+Qualifying BTC row 23 `m-8385` is a second clean official-domain
+counterexample in the coverage-saturated serving family.  The hard three-bot
+match used eight days, a 16x16 map, 90 steps/day, six agents, sixteen
+materialized Spots, five brands, medium fuel, traffic thresholds 5/10 and a
+public `10000 ms` response window.  Canonical production 258 selected five
+Patrols plus one Tanker and finished fourth at `5/40/299`; the bots finished
+`5/40/402`, `5/40/398` and `5/40/383`.  All eight actions were exact-valid,
+stderr is empty and maximum server-measured response was `7876 ms`, so this is
+a gameplay-score counterexample rather than a protocol, deadline or safety
+failure.  Replay SHA256 is
+`D55BF7F372CBF8A6215651E43854DFE329C5BDA64C755A5E819773BC61115734`.
+
+This fresh replay satisfies the reopen precondition from 284 only far enough
+to measure whether a role-level full-horizon discriminator exists.  Freeze the
+same canonical binary and compare all-Patrol mask 0 with each one-Tanker
+identity 1/2/4/8/16/32 in forward and reverse execution order for all eight
+days at the canonical `5000 ms` checkpoint.  This is read-only attribution on
+consumed development evidence; it has no promotion or holdout authority.
+
+The discriminator qualifies only if at least four of the six one-Tanker masks
+beat all-Patrol at the first differing official tier in both execution orders,
+the median one-Tanker score also beats all-Patrol in both orders, and no
+qualifying identity reverses direction.  Passing permits a separate fresh
+SCORE experiment for an identity-invariant successive multi-waypoint Tanker
+provider.  Failing closes role as the discriminator for this replay and keeps
+the topology gap unpromotable; it does not authorize an identity, map, replay,
+bot or match dispatcher, restoring 158, widening caps, weakening
+`may_submit`, or opening a consumed holdout.
+
+Frozen manifest SHA256 is
+`D815FFE9F5EB0BEB939A74B0FACB45C6E8C060A25754879E7D37E360B0D59BF7`;
+runner SHA256 is
+`74F2E585B6CD5ED36AE15E620A37ACF90579849841B90CFAD47EE2B5B8C6D7FC`;
+Corrected summarizer SHA256 is
+`F1B5594C20B608BEE22F1A6AAC3B7B0090B72847232C3C4CBB4D7314AE0D505E`.
+The initial summarizer hash
+`828EDCCA8C2D21AFF26CFADB2A1C51FB53D6BBA8588A2C196D84767EF00C20EC`
+failed before reading evidence because its parameter shadowed PowerShell's
+reserved `$Input`; it has no experiment or product authority.
+Expected completion is exactly fourteen atomic cases and one `run_complete`.
+No partial score has authority.
+
+All fourteen cases completed atomically with one `run_complete`.  All-Patrol
+mask 0 scored `5/40/169` in both orders.  One-Tanker masks 1/2/4/8/16/32
+scored respectively `280/245/280/270/281/281` forward and
+`281/280/282/270/269/281` reverse.  Every one-Tanker identity beat all
+Patrols in both orders at the first differing official tier; the lower median
+was `5/40/280` in both orders, and no identity reversed direction.  The
+preregistered class gate therefore passes 6/6, above the required 4/6.
+
+Verdict: the one-Tanker fuel/horizon discriminator is real and
+identity-invariant, but canonical already selected a Tanker.  Role selection
+is not the remaining row-23 gap; the surviving gap is the provider topology
+localized by 284.  A separately frozen SCORE successor may now add successive
+multi-waypoint Tanker service through the existing single RouteMaster, exact
+simulator and independent validator on fresh synthetic 8/9/10-team evidence.
+It must not tune to this consumed replay or reintroduce the rejected 158
+caravan.  Complete evidence SHA256 is
+`4AAE023C35707B9A963211764BABC0E1D9A3B9A967D35D0D4AA0B41C6877E3C9`;
+complete log SHA256 is
+`068CA1359B8A038490A35D08D424D9F560E7DE3C76DC9D4EF46F5D18413062A3`.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this is same-binary read-only attribution; (2)
+nothing is deleted, so no replacement-equivalence proof is required.
+
+## Closed attribution — ATTR-COVERAGE-SATURATED-REFUEL-TOPOLOGY-284
+
+The clean BTC row-22 counterexample is now localized beyond the negative role
+and harvest-retention attributions. All three public bots used six Patrols plus
+one Tanker and public next-day states prove repeated mobile refueling: on the
+first observed transition bot 1 restored two Patrols at cell 384, bot 2 one at
+174 and bot 3 one at 508; on the next transition the corresponding counts were
+one at 508, one at 13 and two at 418. Every co-located Patrol had authoritative
+full fuel 240.
+
+Canonical refueling is wired and exact, but its topology is inefficient. The
+mask-1 counterfactual repeatedly ends the Tanker with three full-fuel Patrols
+in one cluster, scores only `3/3/43` then +18 on day 2, and closes
+`3/15/143`, versus all-Patrol `3/15/160`/`165`. Source tracing confirms the
+current generator has co-located lockstep escorts and one-Patrol/one-rendezvous
+columns, but no independent multi-waypoint Tanker provider serving successive
+bounded Patrol subsets.
+
+That missing topology does not authorize restoring experiment 158. Its broad
+road-containing matrix was `23/68/29`, gain/loss `61/70`; 159 still lost five
+road-containing holdout cases, and 160 could not preserve the parent
+whole-pipeline decision without a forbidden second solver. Current W1 is not
+the reopen certificate: it proves feasible suffixes only on the finite frozen
+traffic manifest and assumes zero new opponent footprint after the first
+modeled transition, not every legal future traffic world. A sound exact
+transition-dominance certificate based on identical roles/cells, no lower
+Patrol fuel and componentwise no-greater own footprint cannot compare an
+all-Patrol incumbent to a one-Tanker role assignment.
+
+Verdict: the refuel topology gap is confirmed, but no immediate SCORE
+successor qualifies. Reopen only after fresh official-domain attribution
+produces either an order-stable role-level full-horizon discriminator or a
+useful state-transition-dominant construction without changing the role
+class. Do not restore 158, widen caps, weaken `may_submit`, route by fixture or
+use consumed row 22 for promotion. Full evidence SHA256 is
+`581E25E484D60ECD11873882EC23193ECF93DC64FAEF73F69B6F8D1BA5FA7EA2`.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this is read-only attribution; (2) nothing is
+deleted, so no replacement-equivalence proof is required.
+
+## Closed attribution — ATTR-COVERAGE-SATURATED-HARVEST-RETENTION-283
+
+Experiment 282 closes the role hypothesis on clean BTC row 22: every
+one-Tanker identity materially loses all Patrols. The remaining earliest
+observable boundary is route supply. On canonical `m-8135`, dense exact
+orienteering supports zero agents because the authoritative map has 24 Spots,
+while the ordinary portfolio retains only 12 columns per Patrol. Retained
+maximum route servings fall from `7/8/7/7/7/8/8` on day 1 to
+`6/3/4/4/4/8/3`, `4/4/5/5/5/4/4`, `3/3/5/5/5/3/4` and
+`5/5/2/3/1/5/4`; retained harvest extensions are almost entirely absent after
+day 1. The master upper equals the chosen cumulative score on days 2--5, so
+selection cannot recover a route that the portfolio does not contain.
+
+This read-only attribution uses the exact frozen canonical binary and consumed
+replay to compare all-Patrol closed loops under public harvest-extension modes
+0, 2, 4 and canonical 7 in forward and reverse order. Each case dumps complete
+per-day decision telemetry. It changes no source and has no promotion or
+holdout authority. The discriminator is structural: if higher modes produce
+order-stable score and retained-route breadth gains, a fresh successor may
+target their specific retention boundary without widening caps; if modes tie,
+cross, or still lose their extensions after day 1, the extension family closes
+and the next attribution must construct a distinct coverage-saturated route
+candidate rather than repeat sparse supply 275/276 or proof axes 269--281.
+
+Frozen manifest SHA256 is
+`4A89F354A42256193A24ACA1F6A412F1D3F3EFC2C85C1E6C5F07703F0D263C4E`;
+frozen runner SHA256 is
+`28FABA4F964896C541EFD61C967B7C5D4AE75190DE700F63A9B1690802135A96`;
+frozen summarizer SHA256 is
+`B006CC3866807DB8414B3F6427D2BEC1A88A9BD77810F3B3C7A9BC35F9ED891E`.
+Expected evidence is eight atomic cases, eight decision dumps and one
+`run_complete` marker. No partial score has authority.
+
+The frozen run completed all eight atomic cases, all eight decision dumps and
+one `run_complete`. Forward/reverse official scores were: mode 0
+`3/15/128` and `3/15/129`; mode 2 `3/15/143` and `3/15/142`; mode 4
+`3/15/153` and `3/15/151`; and canonical mode 7 `3/15/153` and
+`3/15/153`. Modes 4 and 7 retained the same day-1 route maxima
+`7/8/7/7/7/8/8` and extension counts `12/9/12/10/10/8/10`. On day 2,
+only agent 5 retained two extensions; days 3--5 retained none. Dense exact
+orienteering remained unsupported at twenty-four Spots, and mode 7 supplied no
+material structural breadth beyond mode 4. Complete log SHA256 is
+`F54A9A5056679135E59CD93BEDF8A3D06B509FC4E1AECFB71B4EE3ACDD124800`.
+
+Verdict: larger harvest retention is genuinely useful on day 1, so that
+designed functionality remains intact, but cap/mode tuning cannot repair the
+multi-day collapse. The extension family closes because its useful candidates
+vanish after fuel depletion rather than being discarded by the final retention
+mode. No SCORE successor qualifies from 283. The next admissible question is a
+distinct, coverage-preserving refuel/coordination candidate-supply mechanism;
+it must first prove that it is not a replay of rejected mobile-tanker
+experiments 158--160 or rendezvous experiments 206/264--266. The negative
+one-Tanker masks in 282 diagnose the current role/planner combination only;
+they do not prove that refueling itself is valueless, especially because all
+three public BTC bots used six Patrols and one Tanker in row 22.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this is same-binary read-only attribution; (2)
+nothing is deleted, so no replacement-equivalence proof is required.
+
+## Closed negative attribution — ATTR-COVERAGE-SATURATED-MEDIUM-HORIZON-ROLE-282
+
+Qualifying BTC row 22, hard three-bot `m-8135`, is a fresh material gameplay
+counterexample: five days, 24x24, 120 steps/day, seven agents, twenty-four
+spots, three brands, medium fuel 240, traffic thresholds 5/10 and public
+`10000 ms`. Canonical accepted production 258 selected all seven Patrols and
+finished fourth at `3/15/182`; the bots reached `3/15/320`, `3/15/311` and
+`3/15/309`. The first two official tiers are saturated by every team, but the
+138-serving deficit to the winner is material.
+
+Operational evidence is clean: all five submissions returned HTTP 200 and
+exact-valid, both validators agree, all four authoritative transitions
+reconcile, stderr is empty, maximum server-measured response was `7558 ms`,
+maximum canonical main time was `3376 ms`, and there was no emergency, fallback,
+transport retry or safety failure. Public continuation was authorized on all
+five days, accepted no nonterminal takeover and reached its deadline on two
+days. The terminal reservoir lifted the checkpoint cumulative score from
+`3/15/153` to the submitted `3/15/182`. Replay SHA256 is
+`0EFC3363DBBCE1868A5195FE41677D358C250718D6FC91B11C602A8E33C5CBB3`;
+the exact canonical BTC binary SHA256 is
+`85816C2D02AE86CFC9E9F746C0EE37BF742204C5CD73A778BC6450B9250E2978`.
+
+The first discriminator is role composition rather than another sparse/proof
+repeat. Fuel 240 exceeds one day but not the five-day movement horizon, every
+canonical agent is a Patrol, no refuel occurs, and days 2--4 collapse to only
+26/26/28 servings. Freeze all-patrol mask 0 plus each one-Tanker identity
+1/2/4/8/16/32/64, run complete closed-loop counterfactuals forward and reverse
+at canonical `5000 ms`, and compare only same-process official scores. A fresh
+SCORE successor may be registered only if a one-Tanker class preserves
+`3/15`, gains materially and order-stably over mask 0, and yields a public
+fuel-horizon invariant suitable for fresh multi-team development and holdout;
+no identity, replay, map, bot or match dispatcher is allowed. If every
+one-Tanker arm loses or the result is order-unstable, role closes and the next
+attribution must target candidate supply without repeating rejected 229--232,
+268 or consumed 269--281 mechanisms.
+
+Frozen manifest:
+`research/holdouts/ATTR-COVERAGE-SATURATED-MEDIUM-HORIZON-ROLE-282.csv`, SHA256
+`ED30476B0889CCC94C4F29A18E45906B08251361F1016083D4548CC2BE01886F`.
+Frozen runner:
+`research/probes/run_coverage_saturated_medium_horizon_role_282.ps1`, SHA256
+`561B0F850BBD22C37C8B5AA3DE69B45A4F2CA2B0C67923E11104A57AD7E0F5C7`.
+Expected development is exactly sixteen atomic cases and one `run_complete`.
+No partial score has authority.
+
+The frozen run completed all sixteen atomic cases with sixteen matching
+`case_complete` records and one `run_complete`. Forward/reverse closed-loop
+official scores were: all-Patrol mask 0 `3/15/160` and `3/15/165`; one-Tanker
+mask 1 `3/15/143` and `3/15/143`; mask 2 `3/15/137` and `3/15/133`; mask 4
+`3/15/128` and `3/15/128`; mask 8 `3/15/136` and `3/15/136`; mask 16
+`3/15/128` and `3/15/128`; mask 32 `3/15/135` and `3/15/128`; and mask 64
+`3/15/133` and `3/15/133`. Every one-Tanker identity materially loses the
+all-Patrol arm at the first differing tier, so no fuel-horizon role class or
+SCORE successor qualifies. The live terminal continuation score `3/15/182`
+also exceeds every closed-loop checkpoint counterfactual. Complete evidence
+SHA256 is
+`93FE0190FF3C679D6B52439F50A38F57295C1792983FC3773EB2682FF79F7A69`.
+
+Verdict: role composition is not the row-22 gameplay gap. The next admissible
+axis is current/full-horizon candidate-route supply in the public
+coverage-saturated regime, after proving that it does not repeat rejected
+229--232, 268 or consumed 269--281 mechanisms. Reopen role only from a fresh
+authoritative counterexample where a public role class beats all Patrols
+materially and order-stably; never tune an agent identity or this replay.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this is read-only attribution; (2) nothing is
+deleted, so no replacement-equivalence proof is required.
+
+## BTC 30-match screen — qualifying row 21 closed rank 1; row 22 authorized
+
+Hard three-bot match `m-8130` is the first fresh screen row after closing the
+consumed penultimate-proof family. Its authoritative setup was eight days,
+8x8, 36 steps/day, three agents, eight materialized spots, eight brands, low
+fuel 36, traffic thresholds 5/10 and public `10000 ms`. The canonical main
+checkpoint remained `5000 ms`; the exact local BTC binary SHA256 was
+`85816C2D02AE86CFC9E9F746C0EE37BF742204C5CD73A778BC6450B9250E2978`,
+with operation-equivalent production source and build-release tests passing
+3/3 before connection.
+
+Canonical accepted production 258 finished rank 1 at `8/64/100`; the three
+bots scored `8/63/77`, `8/61/70` and `8/58/65`. All eight submissions returned
+HTTP 200 and exact-valid, both validators agree, all seven authoritative
+transitions reconcile, stderr is empty, maximum server-measured response was
+`1004 ms`, maximum canonical main time was `889 ms`, and there was no
+emergency, deadline skip, fallback, transport retry, continuation failure or
+safety failure. Public continuation was authorized on all eight days, accepted
+zero takeover, and never reached its deadline. Replay SHA256 is
+`857EB2225A7787A30FD0AB5FD5D9E365DE67ABEB829546A14042E8906C3E0B0E`.
+
+This is an operational/failure-gate pass and fresh screen evidence only, not
+promotion evidence. It closes row 21 and authorizes row 22 with another fresh
+official-domain configuration. Functionality-preservation answers: (1) no
+designed functionality is removed, disabled, deferred or reduced; (2) nothing
+is deleted, so no replacement-equivalence proof is required.
+
+## Closed negative attribution — ATTR-PENULTIMATE-STATIONARY-REFUEL-BOUND-281
+
+Experiment 280 produced valid road-state-independent terminal lower policies,
+but conservatively discarded every Patrol geometry touching a stationary
+Tanker. Four of five Patrols on `m-6134` and six of seven on `m-6213` were
+therefore reduced to WAIT, leaving parent-bound gaps of 44 and 89 servings.
+That discard is stronger than the official refuel rule requires. A Tanker held
+at its terminal-start cell is a deterministic public refuel station: a Patrol
+can wait there for one step, refill to full, and continue. The rendezvous is
+independent of opponent behavior and road timing.
+
+281 freezes the same two consumed penultimate roots, sparse cap and physical
+parent upper as 280, but replaces only the terminal lower construction. It
+extracts the canonical all-Jammed terminal geometry, holds every Tanker at its
+start cell, inserts one WAIT immediately before departing any such cell, resets
+the proof-side fuel capacity there, and retains the longest prefix fitting the
+all-Jammed day and fuel segments. The same geometry is recompiled and must
+exact-simulate/independently validate with identical official day score under
+uniform Jammed, Busy and Smooth roads. Since the actual terminal road state is
+public at day start, the policy may compile the known move durations; every
+mixed road state is no slower than all-Jammed, movement fuel is road-status
+independent, and the stationary one-step refuel is exact.
+
+Frozen manifest:
+`research/holdouts/ATTR-PENULTIMATE-STATIONARY-REFUEL-BOUND-281.csv`, SHA256
+`A7894FF1EEA050CD867AF0511702785A7F112CB9ADABAED43C98D91599E03F3E`.
+Pre-change probe source SHA256:
+`126AABACD8AF60AE5627C6782D81AD13B60014B35CB1E40D946C3EEC1E0536F5`.
+Frozen attribution probe source SHA256:
+`6EEBDDD2F0169453BE161A3B651D4F3A28AC9A5244B4F951A8B0C528044C0A60`;
+binary SHA256:
+`218C8B87CACFC3AC3BDB00A30FD6269B82394D6593D62B8C99C090330B50ADFA`;
+atomic runner SHA256:
+`1F99B55A9828A8AECBE802E05B840085C3CD8DC6F5FCC30E655C15C65A72A327`.
+This is consumed-evidence attribution only. The frozen gate requires zero
+invalidity/mismatch/road-score divergence and at least one candidate lower
+strictly above the unchanged physical parent upper before a fresh SCORE
+successor may open. If neither closes, the penultimate robust-bound family is
+closed; no capping or comparator weakening is allowed.
+
+Both cases completed atomically with exact simulator/validator agreement and
+identical terminal score under uniform Jammed, Busy and Smooth roads. Unlike
+280, no Patrol was discarded or truncated. The stationary construction used
+four and five exact one-step refuels. It lifted the final lower scores to
+`7/63/335` and `8/80/629`, improving 280 by 23 and 43 servings. The unchanged
+parent uppers remained `7/63/356` and `8/80/675`, so gaps of 21 and 46 servings
+still remained and the closure gate failed `0/2`.
+
+Complete log SHA256:
+`0FB0E23571548E0F7370FE6E0AF5760FF8E35D964BC7FC33DD88819C254DF461`.
+Canonical evidence:
+`research/evidence/ATTR-PENULTIMATE-STATIONARY-REFUEL-BOUND-281.md`.
+Verdict: closed negative, no source candidate, SCORE successor or holdout. The
+penultimate robust-bound family is now closed. Resume the BTC screen at row 21
+for fresh operational/counterexample evidence rather than tightening these
+consumed roots or replaying 183.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; production remains untouched; (2) nothing is
+deleted, so no replacement-equivalence proof is required.
+
+## Closed negative attribution — ATTR-PENULTIMATE-ROBUST-TERMINAL-BOUND-280
+
+Experiments 278 and 279 close exact and componentwise-nonincreasing own-road
+relations for the broad sparse current-day gains. The remaining legitimate
+question is narrower and stronger: on the penultimate day, can a strict sparse
+gain pay for every physically possible parent terminal day while the candidate
+still guarantees a valid terminal plan under every public road state? This is a
+full remaining-horizon certificate, not opponent prediction and not a repeat of
+the fixed realized-suffix or scenario-bound experiments 176/183/184.
+
+The two consumed penultimate roots are frozen before probe source change:
+`m-6134` day 8 and `m-6213` day 9. For each root, the probe runs the already
+bounded 50,000-state/64-route one-Patrol sparse frontier, exact-simulates and
+independently validates the best strict current-day candidate, then constructs
+the next and final state only from that candidate's exact final agents and
+public match configuration. All opponent state is removed. All roads are set to
+Jammed, the canonical engine produces a terminal plan, every Tanker is fixed to
+WAIT, and every Patrol whose geometric route can touch a stationary Tanker is
+also fixed to WAIT. The remaining plan must exact-validate under uniform
+Jammed, Busy and Smooth roads with identical official terminal-day score. That
+score is a sound candidate lower bound for every mixed road state because
+road improvement only shortens the same no-refuel geometric movement and cannot
+change Spot stock or the visited Spot sequence.
+
+The parent terminal upper bound is deliberately physical rather than
+scenario-based: lifetime distinct is at most total brand count; daily distinct
+adds at most total brand count; servings add at most
+`sum_spot min(stock, patrol_count)`, since each Patrol can receive at most one
+serving from each Spot on a day. The candidate closes the root only if its exact
+two-day lower score is lexicographically strictly greater than this parent
+upper score. No observed next-day opponent state or realized road state enters
+either side.
+
+Frozen manifest:
+`research/holdouts/ATTR-PENULTIMATE-ROBUST-TERMINAL-BOUND-280.csv`, SHA256
+`A7894FF1EEA050CD867AF0511702785A7F112CB9ADABAED43C98D91599E03F3E`.
+Pre-change probe source SHA256:
+`7E8D4BC7937BCE0E865E1615C0D8573C14CBAE1AC5A98EAE8A5E936528319BA9`.
+Frozen attribution probe source SHA256:
+`126AABACD8AF60AE5627C6782D81AD13B60014B35CB1E40D946C3EEC1E0536F5`;
+binary SHA256:
+`CAE28CFABB1E942A20865308A5B1DF8E7ACCFC8AB45CD307693538A6B17D0BBE`;
+atomic runner SHA256:
+`F2FA2E22E0DF645219442BF16AEB4855393625F3E476770DC364700A7B914999`.
+This is attribution only on consumed evidence; there is no holdout and no
+production source candidate. A separate fresh SCORE successor may open only if
+at least one root has a strict current gain, all three road-state validations
+agree, and the candidate lower strictly exceeds the parent upper. Otherwise the
+proof family closes without weakening either bound.
+
+Both frozen cases completed atomically with exact simulator/independent-
+validator agreement and identical terminal score under uniform Jammed, Busy
+and Smooth roads. The sparse current gain was real on both roots: `m-6134`
+improved `7/56/300 -> 7/56/302`, and `m-6213` improved
+`8/72/565 -> 8/72/571`. The robust terminal construction remained valid after
+filtering respectively four and six Patrol routes that could depend on Tanker
+contact. Its final lower scores were `7/63/312` and `8/80/586`.
+
+Neither lower closed the sound parent bound. Parent terminal upper scores were
+`7/63/356` and `8/80/675`, leaving tier-3 gaps of 44 and 89 servings. Thus the
+registered zero-weakened-bound gate closed `0/2`; no SCORE successor or holdout
+is authorized. Complete log SHA256:
+`63C9E311CEA8A451C23FBB339A9A5ED4907370EB94A65360317BAE0ECD919BBD`.
+Canonical evidence:
+`research/evidence/ATTR-PENULTIMATE-ROBUST-TERMINAL-BOUND-280.md`.
+
+Verdict: closed negative. This very coarse physical upper is safe but too loose
+to certify these gains. It must not be weakened after observation. A successor
+may only use a separately frozen, already sound state-coupled bound such as a
+strictly tighter movement-aware relaxation and must first prove that it is not
+a repeat of the inert 183 consumer.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; production is untouched; (2) nothing is deleted,
+so no replacement-equivalence proof is required.
+
+## Closed negative attribution — ATTR-TRAFFIC-NONINCREASING-SPARSE-YIELD-279
+
+Experiment 278 found zero exact-road sparse substitution on all six consumed
+roots. The next strictly separate question is whether an unrestricted
+one-Patrol current-day gain at least leaves componentwise no more own-road dwell
+than the parent. Experiment 273 measured that relation only inside a crossed
+two-Patrol terminal-permutation family; it found reachable traffic dominance
+but no strict score gain. It did not inspect the broad one-Patrol sparse supply
+that produced the material gains in 269/274.
+
+This attribution repeats the frozen six consumed roots and 50,000-state,
+64-route sparse frontier. A candidate qualifies observationally only when exact
+simulation and independent validation agree, lifetime/daily/servings are
+componentwise non-regressing with one strict component, and every own-road dwell
+is no greater than the recorded parent with at least one strict reduction. It
+records changed terminal, distance, Patrol-fuel delta and total road reduction.
+No plan is applied. Componentwise lower traffic is not treated as a complete
+certificate: adaptive opponents share the smoother roads, and the candidate
+still owns a different terminal state and two-day traffic history.
+
+Frozen manifest SHA256 is
+`41A331B72D197C102A620BB57F8893DEF4A53A69A914D30260D2EFA8611C9683`
+at
+`research/holdouts/ATTR-TRAFFIC-NONINCREASING-SPARSE-YIELD-279.csv`.
+The pre-change probe source SHA256 is
+`0CA860C2A5BB7588267A1A8F37FAE9200BA33CA00CE742BC783448B8D0B6FEA2`.
+The frozen telemetry probe source SHA256 is
+`7E8D4BC7937BCE0E865E1615C0D8573C14CBAE1AC5A98EAE8A5E936528319BA9`;
+the probe binary SHA256 is
+`07DB64EDD350A9F1B56D18818E64D5CA75EE7D12387DD3622F1BCB6C533ECCFD`;
+and the atomic runner SHA256 is
+`154F51E2CC05EC4C6460C0410632EA55E89C6B1DE59F68C77DB7423B37A0DCA4`.
+Only if at least three roots across both replays and at least two time strata
+yield a strict candidate may a separate read-only two-day footprint/state
+compensation attribution open. This result cannot directly open SCORE, change
+the traffic certificate or authorize opponent prediction. Zero partial,
+invalidity, simulator-validator mismatch and incumbent mutation is mandatory.
+
+Invariants: no designed functionality is removed, disabled, deferred or
+reduced; nothing is deleted. Production source, canonical `5000 ms` checkpoint,
+accepted continuation, official comparator, simulator, validator and all
+certificates remain unchanged. No holdout or routing by fixture metadata opens.
+
+All six roots completed atomically with exact simulator and independent
+validator agreement. Five roots had zero componentwise-lower own-road route.
+`m-6134` day 1 had exactly one such route, but it produced no strict score gain.
+Strict traffic-nonincreasing sparse gains and changed-terminal strict gains were
+therefore both `0/6`. No partial, invalidity, mismatch or incumbent mutation
+occurred. Complete log SHA256:
+`4C73B28BBE9718964361860D6813827DE1BBCDA4192B30DA13446E3374FEA3C2`.
+
+Verdict: closed negative. The open sparse gains alter both terminal state and
+traffic without an exact or componentwise traffic partial order. Reopen only
+through a full remaining-horizon proof that explicitly tolerates both changes;
+never predict opponents or route around consumed roots. Canonical evidence:
+`research/evidence/ATTR-TRAFFIC-NONINCREASING-SPARSE-YIELD-279.md`.
+
+## Closed negative attribution — ATTR-ROAD-EQUIVALENT-SPARSE-YIELD-278
+
+The two clean material BTC counterexamples remain `m-6134` (`7/63/351`)
+and `m-6213` (`8/80/647`). Experiments 269--274 prove broad exact-valid
+one-Patrol current-day sparse gains, but the accepted nonterminal certificate
+cannot consume them because their terminal state changes. Experiment 271 only
+tested crossed two-Patrol terminal permutations and found zero exact-road
+matches; it did not answer whether an unrestricted one-Patrol sparse gain can
+preserve the complete own-road footprint while changing only its terminal
+position/fuel. That distinction is necessary before attempting any new
+remaining-horizon representation: exact footprint equality removes traffic-
+history drift and isolates terminal reachability as the sole state gap.
+
+This attribution reuses only six consumed roots fixed before probe source
+change: days 1/4/8 of `m-6134` and days 1/5/8 of `m-6213`. For every Patrol it
+runs the already-bounded 50,000-state sparse resource enumerator, retains at
+most 64 routes, substitutes each route into the recorded exact-valid plan, and
+checks the exact simulator against the independent validator. It records every
+strict official-score gain whose complete aggregate own-road footprint is
+byte-equal to the parent, separately counting changed-terminal candidates and
+their terminal distance and Patrol-fuel delta. No candidate is applied and no
+closed-loop score is produced.
+
+The frozen manifest is
+`research/holdouts/ATTR-ROAD-EQUIVALENT-SPARSE-YIELD-278.csv`, SHA256
+`41A331B72D197C102A620BB57F8893DEF4A53A69A914D30260D2EFA8611C9683`.
+The pre-change probe source SHA256 is
+`13D12C134E095D5284CD5C5E9BE5A71EAD72E5DB6055E6A16ABA723372604D54`.
+The frozen telemetry probe source SHA256 is
+`0CA860C2A5BB7588267A1A8F37FAE9200BA33CA00CE742BC783448B8D0B6FEA2`;
+the probe binary SHA256 is
+`51A5881F99309AF134D5CE7F824E5D0DF57B6A25906134A110A99D93D2CA00B1`;
+and the hash-verifying atomic runner SHA256 is
+`B8672DD29082F4EC7CD816C65A063BFC79DE24D81935DDBD901CE2CAE39651C8`.
+Only if at least three roots spanning both replays and at least two time strata
+contain an exact-road, strict-score, changed-terminal witness may a separate
+read-only attribution investigate a sound all-remaining-days certificate.
+This result alone cannot open SCORE or relax terminal/fuel dominance. Zero
+invalidity, mutation, simulator-validator mismatch and ambiguous partial cases
+is mandatory.
+
+Invariants: no designed functionality is removed, disabled, deferred or
+reduced; nothing is deleted. Production source, canonical main/checkpoint,
+accepted continuation, official comparator, exact simulator, independent
+validator and every current certificate remain unchanged. No holdout is opened;
+no fixture, seed, map, fuel, player, role, bot or opponent dispatcher is added.
+
+All six roots completed atomically with the frozen hashes and no partial,
+invalidity, validator mismatch or incumbent mutation. The complete own-road
+footprint equality count was zero on every root, so exact-road strict gains and
+exact-road changed-terminal gains were also zero `0/6`. The breadth gate failed
+before terminal distance, Patrol fuel or remaining-horizon reasoning could
+matter. Complete log SHA256:
+`06A1BC836CEAA2201FA77C258F08B9FAD1DE8F8609A9CA0C892BBFB1398F7A6C`.
+
+Verdict: closed negative. The unrestricted sparse family does not supply the
+exact-road changed-terminal witness omitted by 271. Reopen only through a
+separately registered sound relation that explicitly carries and repairs a
+non-equal traffic footprint; do not change the frozen equality metric or treat
+componentwise lower traffic as equality. Canonical evidence:
+`research/evidence/ATTR-ROAD-EQUIVALENT-SPARSE-YIELD-278.md`.
+
+## Closed negative attribution — ATTR-PROTECTED-SPARSE-MASTER-TRACE-MODE-277
+
+Complete 276 development exposes a deterministic observational defect rather
+than a score regression. `RouteMaster` returns some exact candidates whose
+simulator result was intentionally produced with `captureTrace=false`; the 276
+suffix revalidated every candidate with `captureTrace=true` and then used the
+strict simulator-validator comparator, so a valid candidate with an empty
+stored trace was compared against a validator result containing a full trace.
+This necessarily reports a step-trace mismatch even when score, claims, road
+footprint and final state agree. The 21 failure days occur only after candidate
+work in multi-team suites and are consistent with that path. The separate 25
+deadline days remain real resource evidence.
+
+Attribution 277 reuses only the already-consumed 30-case development half of
+276; the 54-case holdout remains sealed and may not be inspected. It rebuilds
+the exact frozen 276 source with one operation-equivalent correction: choose
+the independent validator's `captureTrace` argument from whether the stored
+candidate simulation actually contains a trace. No plan generation, master
+cap, candidate order, comparator, certificate, deadline, fallback or accepted
+prefix changes. The run records the same causal suffix telemetry and cannot
+promote production.
+
+Gate for a separate fresh SCORE successor: all previously false trace-mode
+failures must disappear without invalidity, simulator-validator disagreement,
+deadline rollback, causal component loss or `5000 ms` inequivalence; at least
+three strict suffix takeovers must occur on formerly aborted days spanning at
+least two multi-team suites. Otherwise close this implementation boundary and
+do not rerun 276 or open its holdout. Any SCORE successor must freeze wholly
+fresh development and holdout seeds before source change.
+
+Invariants: no designed functionality is removed, disabled, deferred or
+reduced; nothing is deleted. The accepted checkpoint and continuation remain
+complete immutable prefixes with exact fallback; canonical main remains capped
+at `5000 ms`; authoritative public window only; official comparator, exact
+simulator, independent validator and transition/ledger certificate remain
+unchanged; no fixture, seed, map, fuel, player, role, bot or opponent routing.
+
+All 30 consumed development cases completed atomically. Matching trace capture
+removed 19 of the 21 suffix failure days (`21 -> 2`) and increased independently
+validated suffix candidates from 663 to 1,070. It nevertheless produced zero
+acceptance, zero causal gain and zero takeover breadth after evaluating 9,197
+routes, 124,602 master combinations and 1,742 candidates. Thirty suffix deadline
+days were recorded. Canonical `5000 ms` internal equivalence, exact fallback,
+dense-control inactivity and zero causal regression stayed clean. The apparent
+checkpoint-to-accepted-prefix result `14/16/0`, aggregate tier-3 `+308`, again
+belongs entirely to the accepted prefix rather than the trace-mode correction.
+
+The complete log SHA256 is
+`C0134973A04B12CDA4C15ECB4D797450B6B5A65BBEA1DE4A9974F23D1BA06DE1`
+and summary SHA256 is
+`BAA33350B2231C6D64E3F4789CB85DE473474518CD371AD793F8F6B76B733AA9`.
+The attribution binary SHA256 is
+`EEEC93D0D8FB27B9973F0CD7459710D3084CC5BFEC66010C1B1D747D599258C5`;
+the corrected `slack_refiner.cpp` SHA256 is
+`C2EF7F7C3567202041446BC1B986A290BFF0276BD6FC98E1E819054F2C92741F`.
+
+Verdict: negative attribution; no fresh SCORE successor. Clearing the false
+trace mismatch does not make the post-prefix sparse master productive, and the
+remaining two failures cannot satisfy the preregistered minimum-three takeover
+gate even under the impossible assumption that both become gains. The 276
+holdout stays sealed. Reopen only from a different public-state certificate or
+canonical planner stage, never by repeating this suffix, reserving time from an
+accepted prefix or weakening exact validation.
+
+## Closed development-gate-failed — SCORE-PROTECTED-SPARSE-MASTER-SUPPLY-276
+
+Experiment 275 failed its frozen development gate, but its complete
+evidence isolates a usable successor invariant. Sparse route supply produced
+`18/11/0` with aggregate tier-3 gain `+2010` on work-active cases across every
+fuel class, both role modes, players 8/9/10 and maps 16/24/32. Its only observed
+loss, `-48`, occurred on a dense-exact-supported case with zero sparse task,
+route, candidate, deadline or failure telemetry. Thus independent timed A/B
+arms cannot certify downside, while running a sparse worker beside canonical
+main also cannot prove the ordinary checkpoint was resource-independent.
+
+Candidate mechanism: leave the full canonical main/role/checkpoint and the
+complete accepted public-continuation pipeline unchanged as an authoritative
+prefix. Inside the same invocation, only after an accepted continuation phase
+has completed, reuse the exact sparse routes that phase already enumerated;
+perform no second enumeration and rerun no main solver. Build an additive
+portfolio containing the current certified incumbent route for every agent and
+the already-enumerated exact Patrol routes, without pruning the incumbent.
+Run the existing `RouteMaster` once with fixed 20,000-combination/32-candidate
+caps under the remaining public deadline. Exact-simulate and independently
+validate its outputs. A terminal result may replace the incumbent only on a
+strict official lexicographic gain; a nonterminal result additionally requires
+the existing transition and ledger dominance certificate. Deadline, failure,
+invalidity, certificate disagreement or no gain returns the exact incumbent.
+
+The candidate is default-off and causal in one historical run: each day records
+the complete pre-suffix parent/refined scores and plan hashes plus suffix work,
+acceptance, deadline and failure telemetry. The existing closed-loop record
+retains the canonical parent cumulative score and plan hash. Development has 30
+fresh cases and the sealed holdout
+54 fresh cases in
+`research/holdouts/SCORE-PROTECTED-SPARSE-MASTER-SUPPLY-276.csv`, SHA256
+`4F3F9A626945ED62B20D2606E475E5D98EF0B3E634A83C208C4898FCCD10AC34`.
+Seeds `9940000..9945101` and `9950000..9955103` were unconsumed at freeze.
+The matrix spans windows 5000/10000/15000, players 8/9/10, both role modes,
+all fuel classes, general maps 8--32 and multiteam 12/16/24/32.
+
+The scoped source archive SHA256 is
+`BD8539AB0D09FD338BB2720CD044B8CEF1B4A43BC7CED5F4B9ED22FF9BCFF39F`;
+the Windows historical binary SHA256 is
+`BCA44D602CF6799F458127BA23D76794C58520C7896E67DC809751CF8C418FCE`;
+the case-atomic runner SHA256 is
+`C4E3C3BE9BDC49910C92928527B0DBBE71DF31379514645CE52C176280B47053`;
+and the frozen summarizer SHA256 is
+`9942A2FC0EA38322D97B88D661CE84D1D6AB3FDEB79D08307CC331DAB42D5010`.
+The manifest validator confirms 30/54 cases, the full build and all three tests
+pass, and a non-gating fresh smoke verifies exact fallback telemetry with zero
+failure. The smoke also shows the suffix correctly rolls back when the accepted
+prefix exhausts the remaining public deadline; it has no gate authority.
+
+Development gate: every `5000 ms` case must be exact-equivalent in official
+score, plan hash, state and ledger with zero suffix work. Across longer windows
+there must be zero causal loss or component regression, at least six strict
+wins spanning both longer windows, both roles, players 8/9/10, at least three
+map strata and two fuel classes, with positive gain. All invalid, emergency,
+master-build, simulator/validator, certificate and deadline-rollback failures
+must be zero. Dense-exact-supported controls must report zero suffix work.
+Only a full pass may open the sealed holdout once; the metric and mechanism are
+then immutable.
+
+Invariants: no designed functionality is removed, disabled, deferred or
+reduced; the canonical checkpoint and all accepted continuation stages remain
+complete prefixes and exact fallbacks. Nothing is deleted, so no replacement-
+equivalence claim applies. Canonical main remains hard-capped at `5000 ms`;
+only authoritative public time may run the suffix. Same existing sparse graph,
+RouteMaster, official comparator, simulator, validator and transition/ledger
+certificate; no fixture, seed, map, fuel, player, role, bot or opponent routing;
+no threshold tuning and no direct sparse-plan takeover.
+
+Development completed exactly 30 result rows, 30 matching `case_complete`
+markers and one `run_complete` marker. The complete checkpoint-to-accepted-
+continuation comparison was `15/15/0` with aggregate tier-3 `+371`, but those
+gains belong entirely to the already-accepted continuation prefix and are not
+caused by this suffix. The suffix enumerated 8,777 routes, evaluated 185,343
+master combinations, emitted 1,777 candidates and independently validated 663,
+yet accepted zero takeover and produced exact causal delta `0/0/0` with no
+activation breadth. It also recorded 25 deadline days and 21 suffix/public-
+window failure days. Exact `5000 ms` internal equivalence, dense-control
+inactivity, fallback identity and zero causal component regression all passed;
+the positive-gain, takeover-breadth and zero-safety/failure gates failed.
+
+The frozen development log SHA256 is
+`F0B1106123E763A900F820A529B13218BE551683619A65A73919524FED529333` and
+the summary SHA256 is
+`12557C58059953011ADDC2C8FD4CA1C7DCB6410AEB8352FF7849D65E7172F4C8`.
+The sealed 54-case holdout remains unopened. The complete scoped source,
+harness and test changes were reverted exactly; canonical production 258 is
+unchanged.
+
+Verdict: close 276 in development. This is not a zero-loss rejection: the
+candidate had zero causal loss, but its mechanism was inert and operationally
+unsafe after the complete accepted prefix. Reopen only from a fresh explicit
+attribution of the 21 suffix failures or a genuinely new state-coupled
+certificate that can exploit sparse supply without reducing, reordering or
+reserving time away from any accepted prefix. Do not weaken the certificate,
+move this same suffix earlier, tune to the consumed development cases or open
+its holdout.
+
+## Closed development-gate-failed, causal-inconclusive — SCORE-SPARSE-CANONICAL-MASTER-SUPPLY-275
+
+Attribution 274 passes its frozen breadth gate 6/6 across both clean material
+BTC losses and all early/middle/late strata: strict sparse gains exist, but the
+changed route is absent even from a deadline-free reservation-free superset of
+the canonical mode-7 portfolio. Earlier experiments 190 and 248 forbid feeding
+an unprotected sparse whole-plan winner directly into the closed loop; 250/251
+confirm the resulting future-state downside. Experiment 249 requires the
+ordinary canonical candidate set and downstream selection to remain active.
+
+Candidate mechanism: preserve the complete ordinary portfolio and initial
+master candidate set byte-for-byte. Only when dense exact orienteering is
+structurally unsupported, use remaining main-search time to enumerate the
+existing sparse resource frontier at fixed 50,000 states and at most 32 routes
+per Patrol, under the same absolute canonical deadline. Append exact-timeline
+sparse routes to a copy of the route portfolio without pruning or replacing any
+ordinary column. Run the existing `RouteMaster` on that augmented copy with a
+fixed 20,000-combination cap, merge only its additional candidates into the
+already-preserved ordinary candidate population, then continue through the
+unchanged ALNS, F0/profile comparator, exact simulator, independent validator
+and transition-certificate path. Deadline, failure or no additional valid
+candidate leaves the complete ordinary set intact. There is no direct sparse
+takeover and no second solver.
+
+The candidate is default-off in one historical binary. Development is 30
+fresh paired fixtures and the sealed holdout is 54 fresh pairs, frozen in
+`research/holdouts/SCORE-SPARSE-CANONICAL-MASTER-SUPPLY-275.csv`, SHA256
+`51AC32FC032F10122FB4F0C98997CA5A892DEB845AC653AA192B0F568720A021`.
+Seeds `9920000..9925101` and `9930000..9935103` were unconsumed at freeze.
+The matrix spans official players 8/9/10, fixed/deadline roles, all fuel
+profiles, 8/12/16/18/20/24/30-spot densities and general 8--32 maps.
+
+The default-off implementation and evidence machinery are frozen before the
+development score run. Source archive SHA256 is
+`085C82DE94181F519AE54D405BF822DDC5422D35967C97ED9B4FD3CC34C6443F`;
+Windows historical binary SHA256 is
+`2406AF7D707B889689F27950B21A13FBFE3C7546376799417C9E96756A89DFE0`;
+case-atomic paired runner SHA256 is
+`D5CE98DCD07574FF71855EFBFDB1CDB26E55D68DF661F0B56920B2E9B03606F2`;
+and summarizer SHA256 is
+`4BFDFFCAAFD7A194678A7DC8CCC2F5D5D9627FF8D2EAC277B4312F95F38D2914`.
+The manifest validator confirms exactly 30 development and 54 sealed holdout
+cases. Full build and all three tests pass. A non-gating smoke case shows the
+candidate path produces exact-valid additional candidates while a dense-exact
+control reports zero sparse work; neither smoke result enters the gate.
+
+Development gate: zero invalid, emergency, validator, checkpoint or sparse
+supply failure; no tier-1 or tier-2 loss; at least six paired wins spanning both
+role modes, players 8/9/10, at least three map strata and two fuel classes;
+losses at most two, worst tier-3 loss no worse than `-5`, and aggregate gain at
+the first differing tiers must exceed total loss by at least fourfold. Cases
+where dense exact support is available must report zero sparse work and no
+candidate-specific safety difference. Only if development passes may the
+sealed holdout open once. Holdout requires positive broad gain, no component
+loss concentrated by a public stratum, bounded downside and zero safety failure;
+metric and mechanism may not change after opening.
+
+Invariants: canonical main/role/complete checkpoint remains capped at `5000
+ms`; ordinary columns and candidates are never removed, reprioritized or
+reduced; all new routes use the existing exact sparse state graph and fixed
+caps; official lexicographic score; same existing master, ALNS, F0/profile,
+simulator, validator and certificate; no replay/map/seed/fuel/player/role/bot/
+opponent dispatcher or threshold tuning. This removes, disables, defers or
+reduces no designed functionality; nothing is deleted. If deletion were
+proposed there is no proven active equivalent, so deletion is forbidden.
+
+Development completed atomically with 30 paired cases and official W/T/L
+`18/11/1`. Every first difference was tier 3, aggregate delta was
+`0/0/+1962`, total gain tail was `+2010` with maximum `+279`, and the single
+loss was `-48`. Wins covered both roles, players 8/9/10, all four fuel classes
+and map strata 16/24/32; dense-exact controls were inert; all invalid,
+emergency and registered failure counters were zero. However, the frozen gate
+required the worst tier-3 loss to be at least `-5`, so development did not
+qualify to open the sealed holdout. Development log SHA256 is
+`E4AB588C42574DF5C753320395AE0F904109012D8931391C04015D1113FCC652`
+and summary SHA256 is
+`20E3AD96990DFA93D68BC4898E204A59B223398C5D0C2F3A241FCDFE6A65EBAF`.
+
+The loss is `multiteam-12` seed `9921100`: parent `6/24/192`, candidate
+`6/24/144`. Crucially the candidate reports zero sparse tasks, routes,
+candidates, deadline days and failures in that dense-exact-supported case.
+Therefore it is not evidence that a sparse route changed the plan; it is a
+large independent timed-arm/no-op variance and makes this paired design unable
+to certify bounded downside. It does not authorize ignoring the frozen gate or
+routing around the fixture. The complete scoped candidate source and harness
+diff was reverted exactly; canonical production 258 remains unchanged.
+
+## Closed positive attribution — ATTR-SPARSE-CANONICAL-STAGE-MEMBERSHIP-274
+
+Two clean material BTC losses remain open: `m-6134` at `7/63/351` versus
+`413/403/398`, and `m-6213` at `8/80/647` versus `867/847/846`. Replay audit
+shows that on every day the selected candidate already has the best immediate
+official score among all audited candidates, while the canonical exact
+orienteering path reports zero supported agents, bundles and states. The
+unchanged sparse enumerator nevertheless finds a strict one-agent current-score
+gain at every nonterminal root. This localizes the next question before final
+selection but does not yet distinguish route generation from master retention.
+
+This attribution runs on six consumed roots fixed before probe source change:
+`m-6134` days 1, 4 and 8 and `m-6213` days 1, 5 and 8. It first obtains the
+best exact-valid sparse one-agent mutation at the frozen 50,000-state/32-route
+cap. It then constructs a deadline-free superset of the canonical mode-7 route
+portfolio: paths 4, columns 16, target spots 12, escorts 16, seed plans 2,
+harvest extensions and uncached targets enabled, exact harvest enabled, sources
+4, depth 4, and the recorded plan supplied as a seed. Reservations are omitted,
+which can only enlarge admissible supply. The probe records whether the changed
+agent route is byte-identical to a retained column and, if so, whether the full
+one-agent mutation appears in a deadline-free 40,000-combination/32-candidate
+master result. It never applies the sparse plan.
+
+Gate: if at least three of six roots spanning both replays and at least two
+early/middle/late strata contain a strict sparse gain whose changed route is
+absent from this route-generation superset, a separate SCORE successor may be
+registered on fresh official-domain seeds to add sparse route columns inside
+the existing single canonical master. If routes are present but full candidates
+are absent, the successor must instead target canonical master retention. If
+the candidates are present, route supply is closed and attribution must move to
+the later F0/profile boundary. Consumed roots have no promotion authority.
+
+Invariants: official lexicographic score; exact simulator plus independent
+validator; unchanged canonical `5000 ms`; no threshold tuning, fixture routing,
+post-master takeover or weakening of transition certificates. This removes,
+disables, defers or reduces no designed functionality; nothing is deleted and
+the probe is observation-only.
+
+All six cases completed atomically with zero partial or operational failure.
+Every root produced a strict one-agent serving gain, respectively `+3`, `+3`,
+`+2`, `+7`, `+8` and `+8`. The changed route was absent 6/6 from the
+deadline-free reservation-free canonical portfolio superset, which retained 16
+columns per agent. Exact orienteering supported zero agents and emitted zero
+bundles in every case. The full mutation was therefore absent from every
+32-candidate master set. Four master searches were incomplete, but this is
+downstream of the already-proven route absence and cannot change attribution.
+
+Verdict: positive attribution, breadth gate 6/6 across both replays and all
+early/middle/late strata. The earliest demonstrated boundary is route-column
+supply, not master retention, F0 or final selection. A separate SCORE successor
+may now use wholly fresh official-domain development and sealed holdout seeds to
+add sparse columns through the existing canonical master path while preserving
+the complete ordinary candidate set. It must not force current-day winners or
+reuse the consumed roots. Probe source, binary, runner, complete log and report
+SHA256 are respectively
+`13D12C134E095D5284CD5C5E9BE5A71EAD72E5DB6055E6A16ABA723372604D54`,
+`DF182A9D4366E7D01175FA1B126E9367A09708E84532CA6C216C2DA5C94E370F`,
+`CBCA63D525B8F6788D60A80B6AD6430530CB8F9AE2B2FEACB56DB0AD679FDEE4`,
+`C922F0312C3DDCF53F94C7988BD8F91674F22AFB0CE3FB2DD94EC130945EFECD`
+and `6ED92A9C20DEB85B185D11FFCF949CCB6F84C8BC37E70C1D761B52C8A178CA55`.
+
+## BTC 30-match operational screen — rows 13--16 classified, row 17 authorized
+
+Qualifying hard three-bot match `m-5836` used six days, a 24x24 map,
+60 steps/day, six agents, twenty-four spots, eight brands, default fuel and a
+server-published `10000 ms` response window. Canonical accepted production 258
+submitted the official score `8/48/184`, exactly equal to the first-place bot's
+`8/48/184`. BTC displayed our team as rank 2 only because its practice-table
+tie-break used cumulative response time (`36644 ms` versus `4100 ms`), after
+all three official score tiers were equal. This is not a new gameplay-score
+gap and does not authorize a SCORE experiment or source change.
+
+Operational evidence is clean: all six HTTP submissions returned 200 and were
+accepted; exact replay validation and the independent validator agree on all
+six days; all five authoritative transitions reconcile; six session
+checkpoints were preserved; maximum action response was `6771 ms`, maximum
+main decision timing was `2921 ms`, and every canonical checkpoint remained
+bounded by `5000 ms`. The public continuation was authorized on all six days
+and made one exact-valid terminal gain (`8/37 -> 8/38` servings on day 6).
+There was no invalid, emergency, deadline, continuation, sparse, midday or
+terminal-marginal failure. Replay SHA256 is
+`915430DF8B980A74C4E564E7ED9DACFBCE8797957020C181B5D7BB11A181CB7B`.
+
+Verdict: close row 13 as an official-score tie with a non-score latency
+tie-break, not as a solver regression. The screen may continue to qualifying
+row 14 with a fresh official-domain configuration. This closure removes,
+disables, defers or reduces no designed functionality; nothing is deleted.
+
+Qualifying row 14, hard three-bot match `m-5839`, then completed first at
+`6/30/109`; the nearest bot reached only `6/27/76`, so production won at the
+second official tier. Its configuration was five days, 16x16, 72 steps/day,
+five agents, eighteen spots, four brands, low fuel and public `10000 ms`.
+All five submissions returned HTTP 200 and were accepted; replay-check confirms
+five exact-valid days and all four authoritative transitions reconciled. The
+maximum action response was `5139 ms`, maximum main decision timing was
+`2694 ms`, and there was no invalid, emergency, deadline or continuation
+failure. The terminal continuation improved day 5 from 29 to 30 servings with
+one exact-valid marginal acceptance. Replay SHA256 is
+`FC45E5A477296256CCE1A6EF35EDF13F2A2CF5A551777CA26672CA766849A9C8`.
+Row 14 therefore closes cleanly and authorizes qualifying row 15; this rank-1
+result is an operational/failure-gate pass, not promotion evidence.
+
+Qualifying row 15, hard three-bot match `m-5845`, completed first at
+`6/42/138`; the closest bot reached `6/42/132`, so production won by six
+servings at the third official tier. Its configuration was seven days, 12x12,
+48 steps/day, four agents, twelve spots, four brands, medium fuel and public
+`10000 ms`. All seven submissions returned HTTP 200 and were accepted;
+replay-check confirms seven exact-valid days and all six authoritative
+transitions reconciled. Maximum action response was `4639 ms`, maximum main
+decision timing was `3377 ms`, and there was no invalid, emergency, deadline
+or continuation failure. Replay SHA256 is
+`DE2D899DCFDB70A3B0E6428C7E0A11C1E817F47E496EC1ED6921B9D8EAFDD4C2`.
+Row 15 closes cleanly and authorizes qualifying row 16; this remains an
+operational/failure-gate pass rather than promotion evidence.
+
+After row 16 attribution and rejected development experiment 268 closed, the
+unchanged accepted-258 production screen resumed at qualifying row 17,
+`m-5964`. The hard three-bot configuration was ten days, 8x8, 64 steps/day,
+three agents, six brands, high fuel and public `10000 ms`; the practice server
+materialized eight valid spots from the requested twelve. Production ranked
+first at `6/60/130`; every bot reached `6/60/92`. All ten HTTP actions were 200
+and exact-valid, both validators agree, all nine authoritative transitions
+reconcile, maximum response was `1568 ms`, maximum canonical main timing was
+`1410 ms`, and there was no invalid, emergency, checkpoint, continuation,
+midday, sparse or terminal-marginal failure. Replay SHA256 is
+`6105BC8EDA91491B70D273E33D5C3146037D7452A21BBC866BBB1B3E292C6DD5`;
+the freshly rebuilt canonical BTC binary SHA256 is
+`0653B59DB009E3797C850EFFA3865BC21DF377120404FCBB751BD227F462F607`.
+Row 17 closes as an operational/failure-gate pass and authorizes row 18; its
+rank does not provide promotion evidence.
+
+Qualifying row 18, hard three-bot `m-5968`, then exercised the opposite large-
+map low-fuel edge: eight days, 32x32, 128 steps/day, seven agents, thirty-two
+spots, eight brands and public `10000 ms`. Production ranked first at
+`8/64/335`; the closest bot reached `8/64/300`. All eight actions were HTTP 200
+and exact-valid, both validators agree, all seven transitions reconcile,
+maximum response was `7143 ms`, maximum canonical main timing was `3375 ms`,
+and four certified public-continuation improvements were accepted with zero
+safety or registered failure. Replay SHA256 is
+`5E67A00225CD94DCEC1B3F6C9FD6C79AE51A3CC92E630FFAF46B22333180A76A`.
+Row 18 closes as an operational/failure-gate pass and authorizes row 19; it is
+not promotion evidence.
+
+## Closed attribution — ATTR-TRAFFIC-DOMINATING-AGENT-PERMUTATION-273
+
+Experiment 271 required exact own-road footprint and found zero relation matches
+among 98,749 exact-valid crossed plans. Exact equality is sufficient but not the
+only monotone traffic relation. Under the official two-day aggregation and fixed
+thresholds, a candidate own-road footprint that is componentwise no greater
+than the shadow footprint cannot make any future road state worse for the same
+opponent traffic. Smooth/Busy/Jammed road fuel cost is identical while movement
+steps are monotone, so an actual smoother-road transition can emulate the shadow
+timing by inserting the known step difference as `WAIT` before each affected
+move. This is a public-state capability relation, not realized-opponent traffic
+prediction or a fixture dispatcher.
+
+The attribution reuses only the six consumed roots fixed before probe change:
+`m-6134` days 1,4,8 and `m-6213` days 1,5,8. It repeats the frozen 50,000-state,
+32-route crossed Patrol-terminal enumeration, but counts a candidate only when:
+its own-road footprint is componentwise no greater with at least one strict
+reduction; a non-identity role-preserving mapping gives every logical shadow
+agent the same terminal cell/kind and no-lower mapped Patrol fuel; current
+official components do not regress and at least one is strict; and exact
+simulation agrees with the independent validator. The probe never applies a
+candidate.
+
+A separate SCORE successor on wholly fresh seeds is permitted only if at least
+three of six roots certify, spanning both replays and at least two time strata,
+with zero mutation, invalidity, mismatch or mapping ambiguity. Such a successor
+must own one canonical persistent mapping, shadow ledger and two-day shadow
+traffic history, compile shadow actions to authoritative smoother-road timing
+with pre-move waits, and fail closed on any exact reconciliation failure. This
+attribution alone has no promotion authority and may not relax those obligations.
+
+Invariants: componentwise non-increasing own-road history with one strict
+reduction; same role/terminal under a persistent bijection; mapped Patrol fuel
+dominance; official current score non-regression with strict gain; exact
+simulator and independent validator; canonical `5000 ms`; no opponent forecast,
+seed/map/fuel/role/player/bot/match dispatcher. No designed functionality is
+removed, disabled, deferred or reduced; nothing is deleted.
+
+All six cases completed atomically. Across 186 tasks, 5,697 retained routes and
+98,749 crossed exact-valid plans, the independent validator reported zero
+mismatch. Twenty plans had componentwise lower own-road footprint with at least
+one strict reduction, spanning the early root of each replay. Twelve of those
+also preserved the non-identity mapped terminal/role state with no-lower mapped
+Patrol fuel. None of the twelve strictly improved an official score component,
+so `traffic_certified=0` and the registered breadth gate failed 0/6. There were
+zero incumbent mutations, invalid plans or operational failures.
+
+Verdict: rejected attribution; no production candidate, SCORE successor or
+holdout. Componentwise traffic dominance is reachable but does not supply a
+strict score-improving mapped plan on either material counterexample. Probe
+source, binary, runner and complete-log SHA256 are respectively
+`5AD4C7DF2AD6196B8B152138D644BB0709E5D61783BEA727B842D4CB3DD1EC26`,
+`A5A64B8361C2D6DF4EE02019388834DE85606EF5C9145665532E9D55DA1E301B`,
+`D2939308D54B53DE23D61733A0430A2A34500C417FC3C69F1D5E5FBB8EF8E528`
+and `A6B458B46F62A15C4A9486F88172A9F7A69C1963AE9ACD7660C95A4F150DBD3A`.
+Reopen only from a different public-state partial order or canonical planner
+stage that produces strict official gain; do not widen caps or tune these
+consumed roots.
+
+## Closed attribution — ATTR-OFFROAD-SEGMENT-SUBSTITUTION-272
+
+Experiments 269--271 establish two facts on independent clean multiteam losses:
+there is abundant exact-valid sparse serving supply, but arbitrary whole-day
+route replacement changes aggregate road footprint before any terminal/fuel
+relation can certify it. The existing protected wait-detour generator preserves
+traffic by construction, yet it can replace only one `WAIT` at one cell with a
+round trip to the same cell. It cannot exploit slack distributed across a short
+sequence of moves and waits whose start and end cells differ.
+
+The new attribution enumerates a strictly broader but still state-preserving
+candidate family. For each incumbent Patrol plan, construct exact action
+boundaries. Consider contiguous spans of at most eight actions that contain at
+least one positive `WAIT`, whose complete original occupancy is off-road, and
+whose elapsed duration is positive. Replace the span by two Pareto paths through
+one Spot, also entirely off-road, joining the exact same boundary cells; fill
+unused duration with `WAIT` at the ending cell. The replacement must use no more
+Patrol fuel than the original span. All other agents/actions remain byte
+identical. Thus the whole-day terminal cell and timing are identical, Patrol
+fuel is no lower, and aggregate road footprint is identical by construction;
+the unchanged exact simulator, independent validator and protected transition
+certificate remain authoritative.
+
+Development is attribution-only on six roots fixed before probe change:
+`m-6134` days 1,4,8 and `m-6213` days 1,5,8. Search limits are frozen at eight
+actions per segment, at least one wait step, four Pareto paths per leg and 64
+labels per cell. A separate SCORE successor on fresh seeds is permitted only if
+at least three of six roots yield a strict protected official-score improvement,
+spanning both replays and at least two early/middle/late strata, with zero
+incumbent mutation, invalid plan, validator mismatch or certificate failure.
+Consumed replay results have no promotion authority.
+
+Invariants: exact segment boundary cell and duration; entirely off-road original
+and replacement occupancy; replacement fuel no greater than the original;
+whole-plan exact road footprint; same-agent terminal position/kind and Patrol
+fuel dominance; componentwise official non-regression with one strict gain;
+exact simulator and independent validator; canonical `5000 ms`; no replay,
+map, seed, fuel, bot, opponent or match-ID dispatcher. The attribution applies
+no plan and changes no production source. It removes, disables, defers or
+reduces no designed functionality and deletes nothing.
+
+All six cases completed atomically. The probe considered 16,672 incumbent
+spans and found 260 eligible off-road spans containing wait slack. It evaluated
+352 path pairs and generated 136 distinct plans; every plan was exact-valid,
+independently validator-valid and road-footprint identical. Of those, 135 also
+preserved same-agent terminal state with no-lower Patrol fuel. None strictly
+improved an official score component, so the breadth gate failed 0/6 with zero
+mutation, invalid plan, mismatch or operational failure.
+
+Verdict: rejected attribution; no source candidate, SCORE successor or holdout.
+The short off-road substitution family is reachable and safe but supplies no
+new score beyond the accepted refiners on these material roots. Probe source,
+binary and runner SHA256 are respectively
+`8158F5517102DACF5F45608B6659118218AAFCFF974A2F9C8D17DF304D3EE7EC`,
+`C4AAD641DDB102C39FB002862F212CA91277300AD9159BA81A0EF975AC72093B` and
+`224EEE82BDD5FD9357A7C42D49BEF49D41F756E4A72291F30AF980BD8D2866BF`;
+complete log SHA256 is
+`1A1A476774600D286944A9F68F8A2669A9DFEFA71839170AB1C9DA25D53D7520`.
+
+## Closed attribution — ATTR-FUEL-DOMINATING-AGENT-PERMUTATION-271
+
+Experiments 269 and 270 independently expose exact-valid changed-state serving
+gains on every probed nonterminal patrol/day root, but the current identity
+certificate accepts none. The earlier 252--254 permutation family proved that a
+persistent role-preserving logical-to-physical mapping is sound, yet required
+the mapped candidate state to equal the shadow state exactly, including fuel.
+That equality is stronger than necessary: for a fixed role and terminal cell,
+additional Patrol fuel strictly contains the shadow Patrol's future action
+capability. This is a fresh state-coupled invariant, not a retry of the consumed
+254 holdout or a relaxation of road/position safety.
+
+This attribution uses only six preregistered roots from the two consumed BTC
+counterexamples: `m-6134` days 1,4,8 and `m-6213` days 1,5,8. For every unordered
+Patrol pair, enumerate sparse routes to the other Patrol's incumbent terminal
+with 50,000 settled states and 32 retained routes per directed task, cross the
+two route pools, exact-simulate and independently validate. A candidate is
+certified only when: road footprint is exactly identical; official current-day
+components do not regress and one is strict; a non-identity role-preserving
+bijection maps every shadow terminal to the candidate terminal; and mapped
+candidate Patrol fuel is componentwise at least the shadow fuel. At least one
+mapped Patrol must have strict fuel surplus, so candidates already covered by
+the exact-fuel 252 certificate do not count as new yield.
+
+This is attribution only and never applies a plan. A separate SCORE successor
+is allowed only if at least three of six roots yield a strict-fuel certificate,
+spanning both replays and at least two of the early/middle/late strata, with zero
+incumbent mutation, invalid/validator mismatch, mapping ambiguity or probe
+failure. Otherwise 271 closes without source candidate or holdout. No result
+from these consumed replays may promote production.
+
+Invariants: exact road footprint; exact role and terminal under a persistent
+bijection; componentwise non-lower mapped Patrol fuel; official lexicographic
+score; exact simulator and independent validator; canonical `5000 ms`; no
+replay/map/seed/fuel/bot/opponent/match-ID dispatcher. This work removes,
+disables, defers or reduces no designed functionality. Nothing is deleted, so
+no replacement-equivalence claim is required.
+
+Frozen research probe source SHA256:
+`606E01A810551B73A86212491BB002F480CBC5B5953B39660A28F3DDE2CA8561`.
+Frozen research probe binary SHA256:
+`9C4503A090B32B05C2B69404F4B61AC1803AB93FFDC891E6FDC85BBE36F5CC0C`.
+Frozen atomic runner SHA256:
+`857FAA2FE7D5673EE7A3A64DE5E358E7F131DED4D4BCABEF1CCDD11642579754`.
+
+All six preregistered roots completed atomically. Across 186 directed tasks,
+the probe retained 5,697 sparse routes and exact-simulated 98,749 crossed
+pairs. All 98,749 were exact-valid and independently validator-valid, with
+zero incumbent mutation, invalid plan, mismatch or operational failure. Exact
+aggregate road-footprint equality nevertheless held for 0/98,749 candidates,
+so mapped fuel dominance, exact-fuel certification and strict-fuel-surplus
+certification all yielded zero. The breadth gate therefore failed 0/6 before
+terminal/fuel comparison could become relevant.
+
+Verdict: rejected attribution; no source candidate, SCORE successor or holdout.
+The earliest proven blocker is aggregate road-footprint identity, not exact
+mapped fuel. Complete log SHA256 is
+`DA59B8235D1E6ECFC5D8A2CACD0CDC2488D85FEF40C8F3E356F5FC4EF508DB71`.
+Reopen only from a genuinely new sound public-state relation or candidate
+generator that preserves the existing certificate by construction; never
+weaken the certificate or retune the consumed 254/269/270 evidence.
+
+## Closed attribution — ATTR-MULTITEAM-HIGH-FUEL-LONG-HORIZON-THROUGHPUT-270
+
+Qualifying row 20, hard three-bot `m-6213`, is a second independent material
+gameplay counterexample. The authoritative setup is ten days, 24x24,
+144 steps/day, eight agents, twenty-four materialized spots, eight brands,
+high fuel 432, traffic thresholds 5/10 and public `10000 ms`. Canonical
+accepted production 258 selected one-tanker mask 32 and finished fourth at
+`8/80/647`; the bots reached `8/80/867`, `8/80/847` and `8/80/846`. The first
+official difference is a 220-serving tier-3 deficit to the winner.
+
+All ten submissions returned HTTP 200 and were exact-valid, both validators
+agree, all nine authoritative transitions reconcile, stderr is empty and
+maximum action response was `8014 ms`. Daily production servings were
+60,60,64,66,60,62,65,65,63,82. Nonterminal continuation dual-validated its
+plans but accepted zero takeover; days 1 and 3 reached the public continuation
+deadline without invalidity or fallback. Replay SHA256 is
+`FC3D31AC086D2F7ABE8FCBB00802648EAB9675C8C7F86891AC45A35C7AF0F5DA`.
+
+The 30-match screen stops before row 21. The first read-only discriminator is
+role composition: replay only the live one-tanker mask 32 and all-patrol mask 0
+closed-loop at canonical `5000 ms`, forward and reverse. High fuel is a public
+state variable, but it cannot authorize a new fuel threshold or all-patrol
+dispatcher unless the gain is material/order-stable and a fresh general
+mechanism can bound the already-recorded high-fuel downside of role changes.
+The consumed replay has attribution authority only; no source change, holdout
+or promotion is authorized.
+
+Invariants: official lexicographic score; exact simulator and independent
+validator; canonical main/role/checkpoint cap `5000 ms`; authoritative public
+deadline; no replay/map/seed/fuel/bot/opponent/match-ID or role-mask dispatcher.
+This work removes, disables, defers or reduces no designed functionality.
+Nothing is deleted.
+
+The frozen atomic role runner is
+`research/probes/run_multiteam_high_fuel_long_horizon_throughput_270_role.ps1`,
+SHA256 `92B988C7FDF30AB05FB30ED7E05F8C6A8DC4ED9574F9C4AD7A18D214E965B9A0`.
+
+The role discriminator completed 4/4 atomic cases with log SHA256
+`D02C3E865C5FAA593401C01F8E2AFEE9E9E04ED04F672CBA062BD54F10EBC8E8`.
+All-patrol is order-stable at `8/73/415` and loses the second official tier.
+The live one-tanker mask 32 is order-stable at `8/80/634`. Therefore the
+high-fuel loss is not caused by an excessive tanker count, and no role change
+or high-fuel dispatcher is authorized.
+
+The next and only registered discriminator is the unchanged accepted-258
+fixed-operation sparse probe on the nine recorded nonterminal patrol/day roots:
+days 1--9 crossed with patrol agents 0,1,2,3,4,6,7, fixed budget 50,000 and cap
+64. It must report unrestricted gains and protected same-terminal/fuel/road
+footprint gains separately. If protected gain is zero across all 63 roots, this
+experiment closes as a second independent material instance of the known
+state-coupled certificate boundary; it does not authorize weakening the
+certificate, replaying rejected 229--232/268, or opening a holdout. A separate
+SCORE successor is permitted only if at least one exact protected gain exposes
+a fresh executable mechanism.
+
+The frozen atomic sparse runner is
+`research/probes/run_multiteam_high_fuel_long_horizon_throughput_270_sparse.ps1`,
+SHA256 `4E9585B8DD65C334E03B5DF1C53B34A5961200355E7EDCC48DFDDCB10EAA228D`.
+
+The sparse discriminator completed 63/63 atomic roots with log SHA256
+`A1B2A7AB3205150C6E37E445548B4039EBAA86E6C1D12CB5EC1C71D3148AD605`.
+Every patrol/day root exposed an exact-valid unrestricted changed-state gain;
+the per-day maxima were `+7,+4,+5,+6,+8,+6,+4,+8,+6` servings. All roots
+settled exactly 50,000 states, retained 5,357 valid routes and 1,521 protected
+masks in total. Protected same-terminal/fuel/own-road-footprint gain was zero in
+all 63 cases. There was no invalid, emergency, failure or rollback marker.
+
+Verdict: closed without source candidate or holdout. This independently
+confirms a material systematic state-coupled throughput gap; it is not role,
+protocol, latency or ordinary bot variance. A second recorded-state closed-loop
+probe is intentionally not run because 269 already established persistence for
+this changed-state class while also proving that consumed-replay road states
+cannot supply authoritative alternate multi-team traffic. Repeating it would
+add no sound certificate. No existing rejected 229--232/268 mechanism may be
+replayed or weakened. Reopen only for a genuinely new public-state partial
+order or full remaining-horizon certificate on fresh evidence. Accepted 258
+remains operationally valid but cannot be signed as the final competition build
+while this material residual remains unresolved.
+
+Evidence report SHA256:
+`4099EFA0CE1BC815E6ED2B9854DC2E53D428FAE22A54E81C7EF8EEAF8A367827`.
+
+## Closed attribution — ATTR-MULTITEAM-LONG-HORIZON-MEDIUM-SERVING-DEFICIT-269
+
+Qualifying row 19, hard three-bot match `m-6134`, is a fresh material gameplay
+counterexample. The authoritative setup is nine days, 16x16, 96 steps/day,
+six agents, sixteen materialized spots, seven brands, medium fuel 192,
+traffic thresholds 5/10 and public `10000 ms`. Canonical accepted production
+258 used live one-tanker mask 8 and finished fourth at `7/63/351`; the three
+BTC bots reached `7/63/413`, `7/63/403` and `7/63/398`. Both higher official
+tiers are tied, but the 62-serving deficit to the winner is material and is
+not a response-time tie-break.
+
+Operational evidence is clean: all nine submissions returned HTTP 200 and
+were exact-valid, both validators agree, all eight authoritative transitions
+reconcile, stderr is empty, maximum action response was `6836 ms`, and every
+canonical checkpoint remained capped at `5000 ms`. On days 1--8 the protected
+public continuation generated and dual-validated 1,322 complete plans after
+2,880 mid-day routes but accepted zero nonterminal takeover; daily servings
+remained 36--39. On day 9 the accepted terminal path improved the parent 37 to
+the submitted 51 servings with four protected acceptances, including two
+terminal-marginal acceptances. Replay SHA256 is
+`9A0AADF8A2DCA35C3C3E6B77FD337A3352085D9880A81BE72010DDE9B26D6BB5`;
+the exact canonical BTC binary SHA256 is
+`0653B59DB009E3797C850EFFA3865BC21DF377120404FCBB751BD227F462F607`.
+
+The 30-match screen stops before row 20. The first discriminator is read-only:
+replay the all-patrol assignment and every one-tanker identity closed-loop at
+the canonical `5000 ms`, in forward and reverse order, to determine whether
+the material deficit is primarily the known same-count role-identity residual
+or remains under the live role. No counterfactual score can promote a role
+switch because alternate own traffic is not authoritative multi-team traffic.
+If role attribution is negative or merely repeats the known residual, the next
+allowed discriminator is the unchanged accepted-258 fixed-operation sparse
+probe on recorded patrol/day roots, reporting unrestricted and protected
+same-terminal/fuel/road-footprint gains separately. No production source,
+holdout or promotion decision is authorized by this attribution.
+
+Invariants: official lexicographic score only; exact simulator and independent
+validator remain independent; canonical main/role/checkpoint cap `5000 ms`;
+authoritative public deadline; no replay/map/seed/fuel/bot/opponent/match-ID or
+role-mask dispatcher; consumed `m-6134` has attribution authority only. This
+work removes, disables, defers or reduces no designed functionality. Nothing is
+deleted, so no replacement-equivalence claim is required.
+
+The frozen atomic role runner is
+`research/probes/run_multiteam_long_horizon_medium_serving_deficit_269_role.ps1`,
+SHA256 `5E9FF409FE22B82837442594BDBBF889EEA96D2604641D5BE176046B0822F31D`.
+
+The role discriminator completed 14/14 atomic cases with log SHA256
+`08310195EC368CAAAB0C7F76F0DE6F44260A69244A07146DFBA96E27EBC556F3`.
+All-patrol loses daily coverage (`7/60/204` forward, `7/59/202` reverse).
+The six one-tanker identities reach only `7/63/301..327`; live mask 8 is
+order-stable at `7/63/323`, while the best observed identity reaches 327 and
+remains far below both the live authoritative 351 and bot winner 413. Some
+identities vary by up to 13 servings across execution order. Thus role identity
+is neither a sufficient explanation nor an operation-stable repair; reopening
+the closed 237--239/259 role mechanisms would be circular.
+
+The second frozen discriminator is the unchanged accepted-258 sparse probe on
+the 40 live patrol/day roots for days 1--8, with 50,000 settled states and 64
+retained routes per agent. Its atomic runner is
+`research/probes/run_multiteam_long_horizon_medium_serving_deficit_269_sparse.ps1`,
+SHA256 `293D2E1A3C53A77951ECA5E07B301B1859DFBFC0CDA0CABF07596B6FD4A817F3`.
+
+The sparse discriminator completed 40/40 atomic cases with log SHA256
+`90124A982B60B1E92314F9DF1D653DCAE88567B526CBA13A598CFE4D694FD3A2`.
+Every patrol/day root exposes an unrestricted changed-state gain: the per-day
+best lifts are +3, +3, +4, +3, +4, +4, +4 and +2 servings. Protected
+same-terminal/fuel/own-road-footprint gain is zero in all 40 cases. This proves
+a broad candidate exists beyond the selected route frontier but does not by
+itself provide the nonterminal future-state certificate required for production.
+
+One final read-only attribution discriminator is frozen before observation:
+run the unchanged `--recorded-sparse-closed-loop` probe at early/middle/late
+roots days 1, 4 and 8. It asks whether the exact changed-state root gain survives
+canonical replanning through the remaining recorded road-state suffix; it has
+attribution authority only because alternate multi-team traffic remains
+unobservable. The atomic runner is
+`research/probes/run_multiteam_long_horizon_medium_serving_deficit_269_closed_loop.ps1`,
+SHA256 `7575835C6678DE144A7916432BAA1CDBF5E9C4DFA1CE608C4B08ABE139D34B80`.
+
+All three frozen closed-loop roots completed with log SHA256
+`C23D05BC35ACE2666618BCB73B4FB2FD7522E1A1D11308EF0901A28417154DBB`.
+Day 1 retained `+4`, day 4 retained `+14`, and day 8 retained `+3` servings
+through the canonical replanned suffix. This is a material trajectory
+opportunity, not normal bounded opponent variance. It still lacks production
+authority: the alternate suffix uses recorded shared road states rather than
+recomputed multi-team traffic, and all 40 protected roots were unchanged.
+
+Verdict: close 269 as a known material certificate-blocked state-coupled
+residual, with no source candidate or holdout. It strengthens the unresolved
+competition-readiness risk recorded by 209/216/223, but does not provide the new
+sound remaining-horizon proof required to reopen rejected 229--232 or relax
+the monotone certificate. Exact evidence is in
+`research/evidence/ATTR-MULTITEAM-LONG-HORIZON-MEDIUM-SERVING-DEFICIT-269.md`.
+That evidence record SHA256 is
+`C53B53AA85DF529B7BFAE1E69E975FAC82027718C497D422BD4681DE663AD848`.
+The unchanged accepted-258 screen may continue at qualifying row 20 to seek an
+independent executable counterexample; rank-1 results remain operational gates
+only. Reopen this axis solely from a new public-state certificate that proves
+full remaining-horizon dominance inside the authoritative deadline, or an
+operation-equivalent capability improvement producing that proof on fresh
+unopened evidence.
+
+## Closed qualified attribution — ATTR-MULTITEAM-SHORT-HORIZON-LARGE-MAP-DEFICIT-267
+
+Qualifying row 16, hard three-bot match `m-5846`, is a fresh gameplay-score
+counterexample. The authoritative replay setup is four days, 32x32,
+80 steps/day, eight agents, twenty-eight spots, eight brands, default fuel,
+traffic thresholds 5/10 and public `10000 ms`. Canonical accepted production
+258 finished fourth at `8/32/161`; the three BTC bots reached `8/32/190`,
+`8/32/186` and `8/32/173`, so the first official difference is a material
+tier-3 serving deficit of 29 to the winner. All four submissions returned HTTP
+200 and were accepted; exact replay validation and the independent validator
+agree on all four days, and all three authoritative transitions reconcile.
+Maximum action response was `7078 ms`, maximum main decision timing was
+`3376 ms`, and there was no invalid, emergency, outer-deadline, continuation or
+certificate failure. The internal master reached its bounded search deadline
+on day 2, but the complete checkpoint remained valid and the terminal
+continuation still improved day 4 from 48 to 49 servings. Replay SHA256 is
+`D0FC728FA84271885074911D24477A192008E6BDFEDA059A0E8B27249146414F`.
+
+The 30-match screen is stopped before row 17. The first discriminator is
+read-only and source-free: replay the all-patrol mask and each of the eight
+one-tanker identities closed-loop at canonical `5000 ms`, once in forward and
+once in reverse order. The live mask is 16 (`PPPPTPPP`) and the unchanged
+coarse role evaluator ranks it first, so only a material order-stable alternate
+trajectory can reopen role attribution. A role witness cannot authorize a
+fixture dispatcher or source change; experiments 237--239 remain binding unless
+a new public-state, state-coupled discriminator is found. If role attribution
+closes negative, the next allowed discriminator is the accepted-258 research
+probe at a fixed 50,000 settled states and 64 retained routes for every recorded
+patrol/day, reporting unrestricted and protected same-terminal exchanges.
+The frozen role runner is
+`research/probes/run_multiteam_short_horizon_large_map_deficit_267.ps1`
+SHA256 `2CED64EDCC3489EA3E6FF54D66F9D865A6FE68CF5A148811F2F6FF9AEBF0568A`.
+
+Invariants: no production source change, no holdout and no promotion authority;
+official lexicographic score only; exact simulator and independent-validator
+agreement; canonical main checkpoint remains capped at `5000 ms`; no routing by
+match, seed, map family or BTC bot. This attribution removes, disables, defers
+or reduces no designed functionality. Nothing is deleted, so no replacement
+equivalent is required.
+
+Both discriminators completed without error. The frozen role log SHA256 is
+`4D6C8920C2DAD8B5D32105DCBDD3BDEF7082D22B48B4A542CCEF813375218600`:
+all-patrol reached `8/32/163` in both orders while live mask 16 reached
+`8/32/146`; no one-tanker mask reached the bot winner's 190 servings and
+several masks varied by cutoff order. This preserves a separate short-horizon
+role-objective gap, but it does not authorize another replay-specific role
+dispatcher and is not the first active successor.
+
+The fixed sparse probe completed 28/28 patrol/day cases, with log SHA256
+`733A96CF1E8B3D3946E1BF8CCC9C65F6D6FB8835267FF5C74CE9A5F51F38090E`
+and runner SHA256
+`530435940DE888AEDCCFA954B06AD11F8EBD210F62501FA88A89BA4895CE87F9`.
+Unrestricted changed-terminal gains appeared in 21 cases and summed to 47
+servings, which remains non-authoritative. Crucially, day 1 agent 6 contains a
+dual-valid same-terminal/fuel protected improvement `8/8/36 -> 8/8/37` at
+50,000 settled states and 64 retained routes. Its six-spot mask is excluded by
+the production mid-day sparse floor `brand_count-1 = 7`, although at least one
+lifetime brand is still missing and the canonical sparse ranking already gives
+those preferred brands first priority. This is a new general, state-coupled
+candidate-supply boundary rather than the unsafe changed-state residual of
+250/251. Verdict: `positive-attribution-score-successor-qualified`.
+
+## Closed rejected development — SCORE-MIDDAY-PREFERRED-BRAND-SPARSE-FLOOR-268
+
+Single mechanism: preserve the complete canonical checkpoint, wait-detour and
+accepted 210/215 continuation path as an order-identical prefix. Only after its
+target-terminal fixed point, and only while an official lexicographic brand
+tier remains outstanding, run one bounded suffix through the same sparse label
+enumerator with emission floor one, 50,000 settled states and 64 retained
+routes per patrol. Route ranking, exact simulator, independent validator,
+one-agent ascent and strict future-state dominance certificate remain
+unchanged. Deadline or failure rolls the whole suffix back to the byte-identical
+210/215 prefix; no preferred brand leaves it inert. The candidate is an
+explicit same-binary research switch and is default-off; no new solver,
+dispatcher, direct takeover or fixture condition is introduced.
+
+Before source change, the fresh 30-case development and sealed 54-case holdout
+were frozen in
+`research/holdouts/SCORE-MIDDAY-PREFERRED-BRAND-SPARSE-FLOOR-268.csv`, SHA256
+`30F98957323E74AE66E6BCF158482E9E9629C7B4133E8496E052221A40295316`.
+They span players 8/9/10, maps 8/12/16/24/32, low/default/high/generated fuel,
+fixed/deadline roles and public windows 5000/10000/15000 ms. Development must
+show exact 5000-ms off/on equivalence, zero invalid/emergency/certificate or
+deadline regression, positive causal official aggregate with no tier-1/2 loss,
+gains in at least two map strata and both role modes, and no public stratum with
+systematic downside. Holdout remains sealed unless every development gate
+passes.
+The frozen Windows historical candidate SHA256 is
+`CCF728E9206141DE7A14D054E0F7E0F71A670DA972C5D91632B75E9B8A380CBC`;
+runner SHA256 is
+`32F1574CDBBB464E61CE486064BE53675355B71AF33FC1CA575239D99FCDD3CB`;
+summarizer SHA256 is
+`5313521A19A9C4B5E58A5C994D4B3351890247C41C3F2F1367F231A4F8CB81F7`.
+
+Development completed exactly 30 result rows, 30 matching `case_complete`
+rows and one `run_complete` marker. The suffix did real work: 6,716 routes,
+2,604 generated plans and 2,604 dual-valid plans, with zero deadline, failure,
+invalid, emergency or 5000-ms equivalence error. It nevertheless produced zero
+certified acceptance, zero takeover and candidate-specific delta `0/0/0`.
+The apparent protected W/T/L `15/15/0` and aggregate `0/0/+102` are gains of
+the already-accepted public continuation over the canonical checkpoint, not
+gains caused by this suffix. Therefore the preregistered positive-gain,
+takeover-count and breadth gates all fail. Development log SHA256 is
+`29FA0829647E7846B3649379A0C305ADD17D567E744A6F864C5AAEF0B7E39840`;
+summary SHA256 is
+`A1070E4E4E297ECB3E7F5A8904BF72ADFD2C4C1ABBA087E0116EE97DFE055251`.
+
+Verdict: rejected in development; the sealed 54-case holdout remains unopened.
+The scoped runtime/test/harness change has been reverted, while the complete
+research record is retained. The six-spot replay witness from 267 was real but
+does not generalize into certified production takeovers after the accepted
+210/215 fixed point. Reopen only from a fresh protected same-state witness that
+is absent from the post-prefix candidate pool for a mechanism other than
+lowering this cardinality floor. The separate short-horizon role-objective
+finding remains bounded by the 237--239 and 259 closures and has no safe source
+successor; the BTC screen may resume at row 17 with unchanged accepted 258.
+
+Functionality-preservation answers: (1) closing and reverting this default-off
+research suffix removes, disables, defers or reduces no canonical designed
+functionality; accepted production and every consumer/certificate remain
+active; (2) no canonical implementation is deleted, so no replacement-
+equivalence claim is required.
+
+## Closed rejected score experiment — SCORE-TERMINAL-RENDEZVOUS-PAIR-RESERVOIR-266
+
+Experiment 265 is rejected, but its complete evidence reveals a valid successor
+boundary rather than authorizing another pool-growth attempt. The consumed
+`m-5502` anchor contains an exact terminal patrol-tanker rendezvous replacement
+that improves the official score by one serving. The same construction on day 7
+changes future state and remains uncertified; only day 8 has no future state and
+therefore admits exact validity plus strict official gain as the complete
+authority. Existing 207 exchanges two patrol routes, while accepted 258 is a
+one-patrol stock-marginal reservoir; neither can construct a synchronized
+patrol-tanker arrival/refuel/departure pair.
+
+Single candidate mechanism: preserve the complete canonical `5000 ms`
+checkpoint and the accepted terminal sparse/pair/marginal continuation as an
+unchanged prefix. Only on the terminal day and only in remaining authoritative
+public time, enumerate a bounded reservoir over public patrol-tanker pairs,
+public rendezvous cells and public spot targets. Build both synchronized plans
+without calling the route generator, master, role selector or main solver;
+replace the two agents atomically in the already-frozen terminal incumbent;
+exact-simulate and independently validate; accept only a strict official
+lexicographic gain. Deadline, failure, disagreement, invalidity or no gain
+returns the exact frozen incumbent. No nonterminal activation is permitted.
+
+Frozen manifest
+`research/holdouts/SCORE-TERMINAL-RENDEZVOUS-PAIR-RESERVOIR-266.csv` SHA256
+`6B00471EF05DD3611FA34A90B6C923067ECD64C266E5B6BA07C325E2DDF66A82`
+contains 30 fresh development cases on seeds 986xxxx and 54 sealed holdout cases
+on seeds 987xxxx across public windows 5000/10000/15000, players 8/9/10,
+maps 12/16/24/32 plus general, all fuel profiles and both role modes. The
+consumed replay is activation evidence only and cannot enter promotion.
+Frozen source archive SHA256 is
+`FEE5B88FE48C743281B861FA727153550172E3B9EE04340D66B398144C6ECFAF`;
+Windows historical candidate SHA256 is
+`D2165C65507078A6C11F6A68366D96329569DA115FB63597E6542DFA9A1DB392`;
+runner SHA256 is
+`59779123F11DC890DD3D2FB1C18AA3FDAFE2AA2A7C44F3C644A8FFBA230477BF`;
+summarizer SHA256 is
+`33CAD0D34372E83CCE3F238E51A97ED6239A412D386489FDFE2A17B60DDF17B6`.
+
+Development completed all 30 same-run causal cases with official W/T/L
+`3/27/0`, aggregate delta `0/0/+6`, three strict terminal rendezvous
+takeovers, gain tail `+6` with maximum `+2`, and no loss. The canonical
+`5000 ms` lane was exactly equivalent in score, plans, state and ledger.
+Gains occurred in both public continuation windows (`+2` at `10000 ms`,
+`+4` at `15000 ms`) and across two map strata (`24x24`, `32x32`); all three
+takeovers were on 10-player fixed-role cases. There were zero invalid,
+emergency, registered safety/certificate failure or deadline rollback. The
+candidate enumerated `3767` pairs/plans, independently validated `3745` and
+accepted `3`. Frozen development log SHA256 is
+`61D56870035577CADA259E2E1A8D0C34E7A020EA7C2A00ED3D549A4104C133D6` and
+summary SHA256 is
+`EED0BABBD4761A421E59690593FFF6FCAE118B11872EB11B6F1245882F786E48`.
+Every preregistered development gate passed, authorizing exactly one opening of
+the already-frozen 54-case holdout for this exact candidate.
+The exact Linux holdout binary built from the frozen archive has SHA256
+`5DAE0697E5F89A8017D60192FEE02B42A64116D8C83348C995DBCB41B65E2479`;
+the case-atomic VM runner SHA256 is
+`2E27285E6EF5A399535B15BC4592D5DACB57ECD50D6CB995E76D557653E27D49`.
+
+The one-time sealed 54-case VM holdout completed atomically with W/T/L
+`1/53/0`, aggregate `0/0/+1`, one tier-3 gain of `+1`, and no loss. Exact
+`5000 ms` equivalence and all safety/certificate/deadline gates remained clean;
+`6234` pair plans were enumerated, `6188` independently validated and one was
+accepted. However, the only fresh gain occurred in one `10000 ms`, 8-player,
+deadline-role, 24x24 stratum. There was no `15000 ms` gain, fewer than two
+takeovers and no breadth across two public axes. The preregistered holdout gate
+therefore rejects 266 despite its monotone safety. Frozen holdout log SHA256 is
+`B6A68913B40E1A160AC24F5ECAAF4B00144E07BF6B68EAAE0231EFF1412BDCE4`
+and summary SHA256 is
+`2B5C21BBA8A74A55E4AA7C5A403846237E6BE9B9B19168F8184635DC29D68F20`.
+The scoped 266 source mechanism was removed with `apply_patch`; canonical
+production 258 remains unchanged. Reopen only from a fresh counterexample that
+proves a broader synchronized terminal-pair opportunity or a stronger general
+invariant; never tune to the consumed holdout or repeat this bounded reservoir.
+
+Development gate: every case produces one same-run frozen checkpoint and one
+causal continuation result; exact score/plan/state/ledger equivalence at
+`5000 ms`; zero invalid/emergency, simulator-validator disagreement, checkpoint
+failure or deadline rollback; zero causal loss at any official tier; positive
+aggregate score delta; at least two strict takeovers spanning both longer
+windows and at least two public map/fuel/player/role strata. Only if every gate
+passes may the sealed holdout open once. Holdout requires the same exact-5000,
+zero-loss, positive-gain and safety contract plus fresh gains in at least two
+public strata before BTC target-host verification.
+
+Invariants: official lexicographic score; exact simulator and independent
+validator remain independent; parent checkpoint and all accepted continuation
+functionality remain active; canonical main/role/complete checkpoint hard cap
+`5000 ms`; authoritative public deadline; no second main solve, master or role
+pass; no pre-checkpoint candidate work; no map/seed/fuel/family/bot/opponent/
+match/mask/threshold dispatcher; no nonterminal state relaxation. Functionality-
+preservation answers: (1) the candidate removes, disables, defers or reduces no
+designed functionality; (2) nothing is deleted.
+
+## Closed rejected score experiment — SCORE-ORPHAN-RENDEZVOUS-PAIR-SIDECAR-265
+
+The 30-case development completed with paired official W/T/L `3/24/3`, all six
+first differences at tier 3, aggregate delta `0/0/-10`, gain tail `+13` with
+maximum `+9`, and loss tail `-23` with worst `-12`. Safety was clean: zero
+invalid, emergency, registered failure or deadline rollback. The sidecar did
+real work (`2977` groups, `1272` bases, `23816` plans, `23729` valid, `14`
+strict, `6` candidates and `2` selections), but failed the preregistered global
+gate because wins did not exceed losses, aggregate gain was non-positive and
+the worst loss exceeded `-5`.
+
+The complete evidence also falsifies the experiment's causal measurement
+design. Four of the six changed pairs had zero sidecar candidate and zero
+selection, so their differences can only come from running default-off and
+candidate-on as separate deadline-sampled solves. In the two selected cases the
+sidecar improved its own in-run checkpoint, but that checkpoint could already
+differ from the separately timed off run. Therefore the negative W/T/L is not
+sound evidence that an atomic rendezvous replacement intrinsically regresses;
+it is nevertheless decisive evidence that candidate 265 did not meet its frozen
+promotion contract. The sealed 54-case holdout was never opened and remains
+unconsumed for 265 only; it must never be opened for this rejected candidate.
+
+Frozen development log SHA256 is
+`7E723DE832927A4B90714D6605EA644AE48BF0A2F3BE527C153E4BFB0A8CEDE7` and
+summary SHA256 is
+`8219F7484732C4C673954C589FE8C0279389B43E04B4580BE8379C1A22660C0D`.
+Manifest SHA256 remains
+`6C97DD8B0EEC4C53C078D9916E2C3AE1C05ABC86CDB09BACAD83ACE14A979DA1`;
+frozen source archive, historical candidate, runner and summarizer hashes remain
+`B0A537DF53AABD062F33D5E5C1C925DDCE96D9C47B72F3AC50E13AFA5A7B4B22`,
+`9FBD17AF9B3B4675BC493CA80C1AB7D4817C20C1BFEE94F7EAB88071159FF008`,
+`7C22B6FE0E42150E4088C6B50B3D30A535FE2D5264C04961EEE0A0F49B893C89`
+and `0C996D09356EEB205A3D7110C93A383EA580FD2D68F97BD76DC8C11CE011B304`.
+Candidate runtime changes were reverted and canonical production behavior was
+restored; evidence and tooling are retained for provenance.
+
+Reopen only as a new terminal-only protected-continuation experiment on fresh
+seeds with a new frozen holdout. It must freeze one complete same-run `5000 ms`
+checkpoint before any candidate work, must never rerun or perturb the main
+solver, and may replace the checkpoint only after exact simulation, independent
+validation and strict official terminal-day gain. Nonterminal patrol-tanker
+substitution remains blocked unless a new state-coupled transition/ledger
+certificate exists; blind pool growth and the rejected 206/229--232 mechanisms
+remain forbidden. Functionality-preservation answers: (1) this closure removes,
+disables, defers or reduces no designed production functionality; (2) nothing
+is deleted.
+
+## Closed attribution — ATTR-MULTITEAM-HIGH-FUEL-TIER3-DEFICIT-264
+
+Fresh hard three-bot screen match `m-5502` used eight days, a 32x32 map,
+64 steps/day, six agents, twenty-four spots, eight brands, high fuel and a
+public `10000 ms` response window. Signed production finished second at
+`8/64/195`, two servings behind the winner at `8/64/197`; the first differing
+official tier is therefore tier 3. All eight actions are accepted, exact-valid
+and independently validated; all seven transitions reconcile, response times
+are `3534..7290 ms`, stderr is empty, and replay SHA256 is
+`A0099166241F92DB6360D8974E56286B4A7F5968F5FB0B6AEAF42ABA86879055`.
+
+Days 7 and 8 each deliver 21 servings. On both days tanker 0 waits from cell
+912 while patrol 1 starts at spot cell 107 with fuel 2, takes one serving and
+waits. The live master is deadline-limited with an optimistic +1-serving bound.
+Four same-binary reruns per day remain at 21, and unchanged sparse/terminal
+probes find no alternative.
+
+The exact loss boundary is independent per-agent pruning. Cap 12 retains
+`12/5/12/12/12/12` columns and zero complete pair. Cap 64 retains
+`45/5/64/64/64/64` plus groups 16--18 that replace only patrol 1/tanker 0,
+refuel at `107@36`, dual-validate and improve day 7 `8/56/174 -> 8/56/175`
+and day 8 `8/64/195 -> 8/64/196`. This is a new executable
+portfolio-integrity gap and satisfies SCORE-ROLE-005's separate reopen condition.
+Blind pool growth remains forbidden by rejected 206. Exact evidence is in
+`research/evidence/ATTR-MULTITEAM-HIGH-FUEL-TIER3-DEFICIT-264.md`.
+
+Verdict: accepted attribution with fresh SCORE successor 265. The consumed
+replay is never used for promotion; 265 development and holdout were frozen on
+new 984xxxx/985xxxx seeds before production source change.
+
+Invariants: official lexicographic score; exact simulator and independent
+validator remain independent; canonical main/role/checkpoint cap `5000 ms`;
+authoritative public deadline; hard difficulty and exactly three bots are BTC
+counterexample context only; no replay/map/seed/fuel/bot/opponent/match/mask/
+threshold dispatcher; consumed evidence cannot promote a successor. Functionality-
+preservation answers: (1) this closed attribution removes, disables, defers
+or reduces no designed functionality; (2) nothing is deleted.
+
+## Closed attribution — ATTR-MULTITEAM-SPARSE-ONE-SERVING-DEFICIT-263
+
+Fresh hard three-bot `m-5501` used five days, a 24x24 map, 96 steps/day,
+four agents, eighteen spots, six brands, high fuel and a public `10000 ms`
+response window. Signed production finished fourth at `6/30/127`; all three bots
+tied at `6/30/128`. All five actions are exact-valid with independent-validator
+agreement, all four transitions reconcile, response times are `5759..8397 ms`
+and stderr is empty. Replay SHA256 is
+`6E1CC450CC80D87CAFA5756BD1B495CBDBB0FE2B3D3F9DA91347CBCBDBF7F92C`.
+
+The accepted 258 terminal path is live: it raises day 5 from 29 to 30 servings
+with one marginal acceptance. An unchanged no-deadline probe confirms that 30 is
+the canonical terminal fixed point after 3264 routes, 3069 valid plans, 96
+marginal routes and 30 valid marginal plans; there is no further strict gain.
+
+On day 4, unchanged sparse attribution finds an exact +2 serving route and
+retains the +2 through its local suffix, but every witness changes terminal,
+fuel and own-road state. Protected same-state best is unchanged. This is the
+known state-coupled sparse residual, not a terminal-supply or safety failure.
+With both higher official tiers tied, the one-serving bot difference is normal
+bounded tier-3 variance. Experiment 263 closes without a SCORE successor; exact
+evidence is in
+`research/evidence/ATTR-MULTITEAM-SPARSE-ONE-SERVING-DEFICIT-263.md`.
+
+Reopen only from a fresh protected same-state gain or a genuinely new executable
+whole-remaining-horizon certificate on unopened evidence. No source change or
+holdout was opened. Functionality-preservation answers: (1) this closure removes,
+disables, defers or reduces no designed functionality; (2) nothing is deleted.
+
+Invariants retained: official lexicographic score; exact simulator and
+independent validator remain independent; canonical main/role/checkpoint cap
+`5000 ms`; authoritative public deadline; hard difficulty and exactly three
+bots are BTC counterexample context only; no replay/map/seed/fuel/bot/opponent/
+match/role-mask/threshold dispatcher; consumed `m-5501` cannot promote a
+successor; no designed functionality is removed, disabled, deferred or reduced;
+nothing is deleted.
+
+## Closed attribution — ATTR-MULTITEAM-TIER3-TWO-SERVING-DEFICIT-262
+
+Fresh hard three-bot screen match `m-5477` used nine days, a 24x24 map,
+72 steps/day, six agents, twenty spots, seven brands, medium fuel and a public
+`10000 ms` response window. Signed production finished second at `7/63/268`,
+only two servings behind the winner at `7/63/270`; lifetime and daily tiers are
+fully tied. All nine actions are exact-valid with independent-validator
+agreement, all eight transitions reconcile, response times are `6305..8529 ms`
+and stderr is empty. Replay SHA256 is
+`0AF34AB081E7A512376BD9798493085DC9C5BED4AE48B1F613C8D88EB45D8705`.
+
+The complete checkpoint totals 263 servings and protected refinement/public
+continuation add five to submit 268. The continuation dual-validates hundreds of
+plans on every nonterminal day and 9983 on terminal day without safety failure.
+The accepted 258 terminal reservoir is at a real fixed point: an unchanged
+no-deadline probe reconstructs 10560 sparse routes, 9874 valid plans, 160
+marginal routes and 109 valid marginal plans with zero strict gain.
+
+Fresh main-only replay is weaker than the live complete pipeline. On the lowest
+serving nonterminal day, unchanged sparse attribution can add three servings
+only by changing terminal/fuel/own-road state; protected same-state best is
+unchanged. This is the known state-coupled residual, not a fresh safe mechanism.
+With both higher official tiers tied, the two-serving bot difference is normal
+bounded tier-3 opponent variance. Experiment 262 closes without a SCORE
+successor; exact evidence is in
+`research/evidence/ATTR-MULTITEAM-TIER3-TWO-SERVING-DEFICIT-262.md`.
+
+Reopen only from a fresh protected same-state gain or a genuinely new executable
+whole-remaining-horizon certificate on unopened evidence. No source change or
+holdout was opened. Functionality-preservation answers: (1) this closure removes,
+disables, defers or reduces no designed functionality; (2) nothing is deleted.
+
+Invariants retained: official lexicographic score; exact simulator and
+independent validator remain independent; canonical main/role/checkpoint cap
+`5000 ms`; authoritative public deadline; hard difficulty and exactly three
+bots are BTC counterexample context only; no replay/map/seed/fuel/bot/opponent/
+match/role-mask/threshold dispatcher; consumed `m-5477` cannot promote a
+successor; no designed functionality is removed, disabled, deferred or reduced;
+nothing is deleted.
+
+## Closed attribution — ATTR-MULTITEAM-LOW-FUEL-DAILY-DEFICIT-261
+
+Fresh hard three-bot screen match `m-5422` used ten days, a 32x32 map,
+96 steps/day, eight agents, thirty-two spots, eight brands, low fuel and a
+public `10000 ms` response window. Signed production finished second at
+`8/78/247`; the winner reached `8/80/327`. Days 7 and 9 each miss one daily
+brand while every other day covers all eight. All 10 actions were accepted and
+dual-valid, response times were `5373..8416 ms`, and stderr was empty. Replay
+SHA256 is
+`1D8FDF6BF3BDB871471CF18AE65DB29D1D3953649A55FFCCDA4929ED7325C794`.
+
+Replay-check exposes one authoritative transition mismatch: after day 2, agent
+3 is predicted at cell 702 with fuel 21 but the day-3 authoritative state has
+the same cell with fuel 77. The other eight transitions reconcile. This exact
+position plus fuel-only-richer shape matches the cross-team-refuel side finding
+from accepted semantics experiment 205. Opponent mid-day paths remain private,
+so it is plausible rather than proven; reconciliation safely adopts the richer
+state, plan validity cannot regress and planning must not assume the bonus.
+
+Fresh replay-solve reaches eight daily brands on both target days, but this is
+not live-session equivalent. The live virtual planning branch also had an
+eight-brand candidate on days 7 and 9; mandatory replay from the executable
+physical checkpoint reached seven, so production correctly preserved that
+checkpoint. Healthy continuation generated 72/73 plans, accepted zero/one and
+did not recover the brand.
+
+The unchanged sparse closed-loop probe finds changed-state daily gains on both
+days and no protected same-terminal/fuel/road-footprint gain. Day 7's +1 daily
+is lost again on day 9, leaving both suffixes at 79 daily; day 9 alone can lift
+the local suffix from 78 to 79 daily. These are exact but state-coupled witnesses,
+the already-known 216/223 residual. Experiments 229--232 already rejected the
+available proof, ACK and protected consumers. Repeating them or tuning on
+`m-5422` would be circular. Experiment 261 closes without a SCORE successor;
+exact evidence is in
+`research/evidence/ATTR-MULTITEAM-LOW-FUEL-DAILY-DEFICIT-261.md`.
+
+Reopen only with a genuinely new executable whole-remaining-horizon dominance
+certificate or an operation-equivalent capability improvement on fresh unopened
+evidence. No source change or holdout was opened. Functionality-preservation
+answers: (1) this closure removes, disables, defers or reduces no designed
+functionality; (2) nothing is deleted.
+
+Invariants: official lexicographic score; exact simulator and independent
+validator remain independent; canonical main/role/checkpoint cap 5000 ms;
+authoritative public deadline; hard difficulty and exactly three bots are BTC
+counterexample context only; no replay/map/seed/fuel/bot/opponent/match/mask
+dispatcher; consumed `m-5422` has attribution authority only; no designed
+functionality is removed, disabled, deferred or reduced; nothing is deleted.
+
+## Closed attribution — ATTR-MULTITEAM-DAILY-COVERAGE-DEFICIT-260
+
+Fresh qualifying hard three-bot match `m-5415` used eight days, a 32x32 map,
+96 steps/day, seven agents, twenty-four spots, eight brands, default fuel and a
+public `10000 ms` response window. Canonical production `ab3d699` finished third
+at `8/63/296`: it had the highest servings in the match, but both higher-ranked
+bots reached `8/64`, so the first loss is one daily-distinct unit at official
+tier 2. Replay SHA256 is
+`A0189CA5017F1B2252A754D4A38E3EE9DE96414674AA4C4B6EC7538CC2C2A939`.
+
+Replay-check proves 8/8 exact-valid actions, independent-validator agreement
+and 7/7 reconciled transitions. Day 4 is the only failure day: it scores
+`7/30` and misses brand 0 while every other day covers all eight brands. This
+is not a protocol, invalidity or submission failure. The hard-three-bot series
+is paused exactly at the first new loss.
+
+The live day-4 decision closes the first boundary. Its canonical candidate and
+checkpoint had only seven current-day brands (`7/26`, then protected `7/27`).
+The authorized public continuation spent another `3808 ms`, generated and
+dual-validated 158 plans, accepted one strict transition-dominating improvement
+and reached `7/30`, but it still did not cover brand 0. Column generation reached
+its deadline, retained brand breadth `8,7,7,8,7,0,6`, and left the master with
+only two valid complete combinations before its own deadline. This is search
+supply/cutoff, not a certificate rejecting an already-found eight-brand plan.
+
+Fresh-engine replay-solve is stable across five repetitions at `8/35`, but it
+does not restore the live response ledger, cached contingencies, prior own-road
+footprint or exact session trajectory and therefore has attribution authority
+only. A persistent mask-32 session replay with post-ACK work also reaches full
+daily coverage, but its earlier plans and ledger diverge from the live match.
+Neither result is an operation-equivalent replacement for the live day-4 solve.
+
+The unchanged sparse probe finds an exact-valid day-4 route exchange at
+`8/35`, improving the recorded root from cumulative `8/31/140` to `8/32/145`.
+Starting a local closed loop from that route preserves the +1 daily tier through
+day 8 (`8/64` versus `8/63`), while tier-3 totals vary with later timed solves.
+However, no same-terminal/fuel/road-footprint candidate improves the recorded
+root. The route changes future physical state and own traffic, so it fails the
+existing nonterminal transition certificate and cannot enter protected
+continuation safely.
+
+This is a fresh multi-team instance of the already-recorded state-coupled
+position/sparse residual, not a new safe mechanism. SCORE-PROTECTED-EXACT-179
+already tested the obvious legacy-master-before-exact checkpoint and changed no
+selected result; SCORE-F0-QUALITY-ORDER-240 plus crossed attribution 241 rejected
+the general ordering repair in both 5000-ms and longer-window lanes. Repeating
+either would be circular. Experiment 260 is closed without a SCORE successor;
+the hard-three-bot screen resumes at match 6 with unchanged signed production.
+Exact evidence is in
+`research/evidence/ATTR-MULTITEAM-DAILY-COVERAGE-DEFICIT-260.md`.
+
+Reopen only from a genuinely new executable whole-future state-dominance proof
+or an operation-equivalent capability improvement that leaves both the complete
+parent and exact paths available; never relax the certificate or tune from
+`m-5415`. Functionality-preservation answers: (1) closing attribution removes,
+disables, defers or reduces no designed functionality; (2) nothing is deleted.
+
+## Closed attribution — ATTR-MULTITEAM-MEDIUM-ONE-SERVING-DEFICIT-259
+
+Fresh qualifying hard three-bot match `m-5413` is a six-day 16x16,
+48-step, five-agent, fourteen-spot, six-brand medium-fuel fixture with a
+public `10000 ms` response window. Canonical production `ab3d699` finished
+second at `6/36/126`, one serving behind the hard bot winner at `6/36/127`.
+Replay SHA256 is
+`C496ECDD163EE3A38AA412352AA0F6A8AF86F580C7699DE0113558F94CE09344`.
+Replay-check proves 6/6 exact-valid actions, independent-validator agreement
+and 5/5 reconciled transitions. This is a fresh asymmetric BTC failure gate,
+not promotion evidence and not yet proof of a solver gap.
+
+The public window was trustworthy on every day (`9427..9935 ms` outer), the
+canonical checkpoint remained capped at `5000 ms`, and there was no deadline,
+invalid, emergency, continuation failure or terminal rollback. Continuation
+dual-validated its generated plans but accepted no strict gain. On terminal
+day 6 the accepted terminal marginal reservoir reported zero routes, zero
+plans and zero acceptances.
+
+Read-only attribution found an order-stable role-resolution witness. The live
+one-tanker mask 2 replays at `6/36/125`; mask 1 replays at `6/36/131` in both
+forward and reverse mask order. Masks 4 and 16 reach `125` and `126`; the other
+role counts/identities are worse. All timed role rollouts remain incomplete and
+place the one-tanker identities within two rollout servings, so the coarse role
+evaluator does not resolve the later trajectory.
+
+This does not authorize a role switch. Masks 1 and 2 tie at `6/6/24` on day 1
+but already have different complete terminal states, plans and own-road
+footprints. `replay-counterfactual` retains the server-recorded road status
+rather than recomputing the alternate full multi-team traffic. The stable 131
+is therefore a role-resolution witness, not an authoritative alternate match
+score or a state-coupled dominance certificate.
+
+Experiments 237--239 already attributed this mechanism family. Trajectory beam
+238 produced a same-count identity tail of `-29`; fixed equal-depth role work in
+SCORE-ROLE-032 made the wrong coarse evaluator deterministic; centrality,
+marginal-patrol, terminal-fuel, wider/longer rollout and wall-clock allocation
+variants were also falsified. Selecting mask 1 or dispatching on this fixture
+would be overfit. Experiment 259 is closed as a known role-identity residual
+with no safe SCORE successor, and the unopened hard-three-bot qualification
+series resumes. Exact evidence is in
+`research/evidence/ATTR-MULTITEAM-MEDIUM-ONE-SERVING-DEFICIT-259.md`.
+
+Reopen role identity only from a fresh public-state, state-coupled discriminator
+that bounds same-count identity downside before assignment. Do not reuse this
+replay for tuning.
+
+Invariants: attribution only; no production source change or holdout; official
+lexicographic score; canonical `5000 ms` checkpoint and authoritative public
+window; no replay, map, seed, fuel, bot, opponent, match-ID or role-mask
+dispatcher; no tuning on the consumed replay. Functionality-preservation
+answers: (1) this removes, disables, defers or reduces no designed
+functionality; (2) nothing is deleted, so no replacement-equivalence proof is
+required.
 
 ## Closed accepted — SCORE-TERMINAL-STOCK-MARGINAL-RESERVOIR-258
 

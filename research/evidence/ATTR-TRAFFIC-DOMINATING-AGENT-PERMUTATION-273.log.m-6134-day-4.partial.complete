@@ -1,0 +1,28 @@
+case_begin replay=m-6134 day=4 stratum=middle started=2026-08-31T15:39:57.2802264+00:00 max_states=50000 max_routes=32
+ledger_before=7/21/111
+day_score=7/7/38
+score_after=7/28/149
+agent=0 kind=patrol claims=7 served=7 path_steps=96 raw_path_fuel=40 initial_fuel=188 spots=12:5,13:6,3:3,5:5,10:3,9:2,8:1 terminal=25:174
+agent=1 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=60 initial_fuel=188 spots=14:0,13:6,3:3,5:5,15:1,12:5,10:3,11:4 terminal=146:150
+agent=2 kind=patrol claims=8 served=8 path_steps=96 raw_path_fuel=52 initial_fuel=182 spots=11:4,5:5,10:3,3:3,13:6,1:1,7:0,2:2 terminal=104:158
+agent=3 kind=tanker claims=0 served=0 path_steps=96 raw_path_fuel=5 initial_fuel=192 spots= terminal=134:192
+agent=4 kind=patrol claims=8 served=6 path_steps=96 raw_path_fuel=61 initial_fuel=110 spots=0:0,13:6,3:3,5:5,15:1,12:5,11:4,2:2 terminal=104:155
+agent=5 kind=patrol claims=9 served=9 path_steps=96 raw_path_fuel=67 initial_fuel=168 spots=4:4,13:6,3:3,5:5,15:1,12:5,14:0,2:2,8:1 terminal=25:146
+spot=0 brand=0 cell=79 stock=6 served=1 denied=0 agents=4S
+spot=1 brand=1 cell=221 stock=4 served=1 denied=0 agents=2S
+spot=2 brand=2 cell=104 stock=2 served=2 denied=1 agents=2S,5S,4D
+spot=3 brand=3 cell=134 stock=4 served=4 denied=1 agents=1S,5S,0S,2S,4D
+spot=4 brand=4 cell=138 stock=1 served=1 denied=0 agents=5S
+spot=5 brand=5 cell=52 stock=6 served=5 denied=0 agents=2S,1S,5S,0S,4S
+spot=7 brand=0 cell=255 stock=6 served=1 denied=0 agents=2S
+spot=8 brand=1 cell=25 stock=3 served=2 denied=0 agents=0S,5S
+spot=9 brand=2 cell=6 stock=1 served=1 denied=0 agents=0S
+spot=10 brand=3 cell=33 stock=6 served=3 denied=0 agents=2S,0S,1S
+spot=11 brand=4 cell=146 stock=3 served=3 denied=0 agents=2S,4S,1S
+spot=12 brand=5 cell=242 stock=4 served=4 denied=0 agents=0S,1S,5S,4S
+spot=13 brand=6 cell=251 stock=6 served=5 denied=0 agents=1S,5S,0S,4S,2S
+spot=14 brand=0 cell=230 stock=3 served=2 denied=0 agents=1S,5S
+spot=15 brand=1 cell=180 stock=6 served=3 denied=0 agents=1S,5S,4S
+traffic_permutation_summary states=50000 max_routes=32 tasks=20 routes=606 cross_pairs=9152 invalid=0 validator_mismatch=0 valid=9152 road_equal=0 strict_road_dominating=0 mapped_dominating=0 exact_fuel_certified=0 strict_fuel_certified=0 traffic_certified=0 parent=7/28/149 best=7/28/149 left=-1 right=-1 min_fuel_delta=0 max_fuel_delta=0 road_reduction=0 incumbent_mutated=0
+case_complete replay=m-6134 day=4 exit=0
+case_elapsed_ms replay=m-6134 day=4 value=490
