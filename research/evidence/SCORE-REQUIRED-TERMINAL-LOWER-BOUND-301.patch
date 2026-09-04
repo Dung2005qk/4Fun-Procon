@@ -1,0 +1,135 @@
+diff --git a/src/orienteering.cpp b/src/orienteering.cpp
+index 0b522bb..b56b96f 100644
+--- a/src/orienteering.cpp
++++ b/src/orienteering.cpp
+@@ -752,6 +752,104 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
+                 std::uint32_t{1} << static_cast<std::uint32_t>(spot);
+         }
+     }
++
++    // A required-terminal search has no use for a label whose remaining step
++    // or Patrol-fuel resource cannot reach that terminal.  Movement cost is
++    // charged at the forward source cell, so the reverse graph stores each
++    // destination's forward predecessors and relaxes with predecessor cost.
++    std::vector<std::uint16_t> requiredTerminalStepBound;
++    std::vector<std::uint16_t> requiredTerminalFuelBound;
++    if (requiredTerminal.has_value()) {
++        std::vector<std::vector<CellId>> predecessors(cellCount);
++        for (std::uint32_t source = 0U; source < cellCount; ++source) {
++            if ((source & 255U) == 0U && deadline_expired()) {
++                return result;
++            }
++            if (config.map.terrain.at(source) == Terrain::Pond) {
++                continue;
++            }
++            for (std::int32_t direction = 0;
++                 direction < kDirectionCount;
++                 ++direction) {
++                const CellId destination = config.map.neighbors.at(source).at(
++                    static_cast<std::size_t>(direction));
++                if (destination != kInvalidCell &&
++                    config.map.terrain.at(
++                        static_cast<std::size_t>(destination)) !=
++                        Terrain::Pond) {
++                    predecessors.at(static_cast<std::size_t>(destination))
++                        .push_back(static_cast<CellId>(source));
++                }
++            }
++        }
++        const auto build_bound =
++            [&predecessors,
++             &moveCosts,
++             &deadline_expired,
++             cellCount,
++             requiredTerminal](bool fuelResource,
++                               std::vector<std::uint16_t>& bound) {
++                bound.assign(cellCount, kUnreachable);
++                using DistanceCell = std::pair<std::uint16_t, CellId>;
++                std::priority_queue<
++                    DistanceCell,
++                    std::vector<DistanceCell>,
++                    std::greater<>> frontier;
++                bound.at(static_cast<std::size_t>(*requiredTerminal)) = 0U;
++                frontier.emplace(0U, *requiredTerminal);
++                std::uint64_t settled = 0U;
++                while (!frontier.empty()) {
++                    if ((settled++ & 255U) == 0U && deadline_expired()) {
++                        return false;
++                    }
++                    const auto [distance, cell] = frontier.top();
++                    frontier.pop();
++                    if (bound.at(static_cast<std::size_t>(cell)) != distance) {
++                        continue;
++                    }
++                    for (const CellId predecessor :
++                         predecessors.at(static_cast<std::size_t>(cell))) {
++                        const MoveCost move = moveCosts.at(
++                            static_cast<std::size_t>(predecessor));
++                        const std::int32_t weight = fuelResource
++                            ? move.patrolFuel
++                            : move.steps;
++                        const std::int32_t candidate =
++                            static_cast<std::int32_t>(distance) + weight;
++                        if (candidate < bound.at(
++                                static_cast<std::size_t>(predecessor))) {
++                            bound.at(static_cast<std::size_t>(predecessor)) =
++                                static_cast<std::uint16_t>(candidate);
++                            frontier.emplace(
++                                static_cast<std::uint16_t>(candidate),
++                                predecessor);
++                        }
++                    }
++                }
++                return true;
++            };
++        if (!build_bound(false, requiredTerminalStepBound) ||
++            !build_bound(true, requiredTerminalFuelBound)) {
++            return result;
++        }
++    }
++    const auto can_reach_required_terminal =
++        [&requiredTerminal,
++         &requiredTerminalStepBound,
++         &requiredTerminalFuelBound,
++         daySteps,
++         &agent](CellId cell,
++                 std::int32_t usedSteps,
++                 std::int32_t usedFuel) {
++            if (!requiredTerminal.has_value()) {
++                return true;
++            }
++            return requiredTerminalStepBound.at(
++                       static_cast<std::size_t>(cell)) <=
++                    daySteps - usedSteps &&
++                requiredTerminalFuelBound.at(
++                    static_cast<std::size_t>(cell)) <= agent.fuel - usedFuel;
++        };
+     const auto route_rank = [&config, preferredBrands](
+                                 const SparseResourceLabel& label) {
+         BrandMask brands;
+@@ -864,7 +962,11 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
+         const SparseResourceLabel current = labels.at(
+             static_cast<std::size_t>(labelIndex));
+         if (!current.active || current.usedSteps != queuedSteps ||
+-            current.usedFuel != queuedFuel) {
++            current.usedFuel != queuedFuel ||
++            !can_reach_required_terminal(
++                current.cell,
++                current.usedSteps,
++                current.usedFuel)) {
+             continue;
+         }
+         ++result.settledStates;
+@@ -919,7 +1021,11 @@ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes_impl(
+                 .at(static_cast<std::size_t>(direction));
+             if (destination == kInvalidCell ||
+                 config.map.terrain.at(static_cast<std::size_t>(destination)) ==
+-                    Terrain::Pond) {
++                    Terrain::Pond ||
++                !can_reach_required_terminal(
++                    destination,
++                    nextSteps,
++                    nextFuel)) {
+                 continue;
+             }
+             relax(

@@ -2,6 +2,405 @@
 
 Updated: 2026-09-04
 
+## Closed architecture attribution — ATTR-TARGET-FOLLOWUP-PREFIX-FEASIBILITY-303
+
+Capability 300 is exact and fast, but direct timed integration 301 failed and
+302 found no single score-loss mechanism.  The only remaining principled reuse
+is a strict sidecar after an order-identical canonical target-followup prefix.
+Experiment 303 is a read-only source-level proof of whether such a phase boundary
+exists in the accepted 215/258 runtime without duplicating the solver or taking
+time away from the parent.
+
+The frozen source manifest
+`research/holdouts/ATTR-TARGET-FOLLOWUP-PREFIX-FEASIBILITY-303.csv` has SHA256
+`8E5E6CA627B931A88A5371249979A6C230C4B3F636600706A51285799E98FE2B`.
+It pins `slack_refiner.cpp`, the canonical sparse implementation/header and the
+302 summary.  The audit must trace the global-pool fixed point, target-task
+scheduling, target frontier completeness, ascent consumption, deadline flags
+and every later consumer.  A reusable boundary exists only if the unmodified
+parent target phase has committed an order-identical complete plan/state/ledger
+checkpoint while positive authoritative time remains, and a bounded sidecar can
+add candidates without recomputing, replacing or starving any parent work.
+
+If the parent target phase reaches that boundary only after full frontier/fixed-
+point completion, where capability 300 is output-equivalent, or only at deadline,
+where no time remains, the RCSP production-integration direction is closed.  No
+source change, benchmark, holdout, dispatcher or score successor is authorized
+inside 303.
+
+The source audit found no useful boundary.  Target tasks are claimed through an
+atomic worker index and share one wall-clock deadline; their reachability vector
+may contain complete, partial or never-started results.  The vector replaces the
+ordinary pools and is consumed by greedy target ascent before the retrospective
+`completedTargetTasks` check.  Therefore an incomplete phase has no committed
+order-identical parent prefix.  If all frontiers and the target ascent complete,
+capability 300 has the same output and recomputation is inert; if the phase hits
+deadline, no time remains for a sidecar.
+
+Audit SHA256 is
+`A17B0B75924FDFC31F71EF0DBDAECA2A3AFEEFC07B8028ACF6B6D84891E330E6`.
+Verdict: closed-negative for production integration.  Capability 300 remains a
+valid research result, but neither direct pruning nor a post-parent sidecar is
+authorized in the current architecture.  Reopen only for a genuinely different
+deterministic operation-bounded target contract evaluated as a complete fresh
+logic policy, or a new remaining-horizon dominance certificate—not another
+wall-clock threshold, task order, cap or map/fuel dispatcher.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this is read-only; (2) nothing is deleted.
+
+## Closed negative attribution — ATTR-REQUIRED-TERMINAL-BOUND-DIVERGENCE-302
+
+Experiment 301 proved that the exact reverse terminal bound is not safe to
+insert directly into the timed production search.  The complete development
+evidence contains both strict gains and large losses, plus three 5000-ms
+checkpoint mismatches, even though capability experiment 300 proved complete
+frontier equivalence.  Before discarding the useful capability or inventing a
+second score variant, experiment 302 performs one read-only causal-boundary
+classification on the already-consumed 301 evidence.
+
+The frozen input manifest
+`research/holdouts/ATTR-REQUIRED-TERMINAL-BOUND-DIVERGENCE-302.csv` has SHA256
+`0C39A010DEB2C69C29AD4EF5D7FBBA8C11B7DC2B49DF0B8260960D73F6EE47D3`.
+It pins the 301 manifest, complete development log and summary, rejected source
+patch and both historical binaries.  The audit must report W/T/L separately by
+execution order; role-mask agreement; earliest per-day plan divergence; target
+route/plan/valid/acceptance and deadline deltas; and whether each loss follows
+candidate starvation, extra locally greedy acceptance, or an upstream role/
+checkpoint divergence.  It has attribution authority only: no 301 seed may be
+used to tune or promote a successor and the sealed 301 holdout remains unopened.
+
+A new SCORE successor was authorized only if this audit exposed a single public,
+state-coupled invariant that preserves the canonical parent as an order-identical
+5000-ms prefix and admits only separately certified additions afterward.  Mere
+correlation with map, fuel, role mask, execution order, route count or a tuned
+threshold closes direct integration instead of authorizing a dispatcher.
+
+The frozen audit completed.  Candidate-first cases were `6/5/1`, while parent-
+first cases were `4/10/4`, so execution order remains a material confound rather
+than a safe discriminator.  Equal-role cases were `9/15/3`; the three role-mask
+divergences were `1/0/2`.  The five losses split into three different primary
+classes: two upstream role divergences, two same-role target-candidate starvation
+cases, and one same-role extra locally greedy target acceptance.  The same three
+5000-ms prefix mismatches reported by 301 remain.
+
+Summarizer SHA256 is
+`F5A6E045A114CBA65F740AD9DBC27A03E6F57B23987F1799653BC41571AF325F`;
+summary SHA256 is
+`5A5DBC09C62CDD51A407ADCDA75FADB7AAC9F38EBCDBB244A275ADAD4EE47689`.
+Verdict: closed-negative.  No single loss mechanism or order-identical prefix
+was established, so 302 does not authorize a SCORE successor, dispatcher or
+threshold.  A final source-level phase-boundary audit may decide whether the
+300 capability can ever be used strictly after the canonical target-followup
+prefix; otherwise this RCSP production direction is closed.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this is a read-only analysis and canonical 258 is
+restored; (2) nothing is deleted, so no active-equivalent proof is required.
+
+## Closed rejected development — SCORE-REQUIRED-TERMINAL-LOWER-BOUND-301
+
+The frozen development run completed exactly 30 paired cases, 60 result rows
+and one `run_complete`, with zero invalid, emergency, checkpoint, terminal,
+midday or local public-window failure.  Paired W/T/L was `10/15/5`; the longer-
+window subset was `8/7/5`; aggregate official delta was `0/0/+4`.  Every score
+difference was tier 3, but the loss tail reached `-17`, gain/loss mass was only
+`44/50`, and three 5000-ms cases failed exact score/plan equivalence.  Thus four
+preregistered gates failed despite broad strict wins.
+
+Development log SHA256 is
+`DDB57E6BE9BFFF57E80A8AB46AE46E1171307CC47B5B5866F73BD913BFC83304`;
+summary SHA256 is
+`6CB5207426DA77C678C68BC1BEE9B70724F6F0AD7C4B819494BBE18DDEFAD4B7`;
+candidate binary SHA256 is
+`79A1F2A3C7C2C98C44F8AA699E6D5FB97C5B12F6776D8F268C7F1059719DC486`;
+and preserved patch SHA256 is
+`9EA77419008D5EAAB05F86198EEF68745BF39CF04868145961D4CAB426034220`.
+The sealed 54-case holdout was not opened.  The candidate source change was
+fully reverted and canonical production remains accepted experiment 258.
+
+Verdict: rejected-development.  Do not retry direct in-place terminal pruning
+or tune from these consumed cases.  Only attribution 302 may determine whether
+a genuinely different prefix-preserving certified mechanism exists.
+
+Functionality-preservation answers: (1) no canonical designed functionality is
+removed or reduced; only the rejected research candidate was reverted; (2) no
+canonical implementation was deleted.
+
+## Closed positive capability attribution — ATTR-REQUIRED-TERMINAL-LOWER-BOUND-300
+
+The complete bidirectional join in experiment 298 was slower on the actual
+single-terminal shape, and the incumbent rank bound in 299 either did not
+activate or cost more than it removed.  Both experiments nevertheless exposed
+a simpler missing invariant in the production runtime path:
+`enumerate_sparse_anytime_resource_routes_to_terminal` knows the required
+terminal but expands labels that can no longer reach it within the remaining
+step or Patrol-fuel resource.  Exact reverse shortest-resource distances to
+that one public terminal are admissible and can reject only labels whose every
+continuation is infeasible.
+
+Experiment 300 is capability attribution only.  The reference exactly mirrors
+the current cardinality-first sparse target search without target bounds.  The
+candidate constructs reverse shortest-step and shortest-fuel distances using
+the official source-cell movement convention, counts their entire construction
+cost, and suppresses a root or successor only when either lower bound exceeds
+its remaining resource.  Both searches retain the same first terminal witness
+per mask and the same ordered top-K rank; every returned route is reconstructed
+and checked by the exact simulator and independent validator.
+
+The frozen manifest
+`research/holdouts/ATTR-REQUIRED-TERMINAL-LOWER-BOUND-300.csv` has SHA256
+`BB73704A4C6E6A6C4184C16E14E1E073BA11DC0C77EE5D5F78E937DE72747880`.
+It contains eight development and eight locked verification cases over
+8/9/10 players, 3/5/8 agents, 8x8/12x12 maps, 6/8/10/12 Spots, all fuel and
+terrain families, Spot/non-Spot starts and targets, preferred-brand modes,
+minimum-Spot thresholds 1--5 and top-K 8/16/32.  Development requires exact
+ordered top-K rank/resource equality, zero invalid/validator/determinism or
+bound failure, median total-work ratio at most `0.80` including reverse-bound
+construction, and strict reduction in at least three families.  Passing opens
+only locked verification and then a separate SCORE integration with fresh
+seeds; failure closes this axis without touching production.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this is an isolated exact capability probe and
+canonical experiment 258 remains active; (2) nothing is deleted, so no active-
+equivalent deletion proof is required.
+
+Development passed the frozen gate.  All `8/8` cases preserved the exact
+ordered cardinality-first top-K rank/resource tuples with zero invalid,
+validator or determinism failure.  Median total-work ratio, including complete
+reverse-bound construction, was `0.311687`; work fell in all four families.
+The lone tiny plain case cost `1.010738`, while every other case was at most
+`0.728471`, so the gain is broad but the construction overhead is visible where
+the unbounded search is already trivial.  Probe source SHA256 is
+`6E348A50EFEBAAEB29A3A6684D5FF4B8300B103A773A3B4D7BDD48336A04E609`,
+binary SHA256 is
+`B31795CC8157F76668825D1D6BFC8101DBD2F25FF24F1F28F286FBBAB5F72B49`,
+development log SHA256 is
+`F46A558C71CCF7925391079A0B69E1E22754FE1273CB86D8FFE4244A06BA6E38`,
+empty stderr SHA256 is
+`E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855`
+and result hash is `cd818faca3fb7b4b`.  The exact frozen binary is therefore
+authorized to open the locked verification once; no production change or
+score promotion is authorized yet.
+
+The locked verification was then opened once with those exact artifacts.  All
+`8/8` fresh cases again preserved exact ordered top-K tuples with zero invalid,
+validator or determinism failure.  Median work ratio improved further to
+`0.229561`, with reduction in all four families and every individual case.
+Verification result hash is `ca958f335dffc21b`; log SHA256 is
+`E334CAFD8D724AF3E8D12216EEBCF6B8D064B81DCE46EAA1F9383F3A8C362BF2`
+and empty stderr SHA256 is
+`E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855`.
+Verdict: accepted capability, not production.  A separately frozen SCORE
+experiment may now implement this one bound inside the one existing target-
+terminal path and judge the changed bounded-search output against canonical
+258 and fresh protected evidence.
+
+## Closed negative attribution — ATTR-INCUMBENT-GOAL-RCSP-PRUNING-299
+
+Experiment 298 rejected complete bidirectional frontier construction for the
+single required-terminal production shape because join work outweighed its
+smaller half searches.  The transferable part of the literature proposal that
+remains untested is the incumbent-goal bound, not another join variant.  The
+current target-terminal forward search has an explicit top-K route contract;
+after K candidates exist, a partial label can be discarded soundly when even
+the optimistic set of individually step-and-fuel-reachable remaining Spots
+cannot outrank the current Kth route.
+
+Experiment 299 is capability attribution only.  It compares the exact current-
+shape target-pruned forward frontier/top-K reference with a forward search that
+adds one admissible lexicographic goal bound.  For each partial label, every
+unvisited Spot is included in the optimistic mask only if independent shortest
+step and fuel lower bounds permit `current -> Spot -> required terminal` within
+the remaining resources.  The optimistic rank uses upper bounds for preferred
+brands, all brands, serving-capable Spots and Spot count, followed by lower
+bounds for final step/fuel; pruning is allowed only after K actual terminal
+candidates exist and the optimistic tuple cannot strictly beat the Kth tuple.
+This cannot remove a route capable of entering the declared top-K if the bound
+is implemented correctly.
+
+The frozen manifest
+`research/holdouts/ATTR-INCUMBENT-GOAL-RCSP-PRUNING-299.csv` has SHA256
+`E8FF857F7C920919CBCC2369EEABA64B2B060C5CC5A7C34E49BA969A78769E92`.
+It contains eight development and eight locked verification cases spanning
+8/9/10 players, 3/5/8 agents, 8x8/12x12 maps, 6/8/10/12 Spots, all fuel and
+terrain families, Spot/non-Spot starts and targets, minimum-Spot thresholds
+1--5, top-K 8/16/32 and all/missing/alternating preferred-brand masks.
+Development requires exact equality of the ordered top-K route rank and
+resource tuples, exact reconstructed score/state/validator agreement, zero
+invalid/determinism/bound-soundness failure, median total-work ratio at most
+`0.85` and strict reduction in at least three families.  Work includes all
+lower-bound construction, arc scans, dominance checks, optimistic-Spot checks
+and terminal ranking.  Passing authorizes only locked verification and then a
+separate SCORE integration; failure closes goal pruning without opening it.
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; (2) nothing is deleted, so no active-equivalent
+deletion proof is required.
+
+The corrected formal development run preserved exact current cardinality-first
+top-K output in all `8/8` cases with zero tuple, validator or determinism
+failure, but the pruning gate failed.  Six cases never filled K candidates and
+therefore performed no bound checks; their work ratio was exactly `1.0`.  In
+the two cases where the bound activated, its overhead dominated the search it
+removed (`1.449124` and `1.108468`).  Median work ratio was `1.000000` and no
+fixture family had a strict reduction.  Probe source SHA256 is
+`FD72CEF78EDFF5BE3B072ECA8AAF79052C6224AFEEB75A4B7472F4D74FE0D31A`,
+binary SHA256 is
+`0306DC1F1189B060EFFAF97075FEB8FEA8B7756F43B6A59B5D747E70B7EB5066`,
+formal log SHA256 is
+`B24929B34F9ED2BA0BA45137D227B58038EB98D77167B92C894E4197ABC1E2CD`,
+empty stderr SHA256 is
+`E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855`
+and result hash is `eb590cba21c876bf`.  The earlier asymmetric accounting
+run is preserved as invalid harness evidence with log SHA256
+`3978D18BB8109958ECAE3D16A2FAF0349947B3E7634A386CA67DA71AA2C5014F`.
+Verdict: rejected-performance; locked verification was not opened and
+production remained unchanged.
+
+## Closed negative attribution — ATTR-BIDIRECTIONAL-RCSP-BOUNDARY-298
+
+Experiment 297 proved that a balanced bidirectional label-and-join search can
+reconstruct the exact endpoint frontier with materially less measured work
+than a target-pruned forward RCSP over the registered ordinary-start/public-
+Spot endpoint domain.  The real production consumer is broader: accepted 215
+calls `enumerate_sparse_anytime_resource_routes_to_terminal` for the incumbent
+terminal, which may be a non-Spot, and a Patrol may begin its day on a Spot.
+At that boundary, starting on a Spot does not claim it until an action completes,
+so a reverse suffix must add the Spot at the forward edge destination, never the
+join/source cell.  Experiment 297 did not exercise that distinction and cannot
+authorize production integration by itself.
+
+Experiment 298 is a separate capability attribution over exact required-
+terminal frontiers.  The frozen manifest
+`research/holdouts/ATTR-BIDIRECTIONAL-RCSP-BOUNDARY-298.csv` has SHA256
+`385FF9B959230783220E31F9FA866349B5C5CFF5A62D1B82A9EF4858CD9D3B52`.
+It contains eight development and eight locked verification cases spanning
+8/9/10 players, 3/5/8 agents, 8x8/12x12 maps, 6/8/10/12 Spots, all fuel
+profiles, four terrain families, Spot/non-Spot starts and Spot/non-Spot required
+terminals.  Starts/Spots remain official-domain Plain cells.  The reference
+models the current initial-Spot `WAIT(1)` claim semantics; the bidirectional
+suffix root has an empty mask and adds the destination Spot bit per reconstructed
+forward edge.  Every retained route with at least one Spot is replayed through
+the exact simulator and independent validator.
+
+Development and then locked verification each require exact equality of every
+nondominated `(visited Spot mask, required terminal, used steps, used fuel)`
+tuple; identical best ranks; zero invalid, reconstruction, destination-mask,
+reverse-cost or deterministic-order failure; median work ratio at most `0.80`;
+and strict work reduction in at least three families.  Passing only authorizes
+a separately frozen SCORE integration that replaces the one current target-
+terminal forward caller with one canonical bidirectional implementation.
+Failure closes the axis without changing production.  Functionality-
+preservation answers: (1) no designed functionality is removed, disabled,
+deferred or reduced; (2) nothing is deleted, so no active-equivalent deletion
+proof is required.
+
+Development completed after one preserved invalid harness run whose exit code
+checked parity but omitted the registered work gate.  The corrected frozen
+probe returned exit `2` and `gate_pass=0`: all `8/8` cases had exact frontier
+and best-rank parity, deterministic order, zero invalid route, reverse-cost or
+validator failure, but median bidirectional work ratio was `1.193558` and only
+two of four families had any strict reduction.  Thus the mechanism is correct
+but materially slower for the actual single-terminal shape.  Verification was
+not opened and production was never modified.
+
+Frozen probe source SHA256 is
+`B988CD1AB491DFB5BB968F04F3F8A8F1F6BE081BA9D87F82F6BD00890EB386BA`,
+binary SHA256 is
+`D283975B9014AAB04A92765471C2A7854903DF36D76C090E7F8600E06557D625`,
+formal development log SHA256 is
+`49388E4C85B4C1D637646142FE78665A7F3F3A29D6FD09E4F067EB3F345F2BE2`,
+empty stderr SHA256 is
+`E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855`,
+and deterministic result hash is `78c7100523f6db4`.  The preserved invalid
+pre-gate-exit log SHA256 is
+`703F25A931D8C757D7EC291941882FAB9422EA173C6DB390C844EDB7F8FDE447`.
+Verdict: rejected-performance; do not integrate complete bidirectional joins
+into the target-terminal caller and do not open the locked split.
+
+## Closed positive capability attribution — ATTR-BIDIRECTIONAL-RCSP-FRONTIER-297
+
+The accepted production line remains experiment 258 at commit `ab3d699`.
+Experiments 286/287/295 showed that appending plausible route columns to the
+same bounded portfolio can displace stronger incumbents even when the new
+columns are not selected.  At the same time, exact-orienteering telemetry and
+the closed high-fuel/large-map gaps show that the current forward resource
+enumerator is frequently state- or deadline-bounded.  The external algorithm
+audit therefore identified incumbent-goal bidirectional resource-constrained
+pricing as the highest-value mechanism that is structurally different from
+another pool-growth attempt.
+
+Experiment 297 is capability attribution only.  It will independently
+implement a targeted forward RCSP reference with exact step/fuel lower bounds
+and a bidirectional label-and-join prototype over identical public fixtures.
+Both sides use the same exact
+movement convention, Patrol fuel, step budget and visited-Spot mask; reverse
+expansion must charge the forward predecessor cell, Spot masks are joined by
+set union, and every reconstructed route is checked by the existing exact
+simulator and independent validator.  No production route, master, decision,
+deadline or candidate set is changed in this phase, and no PathWyse/GPL source
+is copied.
+
+The frozen manifest
+`research/holdouts/ATTR-BIDIRECTIONAL-RCSP-FRONTIER-297.csv` has SHA256
+`C76955178F186804B03149731F79402D868C42B45D6DA217921F8B6424DD49B5`.
+It contains twelve development and twelve locked verification cases spanning
+8/9/10 players, 3/5/8 agents, maps 8x8 and 12x12, 6/8/10 Spots, low/default/high
+fuel and plain, mixed, threshold-road and pond-bottleneck families.  Each case
+prices every public Spot as an endpoint.  The verification split remains
+unread until complete development passes.
+
+Development requires exact equality of the complete nondominated endpoint
+frontier `(visited Spot mask, terminal cell, used steps, used fuel)` for every
+target; identical best lexicographic endpoint ranks; zero invalid route,
+simulator/validator disagreement, reverse-cost error or reconstruction
+failure; deterministic result hashes in a repeated order check; and a median
+bidirectional work ratio no greater than `0.80` relative to the targeted
+forward reference, with a strict reduction in at least three fixture families.
+The work denominator and numerator both count settled labels, directed-arc
+scans, dominance checks and examined join pairs; reverse-graph construction
+and both forward lower-bound Dijkstra passes are included rather than hidden.
+Passing authorizes only the locked verification run and then a separately
+frozen SCORE successor that integrates one canonical incumbent-goal pricing
+path.  Failure closes this prototype without touching production; it does not
+authorize relaxing parity, hiding work in a different metric, increasing the
+5000-ms cap or retaining forward/bidirectional dual production paths.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this is an isolated research probe and canonical
+258 remains active; (2) nothing is deleted, so no active-equivalent replacement
+proof is required.
+
+Development completed from the frozen MSVC Release probe.  A pre-evidence
+method audit first rejected the naive full-forward-per-target denominator and
+replaced it with exact target-specific step/fuel lower-bound pruning; the
+formal run below is the stricter rerun.  All `12/12` cases passed with zero
+frontier mismatch, best-rank mismatch, deterministic-order failure, invalid
+route, simulator/validator disagreement, reverse-cost failure or
+reconstruction failure.  The median bidirectional work ratio was `0.577038`
+and work fell in all four families.  Probe source SHA256 is
+`3437EDBA739775539C56E585848FFBCF2AF4A5175119520944D48A390B581696`,
+probe binary SHA256 is
+`3FD17293E59A851587ECD2A5FFA2BDADE7851DD8C05E5371F6CB9B862D7053B4`,
+development log SHA256 is
+`5DF9B897D4C41448A7029B0E39F1B80BC9729C8FF902977AFD1590A5829FDB7D`,
+empty stderr SHA256 is
+`E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855`,
+and deterministic result hash is `cb4dd1eab59f7742`.
+
+The locked verification then completed once from those exact frozen artifacts:
+`12/12` cases, zero frontier/rank/determinism/invalid/simulator-validator/
+reverse-cost/reconstruction failure, median work ratio `0.551093`, and strict
+reduction in all four families.  Verification result hash is
+`732a6ec5c88ebe8c`; log SHA256 is
+`46E52BF0CA0EBB7D13843BE33F5E34D65EEDF6A386681A7CCA8CA248791AFD5C`
+and empty stderr SHA256 remains
+`E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855`.
+Verdict: accepted capability within its frozen scope, not a production or score
+promotion.  The subsequent runtime-path audit identified the start-on-Spot and
+arbitrary-terminal boundary now isolated in 298.
+
 ## Closed negative attribution — ATTR-ROW28-ROLE-TRAJECTORY-296
 
 The September 10 deadline does not justify another variant of a closed
@@ -89,31 +488,37 @@ Functionality-preservation answers: (1) this audit removes, disables, defers or
 reduces no designed functionality; (2) nothing is deleted, so no
 active-equivalent replacement proof is required.
 
-## Current decision — no active experiment; canonical 258 remains
+## Current decision — no active score experiment; canonical 258 remains
 
-The fresh mechanism authorized by attribution 294 failed its complete
-development gate in experiment 295, and attribution 296 has now closed the
-last unmeasured role boundary of the row-28 tier-2 loss. The 30-match BTC screen
-therefore does not authorize another blind BTC batch, and the old losses do not
-justify another variant of the already-exhausted role, refuel-group,
-deadline-bound portfolio or high-fuel long-horizon mechanisms. Canonical
-accepted production remains
-experiment 258 at commit `ab3d6999d60a7ca290a366bf235154178c6d721f`;
-the service-event source candidate has been fully reverted.
+The refuel service-event successor 295 failed development and attribution 296
+closed role composition as the cause of row 28.  The subsequent literature-
+derived RCSP chain 297--303 is also complete: 297 proved efficient exact multi-
+endpoint bidirectional frontiers, 298 showed that the full join is slower on the
+actual single-terminal boundary, 299 rejected incumbent goal pruning, and 300
+proved a strong exact reverse terminal lower bound.  Direct integration 301
+then failed its score/equivalence gate; 302 found three distinct loss mechanisms;
+303 proved that the accepted runtime has no useful prefix-preserving sidecar
+boundary.  All rejected source changes are reverted.
+
+Canonical accepted production therefore remains experiment 258 at commit
+`ab3d6999d60a7ca290a366bf235154178c6d721f`.  The current Release build after
+revert passes the full unit suite.  Capability 300 is retained as research
+knowledge, not enabled production logic.
 
 The next permitted work is competition-readiness verification of the canonical
-binary, runbook, token/protocol lifecycle and artifact hashes. Score research
+binary, runbook, token/protocol lifecycle and artifact hashes.  Score research
 may reopen only from a fresh authoritative rule/configuration change, a fresh
 real-opponent or BTC replay counterexample not already covered by the closed
-clusters, or a genuinely different state-coupled invariant recorded here and in
-`research/EXPERIMENTS.csv` before source change. Do not start another blind
-BTC series, reuse consumed holdouts or create another service-event-group
-variant merely by tuning rank, cap, priority or cutoff.
+clusters, a deterministic operation-bounded whole target policy, or a genuinely
+new remaining-horizon dominance certificate recorded here and in
+`research/EXPERIMENTS.csv` before source change.  Do not start another blind BTC
+series, reuse consumed holdouts, or create another service-event/RCSP variant by
+tuning rank, task order, cap, threshold, priority or cutoff.
 
 Functionality-preservation answers: (1) no canonical designed functionality is
-removed, disabled, deferred or reduced; rejected experiment 295 was an opt-in
-research-only addition and canonical 258 remains intact; (2) no canonical
-implementation is deleted, so no active-equivalent replacement is required.
+removed, disabled, deferred or reduced; all rejected additions were research-
+only and canonical 258 remains intact; (2) no canonical implementation is
+deleted, so no active-equivalent replacement is required.
 
 ## Closed relay audit — three narrow human-opponent games, no reopen
 

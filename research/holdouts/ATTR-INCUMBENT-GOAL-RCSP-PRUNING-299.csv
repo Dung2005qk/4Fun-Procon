@@ -1,0 +1,9 @@
+experiment_id,split,family,width,height,agent_count,spot_count,players,day_steps,fuel_profile,start_mode,target_mode,preferred_mode,minimum_spots,maximum_routes,first_seed,count,scope
+ATTR-INCUMBENT-GOAL-RCSP-PRUNING-299,development,plain-open,8,8,3,6,8,16,default,nonspot,nonspot,alternating,1,8,10240000,2,exact-required-terminal-topk
+ATTR-INCUMBENT-GOAL-RCSP-PRUNING-299,development,mixed-terrain,8,8,5,8,9,20,low,spot,nonspot,missing,3,16,10240100,2,exact-required-terminal-topk
+ATTR-INCUMBENT-GOAL-RCSP-PRUNING-299,development,road-threshold,8,8,8,8,10,24,high,nonspot,spot,all,3,16,10240200,2,exact-required-terminal-topk
+ATTR-INCUMBENT-GOAL-RCSP-PRUNING-299,development,pond-bottleneck,12,12,3,10,10,28,default,spot,spot,alternating,4,32,10240300,2,exact-required-terminal-topk
+ATTR-INCUMBENT-GOAL-RCSP-PRUNING-299,verification,plain-open,8,8,8,8,10,20,low,spot,nonspot,missing,2,16,10250000,2,exact-required-terminal-topk
+ATTR-INCUMBENT-GOAL-RCSP-PRUNING-299,verification,mixed-terrain,8,8,3,8,8,24,default,nonspot,spot,alternating,3,8,10250100,2,exact-required-terminal-topk
+ATTR-INCUMBENT-GOAL-RCSP-PRUNING-299,verification,road-threshold,12,12,5,10,9,32,high,spot,spot,all,4,32,10250200,2,exact-required-terminal-topk
+ATTR-INCUMBENT-GOAL-RCSP-PRUNING-299,verification,pond-bottleneck,12,12,8,12,10,36,default,spot,nonspot,missing,5,32,10250300,2,exact-required-terminal-topk

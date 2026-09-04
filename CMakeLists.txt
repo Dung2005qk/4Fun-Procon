@@ -102,6 +102,22 @@ if(UDONSHIELD_BUILD_BENCHMARKS)
         research/probes/tanker_match_oracle.cpp)
     target_link_libraries(udonshield_tanker_match_oracle PRIVATE udon_shield)
     add_executable(
+        udonshield_bidirectional_rcsp_probe
+        research/probes/bidirectional_rcsp_probe.cpp)
+    target_link_libraries(udonshield_bidirectional_rcsp_probe PRIVATE udon_shield)
+    add_executable(
+        udonshield_bidirectional_rcsp_boundary_probe
+        research/probes/bidirectional_rcsp_boundary_probe.cpp)
+    target_link_libraries(udonshield_bidirectional_rcsp_boundary_probe PRIVATE udon_shield)
+    add_executable(
+        udonshield_incumbent_goal_rcsp_probe
+        research/probes/incumbent_goal_rcsp_probe.cpp)
+    target_link_libraries(udonshield_incumbent_goal_rcsp_probe PRIVATE udon_shield)
+    add_executable(
+        udonshield_required_terminal_lower_bound_probe
+        research/probes/required_terminal_lower_bound_probe.cpp)
+    target_link_libraries(udonshield_required_terminal_lower_bound_probe PRIVATE udon_shield)
+    add_executable(
         udonshield_historical_tournament
         old/harness/historical_tournament.cpp)
     target_link_libraries(udonshield_historical_tournament PRIVATE udon_shield)

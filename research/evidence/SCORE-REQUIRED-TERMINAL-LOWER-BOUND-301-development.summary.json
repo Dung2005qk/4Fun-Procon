@@ -1,0 +1,707 @@
+{
+  "aggregate_score_delta": [
+    0,
+    0,
+    4
+  ],
+  "deadline_overruns_local": [],
+  "equivalence_5000_failures": [
+    "multiteam-24:10303001",
+    "multiteam-32:10304100",
+    "multiteam-32:10304101"
+  ],
+  "experiment": "SCORE-REQUIRED-TERMINAL-LOWER-BOUND-301",
+  "first_difference_tiers": {
+    "0": 15,
+    "3": 15
+  },
+  "gain_tail": {
+    "max": 19,
+    "sum": 44
+  },
+  "gate": {
+    "exact_5000_score_and_plan_equivalence": false,
+    "gain_mass_at_least_twice_loss_mass": false,
+    "longer_window_wins_exceed_losses": true,
+    "minimum_strict_longer_window_wins": true,
+    "no_tier1_or_tier2_longer_window_loss": true,
+    "passed": false,
+    "tier3_downside_bounded_to_four": false,
+    "wins_span_both_longer_windows": true,
+    "wins_span_two_fuel_profiles": true,
+    "wins_span_two_map_suites": true,
+    "within_declared_public_window_local_check": true,
+    "zero_safety_failure": true
+  },
+  "log_sha256": "DDB57E6BE9BFFF57E80A8AB46AE46E1171307CC47B5B5866F73BD913BFC83304",
+  "longer_window_wtl": [
+    8,
+    7,
+    5
+  ],
+  "loss_tail": {
+    "min": -17,
+    "sum": -50
+  },
+  "manifest_sha256": "B5BEED7027A7CE32CAA8CF878F2B573425F636E004974A765E26B08A9A3BF103",
+  "paired_cases": 30,
+  "paired_rows": [
+    {
+      "candidate_midday_target_acceptances": 0,
+      "candidate_midday_target_routes": 0,
+      "first_difference_delta": 0,
+      "first_difference_tier": 0,
+      "fuel": "low",
+      "outcome": "tie",
+      "parent_midday_target_acceptances": 0,
+      "parent_midday_target_routes": 0,
+      "score_delta": [
+        0,
+        0,
+        0
+      ],
+      "seed": 10300000,
+      "suite": "general",
+      "window": 5000
+    },
+    {
+      "candidate_midday_target_acceptances": 0,
+      "candidate_midday_target_routes": 4,
+      "first_difference_delta": 0,
+      "first_difference_tier": 0,
+      "fuel": "low",
+      "outcome": "tie",
+      "parent_midday_target_acceptances": 0,
+      "parent_midday_target_routes": 4,
+      "score_delta": [
+        0,
+        0,
+        0
+      ],
+      "seed": 10300001,
+      "suite": "general",
+      "window": 5000
+    },
+    {
+      "candidate_midday_target_acceptances": 0,
+      "candidate_midday_target_routes": 0,
+      "first_difference_delta": 0,
+      "first_difference_tier": 0,
+      "fuel": "low",
+      "outcome": "tie",
+      "parent_midday_target_acceptances": 0,
+      "parent_midday_target_routes": 0,
+      "score_delta": [
+        0,
+        0,
+        0
+      ],
+      "seed": 10300002,
+      "suite": "general",
+      "window": 5000
+    },
+    {
+      "candidate_midday_target_acceptances": 0,
+      "candidate_midday_target_routes": 40,
+      "first_difference_delta": 0,
+      "first_difference_tier": 0,
+      "fuel": "generated",
+      "outcome": "tie",
+      "parent_midday_target_acceptances": 0,
+      "parent_midday_target_routes": 40,
+      "score_delta": [
+        0,
+        0,
+        0
+      ],
+      "seed": 10300100,
+      "suite": "general",
+      "window": 10000
+    },
+    {
+      "candidate_midday_target_acceptances": 0,
+      "candidate_midday_target_routes": 0,
+      "first_difference_delta": 0,
+      "first_difference_tier": 0,
+      "fuel": "generated",
+      "outcome": "tie",
+      "parent_midday_target_acceptances": 0,
+      "parent_midday_target_routes": 0,
+      "score_delta": [
+        0,
+        0,
+        0
+      ],
+      "seed": 10300101,
+      "suite": "general",
+      "window": 10000
+    },
+    {
+      "candidate_midday_target_acceptances": 0,
+      "candidate_midday_target_routes": 126,
+      "first_difference_delta": 0,
+      "first_difference_tier": 0,
+      "fuel": "generated",
+      "outcome": "tie",
+      "parent_midday_target_acceptances": 0,
+      "parent_midday_target_routes": 126,
+      "score_delta": [
+        0,
+        0,
+        0
+      ],
+      "seed": 10300102,
+      "suite": "general",
+      "window": 10000
+    },
+    {
+      "candidate_midday_target_acceptances": 3,
+      "candidate_midday_target_routes": 864,
+      "first_difference_delta": 0,
+      "first_difference_tier": 0,
+      "fuel": "low",
+      "outcome": "tie",
+      "parent_midday_target_acceptances": 3,
+      "parent_midday_target_routes": 864,
+      "score_delta": [
+        0,
+        0,
+        0
+      ],
+      "seed": 10301000,
+      "suite": "multiteam-12",
+      "window": 15000
+    },
+    {
+      "candidate_midday_target_acceptances": 1,
+      "candidate_midday_target_routes": 576,
+      "first_difference_delta": 0,
+      "first_difference_tier": 0,
+      "fuel": "low",
+      "outcome": "tie",
+      "parent_midday_target_acceptances": 1,
+      "parent_midday_target_routes": 576,
+      "score_delta": [
+        0,
+        0,
+        0
+      ],
+      "seed": 10301001,
+      "suite": "multiteam-12",
+      "window": 15000
+    },
+    {
+      "candidate_midday_target_acceptances": 1,
+      "candidate_midday_target_routes": 480,
+      "first_difference_delta": 0,
+      "first_difference_tier": 0,
+      "fuel": "low",
+      "outcome": "tie",
+      "parent_midday_target_acceptances": 1,
+      "parent_midday_target_routes": 480,
+      "score_delta": [
+        0,
+        0,
+        0
+      ],
+      "seed": 10301002,
+      "suite": "multiteam-12",
+      "window": 15000
+    },
+    {
+      "candidate_midday_target_acceptances": 0,
+      "candidate_midday_target_routes": 512,
+      "first_difference_delta": 0,
+      "first_difference_tier": 0,
+      "fuel": "high",
+      "outcome": "tie",
+      "parent_midday_target_acceptances": 0,
+      "parent_midday_target_routes": 512,
+      "score_delta": [
+        0,
+        0,
+        0
+      ],
+      "seed": 10301100,
+      "suite": "multiteam-12",
+      "window": 5000
+    },
+    {
+      "candidate_midday_target_acceptances": 0,
+      "candidate_midday_target_routes": 512,
+      "first_difference_delta": 0,
+      "first_difference_tier": 0,
+      "fuel": "high",
+      "outcome": "tie",
+      "parent_midday_target_acceptances": 0,
+      "parent_midday_target_routes": 512,
+      "score_delta": [
+        0,
+        0,
+        0
+      ],
+      "seed": 10301101,
+      "suite": "multiteam-12",
+      "window": 5000
+    },
+    {
+      "candidate_midday_target_acceptances": 0,
+      "candidate_midday_target_routes": 384,
+      "first_difference_delta": 0,
+      "first_difference_tier": 0,
+      "fuel": "high",
+      "outcome": "tie",
+      "parent_midday_target_acceptances": 0,
+      "parent_midday_target_routes": 384,
+      "score_delta": [
+        0,
+        0,
+        0
+      ],
+      "seed": 10301102,
+      "suite": "multiteam-12",
+      "window": 5000
+    },
+    {
+      "candidate_midday_target_acceptances": 0,
+      "candidate_midday_target_routes": 128,
+      "first_difference_delta": 4,
+      "first_difference_tier": 3,
+      "fuel": "default",
+      "outcome": "win",
+      "parent_midday_target_acceptances": 0,
+      "parent_midday_target_routes": 512,
+      "score_delta": [
+        0,
+        0,
+        4
+      ],
+      "seed": 10302000,
+      "suite": "multiteam-16",
+      "window": 10000
+    },
+    {
+      "candidate_midday_target_acceptances": 0,
+      "candidate_midday_target_routes": 640,
+      "first_difference_delta": 0,
+      "first_difference_tier": 0,
+      "fuel": "default",
+      "outcome": "tie",
+      "parent_midday_target_acceptances": 0,
+      "parent_midday_target_routes": 640,
+      "score_delta": [
+        0,
+        0,
+        0
+      ],
+      "seed": 10302001,
+      "suite": "multiteam-16",
+      "window": 10000
+    },
+    {
+      "candidate_midday_target_acceptances": 1,
+      "candidate_midday_target_routes": 768,
+      "first_difference_delta": 1,
+      "first_difference_tier": 3,
+      "fuel": "default",
+      "outcome": "win",
+      "parent_midday_target_acceptances": 1,
+      "parent_midday_target_routes": 768,
+      "score_delta": [
+        0,
+        0,
+        1
+      ],
+      "seed": 10302002,
+      "suite": "multiteam-16",
+      "window": 10000
+    },
+    {
+      "candidate_midday_target_acceptances": 2,
+      "candidate_midday_target_routes": 896,
+      "first_difference_delta": -6,
+      "first_difference_tier": 3,
+      "fuel": "low",
+      "outcome": "loss",
+      "parent_midday_target_acceptances": 6,
+      "parent_midday_target_routes": 1618,
+      "score_delta": [
+        0,
+        0,
+        -6
+      ],
+      "seed": 10302100,
+      "suite": "multiteam-16",
+      "window": 15000
+    },
+    {
+      "candidate_midday_target_acceptances": 3,
+      "candidate_midday_target_routes": 1024,
+      "first_difference_delta": 1,
+      "first_difference_tier": 3,
+      "fuel": "low",
+      "outcome": "win",
+      "parent_midday_target_acceptances": 3,
+      "parent_midday_target_routes": 1024,
+      "score_delta": [
+        0,
+        0,
+        1
+      ],
+      "seed": 10302101,
+      "suite": "multiteam-16",
+      "window": 15000
+    },
+    {
+      "candidate_midday_target_acceptances": 2,
+      "candidate_midday_target_routes": 896,
+      "first_difference_delta": -2,
+      "first_difference_tier": 3,
+      "fuel": "low",
+      "outcome": "loss",
+      "parent_midday_target_acceptances": 4,
+      "parent_midday_target_routes": 1152,
+      "score_delta": [
+        0,
+        0,
+        -2
+      ],
+      "seed": 10302102,
+      "suite": "multiteam-16",
+      "window": 15000
+    },
+    {
+      "candidate_midday_target_acceptances": 2,
+      "candidate_midday_target_routes": 1152,
+      "first_difference_delta": 0,
+      "first_difference_tier": 0,
+      "fuel": "high",
+      "outcome": "tie",
+      "parent_midday_target_acceptances": 2,
+      "parent_midday_target_routes": 1152,
+      "score_delta": [
+        0,
+        0,
+        0
+      ],
+      "seed": 10303000,
+      "suite": "multiteam-24",
+      "window": 5000
+    },
+    {
+      "candidate_midday_target_acceptances": 5,
+      "candidate_midday_target_routes": 1536,
+      "first_difference_delta": 9,
+      "first_difference_tier": 3,
+      "fuel": "high",
+      "outcome": "win",
+      "parent_midday_target_acceptances": 3,
+      "parent_midday_target_routes": 1024,
+      "score_delta": [
+        0,
+        0,
+        9
+      ],
+      "seed": 10303001,
+      "suite": "multiteam-24",
+      "window": 5000
+    },
+    {
+      "candidate_midday_target_acceptances": 1,
+      "candidate_midday_target_routes": 512,
+      "first_difference_delta": 4,
+      "first_difference_tier": 3,
+      "fuel": "default",
+      "outcome": "win",
+      "parent_midday_target_acceptances": 0,
+      "parent_midday_target_routes": 256,
+      "score_delta": [
+        0,
+        0,
+        4
+      ],
+      "seed": 10303100,
+      "suite": "multiteam-24",
+      "window": 10000
+    },
+    {
+      "candidate_midday_target_acceptances": 6,
+      "candidate_midday_target_routes": 1664,
+      "first_difference_delta": 6,
+      "first_difference_tier": 3,
+      "fuel": "default",
+      "outcome": "win",
+      "parent_midday_target_acceptances": 2,
+      "parent_midday_target_routes": 886,
+      "score_delta": [
+        0,
+        0,
+        6
+      ],
+      "seed": 10303101,
+      "suite": "multiteam-24",
+      "window": 10000
+    },
+    {
+      "candidate_midday_target_acceptances": 11,
+      "candidate_midday_target_routes": 2720,
+      "first_difference_delta": -13,
+      "first_difference_tier": 3,
+      "fuel": "low",
+      "outcome": "loss",
+      "parent_midday_target_acceptances": 9,
+      "parent_midday_target_routes": 1868,
+      "score_delta": [
+        0,
+        0,
+        -13
+      ],
+      "seed": 10304000,
+      "suite": "multiteam-32",
+      "window": 15000
+    },
+    {
+      "candidate_midday_target_acceptances": 5,
+      "candidate_midday_target_routes": 1933,
+      "first_difference_delta": 19,
+      "first_difference_tier": 3,
+      "fuel": "low",
+      "outcome": "win",
+      "parent_midday_target_acceptances": 3,
+      "parent_midday_target_routes": 1030,
+      "score_delta": [
+        0,
+        0,
+        19
+      ],
+      "seed": 10304001,
+      "suite": "multiteam-32",
+      "window": 15000
+    },
+    {
+      "candidate_midday_target_acceptances": 2,
+      "candidate_midday_target_routes": 1536,
+      "first_difference_delta": 0,
+      "first_difference_tier": 0,
+      "fuel": "high",
+      "outcome": "tie",
+      "parent_midday_target_acceptances": 0,
+      "parent_midday_target_routes": 1004,
+      "score_delta": [
+        0,
+        0,
+        0
+      ],
+      "seed": 10304100,
+      "suite": "multiteam-32",
+      "window": 5000
+    },
+    {
+      "candidate_midday_target_acceptances": 0,
+      "candidate_midday_target_routes": 1280,
+      "first_difference_delta": 1,
+      "first_difference_tier": 3,
+      "fuel": "high",
+      "outcome": "win",
+      "parent_midday_target_acceptances": 1,
+      "parent_midday_target_routes": 1392,
+      "score_delta": [
+        0,
+        0,
+        1
+      ],
+      "seed": 10304101,
+      "suite": "multiteam-32",
+      "window": 5000
+    },
+    {
+      "candidate_midday_target_acceptances": 4,
+      "candidate_midday_target_routes": 1168,
+      "first_difference_delta": 8,
+      "first_difference_tier": 3,
+      "fuel": "generated",
+      "outcome": "win",
+      "parent_midday_target_acceptances": 1,
+      "parent_midday_target_routes": 1077,
+      "score_delta": [
+        0,
+        0,
+        8
+      ],
+      "seed": 10305000,
+      "suite": "multiteam-24",
+      "window": 10000
+    },
+    {
+      "candidate_midday_target_acceptances": 0,
+      "candidate_midday_target_routes": 576,
+      "first_difference_delta": -12,
+      "first_difference_tier": 3,
+      "fuel": "generated",
+      "outcome": "loss",
+      "parent_midday_target_acceptances": 4,
+      "parent_midday_target_routes": 1458,
+      "score_delta": [
+        0,
+        0,
+        -12
+      ],
+      "seed": 10305001,
+      "suite": "multiteam-24",
+      "window": 10000
+    },
+    {
+      "candidate_midday_target_acceptances": 1,
+      "candidate_midday_target_routes": 864,
+      "first_difference_delta": -17,
+      "first_difference_tier": 3,
+      "fuel": "generated",
+      "outcome": "loss",
+      "parent_midday_target_acceptances": 6,
+      "parent_midday_target_routes": 1632,
+      "score_delta": [
+        0,
+        0,
+        -17
+      ],
+      "seed": 10305100,
+      "suite": "multiteam-16",
+      "window": 15000
+    },
+    {
+      "candidate_midday_target_acceptances": 5,
+      "candidate_midday_target_routes": 1600,
+      "first_difference_delta": 1,
+      "first_difference_tier": 3,
+      "fuel": "generated",
+      "outcome": "win",
+      "parent_midday_target_acceptances": 4,
+      "parent_midday_target_routes": 1312,
+      "score_delta": [
+        0,
+        0,
+        1
+      ],
+      "seed": 10305101,
+      "suite": "multiteam-16",
+      "window": 15000
+    }
+  ],
+  "paired_wtl": [
+    10,
+    15,
+    5
+  ],
+  "phase": "development",
+  "safety": {
+    "candidate_checkpoint_closed_loop_failures": 0,
+    "candidate_emergency": 0,
+    "candidate_invalid": 0,
+    "candidate_midday_failure_days": 0,
+    "candidate_protected_terminal_invalid": 0,
+    "candidate_terminal_marginal_failure": 0,
+    "candidate_terminal_sparse_failure": 0,
+    "parent_checkpoint_closed_loop_failures": 0,
+    "parent_emergency": 0,
+    "parent_invalid": 0,
+    "parent_midday_failure_days": 0,
+    "parent_protected_terminal_invalid": 0,
+    "parent_terminal_marginal_failure": 0,
+    "parent_terminal_sparse_failure": 0
+  },
+  "strata": {
+    "fuel:default": {
+      "tie": 1,
+      "win": 4
+    },
+    "fuel:generated": {
+      "loss": 2,
+      "tie": 3,
+      "win": 2
+    },
+    "fuel:high": {
+      "tie": 5,
+      "win": 2
+    },
+    "fuel:low": {
+      "loss": 3,
+      "tie": 6,
+      "win": 2
+    },
+    "players:10": {
+      "loss": 4,
+      "tie": 3,
+      "win": 3
+    },
+    "players:8": {
+      "tie": 8,
+      "win": 2
+    },
+    "players:9": {
+      "loss": 1,
+      "tie": 4,
+      "win": 5
+    },
+    "role:deadline": {
+      "loss": 3,
+      "tie": 7,
+      "win": 5
+    },
+    "role:fixed": {
+      "loss": 2,
+      "tie": 8,
+      "win": 5
+    },
+    "suite:general": {
+      "tie": 6
+    },
+    "suite:multiteam-12": {
+      "tie": 6
+    },
+    "suite:multiteam-16": {
+      "loss": 3,
+      "tie": 1,
+      "win": 4
+    },
+    "suite:multiteam-24": {
+      "loss": 1,
+      "tie": 1,
+      "win": 4
+    },
+    "suite:multiteam-32": {
+      "loss": 1,
+      "tie": 1,
+      "win": 2
+    },
+    "window:10000": {
+      "loss": 1,
+      "tie": 4,
+      "win": 5
+    },
+    "window:15000": {
+      "loss": 4,
+      "tie": 3,
+      "win": 3
+    },
+    "window:5000": {
+      "tie": 8,
+      "win": 2
+    }
+  },
+  "win_breadth": {
+    "fuels": [
+      "default",
+      "generated",
+      "low"
+    ],
+    "suites": [
+      "multiteam-16",
+      "multiteam-24",
+      "multiteam-32"
+    ],
+    "windows": [
+      "10000",
+      "15000"
+    ]
+  }
+}

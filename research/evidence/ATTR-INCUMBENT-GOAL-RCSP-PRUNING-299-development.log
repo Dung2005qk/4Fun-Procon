@@ -1,0 +1,9 @@
+case split=development family=plain-open seed=10240000 top_k=1 minimum_spots=1 reference_work=2083 bounded_work=2083 bound_checks=0 work_ratio=1.000000 top_k_mismatch=0 deterministic_failure=0 invalid=0
+case split=development family=plain-open seed=10240001 top_k=7 minimum_spots=1 reference_work=2286 bounded_work=2286 bound_checks=0 work_ratio=1.000000 top_k_mismatch=0 deterministic_failure=0 invalid=0
+case split=development family=mixed-terrain seed=10240100 top_k=16 minimum_spots=3 reference_work=15528 bounded_work=22502 bound_checks=8904 work_ratio=1.449124 top_k_mismatch=0 deterministic_failure=0 invalid=0
+case split=development family=mixed-terrain seed=10240101 top_k=9 minimum_spots=3 reference_work=8949 bounded_work=8949 bound_checks=0 work_ratio=1.000000 top_k_mismatch=0 deterministic_failure=0 invalid=0
+case split=development family=road-threshold seed=10240200 top_k=7 minimum_spots=3 reference_work=6791 bounded_work=6791 bound_checks=0 work_ratio=1.000000 top_k_mismatch=0 deterministic_failure=0 invalid=0
+case split=development family=road-threshold seed=10240201 top_k=15 minimum_spots=3 reference_work=8258 bounded_work=8258 bound_checks=0 work_ratio=1.000000 top_k_mismatch=0 deterministic_failure=0 invalid=0
+case split=development family=pond-bottleneck seed=10240300 top_k=5 minimum_spots=4 reference_work=12158 bounded_work=12158 bound_checks=0 work_ratio=1.000000 top_k_mismatch=0 deterministic_failure=0 invalid=0
+case split=development family=pond-bottleneck seed=10240301 top_k=32 minimum_spots=4 reference_work=33678 bounded_work=37331 bound_checks=3660 work_ratio=1.108468 top_k_mismatch=0 deterministic_failure=0 invalid=0
+summary experiment=ATTR-INCUMBENT-GOAL-RCSP-PRUNING-299 split=development cases=8 top_k_mismatch=0 deterministic_failure=0 invalid=0 median_work_ratio=1.000000 reduced_families=0 parity_pass=1 gate_pass=0 result_hash=eb590cba21c876bf

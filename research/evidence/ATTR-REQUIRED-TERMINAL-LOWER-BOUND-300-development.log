@@ -1,0 +1,9 @@
+case split=development family=plain-open seed=10260000 top_k=3 minimum_spots=1 baseline_work=2142 bounded_work=2165 work_ratio=1.010738 top_k_mismatch=0 deterministic_failure=0 invalid=0
+case split=development family=plain-open seed=10260001 top_k=0 minimum_spots=1 baseline_work=2276 bounded_work=1658 work_ratio=0.728471 top_k_mismatch=0 deterministic_failure=0 invalid=0
+case split=development family=mixed-terrain seed=10260100 top_k=16 minimum_spots=3 baseline_work=77978 bounded_work=23637 work_ratio=0.303124 top_k_mismatch=0 deterministic_failure=0 invalid=0
+case split=development family=mixed-terrain seed=10260101 top_k=16 minimum_spots=3 baseline_work=66473 bounded_work=21288 work_ratio=0.320250 top_k_mismatch=0 deterministic_failure=0 invalid=0
+case split=development family=road-threshold seed=10260200 top_k=8 minimum_spots=3 baseline_work=37091 bounded_work=5053 work_ratio=0.136233 top_k_mismatch=0 deterministic_failure=0 invalid=0
+case split=development family=road-threshold seed=10260201 top_k=11 minimum_spots=3 baseline_work=30029 bounded_work=7603 work_ratio=0.253189 top_k_mismatch=0 deterministic_failure=0 invalid=0
+case split=development family=pond-bottleneck seed=10260300 top_k=14 minimum_spots=4 baseline_work=36064 bounded_work=12069 work_ratio=0.334655 top_k_mismatch=0 deterministic_failure=0 invalid=0
+case split=development family=pond-bottleneck seed=10260301 top_k=2 minimum_spots=4 baseline_work=38830 bounded_work=11471 work_ratio=0.295416 top_k_mismatch=0 deterministic_failure=0 invalid=0
+summary experiment=ATTR-REQUIRED-TERMINAL-LOWER-BOUND-300 split=development cases=8 top_k_mismatch=0 deterministic_failure=0 invalid=0 median_work_ratio=0.311687 reduced_families=4 parity_pass=1 gate_pass=1 result_hash=cd818faca3fb7b4b
