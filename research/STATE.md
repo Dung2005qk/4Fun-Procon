@@ -1,14 +1,72 @@
 # UDON-SHIELD Research State
 
-Updated: 2026-09-03
+Updated: 2026-09-04
+
+## Closed negative attribution — ATTR-ROW28-ROLE-TRAJECTORY-296
+
+The September 10 deadline does not justify another variant of a closed
+mechanism, but it also does not justify stopping while one authoritative
+counterexample has an unmeasured earliest decision boundary. BTC row 28
+`m-9594` is a clean five-day, five-agent, six-brand loss at official tier 2.
+Experiment 293 proved that the terminal-day sparse neighborhood cannot recover
+the missing daily brand from the carried all-Patrol position/fuel state. It did
+not test whether the all-Patrol role choice created that state. This is distinct
+from the terminal-route question and satisfies the explicit role-reopen
+condition recorded by 282: a fresh authoritative counterexample whose public
+one-Tanker class has not yet been measured closed-loop.
+
+This attribution changed no production source. The frozen accepted-258 binary
+replayed the complete five-day match at the canonical `5000 ms` checkpoint for
+all-Patrol mask 0 and every one-Tanker identity 1/2/4/8/16, in forward and
+reverse execution order. The consumed replay is attribution-only and has no
+promotion authority. The gate is fixed before execution: at least three of the
+five one-Tanker identities must improve total daily distinct over their
+same-order all-Patrol control in both orders, and the median one-Tanker score
+must also improve tier 2 in both orders. No identity, replay, seed, map, bot or
+match dispatcher is permitted.
+
+Frozen inputs: replay SHA256
+`F5F0C8CDE7D1EF3BBE584D138E7E1BB6BD127388F139B6C869913A10EADDA933`;
+accepted-258 Windows BTC binary SHA256
+`B64C7EBDBB96AA02AA0EC52620C12C9F6937FEE546470549B8F5C777A8E3CC52`;
+manifest `research/holdouts/ATTR-ROW28-ROLE-TRAJECTORY-296.csv` SHA256
+`3466045698B36B7493F3A6A6CEFB59DA4BB4D09ED7ABA4BF07DE8DE60525211A`;
+runner SHA256
+`E81CB4A91F80CBAF032C8E47E407F1B530A8CA5673D4E32DE5D3251B9D10A668`;
+summarizer SHA256
+`5BAD3B06E95A3A030E8EBE415100C051ED9D0F033C890EAA4C51C4B5E017AE8A`.
+Expected completion is exactly twelve atomic cases and one `run_complete`.
+
+All twelve cases and the single `run_complete` marker completed without a
+structural failure. The all-Patrol control scored `6/30/104` in both execution
+orders. Every one-Tanker identity preserved `6/30` and improved only servings:
+mask 1 scored `6/30/117` and `6/30/118`; mask 2 `6/30/118` and
+`6/30/117`; mask 4 `6/30/115` in both orders; mask 8 `6/30/119` in both
+orders; and mask 16 `6/30/118` in both orders. The median one-Tanker score was
+`6/30/118` in both orders. Consequently stable tier-2 wins are `0/5`, the
+median tier-2 predicate is false, and the frozen attribution gate fails.
+
+Development log SHA256 is
+`11B82BE43AE28762049FF6D61474521313BDE47BD14C80E0998435AA44208C01`;
+summary SHA256 is
+`4AB8492F3A91B23FEA71F33E89EDA140811CA024EC4C3BF2F94A5DD0CFD2BA60`.
+The extra Tanker is useful for the subordinate serving tier but cannot repair
+the missing daily brand. Role composition is therefore not the cause of row
+28's tier-2 loss; row 28 remains the 293 state-coupled prior-trajectory
+residual. No discriminator audit or SCORE successor is authorized.
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this was a read-only counterfactual; (2) nothing
+is deleted, so no active-equivalent replacement proof is required.
 
 ## Current decision — no active experiment; canonical 258 remains
 
 The fresh mechanism authorized by attribution 294 failed its complete
-development gate in experiment 295. The 30-match BTC screen therefore does not
-authorize another blind BTC batch, and the old losses do not justify another
-variant of the already-exhausted role, refuel-group, deadline-bound portfolio
-or high-fuel long-horizon mechanisms. Canonical accepted production remains
+development gate in experiment 295, and attribution 296 has now closed the
+last unmeasured role boundary of the row-28 tier-2 loss. The 30-match BTC screen
+therefore does not authorize another blind BTC batch, and the old losses do not
+justify another variant of the already-exhausted role, refuel-group,
+deadline-bound portfolio or high-fuel long-horizon mechanisms. Canonical
+accepted production remains
 experiment 258 at commit `ab3d6999d60a7ca290a366bf235154178c6d721f`;
 the service-event source candidate has been fully reverted.
 
