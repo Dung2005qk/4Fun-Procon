@@ -2,6 +2,67 @@
 
 Updated: 2026-09-04
 
+## Open SCORE experiment — SCORE-COORDINATED-EXACT-BUNDLE-FRONTIER-311
+
+Experiment 310 recovered the exact oracle outcome in all four consumed 306
+development wins by appending at most three resource-Pareto, equal-current-score
+one-Patrol crossovers between canonical complete exact bundles.  Those consumed
+cases have attribution authority only.  Experiment 311 therefore tests the exact
+frozen mechanism as a same-binary causal off/on change through the production
+decision path on fresh multi-team development before any sealed holdout is read.
+
+The frozen manifest is
+`research/holdouts/SCORE-COORDINATED-EXACT-BUNDLE-FRONTIER-311.csv`, SHA256
+`588072A95C0C7FF15CE7E61C257194445C162EC781A2256BB0E38A95FC57395F`.
+Development contains exactly 30 fresh cases across general and multiteam
+12/16/24/32 suites, players 8/9/10, low/default/high/generated fuel, fixed and
+deadline role modes, and public windows 5000/10000/15000 ms.  The sealed holdout
+contains exactly 54 separately seeded cases with the same public strata.  The
+canonical main/role/complete checkpoint remains capped at 5000 ms; public-window
+labels do not grant this mechanism continuation time.
+
+The off lane uses the default one coordinated exact bundle.  The on lane sets
+the already-frozen bound to four, which preserves every canonical bundle first
+and permits at most three additional crossover bundles.  No generic route,
+master, F0 or shortlist cap changes; the exact simulator, independent validator,
+official comparator, transition/ledger authority and deadline scheduler remain
+unchanged.  The same historical binary must run off then on for every case.
+
+Frozen source SHA256 values are
+`0D9566FD09CC47DB17E2B7F61D9EEF70F0E0E3313B1B99FD9F5CD7796AB984EE`
+for `include/udon/planner.hpp`,
+`D9E0A81253619039BEB74D19A1278A11A48DC483B85DF346536F91A7683AF40C`
+for `src/planner.cpp`,
+`0FA19CEA8A95318E73B02A4FA41C78FF6013457F1A9BD6343732483CAF6F3885`
+for `include/udon/decision.hpp`,
+`19337383AB7F9D5D2FF978620EEB4B9AB3BED9CA8E9588CA836DB1D55D161EDD`
+for `src/decision.cpp` and
+`236B6855B458231B7BEAD1835F9CEDEA5EBFD319FC881461F5FCDF6AA52C80C3`
+for the historical harness.  The frozen Windows historical binary SHA256 is
+`D0B5F3C9035C102E24E06B459DE322A15C78C766790824373E6BDB898758956A`;
+runner and summarizer SHA256 values are
+`F0773FA52E8CDA96DD80E8C34E30FB5BF1679CF63A5843D824369C4DDEA3CFC2`
+and `8A55A5822F215A89AC31E3087F832C9FBDDC0E77252E36D6513242F7122F33C3`.
+
+Development passes only with zero invalid, emergency, validator, transition,
+ledger or deadline-safety failure; no tier-1 or tier-2 loss; more official
+lexicographic wins than losses; positive gain-minus-loss reported separately at
+the first differing tier; gains in at least two independent suites or public
+strata; no tier-3 loss larger than two servings or loss concentrated in one
+family/fuel stratum; recurrent frontier activation; and exact plan, score, state
+and ledger equality before the first activation and throughout every match with
+no activation.  Days causally downstream of an earlier activation are compared
+by the official score and safety gates rather than incorrectly required to
+rejoin the parent trajectory.
+Every W/T/L, first differing tier, gain/loss tail, stratum and work counter must
+be preserved.  Only a complete passing development authorizes one opening of
+the frozen 54-case holdout; partial scores have no authority.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; the default remains one bundle and 311 only
+threads an explicit bounded research option through the existing path; (2)
+nothing is deleted, so no replacement equivalence is required.
+
 ## Closed positive research prototype — ATTR-COORDINATED-EXACT-BUNDLE-FRONTIER-310
 
 Experiment 309 locates the same earliest loss in all four consumed 306 wins:

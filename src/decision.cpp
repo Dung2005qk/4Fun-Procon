@@ -3326,7 +3326,8 @@ UdonShieldEngine::UdonShieldEngine(
     RoutePoolSearch routePoolSearch,
     std::int32_t harvestExtensionMode,
     bool requireUndominatedCurrentFloor,
-    std::int32_t futureHarvestExtensionMode)
+    std::int32_t futureHarvestExtensionMode,
+    std::int32_t maximumCoordinatedExactBundles)
     : config_(config),
       simulator_(config_),
       validator_(config_),
@@ -3351,12 +3352,18 @@ UdonShieldEngine::UdonShieldEngine(
       deadlineScheduler_(std::move(deadlineCalibration)),
       routePoolSearch_(routePoolSearch),
       harvestExtensionMode_(harvestExtensionMode),
+      maximumCoordinatedExactBundles_(maximumCoordinatedExactBundles),
       requireUndominatedCurrentFloor_(requireUndominatedCurrentFloor) {
     if (harvestExtensionMode_ < 0 || harvestExtensionMode_ > 7) {
         throw std::invalid_argument("harvest extension mode must be in [0,7]");
     }
     if (futureHarvestExtensionMode < -1 || futureHarvestExtensionMode > 7) {
         throw std::invalid_argument("future harvest extension mode must be -1 or in [0,7]");
+    }
+    if (maximumCoordinatedExactBundles_ < 1 ||
+        maximumCoordinatedExactBundles_ > 4) {
+        throw std::invalid_argument(
+            "maximum coordinated exact bundles must be in [1,4]");
     }
 }
 
@@ -4294,6 +4301,8 @@ DecisionResult UdonShieldEngine::solve_day(
     generationOptions.maximumTargetSpots = result.deadline.deadlineClass == DeadlineClass::Short ? 8 : 12;
     generationOptions.maximumEscorts = result.deadline.deadlineClass == DeadlineClass::Short ? 4 : 16;
     generationOptions.maximumSeedPlans = result.deadline.deadlineClass == DeadlineClass::Short ? 1 : 2;
+    generationOptions.maximumCoordinatedExactBundles =
+        maximumCoordinatedExactBundles_;
     generationOptions.enableHarvestExtensions = harvestExtensionMode_ > 0;
     generationOptions.allowUncachedHarvestTargets = harvestExtensionMode_ > 1;
     const bool highFuelOrienteering =
@@ -4552,6 +4561,10 @@ DecisionResult UdonShieldEngine::solve_day(
             expandedDiagnostics.exactOrienteeringTerminalVariants;
         result.audit.columnGeneration.exactOrienteeringBundles +=
             expandedDiagnostics.exactOrienteeringBundles;
+        result.audit.columnGeneration.exactOrienteeringFrontierCandidates +=
+            expandedDiagnostics.exactOrienteeringFrontierCandidates;
+        result.audit.columnGeneration.exactOrienteeringFrontierBundles +=
+            expandedDiagnostics.exactOrienteeringFrontierBundles;
         result.audit.columnGeneration.exactOrienteeringSeedServings =
             expandedDiagnostics.exactOrienteeringSeedServings;
         result.audit.columnGeneration.exactOrienteeringLocalServings =
