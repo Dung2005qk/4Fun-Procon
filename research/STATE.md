@@ -2,7 +2,7 @@
 
 Updated: 2026-09-04
 
-## Open SCORE experiment — SCORE-COORDINATED-EXACT-BUNDLE-FRONTIER-311
+## Closed negative SCORE experiment — SCORE-COORDINATED-EXACT-BUNDLE-FRONTIER-311
 
 Experiment 310 recovered the exact oracle outcome in all four consumed 306
 development wins by appending at most three resource-Pareto, equal-current-score
@@ -57,6 +57,36 @@ rejoin the parent trajectory.
 Every W/T/L, first differing tier, gain/loss tail, stratum and work counter must
 be preserved.  Only a complete passing development authorizes one opening of
 the frozen 54-case holdout; partial scores have no authority.
+
+Development completed all 30 paired cases and 60 results with exact atomic
+bijection, one `run_complete` marker and empty stderr.  Paired official W/T/L is
+`2/25/3`; every difference is tier 3 and the aggregate score delta is `0/0/0`.
+The gain tail is `+2,+4`, while the three losses sum to `-6` with worst loss
+`-3`.  Losses concentrate in the deadline, players-9 and 15000-ms strata.  Both
+lanes have zero invalid, emergency, certificate, transition or ledger failure;
+local non-authoritative maximum response times are 3019 ms off and 3022 ms on.
+
+The proposed mechanism activated in only two matches (eight agent-days, 24
+retained frontier bundles), and both activated matches tied exactly.  Every one
+of the two apparent wins and three losses occurred in a match with zero retained
+frontier candidate or bundle.  Six such inactive matches also changed the plan
+or terminal state before any activation, proving that the extra empty frontier
+work perturbs the existing wall-clock-bounded search rather than yielding a
+general score benefit.  It therefore fails the preregistered equivalence,
+breadth, W>L, positive deciding-tier, bounded-tail and concentration gates.
+
+Complete development log SHA256 is
+`2B57278EAF41C5B06F71DE25112B960D17A13C2EB4EB4B42BFF5273F3287B253`;
+summary SHA256 is
+`DF6AAA8501EEDB9B57F3487A5D45EC566AE7E33E32E01F9E6672A33DE328EE8B`.
+Runner stdout and empty stderr SHA256 values are
+`C3D9C17CAF085006FE2BCAA38C2D95E757F4B359392D433EF6917E8E2C5854C2`
+and `E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855`.
+Verdict: rejected in development; the frozen 54-case holdout remains sealed.
+Remove only the 311 runtime/harness wiring and restore the canonical production
+artifacts.  The positive 310 attribution remains historical evidence, but it
+does not authorize another SCORE successor without a new invariant and fresh
+counterexample showing recurrent useful frontier activation.
 
 Functionality-preservation answers: (1) no designed functionality is removed,
 disabled, deferred or reduced; the default remains one bundle and 311 only

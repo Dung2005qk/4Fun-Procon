@@ -476,8 +476,7 @@ public:
         RoutePoolSearch routePoolSearch = RoutePoolSearch::SinglePass,
         std::int32_t harvestExtensionMode = 6,
         bool requireUndominatedCurrentFloor = false,
-        std::int32_t futureHarvestExtensionMode = 5,
-        std::int32_t maximumCoordinatedExactBundles = 1);
+        std::int32_t futureHarvestExtensionMode = 5);
 
     [[nodiscard]] std::vector<RoleAssignment> select_roles_exhaustive_oracle(
         std::int32_t beamWidth = 3) const;
@@ -575,7 +574,6 @@ private:
     DeadlineScheduler deadlineScheduler_;
     RoutePoolSearch routePoolSearch_;
     std::int32_t harvestExtensionMode_ = 5;
-    std::int32_t maximumCoordinatedExactBundles_ = 1;
     bool requireUndominatedCurrentFloor_ = false;
     bool shortHorizonRoleFallback_ = false;
     ResponseLedger ledger_;

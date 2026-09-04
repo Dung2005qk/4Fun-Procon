@@ -1,0 +1,325 @@
+{
+  "aggregate_score_delta": [
+    0,
+    0,
+    0
+  ],
+  "cases": 30,
+  "deadline_failures": [],
+  "deciding_delta_by_tier": {
+    "1": 0,
+    "2": 0,
+    "3": 0
+  },
+  "default_off_frontier_failures": [],
+  "equivalence_failures": [
+    "multiteam-12:10601001",
+    "multiteam-16:10605101",
+    "multiteam-24:10603100",
+    "multiteam-24:10605000",
+    "multiteam-24:10605001",
+    "multiteam-32:10604100"
+  ],
+  "experiment": "SCORE-COORDINATED-EXACT-BUNDLE-FRONTIER-311",
+  "first_difference_tiers": {
+    "0": 25,
+    "3": 5
+  },
+  "frontier_work": {
+    "activated_days": 8,
+    "activated_matches": 2,
+    "off_bundles": 0,
+    "off_candidates": 0,
+    "on_bundles": 24,
+    "on_candidates": 88
+  },
+  "gain_breadth": {
+    "fuels": [
+      "generated"
+    ],
+    "roles": [
+      "fixed"
+    ],
+    "suites": [
+      "multiteam-24"
+    ],
+    "windows": [
+      "10000"
+    ]
+  },
+  "gain_tail": {
+    "max": 4,
+    "sum": 6
+  },
+  "gate": {
+    "all_responses_within_5000_ms": true,
+    "default_off_frontier_inert": true,
+    "exact_pre_activation_and_inactive_equivalence": false,
+    "gains_span_two_public_strata": false,
+    "no_systematic_loss_concentration": false,
+    "paired_wins_exceed_losses": false,
+    "passed": false,
+    "positive_delta_at_every_deciding_tier": false,
+    "recurrent_frontier_activation": true,
+    "worst_tier3_loss_at_least_minus_2": false,
+    "zero_safety_failures": true,
+    "zero_tier1_or_tier2_losses": true
+  },
+  "inactive_case_failures": [
+    "multiteam-12:10601001",
+    "multiteam-16:10605101",
+    "multiteam-24:10603100",
+    "multiteam-24:10605000",
+    "multiteam-24:10605001",
+    "multiteam-32:10604100"
+  ],
+  "log_sha256": "2B57278EAF41C5B06F71DE25112B960D17A13C2EB4EB4B42BFF5273F3287B253",
+  "loss_concentration": [
+    "players:9",
+    "role:deadline",
+    "window:15000"
+  ],
+  "loss_tail": {
+    "min": -3,
+    "sum": -6
+  },
+  "manifest_sha256": "588072A95C0C7FF15CE7E61C257194445C162EC781A2256BB0E38A95FC57395F",
+  "paired_wtl": [
+    2,
+    25,
+    3
+  ],
+  "phase": "development",
+  "response_ms_local_non_authoritative": {
+    "off": 3019,
+    "on": 3022
+  },
+  "safety": {
+    "off": {
+      "checkpoint_closed_loop_failures": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "permuted_apply_mapping_failures": 0,
+      "permuted_apply_role_failures": 0,
+      "permuted_apply_shadow_ledger_failures": 0,
+      "permuted_apply_shadow_state_failures": 0,
+      "permuted_causal_noop_failures": 0,
+      "permuted_probe_mutation_failures": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_marginal_failure": 0,
+      "terminal_sparse_failure": 0
+    },
+    "on": {
+      "checkpoint_closed_loop_failures": 0,
+      "emergency": 0,
+      "invalid": 0,
+      "midday_failure_days": 0,
+      "permuted_apply_mapping_failures": 0,
+      "permuted_apply_role_failures": 0,
+      "permuted_apply_shadow_ledger_failures": 0,
+      "permuted_apply_shadow_state_failures": 0,
+      "permuted_causal_noop_failures": 0,
+      "permuted_probe_mutation_failures": 0,
+      "protected_terminal_invalid": 0,
+      "public_window_probe_failure_days": 0,
+      "terminal_marginal_failure": 0,
+      "terminal_sparse_failure": 0
+    }
+  },
+  "strata": {
+    "fuel:default": {
+      "loss": 1,
+      "tie": 4
+    },
+    "fuel:generated": {
+      "loss": 1,
+      "tie": 4,
+      "win": 2
+    },
+    "fuel:high": {
+      "tie": 7
+    },
+    "fuel:low": {
+      "loss": 1,
+      "tie": 10
+    },
+    "horizon:10": {
+      "tie": 4
+    },
+    "horizon:4": {
+      "loss": 1,
+      "tie": 10
+    },
+    "horizon:5": {
+      "loss": 1,
+      "tie": 8
+    },
+    "horizon:7": {
+      "loss": 1,
+      "tie": 3,
+      "win": 2
+    },
+    "players:10": {
+      "loss": 1,
+      "tie": 7,
+      "win": 2
+    },
+    "players:8": {
+      "tie": 10
+    },
+    "players:9": {
+      "loss": 2,
+      "tie": 8
+    },
+    "role:deadline": {
+      "loss": 2,
+      "tie": 13
+    },
+    "role:fixed": {
+      "loss": 1,
+      "tie": 12,
+      "win": 2
+    },
+    "suite:general": {
+      "tie": 6
+    },
+    "suite:multiteam-12": {
+      "loss": 1,
+      "tie": 5
+    },
+    "suite:multiteam-16": {
+      "loss": 1,
+      "tie": 7
+    },
+    "suite:multiteam-24": {
+      "loss": 1,
+      "tie": 3,
+      "win": 2
+    },
+    "suite:multiteam-32": {
+      "tie": 4
+    },
+    "window:10000": {
+      "loss": 1,
+      "tie": 7,
+      "win": 2
+    },
+    "window:15000": {
+      "loss": 2,
+      "tie": 8
+    },
+    "window:5000": {
+      "tie": 10
+    }
+  },
+  "strata_score_delta": {
+    "fuel:default": [
+      0,
+      0,
+      -3
+    ],
+    "fuel:generated": [
+      0,
+      0,
+      5
+    ],
+    "fuel:high": [
+      0,
+      0,
+      0
+    ],
+    "fuel:low": [
+      0,
+      0,
+      -2
+    ],
+    "horizon:10": [
+      0,
+      0,
+      0
+    ],
+    "horizon:4": [
+      0,
+      0,
+      -2
+    ],
+    "horizon:5": [
+      0,
+      0,
+      -1
+    ],
+    "horizon:7": [
+      0,
+      0,
+      3
+    ],
+    "players:10": [
+      0,
+      0,
+      4
+    ],
+    "players:8": [
+      0,
+      0,
+      0
+    ],
+    "players:9": [
+      0,
+      0,
+      -4
+    ],
+    "role:deadline": [
+      0,
+      0,
+      -4
+    ],
+    "role:fixed": [
+      0,
+      0,
+      4
+    ],
+    "suite:general": [
+      0,
+      0,
+      0
+    ],
+    "suite:multiteam-12": [
+      0,
+      0,
+      -2
+    ],
+    "suite:multiteam-16": [
+      0,
+      0,
+      -1
+    ],
+    "suite:multiteam-24": [
+      0,
+      0,
+      3
+    ],
+    "suite:multiteam-32": [
+      0,
+      0,
+      0
+    ],
+    "window:10000": [
+      0,
+      0,
+      3
+    ],
+    "window:15000": [
+      0,
+      0,
+      -3
+    ],
+    "window:5000": [
+      0,
+      0,
+      0
+    ]
+  },
+  "tier12_loss_cases": []
+}

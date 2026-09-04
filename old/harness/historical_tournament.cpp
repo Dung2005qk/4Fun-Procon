@@ -70,7 +70,6 @@ struct Options {
     std::uint64_t sparseRouteStates = 0;
     std::uint64_t permutedTerminalProbeStates = 0;
     std::uint64_t causalPermutedTerminalApplyStates = 0;
-    std::int32_t maximumCoordinatedExactBundles = 1;
     std::string fuelProfile = "generated";
     bool protectedWaitDetours = false;
     bool protectedWaitClosedLoop = false;
@@ -105,10 +104,6 @@ struct Metrics {
     std::vector<std::uint64_t> exactSettledStates;
     std::vector<std::int32_t> exactSeedServings;
     std::vector<std::int32_t> exactLocalServings;
-    std::vector<std::int32_t> exactFrontierCandidates;
-    std::vector<std::int32_t> exactFrontierBundles;
-    std::vector<std::uint64_t> stateHashes;
-    std::vector<std::uint64_t> ledgerHashes;
     std::array<std::int32_t, 4> todayOpenTierCounts{};
     std::array<std::int32_t, 4> candidateOpenTierCounts{};
     std::array<std::int32_t, 4> viabilityOpenTierCounts{};
@@ -243,38 +238,6 @@ struct Metrics {
             mix(static_cast<std::uint32_t>(action.wire_value()));
         }
     }
-    return hash;
-}
-
-[[nodiscard]] std::uint64_t agent_state_hash(
-    const std::vector<udon::AgentState>& agents) {
-    std::uint64_t hash = 1469598103934665603ULL;
-    const auto mix = [&hash](std::uint64_t value) {
-        hash ^= value;
-        hash *= 1099511628211ULL;
-    };
-    mix(agents.size());
-    for (const udon::AgentState& agent : agents) {
-        mix(static_cast<std::uint8_t>(agent.kind));
-        mix(static_cast<std::uint32_t>(agent.position));
-        mix(static_cast<std::uint32_t>(agent.fuel));
-    }
-    return hash;
-}
-
-[[nodiscard]] std::uint64_t ledger_hash(const udon::MatchLedger& ledger) {
-    std::uint64_t hash = 1469598103934665603ULL;
-    const auto mix = [&hash](std::uint64_t value) {
-        hash ^= value;
-        hash *= 1099511628211ULL;
-    };
-    for (std::int32_t brand = 0; brand < udon::kMaximumBrands; ++brand) {
-        if (ledger.lifetimeBrands.test(brand)) {
-            mix(static_cast<std::uint32_t>(brand));
-        }
-    }
-    mix(static_cast<std::uint32_t>(ledger.totalDailyDistinct));
-    mix(static_cast<std::uint32_t>(ledger.totalServings));
     return hash;
 }
 
@@ -1294,8 +1257,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         udon::RoutePoolSearch::SinglePass,
         kHarnessHarvestMode,
         false,
-        kHarnessFutureHarvestMode,
-        options.maximumCoordinatedExactBundles);
+        kHarnessFutureHarvestMode);
     engine.set_short_horizon_role_fallback(options.shortRoleFallback);
     const auto roleStarted = std::chrono::steady_clock::now();
     Metrics metrics;
@@ -2429,12 +2391,6 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             decision.audit.columnGeneration.exactOrienteeringSeedServings);
         metrics.exactLocalServings.push_back(
             decision.audit.columnGeneration.exactOrienteeringLocalServings);
-        metrics.exactFrontierCandidates.push_back(
-            decision.audit.columnGeneration.exactOrienteeringFrontierCandidates);
-        metrics.exactFrontierBundles.push_back(
-            decision.audit.columnGeneration.exactOrienteeringFrontierBundles);
-        metrics.stateHashes.push_back(agent_state_hash(reportedDetailed.finalAgents));
-        metrics.ledgerHashes.push_back(ledger_hash(reportedLedger));
         agents = detailed.finalAgents;
         if (checkpointClosedLoopActive) {
             if (causalPermutationActive) {
@@ -2582,8 +2538,6 @@ void preserve_plain_cells(FixtureSpec& fixture) {
             options.permutedTerminalProbeStates = std::stoull(next());
         } else if (value == "--causal-permuted-terminal-apply-states") {
             options.causalPermutedTerminalApplyStates = std::stoull(next());
-        } else if (value == "--coordinated-exact-bundles") {
-            options.maximumCoordinatedExactBundles = std::stoi(next());
         } else if (value == "--fuel-profile") {
             options.fuelProfile = next();
         } else if (value == "--protected-wait-detours") {
@@ -2620,9 +2574,7 @@ void preserve_plain_cells(FixtureSpec& fixture) {
         options.publicWindowProbeBudget.count() < 0 ||
         options.postAckBudget.count() < 0 ||
         options.postAckSliceBudget.count() <= 0 ||
-        options.spotCount < 0 || options.playersOverride < 0 ||
-        options.maximumCoordinatedExactBundles < 1 ||
-        options.maximumCoordinatedExactBundles > 4) {
+        options.spotCount < 0 || options.playersOverride < 0) {
         throw std::invalid_argument(
             "--version, --track, positive --seeds, --budget-ms and --role-ms are required");
     }
@@ -2682,8 +2634,6 @@ void print_result(
               << ",budget_ms=" << options.dayBudget.count()
               << ",harvest_mode=" << kHarnessHarvestMode
               << ",future_harvest_mode=" << kHarnessFutureHarvestMode
-              << ",coordinated_exact_bundles="
-              << options.maximumCoordinatedExactBundles
               << ",role_mode=" << options.roleMode
               << ",players=" << fixture.players
               << ",spot_count=" << fixture.spots.size()
@@ -2734,16 +2684,6 @@ void print_result(
                      metrics.exactSettledStates.begin(),
                      metrics.exactSettledStates.end(),
                      std::uint64_t{0})
-              << ",exact_frontier_candidates="
-              << std::accumulate(
-                     metrics.exactFrontierCandidates.begin(),
-                     metrics.exactFrontierCandidates.end(),
-                     std::int64_t{0})
-              << ",exact_frontier_bundles="
-              << std::accumulate(
-                     metrics.exactFrontierBundles.begin(),
-                     metrics.exactFrontierBundles.end(),
-                     std::int64_t{0})
               << ",role_ms=" << metrics.roleMilliseconds
               << ",protected_terminal_attempts="
               << metrics.protectedTerminalAttempts
@@ -3033,12 +2973,6 @@ void print_result(
                       << metrics.exactSeedServings.at(day)
                       << ",exact_local_servings="
                       << metrics.exactLocalServings.at(day)
-                      << ",exact_frontier_candidates="
-                      << metrics.exactFrontierCandidates.at(day)
-                      << ",exact_frontier_bundles="
-                      << metrics.exactFrontierBundles.at(day)
-                      << ",state_hash=" << metrics.stateHashes.at(day)
-                      << ",ledger_hash=" << metrics.ledgerHashes.at(day)
                       << ",portfolio_search_complete="
                       << (gap.portfolioSearchComplete ? 1 : 0)
                       << ",viability_deadline="
