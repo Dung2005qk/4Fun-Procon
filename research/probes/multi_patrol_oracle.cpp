@@ -74,6 +74,13 @@ struct Options {
     std::string attributePrefix;
 };
 
+[[nodiscard]] bool is_three_active_patrol_experiment(
+    const std::string_view experimentId) {
+    return experimentId == "CEILING-THREE-ACTIVE-PATROL-306" ||
+        experimentId ==
+            "CEILING-THREE-ACTIVE-PATROL-LOW-FUEL-PREVALENCE-312";
+}
+
 struct Fixture {
     udon::MatchConfig config;
     std::string family;
@@ -403,7 +410,7 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
         const std::vector<std::string> fields = split_csv(line);
         if (threeActiveSchema) {
             if (fields.size() != 13U ||
-                fields.at(0) != "CEILING-THREE-ACTIVE-PATROL-306") {
+                !is_three_active_patrol_experiment(fields.at(0))) {
                 throw std::runtime_error("invalid three-patrol manifest row: " + line);
             }
             if (fields.at(1) != split) {
@@ -653,7 +660,7 @@ void hash_value(std::uint64_t& hash, std::uint64_t value) {
     constexpr std::int32_t side = 8;
     constexpr std::int32_t cells = side * side;
     const bool threeActive =
-        row.experimentId == "CEILING-THREE-ACTIVE-PATROL-306";
+        is_three_active_patrol_experiment(row.experimentId);
     std::vector<std::int32_t> terrain(
         static_cast<std::size_t>(cells),
         static_cast<std::int32_t>(udon::Terrain::Pond));
@@ -7159,7 +7166,7 @@ int main(int argc, char** argv) {
                     continue;
                 }
                 const OracleResult oracle =
-                    row.experimentId == "CEILING-THREE-ACTIVE-PATROL-306"
+                    is_three_active_patrol_experiment(row.experimentId)
                     ? solve_three_oracle(fixture)
                     : solve_oracle(fixture);
                 const HeadResult head = solve_head(fixture);
@@ -7284,8 +7291,8 @@ int main(int argc, char** argv) {
                                   << ",head_id=" << headId
                                   << '\n';
                     }
-                    if (row.experimentId !=
-                        "CEILING-THREE-ACTIVE-PATROL-306") {
+                    if (!is_three_active_patrol_experiment(
+                            row.experimentId)) {
                         attribute_oracle_path(fixture, oracle, head);
                         attribute_w1_continuation(fixture, oracle);
                     }

@@ -1,6 +1,70 @@
 # UDON-SHIELD Research State
 
-Updated: 2026-09-04
+Updated: 2026-09-05
+
+## Active exact prevalence attribution — CEILING-THREE-ACTIVE-PATROL-LOW-FUEL-PREVALENCE-312
+
+Experiment 306 found four complete-oracle wins over canonical accepted
+production 258 in twelve fresh roadless three-Patrol cases.  All four occurred
+under low fuel in two structural families.  Experiments 307--310 located and
+recovered that consumed mechanism, but fresh SCORE experiment 311 activated the
+bounded coordinated-bundle frontier in only two of thirty matches, tied both,
+and otherwise changed bounded wall-clock search without useful frontier work.
+The exact gap therefore remains real on the consumed 306 cases, while its fresh
+prevalence is unresolved and 310/311 may not be retried.
+
+Experiment 312 is a second, independent-seed exact sweep of the narrow observed
+domain.  It changes no production source or runtime.  The research-only oracle
+enumerates every fuel/step-feasible daily outcome for three interchangeable
+active Patrols, composes all three with exact per-Spot stock accounting,
+canonicalizes symmetry, retains the exact full-match official-score frontier by
+joint terminal position/fuel and lifetime mask, reconstructs the winner, and
+checks every day through both the exact simulator and independent validator.
+The comparison target remains canonical accepted production 258 at the complete
+5000-ms checkpoint with all research options default-inert.
+
+The frozen manifest is
+`research/holdouts/CEILING-THREE-ACTIVE-PATROL-LOW-FUEL-PREVALENCE-312.csv`,
+SHA256 `D0E8656A91603B0AABE3D4277F9126062BCB4A2C624C5421DB03439B23D2A099`.
+Development contains exactly twelve fresh four-day 8x8, three-agent, five-Spot,
+all-Patrol roadless cases: two seeds in each of the balanced, duplicate, stock,
+coverage, fuel and terminal families, all at the implicated low-fuel boundary
+and spanning public player counts 8/9/10.  Twenty-four separately seeded cases
+are frozen as sealed holdout and must not be opened in this attribution.
+
+Development is valid only with exactly twelve atomic results and matching
+`case_complete` markers, one `run_complete`, zero stderr, zero oracle/head
+invalidity, complete exact enumeration, exact simulator/validator agreement and
+matching frozen hashes.  Recurrent fresh exact-gap evidence requires at least
+three oracle wins across at least two independent structural families; every
+win must report its first differing official tier and magnitude.  Passing
+authorizes only read-only causal attribution on the new development wins to find
+a mechanism distinct from the rejected 310/311 coordinated-bundle frontier.
+Failure closes this exact low-fuel prevalence direction without opening the
+holdout or changing production.  Neither result directly authorizes a SCORE
+candidate, cap/order change, dispatcher, 306/311 holdout opening or relaxation
+of the canonical 5000-ms checkpoint.
+
+The existing authorized VM `udon-f0-240-0829` may run the exact sweep in an
+exclusive experiment directory with one case at a time so production timing is
+not measured under concurrent oracle load.  Local/VM elapsed time has no score
+or performance authority.  If Spot preempts, only complete atomic results may
+be resumed; an ambiguous partial must be preserved and inspected before relaunch.
+
+Frozen research source SHA256 is
+`5979B702FB175B63077CCBB250B6E55B5B974ECA80543B3B7C105123F94C1BCE`;
+the Windows research binary SHA256 is
+`4262B9A55B0808EB243010360A40B89D6DDFA7C72CA4087096D6DE62D38B7C07`.
+The exclusive case-atomic VM runner and frozen summarizer SHA256 values are
+`6AB73E3E4CEFE3D57C647CB8E756BFF7610D164F5942B998336A7321F491AC39`
+and `56B3FA4A5888938E42155F450E92964A3E6F3640B77595C98C9EA77A76EB696F`.
+The Linux research binary will be built once from this exact source snapshot
+and its hash recorded before the formal runner starts.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this is additive research-only exact attribution
+and production remains canonical 258; (2) nothing is deleted, so no active-
+equivalent replacement proof is required.
 
 ## Closed negative SCORE experiment — SCORE-COORDINATED-EXACT-BUNDLE-FRONTIER-311
 
