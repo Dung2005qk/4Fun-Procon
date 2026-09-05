@@ -1,0 +1,28 @@
+{
+  "experiment": "ATTR-THREE-PATROL-BASELINE-PATH-313",
+  "parent": "04b1545",
+  "phase": "source-attribution",
+  "production_commit": "ab3d699",
+  "inputs": {
+    "research/probes/multi_patrol_oracle.cpp": "5979B702FB175B63077CCBB250B6E55B5B974ECA80543B3B7C105123F94C1BCE",
+    "research/probes/run_three_active_patrol_prevalence_312_vm.sh": "6AB73E3E4CEFE3D57C647CB8E756BFF7610D164F5942B998336A7321F491AC39",
+    "src/btc_main.cpp": "7ACF3151F25B13A7EC4CFE3CA8379FE0BDE8F5AB82EA27D3706D8861770C6F8F",
+    "src/runtime.cpp": "E6F68D806CF2E33A1DE29488B414AD504731AEB49B612B2889C07AD3D637DD60",
+    "include/udon/decision.hpp": "6506525D5B9624AFB45F03F377C75745627F472279C7C4A6664D66BB77731DF5",
+    "src/decision.cpp": "150AA97731A73A86BE30C2CE1C7542F00D92173BD49B988E0B22D5BE901AA2DA",
+    "src/slack_refiner.cpp": "A656B685D1B626C08EBB2CB8BBDAFE9F2111C02A00C2684F3FE400DC2264457F",
+    "research/evidence/CEILING-THREE-ACTIVE-PATROL-LOW-FUEL-PREVALENCE-312-development.log": "45EEEDD866D22D45AF24D6CD17ECF6C93E9C0FBA9E72FE749DD5AE4BB150C0D5",
+    "research/evidence/CEILING-THREE-ACTIVE-PATROL-LOW-FUEL-PREVALENCE-312-development.summary.json": "38281BF020481E6E02275049635B35603F6E5DA68CDB898ED6562FCAEF98D3A6"
+  },
+  "gate": {
+    "baseline_equivalence_requires": [
+      "same current-floor selection policy",
+      "same deadline calibration and solve budget",
+      "same checkpoint refiner mechanisms and deadline",
+      "same virtual-parent and ACK state lifecycle"
+    ],
+    "on_missing_boundary": "Narrow 312 to engine-only evidence and require separate complete-checkpoint baseline revalidation before causal SCORE work.",
+    "score_successor_authorized": false,
+    "holdout_open_authorized": false
+  }
+}

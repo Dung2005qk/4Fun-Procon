@@ -1,0 +1,105 @@
+{
+  "audit_script_sha256": "58CA85DEC24C02D8BE7239C41AA2ADDA12618CD20F73BEF8A80A3F35FA8596CB",
+  "baseline": {
+    "claimed_in_312": "complete accepted HTTP258 protected 5000-ms checkpoint",
+    "complete_checkpoint_measured": false,
+    "observed": "direct UdonShieldEngine with default calibration and current-floor=false",
+    "production_residual_gap": "unmeasured",
+    "same_runtime_policy": false,
+    "score_equivalence": "not established; no new score run in this audit"
+  },
+  "differences": [
+    {
+      "boundary": "current-floor selection",
+      "consumer_line": 5267,
+      "http_session": true,
+      "probe": false,
+      "probe_line": 2624,
+      "runtime_line": 19
+    },
+    {
+      "boundary": "deadline calibration",
+      "http": {
+        "certification_percent": 20,
+        "network_floor_ms": 1600,
+        "network_percent": 20
+      },
+      "http_line": 87,
+      "probe": {
+        "certification_percent": 10,
+        "network_floor_ms": 50,
+        "network_percent": 10
+      }
+    },
+    {
+      "boundary": "checkpoint refinement and state lifecycle",
+      "http": [
+        {
+          "line": 2331,
+          "mechanism": "checkpoint WAIT detour refinement"
+        },
+        {
+          "line": 2338,
+          "mechanism": "checkpoint midday chain and target-terminal refinement"
+        },
+        {
+          "line": 2324,
+          "mechanism": "checkpoint terminal sparse/pair refinement"
+        },
+        {
+          "line": 2202,
+          "mechanism": "virtual-parent planning state"
+        },
+        {
+          "line": 3000,
+          "mechanism": "session ACK lifecycle"
+        },
+        {
+          "line": 2394,
+          "mechanism": "checkpoint ledger and admission certificate"
+        }
+      ],
+      "probe": "absent"
+    }
+  ],
+  "domain_limit": "fixed roadless 8x8 corridor, three all-Patrol roles; six family labels vary brands/stock and day steps, not map topology; player count does not exercise road traffic here",
+  "experiment": "ATTR-THREE-PATROL-BASELINE-PATH-313",
+  "holdout_open_authorized": false,
+  "inputs": {
+    "include/udon/decision.hpp": "6506525D5B9624AFB45F03F377C75745627F472279C7C4A6664D66BB77731DF5",
+    "research/evidence/CEILING-THREE-ACTIVE-PATROL-LOW-FUEL-PREVALENCE-312-development.log": "45EEEDD866D22D45AF24D6CD17ECF6C93E9C0FBA9E72FE749DD5AE4BB150C0D5",
+    "research/evidence/CEILING-THREE-ACTIVE-PATROL-LOW-FUEL-PREVALENCE-312-development.summary.json": "38281BF020481E6E02275049635B35603F6E5DA68CDB898ED6562FCAEF98D3A6",
+    "research/probes/multi_patrol_oracle.cpp": "5979B702FB175B63077CCBB250B6E55B5B974ECA80543B3B7C105123F94C1BCE",
+    "research/probes/run_three_active_patrol_prevalence_312_vm.sh": "6AB73E3E4CEFE3D57C647CB8E756BFF7610D164F5942B998336A7321F491AC39",
+    "src/btc_main.cpp": "7ACF3151F25B13A7EC4CFE3CA8379FE0BDE8F5AB82EA27D3706D8861770C6F8F",
+    "src/decision.cpp": "150AA97731A73A86BE30C2CE1C7542F00D92173BD49B988E0B22D5BE901AA2DA",
+    "src/runtime.cpp": "E6F68D806CF2E33A1DE29488B414AD504731AEB49B612B2889C07AD3D637DD60",
+    "src/slack_refiner.cpp": "A656B685D1B626C08EBB2CB8BBDAFE9F2111C02A00C2684F3FE400DC2264457F"
+  },
+  "manifest_sha256": "AFE97EFAC35D80533024FC032D350E5675215EA025CDCA041A1304CB452A9174",
+  "next_gate": "Revalidate every consumed 312 case on a frozen full checkpoint policy, explicitly accounting for calibration, current-floor policy, all accepted refinement, virtual state, ACK and post-ACK scheduling. Only surviving feasible gaps may drive a new causal mechanism. Keep fixed-role synthetic replay distinct from live BTC/role-selection evidence.",
+  "parent": "04b1545",
+  "preserved_312_oracle_vs_engine": {
+    "first_tiers": {
+      "3": 6
+    },
+    "serving_gains": [
+      2,
+      1,
+      2,
+      2,
+      1,
+      1
+    ],
+    "wtl": {
+      "losses": 0,
+      "ties": 6,
+      "wins": 6
+    },
+    "zero_invalid": true
+  },
+  "protected_head_flag": "only dispatched for adversarialTraffic fixtures; not a repair for the three-Patrol runner",
+  "score_successor_authorized": false,
+  "source_checks_passed": true,
+  "verdict": "confirmed-baseline-path-mismatch"
+}

@@ -2,15 +2,84 @@
 
 Updated: 2026-09-05
 
+## Closed baseline attribution — ATTR-THREE-PATROL-BASELINE-PATH-313
+
+Before following the six 312 oracle wins into another mechanism, audit the
+actual comparison boundary. The 312 log's `head` comes from `solve_head` in
+the research oracle; equality to the accepted HTTP complete checkpoint must
+be established from its caller, calibration, current-floor policy, refinement
+and state lifecycle. Source ancestry alone is insufficient.
+
+313 is a read-only source-path audit over nine frozen inputs listed in
+`research/holdouts/ATTR-THREE-PATROL-BASELINE-PATH-313.json`. It preserves all
+312 raw results and hashes. Any missing runtime boundary narrows the 312
+conclusion to the path actually measured and requires separate baseline
+revalidation before using these cases to justify a SCORE mechanism. A source
+audit cannot determine the score of the omitted path or assert that it closes
+the gap. No solver run, production edit, holdout opening, cap change, candidate
+promotion or reuse of rejected 310/311 is authorized by this audit.
+
+The audit confirms a baseline-path mismatch, not a measured production-score
+regression. `solve_head` constructs `UdonShieldEngine` directly with
+`requireUndominatedCurrentFloor=false` and the default deadline calibration
+(network floor 50 ms, network 10%, certification 10%). HTTP production uses
+`MatchSession` with the flag true and calibration 1600 ms / 20% / 20%; the flag
+reaches the final certified-pool comparator. The probe also omits the accepted
+checkpoint WAIT, midday-chain/target-terminal and terminal sparse/pair refiner,
+plus the HTTP virtual-parent/checkpoint ledger lifecycle and idle post-ACK work.
+Its `record_submitted` call is not equivalent to that complete session path.
+The existing `--protected-head` switch only dispatches for adversarial-traffic
+fixtures, so adding that switch to the roadless three-Patrol runner is not a fix.
+
+The twelve 312 results remain valid **oracle-versus-direct-engine** attribution:
+W/T/L `6/6/0`, all differences tier 3, total `+9`. They do not establish six
+gaps in the complete accepted HTTP258 checkpoint. The same caller was used in
+306, so its complete-checkpoint interpretation is also unverified; the raw
+306/312 results and the independent rejection of 311 are not erased. Moreover,
+these family labels vary brands, stock and day steps on one roadless corridor;
+player counts 8/9/10 do not test multi-team traffic without roads.
+
+Frozen audit manifest SHA256:
+`AFE97EFAC35D80533024FC032D350E5675215EA025CDCA041A1304CB452A9174`.
+Audit script SHA256:
+`58CA85DEC24C02D8BE7239C41AA2ADDA12618CD20F73BEF8A80A3F35FA8596CB`.
+Machine-readable evidence `research/evidence/ATTR-THREE-PATROL-BASELINE-PATH-313.json`
+SHA256 `9B1C609F38669D74E95310EE8F823E36590AD1486DB2C125A0894848C0EA3EA2`.
+All nine input hashes match. Six guard tests pass, including changed
+current-floor policy, calibration, missing refiner, changed runner scope and
+incomplete/invalid evidence. This is source-boundary evidence, not execution
+equivalence or a new strength measurement. Production is unchanged.
+
+The only next research axis is observational full-checkpoint baseline
+revalidation over **all twelve consumed 312 development cases**, not just the
+six wins. Register and freeze that separate experiment before running it; prefer
+the actual unchanged HTTP executable behind a clearly labelled synthetic
+transport to an incomplete copied solver. Account explicitly for fixed all-Patrol
+roles, HTTP calibration, current-floor policy, all accepted refinement,
+virtual/checkpoint/actual state, ACK and post-ACK cadence. Use the exact simulator
+and independent validator for every action and transition. Synthetic transport
+cannot establish official-server conformance, target-host latency or promotion.
+Only a feasible oracle advantage surviving that measured path may justify a
+new causal mechanism. No SCORE successor, cap change, holdout opening or claim
+of convergence is authorized now.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; only provenance and a research audit are added;
+(2) nothing is deleted, so no replacement equivalence is required.
+
 ## Closed positive exact prevalence attribution — CEILING-THREE-ACTIVE-PATROL-LOW-FUEL-PREVALENCE-312
 
-Experiment 306 found four complete-oracle wins over canonical accepted
-production 258 in twelve fresh roadless three-Patrol cases.  All four occurred
+**Scope correction from 313:** the measured `head` is the direct-engine probe,
+not the complete accepted HTTP258 checkpoint. This correction supersedes the
+original complete-checkpoint interpretation; raw evidence remains immutable.
+
+Experiment 306 found four complete-oracle wins over the direct-engine baseline
+in twelve fresh roadless three-Patrol cases. All four occurred
 under low fuel in two structural families.  Experiments 307--310 located and
 recovered that consumed mechanism, but fresh SCORE experiment 311 activated the
 bounded coordinated-bundle frontier in only two of thirty matches, tied both,
 and otherwise changed bounded wall-clock search without useful frontier work.
-The exact gap therefore remains real on the consumed 306 cases, while its fresh
+The direct-engine gap remains real on the consumed 306 cases, while its fresh
 prevalence is unresolved and 310/311 may not be retried.
 
 Experiment 312 is a second, independent-seed exact sweep of the narrow observed
@@ -20,8 +89,9 @@ active Patrols, composes all three with exact per-Spot stock accounting,
 canonicalizes symmetry, retains the exact full-match official-score frontier by
 joint terminal position/fuel and lifetime mask, reconstructs the winner, and
 checks every day through both the exact simulator and independent validator.
-The comparison target remains canonical accepted production 258 at the complete
-5000-ms checkpoint with all research options default-inert.
+The intended comparison target was the complete accepted 258 checkpoint, but
+313 established that the actual target was `solve_head` at its 5000-ms requested
+engine budget with research options default-inert, without full HTTP parity.
 
 The frozen manifest is
 `research/holdouts/CEILING-THREE-ACTIVE-PATROL-LOW-FUEL-PREVALENCE-312.csv`,
@@ -48,7 +118,7 @@ of the canonical 5000-ms checkpoint.
 The complete development run passed that attribution gate.  It produced exactly
 twelve atomic results, twelve matching `case_complete` markers and one
 `run_complete`, with zero stderr, partial, invalid or validation failure.  The
-exact oracle versus canonical 258 was W/T/L `6/6/0`; all six wins first differed
+exact oracle versus the measured direct engine was W/T/L `6/6/0`; all six wins first differed
 at official tier 3, with gains `+2,+1,+2,+2,+1,+1` (aggregate `+9`) across the
 balanced, duplicate and terminal families and public player counts 8/9/10.
 Maximum retained exact frontier size was 23704.  Development log SHA256 is
@@ -56,9 +126,10 @@ Maximum retained exact frontier size was 23704.  Development log SHA256 is
 summary SHA256 is
 `38281BF020481E6E02275049635B35603F6E5DA68CDB898ED6562FCAEF98D3A6`.
 The twenty-four-case sealed holdout remains unopened.  This closes 312 as
-positive recurrent-gap attribution only: it authorizes a separate read-only
-causal attribution experiment on these fresh development wins, but does not
-authorize a SCORE successor or any production change by itself.
+positive recurrent direct-engine-gap attribution only. After 313, the full
+checkpoint baseline must first be revalidated on every development case before
+these cases can justify another causal mechanism; no SCORE successor or
+production change is authorized by 312 alone.
 
 The existing authorized VM `udon-f0-240-0829` may run the exact sweep in an
 exclusive experiment directory with one case at a time so production timing is
