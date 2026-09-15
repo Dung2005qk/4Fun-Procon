@@ -1,0 +1,1782 @@
+{
+  "actions": [
+    {
+      "arrival_ms": 215.922,
+      "deadline_margin_ms": 4784.073,
+      "plan": [
+        [
+          2,
+          2,
+          2,
+          -10
+        ],
+        [
+          5,
+          5,
+          -12
+        ],
+        [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          -4
+        ]
+      ],
+      "state": {
+        "agents": [
+          {
+            "fuel": 10,
+            "kind": 0,
+            "pos": 16
+          },
+          {
+            "fuel": 10,
+            "kind": 0,
+            "pos": 22
+          },
+          {
+            "fuel": 10,
+            "kind": 0,
+            "pos": 23
+          }
+        ],
+        "day": 0,
+        "endsAt": 1788825819489,
+        "others": [],
+        "traffics": []
+      },
+      "validated": {
+        "agents": [
+          {
+            "fuel": 7,
+            "kind": 0,
+            "pos": 19
+          },
+          {
+            "fuel": 8,
+            "kind": 0,
+            "pos": 20
+          },
+          {
+            "fuel": 4,
+            "kind": 0,
+            "pos": 17
+          }
+        ],
+        "agrees": true,
+        "ledger": {
+          "brands": [
+            100,
+            200,
+            300,
+            400,
+            500
+          ],
+          "totalDailyDistinct": 5,
+          "totalServings": 10
+        },
+        "ok": true,
+        "score": [
+          5,
+          5,
+          10
+        ]
+      },
+      "wire_day": 0
+    },
+    {
+      "arrival_ms": 101.014,
+      "deadline_margin_ms": 4898.981,
+      "plan": [
+        [
+          -1,
+          5,
+          5,
+          -12
+        ],
+        [
+          -1,
+          2,
+          -14
+        ],
+        [
+          -1,
+          2,
+          2,
+          2,
+          2,
+          -8
+        ]
+      ],
+      "state": {
+        "agents": [
+          {
+            "fuel": 7,
+            "kind": 0,
+            "pos": 19
+          },
+          {
+            "fuel": 8,
+            "kind": 0,
+            "pos": 20
+          },
+          {
+            "fuel": 4,
+            "kind": 0,
+            "pos": 17
+          }
+        ],
+        "day": 1,
+        "endsAt": 1788825824623,
+        "others": [],
+        "traffics": []
+      },
+      "validated": {
+        "agents": [
+          {
+            "fuel": 5,
+            "kind": 0,
+            "pos": 17
+          },
+          {
+            "fuel": 7,
+            "kind": 0,
+            "pos": 21
+          },
+          {
+            "fuel": 0,
+            "kind": 0,
+            "pos": 21
+          }
+        ],
+        "agrees": true,
+        "ledger": {
+          "brands": [
+            100,
+            200,
+            300,
+            400,
+            500
+          ],
+          "totalDailyDistinct": 10,
+          "totalServings": 20
+        },
+        "ok": true,
+        "score": [
+          5,
+          10,
+          20
+        ]
+      },
+      "wire_day": 1
+    },
+    {
+      "arrival_ms": 55.702,
+      "deadline_margin_ms": 4944.294,
+      "plan": [
+        [
+          -1,
+          2,
+          2,
+          2,
+          -9
+        ],
+        [
+          -1,
+          5,
+          5,
+          5,
+          5,
+          -7
+        ],
+        [
+          -1,
+          -15
+        ]
+      ],
+      "state": {
+        "agents": [
+          {
+            "fuel": 5,
+            "kind": 0,
+            "pos": 17
+          },
+          {
+            "fuel": 7,
+            "kind": 0,
+            "pos": 21
+          },
+          {
+            "fuel": 0,
+            "kind": 0,
+            "pos": 21
+          }
+        ],
+        "day": 2,
+        "endsAt": 1788825829686,
+        "others": [],
+        "traffics": []
+      },
+      "validated": {
+        "agents": [
+          {
+            "fuel": 2,
+            "kind": 0,
+            "pos": 20
+          },
+          {
+            "fuel": 3,
+            "kind": 0,
+            "pos": 17
+          },
+          {
+            "fuel": 0,
+            "kind": 0,
+            "pos": 21
+          }
+        ],
+        "agrees": true,
+        "ledger": {
+          "brands": [
+            100,
+            200,
+            300,
+            400,
+            500
+          ],
+          "totalDailyDistinct": 15,
+          "totalServings": 30
+        },
+        "ok": true,
+        "score": [
+          5,
+          15,
+          30
+        ]
+      },
+      "wire_day": 2
+    },
+    {
+      "arrival_ms": 30.133,
+      "deadline_margin_ms": 4969.863,
+      "plan": [
+        [
+          -1,
+          5,
+          5,
+          -12
+        ],
+        [
+          -1,
+          2,
+          2,
+          2,
+          -10
+        ],
+        [
+          -1,
+          -16
+        ]
+      ],
+      "state": {
+        "agents": [
+          {
+            "fuel": 2,
+            "kind": 0,
+            "pos": 20
+          },
+          {
+            "fuel": 3,
+            "kind": 0,
+            "pos": 17
+          },
+          {
+            "fuel": 0,
+            "kind": 0,
+            "pos": 21
+          }
+        ],
+        "day": 3,
+        "endsAt": 1788825834889,
+        "others": [],
+        "traffics": []
+      },
+      "validated": {
+        "agents": [
+          {
+            "fuel": 0,
+            "kind": 0,
+            "pos": 18
+          },
+          {
+            "fuel": 0,
+            "kind": 0,
+            "pos": 20
+          },
+          {
+            "fuel": 0,
+            "kind": 0,
+            "pos": 21
+          }
+        ],
+        "agrees": true,
+        "ledger": {
+          "brands": [
+            100,
+            200,
+            300,
+            400,
+            500
+          ],
+          "totalDailyDistinct": 20,
+          "totalServings": 38
+        },
+        "ok": true,
+        "score": [
+          5,
+          20,
+          38
+        ]
+      },
+      "wire_day": 3
+    }
+  ],
+  "failure": null,
+  "requests": [
+    {
+      "at_ms": 1788825814487,
+      "endpoint": "setup",
+      "method": "GET",
+      "status": 200,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825814488,
+      "endpoint": "start",
+      "method": "GET",
+      "status": 200,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825814489,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 200,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825814705,
+      "endpoint": "actions",
+      "method": "POST",
+      "status": 200,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825814706,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825814707,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825814935,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825814936,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825815169,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825815170,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825815403,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825815404,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825815636,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825815637,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825815872,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825815874,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825816107,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825816109,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825816342,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825816344,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825816574,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825816576,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825816812,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825816814,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825817044,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825817046,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825817280,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825817282,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825817512,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825817514,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825817747,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825817749,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825817984,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825817986,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825818215,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825818217,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825818451,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825818454,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825818687,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825818689,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825818921,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825818923,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825819154,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825819157,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825819389,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825819391,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 0
+    },
+    {
+      "at_ms": 1788825819623,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 200,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825819724,
+      "endpoint": "actions",
+      "method": "POST",
+      "status": 200,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825819725,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825819725,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825819950,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825819953,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825820185,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825820187,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825820419,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825820422,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825820656,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825820658,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825820903,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825820905,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825821138,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825821140,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825821388,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825821390,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825821625,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825821627,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825821859,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825821861,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825822105,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825822106,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825822341,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825822343,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825822576,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825822578,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825822817,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825822819,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825823045,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825823047,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825823287,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825823288,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825823512,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825823514,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825823746,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825823749,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825823983,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825823985,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825824217,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825824220,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825824451,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825824453,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 1
+    },
+    {
+      "at_ms": 1788825824686,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 200,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825824741,
+      "endpoint": "actions",
+      "method": "POST",
+      "status": 200,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825824742,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825824743,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825824966,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825824968,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825825202,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825825204,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825825435,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825825438,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825825673,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825825674,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825825905,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825825907,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825826137,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825826140,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825826372,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825826375,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825826607,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825826609,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825826842,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825826844,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825827077,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825827079,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825827310,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825827311,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825827559,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825827562,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825827787,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825827789,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825828013,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825828015,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825828248,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825828251,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825828482,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825828483,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825828721,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825828723,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825828953,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825828955,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825829184,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825829186,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825829419,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825829421,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825829655,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825829657,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 2
+    },
+    {
+      "at_ms": 1788825829889,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 200,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825829919,
+      "endpoint": "actions",
+      "method": "POST",
+      "status": 200,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825829920,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825829921,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825830153,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825830155,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825830388,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825830391,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825830623,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825830625,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825830858,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825830860,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825831094,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825831096,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825831327,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825831330,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825831576,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825831578,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825831810,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825831812,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825832044,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825832045,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825832279,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825832281,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825832515,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825832516,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825832741,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825832743,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825832980,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825832982,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825833215,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825833217,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825833450,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825833453,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825833684,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825833685,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825833917,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825833919,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825834154,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825834156,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825834389,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825834391,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825834622,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825834624,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825834854,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825834857,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 425,
+      "wire_day": 3
+    },
+    {
+      "at_ms": 1788825835091,
+      "endpoint": "state",
+      "method": "GET",
+      "status": 404,
+      "wire_day": 4
+    },
+    {
+      "at_ms": 1788825835093,
+      "endpoint": "result",
+      "method": "GET",
+      "status": 200,
+      "wire_day": 4
+    }
+  ],
+  "score": [
+    5,
+    20,
+    38
+  ],
+  "seed": 20260908347003,
+  "setup": {
+    "agents": [
+      16,
+      22,
+      23
+    ],
+    "busyThreshold": 2,
+    "daySeconds": [
+      5,
+      5,
+      5,
+      5
+    ],
+    "daySteps": [
+      16,
+      17,
+      16,
+      17
+    ],
+    "fuelLimits": 10,
+    "jammedThreshold": 4,
+    "map": {
+      "cells": [
+        [
+          0,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ],
+        [
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3,
+          3
+        ]
+      ],
+      "height": 8,
+      "width": 8
+    },
+    "players": 8,
+    "spots": [
+      {
+        "brand": 100,
+        "pos": 21,
+        "stocks": 2
+      },
+      {
+        "brand": 200,
+        "pos": 19,
+        "stocks": 2
+      },
+      {
+        "brand": 300,
+        "pos": 20,
+        "stocks": 2
+      },
+      {
+        "brand": 400,
+        "pos": 18,
+        "stocks": 2
+      },
+      {
+        "brand": 500,
+        "pos": 17,
+        "stocks": 2
+      }
+    ],
+    "startsAt": 1778227200
+  },
+  "synthetic": true
+}

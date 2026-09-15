@@ -1,0 +1,55 @@
+{
+  "actions": 40,
+  "complete": true,
+  "completion_sha256": "43D5A58542383E7B60E597F048BD0EC926004107A3F350D52929B586E3C29901",
+  "counts": {
+    "deadline": 0,
+    "failure": 0,
+    "resource_frames": 18,
+    "takeovers": 12
+  },
+  "execution_sha256": "3D07CEE221B01C6C198C73D704F523055F9B3EDA078F736AEF3EAD012E78F4B6",
+  "experiment": "ATTR-ACTIVE-MAIN-REPEATABILITY-369",
+  "frozen_certificate_checker_sha256": "4C314DF4BA09497F647A7E96DCF08C8CA116D51E9A08DAC2AC820689F8652474",
+  "frozen_gate_changed": false,
+  "promotion_authorized": false,
+  "results": 4,
+  "script_sha256": "1DB2CA5463AA0710A2A83C33236DE307FEC5FB8305EF2F7DCCE9E8EB6E318810",
+  "solver_rerun": false,
+  "source_audit": "resource method has no engine-router reference; post-ACK shares engine router; interrupted route results are not cached; hits precede deadline",
+  "source_checks": {
+    "include/udon/decision.hpp": {
+      "frozen_sha256": "EA70E7E0202AD099F19074A11CB2BFEFAA918991F417ADEADA29292ECFDC232B",
+      "normalized_equal": true,
+      "production_sha256": "6506525D5B9624AFB45F03F377C75745627F472279C7C4A6664D66BB77731DF5"
+    },
+    "include/udon/graph.hpp": {
+      "frozen_sha256": "CC0CF54DB980CE358DC9D927FD58D303C037D0329F65DEE10B0D57521FA08B4D",
+      "normalized_equal": true,
+      "production_sha256": "506BBCFE4E9BC904C7504D0A8F3B55E8032193D82D5E6100F48E6542DABF81E6"
+    },
+    "include/udon/planner.hpp": {
+      "frozen_sha256": "BE2758C6ADFE9C15A0B253156F6D88F2EA426B27CC1FAE508F8E922634DC5ACB",
+      "normalized_equal": true,
+      "production_sha256": "0D9566FD09CC47DB17E2B7F61D9EEF70F0E0E3313B1B99FD9F5CD7796AB984EE"
+    },
+    "src/decision.cpp": {
+      "frozen_sha256": "FC8D6FF94B8C5863AD134A92050D35E9E068C0AE2800A264226B05D883050BB6",
+      "normalized_equal": true,
+      "production_sha256": "150AA97731A73A86BE30C2CE1C7542F00D92173BD49B988E0B22D5BE901AA2DA"
+    },
+    "src/graph.cpp": {
+      "frozen_sha256": "F578328D7B08AA2D2F82B083B423D0B614A18A2027047A4A145923D2FD204D0E",
+      "normalized_equal": true,
+      "production_sha256": "D968B822ABACF9EAC970AE3CE8C91758607FCA015071C7790163CF3B016C3F41"
+    },
+    "src/runtime.cpp": {
+      "frozen_sha256": "7295D29EBF73800BC6B0066168BAD9592EAF25322FA3631B430464527DB65888",
+      "normalized_equal": true,
+      "production_sha256": "E6F68D806CF2E33A1DE29488B414AD504731AEB49B612B2889C07AD3D637DD60"
+    }
+  },
+  "summary_sha256": "2DEA3ADE237AFAEFD1458A31AC090257FD0A138B5578E33001165D97D8ECAFAA",
+  "transitions": 36,
+  "verified_files": 28
+}

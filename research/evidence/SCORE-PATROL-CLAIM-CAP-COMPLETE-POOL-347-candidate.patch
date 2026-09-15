@@ -1,0 +1,1221 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -15,6 +15,7 @@
+     src/graph.cpp
+     src/slack_refiner.cpp
+     src/orienteering.cpp
++    src/horizon_pricing.cpp
+     src/planner.cpp
+     src/decision.cpp
+     src/audit.cpp
+@@ -124,6 +125,10 @@
+ endif()
+ 
+ include(CTest)
++add_executable(udonshield_pricing_contract_344 ../../../../research/probes/bounded_pair_probe_340.cpp)
++target_link_libraries(udonshield_pricing_contract_344 PRIVATE udon_shield)
++add_executable(udonshield_claim_cap_347 ../../../../research/probes/claim_cap_probe_347.cpp)
++target_link_libraries(udonshield_claim_cap_347 PRIVATE udon_shield)
+ if(BUILD_TESTING)
+     add_executable(udonshield_tests tests/test_main.cpp)
+     target_link_libraries(udonshield_tests PRIVATE udon_shield)
+--- a/include/udon/decision.hpp
++++ b/include/udon/decision.hpp
+@@ -101,6 +101,21 @@
+     const TrafficBelief& belief,
+     const TrafficScenario& scenario,
+     const std::vector<std::int32_t>& ownCurrentFootprint);
++
++struct HorizonPricingDiagnostics {
++    std::uint64_t calls = 0;
++    std::uint64_t supported = 0;
++    std::uint64_t completed = 0;
++    std::uint64_t improvements = 0;
++    std::uint64_t exhausted = 0;
++    std::uint64_t failures = 0;
++    std::uint64_t settledLabels = 0;
++    std::uint64_t createdLabels = 0;
++    std::uint64_t storedActions = 0;
++    std::uint64_t memoStates = 0;
++    std::uint64_t transitions = 0;
++    std::uint64_t dayQueries = 0;
++};
+ 
+ struct FutureWitness {
+     std::vector<DayPlan> futurePlans;
+@@ -182,6 +197,7 @@
+     bool signatureEnabled = true;
+     std::vector<ConditionalTierBounds> conditionalTiers;
+     std::vector<ViabilityFrontierPoint> frontier;
++    HorizonPricingDiagnostics horizonPricing;
+ };
+ 
+ struct RiskPolicy {
+@@ -256,6 +272,11 @@
+     [[nodiscard]] std::size_t choose(
+         const std::vector<CandidateEvaluation>& evaluations,
+         bool requireUndominatedCurrentFloor = false) const;
++    // Same dominance filter, order and choose semantics, retaining the full pool.
++    [[nodiscard]] std::size_t choose_undominated(
++        const std::vector<CandidateEvaluation>& evaluations,
++        bool requireUndominatedCurrentFloor,
++        std::vector<bool>& dominated) const;
+     [[nodiscard]] std::size_t choose_provisional(const std::vector<CandidateEvaluation>& evaluations) const;
+     [[nodiscard]] bool certified_dominates(
+         const CandidateProfile& challenger,
+@@ -377,6 +398,7 @@
+     bool selected = false;
+     std::string w1Role;
+     std::string disposition;
++    HorizonPricingDiagnostics horizonPricing;
+ };
+ 
+ struct LexicographicGapDiagnostics {
+@@ -394,6 +416,28 @@
+     LexicographicGapDiagnostics absoluteHorizon;
+     bool portfolioSearchComplete = false;
+     bool viabilityDeadlineReached = false;
++};
++
++struct PoolPricingOutcomeAudit {
++    std::string candidateId;
++    std::size_t scenarioIndex = 0;
++    OfficialScore beforeScore;
++    OfficialScore afterScore;
++    std::string beforeWitness;
++    std::string afterWitness;
++    bool replaced = false;
++};
++
++struct CompletePoolPricingAudit {
++    bool entered = false;
++    std::size_t originalPoolSize = 0;
++    std::string baseSelectedId;
++    std::string finalSelectedId;
++    std::uint64_t replacements = 0;
++    bool currentPlansUnchanged = true;
++    bool noGainPoolUnchanged = true;
++    bool noGainSelectionUnchanged = true;
++    std::vector<PoolPricingOutcomeAudit> outcomes;
+ };
+ 
+ struct DecisionAudit {
+@@ -415,6 +459,7 @@
+     bool independentDeadlineReached = false;
+     ProfileFinalizeDiagnostics profileFinalization;
+     OptimalityGapDiagnostics optimalityGap;
++    CompletePoolPricingAudit completePoolPricing;
+ };
+ 
+ struct DecisionTiming {
+--- /dev/null
++++ b/include/udon/horizon_pricing.hpp
+@@ -0,0 +1,34 @@
++#pragma once
++#include "udon/decision.hpp"
++
++namespace udon {
++struct HorizonPricingLimits {
++    std::uint64_t settled = 32768;
++    std::uint64_t created = 196609;
++    std::uint64_t actions = 262144;
++    std::uint64_t memo = 8192;
++    std::uint64_t transitions = 262144;
++    std::uint64_t queries = 1024;
++};
++// Does not modify original. An incomplete attempt returns no replacement.
++[[nodiscard]] std::optional<FutureWitness> price_horizon_witness(
++    const MatchConfig& config,
++    const DayState& root,
++    const MatchLedger& ledger,
++    const FutureWitness& original,
++    const ExactStepSimulator& simulator,
++    const IndependentDayValidator& validator,
++    std::chrono::steady_clock::time_point deadline,
++    HorizonPricingDiagnostics& diagnostics,
++    const HorizonPricingLimits& limits = {});
++
++// Refines only full exact outcomes after ALL original W1 repairs are complete.
++// Candidate actions and metadata remain immutable; each failed/no-gain invocation
++// retains its original witness byte for byte. The caller owns final selection.
++void refine_complete_w1_pool(
++    const MatchConfig& config, const DayState& currentState, const MatchLedger& ledger,
++    std::vector<CandidateEvaluation>& pool, const ExactStepSimulator& simulator,
++    const IndependentDayValidator& validator,
++    std::chrono::steady_clock::time_point deadline, CompletePoolPricingAudit& audit,
++    const HorizonPricingLimits& limits = {});
++}
+--- a/include/udon/orienteering.hpp
++++ b/include/udon/orienteering.hpp
+@@ -38,6 +38,28 @@
+     BrandMask lifetimeBrands;
+     std::vector<std::int32_t> incumbentClaimsWithoutAgent;
+ };
++
++// A resource frontier, not a ranked daily-score shortlist. This consumer retains
++// terminal cells and remaining fuel for whole-horizon witness evaluation.
++struct HorizonResourceFrontier {
++    bool supported = false;
++    bool complete = false;
++    std::uint64_t settledStates = 0;
++    std::uint64_t createdLabels = 0;
++    std::uint64_t storedPlanActions = 0;
++    std::uint64_t maximumCreatedLabels = 0;
++    std::uint64_t maximumStoredPlanActions = 0;
++    std::vector<ExactOrienteeringRoute> routes;
++};
++
++[[nodiscard]] HorizonResourceFrontier enumerate_horizon_resource_frontier(
++    const MatchConfig& config,
++    const DayState& state,
++    AgentIndex agent,
++    std::uint64_t maximumSettledStates,
++    std::uint64_t maximumCreatedLabels,
++    std::uint64_t maximumStoredPlanActions,
++    std::chrono::steady_clock::time_point deadline);
+ 
+ [[nodiscard]] bool exact_orienteering_dense_state_supported(
+     const MatchConfig& config) noexcept;
+--- a/src/audit.cpp
++++ b/src/audit.cpp
+@@ -321,8 +321,26 @@
+     return JsonValue(std::move(object));
+ }
+ 
++[[nodiscard]] JsonValue horizon_pricing_object(const HorizonPricingDiagnostics& d) {
++    JsonValue::Object o;
++    o.emplace("calls", JsonValue(static_cast<std::int64_t>(d.calls)));
++    o.emplace("supported", JsonValue(static_cast<std::int64_t>(d.supported)));
++    o.emplace("completed", JsonValue(static_cast<std::int64_t>(d.completed)));
++    o.emplace("improvements", JsonValue(static_cast<std::int64_t>(d.improvements)));
++    o.emplace("exhausted", JsonValue(static_cast<std::int64_t>(d.exhausted)));
++    o.emplace("failures", JsonValue(static_cast<std::int64_t>(d.failures)));
++    o.emplace("settledLabels", JsonValue(static_cast<std::int64_t>(d.settledLabels)));
++    o.emplace("createdLabels", JsonValue(static_cast<std::int64_t>(d.createdLabels)));
++    o.emplace("storedActions", JsonValue(static_cast<std::int64_t>(d.storedActions)));
++    o.emplace("memoStates", JsonValue(static_cast<std::int64_t>(d.memoStates)));
++    o.emplace("transitions", JsonValue(static_cast<std::int64_t>(d.transitions)));
++    o.emplace("dayQueries", JsonValue(static_cast<std::int64_t>(d.dayQueries)));
++    return JsonValue(std::move(o));
++}
++
+ [[nodiscard]] JsonValue profile_object(const CandidateProfile& profile) {
+     JsonValue::Object object;
++    object.emplace("horizonPricing", horizon_pricing_object(profile.horizonPricing));
+     object.emplace("coverageCap", JsonValue(static_cast<std::int64_t>(profile.coverageCap)));
+     object.emplace("coverageSafe", JsonValue(static_cast<std::int64_t>(profile.coverageSafe)));
+     object.emplace("confidenceCoverage", JsonValue(static_cast<std::int64_t>(profile.confidenceCoverage)));
+@@ -566,6 +584,30 @@
+ [[nodiscard]] JsonValue audit_object(const DecisionAudit& audit) {
+     JsonValue::Object object;
+     object.emplace("selectionReason", JsonValue(audit.selectionReason));
++    const CompletePoolPricingAudit& pool = audit.completePoolPricing;
++    JsonValue::Object poolObject;
++    poolObject.emplace("entered", JsonValue(pool.entered));
++    poolObject.emplace("originalPoolSize", JsonValue(static_cast<std::int64_t>(pool.originalPoolSize)));
++    poolObject.emplace("baseSelectedId", JsonValue(pool.baseSelectedId));
++    poolObject.emplace("finalSelectedId", JsonValue(pool.finalSelectedId));
++    poolObject.emplace("replacements", JsonValue(static_cast<std::int64_t>(pool.replacements)));
++    poolObject.emplace("currentPlansUnchanged", JsonValue(pool.currentPlansUnchanged));
++    poolObject.emplace("noGainPoolUnchanged", JsonValue(pool.noGainPoolUnchanged));
++    poolObject.emplace("noGainSelectionUnchanged", JsonValue(pool.noGainSelectionUnchanged));
++    JsonValue::Array poolOutcomes;
++    for (const PoolPricingOutcomeAudit& outcome : pool.outcomes) {
++        JsonValue::Object o;
++        o.emplace("candidateId", JsonValue(outcome.candidateId));
++        o.emplace("scenarioIndex", JsonValue(static_cast<std::int64_t>(outcome.scenarioIndex)));
++        o.emplace("beforeScore", score_object(outcome.beforeScore));
++        o.emplace("afterScore", score_object(outcome.afterScore));
++        o.emplace("beforeWitness", JsonValue(outcome.beforeWitness));
++        o.emplace("afterWitness", JsonValue(outcome.afterWitness));
++        o.emplace("replaced", JsonValue(outcome.replaced));
++        poolOutcomes.emplace_back(std::move(o));
++    }
++    poolObject.emplace("outcomes", JsonValue(std::move(poolOutcomes)));
++    object.emplace("completePoolPricing", JsonValue(std::move(poolObject)));
+     object.emplace("promotedCriticalRoads", integer_array(audit.promotedCriticalRoads));
+     object.emplace("privateSensitivityRoads", integer_array(audit.privateSensitivityRoads));
+     object.emplace("portfolioColumnsByAgent", integer_array(audit.portfolioColumnsByAgent));
+@@ -747,6 +789,7 @@
+         candidateObject.emplace("scoreAfterToday", score_object(candidate.scoreAfterToday));
+         candidateObject.emplace("provisionalLowerBound", score_object(candidate.provisionalLowerBound));
+         candidateObject.emplace("validUpperBound", score_object(candidate.validUpperBound));
++        candidateObject.emplace("horizonPricing", horizon_pricing_object(candidate.horizonPricing));
+         candidateObject.emplace("finalQuantile50", score_object(candidate.finalQuantile50));
+         candidateObject.emplace(
+             "finalCertifiedLowerBound",
+--- a/src/decision.cpp
++++ b/src/decision.cpp
+@@ -1,4 +1,5 @@
+ #include "udon/decision.hpp"
++#include "udon/horizon_pricing.hpp"
+ #include "udon/protocol.hpp"
+ #include "blank_slate/planners.hpp"
+ 
+@@ -1841,8 +1842,14 @@
+                         static_cast<std::size_t>(spot.position)) != unreachable;
+                 });
+             if (canReachSpot) {
+-                noTankerClaimCapacity +=
+-                    static_cast<std::int64_t>(remainingDays) + agent.fuel;
++                // Intersect independent per-Patrol limits before summation:
++                // one initial-cell claim/day plus fuel-limited arrivals, and
++                // at most one serving per spot per Patrol per day. Shared stock
++                // and all existing global/conditional bounds remain downstream.
++                noTankerClaimCapacity += std::min(
++                    static_cast<std::int64_t>(remainingDays) + agent.fuel,
++                    static_cast<std::int64_t>(remainingDays) *
++                        static_cast<std::int64_t>(config_.spots.size()));
+             }
+         }
+         const std::vector<std::int32_t> pessimisticCells = fuel_aware_travel_times(
+@@ -2898,6 +2905,33 @@
+     return selected;
+ }
+ 
++std::size_t LexicographicRiskComparator::choose_undominated(
++    const std::vector<CandidateEvaluation>& evaluations,
++    bool requireUndominatedCurrentFloor,
++    std::vector<bool>& dominated) const {
++    dominated.assign(evaluations.size(), false);
++    for (std::size_t i = 0; i < evaluations.size(); ++i) {
++        for (std::size_t j = 0; j < evaluations.size(); ++j) {
++            if (i != j && certified_dominates(evaluations.at(j).profile, evaluations.at(i).profile)) {
++                dominated.at(i) = true;
++                break;
++            }
++        }
++    }
++    std::vector<CandidateEvaluation> eligible;
++    std::vector<std::size_t> indices;
++    for (std::size_t i = 0; i < evaluations.size(); ++i) {
++        if (!dominated.at(i)) {
++            eligible.push_back(evaluations.at(i));
++            indices.push_back(i);
++        }
++    }
++    if (eligible.empty()) {
++        throw std::runtime_error("all certified candidates were unexpectedly dominated");
++    }
++    return indices.at(choose(eligible, requireUndominatedCurrentFloor));
++}
++
+ std::size_t LexicographicRiskComparator::choose_provisional(
+     const std::vector<CandidateEvaluation>& evaluations) const {
+     if (evaluations.empty()) {
+@@ -5184,6 +5218,8 @@
+     certifiedIndices.reserve(repairIndices.size());
+     for (const std::size_t candidateIndex : repairIndices) {
+         const bool certified = all_outcomes_certified(evaluations.at(candidateIndex).profile);
++        result.audit.candidates.at(candidateIndex).horizonPricing =
++            evaluations.at(candidateIndex).profile.horizonPricing;
+         result.audit.candidates.at(candidateIndex).certified = certified;
+         if (certified) {
+             certifiedPool.push_back(std::move(evaluations.at(candidateIndex)));
+@@ -5225,6 +5261,26 @@
+         certifiedPool,
+         result.manifest,
+         &result.audit.profileFinalization);
++    std::vector<bool> dominated;
++    std::size_t selected = comparator_.choose_undominated(
++        certifiedPool, requireUndominatedCurrentFloor_, dominated);
++    CompletePoolPricingAudit& poolAudit = result.audit.completePoolPricing;
++    poolAudit.baseSelectedId = certifiedPool.at(selected).candidate.stableId;
++    refine_complete_w1_pool(
++        config_, state, ledger, certifiedPool, simulator_, validator_,
++        certificationDeadline, poolAudit);
++    if (poolAudit.replacements != 0U) {
++        comparator_.finalize_profiles(
++            certifiedPool, result.manifest, &result.audit.profileFinalization);
++        selected = comparator_.choose_undominated(
++            certifiedPool, requireUndominatedCurrentFloor_, dominated);
++    }
++    poolAudit.finalSelectedId = certifiedPool.at(selected).candidate.stableId;
++    poolAudit.noGainSelectionUnchanged = poolAudit.replacements != 0U ||
++        poolAudit.baseSelectedId == poolAudit.finalSelectedId;
++    if (!poolAudit.noGainSelectionUnchanged) {
++        throw std::runtime_error("no-gain complete pool changed its original selection");
++    }
+     for (std::size_t candidateIndex = 0;
+          candidateIndex < certifiedPool.size();
+          ++candidateIndex) {
+@@ -5234,41 +5290,14 @@
+             certifiedPool.at(candidateIndex).profile.quantiles.at(2);
+         record.finalCertifiedLowerBound =
+             certifiedPool.at(candidateIndex).profile.certifiedLowerBound;
+-    }
+-    std::vector<bool> dominated(certifiedPool.size(), false);
+-    for (std::size_t candidateIndex = 0; candidateIndex < certifiedPool.size(); ++candidateIndex) {
+-        for (std::size_t challengerIndex = 0; challengerIndex < certifiedPool.size(); ++challengerIndex) {
+-            if (candidateIndex == challengerIndex) {
+-                continue;
+-            }
+-            if (comparator_.certified_dominates(
+-                    certifiedPool.at(challengerIndex).profile,
+-                    certifiedPool.at(candidateIndex).profile)) {
+-                dominated.at(candidateIndex) = true;
+-                result.audit.candidates.at(certifiedIndices.at(candidateIndex)).disposition = "certified-dominated";
+-                break;
+-            }
+-        }
+-    }
+-    std::vector<CandidateEvaluation> undominatedPool;
+-    std::vector<std::size_t> undominatedIndices;
+-    undominatedPool.reserve(certifiedPool.size());
+-    undominatedIndices.reserve(certifiedIndices.size());
+-    for (std::size_t candidateIndex = 0; candidateIndex < certifiedPool.size(); ++candidateIndex) {
+-        if (!dominated.at(candidateIndex)) {
+-            undominatedPool.push_back(std::move(certifiedPool.at(candidateIndex)));
+-            undominatedIndices.push_back(certifiedIndices.at(candidateIndex));
+-        }
+-    }
+-    if (undominatedPool.empty()) {
+-        throw std::runtime_error("all certified candidates were unexpectedly dominated");
+-    }
+-    certifiedPool = std::move(undominatedPool);
+-    const std::size_t selected = comparator_.choose(
+-        certifiedPool,
+-        requireUndominatedCurrentFloor_);
+-    for (std::size_t candidateIndex = 0; candidateIndex < undominatedIndices.size(); ++candidateIndex) {
+-        CandidateAuditRecord& record = result.audit.candidates.at(undominatedIndices.at(candidateIndex));
++        record.horizonPricing = certifiedPool.at(candidateIndex).profile.horizonPricing;
++    }
++    for (std::size_t candidateIndex = 0; candidateIndex < certifiedIndices.size(); ++candidateIndex) {
++        CandidateAuditRecord& record = result.audit.candidates.at(certifiedIndices.at(candidateIndex));
++        if (dominated.at(candidateIndex)) {
++            record.disposition = "certified-dominated";
++            continue;
++        }
+         if (candidateIndex == selected) {
+             record.selected = true;
+             record.disposition = "selected";
+--- /dev/null
++++ b/src/horizon_pricing.cpp
+@@ -0,0 +1,435 @@
++#include "udon/horizon_pricing.hpp"
++#include "udon/orienteering.hpp"
++#include "udon/protocol.hpp"
++#include <array>
++#include <bit>
++#include <map>
++#include <set>
++#include <tuple>
++
++namespace udon {
++namespace {
++thread_local std::uint64_t auditCuts = 0;
++struct Exhausted {};
++struct InvalidWitness {};
++
++class Pricing {
++    const MatchConfig& config;
++    const DayState& root;
++    const MatchLedger& ledger;
++    const FutureWitness& original;
++    const ExactStepSimulator& simulator;
++    const IndependentDayValidator& validator;
++    std::chrono::steady_clock::time_point deadline;
++    HorizonPricingDiagnostics& totals;
++    HorizonPricingDiagnostics work;
++    std::vector<std::vector<std::uint32_t>> fixedClaims;
++    std::vector<std::vector<AgentState>> fixedStates;
++    using DayKey = std::tuple<std::int32_t, CellId, std::int32_t>;
++    std::map<DayKey, std::vector<ExactOrienteeringRoute>> dayCache;
++    using Cells = std::array<CellId, 2>;
++    using Fuels = std::array<std::int32_t, 2>;
++    using Key = std::tuple<std::int32_t, Cells, Fuels, BrandMask>;
++    struct Choice {
++        OfficialScore score;
++        Cells pos{};
++        Fuels fuel{};
++        BrandMask brands;
++        std::array<const ExactOrienteeringRoute*, 2> route{};
++    };
++    std::map<Key, Choice> memo;
++    std::array<AgentIndex, 2> pair{};
++    HorizonPricingLimits limits;
++    struct Relaxation {
++        std::uint32_t creditMask = 0;
++        std::int32_t fixedSuffix = 0;
++        std::int32_t capacitySuffix = 0;
++    };
++    std::vector<Relaxation> relaxed;
++    std::map<DayKey, std::int32_t> upperMemo;
++    BrandMask allBrands;
++
++
++    void check() const {
++        if (std::chrono::steady_clock::now() >= deadline) throw Exhausted{};
++    }
++    void charge(std::uint64_t amount) {
++        check();
++        if (amount > limits.transitions - work.transitions) throw Exhausted{};
++        work.transitions += amount;
++    }
++    void charge_actions(std::uint64_t amount) {
++        check();
++        if (amount > limits.actions - work.storedActions) throw Exhausted{};
++        work.storedActions += amount;
++    }
++    SimulationResult simulate(const DayState& state, const DayPlan& plan) {
++        // Charge both full-team engines before entering their bounded loops.
++        charge(2ULL * static_cast<std::uint64_t>(config.agent_count()) *
++               static_cast<std::uint64_t>(config.steps_for_day(state.dayNumber)));
++        auto s = simulator.simulate(state, plan, true);
++        check();
++        auto v = validator.validate(state, plan, true);
++        check();
++        std::string mismatch;
++        if (!s.valid || !validator.agrees_with(s, v, mismatch)) throw InvalidWitness{};
++        return s;
++    }
++    std::pair<BrandMask, std::int32_t> day_score(std::int32_t day, std::uint32_t first, std::uint32_t second) const {
++        BrandMask brands;
++        std::int32_t servings = 0;
++        const auto& masks = fixedClaims.at(day - root.dayNumber);
++        for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
++            const auto bit = std::uint32_t{1} << static_cast<std::uint32_t>(spot);
++            std::int32_t claims = ((first & bit) != 0U ? 1 : 0) + ((second & bit) != 0U ? 1 : 0);
++            for (AgentIndex a = 0; a < config.agent_count(); ++a)
++                if (a != pair[0] && a != pair[1] && (masks.at(a) & bit) != 0U) ++claims;
++            if (claims > 0) {
++                brands |= brand_bit(config.spots.at(spot).brandIndex);
++                servings += std::min(claims, config.spots.at(spot).stock);
++            }
++        }
++        return {brands, servings};
++    }
++    const std::vector<ExactOrienteeringRoute>& routes(std::int32_t day, CellId pos, std::int32_t fuel) {
++        check();
++        const DayKey key{day, pos, fuel};
++        if (const auto i = dayCache.find(key); i != dayCache.end()) return i->second;
++        if (work.dayQueries >= limits.queries || work.settledLabels >= limits.settled ||
++            work.createdLabels >= limits.created || work.storedActions >= limits.actions) throw Exhausted{};
++        ++work.dayQueries;
++        DayState state = root;
++        state.dayNumber = day;
++        const AgentIndex agent = pair[0]; // Geometry/fuel independent of physical Patrol identity.
++        state.agents.at(agent).position = pos;
++        state.agents.at(agent).fuel = fuel;
++        auto frontier = enumerate_horizon_resource_frontier(
++            config, state, agent, limits.settled - work.settledLabels,
++            limits.created - work.createdLabels, limits.actions - work.storedActions, deadline);
++        work.settledLabels += frontier.settledStates;
++        work.createdLabels += frontier.createdLabels;
++        work.storedActions += frontier.storedPlanActions;
++        check();
++        if (!frontier.supported || !frontier.complete || frontier.routes.empty()) throw Exhausted{};
++        return dayCache.emplace(key, std::move(frontier.routes)).first->second;
++    }
++    void prepare_relaxation() {
++        upperMemo.clear();
++        relaxed.clear();
++        allBrands = {};
++        for (std::size_t day = 0; day < fixedClaims.size(); ++day) {
++            charge(1);
++            charge_actions(3); // Three bounded scalar records per day.
++            Relaxation item;
++            for (std::size_t spot = 0; spot < config.spots.size(); ++spot) {
++                charge(1 + static_cast<std::uint64_t>(config.agent_count()));
++                const auto bit = std::uint32_t{1} << static_cast<std::uint32_t>(spot);
++                std::int32_t claims = 0;
++                for (AgentIndex a = 0; a < config.agent_count(); ++a)
++                    if (a != pair[0] && a != pair[1] && (fixedClaims[day][a] & bit)) ++claims;
++                const auto stock = config.spots[spot].stock;
++                item.fixedSuffix += std::min(claims, stock);
++                item.capacitySuffix += std::min(claims + 2, stock);
++                if (claims < stock) item.creditMask |= bit;
++                allBrands |= brand_bit(config.spots[spot].brandIndex);
++            }
++            relaxed.push_back(item);
++        }
++        for (std::size_t i = relaxed.size(); i > 1; --i) {
++            charge(1);
++            relaxed[i - 2].fixedSuffix += relaxed[i - 1].fixedSuffix;
++            relaxed[i - 2].capacitySuffix += relaxed[i - 1].capacitySuffix;
++        }
++    }
++    std::int32_t solo_upper(std::int32_t day, CellId pos, std::int32_t fuel) {
++        charge(1);
++        if (day > config.day_count()) return 0;
++        const DayKey key{day, pos, fuel};
++        if (const auto i = upperMemo.find(key); i != upperMemo.end()) return i->second;
++        if (work.memoStates >= limits.memo) throw Exhausted{};
++        ++work.memoStates; // Relaxation shares, never adds to, the registered cap.
++        const auto credit = relaxed.at(day - root.dayNumber).creditMask;
++        std::int32_t best = 0;
++        for (const auto& route : routes(day, pos, fuel)) {
++            charge(1);
++            const auto now = std::popcount(route.spotMask & credit);
++            const auto later = solo_upper(day + 1, route.terminalCell, fuel - route.patrolFuel);
++            best = std::max(best, now + later);
++        }
++        upperMemo.emplace(key, best);
++        return best;
++    }
++    OfficialScore optimistic(std::int32_t day, Cells pos, Fuels fuel, const BrandMask& brands) {
++        charge(1);
++        if (day > config.day_count()) return {brand_count(brands), 0, 0};
++        const auto& r = relaxed.at(day - root.dayNumber);
++        // Fixed-team stock plus independent residual credits OVERestimates
++        // joint reward: shared residual stock is deliberately not subtracted.
++        const auto upper = r.fixedSuffix + solo_upper(day, pos[0], fuel[0])
++                                        + solo_upper(day, pos[1], fuel[1]);
++        return {brand_count(brands | allBrands),
++                (config.day_count() - day + 1) * brand_count(allBrands),
++                std::min(r.capacitySuffix, upper)};
++    }
++    std::vector<const ExactOrienteeringRoute*> terminal_representatives(
++            const std::vector<ExactOrienteeringRoute>& frontier) {
++        // Final-day quotient only. Keep the earliest route for every claim mask:
++        // no future consumer can distinguish endpoints/fuel at this boundary.
++        // Both scan work and extra bounded bookkeeping are charged before use.
++        std::set<std::uint32_t> seen;
++        std::vector<const ExactOrienteeringRoute*> representatives;
++        for (const auto& route : frontier) {
++            charge(1);
++            if (seen.find(route.spotMask) != seen.end()) continue;
++            charge_actions(2); // One mask node and one route-reference slot.
++            seen.insert(route.spotMask);
++            representatives.push_back(&route);
++        }
++        return representatives;
++    }
++    const Choice& solve(std::int32_t day, Cells pos, Fuels fuel, const BrandMask& brands) {
++        charge(1);
++        const Key key{day, pos, fuel, brands};
++        if (const auto i = memo.find(key); i != memo.end()) return i->second;
++        if (work.memoStates >= limits.memo) throw Exhausted{};
++        ++work.memoStates;
++        if (day > config.day_count()) {
++            return memo.emplace(key, Choice{{brand_count(brands), 0, 0}, pos, fuel, brands, {}}).first->second;
++        }
++        std::optional<Choice> best;
++        const auto& left = routes(day, pos[0], fuel[0]);
++        const auto& right = routes(day, pos[1], fuel[1]);
++        if (day == config.day_count()) {
++            const auto firstRoutes = terminal_representatives(left);
++            const auto secondRoutes = terminal_representatives(right);
++            for (const auto* first : firstRoutes) {
++                for (const auto* second : secondRoutes) {
++                    charge(1);
++                    const auto [dailyBrands, servings] = day_score(
++                        day, first->spotMask, second->spotMask);
++                    const BrandMask nextBrands = brands | dailyBrands;
++                    const OfficialScore value{
++                        brand_count(nextBrands), brand_count(dailyBrands), servings};
++                    if (!best || best->score < value) {
++                        best = Choice{value,
++                            {first->terminalCell, second->terminalCell},
++                            {fuel[0] - first->patrolFuel, fuel[1] - second->patrolFuel},
++                            nextBrands, {first, second}};
++                    }
++                }
++            }
++            if (!best) throw InvalidWitness{};
++            return memo.emplace(key, std::move(*best)).first->second;
++        }
++
++        for (const auto& first : left) {
++            for (const auto& second : right) {
++                charge(1); // Joint cross product: never prune an individually losing route.
++                const auto [dailyBrands, servings] = day_score(day, first.spotMask, second.spotMask);
++                const BrandMask nextBrands = brands | dailyBrands;
++                const Cells nextPos{first.terminalCell, second.terminalCell};
++                const Fuels nextFuel{fuel[0] - first.patrolFuel, fuel[1] - second.patrolFuel};
++                if (best) {
++                    auto bound = optimistic(day + 1, nextPos, nextFuel, nextBrands);
++                    bound.totalDailyDistinct += brand_count(dailyBrands);
++                    bound.totalServings += servings;
++                    // A previous exact choice wins all equal-score ties.
++                    if (!(best->score < bound)) { ++auditCuts; continue; }
++                }
++                auto value = solve(day + 1, nextPos, nextFuel, nextBrands).score;
++                value.totalDailyDistinct += brand_count(dailyBrands);
++                value.totalServings += servings;
++                if (!best || best->score < value)
++                    best = Choice{value, nextPos, nextFuel, nextBrands, {&first, &second}};
++            }
++        }
++        if (!best) throw InvalidWitness{};
++        return memo.emplace(key, std::move(*best)).first->second;
++    }
++public:
++    Pricing(const MatchConfig& c, const DayState& s, const MatchLedger& l,
++            const FutureWitness& w, const ExactStepSimulator& sim,
++            const IndependentDayValidator& val, std::chrono::steady_clock::time_point end,
++            HorizonPricingDiagnostics& d, const HorizonPricingLimits& bound)
++        : config(c), root(s), ledger(l), original(w), simulator(sim), validator(val),
++          deadline(end), totals(d), limits(bound) {}
++    ~Pricing() {
++        totals.settledLabels += work.settledLabels;
++        totals.createdLabels += work.createdLabels;
++        totals.storedActions += work.storedActions;
++        totals.memoStates += work.memoStates;
++        totals.transitions += work.transitions;
++        totals.dayQueries += work.dayQueries;
++    }
++    std::optional<FutureWitness> run() {
++        if (!original.certified || original.lowerBoundOnly || original.futurePlans.size() !=
++            static_cast<std::size_t>(config.day_count() - root.dayNumber + 1)) throw InvalidWitness{};
++        auto state = root;
++        auto prefix = ledger;
++        std::uint64_t originalActions = 0;
++        for (const auto& plan : original.futurePlans) {
++            check();
++            for (const auto& actions : plan.actions) {
++                originalActions += actions.size();
++                if (originalActions > limits.actions) throw Exhausted{};
++                charge_actions(actions.size());
++            }
++            auto sim = simulate(state, plan);
++            std::vector<std::uint32_t> masks(static_cast<std::size_t>(config.agent_count()), 0U);
++            for (const auto& claim : sim.claims)
++                masks.at(claim.agent) |= std::uint32_t{1} << static_cast<std::uint32_t>(claim.spot);
++            fixedClaims.push_back(std::move(masks));
++            fixedStates.push_back(sim.finalAgents);
++            state.agents = sim.finalAgents;
++            ++state.dayNumber;
++            prefix.apply(sim.score);
++        }
++        if (OfficialScore{prefix.lifetime_distinct(), prefix.totalDailyDistinct, prefix.totalServings} != original.score)
++            throw InvalidWitness{};
++        std::optional<FutureWitness> best;
++        for (pair[0] = 0; pair[0] < config.agent_count(); ++pair[0]) {
++          for (pair[1] = pair[0] + 1; pair[1] < config.agent_count(); ++pair[1]) {
++            // Independent ORIGINAL-root responses; shared invocation counters/cache.
++            memo.clear();
++            prepare_relaxation();
++            auto cells = [&](const DayState& s) { return Cells{s.agents.at(pair[0]).position, s.agents.at(pair[1]).position}; };
++            auto fuels = [&](const DayState& s) { return Fuels{s.agents.at(pair[0]).fuel, s.agents.at(pair[1]).fuel}; };
++            auto expected = solve(root.dayNumber, cells(root), fuels(root), ledger.lifetimeBrands).score;
++            expected.totalDailyDistinct += ledger.totalDailyDistinct;
++            expected.totalServings += ledger.totalServings;
++            if (expected < original.score) throw InvalidWitness{};
++            FutureWitness candidate;
++            candidate.certified = true;
++            auto actual = root;
++            auto actualLedger = ledger;
++            for (std::int32_t day = root.dayNumber; day <= config.day_count(); ++day) {
++                check();
++                const auto node = solve(day, cells(actual), fuels(actual), actualLedger.lifetimeBrands);
++                const auto& originalPlan = original.futurePlans.at(day - root.dayNumber);
++                for (const auto& actions : originalPlan.actions) charge_actions(actions.size());
++                for (int i = 0; i < 2; ++i) charge_actions(node.route[i]->actions.size());
++                auto plan = originalPlan;
++                for (int i = 0; i < 2; ++i) plan.actions.at(pair[i]) = node.route[i]->actions;
++                const auto sim = simulate(actual, plan);
++                for (AgentIndex a = 0; a < config.agent_count(); ++a)
++                    if (a != pair[0] && a != pair[1] &&
++                        (sim.finalAgents.at(a).position != fixedStates.at(day - root.dayNumber).at(a).position ||
++                         sim.finalAgents.at(a).fuel != fixedStates.at(day - root.dayNumber).at(a).fuel))
++                        throw InvalidWitness{};
++                for (int i = 0; i < 2; ++i)
++                    if (sim.finalAgents.at(pair[i]).position != node.pos[i] ||
++                        sim.finalAgents.at(pair[i]).fuel != node.fuel[i]) throw InvalidWitness{};
++                actualLedger.apply(sim.score);
++                if (actualLedger.lifetimeBrands != node.brands) throw InvalidWitness{};
++                actual.agents = sim.finalAgents;
++                ++actual.dayNumber;
++                candidate.futurePlans.push_back(std::move(plan));
++            }
++            candidate.score = {actualLedger.lifetime_distinct(), actualLedger.totalDailyDistinct, actualLedger.totalServings};
++            if (candidate.score != expected) throw InvalidWitness{};
++            if (original.score < candidate.score && (!best || best->score < candidate.score)) best = std::move(candidate);
++          }
++        }
++        check();
++        ++totals.completed;
++        if (best) ++totals.improvements;
++        return best;
++    }
++};
++}
++
++std::uint64_t pair_bound_cut_count() { return auditCuts; }
++
++namespace {
++std::string witness_bytes(const FutureWitness& witness) {
++    std::string bytes = std::to_string(witness.certified) + ":" +
++        std::to_string(witness.lowerBoundOnly) + ":";
++    for (const DayPlan& plan : witness.futurePlans) {
++        const std::string planBytes = canonical_plan_bytes(plan);
++        bytes += std::to_string(planBytes.size()) + ":" + planBytes;
++    }
++    return bytes;
++}
++}
++
++void refine_complete_w1_pool(
++    const MatchConfig& config, const DayState& currentState, const MatchLedger& ledger,
++    std::vector<CandidateEvaluation>& pool, const ExactStepSimulator& simulator,
++    const IndependentDayValidator& validator,
++    std::chrono::steady_clock::time_point deadline, CompletePoolPricingAudit& audit,
++    const HorizonPricingLimits& limits) {
++    audit.entered = true;
++    audit.originalPoolSize = pool.size();
++    for (CandidateEvaluation& evaluation : pool) {
++        const MasterCandidate& candidate = evaluation.candidate;
++        const std::string originalPlan = canonical_plan_bytes(candidate.plan);
++        for (std::size_t i = 0; i < evaluation.profile.outcomes.size(); ++i) {
++            ScenarioOutcome& outcome = evaluation.profile.outcomes.at(i);
++            PoolPricingOutcomeAudit record;
++            record.candidateId = candidate.stableId;
++            record.scenarioIndex = i;
++            record.beforeScore = outcome.score;
++            record.beforeWitness = witness_bytes(outcome.witness);
++            if (outcome.witness.certified && !outcome.witness.lowerBoundOnly &&
++                currentState.dayNumber < config.day_count()) {
++                DayState root = currentState;
++                root.dayNumber = currentState.dayNumber + 1;
++                root.agents = candidate.simulation.finalAgents;
++                MatchLedger nextLedger = ledger;
++                nextLedger.apply(candidate.simulation.score);
++                const auto priced = price_horizon_witness(
++                    config, root, nextLedger, outcome.witness, simulator, validator,
++                    deadline, evaluation.profile.horizonPricing, limits);
++                if (priced.has_value() && outcome.witness.score < priced->score) {
++                    outcome = ScenarioOutcome{priced->score, *priced};
++                    record.replaced = true;
++                    ++audit.replacements;
++                }
++            }
++            record.afterScore = outcome.score;
++            record.afterWitness = witness_bytes(outcome.witness);
++            if (!record.replaced && (record.beforeScore != record.afterScore ||
++                                    record.beforeWitness != record.afterWitness)) {
++                audit.noGainPoolUnchanged = false;
++            }
++            audit.outcomes.push_back(std::move(record));
++        }
++        audit.currentPlansUnchanged = audit.currentPlansUnchanged &&
++            originalPlan == canonical_plan_bytes(candidate.plan);
++    }
++    if (!audit.noGainPoolUnchanged || !audit.currentPlansUnchanged) {
++        throw std::runtime_error("complete-pool pricing changed a protected original");
++    }
++}
++
++std::optional<FutureWitness> price_horizon_witness(
++    const MatchConfig& config, const DayState& root, const MatchLedger& ledger,
++    const FutureWitness& original, const ExactStepSimulator& simulator,
++    const IndependentDayValidator& validator,
++    std::chrono::steady_clock::time_point deadline, HorizonPricingDiagnostics& diagnostics, const HorizonPricingLimits& requested) {
++    auditCuts = 0;
++    ++diagnostics.calls;
++    if (!config.roadCells.empty() || config.spots.empty() || config.spots.size() > 32U ||
++        root.dayNumber < 1 || root.dayNumber > config.day_count() ||
++        std::any_of(root.agents.begin(), root.agents.end(), [](const auto& a) { return a.kind != AgentKind::Patrol; }))
++        return std::nullopt;
++    ++diagnostics.supported;
++    deadline = std::min(deadline, std::chrono::steady_clock::now() + std::chrono::milliseconds{100});
++    // Fault injection can only LOWER limits, never escalate production caps.
++    const HorizonPricingLimits defaults;
++    const HorizonPricingLimits bounded{
++        std::min(requested.settled, defaults.settled), std::min(requested.created, defaults.created),
++        std::min(requested.actions, defaults.actions), std::min(requested.memo, defaults.memo),
++        std::min(requested.transitions, defaults.transitions), std::min(requested.queries, defaults.queries)};
++    try {
++        return Pricing(config, root, ledger, original, simulator, validator, deadline, diagnostics, bounded).run();
++    } catch (const Exhausted&) {
++        ++diagnostics.exhausted;
++    } catch (const InvalidWitness&) {
++        ++diagnostics.failures;
++    } catch (const std::bad_alloc&) {
++        ++diagnostics.exhausted;
++    }
++    return std::nullopt;
++}
++}
+--- a/src/orienteering.cpp
++++ b/src/orienteering.cpp
+@@ -598,7 +598,8 @@
+     BrandMask preferredBrands,
+     std::optional<CellId> requiredTerminal,
+     std::optional<std::chrono::steady_clock::time_point> deadline,
+-    const TerminalMarginalRouteContext* terminalMarginalContext) {
++    const TerminalMarginalRouteContext* terminalMarginalContext,
++    HorizonResourceFrontier* horizonFrontier = nullptr) {
+     ExactOrienteeringReachability result;
+     if (agentIndex < 0 ||
+         agentIndex >= static_cast<AgentIndex>(state.agents.size()) ||
+@@ -606,7 +607,7 @@
+         state.roadStatuses.size() !=
+             static_cast<std::size_t>(config.map.cell_count()) ||
+         config.spots.empty() || config.spots.size() > 32U ||
+-        minimumSpots <= 0 || maximumRoutes == 0U ||
++        (minimumSpots <= 0 && horizonFrontier == nullptr) || maximumRoutes == 0U ||
+         (requiredTerminal.has_value() &&
+          (*requiredTerminal < 0 ||
+           *requiredTerminal >= config.map.cell_count() ||
+@@ -628,6 +629,9 @@
+         return result;
+     }
+     result.supported = true;
++    if (horizonFrontier != nullptr) {
++        horizonFrontier->supported = true;
++    }
+     const auto deadline_expired = [&deadline]() {
+         return deadline.has_value() &&
+             std::chrono::steady_clock::now() >= *deadline;
+@@ -659,16 +663,25 @@
+         static_cast<std::size_t>(std::min<std::uint64_t>(
+             maximumSettledStates,
+             1U << 20U)));
++    bool horizonLabelLimit = false;
+     const auto relax = [&firstLabelAtState,
+                         &labels,
+                         &queue,
+-                        &state_key](
++                        &state_key,
++                        horizonFrontier,
++                        &deadline_expired,
++                        &horizonLabelLimit](
+                            std::uint32_t mask,
+                            CellId cell,
+                            std::uint16_t candidateSteps,
+                            std::uint16_t candidateFuel,
+                            std::uint32_t parent,
+                            std::uint8_t incoming) {
++        if (horizonFrontier != nullptr &&
++            (deadline_expired() || labels.size() >= horizonFrontier->maximumCreatedLabels)) {
++            horizonLabelLimit = true;
++            return;
++        }
+         const std::uint64_t key = state_key(mask, cell);
+         const auto iterator = firstLabelAtState.find(key);
+         const std::int32_t first = iterator == firstLabelAtState.end()
+@@ -678,6 +691,10 @@
+              labelIndex >= 0;
+              labelIndex = labels.at(
+                  static_cast<std::size_t>(labelIndex)).nextAtState) {
++            if (horizonFrontier != nullptr && deadline_expired()) {
++                horizonLabelLimit = true;
++                return;
++            }
+             const SparseResourceLabel& existing = labels.at(
+                 static_cast<std::size_t>(labelIndex));
+             if (existing.active &&
+@@ -690,6 +707,10 @@
+              labelIndex >= 0;
+              labelIndex = labels.at(
+                  static_cast<std::size_t>(labelIndex)).nextAtState) {
++            if (horizonFrontier != nullptr && deadline_expired()) {
++                horizonLabelLimit = true;
++                return;
++            }
+             SparseResourceLabel& existing = labels.at(
+                 static_cast<std::size_t>(labelIndex));
+             if (existing.active &&
+@@ -851,6 +872,10 @@
+     terminalMarginal.reserve(maximumRoutes);
+     std::uint64_t processedEntries = 0U;
+     while (!queue.empty() && result.settledStates < maximumSettledStates) {
++        if (horizonFrontier != nullptr &&
++            (horizonLabelLimit || deadline_expired())) {
++            break;
++        }
+         if ((processedEntries++ & 4095U) == 0U && deadline_expired()) {
+             break;
+         }
+@@ -872,7 +897,8 @@
+             ? current.cell == *requiredTerminal
+             : config.spotAtCell.at(static_cast<std::size_t>(current.cell)) !=
+                 kInvalidSpot;
+-        if (static_cast<std::int32_t>(std::popcount(current.mask)) >=
++        if (horizonFrontier == nullptr &&
++            static_cast<std::int32_t>(std::popcount(current.mask)) >=
+                 minimumSpots &&
+             eligibleTerminal &&
+             emittedMasks.insert(current.mask).second) {
+@@ -933,7 +959,8 @@
+         }
+     }
+ 
+-    const auto reconstruct = [&config, &labels, rootLabel, daySteps](
++    const auto reconstruct = [&config, &labels, rootLabel, daySteps,
++                              horizonFrontier, &deadline_expired](
+                                  std::uint32_t witness) {
+         const SparseResourceLabel& terminal = labels.at(
+             static_cast<std::size_t>(witness));
+@@ -948,6 +975,9 @@
+         std::vector<PlanAction> reversed;
+         std::uint32_t current = witness;
+         while (current != rootLabel) {
++            if (horizonFrontier != nullptr && deadline_expired()) {
++                return ExactOrienteeringRoute{};
++            }
+             const SparseResourceLabel& label = labels.at(
+                 static_cast<std::size_t>(current));
+             if (label.incoming == static_cast<std::uint8_t>(kDirectionCount)) {
+@@ -968,6 +998,58 @@
+         route.actions = std::move(reversed);
+         return route;
+     };
++    if (horizonFrontier != nullptr) {
++        horizonFrontier->settledStates = result.settledStates;
++        horizonFrontier->createdLabels = labels.size();
++        if (!queue.empty() || horizonLabelLimit || deadline_expired()) {
++            return result;
++        }
++        using TerminalKey = std::tuple<CellId, std::uint16_t, std::uint32_t>;
++        std::map<TerminalKey, std::uint32_t> terminalLabels;
++        for (std::uint32_t i = 0; i < labels.size(); ++i) {
++            if (deadline_expired()) {
++                return result;
++            }
++            const auto& label = labels.at(i);
++            if (!label.active) {
++                continue;
++            }
++            std::uint32_t mask = label.mask;
++            // Reconstruction fills unused steps with WAIT. At an unclaimed
++            // initial spot this performs a real pickup; include it in the mask.
++            const auto spot = config.spotAtCell.at(label.cell);
++            if (spot != kInvalidSpot && label.usedSteps < daySteps) {
++                mask |= std::uint32_t{1} << static_cast<std::uint32_t>(spot);
++            }
++            const TerminalKey key{label.cell, label.usedFuel, mask};
++            const auto found = terminalLabels.find(key);
++            if (found == terminalLabels.end() ||
++                labels.at(found->second).usedSteps > label.usedSteps) {
++                terminalLabels[key] = i;
++            }
++        }
++        for (const auto& [key, labelIndex] : terminalLabels) {
++            if (deadline_expired() ||
++                static_cast<std::uint64_t>(labels.at(labelIndex).usedSteps) + 1U >
++                    horizonFrontier->maximumStoredPlanActions - horizonFrontier->storedPlanActions) {
++                horizonFrontier->routes.clear();
++                return result;
++            }
++            auto route = reconstruct(labelIndex);
++            if (route.actions.empty() || deadline_expired()) {
++                horizonFrontier->routes.clear();
++                return result;
++            }
++            route.spotMask = std::get<2>(key);
++            horizonFrontier->storedPlanActions += route.actions.size();
++            horizonFrontier->routes.push_back(std::move(route));
++        }
++        horizonFrontier->complete = !deadline_expired();
++        if (!horizonFrontier->complete) {
++            horizonFrontier->routes.clear();
++        }
++        return result;
++    }
+     const auto append_choices = [&reconstruct](
+                                     std::vector<SparseRouteChoice>& choices,
+                                     std::vector<ExactOrienteeringRoute>& routes) {
+@@ -1879,6 +1961,26 @@
+     return result;
+ }
+ 
++HorizonResourceFrontier enumerate_horizon_resource_frontier(
++    const MatchConfig& config,
++    const DayState& state,
++    AgentIndex agent,
++    std::uint64_t maximumSettledStates,
++    std::uint64_t maximumCreatedLabels,
++    std::uint64_t maximumStoredPlanActions,
++    std::chrono::steady_clock::time_point deadline) {
++    HorizonResourceFrontier frontier;
++    frontier.maximumCreatedLabels = maximumCreatedLabels;
++    frontier.maximumStoredPlanActions = maximumStoredPlanActions;
++    if (maximumCreatedLabels == 0U || maximumStoredPlanActions == 0U) {
++        return frontier;
++    }
++    static_cast<void>(enumerate_sparse_anytime_resource_routes_impl(
++        config, state, agent, 0, 1, maximumSettledStates, {}, std::nullopt,
++        deadline, nullptr, &frontier));
++    return frontier;
++}
++
+ ExactOrienteeringReachability enumerate_sparse_anytime_resource_routes(
+     const MatchConfig& config,
+     const DayState& state,
+--- /dev/null
++++ b/tests/claim_cap_347.inc
+@@ -0,0 +1,26 @@
++void test_claim_cap_347_strict_selection() {
++    using namespace udon;
++    ScenarioManifest manifest; manifest.totalWeight=10000;
++    manifest.scenarios={TrafficScenario{0,"a",5000},TrafficScenario{1,"b",5000}};
++    const auto ev=[](const char* id,int current,int final,int upper) {
++        CandidateEvaluation e;e.candidate.stableId=id;e.candidate.scoreAfterToday={4,8,current};
++        e.profile.hasValidUpperBound=true;e.profile.validUpperBound={4,16,upper};
++        e.profile.outcomes={{OfficialScore{4,16,final},FutureWitness{{},OfficialScore{4,16,final},true}},
++            {OfficialScore{4,16,final},FutureWitness{{},OfficialScore{4,16,final},true}}};
++        return e;
++    };
++    LexicographicRiskComparator comparator(RiskPolicy{});
++    std::vector<CandidateEvaluation> old{ev("witness",19,37,37),ev("immediate",20,36,38)};
++    comparator.finalize_profiles(old,manifest);
++    require(!comparator.certified_dominates(old[0].profile,old[1].profile),"loose bound cannot prove dominance");
++    require(old[comparator.choose(old,true)].candidate.stableId=="immediate","current floor must remain active");
++    auto tight=old;tight[1].profile.validUpperBound={4,16,36};
++    tight[1].profile.scenarioValidUpperBounds.assign(2,OfficialScore{4,16,36});
++    comparator.finalize_profiles(tight,manifest);
++    require(comparator.certified_dominates(tight[0].profile,tight[1].profile),"strict certified proof not consumed");
++    require(!comparator.certified_dominates(tight[1].profile,tight[0].profile),"dominance direction");
++    // Same exported helper as the actual347 solve_day finalizer: dominance before floor.
++    std::vector<bool> dominated;
++    require(comparator.choose_undominated(tight,true,dominated)==0,"347 strict bound not used before current floor");
++    require(dominated==std::vector<bool>({false,true}),"347 unexpected dominance footprint");
++}
+--- /dev/null
++++ b/tests/complete_pool_344.inc
+@@ -0,0 +1,124 @@
++// Contract fixtures only, not development/holdout samples.
++void test_complete_pool_344() {
++    using namespace udon;
++    const auto config = parse_match_config(JsonValue::parse(R"({
++      "startsAt":0,"daySeconds":[5,5,5,5],"daySteps":[4,4,4,4],
++      "map":{"height":8,"width":8,"cells":[
++      [3,3,3,3,3,3,3,0],[3,3,3,3,3,3,3,3],[0,0,0,0,3,3,3,3],
++      [3,3,3,3,3,3,3,3],[3,3,3,3,3,3,3,3],[3,3,3,3,3,3,3,3],
++      [3,3,3,3,3,3,3,3],[3,3,3,3,3,3,3,3]]},
++      "spots":[{"brand":10,"pos":17,"stocks":2},{"brand":20,"pos":18,"stocks":2}],
++      "agents":[16,19,7],"fuelLimits":3,"players":8,"busyThreshold":1,"jammedThreshold":2})"));
++    const auto state = parse_day_state(config, JsonValue::parse(R"({"day":2,"endsAt":0,
++      "agents":[{"kind":0,"pos":16,"fuel":3},{"kind":0,"pos":19,"fuel":3},
++      {"kind":0,"pos":7,"fuel":3}],"others":[],"traffics":[]})"));
++    const auto ledger = parse_match_ledger(config, JsonValue::parse(
++        R"({"brands":[],"totalDailyDistinct":0,"totalServings":0})"));
++    ExactStepSimulator sim(config); IndependentDayValidator validator(config);
++    const auto wait = parse_day_plan(config, JsonValue::parse("[[-4],[-4],[-4]]"));
++    CandidateEvaluation base;
++    base.candidate.plan = wait;
++    base.candidate.stableId = canonical_plan_bytes(wait);
++    base.candidate.simulation = sim.simulate(state, wait, true);
++    require(base.candidate.simulation.valid, "344 contract current plan invalid");
++    FutureWitness witness; witness.certified = true;
++    auto next = state; next.agents = base.candidate.simulation.finalAgents; ++next.dayNumber;
++    auto futureLedger = ledger; futureLedger.apply(base.candidate.simulation.score);
++    for (int day = next.dayNumber; day <= config.day_count(); ++day) {
++        witness.futurePlans.push_back(wait);
++        const auto r = sim.simulate(next, wait, true);
++        require(r.valid, "344 contract witness invalid");
++        futureLedger.apply(r.score); next.agents = r.finalAgents; ++next.dayNumber;
++    }
++    witness.score = {futureLedger.lifetime_distinct(), futureLedger.totalDailyDistinct, futureLedger.totalServings};
++    base.profile.outcomes = {{witness.score,witness}, {witness.score,witness}};
++    base.profile.hasValidUpperBound = true;
++    base.profile.validUpperBound = {2,8,16};
++    ScenarioManifest manifest; manifest.totalWeight = 10000;
++    manifest.scenarios = {TrafficScenario{0,"a",5000},TrafficScenario{1,"b",5000}};
++    LexicographicRiskComparator comparator(RiskPolicy{});
++    std::vector<CandidateEvaluation> original{base,base};
++    original.back().candidate.stableId += "-second-test-identity";
++    comparator.finalize_profiles(original, manifest);
++    const auto fingerprint = [&](const CandidateEvaluation& ev) {
++        DecisionResult d; d.candidate = ev.candidate; d.profile = ev.profile;
++        d.profile.horizonPricing = {}; d.manifest = manifest; d.dayNumber = state.dayNumber;
++        return serialize_decision_replay(config,state,ledger,d).dump();
++    };
++    const auto end = [] { return std::chrono::steady_clock::now()+std::chrono::seconds{5}; };
++    // Six independent resource-fault paths plus expired shared deadline. Full
++    // serialized metadata, witnesses, actions and simulations must remain exact.
++    for (int fault = 0; fault < 7; ++fault) {
++        auto pool = original; HorizonPricingLimits limits;
++        if (fault == 0) limits.settled=0;
++        if (fault == 1) limits.created=0;
++        if (fault == 2) limits.actions=0;
++        if (fault == 3) limits.memo=0;
++        if (fault == 4) limits.transitions=0;
++        if (fault == 5) limits.queries=0;
++        CompletePoolPricingAudit audit;
++        refine_complete_w1_pool(config,state,ledger,pool,sim,validator,
++            fault==6 ? std::chrono::steady_clock::now() : end(),audit,limits);
++        require(audit.replacements==0 && audit.outcomes.size()==4, "344 fault must retain every scenario");
++        for (std::size_t i=0;i<pool.size();++i) {
++            require(fingerprint(pool[i])==fingerprint(original[i]), "344 no-gain full pool changed");
++            require(pool[i].profile.horizonPricing.exhausted==2, "344 fault did not reach both outcomes");
++        }
++    }
++    // Exact positive capability over all candidates/scenarios, not selected-only.
++    auto improved=original; CompletePoolPricingAudit gain;
++    refine_complete_w1_pool(config,state,ledger,improved,sim,validator,end(),gain);
++    require(gain.replacements==4 && gain.currentPlansUnchanged, "344 lost complete-pool pricing capability");
++    for (const auto& ev:improved) for (const auto& outcome:ev.profile.outcomes) {
++        require(witness.score < outcome.score && outcome.score==outcome.witness.score,
++                "344 replacement must be a strict witnessed gain");
++        auto s=state; s.agents=ev.candidate.simulation.finalAgents; ++s.dayNumber;
++        auto l=ledger; l.apply(ev.candidate.simulation.score);
++        for (const auto& plan:outcome.witness.futurePlans) {
++            const auto r=sim.simulate(s,plan,true);const auto v=validator.validate(s,plan,true);
++            std::string mismatch;require(r.valid && validator.agrees_with(r,v,mismatch),"344 dual witness validation");
++            l.apply(r.score);s.agents=r.finalAgents;++s.dayNumber;
++        }
++        require(OfficialScore{l.lifetime_distinct(),l.totalDailyDistinct,l.totalServings}==outcome.score,
++                "344 complete suffix score mismatch");
++    }
++    // Unchanged current-floor/dominance/tie handling under candidate permutations.
++    for (int variant=0;variant<32;++variant) {
++        auto pool=improved;
++        pool.front().candidate.scoreAfterToday={variant%3,variant%5,variant%7};
++        pool.back().candidate.scoreAfterToday={variant%4,variant%6,variant%8};
++        pool.front().profile.validUpperBound={2,8,variant%20};
++        if (variant%2) std::reverse(pool.begin(),pool.end());
++        comparator.finalize_profiles(pool,manifest);
++        for (bool floor:{false,true}) {
++            auto legacy=pool;std::vector<CandidateEvaluation> survivors;std::vector<std::size_t> indices;
++            std::vector<bool> flags(legacy.size(),false);
++            for (std::size_t i=0;i<legacy.size();++i) {
++                for (std::size_t j=0;j<legacy.size();++j) if (i!=j &&
++                    comparator.certified_dominates(legacy[j].profile,legacy[i].profile)) {flags[i]=true;break;}
++                if (!flags[i]) {survivors.push_back(legacy[i]);indices.push_back(i);}
++            }
++            std::vector<bool> actual;
++            const auto selected=comparator.choose_undominated(pool,floor,actual);
++            require(actual==flags && selected==indices.at(comparator.choose(survivors,floor)),
++                    "344 shared selector differs from original final-selection algorithm");
++        }
++    }
++    // Full selected suffix still enters the actual engine's ACK cache; no new consumer.
++    DecisionResult d;d.dayNumber=state.dayNumber;d.candidate=improved.front().candidate;
++    d.profile=improved.front().profile;d.manifest=manifest;
++    UdonShieldEngine engine(config);
++    engine.record_submitted(d,std::chrono::milliseconds{10});
++    const auto& cached=engine.response_ledger().cachedContingencies;
++    require(!cached.empty() && cached.front().certifiedSuffix.has_value(),"344 full suffix lost at ACK");
++    require(cached.front().certifiedSuffix->score==d.profile.outcomes.front().score &&
++        cached.front().certifiedSuffix->futurePlans.size()==2,"344 cached horizon truncated");
++    // Lower-bound-only profiles and terminal outcomes are retained, not priced as exact.
++    auto floorPool=original;for(auto& e:floorPool)for(auto& o:e.profile.outcomes)o.witness.lowerBoundOnly=true;
++    const auto saved=floorPool;CompletePoolPricingAudit floorAudit;
++    refine_complete_w1_pool(config,state,ledger,floorPool,sim,validator,end(),floorAudit);
++    require(floorAudit.replacements==0 && floorPool.front().profile.horizonPricing.calls==0,
++            "344 lower-bound floor mislabeled exact");
++    require(fingerprint(floorPool.front())==fingerprint(saved.front()),"344 monotone floor changed");
++    std::cout << "344 complete-pool contracts passed\n";
++}
+--- a/tests/test_main.cpp
++++ b/tests/test_main.cpp
+@@ -16,6 +16,7 @@
+ #include "udon/btc_protocol.hpp"
+ #include "udon/decision.hpp"
+ #include "udon/graph.hpp"
++#include "udon/horizon_pricing.hpp"
+ #include "udon/orienteering.hpp"
+ #include "udon/protocol.hpp"
+ #include "udon/runtime.hpp"
+@@ -4890,6 +4891,9 @@
+ 
+ } 
+ 
++#include "complete_pool_344.inc"
++#include "claim_cap_347.inc"
++
+ int main() {
+     try {
+         const udon::MatchConfig config = udon::parse_match_config(udon::JsonValue::parse(fixture_config()));
+@@ -4946,6 +4950,8 @@
+         test_match_session_ack_and_precompute(config, state);
+         test_match_session_records_external_wait_traffic(config, state);
+         test_expired_witness_respects_deadline(config, state);
++        test_complete_pool_344();
++        test_claim_cap_347_strict_selection();
+         std::cout << "all tests passed\n";
+         return EXIT_SUCCESS;
+     } catch (const std::exception& error) {

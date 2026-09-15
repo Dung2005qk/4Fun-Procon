@@ -1,0 +1,1218 @@
+{
+  "exact_historical_OS_cause_proven": false,
+  "experiment": "ATTR-ACTIVE-PROTECTED-DIVERGENCE-368",
+  "findings": [
+    {
+      "boundary": "pre-treatment-role-selection",
+      "causal_treatment_effect_identified": false,
+      "daily_deltas": [
+        [
+          0,
+          0,
+          5
+        ],
+        [
+          0,
+          0,
+          7
+        ],
+        [
+          0,
+          0,
+          -3
+        ],
+        [
+          0,
+          0,
+          -5
+        ],
+        [
+          0,
+          0,
+          4
+        ],
+        [
+          0,
+          0,
+          10
+        ],
+        [
+          0,
+          0,
+          -11
+        ],
+        [
+          0,
+          0,
+          -12
+        ],
+        [
+          0,
+          0,
+          -6
+        ],
+        [
+          0,
+          0,
+          -22
+        ]
+      ],
+      "final_delta": [
+        0,
+        0,
+        -33
+      ],
+      "first_main_difference": 1,
+      "first_resource_gain": 3,
+      "roles": {
+        "candidate": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0
+        ],
+        "parent": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1
+        ]
+      },
+      "seed": 202609093860460
+    },
+    {
+      "boundary": "equal-main-input-different-F0-W1-admission",
+      "causal_treatment_effect_identified": false,
+      "daily_deltas": [
+        [
+          0,
+          0,
+          2
+        ],
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          2
+        ],
+        [
+          0,
+          0,
+          -2
+        ],
+        [
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          -4
+        ],
+        [
+          0,
+          -2,
+          -2
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "daily_distinct_deficit_days": [
+        {
+          "day": 9,
+          "parent_only_brands": [
+            0,
+            5
+          ],
+          "sides": {
+            "candidate": {
+              "actual_start_agents": [
+                {
+                  "fuel": 4,
+                  "kind": 0,
+                  "pos": 204
+                },
+                {
+                  "fuel": 6,
+                  "kind": 0,
+                  "pos": 8
+                },
+                {
+                  "fuel": 2,
+                  "kind": 0,
+                  "pos": 109
+                },
+                {
+                  "fuel": 4,
+                  "kind": 0,
+                  "pos": 235
+                },
+                {
+                  "fuel": 2,
+                  "kind": 0,
+                  "pos": 577
+                },
+                {
+                  "fuel": 4,
+                  "kind": 0,
+                  "pos": 574
+                },
+                {
+                  "fuel": 3,
+                  "kind": 0,
+                  "pos": 139
+                },
+                {
+                  "fuel": 0,
+                  "kind": 0,
+                  "pos": 109
+                }
+              ],
+              "main_served": {
+                "brands": [
+                  1,
+                  2,
+                  3,
+                  4
+                ],
+                "claims": [
+                  {
+                    "agent": 0,
+                    "brand": 1,
+                    "pos": 204,
+                    "served": true,
+                    "spot": 7,
+                    "step": 1
+                  },
+                  {
+                    "agent": 1,
+                    "brand": 4,
+                    "pos": 8,
+                    "served": true,
+                    "spot": 10,
+                    "step": 1
+                  },
+                  {
+                    "agent": 2,
+                    "brand": 2,
+                    "pos": 109,
+                    "served": true,
+                    "spot": 8,
+                    "step": 1
+                  },
+                  {
+                    "agent": 4,
+                    "brand": 4,
+                    "pos": 577,
+                    "served": true,
+                    "spot": 22,
+                    "step": 1
+                  },
+                  {
+                    "agent": 5,
+                    "brand": 1,
+                    "pos": 574,
+                    "served": true,
+                    "spot": 13,
+                    "step": 1
+                  },
+                  {
+                    "agent": 7,
+                    "brand": 2,
+                    "pos": 109,
+                    "served": true,
+                    "spot": 8,
+                    "step": 1
+                  },
+                  {
+                    "agent": 3,
+                    "brand": 2,
+                    "pos": 235,
+                    "served": true,
+                    "spot": 14,
+                    "step": 102
+                  },
+                  {
+                    "agent": 6,
+                    "brand": 3,
+                    "pos": 139,
+                    "served": true,
+                    "spot": 3,
+                    "step": 102
+                  }
+                ],
+                "servings": 8
+              },
+              "main_start_agents": [
+                {
+                  "fuel": 0,
+                  "kind": 0,
+                  "pos": 204
+                },
+                {
+                  "fuel": 4,
+                  "kind": 0,
+                  "pos": 8
+                },
+                {
+                  "fuel": 0,
+                  "kind": 0,
+                  "pos": 109
+                },
+                {
+                  "fuel": 0,
+                  "kind": 0,
+                  "pos": 235
+                },
+                {
+                  "fuel": 0,
+                  "kind": 0,
+                  "pos": 577
+                },
+                {
+                  "fuel": 2,
+                  "kind": 0,
+                  "pos": 574
+                },
+                {
+                  "fuel": 1,
+                  "kind": 0,
+                  "pos": 139
+                },
+                {
+                  "fuel": 0,
+                  "kind": 0,
+                  "pos": 109
+                }
+              ],
+              "submitted_plan": [
+                [
+                  -1,
+                  -101
+                ],
+                [
+                  -1,
+                  -101
+                ],
+                [
+                  -1,
+                  -101
+                ],
+                [
+                  -102
+                ],
+                [
+                  -1,
+                  -101
+                ],
+                [
+                  -1,
+                  -101
+                ],
+                [
+                  -102
+                ],
+                [
+                  -1,
+                  -101
+                ]
+              ]
+            },
+            "parent": {
+              "actual_start_agents": [
+                {
+                  "fuel": 3,
+                  "kind": 0,
+                  "pos": 732
+                },
+                {
+                  "fuel": 3,
+                  "kind": 0,
+                  "pos": 109
+                },
+                {
+                  "fuel": 0,
+                  "kind": 0,
+                  "pos": 167
+                },
+                {
+                  "fuel": 4,
+                  "kind": 0,
+                  "pos": 339
+                },
+                {
+                  "fuel": 4,
+                  "kind": 0,
+                  "pos": 139
+                },
+                {
+                  "fuel": 5,
+                  "kind": 0,
+                  "pos": 627
+                },
+                {
+                  "fuel": 2,
+                  "kind": 0,
+                  "pos": 790
+                },
+                {
+                  "fuel": 5,
+                  "kind": 0,
+                  "pos": 942
+                }
+              ],
+              "main_served": {
+                "brands": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "claims": [
+                  {
+                    "agent": 0,
+                    "brand": 0,
+                    "pos": 732,
+                    "served": true,
+                    "spot": 6,
+                    "step": 1
+                  },
+                  {
+                    "agent": 1,
+                    "brand": 2,
+                    "pos": 109,
+                    "served": true,
+                    "spot": 8,
+                    "step": 1
+                  },
+                  {
+                    "agent": 2,
+                    "brand": 5,
+                    "pos": 167,
+                    "served": true,
+                    "spot": 11,
+                    "step": 1
+                  },
+                  {
+                    "agent": 3,
+                    "brand": 5,
+                    "pos": 339,
+                    "served": true,
+                    "spot": 23,
+                    "step": 1
+                  },
+                  {
+                    "agent": 4,
+                    "brand": 3,
+                    "pos": 139,
+                    "served": true,
+                    "spot": 3,
+                    "step": 1
+                  },
+                  {
+                    "agent": 5,
+                    "brand": 0,
+                    "pos": 627,
+                    "served": true,
+                    "spot": 18,
+                    "step": 1
+                  },
+                  {
+                    "agent": 6,
+                    "brand": 2,
+                    "pos": 790,
+                    "served": true,
+                    "spot": 2,
+                    "step": 1
+                  },
+                  {
+                    "agent": 7,
+                    "brand": 4,
+                    "pos": 942,
+                    "served": true,
+                    "spot": 16,
+                    "step": 1
+                  },
+                  {
+                    "agent": 4,
+                    "brand": 1,
+                    "pos": 204,
+                    "served": true,
+                    "spot": 7,
+                    "step": 5
+                  },
+                  {
+                    "agent": 4,
+                    "brand": 2,
+                    "pos": 235,
+                    "served": true,
+                    "spot": 14,
+                    "step": 9
+                  }
+                ],
+                "servings": 10
+              },
+              "main_start_agents": [
+                {
+                  "fuel": 2,
+                  "kind": 0,
+                  "pos": 732
+                },
+                {
+                  "fuel": 0,
+                  "kind": 0,
+                  "pos": 109
+                },
+                {
+                  "fuel": 0,
+                  "kind": 0,
+                  "pos": 167
+                },
+                {
+                  "fuel": 4,
+                  "kind": 0,
+                  "pos": 339
+                },
+                {
+                  "fuel": 4,
+                  "kind": 0,
+                  "pos": 139
+                },
+                {
+                  "fuel": 3,
+                  "kind": 0,
+                  "pos": 627
+                },
+                {
+                  "fuel": 0,
+                  "kind": 0,
+                  "pos": 790
+                },
+                {
+                  "fuel": 5,
+                  "kind": 0,
+                  "pos": 942
+                }
+              ],
+              "submitted_plan": [
+                [
+                  -1,
+                  -101
+                ],
+                [
+                  -1,
+                  -101
+                ],
+                [
+                  -1,
+                  -101
+                ],
+                [
+                  -1,
+                  -101
+                ],
+                [
+                  -1,
+                  3,
+                  3,
+                  4,
+                  5,
+                  -93
+                ],
+                [
+                  -1,
+                  -101
+                ],
+                [
+                  -1,
+                  -101
+                ],
+                [
+                  -1,
+                  -101
+                ]
+              ]
+            }
+          }
+        }
+      ],
+      "earlier_resource_prefix": [
+        {
+          "daily_delta": [
+            0,
+            0,
+            2
+          ],
+          "day": 1,
+          "main_ledger_equal": true,
+          "main_plan_equal": true,
+          "main_state_equal": true,
+          "same_day_pre_resource_equals_other_parent_plan": true
+        },
+        {
+          "daily_delta": [
+            0,
+            0,
+            1
+          ],
+          "day": 2,
+          "main_ledger_equal": true,
+          "main_plan_equal": true,
+          "main_state_equal": true,
+          "same_day_pre_resource_equals_other_parent_plan": true
+        },
+        {
+          "daily_delta": [
+            0,
+            0,
+            1
+          ],
+          "day": 3,
+          "main_ledger_equal": true,
+          "main_plan_equal": true,
+          "main_state_equal": true,
+          "same_day_pre_resource_equals_other_parent_plan": true
+        },
+        {
+          "daily_delta": [
+            0,
+            0,
+            1
+          ],
+          "day": 4,
+          "main_ledger_equal": true,
+          "main_plan_equal": true,
+          "main_state_equal": true,
+          "same_day_pre_resource_equals_other_parent_plan": true
+        }
+      ],
+      "final_delta": [
+        0,
+        -2,
+        2
+      ],
+      "first_main_difference": 5,
+      "first_main_inputs_equal": {
+        "deadline": true,
+        "ledger": true,
+        "manifest": true,
+        "state": true
+      },
+      "first_resource_gain": 1,
+      "post_ack_before_first_main_difference": [
+        {
+          "day": 1,
+          "first_checkpoint_equal": true,
+          "last_cache_hashes": [
+            "37DDAFB0BBC384AA71095C20958D2A6ADEEB9DA6C23E6CAEBADE359ED89B835A",
+            "37DDAFB0BBC384AA71095C20958D2A6ADEEB9DA6C23E6CAEBADE359ED89B835A"
+          ],
+          "last_cached_contingencies_equal": true,
+          "last_checkpoint_equal": false,
+          "last_proof_semantics_equal": true,
+          "last_proofs": [
+            [
+              {
+                "bestScore": {
+                  "lifetimeDistinct": 6,
+                  "totalDailyDistinct": 6,
+                  "totalServings": 46
+                },
+                "branchesPruned": 690,
+                "combinationsVisited": 2479,
+                "complete": false,
+                "day": 2,
+                "infeasible": false,
+                "scenarioClass": "deterministic-no-road",
+                "scenarioId": 0,
+                "scope": "remaining-horizon-persistent-frozen-scenario-route-portfolios-v1",
+                "upperBound": {
+                  "lifetimeDistinct": 6,
+                  "totalDailyDistinct": 60,
+                  "totalServings": 775
+                }
+              }
+            ],
+            [
+              {
+                "bestScore": {
+                  "lifetimeDistinct": 6,
+                  "totalDailyDistinct": 6,
+                  "totalServings": 46
+                },
+                "branchesPruned": 680,
+                "combinationsVisited": 2457,
+                "complete": false,
+                "day": 2,
+                "infeasible": false,
+                "scenarioClass": "deterministic-no-road",
+                "scenarioId": 0,
+                "scope": "remaining-horizon-persistent-frozen-scenario-route-portfolios-v1",
+                "upperBound": {
+                  "lifetimeDistinct": 6,
+                  "totalDailyDistinct": 60,
+                  "totalServings": 775
+                }
+              }
+            ]
+          ],
+          "serialized_record_counts": [
+            16,
+            11
+          ]
+        },
+        {
+          "day": 2,
+          "first_checkpoint_equal": true,
+          "last_cache_hashes": [
+            "6ABA30910EA7394D592120136CD19A37D1ECA5DA9F35989D1A1AB88C5AD85465",
+            "6ABA30910EA7394D592120136CD19A37D1ECA5DA9F35989D1A1AB88C5AD85465"
+          ],
+          "last_cached_contingencies_equal": true,
+          "last_checkpoint_equal": false,
+          "last_proof_semantics_equal": true,
+          "last_proofs": [
+            [
+              {
+                "bestScore": {
+                  "lifetimeDistinct": 6,
+                  "totalDailyDistinct": 12,
+                  "totalServings": 94
+                },
+                "branchesPruned": 654,
+                "combinationsVisited": 2390,
+                "complete": false,
+                "day": 3,
+                "infeasible": false,
+                "scenarioClass": "deterministic-no-road",
+                "scenarioId": 0,
+                "scope": "remaining-horizon-persistent-frozen-scenario-route-portfolios-v1",
+                "upperBound": {
+                  "lifetimeDistinct": 6,
+                  "totalDailyDistinct": 60,
+                  "totalServings": 742
+                }
+              }
+            ],
+            [
+              {
+                "bestScore": {
+                  "lifetimeDistinct": 6,
+                  "totalDailyDistinct": 12,
+                  "totalServings": 94
+                },
+                "branchesPruned": 660,
+                "combinationsVisited": 2403,
+                "complete": false,
+                "day": 3,
+                "infeasible": false,
+                "scenarioClass": "deterministic-no-road",
+                "scenarioId": 0,
+                "scope": "remaining-horizon-persistent-frozen-scenario-route-portfolios-v1",
+                "upperBound": {
+                  "lifetimeDistinct": 6,
+                  "totalDailyDistinct": 60,
+                  "totalServings": 742
+                }
+              }
+            ]
+          ],
+          "serialized_record_counts": [
+            17,
+            14
+          ]
+        },
+        {
+          "day": 3,
+          "first_checkpoint_equal": true,
+          "last_cache_hashes": [
+            "A54328E1087627B2C48244C00BB4F9B6C01858BC1A9AEFC92D62624D19F57357",
+            "A54328E1087627B2C48244C00BB4F9B6C01858BC1A9AEFC92D62624D19F57357"
+          ],
+          "last_cached_contingencies_equal": true,
+          "last_checkpoint_equal": false,
+          "last_proof_semantics_equal": true,
+          "last_proofs": [
+            [
+              {
+                "bestScore": {
+                  "lifetimeDistinct": 6,
+                  "totalDailyDistinct": 18,
+                  "totalServings": 141
+                },
+                "branchesPruned": 450,
+                "combinationsVisited": 2124,
+                "complete": false,
+                "day": 4,
+                "infeasible": false,
+                "scenarioClass": "deterministic-no-road",
+                "scenarioId": 0,
+                "scope": "remaining-horizon-persistent-frozen-scenario-route-portfolios-v1",
+                "upperBound": {
+                  "lifetimeDistinct": 6,
+                  "totalDailyDistinct": 60,
+                  "totalServings": 708
+                }
+              }
+            ],
+            [
+              {
+                "bestScore": {
+                  "lifetimeDistinct": 6,
+                  "totalDailyDistinct": 18,
+                  "totalServings": 141
+                },
+                "branchesPruned": 446,
+                "combinationsVisited": 2116,
+                "complete": false,
+                "day": 4,
+                "infeasible": false,
+                "scenarioClass": "deterministic-no-road",
+                "scenarioId": 0,
+                "scope": "remaining-horizon-persistent-frozen-scenario-route-portfolios-v1",
+                "upperBound": {
+                  "lifetimeDistinct": 6,
+                  "totalDailyDistinct": 60,
+                  "totalServings": 708
+                }
+              }
+            ]
+          ],
+          "serialized_record_counts": [
+            18,
+            14
+          ]
+        },
+        {
+          "day": 4,
+          "first_checkpoint_equal": true,
+          "last_cache_hashes": [
+            "B17AE1492E864F6807C8BDE36A5AFE09649030954C1BBEED828DBC32BD65682D",
+            "B17AE1492E864F6807C8BDE36A5AFE09649030954C1BBEED828DBC32BD65682D"
+          ],
+          "last_cached_contingencies_equal": true,
+          "last_checkpoint_equal": false,
+          "last_proof_semantics_equal": true,
+          "last_proofs": [
+            [
+              {
+                "bestScore": {
+                  "lifetimeDistinct": 6,
+                  "totalDailyDistinct": 24,
+                  "totalServings": 192
+                },
+                "branchesPruned": 615,
+                "combinationsVisited": 2412,
+                "complete": false,
+                "day": 5,
+                "infeasible": false,
+                "scenarioClass": "deterministic-no-road",
+                "scenarioId": 0,
+                "scope": "remaining-horizon-persistent-frozen-scenario-route-portfolios-v1",
+                "upperBound": {
+                  "lifetimeDistinct": 6,
+                  "totalDailyDistinct": 60,
+                  "totalServings": 678
+                }
+              }
+            ],
+            [
+              {
+                "bestScore": {
+                  "lifetimeDistinct": 6,
+                  "totalDailyDistinct": 24,
+                  "totalServings": 192
+                },
+                "branchesPruned": 603,
+                "combinationsVisited": 2387,
+                "complete": false,
+                "day": 5,
+                "infeasible": false,
+                "scenarioClass": "deterministic-no-road",
+                "scenarioId": 0,
+                "scope": "remaining-horizon-persistent-frozen-scenario-route-portfolios-v1",
+                "upperBound": {
+                  "lifetimeDistinct": 6,
+                  "totalDailyDistinct": 60,
+                  "totalServings": 678
+                }
+              }
+            ]
+          ],
+          "serialized_record_counts": [
+            18,
+            14
+          ]
+        }
+      ],
+      "roles": {
+        "candidate": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "parent": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "seed": 202609093860641,
+      "selection": {
+        "candidate": {
+          "candidate": {
+            "audit_index": 9,
+            "certified": true,
+            "disposition": "selected",
+            "finalCertifiedLowerBound": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 56,
+              "totalServings": 337
+            },
+            "finalQuantile50": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 56,
+              "totalServings": 337
+            },
+            "identity_sha256": "46BFADD2A2ADDF5613200814DCDD5FA4AF90EA4BCBE869F0FBD635CDEE47E8E8",
+            "pool_size": 16,
+            "provisionalLowerBound": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 42,
+              "totalServings": 301
+            },
+            "scoreAfterToday": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 30,
+              "totalServings": 240
+            },
+            "selected": true,
+            "terminalCells": [
+              1011,
+              80,
+              247,
+              24,
+              790,
+              193,
+              247,
+              479
+            ],
+            "terminalFuel": [
+              60,
+              76,
+              70,
+              83,
+              79,
+              65,
+              81,
+              55
+            ],
+            "validUpperBound": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 60,
+              "totalServings": 645
+            },
+            "w1Role": "floor-leader"
+          },
+          "parent": {
+            "audit_index": 11,
+            "certified": false,
+            "disposition": "not-shortlisted",
+            "finalCertifiedLowerBound": {
+              "lifetimeDistinct": 0,
+              "totalDailyDistinct": 0,
+              "totalServings": 0
+            },
+            "finalQuantile50": {
+              "lifetimeDistinct": 0,
+              "totalDailyDistinct": 0,
+              "totalServings": 0
+            },
+            "identity_sha256": "46BFADD2A2ADDF5613200814DCDD5FA4AF90EA4BCBE869F0FBD635CDEE47E8E8",
+            "pool_size": 16,
+            "provisionalLowerBound": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 30,
+              "totalServings": 240
+            },
+            "scoreAfterToday": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 30,
+              "totalServings": 240
+            },
+            "selected": false,
+            "terminalCells": [
+              1011,
+              80,
+              247,
+              24,
+              790,
+              193,
+              247,
+              479
+            ],
+            "terminalFuel": [
+              60,
+              76,
+              70,
+              83,
+              79,
+              65,
+              81,
+              55
+            ],
+            "validUpperBound": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 60,
+              "totalServings": 645
+            },
+            "w1Role": ""
+          }
+        },
+        "parent": {
+          "candidate": {
+            "audit_index": 2,
+            "certified": true,
+            "disposition": "certified-not-selected",
+            "finalCertifiedLowerBound": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 56,
+              "totalServings": 336
+            },
+            "finalQuantile50": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 56,
+              "totalServings": 336
+            },
+            "identity_sha256": "C09E6BCFE3179A94404615DAA660C4A9001870C2E2B9A03524060922BA457C20",
+            "pool_size": 16,
+            "provisionalLowerBound": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 42,
+              "totalServings": 300
+            },
+            "scoreAfterToday": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 30,
+              "totalServings": 240
+            },
+            "selected": false,
+            "terminalCells": [
+              790,
+              80,
+              247,
+              24,
+              235,
+              352,
+              247,
+              479
+            ],
+            "terminalFuel": [
+              66,
+              76,
+              70,
+              83,
+              79,
+              64,
+              81,
+              55
+            ],
+            "validUpperBound": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 60,
+              "totalServings": 645
+            },
+            "w1Role": "upside-challenger"
+          },
+          "parent": {
+            "audit_index": 3,
+            "certified": true,
+            "disposition": "selected",
+            "finalCertifiedLowerBound": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 56,
+              "totalServings": 336
+            },
+            "finalQuantile50": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 56,
+              "totalServings": 336
+            },
+            "identity_sha256": "C09E6BCFE3179A94404615DAA660C4A9001870C2E2B9A03524060922BA457C20",
+            "pool_size": 16,
+            "provisionalLowerBound": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 42,
+              "totalServings": 300
+            },
+            "scoreAfterToday": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 30,
+              "totalServings": 240
+            },
+            "selected": true,
+            "terminalCells": [
+              790,
+              80,
+              247,
+              24,
+              235,
+              352,
+              247,
+              479
+            ],
+            "terminalFuel": [
+              66,
+              76,
+              70,
+              83,
+              79,
+              64,
+              81,
+              55
+            ],
+            "validUpperBound": {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 60,
+              "totalServings": 645
+            },
+            "w1Role": "upside-challenger"
+          }
+        }
+      },
+      "unobserved": [
+        "exact per-query historical clock/OS scheduling",
+        "full internal cache/allocator/CPU history at main entry",
+        "same-clock execution with treatment removed"
+      ],
+      "work_at_first_difference": {
+        "candidate": {
+          "alns": {
+            "accepted": 19,
+            "iterations": 25,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 54
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 519,
+            "independentRollouts": 536,
+            "independentRoutesGenerated": 4317,
+            "independentSearchNodes": 537
+          },
+          "master": {
+            "combinationsVisited": 10574,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10065,
+            "searchComplete": false
+          },
+          "timing": {
+            "alnsMs": 57,
+            "candidatePreparationMs": 308,
+            "certificationMs": 44,
+            "columnGenerationMs": 42,
+            "fastPathMs": 0,
+            "incumbentMs": 5,
+            "independentGeneratorsMs": 176,
+            "initialMasterMs": 1606,
+            "recombinationMs": 66,
+            "searchMs": 1947,
+            "totalMs": 2304
+          }
+        },
+        "parent": {
+          "alns": {
+            "accepted": 20,
+            "iterations": 26,
+            "poolNovelRoutes": 7,
+            "synthesizedRoutes": 60
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 521,
+            "independentRollouts": 538,
+            "independentRoutesGenerated": 4333,
+            "independentSearchNodes": 539
+          },
+          "master": {
+            "combinationsVisited": 10580,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10080,
+            "searchComplete": false
+          },
+          "timing": {
+            "alnsMs": 58,
+            "candidatePreparationMs": 311,
+            "certificationMs": 52,
+            "columnGenerationMs": 42,
+            "fastPathMs": 1,
+            "incumbentMs": 4,
+            "independentGeneratorsMs": 175,
+            "initialMasterMs": 1605,
+            "recombinationMs": 64,
+            "searchMs": 1945,
+            "totalMs": 2313
+          }
+        }
+      }
+    }
+  ],
+  "gate_changed": false,
+  "inventory_sha256": "9040D953220C58BD597B8EA89CF89D447219753C7764BEB48A9FEF89726F69D6",
+  "promotion_authorized": false,
+  "script_sha256": "094137B6402CDF7AB80BF149FAF5E16A40DDD3D83C7EFA274FF0B56F3C2A9BA6",
+  "singleton_rank_checks": {
+    "multiple-scenarios-not-reconstructible": 20,
+    "no-strict-rank-inversion": 20
+  },
+  "solver_executed": false,
+  "source_equivalence": "normalized full decision; full accepted refiner prefix unchanged",
+  "source_hashes": {
+    "artifacts/research/357/completed/source/src/decision.cpp": "FC8D6FF94B8C5863AD134A92050D35E9E068C0AE2800A264226B05D883050BB6",
+    "artifacts/research/357/completed/source/src/slack_refiner.cpp": "76A34E707AFD2466919E7911D5B554581F621AD407FEDA720DB061979CA601F2",
+    "artifacts/research/360/completed/btc_main.cpp": "4031F7D3A73E6D4D0ADF4182B332CAC9C494726E05B9500F7C77B27EF4BDC28A",
+    "src/decision.cpp": "150AA97731A73A86BE30C2CE1C7542F00D92173BD49B988E0B22D5BE901AA2DA",
+    "src/runtime.cpp": "E6F68D806CF2E33A1DE29488B414AD504731AEB49B612B2889C07AD3D637DD60",
+    "src/slack_refiner.cpp": "A656B685D1B626C08EBB2CB8BBDAFE9F2111C02A00C2684F3FE400DC2264457F"
+  }
+}

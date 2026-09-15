@@ -1,0 +1,31 @@
+day=1 valid=1 validator_agrees=1 daily_distinct=6 servings=10 moves=27 wait_steps=17
+  served_by_agent=4,3,3,0 served_by_spot=47:1,4:2,5:1,13:2,51:2,55:2
+  starts=0@52/10:M5,1@25/10:M3,2@30/10:M0,3@46/10:M2
+  claims=a0@p51/b4/t2/Y,a2@p13/b3/t4/Y,a2@p4/b1/t6/Y,a1@p51/b4/t8/Y,a0@p13/b3/t13/Y,a0@p5/b2/t15/Y,a1@p47/b0/t16/Y,a2@p47/b0/t16/N,a0@p4/b1/t17/Y,a1@p55/b5/t18/Y,a2@p55/b5/t18/Y
+  refuels=a1@p47/t17,a2@p47/t17
+transition_to_day=2 reconciled=1
+day=2 valid=1 validator_agrees=1 daily_distinct=6 servings=9 moves=17 wait_steps=42
+  served_by_agent=2,5,2,0 served_by_spot=47:1,4:2,5:1,13:2,51:1,55:2
+  starts=0@4/1:W1,1@55/9:W1,2@55/9:W1,3@47/10:M0
+  claims=a0@p4/b1/t1/Y,a1@p55/b5/t1/Y,a2@p55/b5/t1/Y,a0@p13/b3/t3/Y,a1@p47/b0/t3/Y,a2@p51/b4/t9/Y,a1@p13/b3/t11/Y,a1@p4/b1/t13/Y,a1@p5/b2/t17/Y
+  refuels=a0@p13/t9,a1@p13/t12,a1@p13/t16
+transition_to_day=3 reconciled=1
+day=3 valid=1 validator_agrees=1 daily_distinct=6 servings=10 moves=26 wait_steps=27
+  served_by_agent=3,4,3,0 served_by_spot=47:1,4:2,5:1,13:2,51:2,55:2
+  starts=0@13/10:W1,1@5/9:W1,2@51/5:W1,3@13/10:M3
+  claims=a0@p13/b3/t1/Y,a1@p5/b2/t1/Y,a2@p51/b4/t1/Y,a0@p4/b1/t3/Y,a1@p13/b3/t3/Y,a1@p4/b1/t5/Y,a2@p47/b0/t9/Y,a2@p55/b5/t11/Y,a0@p51/b4/t16/Y,a1@p47/b0/t17/N,a1@p55/b5/t19/Y
+  refuels=a2@p55/t12,a1@p55/t20
+transition_to_day=4 reconciled=1
+day=4 valid=1 validator_agrees=1 daily_distinct=6 servings=9 moves=20 wait_steps=32
+  served_by_agent=1,5,3,0 served_by_spot=47:1,4:2,5:1,13:2,51:1,55:2
+  starts=0@51/2:W18,1@55/10:W1,2@55/10:W1,3@55/10:M0
+  claims=a1@p55/b5/t1/Y,a2@p55/b5/t1/Y,a1@p47/b0/t3/Y,a2@p47/b0/t3/N,a1@p13/b3/t11/Y,a2@p13/b3/t11/Y,a1@p4/b1/t13/Y,a2@p4/b1/t13/Y,a1@p5/b2/t15/Y,a2@p5/b2/t15/N,a0@p51/b4/t18/Y
+  refuels=a1@p5/t16,a2@p5/t16
+transition_to_day=5 reconciled=1
+day=5 valid=1 validator_agrees=1 daily_distinct=6 servings=9 moves=22 wait_steps=32
+  served_by_agent=1,5,3,0 served_by_spot=47:1,4:2,5:1,13:2,51:1,55:2
+  starts=0@51/2:W19,1@5/10:W1,2@5/10:W1,3@5/10:M3
+  claims=a1@p5/b2/t1/Y,a2@p5/b2/t1/N,a1@p13/b3/t3/Y,a2@p13/b3/t3/Y,a1@p4/b1/t5/Y,a2@p4/b1/t5/Y,a1@p47/b0/t15/Y,a2@p47/b0/t15/N,a1@p55/b5/t17/Y,a2@p55/b5/t17/Y,a0@p51/b4/t19/Y
+  refuels=a1@p55/t18,a2@p55/t18
+summary days=5 reconciled_transitions=4 lifetime_distinct=6 daily_distinct=30 servings=47
+resume accepted_days=5 last_wire_day=4 cached_contingencies=0 strong_proofs=0

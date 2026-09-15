@@ -186,43 +186,50 @@ các bằng chứng được dẫn bên dưới.
 
 ## Trình tự khôi phục context bắt buộc
 
-### Gate đọc tài liệu tuyệt đối
+### Gate đọc trạng thái hiện hành và bằng chứng liên quan
 
-Sau khi đọc `AGENTS.md`, trước khi làm **bất kỳ hành động nào khác** ngoài thao
-tác chỉ đọc để thu thập context, bắt buộc phải đọc đầy đủ các tài liệu nền và
-tài liệu liên quan trực tiếp đến nhiệm vụ. "Hành động" bao gồm nhưng không giới
-hạn: sửa file, tạo patch, build, test, benchmark, chạy BTC, dùng web, tạo match,
-đưa ra thiết kế mới, kết luận logic, đánh dấu đạt trần, commit hoặc push.
+Theo quyết định của người dùng ngày 2026-09-05, sau mỗi compact, reset hoặc
+handoff phải đọc lại **trạng thái hiện hành và toàn bộ nguồn/bằng chứng liên quan
+trực tiếp**, không đọc lại toàn bộ lịch sử nghiên cứu. Không để việc nạp lại các
+sổ lịch sử dài gây một vòng compact mới mà chưa tiến triển công việc.
 
-Bộ tài liệu nền bắt buộc phải đọc trong mọi phiên làm việc:
+Trước mọi hành động ngoài thu thập context chỉ đọc (sửa file, tạo patch, build,
+test, benchmark, chạy BTC, dùng web, tạo match, thiết kế, kết luận, commit hoặc
+push), bắt buộc:
 
-1. `AGENTS.md`;
-2. `Đề bài.md`;
-3. `Kiến trúc.md`;
-4. `API.md`;
-5. `README.md`;
-6. `old/results/HISTORICAL_TOURNAMENT.md`;
-7. `old/CHECKPOINTS.csv`;
-8. `research/STATE.md` và `research/EXPERIMENTS.csv` ;
-9. mọi `AGENTS.md` sâu hơn áp dụng cho file sẽ chạm tới;
-10. source, test, benchmark, replay và tài liệu gate liên quan trực tiếp tới
-    runtime path hoặc giả thuyết đang xử lý.
+1. Đọc đầy đủ `AGENTS.md` và mọi `AGENTS.md` sâu hơn áp dụng cho phạm vi làm việc.
+2. Đọc đầy đủ phần trạng thái hiện hành ở đầu `research/STATE.md`: experiment/gap
+   đang mở, canonical parent, invariants, gate, kết quả gần nhất, blocker và bước
+   tiếp theo; đọc các dòng tương ứng trong `research/EXPERIMENTS.csv`.
+3. Đọc đầy đủ các phần liên quan trong `Đề bài.md`, `Kiến trúc.md`, `API.md` và
+   `README.md`; truy vết toàn bộ runtime path, caller/consumer, state ownership,
+   source, test, benchmark, replay và bằng chứng trực tiếp của giả thuyết đang xét.
+4. Chỉ mở các mục lịch sử trong `research/STATE.md`, `research/EXPERIMENTS.csv`,
+   `old/results/HISTORICAL_TOURNAMENT.md`, `old/CHECKPOINTS.csv` và evidence cũ khi
+   chúng trực tiếp xác định baseline/lane champion, provenance, một invariant,
+   cơ chế đã bị reject hoặc điều kiện mở lại của đúng nhiệm vụ. Đọc đầy đủ mục
+   đã chọn cùng các tham chiếu cần thiết; không bắt buộc đọc các mục không liên quan.
+5. Nếu chưa rõ phạm vi hoặc có mâu thuẫn, mở rộng phần đọc tới khi phân giải được.
+   Không đọc hay mở holdout còn niêm phong chỉ để phục hồi context.
 
-Không được coi việc đã đọc tài liệu trong hội thoại cũ, memory hoặc trước compact
-là thay thế cho việc đọc lại trong phiên hiện tại. Không được đọc lướt theo từ
-khóa rồi tuyên bố đã hiểu toàn bộ; phải đối chiếu yêu cầu, kiến trúc, runtime
-wiring, test và bằng chứng benchmark liên quan trước khi hành động.
+Memory và tóm tắt hội thoại chỉ dùng để định tuyến, không thay thế việc kiểm tra
+nguồn hiện hành. Tìm kiếm theo từ khóa được phép để chọn đúng phạm vi, không thay
+thế việc đọc và đối chiếu đầy đủ phạm vi đó. Không tuyên bố đã đọc toàn bộ lịch sử
+khi chỉ đọc các mục liên quan. Gate semantics, provenance, protected lanes,
+holdout và promotion giữ nguyên.
 
-Nếu tài liệu bắt buộc bị thiếu, không mở được, mâu thuẫn hoặc chưa xác định được
-phạm vi áp dụng, phải dừng ở chế độ read-only, ghi rõ blocker và chưa được phép
-nghiên cứu hay sửa logic. Không được tự điền phần thiếu bằng giả định.
+Nếu nguồn hoặc bằng chứng **liên quan trực tiếp** bị thiếu, không mở được, mâu
+thuẫn chưa giải quyết hoặc chưa xác định được phạm vi áp dụng, giữ chế độ
+read-only và báo đúng blocker; không tự điền phần thiếu bằng giả định. Các mục
+lịch sử không liên quan chưa đọc không phải blocker.
 
 ### Trình tự sau khi đọc tài liệu
 
 Trước mọi thử nghiệm hoặc sửa logic:
 
 1. Xác minh `git status`, HEAD, parent commit và phạm vi dirty tree.
-2. Đọc hoặc tạo `research/STATE.md` và `research/EXPERIMENTS.csv`.
+2. Đọc trạng thái hiện hành và các mục liên quan trong `research/STATE.md` và
+   `research/EXPERIMENTS.csv` theo gate ở trên; cập nhật đăng ký khi mở experiment.
 3. Truy vết runtime path thực tế của đúng gap đang xét.
 4. Xác định đúng một gap đang mở và bằng chứng cho gap đó.
 5. Ghi rõ invariants, baseline và protected lanes trước khi thử nghiệm.

@@ -1,0 +1,31 @@
+day=1 valid=1 validator_agrees=1 daily_distinct=5 servings=7 moves=22 wait_steps=32
+  served_by_agent=2,3,2,0 served_by_spot=53:1,3:1,31:1,41:1,16:1,40:2
+  starts=0@10/14:M2,1@0/14:M4,2@15/14:M3,3@17/14:M4
+  claims=a0@p3/b1/t4/Y,a1@p16/b0/t4/Y,a2@p31/b2/t4/Y,a1@p41/b3/t10/Y,a2@p53/b0/t10/Y,a1@p40/b4/t12/Y,a0@p41/b3/t14/N,a0@p40/b4/t16/Y
+  refuels=a1@p40/t13,a0@p40/t17
+transition_to_day=2 reconciled=1
+day=2 valid=1 validator_agrees=1 daily_distinct=5 servings=7 moves=23 wait_steps=34
+  served_by_agent=4,2,1,0 served_by_spot=53:1,3:1,31:1,41:1,16:1,40:2
+  starts=0@40/14:W1,1@40/14:W1,2@53/9:W1,3@40/14:W20
+  claims=a0@p40/b4/t1/Y,a1@p40/b4/t1/Y,a2@p53/b0/t1/Y,a0@p41/b3/t3/Y,a1@p41/b3/t3/N,a0@p16/b0/t9/Y,a2@p41/b3/t13/N,a2@p40/b4/t15/N,a0@p3/b1/t17/Y,a1@p31/b2/t17/Y
+  refuels=a2@p40/t16
+transition_to_day=3 reconciled=1
+day=3 valid=1 validator_agrees=1 daily_distinct=5 servings=7 moves=28 wait_steps=28
+  served_by_agent=1,2,4,0 served_by_spot=53:1,3:1,31:1,41:1,16:1,40:2
+  starts=0@3/6:M4,1@31/6:W1,2@40/14:W1,3@40/14:M1
+  claims=a1@p31/b2/t1/Y,a2@p40/b4/t1/Y,a2@p41/b3/t3/Y,a1@p53/b0/t7/Y,a2@p16/b0/t9/Y,a0@p41/b3/t10/N,a0@p40/b4/t12/Y,a2@p3/b1/t17/Y
+  refuels=a0@p26/t7,a1@p31/t17
+transition_to_day=4 reconciled=1
+day=4 valid=1 validator_agrees=1 daily_distinct=5 servings=7 moves=29 wait_steps=18
+  served_by_agent=2,2,3,0 served_by_spot=53:1,3:1,31:1,41:1,16:1,40:2
+  starts=0@40/11:W1,1@31/14:W1,2@3/6:W1,3@31/14:M5
+  claims=a0@p40/b4/t1/Y,a1@p31/b2/t1/Y,a2@p3/b1/t1/Y,a0@p16/b0/t7/Y,a1@p53/b0/t7/Y,a2@p41/b3/t11/Y,a0@p41/b3/t13/N,a2@p40/b4/t13/Y,a1@p41/b3/t19/N
+  refuels=a0@p41/t15,a2@p40/t17
+transition_to_day=5 reconciled=1
+day=5 valid=1 validator_agrees=1 daily_distinct=5 servings=7 moves=24 wait_steps=32
+  served_by_agent=3,3,1,0 served_by_spot=53:1,3:1,31:1,41:1,16:1,40:2
+  starts=0@41/14:W1,1@41/5:W1,2@40/14:W1,3@40/14:W1
+  claims=a0@p41/b3/t1/Y,a1@p41/b3/t1/N,a2@p40/b4/t1/Y,a1@p40/b4/t3/Y,a2@p41/b3/t3/N,a1@p16/b0/t9/Y,a2@p16/b0/t9/N,a0@p53/b0/t13/Y,a1@p3/b1/t18/Y,a0@p31/b2/t19/Y
+  refuels=a1@p16/t10,a2@p16/t10
+summary days=5 reconciled_transitions=4 lifetime_distinct=5 daily_distinct=25 servings=35
+resume accepted_days=5 last_wire_day=4 cached_contingencies=0 strong_proofs=0

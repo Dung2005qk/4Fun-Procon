@@ -1,0 +1,45 @@
+{
+  "experiment": "HOTFIX-BTC-ROLE-FASTPATH-371",
+  "match": "m-27072",
+  "configuration": {
+    "difficulty": "hard",
+    "bot_opponents": 3,
+    "days": 8,
+    "map": "12x12",
+    "steps_per_day": 60,
+    "public_response_ms": 10000,
+    "agents_per_team": 6,
+    "spots": 0,
+    "brands": 4,
+    "fuel": "default"
+  },
+  "candidate_binary_sha256": "01F33632411AB8A94921CA2EE63788169E172337D939A59E358219481329FFBE",
+  "replay": "artifacts/btc/m-27072-hotfix371-canary.jsonl",
+  "replay_sha256": "B883FD6B34E992D9AF893F95DE1FBAA704D74BAB04E3B5FDDED4F9AB4CB24567",
+  "stdout_sha256": "35FADCD054FAD1E39CD11ABAE0AFBBAD0D495ACC49B48DF245BB1F445D870192",
+  "stderr_bytes": 0,
+  "operational": {
+    "setup_starts_at": 0,
+    "assignment_strategy": "rollout",
+    "assignment": [1, 0, 0, 0, 0, 0],
+    "assignment_http_status": 200,
+    "assignment_valid": true,
+    "action_count": 8,
+    "valid_action_count": 8,
+    "invalid_action_count": 0,
+    "max_response_ms": 7980,
+    "stale_day_errors": 0,
+    "safety_failures": 0
+  },
+  "result": {
+    "team_id": "team-A",
+    "rank": 2,
+    "daily_types_sum": 32,
+    "udon_types": 4,
+    "udon_total": 263,
+    "winner_team_id": "team-C",
+    "winner_udon_total": 264,
+    "first_difference": "servings"
+  },
+  "interpretation": "This canary used the preserved normal rollout because startsAt=0; it validates lifecycle safety but does not exercise the late fast-path. Candidate lost one serving to the top team, so this is not promotion evidence. Production binary was not replaced."
+}

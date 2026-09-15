@@ -1,0 +1,31 @@
+day=1 valid=1 validator_agrees=1 daily_distinct=5 servings=9 moves=16 wait_steps=37
+  served_by_agent=3,2,2,2 served_by_spot=41:2,60:1,53:2,26:2,38:1,45:1
+  starts=0@36/8:M3,1@1/8:M3,2@17/8:M3,3@44/8:M3
+  claims=a0@p45/b0/t2/Y,a2@p26/b3/t2/Y,a0@p53/b2/t4/Y,a3@p60/b1/t4/Y,a1@p26/b3/t6/Y,a2@p41/b0/t6/Y,a3@p53/b2/t7/Y,a0@p38/b4/t8/Y,a1@p41/b0/t10/Y
+  refuels=
+transition_to_day=2 reconciled=1
+day=2 valid=1 validator_agrees=1 daily_distinct=5 servings=9 moves=9 wait_steps=54
+  served_by_agent=2,2,2,3 served_by_spot=41:2,60:1,53:2,26:2,38:1,45:1
+  starts=0@38/4:W1,1@41/3:W1,2@41/5:W1,3@53/3:W1
+  claims=a0@p38/b4/t1/Y,a1@p41/b0/t1/Y,a2@p41/b0/t1/Y,a3@p53/b2/t1/Y,a3@p45/b0/t3/Y,a0@p53/b2/t5/Y,a1@p26/b3/t5/Y,a2@p26/b3/t5/Y,a3@p60/b1/t7/Y
+  refuels=
+transition_to_day=3 reconciled=1
+day=3 valid=1 validator_agrees=1 daily_distinct=5 servings=6 moves=4 wait_steps=68
+  served_by_agent=2,1,2,1 served_by_spot=41:1,60:1,53:1,26:2,38:1
+  starts=0@53/2:W1,1@26/1:W1,2@26/3:W1,3@60/0:W1
+  claims=a0@p53/b2/t1/Y,a1@p26/b3/t1/Y,a2@p26/b3/t1/Y,a3@p60/b1/t1/Y,a0@p38/b4/t5/Y,a2@p41/b0/t5/Y
+  refuels=
+transition_to_day=4 reconciled=1
+day=4 valid=1 validator_agrees=1 daily_distinct=4 servings=4 moves=0 wait_steps=68
+  served_by_agent=1,1,1,1 served_by_spot=41:1,60:1,26:1,38:1
+  starts=0@38/0:W1,1@26/1:W1,2@41/1:W1,3@60/0:W1
+  claims=a0@p38/b4/t1/Y,a1@p26/b3/t1/Y,a2@p41/b0/t1/Y,a3@p60/b1/t1/Y
+  refuels=
+transition_to_day=5 reconciled=1
+day=5 valid=1 validator_agrees=1 daily_distinct=4 servings=4 moves=0 wait_steps=72
+  served_by_agent=1,1,1,1 served_by_spot=41:1,60:1,26:1,38:1
+  starts=0@38/0:W1,1@26/1:W1,2@41/1:W1,3@60/0:W1
+  claims=a0@p38/b4/t1/Y,a1@p26/b3/t1/Y,a2@p41/b0/t1/Y,a3@p60/b1/t1/Y
+  refuels=
+summary days=5 reconciled_transitions=4 lifetime_distinct=5 daily_distinct=23 servings=32
+resume accepted_days=5 last_wire_day=4 cached_contingencies=0 strong_proofs=0

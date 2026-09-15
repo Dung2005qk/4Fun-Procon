@@ -1,0 +1,4423 @@
+{
+  "authority": "consumed-root work/certificate attribution only; no played-score, latency or promotion authority",
+  "both_complete_exact_score_and_plan": 0,
+  "cases": 24,
+  "complete": true,
+  "completion_regressions": [],
+  "completion_sha256": "BDA03F9BF31094A926EACA9AE21FACBAF182A60BB678AD34B9699A2D73CF6E34",
+  "dual_days": 144,
+  "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+  "experiment": "ATTR-PAIR-STOCK-RELAXATION-BOUND-340",
+  "gate_passed": true,
+  "new_completions": [
+    {
+      "family": "three-balanced",
+      "players": 8,
+      "seed": 20260907338000
+    },
+    {
+      "family": "three-balanced",
+      "players": 9,
+      "seed": 20260907338001
+    },
+    {
+      "family": "three-balanced",
+      "players": 10,
+      "seed": 20260907338002
+    },
+    {
+      "family": "three-balanced",
+      "players": 8,
+      "seed": 20260907338003
+    },
+    {
+      "family": "three-duplicate",
+      "players": 9,
+      "seed": 20260907348000
+    },
+    {
+      "family": "three-duplicate",
+      "players": 10,
+      "seed": 20260907348001
+    },
+    {
+      "family": "three-duplicate",
+      "players": 8,
+      "seed": 20260907348002
+    },
+    {
+      "family": "three-duplicate",
+      "players": 9,
+      "seed": 20260907348003
+    },
+    {
+      "family": "three-stock",
+      "players": 10,
+      "seed": 20260907358000
+    },
+    {
+      "family": "three-stock",
+      "players": 8,
+      "seed": 20260907358001
+    },
+    {
+      "family": "three-stock",
+      "players": 9,
+      "seed": 20260907358002
+    },
+    {
+      "family": "three-stock",
+      "players": 10,
+      "seed": 20260907358003
+    },
+    {
+      "family": "three-coverage",
+      "players": 8,
+      "seed": 20260907368000
+    },
+    {
+      "family": "three-coverage",
+      "players": 9,
+      "seed": 20260907368001
+    },
+    {
+      "family": "three-coverage",
+      "players": 10,
+      "seed": 20260907368002
+    },
+    {
+      "family": "three-coverage",
+      "players": 8,
+      "seed": 20260907368003
+    },
+    {
+      "family": "three-fuel",
+      "players": 9,
+      "seed": 20260907378000
+    },
+    {
+      "family": "three-fuel",
+      "players": 10,
+      "seed": 20260907378001
+    },
+    {
+      "family": "three-fuel",
+      "players": 8,
+      "seed": 20260907378002
+    },
+    {
+      "family": "three-fuel",
+      "players": 9,
+      "seed": 20260907378003
+    },
+    {
+      "family": "three-terminal",
+      "players": 10,
+      "seed": 20260907388000
+    },
+    {
+      "family": "three-terminal",
+      "players": 8,
+      "seed": 20260907388001
+    },
+    {
+      "family": "three-terminal",
+      "players": 9,
+      "seed": 20260907388002
+    },
+    {
+      "family": "three-terminal",
+      "players": 10,
+      "seed": 20260907388003
+    }
+  ],
+  "responses": 48,
+  "rows": [
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 7854,
+          "baseline": [
+            5,
+            20,
+            35
+          ],
+          "boundCuts": 8057,
+          "completed": 1,
+          "created": 1681,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 1,
+          "memo": 385,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                -11
+              ],
+              [
+                -1,
+                2,
+                -13
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -7
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                -11
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ],
+              [
+                -1,
+                -17
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                -12
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -10
+              ],
+              [
+                -1,
+                -16
+              ]
+            ]
+          ],
+          "queries": 85,
+          "score": [
+            5,
+            20,
+            38
+          ],
+          "settled": 1681,
+          "supported": 1,
+          "transitions": 46372
+        },
+        "parent": {
+          "actions": 4634,
+          "baseline": [
+            5,
+            20,
+            35
+          ],
+          "completed": 0,
+          "created": 1469,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1322,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                -11
+              ],
+              [
+                -1,
+                2,
+                -13
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -7
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ],
+              [
+                -1,
+                -17
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -14
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -10
+              ],
+              [
+                -1,
+                -16
+              ]
+            ]
+          ],
+          "queries": 61,
+          "score": [
+            5,
+            20,
+            35
+          ],
+          "settled": 1469,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-balanced",
+        "players": 8,
+        "seed": 20260907338000
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 7854,
+          "baseline": [
+            5,
+            20,
+            35
+          ],
+          "boundCuts": 8057,
+          "completed": 1,
+          "created": 1681,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 1,
+          "memo": 385,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                -13
+              ],
+              [
+                -1,
+                2,
+                -15
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -1,
+                -15
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                -12
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -10
+              ],
+              [
+                -1,
+                -16
+              ]
+            ]
+          ],
+          "queries": 85,
+          "score": [
+            5,
+            20,
+            38
+          ],
+          "settled": 1681,
+          "supported": 1,
+          "transitions": 46372
+        },
+        "parent": {
+          "actions": 4634,
+          "baseline": [
+            5,
+            20,
+            35
+          ],
+          "completed": 0,
+          "created": 1469,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1322,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                -13
+              ],
+              [
+                -1,
+                2,
+                -15
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -1,
+                -15
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -14
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -10
+              ],
+              [
+                -1,
+                -16
+              ]
+            ]
+          ],
+          "queries": 61,
+          "score": [
+            5,
+            20,
+            35
+          ],
+          "settled": 1469,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-balanced",
+        "players": 9,
+        "seed": 20260907338001
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 7854,
+          "baseline": [
+            5,
+            20,
+            35
+          ],
+          "boundCuts": 8057,
+          "completed": 1,
+          "created": 1681,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 1,
+          "memo": 385,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                -12
+              ],
+              [
+                -1,
+                2,
+                -14
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                -10
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -8
+              ],
+              [
+                -1,
+                -16
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                -11
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -1,
+                -15
+              ]
+            ]
+          ],
+          "queries": 85,
+          "score": [
+            5,
+            20,
+            38
+          ],
+          "settled": 1681,
+          "supported": 1,
+          "transitions": 46348
+        },
+        "parent": {
+          "actions": 4634,
+          "baseline": [
+            5,
+            20,
+            35
+          ],
+          "completed": 0,
+          "created": 1469,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1322,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                -12
+              ],
+              [
+                -1,
+                2,
+                -14
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -8
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -8
+              ],
+              [
+                -1,
+                -16
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -13
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -1,
+                -15
+              ]
+            ]
+          ],
+          "queries": 61,
+          "score": [
+            5,
+            20,
+            35
+          ],
+          "settled": 1469,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-balanced",
+        "players": 10,
+        "seed": 20260907338002
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 7852,
+          "baseline": [
+            5,
+            20,
+            35
+          ],
+          "boundCuts": 8057,
+          "completed": 1,
+          "created": 1678,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 1,
+          "memo": 385,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                -11
+              ],
+              [
+                -1,
+                2,
+                -13
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -7
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -1,
+                -15
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                -13
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -11
+              ],
+              [
+                -1,
+                -17
+              ]
+            ]
+          ],
+          "queries": 85,
+          "score": [
+            5,
+            20,
+            38
+          ],
+          "settled": 1678,
+          "supported": 1,
+          "transitions": 46348
+        },
+        "parent": {
+          "actions": 4632,
+          "baseline": [
+            5,
+            20,
+            35
+          ],
+          "completed": 0,
+          "created": 1466,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1322,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                -11
+              ],
+              [
+                -1,
+                2,
+                -13
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -7
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -1,
+                -15
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -15
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -11
+              ],
+              [
+                -1,
+                -17
+              ]
+            ]
+          ],
+          "queries": 61,
+          "score": [
+            5,
+            20,
+            35
+          ],
+          "settled": 1466,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-balanced",
+        "players": 8,
+        "seed": 20260907338003
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 7909,
+          "baseline": [
+            4,
+            16,
+            36
+          ],
+          "boundCuts": 5542,
+          "completed": 1,
+          "created": 1893,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 1,
+          "memo": 319,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                -10
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -13
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -7
+              ],
+              [
+                -1,
+                2,
+                2,
+                -11
+              ]
+            ],
+            [
+              [
+                -17
+              ],
+              [
+                -1,
+                5,
+                -14
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -8
+              ]
+            ]
+          ],
+          "queries": 103,
+          "score": [
+            4,
+            16,
+            37
+          ],
+          "settled": 1893,
+          "supported": 1,
+          "transitions": 33559
+        },
+        "parent": {
+          "actions": 6459,
+          "baseline": [
+            4,
+            16,
+            36
+          ],
+          "completed": 0,
+          "created": 1893,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1817,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -13
+              ],
+              [
+                -1,
+                5,
+                -13
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -4
+              ]
+            ],
+            [
+              [
+                -17
+              ],
+              [
+                -17
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ]
+            ]
+          ],
+          "queries": 103,
+          "score": [
+            4,
+            16,
+            36
+          ],
+          "settled": 1893,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-duplicate",
+        "players": 9,
+        "seed": 20260907348000
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 7908,
+          "baseline": [
+            4,
+            16,
+            36
+          ],
+          "boundCuts": 5436,
+          "completed": 1,
+          "created": 1886,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 1,
+          "memo": 315,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -16
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                -8
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -13
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -7
+              ],
+              [
+                -1,
+                2,
+                2,
+                -11
+              ]
+            ],
+            [
+              [
+                -18
+              ],
+              [
+                -1,
+                5,
+                -15
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ]
+            ]
+          ],
+          "queries": 101,
+          "score": [
+            4,
+            16,
+            37
+          ],
+          "settled": 1886,
+          "supported": 1,
+          "transitions": 33095
+        },
+        "parent": {
+          "actions": 6458,
+          "baseline": [
+            4,
+            16,
+            36
+          ],
+          "completed": 0,
+          "created": 1886,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1804,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -7
+              ],
+              [
+                -16
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -13
+              ],
+              [
+                -1,
+                5,
+                -13
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -4
+              ]
+            ],
+            [
+              [
+                -18
+              ],
+              [
+                -18
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ]
+            ]
+          ],
+          "queries": 101,
+          "score": [
+            4,
+            16,
+            36
+          ],
+          "settled": 1886,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-duplicate",
+        "players": 10,
+        "seed": 20260907348001
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 7878,
+          "baseline": [
+            4,
+            16,
+            35
+          ],
+          "boundCuts": 5562,
+          "completed": 1,
+          "created": 1899,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 1,
+          "memo": 294,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                -10
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -14
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ],
+              [
+                -1,
+                2,
+                2,
+                -12
+              ]
+            ],
+            [
+              [
+                -18
+              ],
+              [
+                -1,
+                5,
+                -15
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ]
+            ]
+          ],
+          "queries": 103,
+          "score": [
+            4,
+            16,
+            37
+          ],
+          "settled": 1899,
+          "supported": 1,
+          "transitions": 33600
+        },
+        "parent": {
+          "actions": 6500,
+          "baseline": [
+            4,
+            16,
+            35
+          ],
+          "completed": 0,
+          "created": 1899,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1816,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -14
+              ],
+              [
+                -1,
+                5,
+                -14
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -5
+              ]
+            ],
+            [
+              [
+                -18
+              ],
+              [
+                -18
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -11
+              ]
+            ]
+          ],
+          "queries": 103,
+          "score": [
+            4,
+            16,
+            35
+          ],
+          "settled": 1899,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-duplicate",
+        "players": 8,
+        "seed": 20260907348002
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 8277,
+          "baseline": [
+            4,
+            16,
+            36
+          ],
+          "boundCuts": 5418,
+          "completed": 1,
+          "created": 1888,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 1,
+          "memo": 336,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -16
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                -8
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -15
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -1,
+                2,
+                2,
+                -13
+              ]
+            ],
+            [
+              [
+                -17
+              ],
+              [
+                -1,
+                5,
+                -14
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -8
+              ]
+            ]
+          ],
+          "queries": 101,
+          "score": [
+            4,
+            16,
+            37
+          ],
+          "settled": 1888,
+          "supported": 1,
+          "transitions": 33645
+        },
+        "parent": {
+          "actions": 6465,
+          "baseline": [
+            4,
+            16,
+            36
+          ],
+          "completed": 0,
+          "created": 1888,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1805,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -7
+              ],
+              [
+                -16
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -15
+              ],
+              [
+                -1,
+                5,
+                -15
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -6
+              ]
+            ],
+            [
+              [
+                -17
+              ],
+              [
+                -17
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ]
+            ]
+          ],
+          "queries": 101,
+          "score": [
+            4,
+            16,
+            36
+          ],
+          "settled": 1888,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-duplicate",
+        "players": 9,
+        "seed": 20260907348003
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 11432,
+          "baseline": [
+            5,
+            20,
+            20
+          ],
+          "boundCuts": 3738,
+          "completed": 1,
+          "created": 2796,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 402,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -18
+              ],
+              [
+                -18
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                -8
+              ]
+            ]
+          ],
+          "queries": 121,
+          "score": [
+            5,
+            20,
+            20
+          ],
+          "settled": 2796,
+          "supported": 1,
+          "transitions": 28877
+        },
+        "parent": {
+          "actions": 4091,
+          "baseline": [
+            5,
+            20,
+            20
+          ],
+          "completed": 0,
+          "created": 1229,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1376,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -18
+              ],
+              [
+                -18
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                -8
+              ]
+            ]
+          ],
+          "queries": 57,
+          "score": [
+            5,
+            20,
+            20
+          ],
+          "settled": 1229,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-stock",
+        "players": 10,
+        "seed": 20260907358000
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 11284,
+          "baseline": [
+            5,
+            20,
+            20
+          ],
+          "boundCuts": 3535,
+          "completed": 1,
+          "created": 2766,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 397,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ],
+              [
+                -17
+              ],
+              [
+                -17
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -8
+              ],
+              [
+                -17
+              ],
+              [
+                -17
+              ]
+            ],
+            [
+              [
+                -16
+              ],
+              [
+                -16
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                -6
+              ]
+            ]
+          ],
+          "queries": 119,
+          "score": [
+            5,
+            20,
+            20
+          ],
+          "settled": 2766,
+          "supported": 1,
+          "transitions": 27895
+        },
+        "parent": {
+          "actions": 4059,
+          "baseline": [
+            5,
+            20,
+            20
+          ],
+          "completed": 0,
+          "created": 1220,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1355,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ],
+              [
+                -17
+              ],
+              [
+                -17
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -8
+              ],
+              [
+                -17
+              ],
+              [
+                -17
+              ]
+            ],
+            [
+              [
+                -16
+              ],
+              [
+                -16
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                -6
+              ]
+            ]
+          ],
+          "queries": 57,
+          "score": [
+            5,
+            20,
+            20
+          ],
+          "settled": 1220,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-stock",
+        "players": 8,
+        "seed": 20260907358001
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 11315,
+          "baseline": [
+            5,
+            20,
+            20
+          ],
+          "boundCuts": 3738,
+          "completed": 1,
+          "created": 2770,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 402,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -16
+              ],
+              [
+                -16
+              ]
+            ],
+            [
+              [
+                -16
+              ],
+              [
+                -16
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                -6
+              ]
+            ]
+          ],
+          "queries": 121,
+          "score": [
+            5,
+            20,
+            20
+          ],
+          "settled": 2770,
+          "supported": 1,
+          "transitions": 28741
+        },
+        "parent": {
+          "actions": 4065,
+          "baseline": [
+            5,
+            20,
+            20
+          ],
+          "completed": 0,
+          "created": 1220,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1376,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -16
+              ],
+              [
+                -16
+              ]
+            ],
+            [
+              [
+                -16
+              ],
+              [
+                -16
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                -6
+              ]
+            ]
+          ],
+          "queries": 57,
+          "score": [
+            5,
+            20,
+            20
+          ],
+          "settled": 1220,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-stock",
+        "players": 9,
+        "seed": 20260907358002
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 11272,
+          "baseline": [
+            5,
+            20,
+            20
+          ],
+          "boundCuts": 3535,
+          "completed": 1,
+          "created": 2758,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 397,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ],
+              [
+                -17
+              ],
+              [
+                -17
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -16
+              ],
+              [
+                -16
+              ]
+            ],
+            [
+              [
+                -16
+              ],
+              [
+                -16
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                -6
+              ]
+            ]
+          ],
+          "queries": 119,
+          "score": [
+            5,
+            20,
+            20
+          ],
+          "settled": 2758,
+          "supported": 1,
+          "transitions": 27871
+        },
+        "parent": {
+          "actions": 4056,
+          "baseline": [
+            5,
+            20,
+            20
+          ],
+          "completed": 0,
+          "created": 1219,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1355,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ],
+              [
+                -17
+              ],
+              [
+                -17
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -16
+              ],
+              [
+                -16
+              ]
+            ],
+            [
+              [
+                -16
+              ],
+              [
+                -16
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                -6
+              ]
+            ]
+          ],
+          "queries": 57,
+          "score": [
+            5,
+            20,
+            20
+          ],
+          "settled": 1219,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-stock",
+        "players": 10,
+        "seed": 20260907358003
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 10420,
+          "baseline": [
+            3,
+            12,
+            20
+          ],
+          "boundCuts": 3622,
+          "completed": 1,
+          "created": 2778,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 322,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -8
+              ],
+              [
+                -17
+              ],
+              [
+                -17
+              ]
+            ],
+            [
+              [
+                -16
+              ],
+              [
+                -16
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -4
+              ]
+            ]
+          ],
+          "queries": 121,
+          "score": [
+            3,
+            12,
+            20
+          ],
+          "settled": 2778,
+          "supported": 1,
+          "transitions": 26707
+        },
+        "parent": {
+          "actions": 4069,
+          "baseline": [
+            3,
+            12,
+            20
+          ],
+          "completed": 0,
+          "created": 1221,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1376,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -8
+              ],
+              [
+                -17
+              ],
+              [
+                -17
+              ]
+            ],
+            [
+              [
+                -16
+              ],
+              [
+                -16
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -4
+              ]
+            ]
+          ],
+          "queries": 57,
+          "score": [
+            3,
+            12,
+            20
+          ],
+          "settled": 1221,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-coverage",
+        "players": 8,
+        "seed": 20260907368000
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 10482,
+          "baseline": [
+            3,
+            12,
+            20
+          ],
+          "boundCuts": 3419,
+          "completed": 1,
+          "created": 2784,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 317,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ],
+              [
+                -17
+              ],
+              [
+                -17
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -18
+              ],
+              [
+                -18
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -6
+              ]
+            ]
+          ],
+          "queries": 119,
+          "score": [
+            3,
+            12,
+            20
+          ],
+          "settled": 2784,
+          "supported": 1,
+          "transitions": 25949
+        },
+        "parent": {
+          "actions": 4083,
+          "baseline": [
+            3,
+            12,
+            20
+          ],
+          "completed": 0,
+          "created": 1228,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1355,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ],
+              [
+                -17
+              ],
+              [
+                -17
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -18
+              ],
+              [
+                -18
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -6
+              ]
+            ]
+          ],
+          "queries": 57,
+          "score": [
+            3,
+            12,
+            20
+          ],
+          "settled": 1228,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-coverage",
+        "players": 9,
+        "seed": 20260907368001
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 10578,
+          "baseline": [
+            3,
+            12,
+            20
+          ],
+          "boundCuts": 3807,
+          "completed": 1,
+          "created": 2778,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 337,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -16
+              ],
+              [
+                -16
+              ]
+            ],
+            [
+              [
+                -17
+              ],
+              [
+                -17
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ]
+            ]
+          ],
+          "queries": 121,
+          "score": [
+            3,
+            12,
+            20
+          ],
+          "settled": 2778,
+          "supported": 1,
+          "transitions": 27767
+        },
+        "parent": {
+          "actions": 4070,
+          "baseline": [
+            3,
+            12,
+            20
+          ],
+          "completed": 0,
+          "created": 1226,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1376,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -16
+              ],
+              [
+                -16
+              ]
+            ],
+            [
+              [
+                -17
+              ],
+              [
+                -17
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ]
+            ]
+          ],
+          "queries": 57,
+          "score": [
+            3,
+            12,
+            20
+          ],
+          "settled": 1226,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-coverage",
+        "players": 10,
+        "seed": 20260907368002
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 11041,
+          "baseline": [
+            3,
+            12,
+            20
+          ],
+          "boundCuts": 4063,
+          "completed": 1,
+          "created": 2791,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 356,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -18
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -11
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -17
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                -10
+              ],
+              [
+                -17
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                -18
+              ]
+            ]
+          ],
+          "queries": 121,
+          "score": [
+            3,
+            12,
+            20
+          ],
+          "settled": 2791,
+          "supported": 1,
+          "transitions": 29925
+        },
+        "parent": {
+          "actions": 4080,
+          "baseline": [
+            3,
+            12,
+            20
+          ],
+          "completed": 0,
+          "created": 1228,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1376,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -18
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -11
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -17
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                -10
+              ],
+              [
+                -17
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                -18
+              ]
+            ]
+          ],
+          "queries": 57,
+          "score": [
+            3,
+            12,
+            20
+          ],
+          "settled": 1228,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-coverage",
+        "players": 8,
+        "seed": 20260907368003
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 9715,
+          "baseline": [
+            5,
+            20,
+            28
+          ],
+          "boundCuts": 4324,
+          "completed": 1,
+          "created": 2397,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 374,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -16
+              ],
+              [
+                -16
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -4
+              ]
+            ],
+            [
+              [
+                -16
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -7
+              ],
+              [
+                -16
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                5,
+                5,
+                5,
+                -8
+              ],
+              [
+                -17
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -10
+              ]
+            ]
+          ],
+          "queries": 109,
+          "score": [
+            5,
+            20,
+            28
+          ],
+          "settled": 2397,
+          "supported": 1,
+          "transitions": 29891
+        },
+        "parent": {
+          "actions": 6702,
+          "baseline": [
+            5,
+            20,
+            28
+          ],
+          "completed": 0,
+          "created": 2134,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1696,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -16
+              ],
+              [
+                -16
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -4
+              ]
+            ],
+            [
+              [
+                -16
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -7
+              ],
+              [
+                -16
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                5,
+                5,
+                5,
+                -8
+              ],
+              [
+                -17
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -10
+              ]
+            ]
+          ],
+          "queries": 95,
+          "score": [
+            5,
+            20,
+            28
+          ],
+          "settled": 2134,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-fuel",
+        "players": 9,
+        "seed": 20260907378000
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 14040,
+          "baseline": [
+            5,
+            20,
+            31
+          ],
+          "boundCuts": 47749,
+          "completed": 1,
+          "created": 1746,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 1,
+          "memo": 650,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -1,
+                2,
+                2,
+                -13
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -8
+              ],
+              [
+                -1,
+                5,
+                5,
+                -12
+              ],
+              [
+                -17
+              ]
+            ],
+            [
+              [
+                -17
+              ],
+              [
+                -1,
+                2,
+                2,
+                5,
+                -10
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ]
+            ]
+          ],
+          "queries": 87,
+          "score": [
+            5,
+            20,
+            32
+          ],
+          "settled": 1746,
+          "supported": 1,
+          "transitions": 232546
+        },
+        "parent": {
+          "actions": 4017,
+          "baseline": [
+            5,
+            20,
+            31
+          ],
+          "completed": 0,
+          "created": 1252,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1196,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -8
+              ],
+              [
+                -1,
+                5,
+                5,
+                -12
+              ],
+              [
+                -17
+              ]
+            ],
+            [
+              [
+                -17
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ],
+              [
+                -17
+              ]
+            ]
+          ],
+          "queries": 57,
+          "score": [
+            5,
+            20,
+            31
+          ],
+          "settled": 1252,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-fuel",
+        "players": 10,
+        "seed": 20260907378001
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 8632,
+          "baseline": [
+            5,
+            20,
+            28
+          ],
+          "boundCuts": 6666,
+          "completed": 1,
+          "created": 2266,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 321,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -17
+              ],
+              [
+                -17
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -5
+              ]
+            ],
+            [
+              [
+                -18
+              ],
+              [
+                -18
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -1,
+                2,
+                2,
+                5,
+                5,
+                5,
+                -5
+              ],
+              [
+                -16
+              ]
+            ]
+          ],
+          "queries": 107,
+          "score": [
+            5,
+            20,
+            28
+          ],
+          "settled": 2266,
+          "supported": 1,
+          "transitions": 38109
+        },
+        "parent": {
+          "actions": 2993,
+          "baseline": [
+            5,
+            20,
+            28
+          ],
+          "completed": 0,
+          "created": 992,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1251,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -17
+              ],
+              [
+                -17
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -5
+              ]
+            ],
+            [
+              [
+                -18
+              ],
+              [
+                -18
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -1,
+                2,
+                2,
+                5,
+                5,
+                5,
+                -5
+              ],
+              [
+                -16
+              ]
+            ]
+          ],
+          "queries": 50,
+          "score": [
+            5,
+            20,
+            28
+          ],
+          "settled": 992,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-fuel",
+        "players": 8,
+        "seed": 20260907378002
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 10035,
+          "baseline": [
+            5,
+            20,
+            30
+          ],
+          "boundCuts": 7892,
+          "completed": 1,
+          "created": 1762,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 1,
+          "memo": 449,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -16
+              ],
+              [
+                2,
+                2,
+                5,
+                5,
+                -8
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -7
+              ]
+            ],
+            [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ],
+              [
+                2,
+                5,
+                -14
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -5
+              ],
+              [
+                -1,
+                2,
+                -13
+              ],
+              [
+                -16
+              ]
+            ]
+          ],
+          "queries": 89,
+          "score": [
+            5,
+            20,
+            32
+          ],
+          "settled": 1762,
+          "supported": 1,
+          "transitions": 50533
+        },
+        "parent": {
+          "actions": 3317,
+          "baseline": [
+            5,
+            20,
+            30
+          ],
+          "completed": 0,
+          "created": 963,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1133,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                2,
+                2,
+                2,
+                2,
+                2,
+                -6
+              ],
+              [
+                -16
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -7
+              ]
+            ],
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ],
+              [
+                -1,
+                2,
+                -15
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -16
+              ],
+              [
+                -1,
+                2,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -16
+              ]
+            ]
+          ],
+          "queries": 42,
+          "score": [
+            5,
+            20,
+            30
+          ],
+          "settled": 963,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-fuel",
+        "players": 9,
+        "seed": 20260907378003
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 7856,
+          "baseline": [
+            4,
+            16,
+            35
+          ],
+          "boundCuts": 5564,
+          "completed": 1,
+          "created": 1899,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 1,
+          "memo": 293,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                -10
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -15
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -1,
+                2,
+                2,
+                -13
+              ]
+            ],
+            [
+              [
+                -17
+              ],
+              [
+                -1,
+                5,
+                -14
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -8
+              ]
+            ]
+          ],
+          "queries": 103,
+          "score": [
+            4,
+            16,
+            37
+          ],
+          "settled": 1899,
+          "supported": 1,
+          "transitions": 33568
+        },
+        "parent": {
+          "actions": 6500,
+          "baseline": [
+            4,
+            16,
+            35
+          ],
+          "completed": 0,
+          "created": 1899,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1816,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -15
+              ],
+              [
+                -1,
+                5,
+                -15
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -6
+              ]
+            ],
+            [
+              [
+                -17
+              ],
+              [
+                -17
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -10
+              ]
+            ]
+          ],
+          "queries": 103,
+          "score": [
+            4,
+            16,
+            35
+          ],
+          "settled": 1899,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-terminal",
+        "players": 10,
+        "seed": 20260907388000
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 7870,
+          "baseline": [
+            4,
+            16,
+            35
+          ],
+          "boundCuts": 5568,
+          "completed": 1,
+          "created": 1903,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 1,
+          "memo": 292,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ],
+              [
+                -18
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                -10
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -15
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -1,
+                2,
+                2,
+                -13
+              ]
+            ],
+            [
+              [
+                -18
+              ],
+              [
+                -1,
+                5,
+                -15
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ]
+            ]
+          ],
+          "queries": 103,
+          "score": [
+            4,
+            16,
+            37
+          ],
+          "settled": 1903,
+          "supported": 1,
+          "transitions": 33576
+        },
+        "parent": {
+          "actions": 6536,
+          "baseline": [
+            4,
+            16,
+            35
+          ],
+          "completed": 0,
+          "created": 1903,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1816,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -9
+              ],
+              [
+                -18
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -15
+              ],
+              [
+                -1,
+                5,
+                -15
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -6
+              ]
+            ],
+            [
+              [
+                -18
+              ],
+              [
+                -18
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -11
+              ]
+            ]
+          ],
+          "queries": 103,
+          "score": [
+            4,
+            16,
+            35
+          ],
+          "settled": 1903,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-terminal",
+        "players": 8,
+        "seed": 20260907388001
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 7798,
+          "baseline": [
+            4,
+            16,
+            35
+          ],
+          "boundCuts": 5456,
+          "completed": 1,
+          "created": 1882,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 1,
+          "memo": 290,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -8
+              ],
+              [
+                -17
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                -9
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -14
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ],
+              [
+                -1,
+                2,
+                2,
+                -12
+              ]
+            ],
+            [
+              [
+                -16
+              ],
+              [
+                -1,
+                5,
+                -13
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ]
+            ]
+          ],
+          "queries": 101,
+          "score": [
+            4,
+            16,
+            37
+          ],
+          "settled": 1882,
+          "supported": 1,
+          "transitions": 33056
+        },
+        "parent": {
+          "actions": 6420,
+          "baseline": [
+            4,
+            16,
+            35
+          ],
+          "completed": 0,
+          "created": 1882,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1806,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -8
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ],
+              [
+                -17
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -14
+              ],
+              [
+                -1,
+                5,
+                -14
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -5
+              ]
+            ],
+            [
+              [
+                -16
+              ],
+              [
+                -16
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -9
+              ]
+            ]
+          ],
+          "queries": 101,
+          "score": [
+            4,
+            16,
+            35
+          ],
+          "settled": 1882,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-terminal",
+        "players": 9,
+        "seed": 20260907388002
+      }
+    },
+    {
+      "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+      "outputs": {
+        "candidate": {
+          "actions": 7841,
+          "baseline": [
+            4,
+            16,
+            35
+          ],
+          "boundCuts": 5456,
+          "completed": 1,
+          "created": 1888,
+          "exhausted": 0,
+          "failures": 0,
+          "improvements": 1,
+          "memo": 290,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -16
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                -8
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -14
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -8
+              ],
+              [
+                -1,
+                2,
+                2,
+                -12
+              ]
+            ],
+            [
+              [
+                -18
+              ],
+              [
+                -1,
+                5,
+                -15
+              ],
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -9
+              ]
+            ]
+          ],
+          "queries": 101,
+          "score": [
+            4,
+            16,
+            37
+          ],
+          "settled": 1888,
+          "supported": 1,
+          "transitions": 33096
+        },
+        "parent": {
+          "actions": 6463,
+          "baseline": [
+            4,
+            16,
+            35
+          ],
+          "completed": 0,
+          "created": 1888,
+          "exhausted": 1,
+          "failures": 0,
+          "improvements": 0,
+          "memo": 1804,
+          "ok": true,
+          "originalUnchanged": true,
+          "plans": [
+            [
+              [
+                -1,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                -7
+              ],
+              [
+                -16
+              ]
+            ],
+            [
+              [
+                -1,
+                2,
+                -14
+              ],
+              [
+                -1,
+                5,
+                -14
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -5
+              ]
+            ],
+            [
+              [
+                -18
+              ],
+              [
+                -18
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -11
+              ]
+            ]
+          ],
+          "queries": 101,
+          "score": [
+            4,
+            16,
+            35
+          ],
+          "settled": 1888,
+          "supported": 1,
+          "transitions": 262144
+        }
+      },
+      "spec": {
+        "family": "three-terminal",
+        "players": 10,
+        "seed": 20260907388003
+      }
+    }
+  ],
+  "strict_witness_gains": [
+    {
+      "family": "three-balanced",
+      "players": 8,
+      "seed": 20260907338000
+    },
+    {
+      "family": "three-balanced",
+      "players": 9,
+      "seed": 20260907338001
+    },
+    {
+      "family": "three-balanced",
+      "players": 10,
+      "seed": 20260907338002
+    },
+    {
+      "family": "three-balanced",
+      "players": 8,
+      "seed": 20260907338003
+    },
+    {
+      "family": "three-duplicate",
+      "players": 9,
+      "seed": 20260907348000
+    },
+    {
+      "family": "three-duplicate",
+      "players": 10,
+      "seed": 20260907348001
+    },
+    {
+      "family": "three-duplicate",
+      "players": 8,
+      "seed": 20260907348002
+    },
+    {
+      "family": "three-duplicate",
+      "players": 9,
+      "seed": 20260907348003
+    },
+    {
+      "family": "three-fuel",
+      "players": 10,
+      "seed": 20260907378001
+    },
+    {
+      "family": "three-fuel",
+      "players": 9,
+      "seed": 20260907378003
+    },
+    {
+      "family": "three-terminal",
+      "players": 10,
+      "seed": 20260907388000
+    },
+    {
+      "family": "three-terminal",
+      "players": 8,
+      "seed": 20260907388001
+    },
+    {
+      "family": "three-terminal",
+      "players": 9,
+      "seed": 20260907388002
+    },
+    {
+      "family": "three-terminal",
+      "players": 10,
+      "seed": 20260907388003
+    }
+  ],
+  "totals": {
+    "candidate": {
+      "actions": 224997,
+      "completed": 24,
+      "created": 52251,
+      "exhausted": 0,
+      "improvements": 14,
+      "memo": 8693,
+      "queries": 2510,
+      "settled": 52251,
+      "transitions": 1027446
+    },
+    "parent": {
+      "actions": 119937,
+      "completed": 0,
+      "created": 36143,
+      "exhausted": 24,
+      "improvements": 0,
+      "memo": 35993,
+      "queries": 1760,
+      "settled": 36143,
+      "transitions": 6291456
+    }
+  },
+  "zero_safety_equivalence_failure": true
+}

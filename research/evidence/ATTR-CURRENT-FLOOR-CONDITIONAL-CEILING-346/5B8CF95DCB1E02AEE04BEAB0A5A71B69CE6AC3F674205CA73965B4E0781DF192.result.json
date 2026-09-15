@@ -1,0 +1,136 @@
+{
+  "elapsed_seconds": 0.224502399971243,
+  "id": "5B8CF95DCB1E02AEE04BEAB0A5A71B69CE6AC3F674205CA73965B4E0781DF192",
+  "manifest_sha256": "CDF0EBE6A3CC383C62C85C91A1F7B6C73F6FF83E5E6DBD49A1D51E49953BEDE2",
+  "oracle": {
+    "complete": true,
+    "day_enumerations": 39,
+    "days": [
+      {
+        "agents": [
+          {
+            "fuel": 0,
+            "kind": 0,
+            "pos": 16
+          },
+          {
+            "fuel": 6,
+            "kind": 0,
+            "pos": 20
+          },
+          {
+            "fuel": 4,
+            "kind": 0,
+            "pos": 17
+          }
+        ],
+        "day": 3,
+        "ledger": {
+          "brands": [
+            100,
+            200,
+            300,
+            400,
+            500
+          ],
+          "totalDailyDistinct": 15,
+          "totalServings": 24
+        },
+        "plan": [
+          [
+            -1,
+            5,
+            5,
+            5,
+            5,
+            5,
+            -5
+          ],
+          [
+            -1,
+            5,
+            -13
+          ],
+          [
+            -1,
+            -15
+          ]
+        ],
+        "score": [
+          5,
+          15,
+          24
+        ]
+      },
+      {
+        "agents": [
+          {
+            "fuel": 0,
+            "kind": 0,
+            "pos": 16
+          },
+          {
+            "fuel": 0,
+            "kind": 0,
+            "pos": 16
+          },
+          {
+            "fuel": 0,
+            "kind": 0,
+            "pos": 21
+          }
+        ],
+        "day": 4,
+        "ledger": {
+          "brands": [
+            100,
+            200,
+            300,
+            400,
+            500
+          ],
+          "totalDailyDistinct": 20,
+          "totalServings": 32
+        },
+        "plan": [
+          [
+            -18
+          ],
+          [
+            2,
+            5,
+            5,
+            5,
+            5,
+            5,
+            -6
+          ],
+          [
+            -1,
+            2,
+            2,
+            2,
+            2,
+            -9
+          ]
+        ],
+        "score": [
+          5,
+          20,
+          32
+        ]
+      }
+    ],
+    "failure": null,
+    "joint_transitions": 1056142,
+    "memo_states": 6293,
+    "ok": true,
+    "score": [
+      5,
+      20,
+      32
+    ]
+  },
+  "probe_sha256": "8137F5AEB1B84C2A305963E152081C62B266F91A62D29E42D76CE7B2C5174E91",
+  "request_sha256": "5B8CF95DCB1E02AEE04BEAB0A5A71B69CE6AC3F674205CA73965B4E0781DF192"
+}

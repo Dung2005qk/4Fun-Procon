@@ -1,0 +1,3634 @@
+{
+  "bridge_binary": "artifacts/research/314/bridge.exe",
+  "btc_authority": false,
+  "btc_binary": "build-release/udonshield_btc.exe",
+  "cases": [
+    {
+      "family": "three-balanced",
+      "players": 8,
+      "seed": 202609070000
+    },
+    {
+      "family": "three-balanced",
+      "players": 9,
+      "seed": 202609070001
+    },
+    {
+      "family": "three-balanced",
+      "players": 10,
+      "seed": 202609070002
+    },
+    {
+      "family": "three-balanced",
+      "players": 8,
+      "seed": 202609070003
+    },
+    {
+      "family": "three-duplicate",
+      "players": 9,
+      "seed": 202609070100
+    },
+    {
+      "family": "three-duplicate",
+      "players": 10,
+      "seed": 202609070101
+    },
+    {
+      "family": "three-duplicate",
+      "players": 8,
+      "seed": 202609070102
+    },
+    {
+      "family": "three-duplicate",
+      "players": 9,
+      "seed": 202609070103
+    },
+    {
+      "family": "three-stock",
+      "players": 10,
+      "seed": 202609070200
+    },
+    {
+      "family": "three-stock",
+      "players": 8,
+      "seed": 202609070201
+    },
+    {
+      "family": "three-stock",
+      "players": 9,
+      "seed": 202609070202
+    },
+    {
+      "family": "three-stock",
+      "players": 10,
+      "seed": 202609070203
+    },
+    {
+      "family": "three-coverage",
+      "players": 8,
+      "seed": 202609070300
+    },
+    {
+      "family": "three-coverage",
+      "players": 9,
+      "seed": 202609070301
+    },
+    {
+      "family": "three-coverage",
+      "players": 10,
+      "seed": 202609070302
+    },
+    {
+      "family": "three-coverage",
+      "players": 8,
+      "seed": 202609070303
+    },
+    {
+      "family": "three-fuel",
+      "players": 9,
+      "seed": 202609070400
+    },
+    {
+      "family": "three-fuel",
+      "players": 10,
+      "seed": 202609070401
+    },
+    {
+      "family": "three-fuel",
+      "players": 8,
+      "seed": 202609070402
+    },
+    {
+      "family": "three-fuel",
+      "players": 9,
+      "seed": 202609070403
+    },
+    {
+      "family": "three-terminal",
+      "players": 10,
+      "seed": 202609070500
+    },
+    {
+      "family": "three-terminal",
+      "players": 8,
+      "seed": 202609070501
+    },
+    {
+      "family": "three-terminal",
+      "players": 9,
+      "seed": 202609070502
+    },
+    {
+      "family": "three-terminal",
+      "players": 10,
+      "seed": 202609070503
+    }
+  ],
+  "expected_baselines": 24,
+  "expected_responses": 72,
+  "experiment": "ATTR-W1-HORIZON-PRICING-PREVALENCE-331",
+  "gate": "24 complete96ACK72transitions then72 independent dual-valid responses; selected certificate gains on4roots2families; zero failure; separate fresh bounded SCORE proposal only.",
+  "holdout_authority": false,
+  "local_hashes": {
+    "artifacts/research/314/bridge.exe": "CA869CEF3AFF78F17B57FF0DB1A207B54DAA4EBF3EFA579E4432ABB627A65902",
+    "artifacts/research/316/probe.exe": "16252B9D735137C8D99F93CD33CB1BAAF64AC0380AAADE4F66758B4E0F696FA6",
+    "artifacts/research/321/src/protocol.cpp": "19A30C7C5CAD842D27D033207A4C07A56174A86617937B40F5E358541B34C645",
+    "artifacts/research/321/src/simulator.cpp": "31ED7465C3BDA63025BB464E78F35A2FC4DE530CD21F06DC3B68F66470BB564D",
+    "artifacts/research/321/src/validator.cpp": "D29DB2AFC91821A6D5091940F5FE26711204DBEDB3F97A589C7618E2B47E64F8",
+    "artifacts/research/324/audit.capture324.cpp": "00E77A68A1A6A64A5B89B050D3FF3D2ACF5E58590CA7F237CDA29AD620C75815",
+    "artifacts/research/324/capture_btc.exe": "A8B0D812E1BBFE9C433D9C0F63F17E8F60F6EFB94EF67E88B24832EE85A28421",
+    "artifacts/research/324/claims_bridge.exe": "CB9CB5523CC20AE39858B59658E66AF6FCFA383DFF9DD222F003FDA65D99A008",
+    "artifacts/research/324/decision.capture324.cpp": "39E7559904D555DFC3EAF4CCC227158534BE2FB230AD5F9D95B28FA2B9E2BA14",
+    "artifacts/research/324/source-roundtrip.json": "BDDD572008C060F49AE28F0613D8F405E85D984CB9BCDEFF8710D673CB05E0AD",
+    "artifacts/research/325/audit.capture325.cpp": "00E77A68A1A6A64A5B89B050D3FF3D2ACF5E58590CA7F237CDA29AD620C75815",
+    "artifacts/research/325/bundle_contract.exe": "EEA79FE7C6FB2DA8BFE62EF0E3BD7D6E60408B00DA8791BCBB13D2E3E2C25BAC",
+    "artifacts/research/325/capture_btc.exe": "3C9152695D1F15B33368BF1D31E95DB9CB5004094FB757C12023108758050344",
+    "artifacts/research/325/decision.capture325.cpp": "5AC4B4ACAFF0307538C0A631BEC430C3FC7E504B2AC7200B2D19077004D21DB1",
+    "artifacts/research/325/planner.capture325.cpp": "ACCF0E6E49D517EE9719E643C04F656685C313A6DD78075435145B25D4537720",
+    "artifacts/research/325/source-roundtrip.json": "E30F524781F4229595454E8EC23EEE48A747D21D4618E7394165571E13DEFB0D",
+    "artifacts/research/326/portfolio_oracle.exe": "7B3475652990D4EA844C449420659E8C803D4505937F4F5EE5E254E7E735BDA4",
+    "artifacts/research/326/portfolio_oracle_326.cpp": "6AD3CD1A2B83F2E837185BE1C5CD95CD8E107F72C1578DC52BA8F33D9ABE1E23",
+    "artifacts/research/326/source-roundtrip.json": "8615BFCFF8881E0AD516796DF663182ABDBE6F46CDF8313302BC8B4B6EFC5691",
+    "artifacts/research/330/probe.exe": "C1D68D108C79F6AA78034FC2B2DFA170720927722694F41AC9B49E79B869288F",
+    "artifacts\\research\\321\\reference_include\\udon\\audit.hpp": "9EB2A60B75D7A9BE28D2FFC7BCBE6F0A8E5BB7AF18910B59B93F17A46A65785C",
+    "artifacts\\research\\321\\reference_include\\udon\\btc_protocol.hpp": "EA2FB9AAB1F853D0C1B1FECE0D8FE23CA0147D84C1F9EE9E9DAD1E4A52E30E9E",
+    "artifacts\\research\\321\\reference_include\\udon\\decision.hpp": "EA70E7E0202AD099F19074A11CB2BFEFAA918991F417ADEADA29292ECFDC232B",
+    "artifacts\\research\\321\\reference_include\\udon\\graph.hpp": "CC0CF54DB980CE358DC9D927FD58D303C037D0329F65DEE10B0D57521FA08B4D",
+    "artifacts\\research\\321\\reference_include\\udon\\json.hpp": "39D4A87C47827BF05F85282F48EA1FD546BA50DD816804156FC9D04B33DC21C8",
+    "artifacts\\research\\321\\reference_include\\udon\\orienteering.hpp": "11A11A4A7617AA6D60CC91613BA5FE9A7A4D6843393DB0911E918E9C0BC073BD",
+    "artifacts\\research\\321\\reference_include\\udon\\planner.hpp": "BE2758C6ADFE9C15A0B253156F6D88F2EA426B27CC1FAE508F8E922634DC5ACB",
+    "artifacts\\research\\321\\reference_include\\udon\\protocol.hpp": "958E444B918E2A4EB76354718B1AC7D131A28189932731435512933C668DFB0A",
+    "artifacts\\research\\321\\reference_include\\udon\\runtime.hpp": "AE567EFC27C7B99C9C3186E36E74E719AF14EFEF6262F85A1A4F08EE6E8DCA1D",
+    "artifacts\\research\\321\\reference_include\\udon\\simulator.hpp": "72F3E0EF7C1BE6CA8C28BC47152371CE5BFB06DAA6807C30328AA9677E2C47B1",
+    "artifacts\\research\\321\\reference_include\\udon\\slack_refiner.hpp": "794E79B6652F09F483C24469B14E8A3491C93DE74755B1B93FDE13E827AACA4F",
+    "artifacts\\research\\321\\reference_include\\udon\\types.hpp": "657A6AF3114B92AA6B13E42545532FA7319799724A9B00B814A9C5B18FDDB63C",
+    "artifacts\\research\\321\\reference_include\\udon\\validator.hpp": "C759681B387141AA3DC0A7816BC3F0A850D7F15AE325F2CDFA41BC194C89DE28",
+    "build-release/udon_shield.lib": "A82D84061872D58DC4186385AF773A511510F03F987584C0D986016D5FD68C1C",
+    "build-release/udonshield_btc.exe": "F97F168FE76FEF1B6226D2C2CFDAF954F116D39F427B6F157594151C461E1275",
+    "include/udon/audit.hpp": "F9AB1C2C18B71C2045C55C68505A79522234DA7B5B3B69BF23A2F4F5A1205621",
+    "include/udon/btc_protocol.hpp": "C0606EB33E054672F934EEAD8726A5154CEA6DB3B80F70CBF43C61A9AD724B7A",
+    "include/udon/decision.hpp": "6506525D5B9624AFB45F03F377C75745627F472279C7C4A6664D66BB77731DF5",
+    "include/udon/graph.hpp": "506BBCFE4E9BC904C7504D0A8F3B55E8032193D82D5E6100F48E6542DABF81E6",
+    "include/udon/json.hpp": "F182546B049AF32D131FBC12DAB2E9D34AC63FA7529B9ED6333743638A6C2542",
+    "include/udon/orienteering.hpp": "FDEE233BA9CE0425DC1FD0A7E1B888E00BFAB25E733EEC716C8586D63F32A956",
+    "include/udon/planner.hpp": "0D9566FD09CC47DB17E2B7F61D9EEF70F0E0E3313B1B99FD9F5CD7796AB984EE",
+    "include/udon/protocol.hpp": "8754B26FB0D7CECB65C6423FA13BFEC9B9706F9AA4D9FA14B62D17161F51CE3E",
+    "include/udon/runtime.hpp": "A75C07B388AAB52E69359281B275D0861BD0B5A62F095EAA7C38F515CBD75CD0",
+    "include/udon/simulator.hpp": "BD017272F6699787C09CAFDB608213AA1934FDC5D55AC184994E560FF26CE193",
+    "include/udon/slack_refiner.hpp": "B971EDBB4FD508A2BA4592ADBA1C8E39B8DC9EE32F3EAD90B235D5E0BD9743BE",
+    "include/udon/types.hpp": "50B3ADBD342346226DA9C3B9578B777BCA6E9EDD3AE7CC289006A269620DC0AE",
+    "include/udon/validator.hpp": "0E0AB2FE278567F21112760D320FC93A70F095E440B951F2A43CCFAF5416D37E",
+    "research/evidence/ATTR-CERTIFIED-PORTFOLIO-REPRESENTATIVES-326.summary.json": "2A9FE9C4A7338DC33494313819F5C541193A7FCAAC463437E15A8959640184F9",
+    "research/evidence/ATTR-DAY1-AUDIT-EXACT-OPTION-328.summary.json": "78A7337894BA8DDBA038A6191117872280E6F6D0C0A13BBDD34A750A26C12343",
+    "research/evidence/ATTR-DAY2-OPTION-PROVENANCE-322.summary.json": "D55A26B95C43F9C4FCE9BBD4DCD9BBE171AD0E10CDF0126EAFA942CAD0127A77",
+    "research/evidence/ATTR-DAY2-POOL-EXACT-VALUE-323.summary.json": "9783F5DA1CA4E7DF375EED0ECF2E71CA156A8016E2E87F18424786C9DA976134",
+    "research/evidence/ATTR-HTTP-DAY2-PRE-F0-CAPTURE-324.summary.json": "AEAD4273510F7746BBCB5D574B0236F2F4099942D4211BC4C96657FDD4B23582",
+    "research/evidence/ATTR-HTTP-PREFIX-OPTION-LOSS-321.summary.json": "E7AF660FB590FB01289E63700CE9F83F33F2B0B9317D3A04F11B36C851AC5B83",
+    "research/evidence/ATTR-HTTP-PREFIX-OPTION-LOSS-321/10700000-d1.result.json": "955DD0C50802F6A6C37B59566A74FBFF9C9E2C71AC709E456A2EE75B8DDB20B7",
+    "research/evidence/ATTR-HTTP-PREFIX-OPTION-LOSS-321/10700001-d1.result.json": "E028CEAFB025145B611F8A6CB6481C7BB09ED10DB3F39C8B8E4D353304CAAB94",
+    "research/evidence/ATTR-HTTP-PREFIX-OPTION-LOSS-321/10700100-d1.result.json": "B24C86D16D87EF4B47ABBE44945B8CF2AD49E5593196BE070A7EFE352C5FC1EE",
+    "research/evidence/ATTR-HTTP-PREFIX-OPTION-LOSS-321/10700101-d1.result.json": "23B46536AFBCCC34027A42362A5F62A9FB45F8EDCF7E87F28E557FA75F1304CE",
+    "research/evidence/ATTR-HTTP-PREFIX-OPTION-LOSS-321/10700200-d1.result.json": "2B73C9D134C27B3B3476B938158CDB82266A20AE89F9D1BE0C246F5FA27190D3",
+    "research/evidence/ATTR-HTTP-PREFIX-OPTION-LOSS-321/10700201-d1.result.json": "D665005560A953FEBBA4507B045B2ADE9E80B8C0F618421D91EFA57479A36E44",
+    "research/evidence/ATTR-HTTP-PREFIX-OPTION-LOSS-321/10700300-d1.result.json": "EC75D07F7AECF40D3A203EEE14E2944A23A7BA36B36E9E208A224FC3E2F17249",
+    "research/evidence/ATTR-HTTP-PREFIX-OPTION-LOSS-321/10700301-d1.result.json": "2D30929B955023E3B49185DFDD8CE9B1D1994877AE6B68C8E7ADBC104009201D",
+    "research/evidence/ATTR-HTTP-PREFIX-OPTION-LOSS-321/10700400-d1.result.json": "FD733BA97BC5091C89555DB77130C14508423ABC26ECCCB1EDEDC0DF84D77E21",
+    "research/evidence/ATTR-HTTP-PREFIX-OPTION-LOSS-321/10700401-d1.result.json": "B6F0ECAB28E8AA89C36456BCE73F1AEBF491D90DAD71D4970E64BF34F4611424",
+    "research/evidence/ATTR-HTTP-PREFIX-OPTION-LOSS-321/10700500-d1.result.json": "84DFF55B71BEA2A360748E1ABE2567E66F0C2FE1341839D2EE13E4DD2DB3EA00",
+    "research/evidence/ATTR-HTTP-PREFIX-OPTION-LOSS-321/10700501-d1.result.json": "BE0611B385AB2611CFF150B928731E5FE480A301210DFBC5823E3100D327CFFB",
+    "research/evidence/ATTR-HTTP-PREFIX-OPTION-LOSS-321/run_complete.json": "B834BEA33D94A56BBAA8E95CB387D7480C8CBBFE6E0C8E1CDBED5C9DB0EBECBF",
+    "research/evidence/ATTR-HTTP-SHORTLIST-CERTIFICATE-YIELD-316.summary.json": "318184A0BA2B676EDF4D9CC55B758E46A1602991D48FF40832C7D0F13AAF4F61",
+    "research/evidence/ATTR-HTTP-SHORTLIST-CERTIFICATE-YIELD-316/10700000.result.jsonl": "8B93A46AC54017D1D6E5D099F557DCE8E77C8BA71D8C670A416C6ABA7569C968",
+    "research/evidence/ATTR-HTTP-SHORTLIST-CERTIFICATE-YIELD-316/10700001.result.jsonl": "7F8821987BED31390F3D94696AB8D8E0F8BA9C8A5ABD5D10CA2C7C426E58B2A8",
+    "research/evidence/ATTR-HTTP-SHORTLIST-CERTIFICATE-YIELD-316/10700100.result.jsonl": "62CF776C533FAECA3E0BEB0378F344C0411BFC855FE3A700C3208F1C12835018",
+    "research/evidence/ATTR-HTTP-SHORTLIST-CERTIFICATE-YIELD-316/10700101.result.jsonl": "22295EC4B9B1CF5B0264F8BC1B4B86E3374BE1D9F3430D1019DFF9CEDADFD0C0",
+    "research/evidence/ATTR-HTTP-SHORTLIST-CERTIFICATE-YIELD-316/10700200.result.jsonl": "4221D9DAD5E98357D1AA404A978F59DBCD6495367911B9FCB26621B8BA683814",
+    "research/evidence/ATTR-HTTP-SHORTLIST-CERTIFICATE-YIELD-316/10700201.result.jsonl": "C32946EE7D6C9653931EE9140483FFCD0B2BC157D7CC61C8F9F097AC75F60F27",
+    "research/evidence/ATTR-HTTP-SHORTLIST-CERTIFICATE-YIELD-316/10700300.result.jsonl": "1DA377F032F9A6AA8FE0A9B72A14926EFFD949EF9EBB1036B9B22DD3D68EACE4",
+    "research/evidence/ATTR-HTTP-SHORTLIST-CERTIFICATE-YIELD-316/10700301.result.jsonl": "46F3876FB82A7A566C8DDBDA9AFD0DA3053503C01A0972B5D1933D6302F42765",
+    "research/evidence/ATTR-HTTP-SHORTLIST-CERTIFICATE-YIELD-316/10700400.result.jsonl": "CBF03857FC16DC0E585D7FC83CD47DE5AF924E5FF8182416786CA064FC708F43",
+    "research/evidence/ATTR-HTTP-SHORTLIST-CERTIFICATE-YIELD-316/10700401.result.jsonl": "A89100F2D65F68FC37871105BE8791A1AF0872256E09DA85759C37BFC96EBBA5",
+    "research/evidence/ATTR-HTTP-SHORTLIST-CERTIFICATE-YIELD-316/10700500.result.jsonl": "AD3C011BBB7DD7499976BD497E16393B7DD072E7D9DB4FA267CC5833E616B81A",
+    "research/evidence/ATTR-HTTP-SHORTLIST-CERTIFICATE-YIELD-316/10700501.result.jsonl": "1EA7F6F78EE705CD51C5755B32460953E1DD1C4F9BD2C2B02447DC094094596E",
+    "research/evidence/ATTR-INDEPENDENT-COLUMN-RETENTION-325.summary.json": "25B76905EA5E520DD9B2FA65D2E99552CD674361E629DB9998D17C5B50C8B35F",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314.summary.json": "D926E5C3025643CAE8F4FB1350AD8FF8AD940DAB67F0563890C27213F538F96F",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700000.replay-check.txt": "122D3FA05FB37314CB8F2151CE2A681672402103038D4901B4C3005DE54622E7",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700000.replay.jsonl": "FFF597CF90B35532FB79979CC5ECCFBACCE24857E08EDE158B582786755C9568",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700000.result.json": "B73FCC02D247E4B1F7002FFD201C2C7DB529979B13EB8E12946303A67D142B1F",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700000.transport.json": "32DFE1751052910673D65337DFE6C306B34B6A0102066FEEE3070DF08E8DDC6C",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700001.replay-check.txt": "54480E779A503A487F0AF9A598A73C9DBAA1EBCC0019637783F44A4A8FE5693F",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700001.replay.jsonl": "F2F1F9BC5BCB8065BB4BD50DEC533452BB000A63037242DE83E60CED82170687",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700001.result.json": "F66C18251B894380E10467F708EEB75FFC3B926787BE2AA4B0AC60D7CD185236",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700001.transport.json": "E3D3895570D91B78F7E63F4A80C3A552C72445FAC125925DF400888B28D86959",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700100.replay-check.txt": "7D102F210DF6CBA400E5971F0DF8979F9FBC76991F06F8BCEEEC8BC138A3C6C7",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700100.replay.jsonl": "6D8EB3AC3FB9C28B7B3C42E51A923987499A3044EFCADE4479AFA37751518375",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700100.result.json": "494C36054E1DD9676171EF7D817F1FD3FAFCE09DE1B1C3D821427FD1C4F07754",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700100.transport.json": "F3FD871E6B4047DDFB0C3B712C201D17761AB31D9E4E939B25D86A1666EC41FF",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700101.replay-check.txt": "0BDF6F199536C17D957993A21C13C45888B81BE25168FB4B472B9F28E0A1C8B1",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700101.replay.jsonl": "F1F2432C86001D75BECA98BBE96CF9E292232DCBB0BA0DF7A7EF55088371F426",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700101.result.json": "DF3CBE69DA52FEB74B289E27CE4FD35677C10FA1FE9EA8C4FD42FC5A3255865F",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700101.transport.json": "55F35AB676BFE572CB729CABA505E337056B43134DD2B87D5C29A785C7E1D62E",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700200.replay-check.txt": "D9CA3CC2CD6DEFBAAED1518D4C5E661BE0FE5500C08E19313F1435F704B87A28",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700200.replay.jsonl": "FA20032CB47E1E46F260D4099D32D170277DEF3BC9599AB252FC8B807444A87F",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700200.result.json": "0CF92A4FDAEED66D077BEA3C142393102ECA4D24B3658AF61D76EFF559EFE3F8",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700200.transport.json": "21835E49C686A21978A0D9B537AD7C7E1D4ED68A4BC805B9D8899175A6893EBA",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700201.replay-check.txt": "A88092AE25E29A93CF4F30500BA68A8F4680476AD342C8C27DC7C27384AB1943",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700201.replay.jsonl": "82453E5B02CA051CFC472D589B9281B0818CB956CABB8451B667F197718D6AD0",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700201.result.json": "B4CB263ED63414393A63C14FFA7592A0EAAB0FFAC1230B88C34ECDDED56783DC",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700201.transport.json": "7791AD13499520D6445D7ADF66FA8C88FEF9EC96FFB976F94012AA4FC45B911D",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700300.replay-check.txt": "BED7FFA675CF923D14B81E3D51FAB02E0210D5DBF9513D7DF0F12B1B20030B37",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700300.replay.jsonl": "5FB26A87C48392641C7FD93F72B143F439FEF800099583CD4CF6340B579CB470",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700300.result.json": "1105D773DD557BB3C4188363E76DA7B1AF7328DDF3973C5CFC0B85E89773F658",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700300.transport.json": "3394B783A86137DD30844B673D16FCDF13B12ED466BDA088F829FC827298FEA5",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700301.replay-check.txt": "6A3EDABDCD8692F286D80F3D451498DF465AEC1A11C09B6640135809D6BF6F45",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700301.replay.jsonl": "D577A39F5699E19CBAB668BA6B0728B4FAE602EC719F7EF53483CB290FC6D7B3",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700301.result.json": "39DCF1B750C29020B84DE6768B61D04E5D332DCD53F1A7F7AF6C0FDCDB3DF2B6",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700301.transport.json": "AD48DC14D58649F607E5B6D8C98D944585F3C14B368D73F6AF6C2412D5451209",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700400.replay-check.txt": "996FC1B481257115DD42FB9559DD357830DBCF29E3EB27055C97C77AD3BE10F0",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700400.replay.jsonl": "D94AE66D923B86A79E7D449BB4273F4979FF92E169225F347FF5984164D115F4",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700400.result.json": "21B745337965AF358210749A9DBF6672853DB62926CA8E6F70E79794DE67C1FD",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700400.transport.json": "ACB16B1E2C8475A609CDCF9B73291E790484F5DB918417560E50C974B191EA77",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700401.replay-check.txt": "26FBC5F5B82513F21C42384D7411BE2AACA0F54C9BF4B666820F8C235791CC71",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700401.replay.jsonl": "4E0523D256901A4514D39B80DDD34B46792FFE069C308101D6EDDC1778293EAE",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700401.result.json": "778395BAAF95D1669C6A1D175653235CEFCFFA7B4A68FA71570CF3267DE4CE2B",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700401.transport.json": "8F31A2E6BA88CF40509E3B571E572F375CD6078E969AD08C80EAE9FA7F0E9D38",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700500.replay-check.txt": "B49D5A345CC3F860B93992E6C12A40C8483246D222B061F82B31E0AA81285993",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700500.replay.jsonl": "9D6B99E1C35DAD0FF43724935152FA45547783DFC9A8D67C17F66B3A6B1AD11A",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700500.result.json": "E63320B7A158D14EE35C6BA62EA24963C3087BB97CD53564E0A8A5C4C0610F83",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700500.transport.json": "8416A7628ABE0A8A9AD7CDD0961494653BCBF375ED9098AAB15A2EB786F6A253",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700501.replay-check.txt": "9150E9B17171A5474DF880E7CB5954E565C8EFE16CF2FE6A1C05DFCA3677D86A",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700501.replay.jsonl": "ABDC80B44CE699E7BFB4758DBF3B308CC13DC7CFD65E5722712D68500EBA1537",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700501.result.json": "A8800DC73DA7568E33978B37C45AA558895C57AF87BFC146FF6D9F07903A90A1",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700501.transport.json": "CA2E85D8B73217A26AAC42E99614F11C2C4D13A84A2777C2F05D143CA81587C0",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/run_complete.json": "663AA1C2923EE96465533EDDDCC05933BF498B7B0ACDDFD9AF7110A38DA7559E",
+    "research/evidence/ATTR-THREE-PATROL-HTTP-WITNESS-315.summary.json": "E40A59F1642DC9853AE1ABA44CAA3E60A9389F461E7F4C96473C0154DD47CB98",
+    "research/evidence/ATTR-W1-HORIZON-PATROL-BEST-RESPONSE-330.summary.json": "3E0EBD44EEB8CDE78C210675E9CD1ADF9A2A5BD5E9B591350AC14A67C217CC18",
+    "research/evidence/CEILING-THREE-ACTIVE-PATROL-LOW-FUEL-PREVALENCE-312-development.log": "45EEEDD866D22D45AF24D6CD17ECF6C93E9C0FBA9E72FE749DD5AE4BB150C0D5",
+    "research/holdouts/ATTR-CERTIFIED-PORTFOLIO-REPRESENTATIVES-326.json": "C28F7E8287485F23E6341BA8086FB44C13C5A5520C6A7714EF9E094F99D41B4B",
+    "research/holdouts/ATTR-DAY1-AUDIT-EXACT-OPTION-328.json": "7DB80EA33E4BBF8E5FBBA2CBD0AC3AF4D799C190CB21CA798141E8CDF1629855",
+    "research/holdouts/ATTR-DAY2-OPTION-PROVENANCE-322.json": "4F8CF6E24F9F1F2E01568C4F04A9AF09C00DCB1AF16DECF397323AA2C32F9A2B",
+    "research/holdouts/ATTR-DAY2-POOL-EXACT-VALUE-323.json": "A793940CA25D86FB25811C0DE5CD46120944C3E21FE8CE865DA5BD71EF17DB0B",
+    "research/holdouts/ATTR-HTTP-DAY2-PRE-F0-CAPTURE-324.json": "A6B842A62ED573FCC6F55B6299A39086900BE067FC29DA42079011DAA165F419",
+    "research/holdouts/ATTR-HTTP-PREFIX-OPTION-LOSS-321.json": "28424D53C6937CD70983DED8FBC49971D75876D61B7E4C98EE69A804EF56BC13",
+    "research/holdouts/ATTR-HTTP-SHORTLIST-CERTIFICATE-YIELD-316.json": "D964BE23CB6BBFAB864D87477892918F76B8836A03B38124F04F3C66FB1000D5",
+    "research/holdouts/ATTR-INDEPENDENT-COLUMN-RETENTION-325.json": "352E6FAD795794236575630691A7D69E5FA270D43501981AA217CF48C6681050",
+    "research/holdouts/ATTR-POOL-BOUNDARY-OPTION-VALUE-327.json": "DEFB0B73F3FD9BD35346D93F2A10C9EF07898AE7A5E9F01136B167264176CE63",
+    "research/holdouts/ATTR-THREE-PATROL-HTTP-BASELINE-314.json": "FE31DDCA3C0419AD2279E0C4E076AC77D030E332039998ABBAC8FF906E940CB7",
+    "research/holdouts/ATTR-W1-CERTIFIED-SUFFIX-REUSE-329.json": "F25D68571CA709FCCCED224DCC1E5F3C1BAD72D0F6912181DEF9B8724F8FE7E8",
+    "research/holdouts/ATTR-W1-HORIZON-PATROL-BEST-RESPONSE-330.json": "B0D75D06A6495E144F33B603B67039EE4320EB5D97CBEB4EDB117AD0092F20AF",
+    "research/probes/build_portfolio_oracle_326.py": "880A0987EC51820A4477A3823CC1BDECBEF75227B6A9741E5FED1FD4F275C83B",
+    "research/probes/build_pre_f0_capture_324.py": "9272FBF14CBCD658B79C009EDB989FA6A0DF5DB142FFE7BBF9BD3CF4B868759F",
+    "research/probes/build_pre_prune_capture_325.py": "9DF1CFAC08D55DDCF78FB51E07196658546993F3BA2E14505F9563F051C855C9",
+    "research/probes/bundle_mode_contract_325.cpp": "534AC7C59FC11BDA80A7601C0B421E1282162CAF835A0372DD1A2C9620728F96",
+    "research/probes/certified_suffix_reuse_329.py": "84E32892C250592E18EAC78C348145794CCA9DFB0F4CB86687750B40488B9415",
+    "research/probes/claims_bridge_324.cpp": "626D75BA794CB8A0C91F680956E9439A53CE2DF68FBA155757E6F8F693E3EAA1",
+    "research/probes/day1_audit_value_328.py": "6C798E7DD538B09D2A02B42951C7922AB85C551CEA0FE85F4074D15534770A61",
+    "research/probes/day2_option_provenance_322.py": "9A7BAEFBC3B6C8ADB89244BB813EB20DB4A25F83EC13118647C7BBE58141C640",
+    "research/probes/day2_pool_value_323.py": "BABEAD069465D2D5E52C70E53225A2831927801873ACD28E09710F342CEFB28E",
+    "research/probes/freeze_http_baseline_314.py": "AA382A649F5FB8F5D9476134A30534C3765D924B88D5EDD54FF3DE21ABA058D5",
+    "research/probes/horizon_patrol_response_330.cpp": "7AB7BA4173309C6B913E817A659B580230DA22048C40A1080B6274E7823D2D3D",
+    "research/probes/horizon_patrol_response_330.py": "F497C00755CA034E6D02C854F882D3FB6F87A0598B3D398F1C889EFC79392326",
+    "research/probes/http_baseline_bridge_314.cpp": "F3D5C135D46D3E25C16C79018D23257C4424432BEB39BB59284462504E6270C4",
+    "research/probes/http_prefix_option_loss_321.py": "3F3DBF296FEFD4B7D8FF091ABCE3A50BCDA3FF2683709E42D29209BB3381E0E3",
+    "research/probes/http_prefix_oracle_321.cpp": "0AD9DF72EAC5C23312BB0BFDF51F791F137030294E5E83EA0CA03FB33E4DCD8E",
+    "research/probes/http_shortlist_yield_316.cpp": "B47CFD7E4A7B26242116A3FE70457EA175308FC0ABB0E16FD4EAB9CF6E6BFFFB",
+    "research/probes/independent_retention_325.py": "EE22625A669BAFB795EDFAF889784AE82C9E5118778C3F7E3599C754287BE527",
+    "research/probes/multi_patrol_oracle.cpp": "5979B702FB175B63077CCBB250B6E55B5B974ECA80543B3B7C105123F94C1BCE",
+    "research/probes/pool_boundary_value_327.py": "02AECD1F10B4A94758847A927CF70DA4B3C1AC6149E144A4B39864E92F42DD6F",
+    "research/probes/portfolio_representatives_326.py": "2DEE5573892CFC03171AED41B8677948B05ECAF50684BDF3278E2D1C8331B05A",
+    "research/probes/portfolio_value_326.inc": "49B47613A780B2AEE4638BD29440AEDF881F6E145F3496AD51BC9E61A0587A0D",
+    "research/probes/pre_f0_attribution_324.py": "D8CAF8A9AB71CAF0248B29901199CF37DC9FB98BA902EA4A8E30AE650051D3F4",
+    "research/probes/pre_f0_capture_324.hpp": "EB9705F20A4AE4A42AB96E295D45C73D4C154F70748DA7AFA2B84E4A49D8A425",
+    "research/probes/pre_prune_capture_325.hpp": "36636D81951FC4650504899F39FCA9924559D78DFD883D363D2E1900266A342D",
+    "research/probes/run_http_baseline_314.py": "5D0A21945D32BF2EFB87AFBB0BE1B679FEF65A7F2B3A3C0038EA3D20BA527755",
+    "research/probes/run_http_witness_315.py": "BA608353D0DE5C40EA1945BF80BCEAE8A5FBF585930D29566D061A20027D98F2",
+    "research/probes/run_shortlist_yield_316.py": "80E9F49644B75B1D321EA1E184FA16C033A28682DF07F61E368ED9FE22635F34",
+    "research/probes/selected_horizon_pricing_331.py": "B7CDCC19C788A9E16415D1C05AD2C5B88C23A6B8DEE1CE8E957087A3B8CE8B83",
+    "research/probes/summarize_http_baseline_314.py": "C2295FB20E1BB0DFF0711DF46A0FBFB058778359D39F6C15BEEFEA78C07FA94D",
+    "research/probes/summarize_http_witness_315.py": "9136AE57AA4CE02F162C462EA7D235304232ADA07B3E0B2503F7FEF8070BE8DD",
+    "research/probes/test_certified_suffix_reuse_329.py": "4899C12394F0EF56BE1A95DCDCD85234F94F9F92765D955238711B73A776E41E",
+    "research/probes/test_day1_audit_value_328.py": "31AC2052C7524F9280125876FA1E6FFBC2A44810D4D2DB9EF7500ADB8A08AFA8",
+    "research/probes/test_day2_option_provenance_322.py": "E9BDAA69E4F36A025CC7D0158D8CF8BFD1F1E23BFFCCF9928CADEC5D080A85D7",
+    "research/probes/test_day2_pool_value_323.py": "1427DEF4FAC0E0A04E48E0B5038760F3BB9387CEA3F8F146CF9AB2F178E8661F",
+    "research/probes/test_horizon_patrol_response_330.py": "80F36789881003C09905031720849A3B4BB89F92CAE3F1B95C8343EDD0A18EED",
+    "research/probes/test_http_baseline_314.py": "6FF1F8EE45FE4104A7426BA4406616BFDD6B0859F0F5B0B41BC2101F9491E503",
+    "research/probes/test_http_prefix_option_loss_321.py": "D2A11FBEDE362E232944D7901089198921F1175ECBB5EC5984112FC0CCE88B47",
+    "research/probes/test_http_prefix_oracle_321.py": "3D38106F794A3A3EA6AE9EFB08714C02A4BFE5BF65FA5F702D5F481DA066FA13",
+    "research/probes/test_independent_retention_325.py": "E3C8A2FAFB5B4028584F7AF92280169ED197270E62BDBBC87F24E73CEF25329A",
+    "research/probes/test_pool_boundary_value_327.py": "D72B88F582B9A8A3749D9C592A6879411A92F4B6C5DC56DDF757986BD1A344A3",
+    "research/probes/test_portfolio_representatives_326.py": "4A311EBB97F07416FF5F9D92CAD192AA4C69D4E28A67C8A9AACBEF628A2AC212",
+    "research/probes/test_pre_f0_attribution_324.py": "B25ACC91F4EE9F8BA295D204E329E8EBA7AAA35E2A8483F9503ED144322AE4D6",
+    "research/probes/test_selected_horizon_pricing_331.py": "D4955D6869FC01BB0648310B17A92D758C8BDF3D658A551F11CE34A3AC337AFB",
+    "research/probes/test_shortlist_yield_316.py": "90307544F9160F5D3667F204BB832A3DDABC10B355EBFE902D7DD7CAFC0B6F49",
+    "src/audit.cpp": "B585F148B31E0752F9CCF27C2D60F5801042931D01F3A35C392D918909929BCE",
+    "src/btc_main.cpp": "7ACF3151F25B13A7EC4CFE3CA8379FE0BDE8F5AB82EA27D3706D8861770C6F8F",
+    "src/btc_protocol.cpp": "4E3356CCADBECEF67DAAD87D47EB974E91E8F115431CCC5B7FF50DEDCA9C2649",
+    "src/decision.cpp": "150AA97731A73A86BE30C2CE1C7542F00D92173BD49B988E0B22D5BE901AA2DA",
+    "src/graph.cpp": "D968B822ABACF9EAC970AE3CE8C91758607FCA015071C7790163CF3B016C3F41",
+    "src/json.cpp": "C142AC8F1199F466E248A6F3C313E2CF17BECC16A8FF71C83D49949BC40237ED",
+    "src/main.cpp": "90EC2BB99211E015AD6B572678B00DF5F3C461394C4B9B68FE1E6418014F5F1E",
+    "src/orienteering.cpp": "693768FC61754869905296E6E8FD4B63246DAE80E316D1326572D897E8F39E25",
+    "src/planner.cpp": "D9E0A81253619039BEB74D19A1278A11A48DC483B85DF346536F91A7683AF40C",
+    "src/protocol.cpp": "1FA39FEDA33910D11E077A54E124CCB9164B047D5E57C652CE8845DA94A38299",
+    "src/runtime.cpp": "E6F68D806CF2E33A1DE29488B414AD504731AEB49B612B2889C07AD3D637DD60",
+    "src/simulator.cpp": "73849F1B0B63DBFE11FC8280C4E49E895ACD204D4AF4EE9C089FFDAEAF65A53B",
+    "src/slack_refiner.cpp": "A656B685D1B626C08EBB2CB8BBDAFE9F2111C02A00C2684F3FE400DC2264457F",
+    "src/validator.cpp": "953AD721C85AB19BD97E0D670BFE93639FAD51B09CEE395894F2F657339E3B12",
+    "strategies/blank_slate/planners.cpp": "9108CD232850AF70ED9B60F60EAF5A2736D64C64151AE1A1DF39EB1ED9B29A39",
+    "strategies/blank_slate/planners.hpp": "6136FBE8DBF026708A395076F6261996C8F630424A35367E5CC30FCE41B201CE"
+  },
+  "parent": "c76a8ea",
+  "probe": "artifacts/research/330/probe.exe",
+  "production_change": false,
+  "scope": "Roadless three-Patrol synthetic HTTP; fixed roles and no opponent agents. Player-count labels do not measure traffic pressure. No oracle input or timing claim.",
+  "setups": [
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        16,
+        18,
+        17,
+        18
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 8,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 18,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 20,
+          "stocks": 2
+        },
+        {
+          "brand": 300,
+          "pos": 19,
+          "stocks": 2
+        },
+        {
+          "brand": 400,
+          "pos": 17,
+          "stocks": 2
+        },
+        {
+          "brand": 500,
+          "pos": 21,
+          "stocks": 2
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        17,
+        18,
+        17,
+        17
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 9,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 18,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 17,
+          "stocks": 2
+        },
+        {
+          "brand": 300,
+          "pos": 21,
+          "stocks": 2
+        },
+        {
+          "brand": 400,
+          "pos": 20,
+          "stocks": 2
+        },
+        {
+          "brand": 500,
+          "pos": 19,
+          "stocks": 2
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        17,
+        17,
+        18,
+        18
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 10,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 20,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 18,
+          "stocks": 2
+        },
+        {
+          "brand": 300,
+          "pos": 21,
+          "stocks": 2
+        },
+        {
+          "brand": 400,
+          "pos": 17,
+          "stocks": 2
+        },
+        {
+          "brand": 500,
+          "pos": 19,
+          "stocks": 2
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        16,
+        17,
+        18,
+        16
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 8,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 21,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 18,
+          "stocks": 2
+        },
+        {
+          "brand": 300,
+          "pos": 19,
+          "stocks": 2
+        },
+        {
+          "brand": 400,
+          "pos": 20,
+          "stocks": 2
+        },
+        {
+          "brand": 500,
+          "pos": 17,
+          "stocks": 2
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        18,
+        18,
+        16,
+        16
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 9,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 20,
+          "stocks": 2
+        },
+        {
+          "brand": 100,
+          "pos": 17,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 21,
+          "stocks": 2
+        },
+        {
+          "brand": 300,
+          "pos": 19,
+          "stocks": 2
+        },
+        {
+          "brand": 400,
+          "pos": 18,
+          "stocks": 2
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        16,
+        17,
+        17,
+        18
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 10,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 19,
+          "stocks": 2
+        },
+        {
+          "brand": 100,
+          "pos": 17,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 20,
+          "stocks": 2
+        },
+        {
+          "brand": 300,
+          "pos": 21,
+          "stocks": 2
+        },
+        {
+          "brand": 400,
+          "pos": 18,
+          "stocks": 2
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        17,
+        18,
+        18,
+        16
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 8,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 17,
+          "stocks": 2
+        },
+        {
+          "brand": 100,
+          "pos": 18,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 19,
+          "stocks": 2
+        },
+        {
+          "brand": 300,
+          "pos": 21,
+          "stocks": 2
+        },
+        {
+          "brand": 400,
+          "pos": 20,
+          "stocks": 2
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        18,
+        17,
+        17,
+        16
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 9,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 17,
+          "stocks": 2
+        },
+        {
+          "brand": 100,
+          "pos": 19,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 21,
+          "stocks": 2
+        },
+        {
+          "brand": 300,
+          "pos": 18,
+          "stocks": 2
+        },
+        {
+          "brand": 400,
+          "pos": 20,
+          "stocks": 2
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        17,
+        16,
+        18,
+        18
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 10,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 21,
+          "stocks": 1
+        },
+        {
+          "brand": 200,
+          "pos": 17,
+          "stocks": 1
+        },
+        {
+          "brand": 300,
+          "pos": 19,
+          "stocks": 1
+        },
+        {
+          "brand": 400,
+          "pos": 20,
+          "stocks": 1
+        },
+        {
+          "brand": 500,
+          "pos": 18,
+          "stocks": 1
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        18,
+        16,
+        16,
+        18
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 8,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 21,
+          "stocks": 1
+        },
+        {
+          "brand": 200,
+          "pos": 18,
+          "stocks": 1
+        },
+        {
+          "brand": 300,
+          "pos": 20,
+          "stocks": 1
+        },
+        {
+          "brand": 400,
+          "pos": 17,
+          "stocks": 1
+        },
+        {
+          "brand": 500,
+          "pos": 19,
+          "stocks": 1
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        18,
+        18,
+        16,
+        17
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 9,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 19,
+          "stocks": 1
+        },
+        {
+          "brand": 200,
+          "pos": 20,
+          "stocks": 1
+        },
+        {
+          "brand": 300,
+          "pos": 18,
+          "stocks": 1
+        },
+        {
+          "brand": 400,
+          "pos": 21,
+          "stocks": 1
+        },
+        {
+          "brand": 500,
+          "pos": 17,
+          "stocks": 1
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        16,
+        17,
+        18,
+        17
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 10,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 20,
+          "stocks": 1
+        },
+        {
+          "brand": 200,
+          "pos": 21,
+          "stocks": 1
+        },
+        {
+          "brand": 300,
+          "pos": 19,
+          "stocks": 1
+        },
+        {
+          "brand": 400,
+          "pos": 17,
+          "stocks": 1
+        },
+        {
+          "brand": 500,
+          "pos": 18,
+          "stocks": 1
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        17,
+        16,
+        16,
+        18
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 8,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 19,
+          "stocks": 1
+        },
+        {
+          "brand": 100,
+          "pos": 21,
+          "stocks": 1
+        },
+        {
+          "brand": 200,
+          "pos": 17,
+          "stocks": 1
+        },
+        {
+          "brand": 200,
+          "pos": 18,
+          "stocks": 1
+        },
+        {
+          "brand": 999,
+          "pos": 20,
+          "stocks": 1
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        16,
+        18,
+        18,
+        16
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 9,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 19,
+          "stocks": 1
+        },
+        {
+          "brand": 100,
+          "pos": 21,
+          "stocks": 1
+        },
+        {
+          "brand": 200,
+          "pos": 18,
+          "stocks": 1
+        },
+        {
+          "brand": 200,
+          "pos": 20,
+          "stocks": 1
+        },
+        {
+          "brand": 999,
+          "pos": 17,
+          "stocks": 1
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        16,
+        18,
+        16,
+        17
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 10,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 19,
+          "stocks": 1
+        },
+        {
+          "brand": 100,
+          "pos": 17,
+          "stocks": 1
+        },
+        {
+          "brand": 200,
+          "pos": 18,
+          "stocks": 1
+        },
+        {
+          "brand": 200,
+          "pos": 20,
+          "stocks": 1
+        },
+        {
+          "brand": 999,
+          "pos": 21,
+          "stocks": 1
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        18,
+        16,
+        16,
+        16
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 8,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 17,
+          "stocks": 1
+        },
+        {
+          "brand": 100,
+          "pos": 19,
+          "stocks": 1
+        },
+        {
+          "brand": 200,
+          "pos": 21,
+          "stocks": 1
+        },
+        {
+          "brand": 200,
+          "pos": 18,
+          "stocks": 1
+        },
+        {
+          "brand": 999,
+          "pos": 20,
+          "stocks": 1
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        16,
+        16,
+        17,
+        18
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 9,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 21,
+          "stocks": 1
+        },
+        {
+          "brand": 200,
+          "pos": 18,
+          "stocks": 2
+        },
+        {
+          "brand": 300,
+          "pos": 19,
+          "stocks": 1
+        },
+        {
+          "brand": 400,
+          "pos": 20,
+          "stocks": 2
+        },
+        {
+          "brand": 500,
+          "pos": 17,
+          "stocks": 1
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        16,
+        17,
+        16,
+        16
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 10,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 21,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 17,
+          "stocks": 1
+        },
+        {
+          "brand": 300,
+          "pos": 19,
+          "stocks": 2
+        },
+        {
+          "brand": 400,
+          "pos": 18,
+          "stocks": 1
+        },
+        {
+          "brand": 500,
+          "pos": 20,
+          "stocks": 2
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        18,
+        17,
+        16,
+        18
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 8,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 19,
+          "stocks": 1
+        },
+        {
+          "brand": 200,
+          "pos": 20,
+          "stocks": 2
+        },
+        {
+          "brand": 300,
+          "pos": 18,
+          "stocks": 1
+        },
+        {
+          "brand": 400,
+          "pos": 17,
+          "stocks": 2
+        },
+        {
+          "brand": 500,
+          "pos": 21,
+          "stocks": 1
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        16,
+        16,
+        16,
+        17
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 9,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 19,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 17,
+          "stocks": 1
+        },
+        {
+          "brand": 300,
+          "pos": 18,
+          "stocks": 2
+        },
+        {
+          "brand": 400,
+          "pos": 20,
+          "stocks": 1
+        },
+        {
+          "brand": 500,
+          "pos": 21,
+          "stocks": 2
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        18,
+        16,
+        18,
+        17
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 10,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 21,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 20,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 18,
+          "stocks": 2
+        },
+        {
+          "brand": 300,
+          "pos": 17,
+          "stocks": 2
+        },
+        {
+          "brand": 900,
+          "pos": 19,
+          "stocks": 2
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        17,
+        16,
+        17,
+        16
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 8,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 18,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 17,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 21,
+          "stocks": 2
+        },
+        {
+          "brand": 300,
+          "pos": 20,
+          "stocks": 2
+        },
+        {
+          "brand": 900,
+          "pos": 19,
+          "stocks": 2
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        18,
+        16,
+        17,
+        16
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 9,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 17,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 21,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 20,
+          "stocks": 2
+        },
+        {
+          "brand": 300,
+          "pos": 18,
+          "stocks": 2
+        },
+        {
+          "brand": 900,
+          "pos": 19,
+          "stocks": 2
+        }
+      ],
+      "startsAt": 1778227200
+    },
+    {
+      "agents": [
+        16,
+        22,
+        23
+      ],
+      "busyThreshold": 2,
+      "daySeconds": [
+        5,
+        5,
+        5,
+        5
+      ],
+      "daySteps": [
+        18,
+        17,
+        18,
+        17
+      ],
+      "fuelLimits": 10,
+      "jammedThreshold": 4,
+      "map": {
+        "cells": [
+          [
+            0,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ]
+        ],
+        "height": 8,
+        "width": 8
+      },
+      "players": 10,
+      "spots": [
+        {
+          "brand": 100,
+          "pos": 18,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 17,
+          "stocks": 2
+        },
+        {
+          "brand": 200,
+          "pos": 20,
+          "stocks": 2
+        },
+        {
+          "brand": 300,
+          "pos": 21,
+          "stocks": 2
+        },
+        {
+          "brand": 900,
+          "pos": 19,
+          "stocks": 2
+        }
+      ],
+      "startsAt": 1778227200
+    }
+  ]
+}

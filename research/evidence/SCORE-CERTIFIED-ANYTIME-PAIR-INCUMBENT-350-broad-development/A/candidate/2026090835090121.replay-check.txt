@@ -1,0 +1,31 @@
+day=1 valid=1 validator_agrees=1 daily_distinct=5 servings=7 moves=21 wait_steps=20
+  served_by_agent=3,1,0,3 served_by_spot=57:1,36:1,42:1,52:1,60:1,9:2
+  starts=0@8/8:M2,1@28/8:M0,2@15/8:M5,3@35/8:M2
+  claims=a0@p9/b0/t2/Y,a3@p36/b1/t2/Y,a3@p52/b3/t6/Y,a1@p9/b0/t8/Y,a3@p60/b4/t8/Y,a0@p42/b2/t11/Y,a0@p57/b0/t15/Y
+  refuels=a1@p9/t14
+transition_to_day=2 reconciled=1
+day=2 valid=1 validator_agrees=1 daily_distinct=5 servings=6 moves=16 wait_steps=35
+  served_by_agent=1,2,0,3 served_by_spot=57:1,36:1,42:1,52:1,60:1,9:1
+  starts=0@57/0:W17,1@9/8:W1,2@9/8:M3,3@60/4:W1
+  claims=a1@p9/b0/t1/Y,a3@p60/b4/t1/Y,a3@p52/b3/t3/Y,a3@p42/b2/t9/Y,a1@p36/b1/t11/Y,a0@p57/b0/t17/Y,a1@p42/b2/t17/N
+  refuels=a3@p42/t10,a1@p42/t17
+transition_to_day=3 reconciled=1
+day=3 valid=1 validator_agrees=1 daily_distinct=5 servings=6 moves=14 wait_steps=42
+  served_by_agent=1,4,0,1 served_by_spot=57:1,36:1,42:1,52:1,60:1,9:1
+  starts=0@57/0:W18,1@42/8:W1,2@42/8:M0,3@42/8:M0
+  claims=a1@p42/b2/t1/Y,a1@p36/b1/t7/Y,a3@p9/b0/t9/Y,a1@p52/b3/t11/Y,a1@p60/b4/t13/Y,a0@p57/b0/t18/Y
+  refuels=
+transition_to_day=4 reconciled=1
+day=4 valid=1 validator_agrees=1 daily_distinct=5 servings=6 moves=16 wait_steps=31
+  served_by_agent=1,3,0,2 served_by_spot=57:1,36:1,42:1,52:1,60:1,9:1
+  starts=0@57/0:W16,1@60/2:W1,2@9/8:M2,3@9/8:W1
+  claims=a1@p60/b4/t1/Y,a3@p9/b0/t1/Y,a1@p52/b3/t3/Y,a3@p42/b2/t10/Y,a0@p57/b0/t16/Y,a1@p36/b1/t16/Y,a3@p52/b3/t16/N
+  refuels=a1@p52/t13,a3@p52/t16
+transition_to_day=5 reconciled=1
+day=5 valid=1 validator_agrees=1 daily_distinct=5 servings=6 moves=17 wait_steps=33
+  served_by_agent=1,3,0,2 served_by_spot=57:1,36:1,42:1,52:1,60:1,9:1
+  starts=0@57/0:W8,1@36/6:W1,2@52/8:M4,3@52/8:M0
+  claims=a1@p36/b1/t1/Y,a1@p52/b3/t5/Y,a3@p42/b2/t6/Y,a1@p60/b4/t7/Y,a0@p57/b0/t8/Y,a1@p57/b0/t13/N,a3@p9/b0/t15/Y
+  refuels=a0@p57/t9,a1@p57/t14
+summary days=5 reconciled_transitions=4 lifetime_distinct=5 daily_distinct=25 servings=31
+resume accepted_days=5 last_wire_day=4 cached_contingencies=0 strong_proofs=0

@@ -1,0 +1,8381 @@
+{
+  "authority": "Synthetic actual WinHTTP, not official BTC.",
+  "cases": [
+    {
+      "gameplay_sha256": "1533F6B6C97DD47669D4AEEB03712AD82492D08AC876458A717F2E4B20C5B91D",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentA",
+        "candidateA",
+        "candidateB",
+        "parentB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          17,
+          18,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 500,
+            "pos": 17,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-balanced",
+        "players": 8,
+        "seed": 20260907444000
+      }
+    },
+    {
+      "gameplay_sha256": "19F3F80D0F230DC4AABDC19CC5DADDB990F3DDECB4B3D323B8C161BFF6868B39",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateA",
+        "candidateB",
+        "parentB",
+        "parentA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          18,
+          16,
+          17,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 500,
+            "pos": 17,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-balanced",
+        "players": 9,
+        "seed": 20260907444001
+      }
+    },
+    {
+      "gameplay_sha256": "31782F14123728D0A3C5CA11C6F4593FA230C8C0C4902301CE8C34AE6E7B8A5A",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateB",
+        "parentB",
+        "parentA",
+        "candidateA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          18,
+          17,
+          17,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 500,
+            "pos": 20,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-balanced",
+        "players": 10,
+        "seed": 20260907444002
+      }
+    },
+    {
+      "gameplay_sha256": "9A072D39F134FEC72CA7A1B90ADF7D9E46D672562E647F20E3F074DA38152EAD",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentB",
+        "parentA",
+        "candidateA",
+        "candidateB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          18,
+          18,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 500,
+            "pos": 18,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-balanced",
+        "players": 8,
+        "seed": 20260907444003
+      }
+    },
+    {
+      "gameplay_sha256": "8BB64124089FD07DA0D094ACFB11415B78120EB038FAFA053395A7C900764F22",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentA",
+        "candidateA",
+        "candidateB",
+        "parentB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          18,
+          18,
+          16,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 500,
+            "pos": 21,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-balanced",
+        "players": 9,
+        "seed": 20260907444004
+      }
+    },
+    {
+      "gameplay_sha256": "70119338DFE1987971759401FE0D0173EE33291DABC932F7005BAA3E90F82AC1",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateA",
+        "candidateB",
+        "parentB",
+        "parentA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          16,
+          17,
+          17
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 500,
+            "pos": 21,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-balanced",
+        "players": 10,
+        "seed": 20260907444005
+      }
+    },
+    {
+      "gameplay_sha256": "C981A17BADC69990409A88D84B32C0A499126F09E38836791A86205BB9D30248",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateB",
+        "parentB",
+        "parentA",
+        "candidateA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          17,
+          17,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 500,
+            "pos": 20,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-balanced",
+        "players": 8,
+        "seed": 20260907444006
+      }
+    },
+    {
+      "gameplay_sha256": "9C0D55D31B5B8961195E2F2F3A5F82467EF9AABD69D43A13A51BA888F32AB12F",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentB",
+        "parentA",
+        "candidateA",
+        "candidateB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          17,
+          17,
+          17
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 500,
+            "pos": 21,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-balanced",
+        "players": 9,
+        "seed": 20260907444007
+      }
+    },
+    {
+      "gameplay_sha256": "3CF0D2F247B8ABB83FE8C1843EA49010BC0BA582223991B760A909D0BF203275",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentA",
+        "candidateA",
+        "candidateB",
+        "parentB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          18,
+          18,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 500,
+            "pos": 17,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-balanced",
+        "players": 10,
+        "seed": 20260907444008
+      }
+    },
+    {
+      "gameplay_sha256": "40EDDC099D3F4384C43C7DC9B0A2B56BDC130B06D40AA323C2DF9147A751D492",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateA",
+        "candidateB",
+        "parentB",
+        "parentA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          17,
+          16,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 100,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 19,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-duplicate",
+        "players": 9,
+        "seed": 20260907454000
+      }
+    },
+    {
+      "gameplay_sha256": "7AA655B0E852E8D7C57F69C9E77EC0A70B3E357E11AE1CE9B8C32CC53C6BE38E",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateB",
+        "parentB",
+        "parentA",
+        "candidateA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          18,
+          18,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 19,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-duplicate",
+        "players": 10,
+        "seed": 20260907454001
+      }
+    },
+    {
+      "gameplay_sha256": "FDBB0ECEB9776BE93F9E6C6445C35A5E96D8D6537E1B879C0EE394D5F70AEA8A",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentB",
+        "parentA",
+        "candidateA",
+        "candidateB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          16,
+          16,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 100,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 20,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-duplicate",
+        "players": 8,
+        "seed": 20260907454002
+      }
+    },
+    {
+      "gameplay_sha256": "2AEA5AB3FA9F2E4DB6A70A8C4A8E98F83E6CDE0A657C6CD51AD18915ECA03E01",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentA",
+        "candidateA",
+        "candidateB",
+        "parentB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          17,
+          18,
+          17
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 100,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 18,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-duplicate",
+        "players": 9,
+        "seed": 20260907454003
+      }
+    },
+    {
+      "gameplay_sha256": "4322DA83AED421BF846916EB3D9B76370DAEDF24F2576D7838C6FA426439B78E",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateA",
+        "candidateB",
+        "parentB",
+        "parentA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          18,
+          18,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 100,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 17,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-duplicate",
+        "players": 10,
+        "seed": 20260907454004
+      }
+    },
+    {
+      "gameplay_sha256": "58480BE815CA97449085F32A67FA709A41E1D6517BDA3BAF5E2E6DDDAC20735B",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateB",
+        "parentB",
+        "parentA",
+        "candidateA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          18,
+          17,
+          17,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 100,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 19,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-duplicate",
+        "players": 8,
+        "seed": 20260907454005
+      }
+    },
+    {
+      "gameplay_sha256": "7D5999A10C17E7CBF21F31D4A8662C0BBE0100FAEBFFE059169B75947D0A8CE7",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentB",
+        "parentA",
+        "candidateA",
+        "candidateB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          18,
+          18,
+          17
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 100,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 17,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-duplicate",
+        "players": 9,
+        "seed": 20260907454006
+      }
+    },
+    {
+      "gameplay_sha256": "270BB7381D8529F8767F400C4B131558C8337A92B1A5EFB739BBB2AF66FDA617",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentA",
+        "candidateA",
+        "candidateB",
+        "parentB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          18,
+          18,
+          18,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 100,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 17,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-duplicate",
+        "players": 10,
+        "seed": 20260907454007
+      }
+    },
+    {
+      "gameplay_sha256": "747C44C4422FD57D24330534D5EEA64EEFC32927A10FB171465A38B90BC5B3AF",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateA",
+        "candidateB",
+        "parentB",
+        "parentA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          18,
+          16,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 100,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 17,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-duplicate",
+        "players": 8,
+        "seed": 20260907454008
+      }
+    },
+    {
+      "gameplay_sha256": "43187377271C822DDFEA987B8D02216F0948AB9361C5C819F747F18509A72CD8",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateB",
+        "parentB",
+        "parentA",
+        "candidateA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          18,
+          16,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 20,
+            "stocks": 1
+          },
+          {
+            "brand": 300,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 400,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 500,
+            "pos": 19,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-stock",
+        "players": 10,
+        "seed": 20260907464000
+      }
+    },
+    {
+      "gameplay_sha256": "91CD7C76842228D13DEE044063A8F80660C314EB9BC25A07DB86F948A9DC0743",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentB",
+        "parentA",
+        "candidateA",
+        "candidateB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          17,
+          16,
+          17
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 300,
+            "pos": 19,
+            "stocks": 1
+          },
+          {
+            "brand": 400,
+            "pos": 20,
+            "stocks": 1
+          },
+          {
+            "brand": 500,
+            "pos": 18,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-stock",
+        "players": 8,
+        "seed": 20260907464001
+      }
+    },
+    {
+      "gameplay_sha256": "6730F3F8F3D73DCE8922C0CE3DBE99E5CB6A2ACD60FEC0119C716FF00F2D8CE9",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentA",
+        "candidateA",
+        "candidateB",
+        "parentB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          18,
+          17,
+          17
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 300,
+            "pos": 19,
+            "stocks": 1
+          },
+          {
+            "brand": 400,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 500,
+            "pos": 20,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-stock",
+        "players": 9,
+        "seed": 20260907464002
+      }
+    },
+    {
+      "gameplay_sha256": "BDAD2FE15F28407E363CACCD1731E5BD579461B180D0979524DD1287F909D650",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateA",
+        "candidateB",
+        "parentB",
+        "parentA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          17,
+          16,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 19,
+            "stocks": 1
+          },
+          {
+            "brand": 300,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 400,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 500,
+            "pos": 20,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-stock",
+        "players": 10,
+        "seed": 20260907464003
+      }
+    },
+    {
+      "gameplay_sha256": "E0DDD1CF61238C24EC12C3601146CA7C502BD19D09C3850D701890310E4B2AB5",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateB",
+        "parentB",
+        "parentA",
+        "candidateA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          18,
+          16,
+          18,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 20,
+            "stocks": 1
+          },
+          {
+            "brand": 300,
+            "pos": 19,
+            "stocks": 1
+          },
+          {
+            "brand": 400,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 500,
+            "pos": 17,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-stock",
+        "players": 8,
+        "seed": 20260907464004
+      }
+    },
+    {
+      "gameplay_sha256": "98318D857DF30AB472A6ADF8C09D68E20191BE76E618D8B32EFADB27FA205F1A",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentB",
+        "parentA",
+        "candidateA",
+        "candidateB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          16,
+          18,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 20,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 300,
+            "pos": 19,
+            "stocks": 1
+          },
+          {
+            "brand": 400,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 500,
+            "pos": 21,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-stock",
+        "players": 9,
+        "seed": 20260907464005
+      }
+    },
+    {
+      "gameplay_sha256": "0EE5345E6B855F58A89D3506B32E460F2919603671E859A524B54925EAA0C2DF",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentA",
+        "candidateA",
+        "candidateB",
+        "parentB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          17,
+          17,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 20,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 300,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 400,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 500,
+            "pos": 19,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-stock",
+        "players": 10,
+        "seed": 20260907464006
+      }
+    },
+    {
+      "gameplay_sha256": "7444856C3422EED0E59738297A393641B006F207C689B42C0ADB28018F09EA3A",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateA",
+        "candidateB",
+        "parentB",
+        "parentA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          18,
+          16,
+          18,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 19,
+            "stocks": 1
+          },
+          {
+            "brand": 300,
+            "pos": 20,
+            "stocks": 1
+          },
+          {
+            "brand": 400,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 500,
+            "pos": 17,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-stock",
+        "players": 8,
+        "seed": 20260907464007
+      }
+    },
+    {
+      "gameplay_sha256": "BED460AE38DFB401646605AEA2CE1B3AF5A5F0F7F549CFBCDDDD998AC6022B15",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateB",
+        "parentB",
+        "parentA",
+        "candidateA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          16,
+          16,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 20,
+            "stocks": 1
+          },
+          {
+            "brand": 300,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 400,
+            "pos": 19,
+            "stocks": 1
+          },
+          {
+            "brand": 500,
+            "pos": 17,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-stock",
+        "players": 9,
+        "seed": 20260907464008
+      }
+    },
+    {
+      "gameplay_sha256": "969B894F93B9EAE858F07905B062D0D97DD09916A07A7DE74A24E4BC5DB14736",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentB",
+        "parentA",
+        "candidateA",
+        "candidateB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          18,
+          17,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 19,
+            "stocks": 1
+          },
+          {
+            "brand": 100,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 20,
+            "stocks": 1
+          },
+          {
+            "brand": 999,
+            "pos": 21,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-coverage",
+        "players": 8,
+        "seed": 20260907474000
+      }
+    },
+    {
+      "gameplay_sha256": "7F2036027C1B429A64A1C3E9015086E0399FEC538CDC99A40D6833FEAB514103",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentA",
+        "candidateA",
+        "candidateB",
+        "parentB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          16,
+          16,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 19,
+            "stocks": 1
+          },
+          {
+            "brand": 100,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 20,
+            "stocks": 1
+          },
+          {
+            "brand": 999,
+            "pos": 17,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-coverage",
+        "players": 9,
+        "seed": 20260907474001
+      }
+    },
+    {
+      "gameplay_sha256": "3505E83EF433934009356C96D16EC02548EEC51AF5C2129BADF3679B3F23C476",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateA",
+        "candidateB",
+        "parentB",
+        "parentA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          18,
+          17,
+          18,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 19,
+            "stocks": 1
+          },
+          {
+            "brand": 100,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 20,
+            "stocks": 1
+          },
+          {
+            "brand": 999,
+            "pos": 17,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-coverage",
+        "players": 10,
+        "seed": 20260907474002
+      }
+    },
+    {
+      "gameplay_sha256": "AE035CC6EF4E27E10AB96C6D2A6C3F3F55A2CCF317BE2D67ED98E02EE2EA70FA",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateB",
+        "parentB",
+        "parentA",
+        "candidateA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          16,
+          17,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 100,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 19,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 999,
+            "pos": 20,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-coverage",
+        "players": 8,
+        "seed": 20260907474003
+      }
+    },
+    {
+      "gameplay_sha256": "A2738D9ACDD5A997F6C557F2FEF0ED0950A12086A11D65DA261CEEE172F09436",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentB",
+        "parentA",
+        "candidateA",
+        "candidateB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          18,
+          16,
+          17,
+          17
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 19,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 999,
+            "pos": 20,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-coverage",
+        "players": 9,
+        "seed": 20260907474004
+      }
+    },
+    {
+      "gameplay_sha256": "00548458AE8A73A590A241A37B79C97A0AA017846D6C698D1BB80E429998C120",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentA",
+        "candidateA",
+        "candidateB",
+        "parentB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          16,
+          17,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 19,
+            "stocks": 1
+          },
+          {
+            "brand": 100,
+            "pos": 20,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 999,
+            "pos": 18,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-coverage",
+        "players": 10,
+        "seed": 20260907474005
+      }
+    },
+    {
+      "gameplay_sha256": "8D3C5D4298F3D6A3D4988F864A75592F45C118E1209E0F6782EB6F305A463FF2",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateA",
+        "candidateB",
+        "parentB",
+        "parentA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          18,
+          16,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 100,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 19,
+            "stocks": 1
+          },
+          {
+            "brand": 999,
+            "pos": 20,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-coverage",
+        "players": 8,
+        "seed": 20260907474006
+      }
+    },
+    {
+      "gameplay_sha256": "E916581A3C151F33291DE33774C0D2F71D281B96A60852961040DFDA175ED53D",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateB",
+        "parentB",
+        "parentA",
+        "candidateA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          16,
+          18,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 20,
+            "stocks": 1
+          },
+          {
+            "brand": 100,
+            "pos": 19,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 999,
+            "pos": 21,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-coverage",
+        "players": 9,
+        "seed": 20260907474007
+      }
+    },
+    {
+      "gameplay_sha256": "5D10AD86496F22696D05D2B1B043BA35D22B52E2DCF3E6BA9EE110FFF3C78201",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentB",
+        "parentA",
+        "candidateA",
+        "candidateB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          18,
+          17,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 100,
+            "pos": 20,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 999,
+            "pos": 19,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-coverage",
+        "players": 10,
+        "seed": 20260907474008
+      }
+    },
+    {
+      "gameplay_sha256": "CD0C9BD2CF3F704464B922FC97765265D2882D2D6783A26B0E87251E4C722F65",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentA",
+        "candidateA",
+        "candidateB",
+        "parentB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          18,
+          16,
+          17,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 400,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 500,
+            "pos": 18,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-fuel",
+        "players": 9,
+        "seed": 20260907484000
+      }
+    },
+    {
+      "gameplay_sha256": "B68EC2E0E2D6D8E1455BBEB456E66E49516C6811EB445A65A2CE02B271C3AABC",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateA",
+        "candidateB",
+        "parentB",
+        "parentA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          18,
+          16,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 300,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 19,
+            "stocks": 1
+          },
+          {
+            "brand": 500,
+            "pos": 20,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-fuel",
+        "players": 10,
+        "seed": 20260907484001
+      }
+    },
+    {
+      "gameplay_sha256": "E91B974DC086D050FF8722988B5EDF7E5D5D57F5F7687498221FA64E8A0C9276",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateB",
+        "parentB",
+        "parentA",
+        "candidateA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          17,
+          18,
+          17
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 400,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 500,
+            "pos": 21,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-fuel",
+        "players": 8,
+        "seed": 20260907484002
+      }
+    },
+    {
+      "gameplay_sha256": "B3289E883A864BE4A56A9CE298B832B9D4C48A10B61BED9E8F05C1F2A0FD98E5",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentB",
+        "parentA",
+        "candidateA",
+        "candidateB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          17,
+          16,
+          17
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 300,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 500,
+            "pos": 20,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-fuel",
+        "players": 9,
+        "seed": 20260907484003
+      }
+    },
+    {
+      "gameplay_sha256": "80590DEE50FE42384950854A5200DF102791AAA49640D5D0AA53B70E952B2495",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentA",
+        "candidateA",
+        "candidateB",
+        "parentB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          18,
+          18,
+          16,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 400,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 500,
+            "pos": 20,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-fuel",
+        "players": 10,
+        "seed": 20260907484004
+      }
+    },
+    {
+      "gameplay_sha256": "050C00139CDD31ED7A37D0E31075D5CC16DD58B1B7AF3F1411C46EC35A52DA35",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateA",
+        "candidateB",
+        "parentB",
+        "parentA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          18,
+          16,
+          17
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 300,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 21,
+            "stocks": 1
+          },
+          {
+            "brand": 500,
+            "pos": 19,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-fuel",
+        "players": 8,
+        "seed": 20260907484005
+      }
+    },
+    {
+      "gameplay_sha256": "7774138725CF50571360D4F529E4A213FCEF8E418E0443AF441D74F93B33FD49",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateB",
+        "parentB",
+        "parentA",
+        "candidateA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          16,
+          18,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 400,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 500,
+            "pos": 20,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-fuel",
+        "players": 9,
+        "seed": 20260907484006
+      }
+    },
+    {
+      "gameplay_sha256": "1C132D0C979710CC6ED562A628B55A5CB5B3B4B1DC3B700DAEF061A9DF507769",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentB",
+        "parentA",
+        "candidateA",
+        "candidateB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          18,
+          17,
+          17,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 300,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 400,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 500,
+            "pos": 19,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-fuel",
+        "players": 10,
+        "seed": 20260907484007
+      }
+    },
+    {
+      "gameplay_sha256": "5D720FF09EB72E917A5110CB0555BCE0F0FB74E501D757F29B4AE7CB2B252064",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentA",
+        "candidateA",
+        "candidateB",
+        "parentB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          18,
+          17,
+          18,
+          17
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 1
+          },
+          {
+            "brand": 200,
+            "pos": 19,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 17,
+            "stocks": 1
+          },
+          {
+            "brand": 400,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 500,
+            "pos": 21,
+            "stocks": 1
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-fuel",
+        "players": 8,
+        "seed": 20260907484008
+      }
+    },
+    {
+      "gameplay_sha256": "E371B4CE4B2AF81CA43AA623A84166B04FD5CCD525C320EDB52A5F57F8A1C254",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateA",
+        "candidateB",
+        "parentB",
+        "parentA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          17,
+          16,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 900,
+            "pos": 19,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-terminal",
+        "players": 10,
+        "seed": 20260907494000
+      }
+    },
+    {
+      "gameplay_sha256": "00CA2A3485E726A8F592287637BDE6AB293378F093910F83731C258E195A241B",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateB",
+        "parentB",
+        "parentA",
+        "candidateA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          18,
+          18,
+          17
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 900,
+            "pos": 19,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-terminal",
+        "players": 8,
+        "seed": 20260907494001
+      }
+    },
+    {
+      "gameplay_sha256": "2A93F4FF23A290B46227CC1734A5CF2D84DFFAA418C1795DEA723C6BA9F7CC6A",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentB",
+        "parentA",
+        "candidateA",
+        "candidateB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          16,
+          17,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 900,
+            "pos": 19,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-terminal",
+        "players": 9,
+        "seed": 20260907494002
+      }
+    },
+    {
+      "gameplay_sha256": "1A0A7F0F6F81269A5D1DD1A4DFAAF33B92358F26983327BBFD905C23F59A80E8",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentA",
+        "candidateA",
+        "candidateB",
+        "parentB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          18,
+          18,
+          16,
+          17
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 900,
+            "pos": 19,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-terminal",
+        "players": 10,
+        "seed": 20260907494003
+      }
+    },
+    {
+      "gameplay_sha256": "D5BAC59F7562473DF9F11598D46333E03F416DD26E38986CD4EFE14189734B05",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateA",
+        "candidateB",
+        "parentB",
+        "parentA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          17,
+          18,
+          16
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 900,
+            "pos": 19,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-terminal",
+        "players": 8,
+        "seed": 20260907494004
+      }
+    },
+    {
+      "gameplay_sha256": "AADDA2E3530B6CC01822EB3320839A8540E510817FBB22094656D593F9509AD4",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateB",
+        "parentB",
+        "parentA",
+        "candidateA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          17,
+          17,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 900,
+            "pos": 19,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-terminal",
+        "players": 9,
+        "seed": 20260907494005
+      }
+    },
+    {
+      "gameplay_sha256": "8F94E724D2FE2934B5460F693FCE13EC937E42CE855EC01CE2BE7BA10B56C608",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentB",
+        "parentA",
+        "candidateA",
+        "candidateB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          18,
+          17,
+          16,
+          18
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 10,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 900,
+            "pos": 19,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-terminal",
+        "players": 10,
+        "seed": 20260907494006
+      }
+    },
+    {
+      "gameplay_sha256": "860BDDC6C2C9FCC9504365C3E4E5FCD660E88BCB470DAC5DCDC8F9F97BD6E4FA",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "parentA",
+        "candidateA",
+        "candidateB",
+        "parentB"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          16,
+          18,
+          17,
+          17
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 8,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 900,
+            "pos": 19,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-terminal",
+        "players": 8,
+        "seed": 20260907494008
+      }
+    },
+    {
+      "gameplay_sha256": "FDBB84A54203B471EE29559E85A193E81A06829E8FB4A4A094D1C18EECD3E317",
+      "order": [
+        "parent",
+        "candidate"
+      ],
+      "run_order": [
+        "candidateA",
+        "candidateB",
+        "parentB",
+        "parentA"
+      ],
+      "setup": {
+        "agents": [
+          16,
+          22,
+          23
+        ],
+        "busyThreshold": 2,
+        "daySeconds": [
+          5,
+          5,
+          5,
+          5
+        ],
+        "daySteps": [
+          17,
+          16,
+          17,
+          17
+        ],
+        "fuelLimits": 10,
+        "jammedThreshold": 4,
+        "map": {
+          "cells": [
+            [
+              0,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3,
+              3
+            ]
+          ],
+          "height": 8,
+          "width": 8
+        },
+        "players": 9,
+        "spots": [
+          {
+            "brand": 100,
+            "pos": 20,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 21,
+            "stocks": 2
+          },
+          {
+            "brand": 200,
+            "pos": 17,
+            "stocks": 2
+          },
+          {
+            "brand": 300,
+            "pos": 18,
+            "stocks": 2
+          },
+          {
+            "brand": 900,
+            "pos": 19,
+            "stocks": 2
+          }
+        ],
+        "startsAt": 1778227200
+      },
+      "spec": {
+        "family": "three-terminal",
+        "players": 9,
+        "seed": 20260907494009
+      }
+    }
+  ],
+  "experiment": "SCORE-COMPLETE-W1-POOL-PAIR-PRICING-344",
+  "identity_skips": [
+    20260907494007
+  ],
+  "phase": "holdout",
+  "repetitions": 2
+}

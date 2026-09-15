@@ -1,0 +1,42 @@
+side_complete fixture=1 label=parentA elapsed_seconds=21.095
+side_complete fixture=1 label=candidateA elapsed_seconds=21.189
+side_complete fixture=1 label=candidateB elapsed_seconds=21.081
+side_complete fixture=1 label=parentB elapsed_seconds=21.233
+fixture_complete count=1
+side_complete fixture=2 label=candidateA elapsed_seconds=20.955
+side_complete fixture=2 label=candidateB elapsed_seconds=20.884
+side_complete fixture=2 label=parentB elapsed_seconds=20.962
+side_complete fixture=2 label=parentA elapsed_seconds=20.899
+fixture_complete count=2
+side_complete fixture=3 label=candidateB elapsed_seconds=22.251
+side_complete fixture=3 label=parentB elapsed_seconds=22.342
+side_complete fixture=3 label=parentA elapsed_seconds=22.321
+side_complete fixture=3 label=candidateA elapsed_seconds=22.195
+fixture_complete count=3
+side_complete fixture=4 label=parentB elapsed_seconds=22.190
+side_complete fixture=4 label=parentA elapsed_seconds=22.594
+side_complete fixture=4 label=candidateA elapsed_seconds=22.685
+side_complete fixture=4 label=candidateB elapsed_seconds=22.599
+fixture_complete count=4
+side_complete fixture=5 label=parentA elapsed_seconds=21.390
+side_complete fixture=5 label=candidateA elapsed_seconds=21.486
+side_complete fixture=5 label=candidateB elapsed_seconds=21.402
+side_complete fixture=5 label=parentB elapsed_seconds=21.313
+fixture_complete count=5
+side_complete fixture=6 label=candidateA elapsed_seconds=21.311
+side_complete fixture=6 label=candidateB elapsed_seconds=21.197
+side_complete fixture=6 label=parentB elapsed_seconds=21.276
+side_complete fixture=6 label=parentA elapsed_seconds=21.210
+fixture_complete count=6
+side_complete fixture=7 label=candidateB elapsed_seconds=25.186
+side_complete fixture=7 label=parentB elapsed_seconds=25.614
+side_complete fixture=7 label=parentA elapsed_seconds=25.153
+side_complete fixture=7 label=candidateA elapsed_seconds=25.514
+fixture_complete count=7
+side_complete fixture=8 label=parentB elapsed_seconds=25.918
+side_complete fixture=8 label=parentA elapsed_seconds=25.937
+side_complete fixture=8 label=candidateA elapsed_seconds=25.937
+side_complete fixture=8 label=candidateB elapsed_seconds=25.938
+fixture_complete count=8
+run_complete results=32 aa_pairs=16
+{"by_binary": {"parent": {"pairs": 8, "score_differences": 3, "role_differences": 2, "trajectory_differences": 3, "wtl_B_vs_A": {"tie": 5, "win": 3}, "delta": [0, 1, 14], "first_tiers": {"0": 5, "2": 1, "3": 2}}, "candidate": {"pairs": 8, "score_differences": 3, "role_differences": 1, "trajectory_differences": 3, "wtl_B_vs_A": {"tie": 5, "loss": 2, "win": 1}, "delta": [0, -1, -14], "first_tiers": {"0": 5, "3": 2, "2": 1}}}, "summary_sha256": "73C4F8877A3805C949FBD16DBE7C133AEF9BD1138361E8AC09EFDF51406288FB"}

@@ -1,0 +1,41 @@
+{
+  "candidate_sha256": "D3684DC3F4ADB5E6E74F5E75412CCB76E681D21F760B6BC0FA61EDC25A029678",
+  "candidate_source_change": false,
+  "excluded_identity_count": 990,
+  "experiment": "SCORE-CAUSAL-RESOURCE-QUALIFICATION-366",
+  "hashes": {
+    "artifacts/research/332/protected-fixture.exe": "DEDE1C6D19DF7A5A15636B1E9A14A6D1DC627115310DDA05E3831B9050918125",
+    "research/evidence/SCORE-CAUSAL-RESOURCE-QUALIFICATION-366-preregistration.md": "8B99F13EB2A077B3E2019718942C5E3CC93364B47A539BCD74AF6635BE635DAF",
+    "research/probes/gate_resource_366.py": "4ABDD8E700D1256F98EDD4FFED83513AC920C123D76AD452C663F08F536B42F9",
+    "research/probes/launch_resource_366.py": "D5E230DE520FE6D15DAFE444A6180C644B6DA819A203DE1D6FC93730937C75CB",
+    "research/probes/prepare_resource_366.py": "ACE75156CA02C5BB2C2C8091BBCD075BF352803D108F1166FE1E6701D3959BB4",
+    "research/probes/score_resource_366.py": "6FB21016FD4A6C65D70BF402253BDE35781F7663E95C54AF912D99A7F0459215",
+    "research/probes/test_gate_resource_366.py": "153524E30735D11FD1A472D8599008C9A0083DF5BED4BBEEC00D0A690D2C3EEC",
+    "research/probes/verify_late_control_360_copy.py": "CB06D61594B977DE8DF4D451F13C912F191685D103B076230CEF7A2520F0FFC7"
+  },
+  "parent_commit": "c76a8eaa4f200e3eeeb1a58ef1d1fb3d0c13579c",
+  "sealed_opened": false,
+  "splits": {
+    "development": {
+      "actions": 912,
+      "fixtures": 36,
+      "minimum_wire_seconds": 8520,
+      "path": "research/holdouts/SCORE-CAUSAL-RESOURCE-QUALIFICATION-366-development.json",
+      "sha256": "73454CE567102C2A4C2D17500635BD74A658212C6A81192524C44B83CEE8328E"
+    },
+    "holdout": {
+      "actions": 1368,
+      "fixtures": 54,
+      "minimum_wire_seconds": 13680,
+      "path": "research/holdouts/SCORE-CAUSAL-RESOURCE-QUALIFICATION-366-holdout.json",
+      "sha256": "30E006228278FA030FE443EE2AE2CCDDAC21BE5529EA14DAED46B07AD41F7778"
+    },
+    "protected": {
+      "actions": 2736,
+      "fixtures": 108,
+      "minimum_wire_seconds": 27360,
+      "path": "research/holdouts/SCORE-CAUSAL-RESOURCE-QUALIFICATION-366-protected.json",
+      "sha256": "02E4C55AD2C8C506239E0B947BB5E2DA955D329C8BADC2B5979135F93A52DEB7"
+    }
+  }
+}

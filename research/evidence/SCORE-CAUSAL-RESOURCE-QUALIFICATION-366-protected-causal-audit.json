@@ -1,0 +1,1642 @@
+{
+  "actions": 1368,
+  "active_only_summary": {
+    "delta": [
+      0,
+      -2,
+      108
+    ],
+    "first_tiers": {
+      "0": 41,
+      "2": 1,
+      "3": 30
+    },
+    "gross_serving_gain": 141,
+    "gross_serving_loss": 33,
+    "pairs": 72,
+    "worst_serving_loss": 33,
+    "wtl": {
+      "loss": 2,
+      "tie": 41,
+      "win": 29
+    }
+  },
+  "active_strata": {
+    "days": {
+      "10": {
+        "delta": [
+          0,
+          -2,
+          27
+        ],
+        "first_tiers": {
+          "0": 14,
+          "2": 1,
+          "3": 9
+        },
+        "gross_serving_gain": 60,
+        "gross_serving_loss": 33,
+        "pairs": 24,
+        "worst_serving_loss": 33,
+        "wtl": {
+          "loss": 2,
+          "tie": 14,
+          "win": 8
+        }
+      },
+      "4": {
+        "delta": [
+          0,
+          0,
+          37
+        ],
+        "first_tiers": {
+          "0": 13,
+          "3": 11
+        },
+        "gross_serving_gain": 37,
+        "gross_serving_loss": 0,
+        "pairs": 24,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 13,
+          "win": 11
+        }
+      },
+      "5": {
+        "delta": [
+          0,
+          0,
+          44
+        ],
+        "first_tiers": {
+          "0": 14,
+          "3": 10
+        },
+        "gross_serving_gain": 44,
+        "gross_serving_loss": 0,
+        "pairs": 24,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 14,
+          "win": 10
+        }
+      }
+    },
+    "family": {
+      "balanced": {
+        "delta": [
+          0,
+          0,
+          19
+        ],
+        "first_tiers": {
+          "0": 8,
+          "3": 4
+        },
+        "gross_serving_gain": 19,
+        "gross_serving_loss": 0,
+        "pairs": 12,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 8,
+          "win": 4
+        }
+      },
+      "fuel-tight": {
+        "delta": [
+          0,
+          0,
+          12
+        ],
+        "first_tiers": {
+          "0": 8,
+          "3": 4
+        },
+        "gross_serving_gain": 12,
+        "gross_serving_loss": 0,
+        "pairs": 12,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 8,
+          "win": 4
+        }
+      },
+      "high-stock": {
+        "delta": [
+          0,
+          0,
+          -2
+        ],
+        "first_tiers": {
+          "0": 7,
+          "3": 5
+        },
+        "gross_serving_gain": 31,
+        "gross_serving_loss": 33,
+        "pairs": 12,
+        "worst_serving_loss": 33,
+        "wtl": {
+          "loss": 1,
+          "tie": 7,
+          "win": 4
+        }
+      },
+      "overnight": {
+        "delta": [
+          0,
+          -2,
+          21
+        ],
+        "first_tiers": {
+          "0": 6,
+          "2": 1,
+          "3": 5
+        },
+        "gross_serving_gain": 21,
+        "gross_serving_loss": 0,
+        "pairs": 12,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "loss": 1,
+          "tie": 6,
+          "win": 5
+        }
+      },
+      "rare-brand": {
+        "delta": [
+          0,
+          0,
+          34
+        ],
+        "first_tiers": {
+          "0": 6,
+          "3": 6
+        },
+        "gross_serving_gain": 34,
+        "gross_serving_loss": 0,
+        "pairs": 12,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 6,
+          "win": 6
+        }
+      },
+      "threshold-corridor": {
+        "delta": [
+          0,
+          0,
+          24
+        ],
+        "first_tiers": {
+          "0": 6,
+          "3": 6
+        },
+        "gross_serving_gain": 24,
+        "gross_serving_loss": 0,
+        "pairs": 12,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 6,
+          "win": 6
+        }
+      }
+    },
+    "fuel": {
+      "default": {
+        "delta": [
+          0,
+          0,
+          57
+        ],
+        "first_tiers": {
+          "0": 13,
+          "3": 11
+        },
+        "gross_serving_gain": 57,
+        "gross_serving_loss": 0,
+        "pairs": 24,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 13,
+          "win": 11
+        }
+      },
+      "high": {
+        "delta": [
+          0,
+          -2,
+          64
+        ],
+        "first_tiers": {
+          "0": 14,
+          "2": 1,
+          "3": 9
+        },
+        "gross_serving_gain": 64,
+        "gross_serving_loss": 0,
+        "pairs": 24,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "loss": 1,
+          "tie": 14,
+          "win": 9
+        }
+      },
+      "low": {
+        "delta": [
+          0,
+          0,
+          -13
+        ],
+        "first_tiers": {
+          "0": 14,
+          "3": 10
+        },
+        "gross_serving_gain": 20,
+        "gross_serving_loss": 33,
+        "pairs": 24,
+        "worst_serving_loss": 33,
+        "wtl": {
+          "loss": 1,
+          "tie": 14,
+          "win": 9
+        }
+      }
+    },
+    "players": {
+      "10": {
+        "delta": [
+          0,
+          0,
+          2
+        ],
+        "first_tiers": {
+          "0": 14,
+          "3": 10
+        },
+        "gross_serving_gain": 35,
+        "gross_serving_loss": 33,
+        "pairs": 24,
+        "worst_serving_loss": 33,
+        "wtl": {
+          "loss": 1,
+          "tie": 14,
+          "win": 9
+        }
+      },
+      "8": {
+        "delta": [
+          0,
+          -2,
+          71
+        ],
+        "first_tiers": {
+          "0": 12,
+          "2": 1,
+          "3": 11
+        },
+        "gross_serving_gain": 71,
+        "gross_serving_loss": 0,
+        "pairs": 24,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "loss": 1,
+          "tie": 12,
+          "win": 11
+        }
+      },
+      "9": {
+        "delta": [
+          0,
+          0,
+          35
+        ],
+        "first_tiers": {
+          "0": 15,
+          "3": 9
+        },
+        "gross_serving_gain": 35,
+        "gross_serving_loss": 0,
+        "pairs": 24,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 15,
+          "win": 9
+        }
+      }
+    },
+    "roadless": {
+      "False": {
+        "delta": [
+          0,
+          0,
+          28
+        ],
+        "first_tiers": {
+          "0": 22,
+          "3": 14
+        },
+        "gross_serving_gain": 61,
+        "gross_serving_loss": 33,
+        "pairs": 36,
+        "worst_serving_loss": 33,
+        "wtl": {
+          "loss": 1,
+          "tie": 22,
+          "win": 13
+        }
+      },
+      "True": {
+        "delta": [
+          0,
+          -2,
+          80
+        ],
+        "first_tiers": {
+          "0": 19,
+          "2": 1,
+          "3": 16
+        },
+        "gross_serving_gain": 80,
+        "gross_serving_loss": 0,
+        "pairs": 36,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "loss": 1,
+          "tie": 19,
+          "win": 16
+        }
+      }
+    },
+    "role": {
+      "fixed-all-Patrol": {
+        "delta": [
+          0,
+          -2,
+          78
+        ],
+        "first_tiers": {
+          "0": 19,
+          "2": 1,
+          "3": 16
+        },
+        "gross_serving_gain": 78,
+        "gross_serving_loss": 0,
+        "pairs": 36,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "loss": 1,
+          "tie": 19,
+          "win": 16
+        }
+      },
+      "native": {
+        "delta": [
+          0,
+          0,
+          30
+        ],
+        "first_tiers": {
+          "0": 22,
+          "3": 14
+        },
+        "gross_serving_gain": 63,
+        "gross_serving_loss": 33,
+        "pairs": 36,
+        "worst_serving_loss": 33,
+        "wtl": {
+          "loss": 1,
+          "tie": 22,
+          "win": 13
+        }
+      }
+    },
+    "side": {
+      "32": {
+        "delta": [
+          0,
+          -2,
+          108
+        ],
+        "first_tiers": {
+          "0": 5,
+          "2": 1,
+          "3": 30
+        },
+        "gross_serving_gain": 141,
+        "gross_serving_loss": 33,
+        "pairs": 36,
+        "worst_serving_loss": 33,
+        "wtl": {
+          "loss": 2,
+          "tie": 5,
+          "win": 29
+        }
+      },
+      "8": {
+        "delta": [
+          0,
+          0,
+          0
+        ],
+        "first_tiers": {
+          "0": 36
+        },
+        "gross_serving_gain": 0,
+        "gross_serving_loss": 0,
+        "pairs": 36,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 36
+        }
+      }
+    },
+    "window_ms": {
+      "10000": {
+        "delta": [
+          0,
+          -2,
+          29
+        ],
+        "first_tiers": {
+          "0": 22,
+          "2": 1,
+          "3": 13
+        },
+        "gross_serving_gain": 62,
+        "gross_serving_loss": 33,
+        "pairs": 36,
+        "worst_serving_loss": 33,
+        "wtl": {
+          "loss": 2,
+          "tie": 22,
+          "win": 12
+        }
+      },
+      "15000": {
+        "delta": [
+          0,
+          0,
+          79
+        ],
+        "first_tiers": {
+          "0": 19,
+          "3": 17
+        },
+        "gross_serving_gain": 79,
+        "gross_serving_loss": 0,
+        "pairs": 36,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 19,
+          "win": 17
+        }
+      }
+    }
+  },
+  "archive_sha256": "7FBA3D84075973544C156397F141188521291701C78ADFB375543518FB1E8F96",
+  "certificates": 216,
+  "completion_sha256": "B3939DC611F695D86168BD1D6EA274592DF851A4BE9537DA66FB4E98B08A6C85",
+  "files": 1620,
+  "fixtures": 108,
+  "gate": {
+    "all_active_losses": 2,
+    "causal_winner_seeds": [
+      202609093860030,
+      202609093860060,
+      202609093860066,
+      202609093860102,
+      202609093860133,
+      202609093860139,
+      202609093860169,
+      202609093860175,
+      202609093860205,
+      202609093860211,
+      202609093860242,
+      202609093860248,
+      202609093860278,
+      202609093860284,
+      202609093860314,
+      202609093860320,
+      202609093860351,
+      202609093860393,
+      202609093860423,
+      202609093860429,
+      202609093860466,
+      202609093860496,
+      202609093860502,
+      202609093860538,
+      202609093860569,
+      202609093860575,
+      202609093860605,
+      202609093860611,
+      202609093860647
+    ],
+    "checks": {
+      "active_benefit": false,
+      "active_no_upper_tier_loss": false,
+      "active_serving_tail": false,
+      "active_strata": false,
+      "causal_breadth": true,
+      "inactive_fixture_count": true,
+      "inactive_no_frames_or_control": true,
+      "registered_windows": true,
+      "safety": true,
+      "single_pass_causal_sign": true
+    },
+    "inactive_score_authority": "diagnostic only, both wins and losses; compiled/lifecycle proof remains mandatory",
+    "original_p1_diagnostics": {
+      "all_active_losses": 2,
+      "causal_winner_seeds": [
+        202609093860030,
+        202609093860060,
+        202609093860066,
+        202609093860102,
+        202609093860133,
+        202609093860139,
+        202609093860169,
+        202609093860175,
+        202609093860205,
+        202609093860211,
+        202609093860242,
+        202609093860248,
+        202609093860278,
+        202609093860284,
+        202609093860314,
+        202609093860320,
+        202609093860351,
+        202609093860393,
+        202609093860423,
+        202609093860429,
+        202609093860466,
+        202609093860496,
+        202609093860502,
+        202609093860538,
+        202609093860569,
+        202609093860575,
+        202609093860605,
+        202609093860611,
+        202609093860647
+      ],
+      "checks": {
+        "active_benefit": false,
+        "active_strata": false,
+        "all_lane_serving_tail_no_aa_relief": false,
+        "causal_breadth": true,
+        "inactive_fixture_count": true,
+        "inactive_no_detected_negative_shift": true,
+        "inactive_no_frames_or_control": true,
+        "inactive_noninferiority": true,
+        "no_individual_upper_tier_loss": false,
+        "overall_components": false,
+        "safety": true,
+        "single_pass_causal_sign": true
+      },
+      "inactive_analysis": {
+        "fixtures": [
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860000,
+            "tail_limit": 1
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860018,
+            "tail_limit": 1.8
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860036,
+            "tail_limit": 1
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860054,
+            "tail_limit": 5.2
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860072,
+            "tail_limit": 1.88
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860090,
+            "tail_limit": 7.64
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860109,
+            "tail_limit": 1
+          },
+          {
+            "normalized_delta": 0.4132231404958678,
+            "seed": 202609093860127,
+            "tail_limit": 4.84
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860145,
+            "tail_limit": 2.16
+          },
+          {
+            "normalized_delta": 0.10893246187363835,
+            "seed": 202609093860163,
+            "tail_limit": 9.18
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860181,
+            "tail_limit": 1.12
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860199,
+            "tail_limit": 5.5
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860218,
+            "tail_limit": 1.04
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860236,
+            "tail_limit": 2.38
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860254,
+            "tail_limit": 1
+          },
+          {
+            "normalized_delta": -0.20576131687242796,
+            "seed": 202609093860272,
+            "tail_limit": 4.86
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860290,
+            "tail_limit": 1
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860308,
+            "tail_limit": 6.8
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860327,
+            "tail_limit": 1
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860345,
+            "tail_limit": 2.84
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860363,
+            "tail_limit": 1
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860381,
+            "tail_limit": 5.64
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860399,
+            "tail_limit": 2.06
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860417,
+            "tail_limit": 11.8
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860436,
+            "tail_limit": 1
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860454,
+            "tail_limit": 1.84
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860472,
+            "tail_limit": 1.24
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860490,
+            "tail_limit": 7.16
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860508,
+            "tail_limit": 1.4
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860526,
+            "tail_limit": 6.2
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860545,
+            "tail_limit": 1.7
+          },
+          {
+            "normalized_delta": -0.3164556962025316,
+            "seed": 202609093860563,
+            "tail_limit": 6.32
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860581,
+            "tail_limit": 1
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860599,
+            "tail_limit": 4.72
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860617,
+            "tail_limit": 1
+          },
+          {
+            "normalized_delta": 0.0,
+            "seed": 202609093860635,
+            "tail_limit": 6.3
+          }
+        ],
+        "negative_shift_p": 0.6875,
+        "noninferiority_p": 1.4551915228366852e-11
+      },
+      "passed": false,
+      "protocol": "366-P1 user-authorized single-pass protected; not original repeated protected pass",
+      "replicated_intervals": null,
+      "same_fixture_aa": null,
+      "single_pass_causal_sign_p": 2.314336597919464e-07
+    },
+    "passed": false,
+    "protocol": "366-P2 explicit post-holdout user decision amendment; prospective one-pass protected",
+    "replicated_intervals": null,
+    "same_fixture_aa": null,
+    "single_pass_causal_sign_p": 2.314336597919464e-07
+  },
+  "inactive": {
+    "delta": [
+      0,
+      0,
+      0
+    ],
+    "first_tiers": {
+      "0": 32,
+      "3": 4
+    },
+    "gross_serving_gain": 3,
+    "gross_serving_loss": 3,
+    "pairs": 36,
+    "worst_serving_loss": 2,
+    "wtl": {
+      "loss": 2,
+      "tie": 32,
+      "win": 2
+    }
+  },
+  "independent5000_score_mismatches": 4,
+  "independent5000_trajectory_mismatches": 4,
+  "losses": [
+    {
+      "A": [
+        6,
+        24,
+        243
+      ],
+      "B": [
+        6,
+        24,
+        242
+      ],
+      "causal": false,
+      "comparison_B_vs_A": "loss",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        -1
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": 3,
+      "first_takeover": null,
+      "first_tier": 3,
+      "first_tier_difference": -1,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "1D63A69BF8A265CAC391E456F6337FE1ABB03CD9F4924E79F0B4E497C4F03592",
+        "B": "AF19482A1728663026DD24B6CD95E17C9BFFEBB1D3D1D7558AA3B64AB3A4F6C0"
+      },
+      "plans_equal": false,
+      "players": 10,
+      "repeat": "A",
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093860272,
+      "selected_order": [
+        "candidateA",
+        "parentA"
+      ],
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": true,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        60,
+        538
+      ],
+      "B": [
+        6,
+        60,
+        505
+      ],
+      "causal": false,
+      "comparison_B_vs_A": "loss",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        -33
+      ],
+      "family": "high-stock",
+      "first_divergence": 0,
+      "first_takeover": 3,
+      "first_tier": 3,
+      "first_tier_difference": -33,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "5A5A150F5B55886B1603CD0922BB0DE7D98D65578948BC1CCDC2B8EBA14A3048",
+        "B": "D40F0A486A393BCEA59A3E5E39BBE70533E36AF65842733D78C1091BD699676E"
+      },
+      "plans_equal": false,
+      "players": 10,
+      "repeat": "A",
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          1
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0
+        ]
+      },
+      "roles_equal": false,
+      "safety": true,
+      "seed": 202609093860460,
+      "selected_order": [
+        "parentA",
+        "candidateA"
+      ],
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": false
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        59,
+        316
+      ],
+      "B": [
+        6,
+        59,
+        314
+      ],
+      "causal": false,
+      "comparison_B_vs_A": "loss",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        -2
+      ],
+      "family": "overnight",
+      "first_divergence": 1,
+      "first_takeover": null,
+      "first_tier": 3,
+      "first_tier_difference": -2,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "A289BBC2D730DB0B654A8AFEEBE2CC5B78A6A4FC0201B5302134F60AE469C273",
+        "B": "BBE8FBBEDF39242E462BE0A0DF4D37FD9E13A0ABA89677EC2A3E10AB1959852E"
+      },
+      "plans_equal": false,
+      "players": 10,
+      "repeat": "A",
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093860563,
+      "selected_order": [
+        "candidateA",
+        "parentA"
+      ],
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        58,
+        363
+      ],
+      "B": [
+        6,
+        56,
+        365
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "loss",
+      "days": 10,
+      "delta": [
+        0,
+        -2,
+        2
+      ],
+      "family": "overnight",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 2,
+      "first_tier_difference": -2,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "EDBF42783E055BF2AB7780BEF1AB63E26D7AA1E5F98DFE5CE4C31E06BBB0E252",
+        "B": "4C3313AD9D24B5DDEE2B81465D4D57110D11AFF83AAB8FADAC7F4AD9DE02C32F"
+      },
+      "plans_equal": false,
+      "players": 8,
+      "repeat": "A",
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093860641,
+      "selected_order": [
+        "parentA",
+        "candidateA"
+      ],
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    }
+  ],
+  "results": 216,
+  "solver_executed": false,
+  "strata": {
+    "days": {
+      "10": {
+        "delta": [
+          0,
+          -2,
+          26
+        ],
+        "first_tiers": {
+          "0": 24,
+          "2": 1,
+          "3": 11
+        },
+        "gross_serving_gain": 61,
+        "gross_serving_loss": 35,
+        "pairs": 36,
+        "worst_serving_loss": 33,
+        "wtl": {
+          "loss": 3,
+          "tie": 24,
+          "win": 9
+        }
+      },
+      "4": {
+        "delta": [
+          0,
+          0,
+          36
+        ],
+        "first_tiers": {
+          "0": 24,
+          "3": 12
+        },
+        "gross_serving_gain": 37,
+        "gross_serving_loss": 1,
+        "pairs": 36,
+        "worst_serving_loss": 1,
+        "wtl": {
+          "loss": 1,
+          "tie": 24,
+          "win": 11
+        }
+      },
+      "5": {
+        "delta": [
+          0,
+          0,
+          46
+        ],
+        "first_tiers": {
+          "0": 25,
+          "3": 11
+        },
+        "gross_serving_gain": 46,
+        "gross_serving_loss": 0,
+        "pairs": 36,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 25,
+          "win": 11
+        }
+      }
+    },
+    "family": {
+      "balanced": {
+        "delta": [
+          0,
+          0,
+          19
+        ],
+        "first_tiers": {
+          "0": 14,
+          "3": 4
+        },
+        "gross_serving_gain": 19,
+        "gross_serving_loss": 0,
+        "pairs": 18,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 14,
+          "win": 4
+        }
+      },
+      "fuel-tight": {
+        "delta": [
+          0,
+          0,
+          12
+        ],
+        "first_tiers": {
+          "0": 14,
+          "3": 4
+        },
+        "gross_serving_gain": 12,
+        "gross_serving_loss": 0,
+        "pairs": 18,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 14,
+          "win": 4
+        }
+      },
+      "high-stock": {
+        "delta": [
+          0,
+          0,
+          -2
+        ],
+        "first_tiers": {
+          "0": 13,
+          "3": 5
+        },
+        "gross_serving_gain": 31,
+        "gross_serving_loss": 33,
+        "pairs": 18,
+        "worst_serving_loss": 33,
+        "wtl": {
+          "loss": 1,
+          "tie": 13,
+          "win": 4
+        }
+      },
+      "overnight": {
+        "delta": [
+          0,
+          -2,
+          19
+        ],
+        "first_tiers": {
+          "0": 11,
+          "2": 1,
+          "3": 6
+        },
+        "gross_serving_gain": 21,
+        "gross_serving_loss": 2,
+        "pairs": 18,
+        "worst_serving_loss": 2,
+        "wtl": {
+          "loss": 2,
+          "tie": 11,
+          "win": 5
+        }
+      },
+      "rare-brand": {
+        "delta": [
+          0,
+          0,
+          37
+        ],
+        "first_tiers": {
+          "0": 10,
+          "3": 8
+        },
+        "gross_serving_gain": 37,
+        "gross_serving_loss": 0,
+        "pairs": 18,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 10,
+          "win": 8
+        }
+      },
+      "threshold-corridor": {
+        "delta": [
+          0,
+          0,
+          23
+        ],
+        "first_tiers": {
+          "0": 11,
+          "3": 7
+        },
+        "gross_serving_gain": 24,
+        "gross_serving_loss": 1,
+        "pairs": 18,
+        "worst_serving_loss": 1,
+        "wtl": {
+          "loss": 1,
+          "tie": 11,
+          "win": 6
+        }
+      }
+    },
+    "fuel": {
+      "default": {
+        "delta": [
+          0,
+          0,
+          57
+        ],
+        "first_tiers": {
+          "0": 23,
+          "3": 13
+        },
+        "gross_serving_gain": 58,
+        "gross_serving_loss": 1,
+        "pairs": 36,
+        "worst_serving_loss": 1,
+        "wtl": {
+          "loss": 1,
+          "tie": 23,
+          "win": 12
+        }
+      },
+      "high": {
+        "delta": [
+          0,
+          -2,
+          64
+        ],
+        "first_tiers": {
+          "0": 26,
+          "2": 1,
+          "3": 9
+        },
+        "gross_serving_gain": 64,
+        "gross_serving_loss": 0,
+        "pairs": 36,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "loss": 1,
+          "tie": 26,
+          "win": 9
+        }
+      },
+      "low": {
+        "delta": [
+          0,
+          0,
+          -13
+        ],
+        "first_tiers": {
+          "0": 24,
+          "3": 12
+        },
+        "gross_serving_gain": 22,
+        "gross_serving_loss": 35,
+        "pairs": 36,
+        "worst_serving_loss": 33,
+        "wtl": {
+          "loss": 2,
+          "tie": 24,
+          "win": 10
+        }
+      }
+    },
+    "players": {
+      "10": {
+        "delta": [
+          0,
+          0,
+          -1
+        ],
+        "first_tiers": {
+          "0": 24,
+          "3": 12
+        },
+        "gross_serving_gain": 35,
+        "gross_serving_loss": 36,
+        "pairs": 36,
+        "worst_serving_loss": 33,
+        "wtl": {
+          "loss": 3,
+          "tie": 24,
+          "win": 9
+        }
+      },
+      "8": {
+        "delta": [
+          0,
+          -2,
+          71
+        ],
+        "first_tiers": {
+          "0": 24,
+          "2": 1,
+          "3": 11
+        },
+        "gross_serving_gain": 71,
+        "gross_serving_loss": 0,
+        "pairs": 36,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "loss": 1,
+          "tie": 24,
+          "win": 11
+        }
+      },
+      "9": {
+        "delta": [
+          0,
+          0,
+          38
+        ],
+        "first_tiers": {
+          "0": 25,
+          "3": 11
+        },
+        "gross_serving_gain": 38,
+        "gross_serving_loss": 0,
+        "pairs": 36,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 25,
+          "win": 11
+        }
+      }
+    },
+    "roadless": {
+      "False": {
+        "delta": [
+          0,
+          0,
+          29
+        ],
+        "first_tiers": {
+          "0": 39,
+          "3": 15
+        },
+        "gross_serving_gain": 62,
+        "gross_serving_loss": 33,
+        "pairs": 54,
+        "worst_serving_loss": 33,
+        "wtl": {
+          "loss": 1,
+          "tie": 39,
+          "win": 14
+        }
+      },
+      "True": {
+        "delta": [
+          0,
+          -2,
+          79
+        ],
+        "first_tiers": {
+          "0": 34,
+          "2": 1,
+          "3": 19
+        },
+        "gross_serving_gain": 82,
+        "gross_serving_loss": 3,
+        "pairs": 54,
+        "worst_serving_loss": 2,
+        "wtl": {
+          "loss": 3,
+          "tie": 34,
+          "win": 17
+        }
+      }
+    },
+    "role": {
+      "fixed-all-Patrol": {
+        "delta": [
+          0,
+          -2,
+          77
+        ],
+        "first_tiers": {
+          "0": 36,
+          "2": 1,
+          "3": 17
+        },
+        "gross_serving_gain": 78,
+        "gross_serving_loss": 1,
+        "pairs": 54,
+        "worst_serving_loss": 1,
+        "wtl": {
+          "loss": 2,
+          "tie": 36,
+          "win": 16
+        }
+      },
+      "native": {
+        "delta": [
+          0,
+          0,
+          31
+        ],
+        "first_tiers": {
+          "0": 37,
+          "3": 17
+        },
+        "gross_serving_gain": 66,
+        "gross_serving_loss": 35,
+        "pairs": 54,
+        "worst_serving_loss": 33,
+        "wtl": {
+          "loss": 2,
+          "tie": 37,
+          "win": 15
+        }
+      }
+    },
+    "side": {
+      "32": {
+        "delta": [
+          0,
+          -2,
+          108
+        ],
+        "first_tiers": {
+          "0": 19,
+          "2": 1,
+          "3": 34
+        },
+        "gross_serving_gain": 144,
+        "gross_serving_loss": 36,
+        "pairs": 54,
+        "worst_serving_loss": 33,
+        "wtl": {
+          "loss": 4,
+          "tie": 19,
+          "win": 31
+        }
+      },
+      "8": {
+        "delta": [
+          0,
+          0,
+          0
+        ],
+        "first_tiers": {
+          "0": 54
+        },
+        "gross_serving_gain": 0,
+        "gross_serving_loss": 0,
+        "pairs": 54,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 54
+        }
+      }
+    },
+    "window_ms": {
+      "10000": {
+        "delta": [
+          0,
+          -2,
+          29
+        ],
+        "first_tiers": {
+          "0": 22,
+          "2": 1,
+          "3": 13
+        },
+        "gross_serving_gain": 62,
+        "gross_serving_loss": 33,
+        "pairs": 36,
+        "worst_serving_loss": 33,
+        "wtl": {
+          "loss": 2,
+          "tie": 22,
+          "win": 12
+        }
+      },
+      "15000": {
+        "delta": [
+          0,
+          0,
+          79
+        ],
+        "first_tiers": {
+          "0": 19,
+          "3": 17
+        },
+        "gross_serving_gain": 79,
+        "gross_serving_loss": 0,
+        "pairs": 36,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 19,
+          "win": 17
+        }
+      },
+      "5000": {
+        "delta": [
+          0,
+          0,
+          0
+        ],
+        "first_tiers": {
+          "0": 32,
+          "3": 4
+        },
+        "gross_serving_gain": 3,
+        "gross_serving_loss": 3,
+        "pairs": 36,
+        "worst_serving_loss": 2,
+        "wtl": {
+          "loss": 2,
+          "tie": 32,
+          "win": 2
+        }
+      }
+    }
+  },
+  "summary": {
+    "delta": [
+      0,
+      -2,
+      108
+    ],
+    "first_tiers": {
+      "0": 73,
+      "2": 1,
+      "3": 34
+    },
+    "gross_serving_gain": 144,
+    "gross_serving_loss": 36,
+    "pairs": 108,
+    "worst_serving_loss": 33,
+    "wtl": {
+      "loss": 4,
+      "tie": 73,
+      "win": 31
+    }
+  },
+  "summary_sha256": "B401C7698036FFFF557B0520055D016AB328D3C7C5F83B57BE4CBD8233D97CB4",
+  "transitions": 1152,
+  "verified": true,
+  "work": {
+    "certified": 2566,
+    "deadline": 0,
+    "entered": 384,
+    "evaluated": 23332,
+    "failure": 0,
+    "queries": 2128,
+    "routes": 23332,
+    "settled": 839974565,
+    "takeover": 84,
+    "valid": 23332
+  },
+  "zero_safety_failure": true
+}

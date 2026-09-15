@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "C:\Users\LMC\Desktop\4Fun\research\probes\claim_cap_score_347.py", line 48, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "C:\Users\LMC\Desktop\4Fun\research\probes\claim_cap_score_347.py", line 45, in main
+    if a.mode=='run':core.run(a.phase,a.resume)
+                     ~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LMC\Desktop\4Fun\research\probes\complete_pool_score_344.py", line 118, in run
+    if phase=='protected':protected_run(c,m[side+'_binary'],p.parent,bridge,ID,side)
+                          ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LMC\Desktop\4Fun\research\probes\protected_http_transport_341.py", line 166, in run_case
+    state=ProtectedCase(case,bridge)
+  File "C:\Users\LMC\Desktop\4Fun\research\probes\protected_http_transport_341.py", line 38, in __init__
+    require(bridge.request({'op':'config','setup':self.setup}).get('ok'), 'invalid protected setup')
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LMC\Desktop\4Fun\research\probes\summarize_http_baseline_314.py", line 12, in require
+    raise ValueError(message)
+ValueError: invalid protected setup

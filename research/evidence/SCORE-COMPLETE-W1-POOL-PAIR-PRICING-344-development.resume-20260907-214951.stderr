@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "C:\Users\LMC\Desktop\4Fun\research\probes\complete_pool_score_344.py", line 239, in <module>
+    run(a.phase,a.resume) if a.mode=='run' else summarize(a.phase)
+    ~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LMC\Desktop\4Fun\research\probes\complete_pool_score_344.py", line 132, in run
+    summarize(phase)
+    ~~~~~~~~~^^^^^^^
+  File "C:\Users\LMC\Desktop\4Fun\research\probes\complete_pool_score_344.py", line 198, in summarize
+    comparison=compare_runs(ta,tb);a,b=tb['score'],ta['score'];outcome,tier,difference=compare(a,b)
+  File "C:\Users\LMC\Desktop\4Fun\research\probes\inactive_runtime_aa_342.py", line 136, in compare_runs
+    equal = {k: [x['validated'][k] for x in a['actions']] == [x['validated'][k] for x in b['actions']]
+                 ~~~~~~~~~~~~~~^^^
+KeyError: 'road_footprint'
