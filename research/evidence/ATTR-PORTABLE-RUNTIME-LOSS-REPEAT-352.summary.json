@@ -1,0 +1,740 @@
+{
+  "350_verdict_unchanged": "rejected",
+  "actions": 96,
+  "authority": "Diagnostic development only; full policy process RPC, no real HTTP or promotion.",
+  "complete": true,
+  "completion_sha256": "80B0712091E8A482005DADDCA5B22BBD6DE3EB812DB06ED3DD09B3B9F6B5DB2D",
+  "execution_sha256": "C0FEEAF04B5082C7BC4A95ACD6B88F53B97EBC555A4620ED2AAB28DB2924EB4F",
+  "experiment": "ATTR-PORTABLE-RUNTIME-LOSS-REPEAT-352",
+  "first_tiers": {
+    "0": 3,
+    "2": 1,
+    "3": 2
+  },
+  "paired_rows": [
+    {
+      "A": [
+        6,
+        24,
+        288
+      ],
+      "B": [
+        6,
+        24,
+        287
+      ],
+      "comparison_B_vs_A": "loss",
+      "delta": [
+        0,
+        0,
+        -1
+      ],
+      "family": "high-stock",
+      "first_divergence": 1,
+      "first_pricing_gain_day": null,
+      "first_tier": 3,
+      "first_tier_difference": -1,
+      "plan_hashes": {
+        "A": "E328A5547C6BA2F8DDC959846DFE680C8C4695C3E22CAF4E89F0F565FFFD41E9",
+        "B": "9F8DFEB033DABF8CD3FAD9EF953CC5D64E3626C9AF5174561EF9A5ED4EB162A7"
+      },
+      "plans_equal": false,
+      "pricing_before_divergence": false,
+      "repeat": "A",
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 2026090835090164,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        24,
+        288
+      ],
+      "B": [
+        6,
+        24,
+        284
+      ],
+      "comparison_B_vs_A": "loss",
+      "delta": [
+        0,
+        0,
+        -4
+      ],
+      "family": "high-stock",
+      "first_divergence": 1,
+      "first_pricing_gain_day": null,
+      "first_tier": 3,
+      "first_tier_difference": -4,
+      "plan_hashes": {
+        "A": "E328A5547C6BA2F8DDC959846DFE680C8C4695C3E22CAF4E89F0F565FFFD41E9",
+        "B": "C4CBCA57B26411B05CBC855DF6AC75E20F3F95733DC69819941F94BA113C5B5B"
+      },
+      "plans_equal": false,
+      "pricing_before_divergence": false,
+      "repeat": "B",
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 2026090835090164,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        60,
+        420
+      ],
+      "B": [
+        6,
+        60,
+        420
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "overnight",
+      "first_divergence": null,
+      "first_pricing_gain_day": 7,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "plan_hashes": {
+        "A": "D37DB327874520CA88CCFADD7B99FCBB396DFE655AC7B5A7E6B45A34797CB1DC",
+        "B": "D37DB327874520CA88CCFADD7B99FCBB396DFE655AC7B5A7E6B45A34797CB1DC"
+      },
+      "plans_equal": true,
+      "pricing_before_divergence": false,
+      "repeat": "A",
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 2026090835090213,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        58,
+        439
+      ],
+      "B": [
+        6,
+        60,
+        420
+      ],
+      "comparison_B_vs_A": "win",
+      "delta": [
+        0,
+        2,
+        -19
+      ],
+      "family": "overnight",
+      "first_divergence": 1,
+      "first_pricing_gain_day": 7,
+      "first_tier": 2,
+      "first_tier_difference": 2,
+      "plan_hashes": {
+        "A": "D371DE907E867107FF54819E56EA02B0E03144F77EB0E9293A0A64801B873FF9",
+        "B": "D37DB327874520CA88CCFADD7B99FCBB396DFE655AC7B5A7E6B45A34797CB1DC"
+      },
+      "plans_equal": false,
+      "pricing_before_divergence": false,
+      "repeat": "B",
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 2026090835090213,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        60,
+        188
+      ],
+      "B": [
+        6,
+        60,
+        188
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "fuel-tight",
+      "first_divergence": null,
+      "first_pricing_gain_day": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "plan_hashes": {
+        "A": "B01CE64DC7D4ACACD082673A41BAF8FCF77D1CB36ED4BD25D333B5B039A5603A",
+        "B": "B01CE64DC7D4ACACD082673A41BAF8FCF77D1CB36ED4BD25D333B5B039A5603A"
+      },
+      "plans_equal": true,
+      "pricing_before_divergence": false,
+      "repeat": "A",
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 2026090835090127,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        60,
+        188
+      ],
+      "B": [
+        6,
+        60,
+        188
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "fuel-tight",
+      "first_divergence": null,
+      "first_pricing_gain_day": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "plan_hashes": {
+        "A": "B01CE64DC7D4ACACD082673A41BAF8FCF77D1CB36ED4BD25D333B5B039A5603A",
+        "B": "B01CE64DC7D4ACACD082673A41BAF8FCF77D1CB36ED4BD25D333B5B039A5603A"
+      },
+      "plans_equal": true,
+      "pricing_before_divergence": false,
+      "repeat": "B",
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 2026090835090127,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    }
+  ],
+  "repeatability": [
+    {
+      "A": [
+        6,
+        24,
+        288
+      ],
+      "B": [
+        6,
+        24,
+        288
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "plan_hashes": {
+        "A": "E328A5547C6BA2F8DDC959846DFE680C8C4695C3E22CAF4E89F0F565FFFD41E9",
+        "B": "E328A5547C6BA2F8DDC959846DFE680C8C4695C3E22CAF4E89F0F565FFFD41E9"
+      },
+      "plans_equal": true,
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 2026090835090164,
+      "side": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        24,
+        287
+      ],
+      "B": [
+        6,
+        24,
+        284
+      ],
+      "comparison_B_vs_A": "loss",
+      "delta": [
+        0,
+        0,
+        -3
+      ],
+      "first_divergence": 1,
+      "first_tier": 3,
+      "first_tier_difference": -3,
+      "plan_hashes": {
+        "A": "9F8DFEB033DABF8CD3FAD9EF953CC5D64E3626C9AF5174561EF9A5ED4EB162A7",
+        "B": "C4CBCA57B26411B05CBC855DF6AC75E20F3F95733DC69819941F94BA113C5B5B"
+      },
+      "plans_equal": false,
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 2026090835090164,
+      "side": "candidate",
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        420
+      ],
+      "B": [
+        6,
+        58,
+        439
+      ],
+      "comparison_B_vs_A": "loss",
+      "delta": [
+        0,
+        -2,
+        19
+      ],
+      "first_divergence": 1,
+      "first_tier": 2,
+      "first_tier_difference": -2,
+      "plan_hashes": {
+        "A": "D37DB327874520CA88CCFADD7B99FCBB396DFE655AC7B5A7E6B45A34797CB1DC",
+        "B": "D371DE907E867107FF54819E56EA02B0E03144F77EB0E9293A0A64801B873FF9"
+      },
+      "plans_equal": false,
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 2026090835090213,
+      "side": "parent",
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        420
+      ],
+      "B": [
+        6,
+        60,
+        420
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "plan_hashes": {
+        "A": "D37DB327874520CA88CCFADD7B99FCBB396DFE655AC7B5A7E6B45A34797CB1DC",
+        "B": "D37DB327874520CA88CCFADD7B99FCBB396DFE655AC7B5A7E6B45A34797CB1DC"
+      },
+      "plans_equal": true,
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 2026090835090213,
+      "side": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        188
+      ],
+      "B": [
+        6,
+        60,
+        188
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "plan_hashes": {
+        "A": "B01CE64DC7D4ACACD082673A41BAF8FCF77D1CB36ED4BD25D333B5B039A5603A",
+        "B": "B01CE64DC7D4ACACD082673A41BAF8FCF77D1CB36ED4BD25D333B5B039A5603A"
+      },
+      "plans_equal": true,
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 2026090835090127,
+      "side": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        188
+      ],
+      "B": [
+        6,
+        60,
+        188
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "plan_hashes": {
+        "A": "B01CE64DC7D4ACACD082673A41BAF8FCF77D1CB36ED4BD25D333B5B039A5603A",
+        "B": "B01CE64DC7D4ACACD082673A41BAF8FCF77D1CB36ED4BD25D333B5B039A5603A"
+      },
+      "plans_equal": true,
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 2026090835090127,
+      "side": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    }
+  ],
+  "results": 12,
+  "transitions": 84,
+  "wtl": {
+    "loss": 2,
+    "tie": 3,
+    "win": 1
+  },
+  "zero_safety_failure": true
+}

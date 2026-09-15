@@ -1,6 +1,2895 @@
 # UDON-SHIELD Research State
 
-Updated: 2026-09-05
+Updated: 2026-09-10
+
+## Current — 371 temporary late-role lifecycle hotfix is isolated
+
+Read `research/evidence/HOTFIX-BTC-ROLE-FASTPATH-371-preregistration.md`
+(SHA256 8EEEFC6D7F8E62FADD1DC0A42FFED0A334DC56FF2E77860C63FB7DDABE0A53AD)
+before the source change. Parent remains canonical `c76a8ea`/accepted258.
+The scoped candidate preserves the full role rollout whenever there is safe
+pre-start slack and adds only a late-setup deterministic role path to avoid the
+observed `E_STALE_DAY` race. It does not assume BTC fallback semantics, remove
+the assignment rejection, or change the daily solver/checkpoint. Candidate is
+not production-ready: run isolated tests and one authorized BTC canary first;
+any score promotion still requires a new paired development/holdout gate.
+
+## Current — user requests remaining integration/BTC checks; 370 registered
+
+Read research/evidence/INTEGRATION-RESOURCE-MARGINAL-370-preregistration.md.
+Latest user asks why not finish validation for parent readiness. Proceed with
+isolated exact frozen362/366 integration and genuine BTC gates; do not keep
+repeating exoneration or score matrices.370 does not relabel366-P2 or erase its
+active losses. Installed258 remains intact during candidate qualification.
+One canonical staged production path, unchanged main5000/reserve/full existing
+logic, exact frozen resource method and late public-window guard. No functionality
+reduction/deletion, new optimizer, holdout, VM job, microcommit or two-patrol work.
+First prove integration equivalence and run existing tests/frozen contracts, then
+the two preregistered short genuine BTC lifecycle checks. Report concrete errors
+or completion; no recurring waiting monitor. Final parent choice remains separate
+from old score-gate labels and must state residual risk honestly.
+
+## Current — 369 complete; parent decision after additional investigation
+
+The user's request to finish investigating362/366 before the qualifier has now
+been followed through the four preregistered ABBA sessions and source audit.
+Read research/evidence/ATTR-ACTIVE-MAIN-REPEATABILITY-369-closure.md in full.
+Technical decision under the unchanged366-P2 active gate: NO-GO promoting362/366;
+recommend existing qualified258 for the qualifier. This is based on evidence,
+not an assumption that the qualifier has started or the user paused research.
+No new global-optimality, practical-ceiling or all-ideas-exhausted claim.
+
+369 results parentA/candidateA/candidateB/parentB respectively:
+6/56/357,6/56/365,6/56/365,6/58/363. AB-A gains8servings; AB-B loses2daily
+and gains2servings. Parent AA reproduces the lower-daily trajectory without
+resource treatment. ParentA and candidateA have identical virtual-main state,
+ledger,manifest,deadline and main plan over all10days; resource adds8servings.
+Candidate AA is exact over those fields and score. Treatment is not necessary
+for the lower-daily trajectory; this does NOT establish unchanged trajectory
+probabilities or exclude indirect timing effects. Keep both AB results and all
+original366-P2 losses. No optional repeat or fresh promotion evidence.
+
+All4atomic results/certificates,28side files,40validACK,36reconciled transitions
+verified with original frozen lifecycle/certificate checks;12takeovers,
+zero safety/deadline failure. Six analyzer tests pass. All initial day5 column
+queries268/268 hit cache in all six new/original sessions; no initial cache-miss
+cause or partial-cache poisoning found. F0/W1 deadline admission still differs.
+Later ACK reduces idle-work opportunities, but no exact historical scheduler
+cause or general correctness hotfix was established. Full details in369closure.
+Summary2DEA3ADE237AFAEFD1458A31AC090257FD0A138B5578E33001165D97D8ECAFAA;
+verification5B8FD7D2249229CC8A755D5D8CEDE2CABE75B6F848F681E6643BEA61B8FD90D2;
+explanation4AE73FE30BDFBC1155D4D7C90F2ABF9791CA4A6E4440FEEF030F1D6E4147042F.
+
+Active protected remains29/41/2,delta0/-2/+108; inactive5s diagnostic only and
+never a renewed veto. Frozen active upper-tier/tail/aggregate/stratum gates
+remain failed; no post-observation waiver or deletion of observed downside.
+General bounded-downside governance remains valid, but cannot retrospectively
+replace this experiment's acceptance contract. Any alternative active risk
+contract needs an explicit decision and prospective qualification, not a lucky
+repeat or relabeling consumed evidence. Integration and genuine BTC target-host
+qualification are still absent for362/366. No two-patrol work before parent.
+
+Canonical HEAD c76a8eaa4f200e3eeeb1a58ef1d1fb3d0c13579c, accepted258 behavior;
+build-release/udonshield_btc.exe SHA256
+F97F168FE76FEF1B6226D2C2CFDAF954F116D39F427B6F157594151C461E1275.
+No source/include change, rebuild, new BTC match, commit or push in369.
+No designed functionality removed, disabled, deferred or reduced; nothing
+deleted. Candidate, VM and exact evidence retained. Planned diagnostic complete;
+no additional run or monitoring automation launched. Historical running/pause
+sections below do not describe current execution or imply new user authority.
+
+## Historical launch — user reopens final parent investigation; bounded369
+
+Latest user says the qualifier has not started and asks to finish investigating
+362/366 before deciding, without rushing. This SUPERSEDES the finality and pause
+of the qualifier selection below and QUALIFIER-20260910-BUILD-DECISION.md.
+258 remains installed, not a newly finalized selection.362/366 remain frozen
+research candidates; original gates and all results stay unchanged.
+
+Register ATTR-ACTIVE-MAIN-REPEATABILITY-369. Read its preregistration. Exactly four
+full synthetic process-RPC sessions ABBA on consumed protected loss641, unchanged
+360 binary, setup and10s daily windows on existing authorized VM. This is a
+targeted attribution/repeatability control, NOT fresh development/holdout or a
+promotion retry. No optional repeats or dropping losses; no sealed inputs.
+Question: does daily/main divergence recur within the same control label, and
+does candidate execution show persistent downside in this fixed small sample?
+Source audit also checks post-ACK/router ownership and deadline cache semantics.
+No claim this identifies historical OS events or proves a null treatment effect.
+No source/build/budget/reserve/RAM-floor change; no designed function reduction
+or deletion, no two-patrol work, no BTC match or commit before parent decision.
+Runner and input provenance freeze before execution; expected4results/certificates,
+40ACK36transitions, about7--8minutes. No new recurring monitor for this short run.
+Launched on authorizedVM as PID417038, /home/LMC/udon369-0910. Execution369 hash
+3D07CEE221B01C6C198C73D704F523055F9B3EDA078F736AEF3EAD012E78F4B6;
+runnerBF4D68B90CFF77709874E07F61899BCE78C7C5C72A525DF39E1F92418BC7FC31;
+preregistration3046360924DC72B7B359DE6981EBDB68A541A9E5EAF9E21E623781E739971D82.
+Local immutable execution copy artifacts/research/369-execution.json.
+
+## Superseded qualifier decision2026-09-10 — prior selection and pause
+
+Latest direct user instruction: decide parent now for this afternoon's qualifier;
+research resumes after the user returns with qualifier replay. Read
+research/evidence/QUALIFIER-20260910-BUILD-DECISION.md. Final decision NO-GO362/366
+as new parent for this qualifier; GO existing qualified258 at canonical
+c76a8eaa4f200e3eeeb1a58ef1d1fb3d0c13579c. This is a bounded release selection,
+not global-optimality/championship claim or a conclusion that362 is worthless.
+All active protected loss/downside remains; inactive5s is diagnostic only.
+No post-observation active gate waiver, source change, rebuild, new match,
+holdout rerun, two-agent research, commit/push or functionality reduction/deletion.
+Current exact BTC build-release/udonshield_btc.exe hash verified before/after:
+F97F168FE76FEF1B6226D2C2CFDAF954F116D39F427B6F157594151C461E1275.
+Current binary3/3 CTest pass; existing m-13627 replay rechecked8/8valid7/7reconciled
+score8/64/279,exit0; replayDB267C6E51684483D65F2B4C8438CB5CC7395E9285DDFDA3E2C1C5D8A1F189E1.
+No claim of fresh BTC test today. Keep --response-ms5000 and use new qualifier
+match ID; already-promoted public continuation follows authoritative daily window.
+Candidate/evidence/VM retained. Do not modify user's AGENTS/RUNBOOK. No monitor
+or timed research job; do not create a waiting automation. Await user-supplied
+qualifier replay/setup before choosing the next registered evidence-backed axis.
+
+## Current status — protected366-P2 complete; forensic368 closed;258 unchanged
+
+Read366-protected-causal-closure.md. One108fixture pass completed216results and
+certificates,1368ACK1152transitions;VM/local exact rederivation verifies1620files.
+Active10/15s29/41/2,delta0/-2/+108;inactive5s2/32/2,delta0/0/0 diagnostic only.
+Safety/deadline0. Failed active_benefit/active_strata/active_no_upper_tier_loss/
+active_serving_tail; no inactive-score veto. Loss460 has role divergence before
+treatment (-33servings);loss641 has first resource gain day1 but final daily-2.
+Day-level causal flag alone is not root-cause proof. SummaryB401C7698036FFFF557B0520055D016AB328D3C7C5F83B57BE4CBD8233D97CB4;
+auditBA777D77478BAE8D12664A56D418682DB701CD9BC146B689BE9FCB1D21D3DD89.
+No parent integration/commit;258 unchanged, no source/include edit or reduction.
+Monitor monitor-udon-366-protected-causal deleted after completion, no live job.
+368 COMPLETE; read ATTR-ACTIVE-PROTECTED-DIVERGENCE-368-closure.md. Loss460 starts
+at pretreatment role selection. Loss641: same main state/ledger/manifest/deadline
+through day5; prior four resource changes certified +2/+1/+1/+1 servings.
+Day5 post-F0 pools16each/10common; same plan46BF has current-only6/30/240 inparent
+vs6/42/301 incandidate, then W1 wins6/56/337 vs6/56/336. Main trajectory changes;
+day9 candidate WAIT-only covers brands1/2/3/4, missing0/5: exact daily-2.
+Cached-contingency full objects and strong-proof non-work semantics equal after
+days1--4; no response-time budget feedback found.20singleton decisions no strict
+eligible certified-rank inversion;20multiscenario abstained.8checker tests PASS.
+Inventory9040D953220C58BD597B8EA89CF89D447219753C7764BEB48A9FEF89726F69D6;
+explanation46652AD1F9EEBA99A777609ACB2E80C6B4030B79C6ACD2E274BF77609526D939.
+No proven correctness hotfix; exact historical OS/cache trigger unresolved.
+No solver rerun, consumed-case tuning, automatic active-loss exemption, pair
+optimizer, VM job or promotion. Frozen candidate retained outside production.
+Admission policy repair needs a new general mechanism/prospective registration;
+removing observed active execution losses from P2 acceptance is a separate
+post-observation contract decision, not forensic proof of a pass. No new study
+or background job currently active. All earlier running statuses below historical.
+
+## Completed parallel offline attribution367 — no proven correctness hotfix
+
+User explicitly asks to investigate exact inactive-loss causes alongside running
+366-P2, not to repeat exoneration or change its frozen gate. Register
+ATTR-INACTIVE-EXECUTION-DIVERGENCE-367 COMPLETE: all42 inactive fixtures168sides,
+1128days,168AB/AA comparisons;3654 completed evidence files verified. Read367-
+closure.md.29 differing comparisons represent11 fixtures:5main-admission and
+6post-main-refinement. All first states/ledger/roles/manifests equal.792 singleton
+decisions have no strict eligible certified-rank inversion;336 multiscenario
+decisions cannot be fully reconstructed from recorded audit.9checker tests pass.
+366holdout loss89: equal main; missing1serving refinement on each of days1/2.
+Loss236: same candidate F0 changes6/15/100 to6/18/119; then fuel1276 beats1275
+tie-break, one different day1 terminal route; days8--10 WAIT at only5brands vs6
+explains daily-3. Loss273: different post-F0 pool and cutoff work; AB reverses
+397/408 to408/397 and same-label AA reproduces both trajectories. Not suffix harm.
+No inverted comparator or new correctness patch established; exact unrecorded
+OS/query cutoff events remain unknown. Do not call the daily downside harmless
+or reuse consumed cases to tune an admission policy. Inventory
+D839273028262C905C88A985AA6FFAB700CEFB89E2A71EF080F128BEF4384FD8;
+explanationBF44A5495A2BEF42C2A82E29AD5086A98B03A1A7198C06F5435FC9F61C8D1C27.
+No partial protected evidence, solver rerun, VM work, source/build/budget/reserve,
+function reduction/deletion, pair research or promotion. P2 below continues
+unchanged; do not add a new inactive-score veto or repeat exoneration.
+
+## Current status — one-pass protected 366-P2 RUNNING under user causal correction
+
+Launched2026-09-10 05:33:51 Asia/Saigon on existing authorizedVM
+udon-f0-240-0829/project-10f9c8e1-a791-46a2-920/us-east1-b. PID313591,
+/home/LMC/udon366-p2-0910/runner366-p2.json and stdout/stderr companions.
+Read366-protected-causal-launch.md. P2 execution
+C968D42AE14F881D49DC9A8DC631E42960EF34BE67CF9433565E5E563803C92D;
+archiveD1DB2872E4EC7773249EFC4577ED3B31A819F45900772243904706CAB9581CCE.
+18original+18P2 synthetic tests passed locally AND onVM before opening protected;
+AST-equivalent runtime/audit/certificate functions, unchanged frozen360 binary.
+Original holdout was reverified exactly, NOT rerun or relabeled original pass.
+One-time protected setup now staged/opened. Initial check: runner/bridge/bot live,
+1atomic result+certificate,0fixture markers,stderr0. No partial score inspected.
+Expected108fixtures216results/certificates1368ACK1152transitions; about4hours.
+Sole monitor monitor-udon-366-protected-causal ACTIVE every40minutes.
+No source/include diff; verified production258 hash unchanged. No two-agent work.
+
+2026-09-10 user explicitly reiterates that the exonerated inactive mechanism must
+not be rejected again for independent timed-run score differences. Read
+SCORE-CAUSAL-RESOURCE-QUALIFICATION-366-causal-decision-amendment.md in full.
+This is a transparent post-holdout decision amendment, NOT original366 gate pass.
+Original reports/closure/classifier and all observed wins/losses remain frozen.
+The previous agent's automatic stop/keep258-final decision is superseded: same
+candidate proceeds to SAME unopened108 protected, ONE parentA/candidateA pass.
+No DEV/holdout rerun, new seeds, source/binary/reserve/RAM change or two-agent work.
+Compiled360 and gain-history361/364/365 proofs still mandatory. Inactive scores
+are diagnostic symmetrically (wins AND losses), not treatment gain or score veto;
+inactive activation, broken proof or any safety failure still blocks. All active
+benefit/downside/stratum/causal gates remain mandatory, including noncausal losses.
+The mechanical P2 interpretation wrapper of retained P1 full runtime is frozen,
+tested and launched. Do not reprepare, restage, duplicate or launch another run.
+All108 fixtures and sealed setup hash02E4C55AD2C8C506239E0B947BB5E2DA955D329C8BADC2B5979135F93A52DEB7
+stay fixed.216results/certificates1368ACK1152transitions, about4hours. Use one
+40minute monitor after an actual launch. No parent before integration/BTC gates;
+258 remains running production meanwhile. No designed function reduced/deleted.
+
+## Historical original-gate outcome — superseded decision, raw evidence retained
+
+Read366-holdout-closure.md.216results216certificates54fixtures1368ACK1152transitions,
+zero safety/deadline failure; VM frozen --check and exact local recomputation pass
+all1566 evidence hashes. Official37/68/3,delta0/0/+165; ACTIVE10/15s31/41/0,+147,
+13robust causal winners,p0.0001220703125. INACTIVE5s6/27/3,+0/0/+18; nine trajectory/
+score mismatches, no resource entry. All three losses are5s repeatB (-2servings,
+-3daily/+10servings,-11servings). Inactive serving NI/tail/shift gates pass, but
+inactive_upper_tiers and B_overall_components fail because daily-distinct falls3.
+Do not label the inactive losses causal suffix harm or declare all noise proven.
+366 REJECTED by its frozen holdout gate; no post-result gate change or lucky retry.
+
+Summary88E7FF81955C7AFAC838D430508809B8B21C2AC00C9906E7BA6E3994D9EF00B3;
+completionEE02542F975343DC8E202C343EFD1F6EC57C2685F714994A076CEB71F65291A4;
+archiveEF2D81FE9EB155E099D49C5DD3A0181E84E638B1807E3D245C10A0E02A6591CA;
+audit62AEEE1A317CEE8F286AC87BD00C8331ED060E50881E0C252F0E23258AD499D7.
+Copy artifacts/research/366/completed-holdout. Runner210734 finished; no live child.
+No366protected opening (includingP1), no two-agent work or automatic new SCORE.
+P1 adapter retained locally unexecuted. Old362sealed54/108 untouched. No product
+function reduction/deletion/source/build/budget/reserve/RAM-policy change.
+
+Qualifier recommendation delivered early: keep accepted258/c76a8ea and verified
+build-release/udonshield_btc.exe F97F168FE76FEF1B6226D2C2CFDAF954F116D39F427B6F157594151C461E1275.
+No src/include diff. This is existing-qualified-build selection, not a new BTC
+test or theoretical ceiling.362/366 not qualified by measured gate failure.
+Monitor monitor-udon-366-qualification deleted through the app after completion.
+No product functionality was reduced or deleted; preserveVM/artifacts; do not
+reopen until material authoritative configuration or a genuinely new general
+proof/counterexample supports a separate prospective plan. No consumed holdout
+seed reuse, automatic inactivity-gate relaxation, or waiting monitor without work.
+
+## Retained unused amendment — protected one pass, not two
+
+Mechanical adapter is NOW ready and frozen locally; do not reimplement it.
+Read366-protected-single-driver-ready.md.18synthetic tests passed, no solver or
+sealed setup read. Package artifacts/research/366/protected-single-driver.tar.gz
+SHA256 ACE30445EB53A0307C0A234108D83A64541920702A40A1B1B863435E41FFA36F;
+execution BF124A24A3DC5F577098FED9210B439AF4A79C77F337F1732ED7633D3B0BD14D.
+Not staged/run onVM. Only after complete original holdout pass and exact-copy
+verification, stage this package and original protected setup, run its frozen
+score_resource_366_single.py (NOT original four-side runner), update this monitor.
+
+User explicitly requests one protected pass. Read366-protected-single-pass-
+amendment.md in full. This changes ONLY the unopened protected stage: all108
+frozen fixtures, parentA/candidateA in original relative order,216atomic sides,
+1368ACK1152transitions, about3.8--4h rather than7.6h. The current54fixture TWO-
+repeat holdout and every frozen gate/source/hash remain unchanged. Holdout must
+pass completely before protected opens. Do NOT launch original four-side366
+protected runner. Prepare/test/hash-freeze the mechanical single-pass adapter
+before opening protected, using the explicit prospective rules in the amendment.
+No invented A/A controls or repeated intervals; no same-fixture noise relief in
+single-pass tails. Report reduced repeatability evidence honestly. No source,
+product, budget, reserve or safety change; no pair work before parent acceptance.
+Single40minute monitor and qualifier cutoff remain unchanged.
+
+## Qualifier decision deadline — user request 2026-09-09
+
+Deliver the bounded competition-build recommendation for the2026-09-10 afternoon
+qualifier no later than12:00 Asia/Saigon. On the last monitor wake before that
+deadline (any wake from11:30), issue the report with the exact qualified binary,
+passed/missing gates and remaining risks. Time is not a gate waiver: retained362
+is eligible only after ALL registered366, integration and BTC gates pass. If not
+qualified by this decision cutoff, keep accepted258 for the qualifier and label
+362 not-qualified-for-this-release (inconclusive if unfinished), not scientifically
+rejected solely by the clock. Do not abort a healthy frozen run or inspect a
+partial score to meet the report deadline. Research may continue afterward.
+No two-agent successor before parent acceptance. Its incremental gain over362
+has not been measured and cannot be promised before this qualifier.
+
+## Previous status — 366 DEV passed; one-time holdout launch (now complete)
+
+DEV COMPLETE144atomic sides144certificates36fixtures912ACK768transitions,zero
+safety/deadline failure. VM frozen --check and local exact-copy recomputation pass
+all1044 evidence hashes. Read366-development-closure.md. Overall27/45/0,
+delta0/+4/+102; active10/15s24/24/0,delta0/0/+98;12repeatable causal winners across
+all6families and both windows. Gains are32x32;8x8ties. Inactive5s3/21/0,+0/+4/+4
+is NOT causal benefit; two rows lose1serving while winning daily distinct, and
+4trajectory/3score mismatches remain. All preregistered366 gates pass without
+changing any frozen mechanism, metric or code.46strict takeovers,zero rollback.
+Summary5C31F1FFE142675563171FCA5FC6A7C432F08BD42BE0D9ED5EE541241AA0A376;
+completion62E584047290605FE72C83B0AE4129BD36EA7E789866F324B56F481038CA8562;
+audit69BB060A0CB53826D12D64968B40315C3BE50B98E41611B6B9B52996989A9127;
+archiveCF96CF19F1FA2C4A3FC2BC995488263678A643A2844AE0018DC122EE075B1D4E.
+
+HOLDOUT opened once only after completeDEVpass and local verification, on the
+same authorizedVM/path and exact360plain binary, no rebuild. DetachedPID210734,
+runner366-holdout.json and runner366-holdout.stdout/stderr; started
+2026-09-09T16:23:45.403565UTC. Expected54fixtures216atomic sides/certificates,
+1368ACK1152transitions,one run_complete. Frozen split
+30E006228278FA030FE443EE2AE2CCDDAC21BE5529EA14DAED46B07AD41F7778.
+Marker217B9F0F55592DD5B2A62D48B73A873FD7A0BBAB441714DD15A455104C797E8B.
+Initial runner/bridge/bot healthy,1atomic side+certificate,stderr0bytes; no partial
+scores inspected. Minimum13680seconds/about4h. Sole monitor updated to HOLDOUT
+and40minutes by explicit user request; do not automatically shorten below40minutes.
+366protected108 remains local/unopened, with the single-pass amendment above;
+old362sealed54/108 untouched. Only completeholdoutpass opens366protected. No new
+parent/product/source/commit/signature or two-agent research. Qualifier cutoff
+above remains; complete gates, not urgency, authorize a new competition build.
+
+## Previous status — 366 DEV launch (completed; do not resume)
+
+User2026-09-09 explicitly requires resolving362 then qualifying it as parent
+BEFORE any two-agent research. No pair implementation/probe was started. Empty
+monitor monitor-udon-witness-315 deleted; recreate only for an actual long job.
+Read SCORE-CAUSAL-RESOURCE-QUALIFICATION-366-preregistration.md in full.366 is a
+transparent prospective protocol change, not retrospective exoneration of every
+old loss or changing362 to pass.360 compiled blindness plus363 first-boundary
+and364/365 real-gain lifecycle evidence justify separating inactive timed-run
+variation from mechanism gain. All observations remain; per-fixture A/A tail
+envelope, exact fixture-level noninferiority/systematic-shift tests replace only
+the old inactive positive-sum rule. All active/overall/causal/safety gates remain.
+Fresh36/54/108 were frozen before measuring; exact360 plain bytes, no build or
+source change. Only accepted258 is production. No two-agent work until parent
+decision. See366-launch.md for exact provenance and recovery instructions.
+
+DEV launched2026-09-09 ~13:38UTC on existing authorized VM
+udon-f0-240-0829/project-10f9c8e1-a791-46a2-920/us-east1-b,
+/home/LMC/udon366-0909, detachedPID142399. First check13:38:55UTC: runner/bridge/
+candidate alive,1atomic result and1certificate,0fixtures,stderr0bytes. No partial
+scores read. Expected36fixtures144sides912ACK768transitions and one run_complete;
+minimum8520seconds/about2.5h. Only DEV uploaded, sealed54/protected108 local.
+20synthetic classifier controls passed locally and onVM before launch.
+Execution94CF0B0FC04DE3277BD0584C2E54898D510F0B076923E8EECC9FBB7F02D648AC;
+input5447CE02A11D6803B0EB9878A84B6B343A4E2EBA8E2D1EFAD6F9A6C6615A5B8F;
+archiveC7195BE2C3F366EBCE4964DCB701042639BA1E6092E7C9E8515A55750BE103C4.
+Sole monitor monitor-udon-366-qualification active every30minutes for this real
+job; no empty monitor, concurrent research or further routine manual polling.
+Complete DEV pass alone opens frozen366holdout; its complete pass opens366
+protected. All-stage qualification still requires exact product integration and
+BTC before parent acceptance. Full wire minima total13.77h, plus overhead and
+product gates: no promise of a new parent before tomorrow afternoon's qualifier.
+
+## Completed365 — prior status
+
+User asks to continue useful work now, not wait until tomorrow's match ends.
+365 COMPLETE:four finite synthetic VM sessions using exact360 bytes and real
+strict-gain prefixes. Live5000ms remaining authoritative next day retains checkpoint
+and no new resource activation; normal terminal follows.8newACK0WAIT10restored
+18replaydays14transitions,zero safety failure. VM frozen check and local byte/
+lifecycle verifier pass. Read365-preregistration/closure. Completion
+CBB77A9B789B87F1A0D5AA06F9B66BF3EEA1E62FAB9C03F7FFEAE58D4336771D;
+archive46073B56772C76F55E413DC0469CD9FD0CC1FB486564D57042F8FAA7156C4F3F.
+Runner141531 finished; no measured job active. No source/build/function reduction/
+deletion/budget/RAM threshold/SCORE or promotion. No repeat without new concrete
+counterexample. This closes the normal short-window gain-history contract, not
+noise causation or retrospective362 gate changes. Official configuration should
+be assessed as soon as published, BEFORE the match, not only after it ends; do
+not assume a new qualification will necessarily complete before competition.
+
+## Retained candidate and completed364
+
+User2026-09-09 requests retaining362 for possible reconsideration after tomorrow's
+official configuration confirms response windows. Preserve frozen candidate and
+all evidence; do not assume every day>10s, change362 verdict, enable production
+or open its54/108. Actual10/15s22/26/0,+90 remains scoped DEV evidence only.
+363 COMPLETE:12inactive fixtures48sides336days48comparisons. The minus12 case's
+better plan is present but not-W1-shortlisted in the other run. Same old admission
+limitation as239/316, not proof of final comparator error or a new general fix.
+Result3D7AA19A050AB95CDCAE34C9B424B08E28B49F58AE1AB7E09DFF1138F73E1185.
+Read363-closure and364-preregistration/checker-correction/closure.364 COMPLETE:
+four synthetic VM sessions restore real strict-takeover history, expire next day,
+validate server WAIT and final ACK/replay.4newACK4expectedWAIT10restored days,
+18full replay days14transitions;zero unexpected safety errors or duplicate sends.
+Original checker misclassified the registered expired-day emergency. Its evidence
+is preserved; verifier-only v2 has2positive6adverse controls, no first-session
+rerun. VM/local exact-copy checks pass. Completion
+8DDF91A0C5688855AB979383551F9ABBC7AD854FD6B397384571D21219113FB2;
+archive6035FB23E102998F16C36DB95B33A993AFCC78A57A68EBA0BB83EAF65A65DD58.
+No measured job remains active. No SCORE/holdout/source/build/reserve/RAM-policy
+change, deletion, commit or signature. Read RETAINED-362-ACTIVATION-READINESS.md:
+bounded read-only integration audit completed. User's proposed daily>5s guard
+already exists; no new optimizer entry on5s. Earlier divergence keeps checkpoint
+replay/dominance active on later short days without new continuation. Resume,
+new-day guards and ACK/retry tail are source-equal to canonical. No new defect
+established. Unexpired mixed-window strict-gain history is outside364 live coverage;
+do not turn that omission alone into a defect or claim championship/ceiling.
+Official configuration is still unknown. Next qualification depends on actual
+authoritative target-domain evidence or a new demonstrated general invariant,
+with separate prospective scope/gates and fresh unopened evidence. No automatic
+SCORE, lucky repeat or frozen-verdict relaxation. Preserve362 sealed54/108 attached
+to rejected362. Only accepted258 currently qualifies as a competition product.
+
+## Closed attribution — ATTR-INACTIVE-CANDIDATE-AVAILABILITY-363
+
+362 DEV COMPLETE and REJECTED under its frozen gate.144results/certificates,
+36fixtures,912ACK768transitions,zero safety failure. VM frozen --check and local
+exact-copy recomputation pass. A11/24/1 delta0/0/+44;B11/23/2 delta0/0/+30.
+Active10/15s22/26/0,+90;inactive5s0/21/3,-16,worst12 exceeds registered bound.
+Both per-repeat stratum gates fail; B individual downside fails. No holdout opened.
+SummaryD0C8AB6AEB8E27C5A607AC6C31FB5A63F41A288632B38E599F6E29FA8170F7F4;
+completion24A5574453D6FD284CABABFBD764479AD65A68AED06E1C298923193DE7CD4791;
+audit5DC4771F0BD6B028989E624C734F5F0A326FEBE9D21916B13B15244186608393.
+Read362-development-closure and363-preregistration. Runner73511 finished; no
+measured job active.363 is finite OFFLINE all-inactive candidate-availability and
+certification attribution, not another matrix, source change or gate relaxation.
+Fresh -12 main-plan divergence begins day1 before new mechanism, unlike358's
+post-main A/B divergences. Trace missing/shortlisted/certified/selected boundaries
+before proposing any new mechanism. No automatic SCORE or reseeding for luck.
+Canonicalc76a8ea/accepted258 source/binary remains unchanged; no function reduction,
+deletion, transport-reserve reclaim, RAM floor, commit or signature.
+
+## Closed SCORE — SCORE-LATE-CONTROL-RESOURCE-MARGINAL-362
+
+The following launch text is historical; completion and closure above govern.
+
+DEV is RUNNING on existing authorized VM udon-f0-240-0829, project
+project-10f9c8e1-a791-46a2-920,us-east1-b; /home/LMC/udon362-0909.
+Detached runnerPID73511, runner362.json and runner362.stdout/stderr. No rebuild:
+exact360 plain binary reused. Seven classifier positive/adverse controls pass
+locally and on VM before launch. Expected36fixture markers144atomic sides with
+certificates,912ACK768transitions then one run_complete. Minimum wire8520seconds;
+about2.5hours including lifecycle work. Sole monitor30minutes while far from end,
+then20/10near completion; no routine manual score polling.
+Input09FF94371D108006FAB7E3E774A25EC3167E500516372A5D31FDB95118CCD853;
+stageB17A4190C8BFFFEEEEDF6CB01B3EA614B95BF3B23A69908FAF2E7EDC3A4681EF;
+execution586AEAC11D9D0EBD7221FF9E59EE7D1BD558E6F268D5BD58DD73DF7240C5E11E;
+runner/summaryE50B50BC5AF560687AD32598CDC4F8FD04341F0AA742F8EEDC400A9D2E48FD7A.
+Holdout54 hash9DED759444769ACB663E2C66DF10255BC9B276CD41A4F6CA3B320C960EB0B7BF;
+protected108 hash10D0EEA291758E75C5DAAED4C23A4632C9BB7FB8BA7629A6FD5303243B928711.
+Both sealed setups stay local/unopened; only DEV uploaded.792prior identities
+excluded, including357's sealed identities without inspecting their outcomes.
+
+Read362-preregistration in full. Registered prospective qualification of the
+already-frozen360 plain binary, no new source or build. FreshDEV36/holdout54/
+protected108 to be frozen before observation; do not use357 seeds/holdout.
+Important explicit protocol difference: inactive CAUSAL OPERATION EQUIVALENCE
+from source/compiled/full-runtime360/361 replaces independent-clock literal pairing
+as the new proof obligation.357's gate/verdict remains unchanged. ALL actual5000
+differences remain in measured downside and strata; no inactive gain helps benefit.
+All other generality/safety gates preserved or strengthened; no noise dismissal.
+No function reduction/deletion, reserve change, production edit or microcommit.
+
+## Closed follow-up — prospective late-control qualification
+
+361 COMPLETE:4restart sessions,4newACK,4expected expired WAIT,zero duplicate
+prefix POST/assignment repost/extra treatment reads. Both plain/probe binaries
+and both controls pass full4day/3transition replay reconstruction. VM and local
+copy verification pass. Complete
+6A9478EA267C5220A69376DC4F584AB40915E67F4ABD385F48744772398A3184.
+Read361-closure. No runner remains active. Next permitted work is a prospectively
+registered qualification design for frozen late-control bytes with fresh inputs,
+explicit causal inactive-equivalence evidence, and ALL measured differences kept.
+No SCORE automatically launched;357's failed exact pairing gate/verdict and
+unopened54/108 remain unchanged. No inactive-window gain is causal mechanism gain.
+No product change, source reduction, build, reserve change, commit or signature.
+
+## Closed contract — CONTRACT-LATE-CONTROL-RESUME-361
+
+360 COMPLETE scoped pass:four matches16ACK12transitions; zero inactive reads;
+mixed5/10 windows read only nonterminal day2; normal-flow compiled guards pass
+for BOTH same-object plain/probe links. Result
+F61EB2B622550443556D56B1975F011C46A9385ED9F1C1003889E1C608449808;
+local exact-copy verification passes281dependencies and26contract files.
+Read360-closure and361-preregistration.361 tests live restart after accepted day2,
+an expired day3, then terminal day4 on the existing frozen executable bytes.
+Four synthetic contract sessions on existing authorized VM; no source change or
+rebuild, no score matrix/holdout, no duplicate prefix actions. Canonical unchanged.
+No promotion or relaxation of357's exact5000 gate. Conditional noninterference
+does not mean independent-clock or different-persistent-history equality.
+
+## Closed contract — CONTRACT-LATE-TREATMENT-BOUNDARY-360
+
+359 complete: result F1B21E5DD29EDA4FF209C9CD275F38685CCCF3F54B9F9D9310910DB904566024.
+Compiled357 has treatment-first conditional branches even on inactive telemetry;
+this disproves literal instruction-path identity, not a cause of serving losses.
+All16 guard combinations and5 mutation controls pass for the late-read design.
+Read359-closure and360-preregistration.360 is an isolated host-only contract build
+against the exact357 library, then four tiny full-lifecycle process-RPC fixtures
+on the existing authorized VM. No planner/library changes, no SCORE matrix,
+holdout, production change or gate waiver. Both control consumers preserved.
+
+## Closed attribution — ATTR-LATE-CONTROL-ISOLATION-359
+
+Read 359-preregistration. Bounded source/compiled-control-flow inspection of the
+already frozen 357 binary, plus a guard truth-table design contract; no solver,
+build, matrix, VM, BTC, source candidate or holdout action. Determine the actual
+scope of treatment noninterference before a separately registered late-control
+contract implementation. No functionality reduction/deletion or gate waiver.
+
+## Previous follow-up — inactive checkpoint equivalence proof design
+
+358 COMPLETE offline:12fixtures48sides336days,zero new-suffix entry,all281
+execution dependencies and1044 evidence files verified. Result
+773E1C9B783C79764C1C7BF3767C30CCC143B61DA219DFDF29ED1FB52D504400.
+All5 A/B first-divergence main plans/state/ledger/score are equal; difference
+starts in EXISTING canonical protected refinement. Four A/A mismatches also
+remain (two already in main). Read358-closure for all boundaries and limitations.
+Same1697ms recorded budget can produce52/53servings; adding reserve is not a
+proven cure. No production changes or function reduction/deletion, no commit.
+
+357 remains INCONCLUSIVE and sealed54/protected108 unopened. No measured run is
+currently active. Next permitted work is SOURCE-ONLY qualification design for a
+real inactive-checkpoint equivalence proof,accounting for exogenous clock inputs
+and persistent state. Do not run another broad matrix or A/A repeat to seek a
+favorable result,relax357's gate,force fixed roles,reduce search or open holdout.
+Any fresh protocol/candidate must be separately justified and preregistered before
+implementation/measurement. Canonicalc76a8ea/accepted258 is unchanged. Read current
+358 and357 closures,342 variance closure and only directly relevant runtime source.
+
+## Closed attribution — ATTR-INACTIVE-CHECKPOINT-CAUSALITY-358
+
+Read358-preregistration and357-development-closure.357 COMPLETE:144sides,
+36fixtures912ACK768transitions; frozen --check passes on VM AND exact local copy.
+Summary40D92A3B69923CE551DE5087090B2131FBD70B37A412691E33C00DA589DF11CC;
+completion146E3E25722E2287E6C22C56D46CDD6A139245100448E459321398321556F4CE.
+A12/23/1 delta0/0/+77; B12/24/0 delta0/0/+95. Benefit,downside,all per-repeat
+strata,causal breadth and safety PASS. Ten repeatable causal fixtures across all
+six families. Sole failed gate exact5000:5/24 paired trajectory mismatches;
+parent and candidate A/A also vary2/12 each at5000. Per frozen prereg,357 is
+INCONCLUSIVE,not promoted; sealed54/protected108 remain unopened. No rerun.
+Canonicalc76a8ea/accepted258 and root source/binaries unchanged; no commit.
+
+358 was finite OFFLINE source/evidence attribution on ALL twelve5000 fixtures,
+not another A/A run:locate first divergence relative to main/protected/new suffix,
+and trace all new flag reads. No solver/build/matrix/BTC/VM action or gate change.
+No functionality removed/reduced/disabled/deferred; nothing deleted. The sole
+monitor successfully delivered at12:46:51+07; earlier root cause still unproven.
+Completed357 records no new-suffix deadline rollback,so reserve reallocation is
+not justified by this result. User's conditional100--200ms research authority
+remains recorded below. Do not silently weaken transport or main5000.
+
+## Closed inconclusive SCORE — SCORE-PROTECTED-RESOURCE-MARGINAL-357
+
+The following357 staging/progress text is historical; completion above governs.
+
+2026-09-09 staging: fresh input manifest66131A8A13A9CD1F32A7184A7E0EB6D8EC96EF3604166721827E7C2C87F5C001;
+holdout54 ADCBC2067542D48B51E4867DD4EB33200149AB803071E4101178E6EF73D617E1,
+still sealed. Isolated candidate only; root src/include untouched. A pre-upload
+unit-header correction is preserved as package-preflight2, not a policy change:
+archive9068AD7CBB8070FB8FFDFA89F7005F76C16FB58112B6ADA6749757D1F9190D0B,
+package manifest9D0ED993046C06520CEADDD44AFEE37DD490A8C2B241B77E829EABA053C379E8.
+Same authorized VM, new scoped root /home/LMC/udon357-0909. Detached pipeline
+PID2428: build -> unit/traffic/full-policy contracts -> execution freeze -> DEV
+36fixtures144sides912ACK, then frozen summary. No sealed setup uploaded.
+If preflight fails, preserve exact operational evidence; no blind rerun/overwrite.
+
+Preflight completed: CTest1/1 (bench targets off for this isolated build),7 C++
+mechanism contracts,11 traffic/ACK contracts and2 full-policy lifecycle matches.
+DEV now RUNNING pythonPID2873 under pipeline2428. Frozen execution
+F0188694FF3E0042D1B85F8111F06E42AF7F1538A71C6AECBB44F384ED4C102C;
+same-binary Linux BTC083B134AD9E0AFE847DDF8E95B7E4352F5F3E3CA5E6F281D3D83DB2B7961144D;
+unit17ADBA0D22320C61DF8F5656B7603D2066E96E9BCA5E8BAC4A01C21626488BC0;
+contracts686B1B62B98AACBEAFE113A42AEDB43E571515E204FB205F6D41595FC8EFC72A.
+Initial3/144 complete side results; no partial score inspected or aggregated.
+Expected wire duration8520s plus overhead. Per user2026-09-09, existing single
+monitor is30minutes while >40minutes remain; switch to20minutes near20--40minutes
+remaining and10minutes at<=20minutes, estimated from frozen remaining day windows
+and atomic progress, never partial scores. Latest read-only check8/144 side results,
+2/36 completed fixtures, runner2873 and active child alive. No policy/source change.
+Later read-only snapshot2026-09-09 12:16+07:00:118/144 atomic sides,
+29/36 fixture markers; pipeline2428,runner2873 and current BTC child alive.
+Execution/binary/unit/contracts hashes above reverified exact; individual match
+stderr files empty. No partial scores inspected. Rough remaining25--30minutes.
+Existing sole monitor monitor-udon-witness-315 updated through the app to20minutes;
+scheduler next_run_at12:37+07:00. Its last_run_at still records2026-09-08 23:44,
+so automatic activation is NOT yet verified restored. Scheduler root cause remains
+unconfirmed; do not equate ACTIVE with successful delivery or create a duplicate.
+These monitoring notes remove/reduce/disable no functionality; nothing deleted.
+12:34+07:00 snapshot:137/144 sides and34/36 fixture markers; pipeline2428 and
+runner2873 alive, no completion yet and pipeline stderr remains normal11-test OK.
+User-requested continuation check only; no partial score read. Sole monitor now
+10minutes for the final seven sides; automatic delivery still unverified.
+Pipeline stderr includes unittest's normal11-test OK report; do not classify
+nonempty pipeline stderr alone as runtime failure. Individual match stderr must
+remain empty. Full production equivalence/protected/BTC gates remain mandatory.
+
+User proposes reclaiming some1100ms transport protection if compute is limited.
+Read TRANSPORT-RESERVE-1100-357-audit.md/json.60 prior wire actions:ACK median12,
+empiricalp95 75,max208ms,zero retries. These do not time final certification or
+establish slow-network tails;750ms ACK slice+220ms poll already consumes970ms.
+No budget policy changed in357. Consider separate explicitly registered reserve
+calibration only if completed357 evidence proves actionable deadline limitation;
+preserve all certification, submission and idempotent retry functionality.
+
+Explicit user instruction2026-09-09: if the current mechanism cannot be added
+without interfering with other logic solely because of insufficient time,
+seriously evaluate reclaiming100--200ms from the1100ms reserve. Do not dismiss
+this option mechanically. This authorizes investigation, not an immediate change
+to the frozen357 budget or an assumption that900--1000ms is already safe.
+Preserve existing compute/certification/transport/retry responsibilities and
+validate any separately registered policy on the real runtime. Continue toward
+a qualified competition build; user requests acknowledgement only, no extra polls.
+This instruction record removes/reduces/disables no functionality; nothing deleted.
+
+Read357-preregistration BEFORE source work.356 COMPLETE positive:one expired
+control plus8query bounded pass,256candidates, safe64->65 in748.911ms on VM.
+ResultED4C7559EB52676BCA3B98BE6151F60F7304A74710646291FB17A7EB10C017C8;
+frozen local checkPASS. This is capability only, not competition latency/strength.
+357 freezes fresh36DEV/54sealed/108protected and exact gates before isolated source.
+Add one existing-API resource-conditioned marginal pass AFTER complete canonical
+public nonterminal refinement, never main/role5000 or existing parent work. Same
+binary A/B research flag, original exact full transition/ledger certificate,
+deadline/failure returns exact complete parent. No functionality reduction/deletion,
+RAM floor, new VM or microcommit. True BTC and all fresh gates before signature.
+Canonicalc76a8ea/accepted258 unchanged; old350 still rejected. Existing authorized
+VM/root352 may run actual fresh matrices, not build-only deployment.
+
+## Closed attribution — ATTR-RESOURCE-CONDITIONED-MARGINAL-CAPABILITY-356
+
+355 COMPLETE:512emissions, exactly one safe65-vs64 witness discovered and evicted.
+Original/observed retained outputs operation-equivalent; frozen local checkPASS.
+Read355-closure and356-preregistration. New gap is resource- and stock-conditioned
+retention, not extra main search, pair coordination or certificate relaxation.
+356 uses unchanged parent library and existing target/marginal API on query-only
+fuel expenditure bounds, preserving actual state and complete parent. Exactly one
+expired control and one5000ms diagnostic suffix call over all8patrols. No source/
+product/function reduction or deletion, matrix or holdout. A positive result only
+permits separately frozen SCORE/public-continuation integration with fresh gates.
+Canonicalc76a8ea/accepted258 unchanged. Authorized VM restarted after TERMINATED;
+355 completed cleanly. One-day deadline does not waive qualification.
+
+## Closed attribution — ATTR-TARGET-EMISSION-RETENTION-355
+
+Read355-preregistration.354 COMPLETE256mixtures8queries; exact validator safe.
+Changing only agent5 raises64->65 with equal terminal/fuel/road and ledger
+dominance. All eight1250000-state target queries retain32routes; no retained
+route gives safe gain. Agent5 useful route absent. Result
+EB9BB7AFB807D95E4ED3C5136B6458EE45AC0807A47EBE90D3C34304B1FA9747.
+This closes joint-valley and certificate-barrier explanations for THIS witness,
+not discovery-vs-retention.355 one original/observed query records all eligible
+emissions at exactly the same cap, requires retained-output equivalence, then
+exact-evaluates every observation. No main/source/library policy changes, cap
+increase, deletion, disabled functions, matrix or holdout. Same authorized VM.
+One research day left: prioritize proof and a scoped general mechanism if proven;
+canonicalc76a8ea/accepted258 stays best qualified,350 rejected. Read354-closure.
+
+## Closed attribution — ATTR-REFINEMENT-POOL-CERTIFICATE-GAP-354
+
+The following is354 registration history; completed closure above supersedes it.
+
+User deadline:one research day remains. Read354-preregistration.353 COMPLETE:
+same input1593ms parent65/65 candidate62/64;1654ms all65; ample phase time all64.
+Zero safety; frozen local --check passes, summary
+EA7AA4D4759958A7B033FE2003CC659B9E1A2CDBFEB6B7CF3504C2234352A468.
+353 includes a preserved pre-parser operational failure, zero results, then the
+corrected validated run. Read353-closure; no production or library changes.
+354 is ONE fixed exact256-mixture audit of already-produced parent64/65 plans,
+plus8 unchanged capped target-pool queries. Separate missing route, joint local
+optimum and intermediate fuel/state-certificate barrier. Reuse352 parent library
+on authorized existing VM; no new match/matrix/holdout/cap expansion/RAM guard.
+No source/function reduction or deletion. Prioritize mechanism proof, then fresh
+gates if justified; one-day deadline does not waive evidence or authorize signing
+an unqualified product. Canonicalc76a8ea/accepted258 remains best qualified.
+
+## Closed attribution — ATTR-SAME-INPUT-REFINEMENT-COST-353
+
+Below is the registration history; completed353-closure supersedes pending work.
+
+Read353-preregistration before work.352 COMPLETE, independently checked after
+local copy:12sides96ACK84transitions, zero safety; summary
+B7DD4D959167EDB8CFFE067F1C9B99BFD5383D5530C0E6F26C70F0DED9ABE9D6.
+164 repeats losses-1/-4;213 tie/tier2win+2;127 two exact ties. No pricing gain
+precedes first divergence. Four of six same-binary controls exact; two variable.
+350 remains rejected, sealed54/protected108 unopened. Read352-closure.
+353 isolates164 day1 unchanged refinement using same state/ledger/main plan,
+same1593/1654ms budgets and10000ms fixed-point controls, all balanced four sides.
+Reuse exact existing352 VM libraries; only a tiny direct-call probe. No full
+matches/matrix, no source/function reduction or deletion, no main-cap extension,
+no new VM/RAM guard, no product edit/commit/signature. Freeze before measurement.
+Canonicalc76a8ea/accepted258 unchanged. This tests budget-vs-library cost, not
+promotion; follow only registered causal outcomes, never tune from favorable rows.
+
+## Closed attribution — ATTR-PORTABLE-RUNTIME-LOSS-REPEAT-352
+
+The following records352's launch history; completion/closure above supersedes
+the earlier running status. Full evidence and frozen summary copied locally.
+
+User requests independent VM loss verification. Read352-preregistration before
+work. Three fixed already-open DEVELOPMENT cases:2026090835090164,35090213 and
+35090127 (latter two full prefix20260908). Preserve parentc76a8ea and exact350.
+Isolated process-RPC I/O with byte-identical daily policy, ACK/post-ACK/proof,
+accepted258 continuation and real windows; not simplistic sandbox substitution.
+All3cases four balanced sides:12results96ACK84transitions. No promotion/holdout,
+no production/function reduction/deletion, no RAM guard, no new VM or monitor.
+Freeze adapter/contracts/source/binaries before measured work. Existing VM
+restart SUCCEEDED, address34.24.88.115; Linux connection verified. Source package
+5522F1C3188A7534F42D3000BF568DC079268627372AEA7E063013AD7E4CFDEE uploaded.
+Four source/RPC contracts passed locally. Original full daily policy bytes match
+on BOTH sides hashD6DC1C4D5C7AEF01C1C286F23CBE733429CE0D0D9A4246FEAB06F10747B66943.
+Remote detached build/contracts/diagnostic pipeline LAUNCHED as PID1814 in
+/home/LMC/udon352-0908; runner352.stdout/stderr and runner352.pid. Four remote
+source/RPC tests passed. Both Linux builds and their unit suites passed, followed
+by11 traffic/ACK contracts and2 complete policy contracts (8ACK/6transitions).
+Execution now frozen and measured cases RUNNING. Execution SHA256
+C0FEEAF04B5082C7BC4A95ACD6B88F53B97EBC555A4620ED2AAB28DB2924EB4F;
+contract evidence DC6CADD7CCA375FA08BBA55E5368B8F97118941A51B4B2060BB0F1A172E5F99E.
+Linux parent E32DE8DD263ABCBA71394F471FFCA37D3E8862A0B717A6BC5398851390277F63;
+Linux candidate685FBF8EB92717FE6FF611B454BDCDE278F3735D737504C54978E4B750D57805.
+Exact execution/contract manifests copied to artifacts/research/352. First fixture
+has4 atomic sides; second started, no partial score inspected. Do not rerun
+bootstrap or duplicate the job. Nominal measured window total1280s plus setup
+and roles; same one10-minute monitor. Read352-source-attribution: repeated
+DEV164 first divergence is refinement55->60/61 parent vs55candidate despite same
+main plan; DEV213 first divergence is day5 W1 admission (same16plans, parent
+chosen candidate not shortlisted in challenger), BEFORE first pricing day8.
+Do not open another broad matrix or deepen pricing blindly. Trace upstream
+resource allocation/admission causally; do not remove functionality or current floor.
+Additional completed350 DEV accounting:164 wait-detour counters match but candidate
+spends three exhausted pricing queries; no replacement is not no cost. Midday
+route counters count evaluation AFTER worker join, not routes generated.213 F0
+differences occur only at tail indices12..14 under one shared absolute deadline;
+exact numeric lower bounds differ across repeats, same admission displacement.
+Next attribution needs per-candidate F0 cutoff/cache provenance and midday
+generation/join/evaluation timing, not another broad matrix or floor bypass.
+
+351 COMPLETE negative consumer-defect:120matches648days,6tests; --check exact.
+Manifest196AAD5798734A228FAF33D3C9DE0B27FC88760AC071598D2016CF91B2B359C1;
+summary2DA20FDD86628DEA4F4110D46EF0111D0A861B2B09125732B60A42D13B14E7E9.
+Broad29upgrades9selected ZEROselection changes;8better lower bounds conflict
+with current score but NONE dominates selected upper. No lost selected witness.
+Read351-closure; no floor bypass or cache fix justified.350 remains rejected.
+
+## Closed attribution — ATTR-PRICING-SELECTION-LEVERAGE-351
+
+351 registered BEFORE diagnostic implementation/collection. Read351-preregistration.
+ALL350 narrow+broad DEVELOPMENT candidate decisions:120matches648days, no new
+solver/benchmark. Freeze full exact dependencies and tests; inspect certified
+publication ->original/final selection ->selected profile identities and exact
+weighted distribution dominance. Separate valid lower-bound improvement from
+proof that the chosen upper is dominated. Preserve current floor, roles, caps,
+all outcomes/consumers; no product edit or automatic SCORE. A real selected-witness
+drop/ignored strict dominance permits scoped corrective proof; otherwise close
+that defect hypothesis and use only recorded fresh DEVELOPMENT for next design.
+
+350 BROAD DEVELOPMENT COMPLETE/REJECTED, frozen --check exact, all1716hashes
+match.36fixtures144sides912ACK768transitions36markers1completion; stderr empty.
+A6/23/7 delta0/-7/0; B7/25/4 delta0/0/+60; all FOUR registered broad checks fail.
+Worst serving loss15/12; actual anytimeReturns14/15 but no repeatable causal win.
+SummaryFC6605640E6CEE092943B6EA1D7EDAFA16EF73915074D6F76609EA65718A9199;
+completion9F2EAF312A95CED5DCE4DD94F020CCAF69CAB26F955CDCC03CBBD99CECC3FF54.
+Read350-broad-development-closure.md for controls, full tails, strata and work.
+Sealed54/protected108 remain UNOPENED; never resume350 or relax its gate.
+No production/source/binary change, no function removed/reduced/deferred/disabled,
+nothing deleted. Canonicalc76a8ea/accepted258 unchanged; no commit/signature.
+Do not assume a cache bug already excluded by333/345. No new solver/matrix/holdout.
+
+## Closed SCORE — SCORE-CERTIFIED-ANYTIME-PAIR-INCUMBENT-350
+
+349 COMPLETE positive capability:216queries216controls;79complete137exhausted,
+27discarded strict feasible incumbents in13roots4families;5unit contracts pass,
+zero safety/mutation failure. Summary5E35C95C666FB1D7A1DD78DC15098146521EE92987F437D6316BD818EAC606C8;
+completionAC3BCBB530DEB82634A4383D2DCFC8E15027E7B68C891BE8646AADF75027414B.
+Read349-closure and350-preregistration. It is NOT a runtime fix or score gain.
+350 separately registers eager COMPLETE incumbent reconstruction+dual validation
+INSIDE unchanged100ms/six caps before publication; continue original search and
+distinguish anytime return from completed proof. No function reduced/deleted.
+350 budget preflight COMPLETE/PASS:216queries216controls;27strict anytime returns
+in13roots4families INSIDE existing budget;79complete/137exhausted, all79completed
+controls retain complete score/plan parity;zero lost completions or safety.
+6direct unit contracts and CTest3/3 pass, plus runner/transport/report contracts.
+Summary7DA90C951A83FD1B5E0E7E3C06CD32FF74345592B8849A03DBC808BEBE4B71B0;
+completion7B719CCA8BF8D69B77CE7D7519FBEF051322C695B90D7AFC835D93A235654F9F.
+Fresh24DEV+36broadDEV+54sealed+108protected were frozen BEFORE isolated source.
+Input3ABB3D35C5FCFDD49B66680BD563FBFCD70D228BE6F0821948EBD8D5F403E754;
+executionA60CC5C0E4438D50BC7ABD50444E7EC9BF5F7AEFD095E3B1B87192B029A53B7B;
+candidate BTC660A8C613410D00B81AE5B597A14827431602E08FFE357A66525090E53DA9736;
+patch1407FCC263C577C679F35E161832D6366B249974BCB019C0BA1ED3D98FDC0FDB.
+Narrow development COMPLETE/PASS:96sides384ACK288transitions; EACH repeat11/13/0,
+delta0/0/+14;11causal wins3families,48exact AA controls,zero safety. Summary
+0A42A53907E5971D9C0A41F970430519612A04679D6776677F5E75B74F981C8C;
+completionB5A9C1BE1842C7AA0B88D4EFD49B062640E2B90A2AEECFB03A9DEFF7644E1515.
+Frozen --check recomputes exactly. Each repeat132pricing calls allcomplete,
+35improvements114certifiedIncumbents,0anytimeReturns; narrow score does NOT yet
+prove the exhausted-publication increment's played-score benefit. Full closure
+350-development-closure.md preserves tails/control/work and this limitation.
+Broad DEVELOPMENT LAUNCHED2026-09-08 19:05:22+07 detached Python PID15640:
+research/probes/anytime_score_350.py run --phase broad-development. Expected36fixtures,
+144atomic sides72paired comparisons912ACK768transitions,36fixture_complete and
+one run_complete.json under research/evidence/SCORE-CERTIFIED-ANYTIME-PAIR-INCUMBENT-350-broad-development.
+Same prefix .runner.stdout/.runner.stderr. Never duplicate or inspect partial scores.
+Minimum wire duration10560seconds/2h56m plus overhead; monitor40minutes while healthy.
+Only BOTH development passes may open sealed54 once, then full protected108.
+No other timed
+local compute/build/BTC alongside matrix. Safe resume only if each completed side
+validates and no incomplete side has any companion/replay; preserve ambiguity.
+No holdout before BOTH fresh development gates. No partial
+scores, RAM floor, source/product edit, microcommit or premature signature.
+Canonicalc76a8ea and user AGENTS/RUNBOOK untouched. One monitor follows actual phase.
+
+## Closed attribution — ATTR-ROOT-INCUMBENT-CERTIFICATE-349
+
+348 CLOSED negative-prevalence:96queries plus96controls,93complete3exhausted,
+zero discarded strict complete-pair certificates;4unit contracts passed. No
+product change authorized. Summary1BD6254661D79177F27C5452923985D388D5257003E977D9C17DF7A78393B119;
+completionDB12531A5F43DF5DBF30602045D05DF4749655343779996828D65BDC6D5771D9.
+Do not broaden348's gate or rerun its matrix. This negative result narrows the
+ownership boundary: before an entire pair completes, solve(root) may already own
+a complete feasible Choice whose descendants are COMPLETE memo entries. A later
+branch exhaustion destroys that local Choice before Pricing::run reconstructs it.
+
+349 separately registered before observation changes/execution. SAME ALL24 opened
+339development roots, no consumed holdout. Nine fixed geometric transition caps
+1024..262144 (powers of2),216queries, original returns unchanged. Record only a
+root Choice with completed descendants; reconstruct and dual-validate OUTSIDE
+measured solver, never use incomplete memo/partial plan as a certificate. This
+diagnosis is not a runtime fix. Gate>=4roots2families with strict reconstructed
+full-horizon witness lost on exhaustion,zero safety/immutability failures,complete
+return parity. Read349-preregistration.md. No production edit or RAM floor;
+no designed function removed/disabled/reduced/deferred; nothing deleted.
+Canonicalc76a8ea unchanged. Same one monitor; no microcommits or premature signature.
+
+## Closed attribution — ATTR-COMPLETED-PAIR-CERTIFICATE-RETENTION-348
+
+347 is CLOSED rejected-protected; never resume or remeasure it. Complete432sides
+108fixtures2736ACK2304transitions; frozen summarize --check independently matches.
+RepeatA22/70/16 delta0/+3/+11; repeatB10/75/23 delta0/-9/-192. Combined32/145/39
+delta0/-6/-181, worst serving loss48; every frozen protected check fails.
+SummaryFB7BD588645E4847D78239B32CC0835E72A2D96C08540F4BBED8837882DC5A3C;
+completionDBA1B545633C4381A4552AFE902D67CFE624F6AE28EB692E2D7AFFD6C113BBC4.
+Zero safety/no-gain mutation failures. No promotion, product edit or signature.
+Full closure347-protected-closure.md preserves controls/work/strata limitations.
+
+348 registered2026-09-08 BEFORE observational source or new probe execution.
+Source-derived gap: Pricing::run owns an already dual-validated complete best
+pair witness locally, but a later Exhausted unwinds it and returns nullopt.
+This is not a claim about the cause of347's consumed protected losses.
+Use ALL24 existing339/340 DEVELOPMENT requests, not any consumed holdout case;
+observe full-budget plus fixed1/4,1/2,3/4 transition-cap fault injections.
+Never apply probe plans. Keep original returned plans, ordering, caps,100ms and
+all-pair search unchanged. Measure whether a complete strict certificate was
+discarded, independently dual-validate every observed certificate and check
+unchanged original input. Read348-preregistration.md before work.
+Gate: >=4distinct roots in>=2families with discarded dual-valid strict witnesses,
+zero validity/score/reconstruction failures. A pass permits only a SEPARATE fresh
+anytime-publication SCORE design, not promotion or a347 rescue. No RAM floor.
+No function removed/disabled/deferred/reduced; nothing deleted. Canonical remains
+c76a8ea/accepted258. Preserve user AGENTS/RUNBOOK; no microcommits. Same one monitor.
+
+## Closed SCORE — SCORE-PATROL-CLAIM-CAP-COMPLETE-POOL-347
+
+User cadence decision2026-09-08: ONE monitor every40minutes while this long run
+is healthy; shorten to10minutes only when operational ETA is under40minutes or
+a genuine error requires it. No busy polling or routine notification.
+
+Historical protected launch 2026-09-08 09:45:51+07: Python PID4068, now complete.
+research/probes/claim_cap_protected_347.py run --resume. Expected108fresh
+fixtures432atomic sides216fixed-label pairs2736ACK2304transitions plus complete marker.
+Evidence prefix research/evidence/SCORE-PATROL-CLAIM-CAP-COMPLETE-POOL-347-protected
+with .bridge.runner.stdout/.bridge.runner.stderr companions. No other local compute while timed
+run active. Do not aggregate partial scores or duplicate completed cases.
+Protected execution5859ED8A27CC77FCDFD80DD803704C0DB1846C6CD55B20BDF9CD2AEF5B6B883D;
+1608dependencies, all1600original hashes retained. Original development/sealed
+execution8AADA9AC98F9095403AE6DA850E879319ACC86C01990AA62ADC46F9182F5F66A unchanged.
+candidateF496DF34F58FCADE087E49C89FBDF05B950ACDFDF20EA17ECD37BE249A273C94;
+patchD94732EDBA61B7F4D570BFBBFEF12E63A5200EF4D7924D27D39BA58B3A55D898;
+preflight399A2CB733C85D75582884E0A27C5FD0380E50BDD242C8E7E038C314995DB0A7.
+CTest3/3 plus30Python contracts pass; all37exact roots96references crosschecked
+for sound upper and strict proof capability. Same inherited gates, no RAM floor,
+no source/binary changes after freeze. Exact roadless reporting normalization and
+JSON comparison frozen before execution. Sealed54 completed; protected108 opened
+exactly once only after full sealed pass. Same frozen WinHTTP
+execution stays local; no remote-runtime substitution or VM build-only trip.
+
+PROTECTED PRE-MEASUREMENT OPERATIONAL REPAIR:PID7104 failed before any side or
+accepted action;0results0replays0markers and fullatomic audit shows no partial.
+Its preserved initial stderr says invalid protected setup, but bridge diagnostic
+proves unknown bridge operation: wrong314fixture/step bridge selected. Use existing
+originally-frozen341protected-bridge.exe supporting config/roles/exact road
+footprint, hashB8C26E696885FB3C9CC8F99D2F6194C0CFD62FF0229C8C9CA0D9DF862EA47EC6.
+All108configs216role checks384accepted development transitions pass exact parity;
+13transport and6binding tests pass. No protected score observed for this repair.
+Preflight110C140CD4D01ABF85B8A259D36A7E41026C08E5F7943C07D10D14CDD06AA739.
+Read347protected-bridge-amendment.md and current protected entry point. Original
+runner/binaries/inputs/gates/results remain unchanged; repaired entry reuses same
+runner/report code and pins both prior qualification hashes explicitly.
+For completed protected only: claim_cap_protected_347.py summarize --check.
+Resume current entry only after frozen audit and no ambiguous side; new companions.
+
+347 SEALED HOLDOUT COMPLETE:54fixtures216sides864ACK648transitions,54fixture
+markers and one completion, original runner exited with empty stderr. Full frozen
+summary recomputation matches exactly and all1600dependencies/safety gates pass.
+EACH repeat A/B:22/32/0 W/T/L, delta0/0/+31, thirteen gains1/nine gains2,
+zero loss.22repeatable causal pricing wins3families; parent and candidate AA each
+54/54 exact score/role/plan/state/ledger/road. Robust22wins32exact ties0unresolved.
+SummaryD20ACD48ED071AC128B9EBD75351CAFF1426BB162E2374726F9F6B58F0468913;
+completion1EE10CA06EC54AC1BFB05087416E44CE69E157CE53EBA6C7630CC5CA569C6B95.
+All38step vectors and every stratum/tail/work preserved in347holdout-closure.md
+and fullJSON. Gatepasses only authorize frozenprotected, not product promotion.
+Production c76a8ea unchanged; no function removed/reduced/deferred/disabled.
+
+347 DEVELOPMENT COMPLETE: 24fixtures96sides384ACK288transitions. Frozen full
+summary recomputation matches exactly; all1600dependencies and every safety gate
+pass, runner stderr empty. EACH repeat A/B is11/13/0 W/T/L, tier0/0/+14, gain14
+loss0, worst loss0. Eleven repeatable causal pricing wins in3families; no-gain
+mutation failures0. Parent and candidate A/A controls each24/24 fully equal in
+score/role/plan/state/ledger/road footprint. Robust11wins13exact ties0unresolved.
+Summary908FD2EB391F7363929C984D8E051283EF6572CF182E0B660E4E08CAC76486E2;
+completion9BF0872F4ADF1C735DDF05B56809FFC7D184754DD42B89F61E2BED81604741C4.
+All strata, tails, exact work and limitations are in347development-closure.md and
+full JSON. Narrow synthetic roadless results do not prove traffic robustness or
+product readiness. Full sealed/protected/lane-champion/integration/BTC gates remain.
+
+346 COMPLETE:37unique exact requests96references74dual-valid suffix days. All2147
+dependencies verified, zero safety/bound/reconstruction failure. All3replicated
+344loss roots truly have selected conditional optimum36 below retained37, in
+2families and players8/9/10. Strict-bound gate passes, not product promotion.
+Summary17E8E851026BC0125C1BD17F4E6C0BC84532A1EF6BA8E10570F74D741D51B517;
+completionB30CB3F94F8F14810EE589396B42FE77BD7DE5B419DC89E72F321C6C78D98990.
+See346closure for all96strata, constructive gaps and exact provenance.
+
+347 registered before fresh inputs/source: intersect each existing no-tanker
+Patrol claim bound D+fuel with D*spot_count BEFORE summation. No expensive oracle
+in production, floor exception or comparator change. Keep full344 complete-pool
+pricing capability and test unchanged callers/consumers. Read347 preregistration.
+Freeze new24/54/108inputs before isolated source changes; inherited344 gates and
+same2repeat controls, exact roadless reporting normalization from start. Product
+c76a8ea unchanged. No function removed/reduced/deferred/disabled; nothing deleted.
+VM permitted for useful research/holdout;346 completed locally in seconds so no
+remote job was needed. Existing VM capacity failure is not a research blocker.
+Same one monitor, current40minute cadence as above, material-only,
+no RAM floor or microcommit/signature.
+
+## Closed attribution — ATTR-CURRENT-FLOOR-CONDITIONAL-CEILING-346
+
+345 COMPLETE:96matches288boundaries864dual-valid days, zero validation/state/ledger
+failure.64direct consumptions218equal-or-better alternatives6current-floor
+conflicts; no lost ACK/idle cache. Six conflicts are all3candidate losses in both
+repeats: retained certified final4/16/37 requires day2 current4/8/19; chosen
+current4/8/20 has certificate4/16/36 and upper4/16/38, realizes36. Thus345's
+eligible-consumer-loss gate fails; no cache fix/forced suffix/floor bypass allowed.
+Summary61A804C1625ACBF82CF9FDF1060015A014325FCDB7A8D6BBAE1F8F9843BA536B;
+manifest12036D25FFA93446F220ACD361EE73C5067DC0B4D59CE28E645A10482AE4D7A1.
+
+346 registered before oracle collection/execution. Read its preregistration in
+research/evidence. ALL96reference roots after day2 from complete344development,
+deduplicate exact requests only. Operational location update before execution:
+existing VM restart failed ZONE_RESOURCE_POOL_EXHAUSTED; no VM job ran. User
+clarified VM remains authorized for useful research/holdout, not build/test-only
+round trips. Run this short two-day exact oracle locally with unchanged321 source
+and verified existing Release library; freeze binary/source/library/requests first.
+Question is whether strict certified dominance is even possible with a tighter
+sound upper on selected action. Existing comparator already removes strictly
+dominated candidates before current-floor; no176 weak bound-closed exception.
+Need >=2distinct roots2families with inherited certificate > true conditional
+optimum to justify a separate bounded-upper design. Otherwise close that remedy,
+not automatically repeat floor/search policy. Production unchanged; no designed
+function removed/reduced/deferred/disabled or deleted, no RAM-floor restriction,
+no new VM/holdout/match/source edit. Monitor same10minutes, no routine pings.
+
+## Closed attribution — ATTR-COMPLETE-POOL-WITNESS-REALIZATION-345
+
+344 development COMPLETE/REJECTED:24fixtures96sides384ACK288transitions, all
+hashes/safety pass. EACH repeat7/14/3 net0/0/+7; worst loss1, gains10/losses3.
+Seven causal wins repeat across3families. Both binaries'24A/A controls have exact
+score/role/plan/state/ledger/road equivalence. The registered gate fails because
+three-terminal family net-1 in EACH repeat, not because all losses are forbidden.
+Summary8FDF5694178AC857186FB01E570A02461A675FB618A55D01ED69EECDBCDBAEE3;
+completion3870CD6718F939CC16B0DB6487A87E32830B8AFDB3EE7D11201FA9B666E578E9.
+Reporting-only roadless schema correction preserves measurements and comparator;
+full regenerated serialized JSON matches. Original operational failures preserved.
+Full evidence in344-development-closure.md. Sealed54/protected108 NOT OPENED.
+Do not relaunch344. Production c76a8ea/accepted258 and binaries unchanged; no
+product improvement commit/signature. No fixed available-RAM stopping rule.
+
+Registered345: exact read-only reconstruction of ALL344development selected
+witnesses through actual ACK, full suffix cache, next current-floor/selection and
+realized final score. 96matches288boundaries864dual-valid replay days expected.
+The fresh3repeatable losses occur after strict certificate gain, but consumer
+failure is only a hypothesis;333found none on earlier332records. Read345
+preregistration in research/evidence before implementation. Freeze dependencies,
+tests and inputs before attribution. No new solver/oracle invocation, production
+change, forced suffix, removal of current floor, cap increase or holdout opening.
+If no eligible lost-value boundary is demonstrated, close this consumer hypothesis
+and trace the remaining lower-bound ranking/option-value gap; no circular rerun.
+Preservation: no designed functionality removed/reduced/deferred/disabled, nothing
+deleted. Same single10minute monitor follows this active work; routine quiet.
+
+## Closed development — SCORE-COMPLETE-W1-POOL-PAIR-PRICING-344
+
+OPERATIONAL AMENDMENT2026-09-07 21:49:51+07: user explicitly removed the
+available-RAM launch/stop rule. Original PID5608 stopped at that guard with
+14atomic side results/3fixture markers; all hashes and side safety validated,
+no ambiguous partial side or child, and no partial paired score inspection.
+Resumed SAME candidate/inputs/side order via canonical runner --resume, hidden
+PID17016; companions .resume-20260907-214951.stdout/.stderr. Existing14results
+and all artifacts retained byte-identical. No fixed free-RAM threshold may be
+reintroduced in this or future runs without user authorization. Actual allocation,
+process, deadline, validator and ambiguous-partial failures remain actionable.
+No solver function/capability changed or removed; no data deleted.
+Active execution is now SCORE-COMPLETE-W1-POOL-PAIR-PRICING-344-execution-ram-policy.json,
+SHA2567E53A636936E42E45E90936A46E37AD91C322D8A87F6DB116A999D9912B4817C;
+1532dependencies. Amendment evidence EB52F5EAB82C5269DEFCB7A82D609AAC3DA2B09C70F30EFF0FF1467CE9F4A880
+records the exact14-side boundary, every artifact hash and22passing contracts.
+Original execution/runner/test provenance preserved, not an alternate runtime.
+Only free-RAM pre-side stopping removed; binary/splits/score and causal gates,
+timed-side implementation and summarizer unchanged. Disclose amendment in final
+phase analysis. Same single10minute monitor; no production edit/build/commit.
+
+FROZEN/RUNNING2026-09-07 21:34:02+07: hidden Python PID5608; same10minute
+monitor monitor-udon-witness-315 updated to344, material-only. No other local
+compute;1689509888available bytes at prelaunch, above1024MiB floor.
+Runner research/probes/complete_pool_score_344.py run --phase development.
+Expected24fixtures96sides48paired comparisons384ACK288transitions; one atomic
+result per side plus24fixture markers and run_complete under evidence/344's
+full experiment-name development directory. Companions .runner.stdout/.stderr.
+Input manifest17E2995FAD42F71B2A3C64927BC7C9CF6DF9D564C0ED090EED5199FEB5D58B24;
+sealed54 input44DC757C0007EC607D9FBDE119D76178D339E27EF527472F38A6BD1C440774FA;
+execution925F79E5751CF057660D8460F782A91D82039C6B7E5E5514A98E4F5248EE507F,
+1526dependencies;candidate459D484044517A648B3132EFF4656A4FA0F490E4DC366972C3C19B99E822766B;
+patch72C38C3E4EE7DBDBB293E05DAE89BA57B18353E08A767B014A2C11F67A1951A4;
+preflightE0BAB76BF358C840FDAE8C5D13B659D073BF3C72C413E75F3293FB617E75768C.
+CTest3/3 and20Python contracts pass. Added C++ tests prove six-cap/expired exact
+full serialized rollback, all-candidate/scenario positive capability,64shared
+selection-equivalence comparisons and actual ACK full-suffix retention. Original
+repair_profile restored to canonical body; pricing now after complete pool,
+shared original finalizer/comparator with full pool retained. No function reduced,
+no production source/build mutation, no deletion/commit/signature. Actual WinHTTP
+is synthetic loopback, never official BTC evidence. Summarize only complete phase.
+
+Registered2026-09-07 before source changes or fresh fixture generation. One gap:
+inline341 pricing can consume later original W1 work;343 identifies a finite
+complete-pool boundary with unexhausted joint pricing capability. Implement only
+in artifacts/research/344/source from canonical c76a8ea plus the frozen341 exact
+pricing capability. Production remains unchanged. Full preregistration:
+research/evidence/SCORE-COMPLETE-W1-POOL-PAIR-PRICING-344-preregistration.md.
+Fresh development24, sealed54 and protected108 fixtures, two repeats per binary
+with cyclic four-run order; freeze all inputs and policy before candidate edits.
+No old holdout tuning, partial scores, cap escalation or signature. Only after
+candidate tests and execution dependencies freeze may development start.
+
+Preservation: no designed function removed/disabled/deferred/reduced. The inline
+pricing call is relocated to the complete original W1 pool with all exact complete
+outcomes retained; original repair, roles, current floor, ACK/suffix consumers and
+reserves stay active. Nothing deleted. Shared canonical dominance/choose helper
+must pass equivalence tests before replacing the original selection block.
+
+## Completed design evidence — complete-W1-pool pricing successor after343
+
+343 COMPLETE read-only feasibility:96parent development days (24matches),72
+nonterminal complete selected W1 profiles; all72 have conservative recorded
+headroom3106..3340ms after subtracting the full main result plus original
+validation/network reserves and1ms rounding guard. All6families represented.
+Manifest1C3215B9483CDB95FBCCB05B61D7599B25F02FC98BDE891A4AE20F0BC359BB24;
+summary265E3DCFAD62F2900906F1C2EEF0B79A109DA74F24B2F2C7D91F9B67B6DFFD9F.
+Three arithmetic tests passed. No new solver, source edit or holdout inspection.
+Source proof traced original certification ->complete pool ->finalize/dominance/
+current-floor choose ->dual validation ->MatchSession pending/ACK ->full suffix
+cache. Unlike closed303's output-equivalent fixed point, finite W1 completion
+leaves a different joint resource-pricing capability unexhausted. Narrow recorded
+headroom is NOT guaranteed future time or competition/performance evidence.
+
+Next authorized work: design/register ONE fresh SCORE successor that performs
+the same bounded pricing only AFTER original complete W1 pool, before canonical
+finalization; never starve later original W1 scenarios/candidates. Preserve every
+function, original outcomes, resource limits, scenario identity, current action,
+floor, role selection, ACK/caches and validation/transport reserves. Require
+same-invocation base-pool/selection causal audit, exact no-gain rollback and all
+caller/consumer tests. No code/measurement before fresh manifests and NEW frozen
+acceptance/control policy.342 proves independent timed runs are not byte-identical;
+report replicated baseline/candidate variance without rescuing rejected341 or
+blaming user load. No source microcommit, promotion or premature signature.
+343-closure.md contains scope, consumer map and remaining obligations. No current
+compute process;342/343 complete and must never be rerun as experiments.
+
+## Closed feasibility — ATTR-W1-COMPLETE-PREFIX-HEADROOM-343
+
+Registered2026-09-07 before new attribution aggregation; read-only source and
+already-complete DEVELOPMENT parent logs only. No holdout input/score inspection,
+new solver invocation, source change or new binary. One question: does original
+complete W1 certification admit a useful post-pool refinement boundary under the
+SAME certification deadline, without stealing original search/W1 work?
+Trace canonical repair caller, complete profile finalization, current-floor
+selection, independent validation, pending decision and ACK suffix consumers.
+All96parent days from24consumed341development fixtures are included; terminal
+days are separately reported. Conservative remaining time is max(0,totalMs minus
+networkMs minus min(certificationMs,validationFloor25) minus measured final-main
+totalMs minus1ms rounding guard). This is a lower-bound headroom estimate at an
+earlier internal boundary, not guaranteed free time, new performance evidence or
+a distribution of scheduler noise. Inherited100ms is not increased or retuned.
+Source must show no lost caller/consumer and positive refinement opportunity
+distinct from closed303 (output-equivalent fixed point/deadline-only boundary).
+Attribution qualifies a separate fresh design only if original finite complete
+W1 and positive conservative nonterminal headroom occur in at least2families.
+Report100ms-fit counts as descriptive, not a new policy threshold. No promotion
+authority or replay of consumed cases; preserve all functions, delete nothing.
+
+## Closed control — W1 pricing runtime isolation after342
+
+342 COMPLETE2026-09-07 20:35:54+07:32sides8fixturemarkers16AApairs128validACK
+96transitions;1470dependencies/all artifacts validated, summary recomputes exactly.
+Completion35236C5A09CDE21BBCF55B336A85B01024687453F2DBE3EBF5727C1F598FF6D4;
+summary73C4F8877A3805C949FBD16DBE7C133AEF9BD1138361E8AC09EFDF51406288FB.
+Parent repeat3/5/0 delta0/+1/+14,3score/trajectory differences,2role differences.
+Candidate repeat1/5/2 delta0/-1/-14,3score/trajectory differences,1role difference.
+All candidate support/work/improvements0,120unsupported calls. Zero safety.
+Repeatability falsified in BOTH binaries; no authority to blame user load, erase
+341regressions, quantify general noise distribution or promote either build.
+Full tails/public strata/source accounting in342-closure.md. No function removed,
+disabled/deferred/reduced/deleted; production c76a8ea unchanged, no signature.
+
+Next source/design work: inspect one complete-W1-pool-before-refinement boundary,
+same-invocation causal original/priced comparison, original consumer coverage,
+shared deadline ownership and protected validation reserve. Do not implement or
+measure until a general mechanism is justified and separately registered on fresh
+inputs. No full-matrix repeat, fixed-role shortcut, current-floor removal or gate
+rescue.342 is complete; never relaunch it. Existing10minute follow-up may continue
+this scoped audit, quiet except material progress/errors; no busy polling.
+
+## Closed attribution — ATTR-INACTIVE-RUNTIME-AA-CONTROL-342
+
+FROZEN AND RUNNING2026-09-07 20:23:48+07, hidden Python PID7088;
+2256367616available bytes at prelaunch, no other local compute. Manifest
+375A1991CA74F6907827A649C754A57D8E8B588E067E89C9E8192BD0FF1D37DC
+at research/holdouts/ATTR-INACTIVE-RUNTIME-AA-CONTROL-342.json freezes1470
+dependencies.23contract tests passed before freeze. Runner/summarizer
+research/probes/inactive_runtime_aa_342.py run;32sides8fixturemarkers128ACK96
+transitions expected. Companions evidence/ATTR-INACTIVE-RUNTIME-AA-CONTROL-342.runner
+.stdout/.stderr. Same existing monitor updated to342 at10minutes, material-only,
+by explicit user correction2026-09-07:40minutes is unsuitable for an11minute run.
+Nominal windows640seconds plus overhead. No source/build change or new VM.
+
+Registered2026-09-07 before fresh fixture generation or measurement. One gap:
+341 protected score/role/trajectory changes are not causally attributable to
+pricing gains. Test exact same-binary repeatability separately for canonical
+c76a8ea and frozen rejected341; do not reopen or retest consumed341 inputs.
+No source, binary, functionality, cap, comparator or gate change; nothing deleted.
+Parent BTC F97F168FE76FEF1B6226D2C2CFDAF954F116D39F427B6F157594151C461E1275;
+candidate C8603EB32E33B44EF1E3A2BE56DF2CC8A1C8E1001E11A5E28248814E028BE2A4.
+
+Design:8 fresh fixtures = map8/32 x fixed/native x low/default fuel,4days,
+public5000ms,8/9/10teams rotated and roads present. Existing332 fixture generator,
+exact bridge and frozen341 Windows HTTP transport remain unchanged. Road presence
+must make candidate pricing supported/work/improvements zero. This tests the
+unsupported negative-control domain, NOT supported/exhausted pricing cost.
+Each fixture runs parent A/B and candidate A/B (32sides,128ACK96transitions,
+16same-binary comparisons). Four-run order is a preregistered cyclic rotation of
+parentA,candidateA,candidateB,parentB. Same setup and aggregate external traffic
+for all four runs; own traffic and roles remain actual closed-loop outputs.
+Fresh setup identities must not overlap consumed341 development/holdout/protected.
+No gameplay result is used to choose, skip or replace a fixture.
+
+Freeze manifest, run order, scripts, inherited dependencies and tests before
+measurement. RAM>=1024MiB before each side, no concurrent local compute; every
+atomic side validated with replay-check. Resume only complete-side prefixes;
+ambiguous accepted-day evidence blocks automatic replay. Summarize only all32.
+Report roles/plans/state/ledger/road and official score equality, first divergence,
+first score tier, all differences and per-public-stratum counts for EACH binary.
+Any within-binary difference falsifies exact repeatability on these inputs; zero
+only means none observed. No inference that all341 effects are noise, no causal
+attribution to user load, no performance/promotion/holdout authority, no341rescue.
+This is attribution-only with no sealed holdout. An optimization requires a new
+general runtime-budget mechanism and fresh independent SCORE qualification.
+
+## Closed protected follow-up — 341 causality qualification
+
+PROTECTED COMPLETE2026-09-07 20:00:58+07:108pairs216sides108pairmarkers,
+1368validACK1152transitions, zero operational failure, resumed runner stderr0.
+All1464dependencies and complete artifacts audited; frozen summary independently
+recomputed exactly. CompletionF6187AD49A43684830F294BFECD6EA5B89879C3EFD68BE8C4F3679034EE94FC0;
+summary04A4D611EAE4D99908B9671F00E967228C4C12DFC90C3C4997E58808CEF8F80B.
+W/T/L15/84/9,delta0/+14/+230, but gate FAILED: tier2loss1, worstservingloss11,
+high-stock servingnet-3,24unactivated score differences and28inactive trajectory
+differences. Five native assignments differ. All24 score changes precede any
+pricing certificate gain;17have no supported pricing work. Thus aggregate gain
+does NOT establish causal benefit. Pricing1459calls357supported72complete285
+exhausted4witness improvements0failures. Full tails/all strata/source diagnosis
+at research/evidence/SCORE-W1-STOCK-RELAXED-PAIR-PRICING-341-protected-closure.md.
+341 is REJECTED for promotion by its frozen protected gate. Narrow development
+and consumed holdout remain valid scoped evidence, not a qualification waiver.
+Canonical c76a8ea/accepted258 unchanged; no function removed/disabled/deferred/
+reduced and nothing deleted. Isolated source/binaries/all evidence preserved.
+No integration, BTC promotion attempt, microcommit or competition signature.
+
+Next work: separate fresh attribution of inactive-path/runtime-budget effects,
+not another full matrix, dispatcher or current-floor change. First register
+fresh identical-binary A/A control and source accounting of unsupported setup
+cost, supported exhausted work and independent role/search wall-clock variability.
+No new measurement before registration/freeze; do not replay/tune consumed341
+inputs or claim a guard relocation alone repairs all differences. Same witness
+on rollback does not restore shared elapsed budget. Preserve every designed
+capability. One existing40minute follow-up may continue this bounded audit;
+never relaunch the now-complete341 matrix or busy-poll it.
+
+## Closed qualification — SCORE-W1-STOCK-RELAXED-PAIR-PRICING-341
+
+MONITOR CADENCE UPDATE2026-09-07 17:23+07: user authorized30/40/50minute
+checks according to measured progress. The SAME monitor is now every40minutes.
+36/108pairs complete;29new pairs in63.1minutes since resume,27.6pairs/hour.
+Remaining nominal public windows152minutes; observed overhead ratio1.043 gives
+about159minutes remaining, roughly20:00+07 if uninterrupted. Estimate only.
+Runner remains healthy, stderr0; no partial-score inspection. No designed
+function removed/disabled/deferred/reduced, no deletion or frozen-file change.
+
+USER-AUTHORIZED RESUME2026-09-07 16:19:46+07. The user explicitly lifted the
+pause and requested continued qualification toward the competition build.
+All1464frozen dependencies verified; exactly7parent+7candidate results and7pair
+markers validated, no ambiguous/foreign prefix or live compute child. Resumed
+the SAME frozen run_pair_protected_341.py run --resume hidden as PID3596 with
+1735680KiB free physical memory, above unchanged1024MiB floor. New companions:
+research/evidence/SCORE-W1-STOCK-RELAXED-PAIR-PRICING-341-protected.resume-20260907-161946.stdout
+and matching .stderr. Original runner/resource-stop evidence is preserved.
+The ONE existing20minute monitor is ACTIVE again. Initial process check confirms
+runner3596, bridge10500 and BTC child21468 alive with new stderr0. No busy polling
+or parallel local compute. No function removed/disabled/deferred/reduced, nothing deleted, no
+source/candidate/gate change. Continue remaining qualification before commit or
+signature; incomplete protected evidence has no promotion authority.
+
+Historical USER-REQUESTED PAUSE2026-09-07 (lifted by explicit resume above).
+The instruction below applied only during that pause: do not restart matrix
+until explicitly authorized. At that time the user was preparing to shut down.
+Original record: do not restart matrix, bot or new experiment
+until the user explicitly authorizes it; user is preparing to shut down host.
+Runner5096 exited at the frozen1024MiB memory floor after exactly7complete pairs:
+7parent+7candidate atomic results and7pair markers, no run_complete. Read-only
+process inventory confirms no Python/udonshield/protected-bridge child remains.
+Existing20minute monitor monitor-udon-witness-315 is PAUSED. All files preserved,
+no partial-score inspection, no cap/memory-floor modification or blind replay.
+On explicit restart audit all1464hashes/sides/pairs and no ambiguous prefix,
+then use the same frozen runner --resume with new stdout/stderr companions.
+
+Decision requested by user: complete frozen341's protected/champion/integration/
+genuine-BTC qualification before attempting another SCORE mechanism. Holdout
+broad benefit is not a claim that the architecture's current-floor gap is closed.
+Read-only consumed-holdout diagnosis: both losses have day2 selected current
+4/8/20 with certified final4/16/36, versus certified-not-selected current4/8/19
+with final4/16/37. choose() excludes the latter by the current-day floor. A lower
+bound37 versus lower bound36 is not itself proof of universal policy dominance;
+the completed losses do not authorize tuning a successor on these sealed cases.
+Prior176's bound-closed exception helped its anchor but failed fresh general
+1/5/6 with tier2 losses. Do not repeat floor removal/bound closure without its
+registered fresh independent reopen condition. No designed function removed,
+disabled/deferred/reduced, nothing deleted, no source edit or commit/signature.
+
+PROTECTED MATRIX ACTIVE2026-09-07 14:54:01+07: hidden Python PID5096,
+2193620KiB available and no concurrent local solver/experiment. Frozen runner
+research/probes/run_pair_protected_341.py run; expected108pairs216sides,
+108pair markers,1368validACK1152transitions and one run_complete under
+research/evidence/SCORE-W1-STOCK-RELAXED-PAIR-PRICING-341-protected.
+Frozen executionCED506D5BE2F20B9B273200A8FB8BABABAF6053273016E498593B883BDD62BB9
+records1464dependencies; runner36584356540445EFFBBC2C2F590D9A457780071985C44E3C226C22D9C034796B;
+preflight84A0F46A2C8167088CA21CC5FA1978119D3E8DBE4DADE47E2BA480AD7E0E2A27.
+26contract tests pass; corrected native/fixed real WinHTTP unit preflight8ACK6transitions
+completed5A2C2DB08E0862779F4B55B7B4CEC57B2D41F3BB5B5A1DFBADCCD70DE723F298.
+Original preflight schema error required candidate-only pricing telemetry in
+canonical parent; all evidence preserved, no protected cases played there.
+Full disclosure and preregistered protected checks in341-protected-contract-closure.md.
+No source/function reduction/deletion, candidate changes, gate rescue or microcommit.
+User requests20or30minute monitor for this long run: choose ONE existing20minute
+monitor, notify material events only. Nominal public windows3h48m plus overhead.
+Do not inspect partial scores, change frozen dependencies, run concurrent local
+compute/BTC/build, or duplicate days. Resume only through the same frozen runner
+--resume after1464hash/atomic-side/pair audit, no ambiguous prefix or live child,
+and RAM>=1024MiB. Interrupted mid-side accepted-day evidence requires specific
+recovery audit; no automatic fresh replay. Genuine BTC and integration/champion
+gates remain required even if protected passes. Synthetic server is not BTC.
+
+HOLDOUT COMPLETED and PASSED2026-09-07:54pairs108sides432ACK324transitions,
+all729dependencies/side/pair hashes verified; frozen summary recomputes exactly.
+21/31/2,0/0/+27;29positive servings2lost;8gains+2,13gains+1,2losses-1.
+All differences tier3,zero inactive difference or safety failure. Family nets
+balanced+14/duplicate+10/terminal+3;other3families0.211/231pricing complete,
+20exhausted safely,63witness improvements,0failures. PID6776 exited normally,
+stderr0. Summary14A3699BE45B7BA7A6D57FF753A398452124EA2FCA5534F87C53A6340E7AD976;
+completionCD5164FD553EB7A3631A3084D6B9257B241D1C5613AD1B0DA0DC459FCB592D35.
+Full closure341-holdout-closure.md. Holdout consumed; no tuning or reopening.
+Next authorized work is dedicated protected108 HTTP execution/test closure,
+not product promotion. Preserve frozen binaries/source/mechanism and all functions.
+Protected108inputs have684days per side,13680seconds total public day windows
+before overhead. Native roles must use actual pre-match role selection; fixed
+roles use explicit synthetic assignment only. Day-count/window-generalized
+loopback and exact own+external two-day road-state integration must be tested
+before launching. No Linux HTTP/sandbox substitution, reduced fixture coverage,
+source microcommit, RUNBOOK edits or premature signature.
+
+Historical holdout launch record (completed as above):
+ONE-TIME HOLDOUT ACTIVE since2026-09-07 13:41:01+07, detached hidden Python
+PID6776,2156936KiB available at launch and no other local compute. Native Windows
+WinHTTP against synthetic loopback; no official BTC or Linux transport claim.
+Runner/summarizer research/probes/run_pair_holdout_341.py
+4E305EB4D39EB89CB0573F064089DBB5214631F08F062733AAE7FF6893C52703;
+holdout execution044F99814DED15BA59EBEBFA148E5AC8F32D96C987931FB831CA38014BC0A9DC
+under research/holdouts/SCORE-W1-STOCK-RELAXED-PAIR-PRICING-341-holdout-execution.json,
+729dependencies verified. Holdout-specific preflight18tests passed,
+7F53AE35E21EDE436433B58146FD1E91911CB44822C1A7A9EE972CD4A3B44C32.
+Only phase/counts and preregistered6win/3family gate differ from frozen dev runner;
+exact specialization test and all48complete development side/helper equality pass.
+Inputs now OPENED ONCE, same previously-frozen54pair hash99454502161E90FEC4412786C7A89F3DC6A05ABDA82961D394E7B961F1E7ADF0.
+Expected54pairs108atomic sides54pair_complete andone run_complete,432ACK324transitions.
+Evidence341-holdout/{parent,candidate}, runner.stdout/.stderr, final.summary.json.
+Do not inspect/aggregate partial scores, change candidate/gate/caps, run concurrent
+local compute/BTC/build, duplicate days or kill healthy work. Same runner may resume
+only validated complete sides/no ambiguous prefix/no live child/RAM>=1024MiB.
+When complete validate729dependencies/all exact side/marker hashes, then frozen
+holdout summary determines accept/reject this candidate only. If it passes,
+continue registered108protected lanes and genuine BTC target-host gates before
+any product source integration commit/signature. Production remains unchanged.
+
+DEVELOPMENT COMPLETE and PASSED,2026-09-07. All24pairs48sides24pair markers,
+192validACK144transitions;407dependencies and all atomic artifact hashes verified.
+Frozen summary independently recomputes identically:10/13/1,0/0/+13;14positive
+servings versus1lost, worstloss-1; all differences tier3, no inactive difference.
+Wins span balanced4,duplicate2,terminal4; family nets+7/+2/+4, others0. Zero
+safety failure;102pricing calls ALL complete,31witness gains,zero exhaustion.
+SummaryFA19803A9ABB1DBD35C5DA965A35D8B452749E0476D8CBDBEA53775592860A4F;
+completion71CF188D3470D85EDCECBC0F03B60D8BA4AC6AE77FF7A6D13CE142EAD9DBFDC4.
+Full strata/tails/work at341development.summary.json and development-closure.md.
+PID7596 exited normally,stderr0. Candidate/source/caps unchanged; production intact.
+The dedicated54pair holdout runner is frozen/tested and active as recorded above.
+No new source mechanism, reduced functionality, deletion, microcommit or signature.
+Existing single10minute monitor monitor-udon-witness-315 will track that run.
+
+2026-09-07 execution FROZEN after Windows26tests/unit1 and Linux unit1/17complete
+full-output parity checks. VM resultE6E116A076823897DA5CB029A37D2BA4CA75BD581DFE9F68BB03631FB1EC850C.
+Execution research/holdouts/SCORE-W1-STOCK-RELAXED-PAIR-PRICING-341-execution.json
+01617B33D424B892C8103D65F51DD267CFBF5C78781F78E4C76E1B2CF9B647CA;407dependencies.
+Patch45C7718CCD70CB0A8E87C66469C6A9020D8764A8E4A3C25FB092B9011A138576;
+preflight670A9B938492C0180394EE3C151CEF5F7973E6659D1D30F1E463FFE6FB4AC343;
+runner/summarizer FAFAE2405E01454B5FD6F99B0F9EAF1424DA956F8DCA5F5A663CB0F69D9E5E2D.
+Authorize only frozen run_pair_score_341.py run, detached hidden with separate
+development.runner.stdout/.stderr. Expected24pairs48side results24pair markers,
+192ACK144transitions andrun_complete; complete summary automatically generated.
+No concurrent local build/test/BTC, partial-score/certificate aggregation, gate
+or source changes. Resume only validated atomic evidence/no ambiguous prefix,
+no live runner/child and>=1024MiB RAM. Holdout still UNOPENED, production intact.
+
+2026-09-07 preflight update: all inputs froze before341source integration.
+Initial C2F325F1F5A4C93C0FA15A276D0B92BE6BA5EE08725017E02501C01B73B70D0E;
+dev24pairs 015739A8C1BB6F7BB667139FFE4180D33F6876B1E39D6DAEC0881C0696D4145D;
+sealed54pairs 99454502161E90FEC4412786C7A89F3DC6A05ABDA82961D394E7B961F1E7ADF0;
+protected108 A2AC983D560603AF8835D8173F52305D6BAD82733439E2BE06A02DD212A50203.
+Fresh341source from HEAD has exactly frozen340 pricing source
+CE67231797EB97E78AD07DFA7FC4AE72D4766B3B38690B65D9A6B5A338E7EBEC.
+Windows Release built;26 contract/runner/HTTP tests and C++ unit1/1 pass.
+Candidate BTC C8603EB32E33B44EF1E3A2BE56DF2CC8A1C8E1001E11A5E28248814E028BE2A4.
+Source archive8E70ECD0EBA0489C315E00655438C3CC0E2D774F6953E6864858C3B02FA8BD47;
+17fixed cross-compiler inputs7566BCA19F7B277F0F53B33DE0821D9C0C92A4C9EE7C7374878165EB09963E34.
+gcloud API DNS failed twice; direct PuTTY batch SSH using the EXISTING saved host
+key and private-key file verified hostname and GCP metadata udon-f0-240-0829 at
+35.185.29.3, about15401MiB available. No host-key bypass or new credential.
+Staging isolated /home/LMC/udon341-0907 compiler contract; no fresh score yet.
+No production function removed/disabled/reduced, no deletion or RUNBOOK change.
+
+2026-09-07:340 attribution PASSES.24/24 complete within unchanged338limits,
+versus0/24 baseline;14 strict witness gains across4families, delta0/0/+28.
+14 tests pass and independent336 oracle best-pair optimum matches all24 roots,
+72pair responses216dual-days. No oracle input to340 or production change.
+Summary96552297929C1B486A4225483CD03090E1E9BC74F7F57514CF8EB871FD699B15;
+crosscheck2338A40422579D2A614A75091AB95744FDDFC55021ABBD907D50113B2FEA803C.
+
+341 is the separate fresh actual SCORE screen for this exact340 mechanism,
+starting from canonical c76a8ea/accepted258, not treating338 as production.
+Freeze24fresh development pairs,54sealed holdout pairs and108protected inputs
+before isolated341 source integration. Exclude all consumed338 gameplay identities
+and earlier consumed pools. Keep340 bound and terminal quotient unchanged,
+all six caps and100ms unchanged, original all-pair atomic rollback/first-tie order,
+all W1/current-floor/ACK/scenario/role/traffic/5000ms main functionality intact.
+No functionality removed/disabled/deferred/reduced and nothing deleted.
+Canonical production and user RUNBOOK untouched. Test and freeze exact source,
+Windows binary, full runtime runner/summarizer plus Linux compiler parity first.
+
+Identical preregistered score gate: >=4activated actual wins across>=2families,
+wins>losses, tier3gains>=2xlosses, no tier1/2 loss, worsttier3loss<=1, no negative
+family net; inactive cutoff differences block causal claims. Only if complete
+development qualifies may sealed54pairs open once (>=6wins3families same downside).
+Protected108 lanes and genuine BTC lifecycle/latency still required before any
+promotion/product commit/signature. No cap rescue, old holdout reuse, microcommit
+or partial-score inspection. Existing VM authorized for useful C++ checks;
+actual WinHTTP remains on Windows, not replaced by Linux sandbox. One10minute
+monitor only while detached long work is active; no other local compute then.
+
+## Closed attribution — ATTR-PAIR-STOCK-RELAXATION-BOUND-340
+
+2026-09-07:339 completed24roots48responses144dual-days. Both338 and339 exhausted
+all24 at262144work; no new completion or gain.13 contract tests passed, but actual
+both-complete equivalence count0, not24. Summary
+C8CC2910B9FAC1E9EF483407231E41E632F86A7929C0A35591F88B681C731DD2.
+Terminal quotient alone insufficient; keep339 closed, original338holdout sealed.
+
+340 investigates a NEW sound joint-branch bound on the same ALL24 consumed roots,
+not cap tuning or played-score promotion. At each pair/day fix other trajectories:
+F is their stock-capped serving total; residual-positive spots have credit1 to
+each selected Patrol. Independently maximize each Patrol's future residual credits
+over the exact canonical cell/fuel/day resource frontier. Ignoring competition
+between the pair only OVERestimates additional servings. Therefore F+U0+U1,
+capped by per-day sum min(stock,fixedClaims+2), is a valid joint suffix upper bound.
+Lifetime and daily tiers use conservative all-spot brand unions/day counts.
+Cut a branch only when this componentwise upper bound cannot lexicographically
+beat the already-exact incumbent at the same DP node. Preserve original iteration
+and first-tie selection, all physical identities and all-pair atomic completion.
+Terminal quotient from339 remains independently proven, not a promoted path.
+
+Same338100ms and all six limits: count upper-DP memo states in shared memo budget,
+charge calls/route scans/relaxation preparation BEFORE work, reuse canonical day
+frontiers, fail whole attempt closed on any exhaustion. No reduced functionality,
+deletion, source production change, extra cutoff, oracle input or family dispatch.
+Freeze340 inputs from339 manifest before isolated source. Contract gate includes
+independent tiny exhaustive upper-bound soundness and exact score/full-plan338
+equivalence when both complete; no completed338 case regresses. Attribution gate
+unchanged: >=4new completions2families and >=4strict witness gains2families plus
+zero safety/equivalence failures before registering any fresh SCORE successor.
+No sealed holdout authority. Short attribution does not need polling/another
+monitor; use the existing authorized VM for independent compiler checks if useful.
+
+## Closed attribution — ATTR-PAIR-TERMINAL-QUOTIENT-WORK-339
+
+2026-09-07:338 development closed2/22/0,0/0/+2,192ACK144transitions and zero
+safety/inactive differences. Only2actual wins<4required, so no holdout opening.
+Summary54B87EE30BCDE3AE1D93E6E705BCC6A706862376FC30D7783EE181F192C50B17;
+completion6EE0B992CAEE46A37FF5955B3448C30F42CF793FABFD9853D6CA375CBF5EAE02.
+307dependencies and48sides24markers match.65/111 candidate calls exhaust shared
+work; caps, original complete witness, all-pair completion and production intact.
+Full closure at research/evidence/SCORE-W1-BOUNDED-PAIR-PRICING-338-closure.md.
+
+339 is research-only work attribution, not promotion or a new played-score run.
+Freeze ALL24 canonical-parent day1 selected W1 roots from completed338 development
+before experimental source; no outcome filtering and no sealed input. Terminal
+day value depends only on both route claim masks and existing lifetime brands;
+terminal endpoints/fuel cannot affect any future day. Test a stable first-mask
+representative quotient on FINAL day only, exact scalar terminal recurrence,
+same pair order/tie rule, all existing nonterminal state and original rollback.
+No designed functionality removed/disabled/deferred/reduced; nothing deleted.
+No cap increase: same100ms32768settled196609created262144actions8192memo262144work
+1024queries, including quotient scans/accounting. Bound additional storage by
+existing route/action limits, charge work BEFORE quotient construction/loops.
+338 frozen snapshot remains untouched; only isolated339 research source/probe.
+
+Pre-register attribution gate: zero independent validity/ledger/identity failures;
+exact score AND full plan equivalence on every both-complete338/339 response;
+all original witnesses unchanged on every outcome; no completed338 root becomes
+incomplete339. At least4 previously-incomplete roots completed across2families,
+and >=4 strict complete witness gains across2families, before proposing a separate
+fresh SCORE successor. Consumed roots can validate mechanism/work only, not
+played-score promotion. Check complete canonical frontier quotient against
+independent exhaustive tiny walks, stock1..3, roles3..8, terminal/nonterminal
+guard, physical tie identity and every lowered cap/deadline rollback. Existing
+authorized VM may run compiler/contract checks; Linux HTTP still unsupported.
+No BTC/match/production changes, old holdout reuse, source commit or signature.
+
+## Closed development — SCORE-W1-BOUNDED-PAIR-PRICING-338
+
+2026-09-07 09:36:33+07: resumed SAME frozen runner with --resume, hidden PID18700,
+after initial PID21104 exited09:27:39 at clean17pair/34side boundary because
+available RAM fell below frozen1024MiB launch floor. Original707byte stderr is
+preserved operational memory-wait evidence, not product failure. All307frozen
+dependencies,34side replay/transport/check hashes,17pair hashes,136validACK and
+102reconciled transitions verified; no ambiguous partial prefix or live child.
+RAM2233768KiB before relaunch. New companions development.resume-20260907-093633
+.stdout/.stderr; original evidence remains unchanged. Remaining7pairs only,
+no partial-score/certificate inspection, source/gate/cap change or duplicate case.
+
+2026-09-07 09:15:40+07: hidden development runner PID21104 started with1793164KiB
+available, no competing BTC/probe.24pairs/48atomic sides,24pair markers,192ACK and
+144transitions expected. `research/probes/run_pair_score_338.py run`, evidence
+`research/evidence/SCORE-W1-BOUNDED-PAIR-PRICING-338-development`, separate parent/
+candidate subdirs; prefix.runner.stdout/stderr. No partial-score inspection.
+Execution manifestF17984986F6C304F791E84DEAC96FDCBB862A2BDC4D5BB2DDD3F6B21955A0244
+freezes307dependencies; candidate Windows622425DEFDFD707134E85D91377C2F75D30DFC2712CA30ECE5AA655F4B47F72B;
+runner/summarizer465CBAF783C88F08F9559A334C0B8414F9BF0788067E78621A047E0BC818447B;
+patchE71115D904AA5EA33DB6454A27240EAB1210660222F9DB32D8E6284C1AAD7C25;
+preflight8EA8861B5708D353A295DE059C3CB5885F50D0807029B2E554D7FA8E371D9703.
+23contract tests passed; C++ unit1/1 on Windows and Linux;17tiny cross-compiler
+full-output/rollback checks pass, VM result5A451BA5C542F920563D9E1EE6982270142AFC0DC3CEC6A43ECCEC1E6B05A0DC.
+VM source at/home/LMC/udon338-0907 matches local pricing/orienteering/decision
+hashes. Linux HTTP is currently unsupported in canonical btc_main.cpp; hence
+use VM for compile/correctness, keep registered actual WinHTTP screen local.
+Do not replace it with sandbox or call syntheticHTTP official BTC. Existing
+monitor315 updated ACTIVE338 at10minutes; no second monitor or spam polling.
+Earlier local unittest invocation used wrong cwd and failed imports before any
+tests/measurements; fixed cwd only. No candidate correctness failure observed.
+
+2026-09-07: user resumed autonomous development and authorized the existing VM
+for useful long runs. Canonical parent remains c76a8ea/accepted258. 337 passes
+fresh certificate prevalence, not played-score promotion. No source change yet.
+
+Input freeze completed BEFORE source: manifest1AD2BC4B63FC29F3ECA4084499B42794B6FC034C7032485A1DADD40875EB763B;
+development24pairsFC672A346E846FD4816AC1B38E90E4B740B050E78BA6BBDC32D8EB3F23150155;
+sealed54pairsDDA544B5330C8D3215AF981E9D3A9F0FA1460E2115A5A751C9B77C4365EA56E0;
+protected108pairs339B1546EA84532F8B84C8BBD6D8F3994ABA6CD6BBB0D5062B89FA0B7A2A42D8.
+GCP DNS recovered; same authorized VM confirmed RUNNING(c3-standard-4).
+
+338 prices every unordered physical Patrol pair independently from the original
+complete W1, fixing all other full trajectories. Ordered pair cell/fuel and
+lifetime brands are the DP state; joint daily reward caps claims by stock. Reuse
+the canonical sparse resource kernel and existing W1/ACK consumers, NOT the336
+research oracle. All-PATROL roadless <=32spot proven domain only; all existing
+full planner/roles/traffic semantics, current floor, scenario handling and5000ms
+checkpoint retained. No designed functionality removed/disabled/deferred/reduced;
+nothing deleted. Canonical production and user RUNBOOK remain untouched.
+
+Frozen design ceilings per witness invocation are inherited unchanged from332:
+100ms clipped to existing candidate certification deadline,32768settled labels,
+196609created labels,262144stored actions,8192memo states,262144DP work units,
+1024day queries. Shared budget across all unordered pairs in physical-index
+lexicographic order; day frontiers shared only under proven identity-independent
+Patrol geometry. No sequential coordinate updates. Charge pair cross products,
+memo visits, reconstruction and both full-team validators before execution;
+bound all allocations with label/query/memo/action ceilings and check clocks.
+Any incomplete pair or failed validation discards the entire attempted replacement,
+retaining the original complete witness byte-identical; no partial optimum claim.
+No limit increase in response to336/337cost or later score outcomes.
+
+Before source edits freeze24fresh actual paired HTTP development setups,54sealed
+holdout pairs and108protected inputs; deterministic unused gameplay identities
+from new338seed pool, not consumed replay/oracle targets. Fixed alternating order.
+Development requires >=4 activated actual-score wins across>=2families, wins>losses,
+tier3 gains>=2xlosses, no tier1/2 component loss, worst tier3 loss<=1 and no family
+negative net tier3; inactive cutoff differences reported and block causal claims.
+Holdout requires>=6wins across>=3families with same downside/safety constraints.
+Protected5000/10000/15000ms,8/32maps,low/default/highfuel,4/5/10days,fixed/native,
+6traffic families and8/9/10teams; zero safety and bounded nonnegative stratum
+downside. Exact old-caller equivalence, pair exhaustive/identity/stock/WAIT/fuel/
+ledger and every exhaustion/rollback contract must pass before score measurement.
+
+Only isolated338source/binaries may change. Freeze execution hashes before runs;
+no old sealed holdout reuse or premature signature/commit. Prefer existing VM for
+long paired runs if its authenticated access is verified; never create/delete a VM.
+Current GCP describe failed DNS to oauth2.googleapis.com, not proven auth failure.
+Monitor315 remains paused until an actual detached long run begins.
+
+## Current next step — bounded pair SCORE design;337 complete
+
+2026-09-07 08:46+07:337 finished normally08:43:52; no remaining runner/child,
+stderr0. All24baselines96validACK72reconciled transitions,72single72pair responses,
+432replacement plus72original dual-days complete. All245frozen dependencies and
+all48atomic result hashes match. Pair-best vs single-best8/16/0, delta0/0/+8;
+each gain+1serving, duplicate4/4 and terminal4/4, other4families all ties.
+Pair-best vs selected original15/9/0, delta0/+1/+32; one first-tier2 gain and14
+first-tier3 gains; no component losses or safety/identity/exhaustion failures.
+Frozen prevalence gate PASSES, but no actual paired played-score gain measured.
+Summary3966E31DB7FC65673BF31E94343890BCA201935B598C3EC803F8E06D080DCF2B;
+baseline completion3861025EFCCAB34011268B36632F2BE94032B62C157824B7ECDFCB7496869EBF;
+attribution completion8969B57FD0C58811929B1ABB2DC1BD193DF8959AD0BA8D125E9573A77C20DD0D.
+Full tiers, all22step strata and other strata/work in337summary and closure.md.
+Existing10minute monitor monitor-udon-witness-315 PAUSED after completion.
+
+Next permitted work is the separate bounded SCORE design described in
+`research/evidence/ATTR-W1-PAIR-PRICING-PREVALENCE-337-successor-design.md`.
+Research pair DP must NOT be copied into production. Trace/reuse canonical sparse
+resource frontier and current W1 certification/ACK consumers; preserve original
+complete witness, current score floor, scenario semantics, all existing planners,
+and5000ms main. Single pricing332 never became production, so do not treat its
+private snapshot as canonical parent or its old holdout as successor evidence.
+Before any new source edit or score run, formally register the next experiment,
+freeze fresh development/holdout/protected setup hashes and finalize bounded
+work/deadline semantics plus independently tested exact rollback. No parameter
+or family dispatcher based on337wins. No running experiment remains at this
+monitor handoff; this is not a practical-ceiling or competition-signature claim.
+
+## Closed fresh prevalence — ATTR-W1-PAIR-PRICING-PREVALENCE-337
+
+2026-09-07 08:35:22+07: frozen337 launched detached hidden Python PID6176,
+`research/probes/pair_pricing_prevalence_337.py execute`. RAM recovered from
+about0.5GiB to2244604KiB before launch; no other solver/probe/bridge was running.
+Three preflight tests passed (gameplay freshness, ambiguous/noncontiguous resume
+rejection, recorded dual-pair identity and forged-output rejection), then freeze.
+All24 gameplay setup identities unique and disjoint from60consumed314/331/332dev
+setups. No sealed inputs opened. Manifest
+198585CC6F2F1553EC320451EBA465E50E5CE7426A6BEFE8C904A4C4968AAF39;
+runner/summarizerDB0CC261C77ED9777CC8A7290EB88E5EEB3651215E406F0FC4894206AA1176BF;
+testsF3AC1B9B3568F87CA7E0107AFF8DD93A73A235AC96AD59A556A64E293ED44DE6.
+Evidence root `research/evidence/ATTR-W1-PAIR-PRICING-PREVALENCE-337`, baseline
+and attribution subdirectories with separate atomic result/completion markers.
+Root-prefix companions `.runner.stdout`/`.runner.stderr`. Exact results not read
+while incomplete. Existing monitor `monitor-udon-witness-315` updated ACTIVE337
+at10minute cadence, meaningful events only; no new monitor or busy polling.
+
+336 completed27roots81responses243dual-days, zero failure/exhaustion, stderr0.
+Best-pair versus best-single11/16/0, all gains tier3 (+15 total, +1..+2),
+spanning balanced/duplicate/fuel/terminal. All3 better-action roots in2families
+reach4/16/38 versus best-single4/16/36, without oracle plans/value inputs.
+Maximum per-pair2641memo states310218transitions113day enumerations; total
+128536memo9644069transitions6551enumerations. This proves tiny-domain capability,
+NOT production cost, actual closed-loop gain, protected breadth or promotion.
+Manifest15D3C19EADC348818298EEB2F7A8486B57EA7099A1CAFB7A75BACB07C8AC6B89;
+summaryDB8127F31E4E5167D3177B9908FD62F6AF6409CC50D8743DB4C640C98E8C32B2;
+completion935E9E96D55405348AC20EFB33E17F0035A40B88EE451F54F3D4E3FDAF69CF32.
+Hidden PID12376 launched08:23:02+07 and stdout completed08:23:05; this is only
+operational timing, not latency authority. Process exited; no monitor needed.
+
+337 registered BEFORE implementation/measurement:24 fresh canonical HTTP cases,
+six existing roadless3-Patrol families x4, seeds20260907337000+100family+replica,
+players8/9/10 rotated; fixed4days and5000ms public windows. Preserve actual
+selected day1 complete W1, then independently run frozen330 single and336 pair
+capabilities from the SAME original post-action state/ledger/witness. Never
+apply responses to the match, update coordinates sequentially, pass oracle
+targets/routes, enlarge caps or change production. All24 HTTP baselines must
+complete96validACK72transitions before any response attribution or score reading.
+Then all72single72pair responses must complete and dual-validate432days, plus
+72original witness days. Compare pair-best vs single-best AND selected original;
+report first tiers, gains/losses/tails, all family/player/fuel/steps/stock/brand
+strata and work. Require at least4 pair-better-than-single roots across2families,
+zero lost original/single control, validation/physical/ledger/resource failure.
+Passing permits a separate fresh bounded SCORE proposal only, not integration.
+
+Freshness guard before measurement: exact gameplay setup identity ignoring only
+startsAt/player-count metadata and spot ordering must be distinct within337 and
+from consumed314/331/332development setups. Duplicate => pre-run blocker, no
+score-guided replacement. Never inspect332sealed holdout. Fixed geometry/fuel
+scope remains narrow; player labels are NOT traffic/opponent evidence. No cap,
+metric, sample expansion or second attempt after observed scores to rescue this
+gate. Freeze manifests/source/tests/binaries/dependencies before first baseline.
+Minimum available physical memory1024MiB before each new case/response root;
+if unsafe leave completed atomic evidence intact and wait via the one existing
+10minute monitor. Resume only with verified hashes and no ambiguous partial
+case, no live runner/child. No blind replay/repeated accepted days. Synthetic
+HTTP is not official BTC. No concurrent experiment/build/BTC while baseline runs.
+
+Parentc76a8ea/accepted258 and canonical BTC F97F168FE76FEF1B6226D2C2CFDAF954F116D39F427B6F157594151C461E1275
+unchanged. Functionality preservation: nothing removed/disabled/deferred/reduced;
+nothing deleted, so no replacement proof is needed. No production edit/build,
+VM change, sealed holdout, microcommit or signature. User RUNBOOK untouched.
+
+## Closed positive capability — ATTR-W1-PAIR-RESOURCE-RESPONSE-336
+
+335 completed27roots216compositions648dual-days with zero failure. Manifest
+EDE0F063691F6279A2D82B50BEC3EC40A032B8F7BD9D2B1FD7B271452537CB49;
+summaryDA1440100B2E0D24A71AE16CD91947109E23BC247F42547F22EE463C5991A71C.
+The3better-action roots (duplicate2/terminal1) share an exact obstruction:
+baseline4/15/35, best single4/16/36, pair of reference trajectories4/16/37,
+all three4/16/38. One of the required pair trajectories alone gives4/16/33;
+the other4/15/32. Neither is a tied alternative discarded by330: both are
+strictly worse individually. Thus retaining more tied best responses or simply
+recombining them cannot recover this reference. This is a demonstrated joint
+reward barrier, not evidence for larger clocks or a missing ACK consumer.
+
+336 is registered before code/measurement. Construct an independent best response
+for EACH unordered pair of Patrols across the full remaining horizon, holding
+the third Patrol's original full W1 plan fixed. ALL27 eligible330 roots and all
+3pairs (81responses) from their ORIGINAL witness, never sequential updates.
+Reuse the existing complete day frontier and stock-capped joint reward. Memo
+state is day/ordered pair cells/fuels/lifetime brands. Each transition chooses
+both complete day outcomes together; daily stock/brands are evaluated jointly
+with the fixed third trajectory. No per-Patrol local non-regression filter may
+prune a globally beneficial pair. Original feasible witness remains protected.
+
+This is an isolated research prototype, NOT production integration. Inputs contain
+only setup, actual post-current-action state/ledger and original W1; no oracle
+plans, target scores, seed/family dispatcher or reference routes. Independent
+328optimum is used ONLY after computation as a validator ceiling. Physical roles,
+fixed-third actions/states, current action and ledger must remain exact. Full
+pair response must dual-validate all days and retain official non-regression.
+Use original roadless3Patrol <=6spots <=10reachable-cell attribution domain;
+do not claim general performance. Explicit per-pair safety ceilings250000memo
+states,30000000joint transitions; exhaustion reports incomplete, no optimum or
+score verdict. No raising these limits after measurement.
+
+Before freezing measured inputs: independent tiny brute-walk pair comparison at
+stock1/2/3, fixed-third and nonreset-fuel identity, scope/bad-witness rejection,
+zero-work exhaustion and singleton-control lower bounds. Freeze source/binary,
+runner/summarizer, exact81response coverage and caps. Require all81 complete,
+243dual-days, zero failure, best-pair>=best-single control. Useful strict gains
+over best-single and prior selected certificate on>=2better-action roots across
+>=2families permit separate FRESH prevalence then bounded SCORE design; no
+promotion or runtime claims. Incomplete/inert closes this registered attempt,
+not permission for cap/iteration/3-agent expansion. Existing authorized VM may
+run isolated work if needed, never create/delete a VM. One10minute monitor only
+for a genuinely long run. Parentc76a8ea/accepted258, production/5000/protected
+semantics unchanged; no function reduced, nothing deleted, no microcommit/signature.
+
+## Closed positive obstruction — ATTR-W1-REFERENCE-COORDINATION-335
+
+334 completed27roots216compositions648dual-days plus243singleton controls,
+zero physical/ledger/ceiling failure. Best-versus-single6/21/0 (+1serving each),
+but NONE of the3 already-shortlisted better-action roots improves: all remain
+4/16/36 below conditional optimum4/16/38. GateFAILS. All individual compositions
+65wins137ties14losses versus original, including daily-tier losses; never assume
+independent response gains add. Summary
+37A3E24C288010B34BB2FD927DF3B5D62DEF0E148E9DAAD88A6BC9B90077CFD7;
+manifestCE7C277095CBB24EEA8C32941A870D9BF66C0C98D2AB2FDDFB12F4F7A4727FE1.
+One premeasurement test expected RuntimeError instead of frozen helper ValueError;
+original retained, separate exact-exception wrapper8999C4D6A5C485E8B491DE2221990A5F460D0E10BFA0D4063C37BD9CC5DA9D05
+passed3/3 before measurement; amendmentBFF6CC768E56740FC506CF77E771EFE9039193109E02265D9D658B5EB68F0C82.
+No score run repeated, inputs/source/gates changed, production edit or promotion.
+
+335 does NOT expand334 into a pair optimizer. It diagnoses why known optimal
+conditional suffixes from328 are not reached by330/334. For ALL27 eligible roots,
+take the already-consumed exact reference suffix and original W1, retain each
+Patrol's physical identity, and dual-replay every binary original/reference
+trajectory composition (216 witnesses). Reference plans are diagnostic inputs
+ONLY, never supplied to production, a SCORE candidate or a fresh evidence run.
+No new oracle/search, current-action change, budget/dispatcher or iterative repair.
+
+Require original/reference/singleton values consistent with330 and exact328,
+unchanged root state/ledger and per-agent physical trajectories, zero validity or
+ceiling failure. Report minimum number of reference-coordinate replacements to
+exceed best-single and to attain conditional optimum; each singleton's gain/loss,
+all joint tiers/claims, and whether a singleton tied the330 best but was a different
+trajectory. Also compare outcomes against the already-certified selected profile.
+This separates tied-trajectory information loss from genuine multi-agent barriers;
+neither is assumed. Evidence on>=2better-action roots>=2families may support a
+separate invariant-derived constructive design, NOT automatic pair DP, cap/order
+retry, current-floor removal or oracle injection. If not recurrent close this lead.
+Parentc76a8ea/accepted258; no functionality reduced or deleted. No production
+edit/build/BTC/VM changes, holdout, microcommit, signature or ceiling claim.
+
+## Closed target-negative attribution — ATTR-W1-JOINT-RESPONSE-COMPOSITION-334
+
+333 completed144boundaries432dual-days,zero failure:19direct consumptions and125
+equal/better certified alternatives. All144 suffixes survived first/last ACK
+cache; no next selected certificate or actual final score fell below its prior
+witness. Improved subset4direct/10equal-better. Consumer-loss gateFAILS; do not
+force cached plans, change floor/ACK or reopen229-232. Manifest
+C5CDB1EB6353CD67EDFDFEC417C6B7DB645EF0EE16D395D1BE0A4D92D7D05D86;
+summary1020F7DC68D1D3D5C30946A7EBCBAC9AF4768DB61DD91EBAD34C2140C11CCEC8.
+Canonical source/BTC/library unchanged. User RUNBOOK remains out of scope.
+
+334 is registered before measurement and asks a DIFFERENT bounded question:
+330 retained three independent full-horizon one-Patrol responses but332 could
+choose only one. Can their already-existing physical trajectories be composed
+without rerunning search to yield a strictly better joint certified witness?
+Each Patrol chooses its ORIGINAL trajectory or its one recorded330 response,
+consistently across the entire suffix. Enumerate all8 binary combinations for
+ALL27 eligible330 roots (216joint witnesses648dual-days), not just the3promising
+better-action roots. No new day routes, sequential coordinate descent, pair DP,
+oracle plans, changed current action, F0/master expansion or cap tuning.
+
+Invariant: roadless all-Patrol dynamics are physically independent of stock;
+combining complete per-agent trajectories preserves their own positions/fuel
+on every day. Rewards are NOT additive: recompute team stock/brands/ledger with
+both exact engines for EVERY composition, retain original and all singleton
+controls. Combination can lose score; do not suppress losses or call every mix
+an improvement. This is not310/311's current-day equal-score terminal heuristic
+or added master bundles: it measures whole-horizon certified value using already
+generated trajectories, with no runtime integration or changed search budget.
+
+Gate: all216 complete, exact original/singleton controls, physical-state identity,
+value<=328conditional optimum, zero safety. Joint best must strictly exceed best
+single response on>=2 already-shortlisted better-action roots across>=2families
+to permit a SEPARATE fresh prevalence/design proposal. Report all combination
+losses and best gains/first tiers/strata; no promotion from consumed evidence.
+If inert close this composition lead; no automatic iterative/pair/cap expansion.
+Parentc76a8ea/accepted258; no designed function removed/reduced, nothing deleted.
+No production edit/build, BTC, VM change, sealed holdout, microcommit or signature.
+
+## Closed attribution — ATTR-ACK-W1-SUFFIX-CONSUMPTION-333
+
+332 completed24/24 pairs (48results192validACK144reconciled transitions),
+W/T/L4/20/0, tier delta0/0/+5. Every win is three-balanced; development fails
+its frozen >=2family breadth gate despite zero loss/safety failure. Summary
+0BEA828803DF4EC44BAE8316DA11F9B16C674D9197E1EEBBF363902AA609D982;
+run_complete577DDA5E467DC04F125E0144EDD1ABFBC448E7DE5F6932793DA158A333F879B8.
+109supported pricing attempts all completed,31 witness improvements,14 selected
+improvements, zero exhaustion/failure. Only4 selected improved first-future plans
+match next submissions (all balanced); this mismatch alone is NOT a lost-value
+finding. Runner exited,stderr0, monitor monitor-udon-witness-315 PAUSED.
+Holdout54 and measured protected108 remain unopened. Isolated332 retained as
+consumed research evidence; no production revert needed because production was
+never edited. No commit or signature; no designed function reduced or deleted.
+
+333 is registered BEFORE detailed boundary measurement: inspect ALL144 boundaries
+from both sides of the complete24pair332 development (48matches x3transitions),
+including non-improved controls, not only favorable failed-consumption examples.
+Frozen parent c76a8ea/accepted258, same332 snapshot and recorded HTTP decisions.
+Trace selected complete W1 -> accepted action -> first/last post-ACK checkpoint
+-> authoritative next state/ledger -> exact suffix revalidation -> candidate
+identity/F0/W1 shortlist -> next selected certificate -> realized final score.
+Use existing314 ExactStepSimulator/IndependentDayValidator bridge, no search,
+oracle, new match, replay application, production edit or holdout authority.
+
+Source path recovered: runtime.cpp acknowledge_submitted calls record_submitted
+even with zero idle budget; decision.cpp caches complete roadless suffixes,
+repair_cached_contingencies replays them on authoritative state, and provisional
+profiles receive retained certified suffixes before shortlist/selection.
+Current-day floor stays protected. Prior229-232 failed diversification, frozen
+proof injection and ACK rebasing; 333 does NOT reopen these or force a witness.
+It asks whether a freshly observed exact SAME-state certificate is preserved
+through the already-existing consumer, not whether a counterfactual traffic
+proof should dictate policy. Equal/better certified alternatives are legitimate.
+
+Attribution gate: all144 complete with matching provenance and zero validation
+failure. A strict certified-value loss on >=2roots across>=2families, where the
+retained suffix is exact-valid and its current-day score is not below the chosen
+current-day floor, permits a separate general consistency-repair proposal ONLY.
+Classify cache loss, state drift, candidate/F0 absence, shortlist absence, current
+floor exclusion and equal/better alternatives separately. Missing telemetry is
+unknown, not evidence of loss. No cap increase, family routing or promotion on
+consumed332 seeds. Any SCORE successor needs a new invariant, preregistered fresh
+development/holdout, protected matrix and BTC target-host gates.
+
+## Closed development, insufficient breadth — SCORE-W1-HORIZON-RESOURCE-PRICING-332
+
+2026-09-07 01:13 +07: isolated candidate implemented under
+`artifacts/research/332/source`, built under `artifacts/research/332/build`.
+Canonical source/Release artifacts and user RUNBOOK unchanged; no commit.
+Frozen initial manifest BC29A422CCCBD97AE457B8D5AAF2B362E8D10C6E5396F0739A65CF3F55D8ABF9;
+development24pairs A918A3AFF74C80CB2A44BB873F2845EC48A7600E9BBA8A3EF9A76A886D09F923;
+sealed54pair holdout0884DBD0E7688411C2D5CFFCDC4E24E02D6220F8359E2292F757C73B01896A1E
+was generated and hashed BEFORE candidate source and remains unopened.
+Execution closure `research/holdouts/SCORE-W1-HORIZON-RESOURCE-PRICING-332-execution.json`
+F67A805CC24EEE9DCBC46F791CE2CEC71B0AB04FC1B85E079D561D6972C99982;
+candidate BTC BFC2268EAB86F0A0DB4D77495A0C4E8DF7ADA5CD27AA869E7762DCE3906C74D7;
+parent BTC F97F168FE76FEF1B6226D2C2CFDAF954F116D39F427B6F157594151C461E1275;
+runner `research/probes/run_horizon_score_332.py`
+76ED62CE006E92357EAA5CA67914C47AA6E16B543ED96631A726AA80FAFD6207.
+Preserved candidate patch27B58AAFF16217AD83B942E53746AA61C26341A4A7987A0EC6E7F8D249E01D79
+and preflightA705835C795B52A12351C77F8F223FD425CB63D550CABB42A4D5A170FD26C5EA
+under matching `research/evidence/SCORE-W1-HORIZON-RESOURCE-PRICING-332-*`.
+20 contract tests and full unit suite1/1 passed. Includes5 old daily entry modes
+on12 consumed controls, all27 consumed330 certificates, independent brute walks,
+stock1/2/3,3..8Patrols, nonreset zero fuel, variable days, initial-spot WAIT and
+off-spot terminals, incomplete/corrupt/unsupported witnesses, deadline/resource
+exhaustion and validator tick precharge. Two initial TEST fixture errors (duplicate
+spawn and missing road status) repaired before freeze; no SCORE evidence existed.
+
+The exact per-W1 bounds are100ms AND existing candidate deadline,32768settled,
+196609createdlabels,8192memo,262144transitions,262144storedactions,1024dayqueries.
+Original/reconstructed action copies and both validation engines are charged;
+new linked-list/predecessor loops check deadline. Simulator/validator batches are
+precharged, not magically preemptible; tests do not confer target-host timing
+authority. Exhaustion discards whole attempt, leaving original witness exact.
+Every candidate's work/failure counters (including unselected) enter audit.
+
+108 detailed fresh protected setups, role modes and external traffic arrays are
+frozen in `...-protected.json`, hash1BCD07CF30AB0503BA4950AE6796184C65C628E0A72F783A26FC9CE3C22E1FC0:
+six families, low/default/high actual fuel,8/32maps,4/5/10days,5000/10000/15000ms,
+8/9/10players, fixed-all-Patrol/native, roadless and traffic domains. Generation
+only, no protected score inspected. Traffic runs must add exact endogenous own
+footprints over the prior two days; frozen external mass is synthetic, not humans.
+Protected HTTP/native-role runner still requires contract validation before it runs;
+do not substitute isolated historical engine solve for real MatchSession execution.
+
+Launched frozen runner `run` detached hidden PID13500 at01:14:37+07, only local compute,24 paired full HTTP
+matches with alternating parent/candidate order. Expected48 side results,24 pair
+markers,192ACK/144transitions, one run_complete and complete summary. Evidence folder
+`research/evidence/SCORE-W1-HORIZON-RESOURCE-PRICING-332-development`; companions
+`.runner.stdout/.runner.stderr`. RAM floor768MiB before every side. No partial-score
+inspection, other experiments/builds, BTC, VM changes, holdout or production edits.
+If interrupted, preserve partial evidence; `--resume` only after process absence,
+hash checks, every completed result validated and no prefix with ambiguous partial
+files. Never duplicate accepted days. Frozen summarizer runs automatically at full
+completion; manual `summarize` only if complete and summary absent.
+
+Dev gate: at least4 activated actual-score wins in2families, wins>losses, tier3
+gain>=2xloss magnitude, no lifetime/daily component loss, worst serving loss<=1,
+no family negative serving net, zero safety. First certificate gain must precede
+or coincide with first submitted-plan divergence; inactive score differences need
+separate attribution and cannot qualify. This is paired screening, not proof that
+every observed difference is causal. All scores, tiers, tails, strata, selected
+and unselected work, witness-to-next-submission matches retained. Holdout54 has
+6activatedwins/3families minimum and same downside rules; it stays sealed until
+development qualifies. No cap/metric tuning, BTC strength claim, microcommit,
+promotion or signature. Existing10-minute monitor `monitor-udon-witness-315` is
+ACTIVE under name Monitor UDON W1 horizon score332; it is reused, not duplicated.
+
+Registered2026-09-07 after331 passed its preregistered fresh prevalence gate.
+Exactly24 complete HTTP baselines96 valid ACK72 reconciled transitions;24 actual
+selected W1 roots72 responses,72 original/216 replacement dual-valid days.
+Certificate best W/T/L7/17/0; individual responses16/56/0; all gains tier3,
+total+16 servings, gain tail+1..+3, loss0. Families balanced4/0, fuel1/3,
+terminal2/2, duplicate/stock/coverage0/4 each (wins/ties). Players8:3/5,
+9:2/6,10:2/6. All fixtures fuel10; the family named fuel is NOT a distinct
+capacity stratum. The fixtures are roadless and contain no opponent agents;
+player labels do NOT validate endogenous traffic. Work across72 responses:
+5035 memo states(max91),3288 day enumerations(max58),36930 transitions(max847).
+Frozen manifest83DA7ABBA1CBB003AB94DEAB236408E0BEFE38DE44B5E8C3A17CE1EC266E0A8A;
+summary66C50E076C00109BABD5E42A122EDD8804F1102C763F2FC36710F023982307BB;
+baseline marker36D2D399EBA879056EEEC32547C50ED02A9CA1A02D5BA166124C368F9DFD11F3;
+attribution marker2D4190E85E27F71C2A523CF2C3FD9C1B2D76BBE32DEBC371E39609927B8E9CBC.
+All result/replay/dependency hashes and216 replacement days revalidated at closure.
+Runner exited normally,stderr0. Existing monitor paused; no background work remains.
+
+332 tests the missing causal link: does a bounded, better COMPLETE future witness
+improve ACTUAL closed-loop score rather than merely its predicted lower bound?
+Parentc76a8ea/accepted258; production source and Release binaries remain unchanged.
+Do not copy the unbounded330 research DP or duplicate the canonical day search.
+Source audit: `src/orienteering.cpp:591-999` already implements sparse cell/mask
+resource labels but returns one ranked terminal per mask. W1 needs a different
+output contract: all nondominated terminal-cell/fuel/claim outcomes, including
+zero-claim positioning and WAIT. Reuse this SAME sparse label search with a new
+explicit horizon-frontier consumer; retain all existing entry-point results and
+policies exactly. `FutureWitnessRepairer::repair_profile` in decision.cpp builds
+complete baseline and exact-bundle W1, then finalizes/selects; improvement belongs
+after that complete witness, before profile finalization, not in F0 or current floor.
+
+Proposed bounded mechanism: one independent best response per Patrol over the
+whole remaining horizon, others' witness plans fixed. Dynamic state is day/cell/
+fuel/lifetime mask; daily reward uses joint stock-capped claims, not raw additive
+claims, and official final lexicographic score. All agents use the same ORIGINAL
+witness (no iterative coordinate ascent). Reconstruct/dual-validate complete
+suffixes and retain only strict gains; no current action alteration in this step.
+Proof domain: all-Patrol and no roads, 3..8 agents, all official map dimensions;
+the existing sparse engine's <=32-spot representation and numeric resource limits
+still apply. These are capability guards, not family/seed routing. Other domains
+continue through their existing complete W1 unchanged; no designed function is
+removed, disabled, deferred or reduced. Nothing deleted. No separate low/high solver.
+
+Before candidate source work, freeze fresh development and sealed holdout inputs,
+the exact implementation limits/metric/strata and runner contract. The original
+complete W1 is a protected incumbent. Every day enumeration, memo expansion,
+reconstruction and validation must be charged to one explicit bounded work/memory
+budget and the existing candidate certification deadline; no cap increase after
+seeing scores. If a full replacement cannot finish safely, retain the original
+witness exactly and mark incompleteness, never claim optimum. Verify canonical
+day-search equivalence for every old caller plus brute-walk comparison, zero fuel,
+stock saturation, >=4 Patrols, variable days, off-spot terminals, initial WAIT,
+deadline/work exhaustion, malformed witness and unsupported-domain preservation.
+
+Then evaluate paired ACTUAL unchanged HTTP lifecycle on fresh fixtures, not
+isolated engine solve or certificate scores. Report official W/T/L/first tiers/
+gain-loss tails, all strata, activation and certificate-to-submission consumption.
+Require useful fresh closed-loop gains across families with bounded downside;
+inactive cutoff noise cannot count as mechanism benefit. Full protected lanes,
+one sealed holdout and BTC target-host are mandatory before product commit.
+No promotion/competition signature from331, no BTC strength claim, no microcommit.
+The 5000-ms main cap, public continuation, role policy, candidate pool/current-floor,
+post-ACK state ownership and user COMPETITION_RUNBOOK remain protected.
+
+## Closed positive prevalence — ATTR-W1-HORIZON-PRICING-PREVALENCE-331
+
+Frozen and launched2026-09-07 00:25 +07 as detached hidden Python PID5288.
+Runner `research/probes/selected_horizon_pricing_331.py execute` performs baseline,
+then attribution and complete summary automatically; no duplicate stage invocation.
+Manifest83DA7ABBA1CBB003AB94DEAB236408E0BEFE38DE44B5E8C3A17CE1EC266E0A8A;
+runnerB7CDCC19C788A9E16415D1C05AD2C5B88C23A6B8DEE1CE8E957087A3B8CE8B83;
+probeC1D68D108C79F6AA78034FC2B2DFA170720927722694F41AC9B49E79B869288F;
+canonical BTC F97F168FE76FEF1B6226D2C2CFDAF954F116D39F427B6F157594151C461E1275.
+Ten tests passed before freeze (331 extraction/reconstruction/failure guards and
+314 HTTP lifecycle); original330 probe unchanged. Evidence prefix
+`research/evidence/ATTR-W1-HORIZON-PRICING-PREVALENCE-331`, runner `.runner.stdout`
+and `.runner.stderr`. Baseline completion and attribution completion have separate
+hashed markers; incomplete output is preserved, never blindly restarted.
+Existing heartbeat `monitor-udon-witness-315` updated ACTIVE every10minutes to331;
+routine progress stays quiet. No other local experiment/build during baselines.
+
+Registered2026-09-07 before generating inputs or running matches.330 PASSED its
+capability gate:27 eligible certificates81 independent full-horizon one-Patrol
+responses,243 dual-valid days. Best response improves11/27 certificates across
+balanced/duplicate/fuel/terminal families; individual responses30wins51ties.
+The three328 better-action floor leaders improve4/15/35 to4/16/36, but do NOT
+reach their4/16/38 optimum. Thus the missing daily tier is repairable without
+changing current floor or queue; complete gap closure is not claimed. Selected
+certificates also improve on balanced2, fuel1 and terminal1. Original fixed
+other-agent plans/states, original current-day action and full ledger are exact.
+ManifestB0D75D06A6495E144F33B603B67039EE4320EB5D97CBEB4EDB117AD0092F20AF;
+summary3E0EBD44EEB8CDE78C210675E9CD1ADF9A2A5BD5E9B591350AC14A67C217CC18.
+
+Before designing a bounded runtime integration,331 tests useful SELECTED-witness
+prevalence on24 genuinely fresh synthetic HTTP fixtures. Use original314 generator,
+four cases per six public roadless3-Patrol families, players8/9/10 balanced,
+seeds202609070000+100*familyIndex+replica. Fixed roles are synthetic resume input,
+not official BTC; four5000-ms daily windows, complete96 ACK/72 transition lifecycle.
+Use unchanged canonical BTC executable and record every replay. No oracle runs,
+no production source/build change, no score filtering/cherry-picking and no
+other local compute while baselines run. Wait for ALL24 complete before reading
+score/witness telemetry beyond operational safety. No ambiguous-case restart.
+
+After baselines, take each ACTUALLY selected day1 complete W1 witness directly
+from its replay, not regenerated W1. Freeze it by the completed baseline record.
+Run unchanged330 probe on all24 selected day2 roots, optimizing each of3 Patrols
+independently with others fixed (72 responses). Dual-replay every original and
+replacement suffix, preserve current plan/state/ledger and fixed other actions,
+and require >=original complete witness and <=recorded validUpperBound. No oracle
+plan, iteration, pair search, current action takeover or changed clock/cap.
+Full24/72 results,zero failure and strict selected-certificate gain on>=4roots
+across>=2families permit a separate fresh bounded SCORE integration proposal.
+Report all tiers, gains/loss tails,strata,full plans and work counters; these are
+certificate gains only, not causal played-score or runtime/competition authority.
+If gate fails close this selected-witness lead; do not escalate to pair/cap tuning.
+
+No designed functionality removed/disabled/deferred/reduced; nothing deleted.
+Parentc76a8ea/accepted258, all protected/checkpoint/public-window semantics remain.
+No sealed holdout, BTC server match, VM creation/deletion, microcommit or signature.
+Use one10-minute monitor for the~8-minute sequential baseline; no busy polling.
+
+## Closed positive capability — ATTR-W1-HORIZON-PATROL-BEST-RESPONSE-330
+
+Complete27/81,243 dual-days,11/16/0 best-certificate W/T/L,30/51/0 individual
+responses,zero invalidity/fixed-other/ledger/ceiling failure. Three independent
+tests passed stock1/2/3 brute walk comparison, nonreset zero fuel, missing witness,
+role/road/invalid-plan rejection. Standalone research executable compiled against
+the verified unchanged Release library; canonical production was not rebuilt.
+ProbeC1D68D108C79F6AA78034FC2B2DFA170720927722694F41AC9B49E79B869288F;
+manifestB0D75D06A6495E144F33B603B67039EE4320EB5D97CBEB4EDB117AD0092F20AF;
+summary3E0EBD44EEB8CDE78C210675E9CD1ADF9A2A5BD5E9B591350AC14A67C217CC18;
+run_complete671B916377B3B9C6E1DCDAB80C6C906FE536B650ACEF00920B8E85249CB29E56.
+No production improvement or general ceiling claimed.331 requires fresh actual
+selected witnesses before any bounded production implementation.
+
+Registered2026-09-07 before source/probe change.329 completed all12 roots27
+eligible certificates,189 pair-boundaries1134 mappings,86 admissible splices,
+452 dual-days:27 ties,zero gain or failure. Strict suffix reuse is inert; no
+state-match relaxation or unshortlisted donors allowed. Summary
+9265EE899202DC15A2C6BEA37ADFB12CED77674A5BF0A706145A5A6F250E3D26.
+
+330 tests a distinct constructive neighborhood inside a COMPLETE W1 witness:
+optimize ONE Patrol's entire remaining multi-day trajectory while every other
+Patrol keeps its full recorded plan unchanged. Future-day stock credits are
+computed against those fixed other claims, with exact per-day franchise masks,
+carry-over individual fuel and lifetime ledger. A dynamic program over
+(day,cell,fuel,lifetimeBrands) may change routes and intermediate daily scores;
+the sole objective is the official final lexicographic score. It does not need
+the unsafe assumption that today's best route is tomorrow's best resource state.
+This differs from319 whole-day WAIT,320 fixed-move retiming and310/311 bundle
+crossovers. No current action is changed and no oracle plan is an input.
+
+Use all27 actually eligible reconstructed316 W1 certificates across all12 roots
+from329, not just three attractive candidates. Solve all3 independent one-Patrol
+best responses from each unchanged witness (81 optimizations); no iterative
+coordinate ascent or pair search. Reuse frozen312 exact day enumerator and stock
+score primitives, not its multi-Patrol optimizer; dual-revalidate every resulting
+complete suffix. Other Patrol identities/actions/states and original current-day
+action/ledger must remain exact. All alternatives must be >=original certificate
+and <=328 conditional optimum. Exhaustive hand-fixture comparison, nonreset fuel,
+stock1/2/3 and role/road/missing-plan rejection precede freezing measured inputs.
+Record full plans, first tiers, gains/loss tails, every family/player stratum,
+DP states/transitions and per-agent contributions. Zero failure and strict gain
+on an already-shortlisted better-action candidate in>=2roots>=2families permits
+a separate fresh bounded-runtime SCORE proposal, never direct integration or
+claims of latency/production improvement. Failure closes this one-coordinate
+lead without trying pairs/caps automatically. No partial telemetry aggregation.
+
+Existing authorized VM may compile/run one isolated research probe against frozen
+312 library/source; no production source/build modification, VM creation/deletion,
+holdout, BTC, commit or signature. No designed functionality removed/disabled/
+deferred/reduced; nothing deleted. Parentc76a8ea/accepted258 and5000/protected
+policy unchanged. This is an offline capability test; the complete DP is not
+automatically a permitted unbounded production solver.
+
+## Closed attribution — ATTR-W1-CERTIFIED-SUFFIX-REUSE-329
+
+ManifestF25D68571CA709FCCCED224DCC1E5F3C1BAD72D0F6912181DEF9B8724F8FE7E8;
+summary9265EE899202DC15A2C6BEA37ADFB12CED77674A5BF0A706145A5A6F250E3D26.
+Three contract tests passed. Complete12 roots27 eligible certificates:27ties,
+189 pair-boundaries1134 tested mappings86 admissible splices452 dual-days,
+zero invalidity/reconstruction/ceiling failure. GateFAILS; no SCORE successor.
+No product edit, no process left running.330 constructs new single-Patrol
+whole-horizon routes rather than loosening329's state/certificate requirements.
+
+Registered2026-09-07 before tooling/measurement.328 completed12 roots192 actions,
+768 dual-validated days and zero bound/reconstruction failure. Its gate PASSES:
+day1 pool retains conditional optimum38 over selected37 in duplicate2 and one
+terminal root. In all3 the floor-leader is ALREADY shortlisted and certified:
+recorded W1=4/15/35 versus selected4/16/36, though its exact conditional value is
+4/16/38. All current scores tie4/4/10. Therefore current-floor removal or more
+shortlist slots cannot fix this lost capability. Other terminal root's pool37
+still lacks38; do not conflate that supply gap with these three witness losses.
+328 summary78A7337894BA8DDBA038A6191117872280E6F6D0C0A13BBDD34A750A26C12343;
+run_completeCF757888D64B0DE5E71C5FCBC0146C156279844434146F3DE2DA31571D4A6182.
+
+Distinct certificate-consistency hypothesis: independent W1 calls may reach
+the SAME same-day joint physical positions/roles with componentwise greater
+fuel, but retain a weaker remaining witness. A previously built complete suffix
+from another eligible W1 candidate can be replayed from this resource-dominating
+state. Remap only identical Patrol roles, preserve donor action order and day,
+and recompute the ENTIRE recipient prefix+suffix with exact simulator/independent
+validator and recipient ledger. Never import donor scores/brands or claim that
+different cells dominate. Domain is roadless all-Patrol, no external traffic or
+refuel interaction. This is reuse of existing certified evidence, not a second
+solver, oracle injection, WAIT substitution, retiming or bundle/cap widening.
+
+Freeze all12 original314 day1 roots and every candidate that actually entered
+and passed W1, with the corresponding complete316 reconstructed certificate.
+Require exact source action/state/ledger and recorded certified-score identity;
+the unrecorded original witness bytes are NOT claimed identical. Exclude every
+unshortlisted donor/recipient even though316 measured it. Include selected and
+all tied controls. Enumerate every ordered eligible recipient/donor, each future
+day2/3/4 splice boundary, and all role-preserving same-position fuel-dominating
+permutations. Full unchanged source witnesses are controls. One-hop splice only;
+no iterative new plans or regenerated optimizer calls. Record all attempted,
+eligible, valid, invalid and strict-gain counts and complete plans/tiers/strata.
+All cases must finish before interpretation, zero dual mismatch or invalid
+eligible splice, every result <=328 exact value. At least2 better-action roots
+across2 families whose ALREADY-shortlisted certificate improves over same316
+control permits separate fresh SCORE design, not promotion. Otherwise close the
+reuse lead; do not widen state matching or import unshortlisted witnesses.
+
+Source decision.cpp2056/2187/5030-5277 shows F0/W1 independently construct profiles
+and only finalized certified outcomes enter selection; no cross-candidate suffix
+equivalence transfer is active there. Existing post-ACK cache remains untouched.
+No designed function removed/disabled/deferred/reduced; nothing deleted. Parent
+c76a8ea/accepted258 and5000 checkpoint/public-window/protected policy unchanged.
+No product edit/build, holdout, BTC, VM change, microcommit or signature.
+
+## Closed attribution — ATTR-DAY1-AUDIT-EXACT-OPTION-328
+
+Completed12/12,192/192 actions,768 dual-days, selected321/ceiling312 controls pass,
+zero safety/bound failure. Conditional pool-vs-selected3/9/0, all +1 tier3, across
+duplicate2/terminal1; only attribution, not actual played-score improvements.
+Summary78A7337894BA8DDBA038A6191117872280E6F6D0C0A13BBDD34A750A26C12343.
+VM PID20356 completed withstderr0/no partials. All results copied and hash-checked.
+An initial local summary invocation before SCP completion stopped at the missing
+completion marker without reading or aggregating scores; final invocation ran
+only after copy exit0 and checked all files. No evidence rerun or overwritten.
+
+Registered2026-09-06 before tooling/measurement.327 completed all12 roots697
+unique plans2091 dual-validated days216 exact323/326 controls,zero failure.
+SummaryC4C3E48372E23859184EF333FA0B3D4364F27EC7AAC7A297106F4985191FA1C3.
+At every measured master/pre-F0/final stage, only duplicate2 has a higher option
+value than selected. Shared-boundary two-family gateFAILS. Balanced0's37 witness
+requires current serving19 instead of20 and is already absent from initial and
+legacy master outputs (both36); no later F0 ranking can recover it. Duplicate
+alternatives tie current score but need better suffix certificates. Do not merge
+these into one generic cap/order/current-floor patch or retry326 fill policy.
+
+The next untraced actual boundary is DAY1:321 proves one serving of irreversible
+option loss on each duplicate2 and terminal2 root. These are two families at a
+shared day1 action boundary, unlike327.328 uses ALL12 original314 day1 audits,
+including balanced/stock/coverage/fuel controls, never only loss cases. Freeze
+every original post-F0 action and recorded audit/profile plus actual initial state,
+ledger and submitted action. No fresh replay run, source/build or solver policy.
+Encode each action in an isolated singleton atomic portfolio as tested327; use
+the UNCHANGED326 executable and complete321 suffix DP with shared memo per root.
+All remaining days2/3/4 are unrestricted exact continuations, not realized suffix
+or perfect-opponent knowledge; domain remains roadless three identical Patrols.
+
+Before reading measurements require all12 roots/all recorded actions, full four-
+day witnesses dual-valid on Windows, selected value exactly321 post-day1 optimum,
+all values <=complete312 global optimum, exact action/state/ledger/audit identity
+and sound valid-upper/certified-lower bounds. Preserve original physical mapping,
+per-action current and final tiers, gain/loss tails, every family/player stratum,
+F0/W1/selection dispositions and bound slack. Provisional estimates are labeled
+separately, never treated as certified bounds. No partial-score inspection.
+Existing better action on >=2 actual day1-loss roots across>=2 families permits
+distinct source/certificate-consistency design only; absent better actions permits
+only earlier supply attribution. Neither result directly authorizes SCORE,
+current-floor relaxation, F0 order/cap retry, oracle injection or promotion.
+
+Parentc76a8ea/accepted258, canonical5000 checkpoint/public-window policy and all
+protected lanes unchanged. No function removed/disabled/deferred/reduced; nothing
+deleted. No sealed holdout, BTC match, VM creation/deletion, microcommit or signature.
+Run on existing authorized VM only; one10-minute monitor if long, no busy polling.
+
+328 prefreeze checks passed5/5, including full four-day singleton reconstruction,
+stock1/2/3, atomic bundle identity, invalid metadata rejection, and separation of
+provisional estimates from certified bounds. One prefreeze schema check caught
+the claims bridge's added `claims` field versus original314 validated payload;
+corrected by requiring the exact original schema and equality of EVERY original
+field, plus exact submitted plan. No measurement ran or was overwritten.
+Frozen manifest7DB80EA33E4BBF8E5FBBA2CBD0AC3AF4D799C190CB21CA798141E8CDF1629855;
+runner/summarizer6C798E7DD538B09D2A02B42951C7922AB85C551CEA0FE85F4074D15534770A61;
+unchanged326 Linux probeD71054B55E72DCCBC70BB05B8708E441F32ABA5B11CB8F059DFA1029EF233044.
+All12 original roots192 actions frozen after dual audit/state/submitted checks.
+Existing VM idle,MemAvailable15775196KiB before staging/home/LMC/udon328-0906.
+
+## Closed attribution — ATTR-POOL-BOUNDARY-OPTION-VALUE-327
+
+Complete12 roots697 exact full-action continuations2091 Windows dual-days,216
+prior-value controls all match; no failure. All1257 recorded pool occurrences
+covered. Shared-boundary recurrence is duplicate2 only at every stage: no distinct
+mechanism qualified under327 gate. Balanced0 loss occurs before master output,
+not between pre-F0 and F0. No production edit or SCORE. Summary
+C4C3E48372E23859184EF333FA0B3D4364F27EC7AAC7A297106F4985191FA1C3;
+run_complete2C75A25CBBF460EF56E435F0C0EDD75E3CD73C6B2783A3CDE5675814F34A933D.
+328 follows the separately proven day1 option losses from321, not a327 rerun.
+
+Frozen manifestDEFB0B73F3FD9BD35346D93F2A10C9EF07898AE7A5E9F01136B167264176CE63
+contains all1257 pool occurrences,697 unique actions across12 roots. Runner and
+summarizer02AECD1F10B4A94758847A927CF70DA4B3C1AC6149E144A4B39864E92F42DD6F;
+unchanged326 Linux oracleD71054B55E72DCCBC70BB05B8708E441F32ABA5B11CB8F059DFA1029EF233044.
+Two prefreeze tests passed (stock1/2/3, exact singleton actions, comparison with
+unchanged321 suffix, malformed metadata and mixed atomic-mode rejection).
+Detached PID18356 in/home/LMC/udon327-0906 on existing authorized VM. Expected12
+atomic results then run_complete; each contains all frozen singleton portfolios.
+Runner uses pool_boundary_value_327.py execute, frozen manifest,logs327 and
+/home/LMC/udon326-0906/probe326. At launch VM idle,MemAvailable15768024KiB.
+One initial launcher command failed local argument parsing before SSH/launch;
+corrected quoting launched once. No repeated measurement or artifact overwrite.
+
+Registered2026-09-06 before tooling or measurement.326 closed without recovery:
+representatives-versus-legacy0/12/0, raw-versus-legacy2/10/0 (+1 tier3 each,
+balanced only), all60 portfolio optima complete,180 Windows dual-validated days,
+zero certificate/safety/reconstruction failure. Manifest
+C28F7E8287485F23E6341BA8086FB44C13C5A5520C6A7714EF9E094F99D41B4B;
+summary2A9FE9C4A7338DC33494313819F5C541193A7FCAAC463437E15A8959640184F9.
+No SCORE authority from326. Do not tune its replacement/fill rule on these cases.
+
+New exact decomposition: balanced0 retained legacy/merged optimum37 exceeds final
+audited pool36; balanced1 retained37 equals final37 (raw optimum38 in both).
+Duplicate2 retained/final-pool optimum37 exceeds selected36. Thus both retention
+and downstream value loss exist; one ideal witness absence cannot conflate them.
+327 locates the downstream loss across existing initial-master, legacy-master,
+pre-F0, final audit and selected boundaries, including current-score tradeoffs.
+All12 consumed325 historical roots and ALL recorded team plans are required,
+not only the three cases with known downstream loss. No HTTP/planner rerun.
+
+Reuse the FROZEN326 oracle executable (unchanged321 complete suffix DP). Encode
+each recorded team plan as its own singleton atomic portfolio; no recombination
+between different candidates is permitted. Metadata comes from dual replay of
+the recorded action. Include326 retained optimum witnesses as explicit controls;
+these are offline controls, NEVER injected into production. One shared exact DP
+per root may reuse only identical state-domain subproblems. Preserve stable IDs,
+physical agents, fuel, full ledger, source pool memberships and final F0/W1 audit.
+Freeze all12 requests, runner, summarizer, dependencies, prior summaries and
+binary hashes before measurement. Existing authorized VM only; no rebuild.
+
+Require every encoded action and complete suffix dual-valid on Windows, original
+324/325 pool identities, exact agreement with323 for every final-audit candidate
+and326 for retained controls, and no value above321 conditional ceiling. Report
+all per-action values, each boundary's maximum, first differing tier, gain/loss
+tails, family/player strata, current-day score versus selected, and actual audit
+disposition when present. Empty/missing pool is not an optimum. A soundness or
+identity failure blocks interpretation. Recurrence at a shared boundary on >=2
+loss cases across >=2 families authorizes DISTINCT invariant/mechanism design
+only; no automatic F0 order/cap/current-floor retry, SCORE or promotion. A single
+family remains limited attribution. No timing/performance inference from oracle.
+
+Canonical parentc76a8ea/accepted258, all5000ms/public-window semantics and protected
+lanes unchanged. No designed functionality removed, disabled, deferred or reduced;
+nothing deleted. No production edits, BTC, sealed holdout, microcommit, signature
+or ceiling claim. Preserve user RUNBOOK. Use one10-minute monitor if work is long.
+
+## Closed attribution — ATTR-CERTIFIED-PORTFOLIO-REPRESENTATIVES-326
+
+Completed12/12 roots60 portfolio optima180 Windows dual-validated full suffix days;
+zero certificate, atomic-bundle, metadata, ceiling or reconstruction failure.
+Representatives versus legacy0/12/0, no actual loss root recovered: gateFAILED.
+Raw versus legacy2/10/0, +1 serving each on balanced only. Retained maxima are37
+for both balanced roots (not36/37); raw maxima38. Balanced0 additionally loses one
+between retained domain37 and final audited pool36. Duplicate2 retained/final37
+but selected36. Stock/coverage/fuel/terminal controls all tie across portfolios.
+No product improvement or SCORE registration.327 traces this newly quantified
+downstream boundary without modifying the failed representative policy.
+Summary2A9FE9C4A7338DC33494313819F5C541193A7FCAAC463437E15A8959640184F9;
+run_complete7D5C9E7735A6D0631BD83F0AC7BD97887764CEC6B683DA735398C2892FF0FF59.
+Reporting dependency record74352D5237B1290432BCDD56F86EC93C6835EA367C34D37626DE776C454B4539
+verifies reused323 comparator against its original frozen323 manifest before
+reading326 scores; no comparator or metric change. VM completed normally; one
+SSH connection abort was recovered by read-only retry, not experiment restart.
+
+Frozen before measurement: manifest
+C28F7E8287485F23E6341BA8086FB44C13C5A5520C6A7714EF9E094F99D41B4B;
+Linux probe D71054B55E72DCCBC70BB05B8708E441F32ABA5B11CB8F059DFA1029EF233044;
+Windows contract probe7B3475652990D4EA844C449420659E8C803D4505937F4F5EE5E254E7E735BDA4.
+Four prefreeze tests passed, including stock1/2/3, representative certificates,
+unchanged WAIT/bundles, forbidden mixed-bundle/Tanker and normalized321 reuse.
+Existing authorized VM udon-f0-240-0829, us-east1-b, project
+project-10f9c8e1-a791-46a2-920; working directory/home/LMC/udon326-0906.
+Detached runner PID17836 uses frozen portfolio_representatives_326.py execute,
+manifest.json, logs326, probe326; runner.stdout/stderr companions. Exactly12
+atomic results then run_complete expected; no partial-score inspection. Same
+source/library hashes verified against321; VM idle with15396MiB available before
+run. Canonical BTC/library hashes unchanged; no BTC match or production rebuild.
+
+Registered2026-09-06 before research source/build/measurement.325 closed with
+12/12 historical identities and final-pool identities,48 actions36 transitions,
+6008 dual-valid columns1257 dual-valid team plans,zero metadata/safety failure.
+Both balanced loss roots contain a fully independent optimal witness before
+pruning but not after. This proves lost capability, not that ALL optimal outcomes
+are missing.325 summary25B76905EA5E520DD9B2FA65D2E99552CD674361E629DB9998D17C5B50C8B35F.
+
+326 asks one question: does a certified resource representative preserve the
+entire retained portfolio's feasible future domain and recover useful capability?
+Consumed12 actual day2 roots only; no replay reruns or product edits. Reuse exact
+321 complete suffix DP and canonical simulator/independent validator. Exhaust all
+bundle-admissible combinations of raw-legacy/raw-expanded/legacy/merged portfolios,
+with free columns and atomic bundles kept separate. Deduplicate only exact
+single-agent outcome+bundle identity and joint state+ledger equivalent prefixes.
+Compute full remaining-horizon optimum, not current-score or one witness membership.
+
+Research-only representative construction, BEFORE looking at326 values: within an
+all-Patrol roadless state, an independent raw route can represent an independent
+retained route iff it has the same terminal cell, fuel>= and a superset of claimed
+spots. Keep safe-WAIT and every atomic bundle unchanged. Require both routes
+dual-valid; no Tanker/refuel/escort/traffic generalization. At every fixed choice
+of other Patrol routes, per-spot stock-capped serving count and brand coverage
+cannot decrease; terminal physical cells are equal and each fuel cannot decrease,
+so every old future plan remains feasible. This is domain dominance, NOT a promise
+that a deadline-limited heuristic chooses the same/better action.
+Select a representative deterministically by fuel, claimed-spot count, original
+priority then column ID (only strict dominance may replace). Deduplicate identical
+independent action sequences and fill freed slots from the unchanged raw priority
+order, to the ORIGINAL per-agent retained count; never grow caps. Preserve a
+mapping/certificate for EVERY original route, including untouched WAIT/bundles.
+Exact portfolio optimum after this construction must not lose at any tier on any
+case. Any certificate, dual-engine, atomic-bundle, ceiling or reconstruction
+mismatch blocks interpretation. Report baseline/raw/transformed exact values,
+first tiers, gains/losses, every family/player stratum and all witness mappings.
+Positive recovery on >=2 actual loss roots permits a separately registered fresh
+SCORE experiment only; no promotion/holdout authority from consumed evidence.
+No raw-optimality absence assumption; no213/090 blanket diversity retry or310/311
+frontier/cap retry. Same canonical parent c76a8ea/accepted258; protected5000ms,
+product algorithms and BTC artifacts unchanged. Nothing removed, disabled,
+deferred or reduced; no deletion, microcommit, signature or ceiling claim.
+If exact work is long, use only existing authorized VM and one10-minute monitor.
+
+## Closed attribution — ATTR-INDEPENDENT-COLUMN-RETENTION-325
+
+Complete summary25B76905EA5E520DD9B2FA65D2E99552CD674361E629DB9998D17C5B50C8B35F;
+reporting amendment930A3922485BF5FAA3B76C12595706E7E3ECF676B8E11480F0B5AA06431BE9B1.
+Raw-to-retained independent witness loss10700000/10700001, one balanced family.
+All12 qualified; zero metadata/safety failure. Distinct certified-invariant design
+qualified, SCORE not authorized by325 alone.326 tests full-portfolio value and
+resource-domain certificates; no product changes or measurement repeats.
+
+Operational reporting amendment: capture completed12/12, stderr0. Original frozen
+summarizer raised TypeError at line97 because historical322 ties encode first_tier
+as null, not0. No summary was emitted. Preserve original script/manifest/all raw
+captures. A separately hashed reporting wrapper maps null to false only in the
+loss predicate, with numeric behavior unchanged and five predicate tests. No
+measurement rerun, metric/gate change, production edit or functionality reduction.
+
+Frozen2026-09-06 before capture: manifest
+352E6FAD795794236575630691A7D69E5FA270D43501981AA217CF48C6681050
+(115 inputs); observation BTC binary
+3C9152695D1F15B33368BF1D31E95DB9CB5004094FB757C12023108758050344;
+bundle-consumer contract binary
+EEA79FE7C6FB2DA8BFE62EF0E3BD7D6E60408B00DA8791BCBB13D2E3E2C25BAC.
+Two prefreeze tests pass, including all125 bundle modes against canonical master
+and normalized source roundtrip/scope. Detached runner PID4612 started18:50:31+07
+on2026-09-06; evidence prefix research/evidence/ATTR-INDEPENDENT-COLUMN-RETENTION-325.
+Do not inspect candidate measurements before12-case run_complete. No concurrent
+local compute. Production source and canonical BTC binary unchanged.
+
+Registered2026-09-06 before source transformation/build/measurement.324 completed
+12/12 exact historical day1-prefix/day2-root/selected/submitted identities and
+12/12 identical final pool IDs;48 actions36 transitions,1257 team plans892 isolated
+columns dual-valid,zero metadata/safety failure. Manifest
+A6B842A62ED573FCC6F55B6299A39086900BE067FC29DA42079011DAA165F419;
+summaryAEAD4273510F7746BBCB5D574B0236F2F4099942D4211BC4C96657FDD4B23582.
+Balanced10700000 has the optimal individual route features in both portfolios,
+but the reconstructed IDs125/4/5 mix independent and bundle1 columns. This is
+exact-game-valid but NOT an admissible canonical master bundle. Do not call it
+a master retention failure.10700001 lacks agent0's optimal feature entirely.
+Duplicate2 witness is present throughout, consistent with323 value underestimation.
+
+325 distinguishes missing generation from resource-bearing independent-column
+retention. Keep324 hooks and add observation-only raw-column copies immediately
+before prune_columns, ONLY during the main day2 legacy/expanded generation calls.
+Mechanical copies of planner/decision/audit, unchanged BTC main and canonical lib;
+source normalized roundtrip required. Never unlock/mix contingency bundles or
+change a cap, priority, order, cache, deadline, planner/evaluator or product file.
+No designed functionality removed, disabled, deferred or reduced; nothing deleted.
+Freeze all12 consumed314 fixtures and observation sources/binary/runner before one
+full4-day HTTP loopback capture per fixture, with the same fixed3Patrol/5000ms path.
+This is a DIFFERENT upstream observation, not a favorable rerun of324. No partial
+scores; no simultaneous benchmark/build. No BTC credentials or official-server claim.
+
+Require all12 captures48 actions36 transitions and dual-validate EVERY raw/retained
+column plus all captured pools. Historical attribution requires identical314
+day1-prefix/day2-state+ledger and selected/submitted action; drifted roots are
+unqualified, no resampling. Test bundle-mode compatibility against canonical
+master predicates: either all negative independent IDs or one same nonnegative
+bundle across all3 agents. Compare optimal-witness physical/permuted agent claim
+sets,terminalcells/fuels and valid joint outcomes in raw legacy/expanded, retained
+legacy/merged, initial master and final pool. Report independent-only versus
+bundle-admissible capability separately. Exact raw membership lost at retention
+in >=2 matching loss roots permits design of a new general resource-retention
+invariant, not automatic SCORE/promotion; no candidate is authorized by one
+optimal-witness absence alone. If missing at raw source, only that generation
+boundary may be investigated. No retry310/311 frontier caps or F0 order/shortlist.
+Fresh diverse paired development/sealed holdout/protected/BTC gates remain required
+for any later product mechanism. No micro-commit, signature or ceiling claim.
+
+## Closed attribution — ATTR-HTTP-DAY2-PRE-F0-CAPTURE-324
+
+Registered2026-09-05 before observational build or measurement.323 completed192
+conditional optima and384 Windows dual-validated suffix days. All bounds sound;
+selected values match321. Existing-pool gains only duplicate2 (+1 each), one family,
+so the2-family gate does not authorize a ranking policy. Balanced2 pool maxima are
+36/37 versus unrestricted38. The gap is before the final audited pool, not something
+another ordering of its16 candidates can close.323 manifest
+A793940CA25D86FB25811C0DE5CD46120944C3E21FE8CE865DA5BD71EF17DB0B;
+summary9783F5DA1CA4E7DF375EED0ECF2E71CA156A8016E2E87F18424786C9DA976134.
+
+324 observes the existing pre-F0 runtime boundary. Build research-only mechanical
+copies of decision.cpp and audit.cpp, link the unchanged canonical library and BTC
+main. Add no search, pruning, deadline, ranking or candidate changes. At day2 only,
+copy the legacy/merged route portfolios, initial-master candidates and pre-F0 pool
+into an isolated collector; serialize only when the existing decision replay is
+written after solve. Verify stripping the inserted hooks gives the original source
+byte-for-byte after newline normalization. Production files/binaries remain intact.
+Copy overhead can perturb a cutoff: this is observational evidence, not claimed
+operation/latency equivalence or a product candidate.
+
+Freeze the observational executable, source transformations, runner and all12
+consumed314 fixtures before capturing full4-day HTTP loopback matches sequentially.
+No official BTC or token used. Preserve48 accepted actions,36 transitions, safety,
+all12 captures and hashes before inspecting score/candidate contents. Compare exact
+day1 prefix/day2 state+ledger and selected/submitted actions with314 for every case.
+Only matching runtime roots/actions may attribute the historical gap; drifted cases
+are explicitly unqualified, never retried until a favorable trace appears.
+
+For qualified roots, replay every recorded pre-F0 team plan and every single-agent
+column in a WAIT-filled team using exact simulator/independent-validator. Compare
+physical/permuted optimal-witness current outcomes, and per-agent spot claim sets,
+terminal cells/fuels through legacy columns, merged columns, initial master, pre-F0
+and final audit. Same-cell/count summaries are not route equality. Use321 conditioned
+day2 witness only in offline analysis, never inject it into planning. Absence of this
+one witness remains a sufficient-membership test, not proof all optima are absent.
+No broad/score claim from this consumed narrow domain. Complete valid recurrence
+may authorize only source repair design with a distinct invariant and fresh future
+gate; do not repeat310/311 coordinated caps or F0 shortlist/order sweeps. No designed
+functionality removed, disabled, deferred or reduced; nothing deleted. No product
+change, holdout, micro-commit or signature. Preserve user-owned RUNBOOK. VM idle,
+no concurrent local benchmark/build while captures run. One10-minute monitor only
+if needed; no repeated conversational polling.
+
+324 capture launched2026-09-06 on local host, detached PID19352. Manifest
+A6B842A62ED573FCC6F55B6299A39086900BE067FC29DA42079011DAA165F419 freezes102
+inputs including both observational executables, transformation proof and all12
+consumed fixtures. Research tools passed4 focused tests plus7 unchanged314 HTTP
+contract tests. Production source and binaries unchanged; original decision/audit
+source restored exactly by removing eight marked insertions from the generated
+copies. Pre-freeze tooling corrections: anchor uniqueness guard refused an ambiguous
+hook before producing source; offline bridge compile exposed nested main macro
+collision, repaired by directly calling unchanged simulator/validator. Neither
+attempt created match evidence. No runtime policy changed or designed functionality
+removed. Runner stdout/stderr use the324 evidence prefix; do not inspect candidate
+contents before run_complete12. Single batch is about4minutes, not a20-minute BTC
+monitor; while active, only read-only source tracing/bookkeeping occurs locally.
+
+## Closed attribution — ATTR-DAY2-POOL-EXACT-VALUE-323
+
+Registered2026-09-05 before implementation/measurement.322 completed all12 roots,
+192 audited plans dual-valid; actual submission equals selected audit in12/12.
+Four actual day2 loss roots split: duplicate2 have optimal-equivalent outcomes
+present but not W1-shortlisted; balanced2 have no equivalent of this one witness
+in the post-F0 audit. Twelve mapped suffix days dual-valid, zero failure. A single
+witness is not all optimal actions: do not infer a supply gap from those absences.
+322 manifest4F8CF6E24F9F1F2E01568C4F04A9AF09C00DCB1AF16DECF397323AA2C32F9A2B;
+summaryD55A26B95C43F9C4FCE9BBD4DCD9BBE171AD0E10CDF0126EAFA942CAD0127A77.
+
+323 computes exact remaining day3/4 value after EVERY one of the192 recorded
+day2 audited actions, all12 consumed314 matches. Inputs are the dual-validated
+322 outcomes, retaining physical agents/fuel and full accumulated ledger. Reuse
+the frozen321 oracle binary and primitives without rebuilding or changing it.
+Freeze all requests, analysis, runner and dependencies before measurement; run
+one child on the same existing authorized VM in exclusive /home/LMC/udon323-0905.
+No production planner rerun, oracle injection, new current-day candidate, cap/order
+change, BTC, holdout, micro-commit or signature. Nothing removed/disabled/deferred
+or reduced; nothing deleted. Memory safety >=4GiB before each request; incomplete
+or ambiguous partial output has no value authority. Keep one10-minute monitor
+only if this oracle batch is long; no repeated conversational progress polling.
+
+Require all192 results,384 complete suffix days dual-validated and exact hashes.
+Every oracle value must be <= the321 post-day1 optimum; selected candidate's value
+must equal321 post-day2 optimum; current ledger must be identical to322. Check
+all recorded valid upper bounds and certified lower bounds against the exact value;
+any unsound bound is an explicit correctness finding, not silently clamped. Report
+provisional lower-bound slack separately. Group full official tiers/tails and every
+family/player; report exact pool optimum versus selected and global conditioned
+optimum, optimal-candidate F0/W1/selection dispositions and duplicate-outcome counts.
+Do not aggregate until all192 are complete. At least2 loss cases across2 families
+with an existing better audited action authorize source/certificate-value work;
+if no such action exists, only pre-F0 supply attribution is justified. No SCORE
+shortlist or order retry follows automatically. Protected canonical258 unchanged.
+
+## Closed attribution — ATTR-DAY2-OPTION-PROVENANCE-322
+
+Registered2026-09-05 before measurement.321 completed36/36 conditional optima,
+72 dual-valid suffix days, zero failure and exact monotone telescoping. Day1 loses
+one serving each in duplicate/terminal (four roots); day2 loses2/1 in balanced and
+1/1 in duplicate (four roots). No loss at day3/4; six control matches stay optimal.
+Total9 servings loss, no brand-tier loss. All cases are consumed synthetic HTTP
+fixtures, not BTC or promotion evidence.321 summary
+E7AF660FB590FB01289E63700CE9F83F33F2B0B9317D3A04F11B36C851AC5B83.
+
+The new authorized boundary is ACTUAL day2 selection, not a hypothetical W1
+day2 inside a day1 certificate. Freeze all12 day2 replay audits and conditioned
+post-day1 optimal suffixes from321, including all tied controls. Replay every
+recorded day2 audited candidate, accepted submission and the conditioned optimal
+day2 plan from the SAME actual physical state/ledger. Verify every audit's current
+score/cells/fuel and selected plan provenance. Determine exact physical and
+permutation-equivalent outcome membership for the optimal day2 witness, and
+record F0 lower/upper, W1 admission, certificate and final-selection disposition.
+No solver rerun, new oracle computation, fuel reset, changed cap/order, new
+candidate, source modification, holdout, BTC, commit or signature. Nothing removed,
+disabled, deferred or reduced; nothing deleted. Source decision.cpp shows audit
+contains the post-F0-admission pool; absence cannot distinguish earlier generation
+from F0 filtering and is not proof that all winning actions are absent.
+
+Require all12 roots/every recorded candidate complete, zero dual-validation or
+state/ledger/provenance mismatch. Match on exact ledger, role/position/fuel and
+current score; unordered matches apply only to identical Patrols on roadless maps.
+Report all six families and players8/9/10, loss versus tied controls separately.
+Two actual-loss roots across2 families with optimal-equivalent audited outcomes
+permit source/value-function attribution of ranking/certification; absence permits
+only earlier-pipeline attribution. Neither outcome authorizes a SCORE cap/shortlist
+retry. Frozen optimal witness membership is sufficient, not necessary, for optimum
+capability; report this limitation. Canonical accepted258 stays unchanged.
+
+## Closed attribution — ATTR-HTTP-PREFIX-OPTION-LOSS-321
+
+Registered 2026-09-05 before implementation/measurement. 320 is complete24 roots,
+2168 attempted cuts,104 duration-infeasible,2064 dual-valid schedules/6480 replayed
+days; no final-state mismatch. Only4 balanced roots qualify; other five families
+are ties. Gate fails breadth. Raw alternatives include28 wins316 ties1720 losses
+(851 first-tier2 losses,869 tier3 losses); these were never applied. No product
+change or score-promotion claim. ManifestF5E1F840FA79620F2E4B38A498C730EB06E4D3CCB31F2787694F9DD745AAF321;
+summary197EA70EEB6B9D141DF1CA9FF9C0A94356568BE8841866B1668BC78470C863C0.
+Do not retry whole-Patrol WAIT, retiming or310/311 caps to chase the same family.
+
+321 locates actual irreversible option loss, not merely W1 forecast divergence.
+Use all12 completed314 HTTP matches, including tied controls. Reconstruct the
+actual accepted action prefixes by full exact simulator/independent-validator
+replay. At each physical post-day1/2/3 state and exact accumulated brand ledger,
+solve the remaining roadless three-Patrol game to completion. This yields36
+conditional optimum values. The known312 global optimum is the value before
+any action; the exact314 final score is the value after day4. Freeze these inputs,
+oracle sources, probes and runner before measurement. No new HTTP solve or oracle
+plan is applied; the twelve fixtures are consumed development, not a holdout.
+
+Reuse frozen312 enumerate_day, exact stock-capped joint_day_score and permutation
+mapping. The standalone conditioned DP must preserve actual individual fuel,
+physical-to-canonical identities, current brand ledger and day-varying steps;
+never reset fuel or use original full-fuel starts. Reconstruct and dual-validate
+every winning suffix, including its physical terminal states and score. Compare
+the conditioned solver against frozen312 full-root solver on small independent
+contract fixtures before freezing. A bounded/incomplete computation has no value
+authority. Use the same existing authorized VM if local available memory is unsafe;
+exclusive321 directory, one process, atomic per-root results, no unrelated VM work.
+
+Require all36 roots, exact prefix/fixture/hash identity, zero invalidity, and
+nonincreasing conditional optimum after each actual action. Each value must remain
+at least the realized HTTP final score and at most the preceding conditional
+optimum. Report the earliest irreversible loss, all per-day first differing tiers,
+exact gain/loss sizes and telescoping score components, every family/player stratum,
+full optimal suffix plans and frontier/work counters. Recurrent option loss on
+at least2 cases across2 families permits source attribution of THAT actual action
+boundary, not a SCORE candidate or repeat of certificate-only neighborhoods.
+Missing monotonicity or reconstruction invalidates the oracle and blocks conclusions.
+No functionality removed, disabled, deferred or reduced; nothing deleted; source
+production and canonical5000 checkpoint unchanged. No micro-commit or signature.
+
+321 frozen manifest28424D53C6937CD70983DED8FBC49971D75876D61B7E4C98EE69A804EF56BC13;
+runner3F3DBF296FEFD4B7D8FF091ABCE3A50BCDA3FF2683709E42D29209BB3381E0E3;
+Linux probeE3B5FDF419E81091E4D1CDBBEECF138CA43E6BB0F80E353C305632F5E65E7292.
+Three oracle contract tests pass on Windows and VM; three provenance/monotonicity
+tests pass. All13 headers and simulator/validator/protocol sources match the frozen
+VM312 tree except CRLF. Full48 accepted HTTP actions reconstruct exactly before
+freezing all36 conditional roots. Same authorized VM restarted in exclusive
+/home/LMC/udon321-0905; detached runner PID10765, one child, >=4GiB available-memory
+gate before each root, atomic results with retained stdout. Initial check24/36
+results, one active partial, stderr0, runner RSS21MiB and child13MiB. No partial
+score inspected. The previous monitor remains paused while this short run finishes.
+
+## Closed attribution — ATTR-W1-CROSS-DAY-ROUTE-RETIMING-320
+
+Registered 2026-09-05 before probe implementation or measurement. Parent c76a8ea;
+canonical accepted258 source and binaries remain unchanged. 319 is complete:
+24 matches96 valid actions72 reconciled transitions and24 complete selected-W1
+roots; zero operational/dual-validation failure. Four roots improve by2 servings,
+all in three-balanced. The preregistered two-family breadth gate FAILS. Improvements
+from regenerating W1 without a WAIT substitution are controls, not mechanism gains.
+Manifest7ACB99569C046900E284A969D02A0BE734E8EA5E46D7763F5E81C27D21A1A070;
+summaryA6D40DCAAC9D1C7B63E4E3A34E31011147E1224BC18A3E86CBED6AE245D7F058.
+The single monitor is paused after completion. Close the whole-Patrol-WAIT lead;
+do not widen shortlist/admission/caps or rerun rejected310/311 bundle crossovers.
+
+The next distinct gap is temporal stock allocation inside a complete W1 witness.
+316--319 show early stock-neutral movement before future stock resets. 320 asks
+whether the SAME ordered spatial moves, SAME total fuel and SAME physical final
+agents can produce a better full-horizon certificate just by moving day boundaries.
+Use all24 now-consumed319 selected day1 witnesses, not their WAIT-generated routes.
+This is attribution, not fresh promotion evidence; no sealed holdout exists for320.
+
+Freeze each exact day2 state/ledger, all three recorded future plans, canonical
+library, probe and analyzer. For each Patrol independently concatenate its three
+future-day MOVE sequences; enumerate every ordered pair of cuts into three days,
+keeping the other Patrol plans byte-identical. Build a canonical WAIT1 prefix,
+the unchanged move subsequence and exact WAIT tail for each day. Check source-cell
+costs and daySteps before simulation. Preserve the original witness as control;
+also normalize its original cuts identically to separate within-day WAIT timing
+from genuine cross-day retiming. No W1/planner rerun, new route, oracle plan,
+fuel reset, role change, road-state guess, operation-cap or deadline change.
+The scope guard requires three Patrols, three remaining days, roadless map and no
+other-team state; do not infer applicability to refueling or road traffic.
+
+Every feasible cut must receive complete exact simulator/independent-validator
+replay and final physical kind/cell/fuel equality. Unexpected invalidity, mismatch,
+missing root or mutation invalidates the measurement; infeasible duration cuts
+are counted separately. Keep all raw score outcomes, including losses, but a best
+alternative may replace a witness only by strict official lexicographic gain.
+Require all24 roots and all cuts complete before aggregation; report full tiers,
+gain/loss tails, each family/player stratum, move/cut/work counts, plan hashes and
+same-final-state evidence. At least4 strict-gain roots across2 families above BOTH
+recorded and normalized controls authorize a separate fresh SCORE hypothesis for
+in-place complete-witness retiming; they do not prove closed-loop benefit. Otherwise
+close this retiming neighborhood without a cutoff/cap retry or a ceiling claim.
+No designed functionality removed, reduced, deferred or disabled; nothing deleted.
+No production source change, micro-commit, BTC match, VM creation or signature.
+
+## Closed fresh prevalence — ATTR-SELECTED-W1-STOCK-NEUTRAL-319
+
+Registered 2026-09-05; no product source change. 318 passed its attribution gate:
+all3 roots/all9 WAIT replacements dual-valid and score/brand neutral on day2;
+each root has a strict full-suffix gain over regenerated33 control. Best scores
+are38/38/37. All complete exact generators support3/3 agents, but the recorded
+W1 day2 plan is the exact-bundle-selected plan, not the detailed master choice.
+WAIT routes exist individually; the mixed stock-neutral complete bundle is not
+in the exact-bundle set. This is certificate construction, not fuel infeasibility.
+318 manifest51CB0C8ACD5D2220E21E3B2EDB53A1F23B1FC278C88D0A3409CB005A8D152044;
+summary4B04AE6FE43DFE08BFDB491A4BCB37778B0C6F463561BDB9F74B655989489FC8.
+
+Crucial remaining question: these gains were on unshortlisted candidates. Before
+changing W1 or queue policy,319 measures whether the same lead exists in witnesses
+actually SELECTED by unchanged production on fresh inputs. Freeze24 new fixtures,
+four in each of the original six three-Patrol roadless families, players8/9/10
+balanced within/between families, seeds202609050000+100*familyIndex+replica.
+Use the exact current HTTP executable, synthetic loopback transport, fixed roles,
+full four-day ACK lifecycle and5000ms windows. This is not BTC or opponent-strength
+evidence. No oracle is run, no sealed seed is opened and no plan is injected into
+production. Wait for all24 complete matches/96 actions/72 transitions before
+reading score or certificate telemetry beyond registered operational safety.
+
+Then revalidate each actual day1 selected candidate and its full W1 witness.
+At its first future day2 root, call the frozen318 probe on the recorded witness
+plan; test all three Patrol WAIT substitutions only behind exact score/brand
+equality, and compare complete regenerated suffixes against same-condition
+control AND the recorded selected certificate. Require all24 roots complete,
+zero dual-validation/state/ledger/certificate failure, at least4 strict-gain roots
+across at least2 families, with full score/tier/strata evidence. This gate only
+permits a separate fresh SCORE proposal for in-place W1 resource allocation;
+it cannot promote, widen shortlist/caps, alter metrics, or claim closed-loop gain.
+If it fails, close this selected-witness lead and do not repeat an admission/cap
+sweep; use exact remaining counterexample attribution to choose the next axis.
+No function removed, reduced, deferred or disabled; nothing deleted; no commit.
+Only one local match process runs at a time, then attribution runs after matches.
+Use one10-minute monitor for long execution, not repeated conversational polling.
+
+319 launched detached Python PID756 at2026-09-05 14:34:52+07, sequential execute
+mode. Frozen manifest7ACB99569C046900E284A969D02A0BE734E8EA5E46D7763F5E81C27D21A1A070;
+runnerBFB285182F84E484E563E9F56B2E4EE8563309D7A1740ED0E5D3241BC6BAC156;
+probe108E9A7B52CF430111FB9AD76E2A74447EBAA7990B0112CC71C723F4F6322807.
+Canonical BTC hash remainsF97F168FE76FEF1B6226D2C2CFDAF954F116D39F427B6F157594151C461E1275.
+The existing paused monitor-udon-witness-315 was repurposed to319 at10-minute
+intervals (no duplicate monitor). Initial running check:19 completed result files,
+no score inspected. Runner and per-case companions preserve operational errors.
+The frozen execute runner performs attribution and summary automatically after
+all24 baselines; do not launch another analyzer while it remains active.
+
+## Closed attribution — ATTR-W1-STOCK-NEUTRAL-MOTION-318
+
+Registered 2026-09-05 before measurement; parent c76a8ea/accepted258 unchanged.
+317 completed3 cases18 dual-valid suffix days. All three first diverge on day2
+at equal4/8/20: W1 moves Patrol1 from17/fuel5 to21/fuel1, while the exact
+suffix leaves it at17/fuel5. Day3 is the first loss (26 versus30 servings),
+ending33 versus38. Manifest A3C0FE170D7DB3702F519E770191708695CEE15C5E4D0D311B7E90218F9361C3;
+summary D1CCCA7018B40A1DDAA0C20ADBD0D5A88D066547C8918F442005AFC4B8E11588.
+No assertion that a fuel-rich different terminal dominates in general is made.
+
+318 traces the unchanged detailed-W1 portfolio/master and exact-bundle generator
+at those three shared day2 roots, with their existing options and limits. Record
+all columns, complete exact bundles, bounds and whether they reproduce the
+recorded day2 W1 choice. Separately replace each Patrol's route with full-day WAIT
+in the recorded day2 plan, one at a time, using public role identity enumeration
+only. Dual-evaluate every diagnostic plan; only exact equal-day-score/brand-ledger
+alternatives may call unchanged W1 for a complete remaining suffix. Compare to
+the same-condition regenerated W1 of the unmodified day2 plan, not just the old
+33 reference (which was generated with a different remaining repair horizon).
+All three roots/all Patrols must complete before interpretation. Freeze probe,
+runner, inputs and canonical library before execution;1000ms per isolated W1
+call is diagnostic only and cannot justify runtime or checkpoint changes.
+Require zero dual-validity failure and complete suffix replays. A stock-neutral
+alternative beating regenerated control in at least2 cases identifies a distinct
+remaining-horizon resource allocation lead, not a production improvement.
+This differs from310/311 canonical-bundle crossovers: it audits team-stock-neutral
+motion and its complete suffix, without widening main portfolio or any cap.
+No designed functionality removed, disabled, deferred or reduced; nothing deleted.
+No production source edit, holdout, promotion or research-only commit.
+
+## Closed attribution — ATTR-SHARED-STATE-WITNESS-SUFFIX-317
+
+Registered 2026-09-05 before execution. Parent c76a8ea; canonical production258.
+Replay only the three consumed316 certificates (10700100/index5,
+10700101/index6,10700500/index4) and the corresponding315 exact suffixes.
+Require identical physical day1 agents and exact brand ledger, not equal score
+alone. Freeze all input files, bridge, analyzer and directly relevant source;
+revalidate both paths through unchanged exact simulator and independent validator.
+All three cases and18 suffix-day replays must finish before interpretation.
+Report each cumulative and daily score, physical/permutation-state divergence,
+first score difference and first loss. Later unshared inputs cannot establish a
+local selection error. Zero invalidity, mismatch or missing row is required.
+A recurrent first boundary in at least two cases authorizes tracing existing W1
+generator/master/bundle choices there, not a cap/order change or oracle injection.
+No production edit, sealed holdout, new optimizer invocation or latency claim.
+No function is removed, disabled, deferred or reduced; nothing is deleted.
+No research-only commit. Any SCORE successor needs a distinct general invariant
+and fresh frozen development/holdout evidence before candidate source changes.
+
+## Prior next action — remaining-horizon certificate consistency
+
+315 and316 are complete; no solver process or active candidate is needed for
+their evidence. Accepted production remains258; no commit or signature is
+authorized. The next single gap is W1's remaining-horizon witness construction
+from an already-present recorded day1 outcome, not generic candidate supply or
+shortlist width. Before another measured probe, register its exact shared-state
+suffix comparison and invariants: replay the three consumed316 W1 suffixes
+against315's exact suffix from the same day1 state/ledger, locate the earliest
+loss, and trace the existing W1 generator/master/exact-bundle choice. Do not
+inject oracle plans into production, widen caps/order or reopen310/311. A new
+SCORE mechanism needs a distinct general invariant and fresh frozen evidence.
+This is not a declaration that the residual is closed or that ideas are exhausted.
+
+## Closed certificate attribution — ATTR-HTTP-SHORTLIST-CERTIFICATE-YIELD-316
+
+315 has completed witness recovery and dual replay. Its earliest shared-state
+boundary occurs on day1 in all six consumed wins at equal current-day score;
+three oracle-equivalent outcomes already exist in the actual HTTP audit but are
+not shortlisted. The other three have no equivalent audited outcome, even after
+permutation; route generation versus master retention is not distinguished there.
+
+316 isolates the existing certification capability on recorded candidates only.
+Run unchanged production FutureWitnessRepairer F0 and W1 through a standalone
+research harness linked to the exact current Release library. Reuse every day1
+audited candidate from all twelve completed314 fixtures, including six tied
+controls; never add an oracle plan or suffix. Keep the exact recorded setup,
+state, ledger and deterministic-no-road scenario. F0 operation cap24, W1 cap200,
+harvest mode7 remain canonical. Each isolated W1 call gets at most1000ms solely
+for attribution; this is not a proposal to expand production's three-candidate
+repair queue or its5000ms checkpoint, and its elapsed time has no promotion power.
+
+Freeze inputs, probe binary, runner and analyzer before execution. Require one
+result for every recorded candidate and all twelve cases before interpretation,
+exact current-plan/simulation/state/ledger identity, unchanged recorded F0 scores
+or explicit classification of mismatch, complete dual-valid W1 witnesses with
+matching full-horizon scores, and zero failure. A certified unshortlisted plan
+strictly above the selected candidate's recorded certified score in at least two
+cases would locate reusable existing capability behind admission; it still does
+not authorize a wider cap/order sweep or a SCORE change. If no such cases exist,
+close this narrow admission hypothesis instead of pretending shortlist expansion
+would recover the oracle. No sealed holdout, product edits or micro-commit.
+Nothing is removed, reduced, disabled or deleted. Production stays accepted258.
+
+316 completed all12 cases and192 recorded candidate requests, with576 dual-valid
+future days and192 current-plan dual revalidations. F0 matches all192 recorded
+provisional scores; isolated selected certificates match all12 recorded selected
+certificates. Manifest SHA256
+`D964BE23CB6BBFAB864D87477892918F76B8836A03B38124F04F3C66FB1000D5`;
+summary `318184A0BA2B676EDF4D9CC55B758E46A1602991D48FF40832C7D0F13AAF4F61`.
+The narrow certificate-yield gate passes in3 cases (balanced seeds10700000 and
+10700001 plus tied-control fuel10700401), each gaining one serving relative to
+the selected certificate under both recorded and same-condition isolated calls.
+However no best isolated certificate exceeds the corresponding actual314 HTTP
+final score. These are better certificates, NOT measured production improvements.
+
+Most importantly, each of the3 present-but-unshortlisted oracle-equivalent day1
+outcomes from315 certifies only4/16/33 through unchanged W1, whereas its complete
+oracle continuation reaches4/16/38. Thus merely admitting those outcomes cannot
+recover the observed exact benefit through the current witness constructor.
+The three cases are10700100 candidate5,10700101 candidate6 and10700500 candidate4
+(zero-based recorded audit index). Complete future plans are preserved per row.
+This narrows the next investigation to shared-state suffix construction instead
+of authorizing a redundant shortlist/cap/order SCORE sweep. The comparison is
+consumed fixed-role roadless attribution, not multi-team traffic strength,
+closed-loop gain, authoritative latency, or a ceiling. No holdout was opened.
+
+## Closed witness attribution — ATTR-THREE-PATROL-HTTP-WITNESS-315
+
+User direction 2026-09-05: recover only current state and all directly relevant
+sources/evidence after compaction, as now specified in AGENTS.md. Do not make
+research/document-only micro-commits; keep the ledger and immutable evidence in
+the worktree, and commit only a product improvement after its acceptance gates.
+User-owned COMPETITION_RUNBOOK.md remains out of scope. No competition signature
+is justified while the measured feasible residual below remains unexplained.
+
+Parent research HEAD is `c76a8ea`; canonical production remains accepted 258.
+314 completed all twelve fixed-role HTTP baselines. The six consumed development
+oracle wins survive the actual HTTP path, not merely a copied engine. 315 will
+recover exact four-day oracle witnesses for those six cases from the unchanged
+frozen 312 oracle, then compare them with the already-recorded 314 HTTP replay.
+The incidental direct-engine traces emitted by that oracle binary are NOT the
+baseline. No HTTP solve is rerun and no sealed case is read.
+
+The six selected seeds are 10700000, 10700001, 10700100, 10700101, 10700500 and
+10700501. A development-only adapter manifest will retain the original 312
+fixture identity/schema; a separate 315 input manifest will freeze every replay,
+312 score reference, oracle source/binary, runner and analyzer before execution.
+Recovering a witness is not a fresh performance or prevalence measurement.
+The already-authorized VM udon-f0-240-0829 may be restarted for this expensive
+exact computation, using an exclusive 315 directory and one process at a time;
+do not create/delete a VM, touch other experiments or mix partial evidence.
+
+Completion requires six atomic witnesses, four valid days per witness, unchanged
+oracle final scores versus 312, exact simulator/independent-validator agreement,
+and exact fixture/replay/hash consistency. Compare the earliest divergence in
+physical terminal state and exact brand ledger, also report permutation-invariant
+terminal cell/fuel multisets. Candidate membership is meaningful only at a
+shared input state; later non-shared prefixes must not be called selection errors.
+Classify an oracle-equivalent outcome as absent from the recorded audit,
+present-but-not-shortlisted, shortlisted-but-uncertified, certified-but-unselected,
+or selected-before-later-divergence. Absence from the final audit alone cannot
+distinguish route supply from master retention. Preserve actual HTTP current-floor,
+refinement and post-ACK telemetry; do not assume extra time fixes a structural gap.
+
+A recurrent boundary in at least two cases permits the next targeted source
+attribution, not automatic SCORE integration. Repeating rejected 310/311 bundle
+frontier, widening caps, changing ordering/deadlines or injecting an oracle suffix
+is not authorized. A new production hypothesis needs a distinct general invariant
+and fresh frozen evidence. This experiment has no holdout or promotion authority.
+Functionality preservation: no designed function is removed, reduced or disabled;
+nothing is deleted. Only research observation is added around unchanged binaries.
+
+315 launch: ten parser/state-ledger/audit/dual-replay tests passed. Frozen manifest
+SHA256 `941FEBDC951D4037DE1B11B86BDC361E32CC1085F9BEB97F5B0A1097AF8AA540`;
+runner `BA608353D0DE5C40EA1945BF80BCEAE8A5FBF585930D29566D061A20027D98F2`;
+analyzer `9136AE57AA4CE02F162C462EA7D235304232ADA07B3E0B2503F7FEF8070BE8DD`.
+The reused Linux oracle hash was verified as
+`9348B01F5D1A48C3B2958FDDF6878518C50C4143065EE801FFD7F4BCCF1977FB`,
+source `5979B702FB175B63077CCBB250B6E55B5B974ECA80543B3B7C105123F94C1BCE`.
+The existing authorized VM was restarted without rebuild or other VM actions.
+Exclusive root `/home/LMC/udon315-0905`; detached runner began PID1648,
+`logs315/runner.pid`, `runner.stdout`, `runner.stderr`. At initial verification
+two atomic cases were complete and the third was running, stderr zero and
+MemAvailable15800224kB. No partial witness telemetry was inspected. A single
+10-minute heartbeat `monitor-udon-witness-315` is active, material events only.
+Expected local copy directory is
+`research/evidence/ATTR-THREE-PATROL-HTTP-WITNESS-315/`; summary path is
+`research/evidence/ATTR-THREE-PATROL-HTTP-WITNESS-315.summary.json`.
+
+Completed six atomic witnesses and24 traces, all dual-valid; all24 recorded HTTP
+days revalidated identically. Log SHA256
+`FDA7542961B359C6438F086572E744CBAA77A3E1A7BF98EE44641C210124B888`,
+summary `E40A59F1642DC9853AE1ABA44CAA3E60A9389F461E7F4C96473C0154DD47CB98`.
+All first physical and permutation-invariant divergences are day1. Three cases
+are absent from audit (10700000/10700001/10700501); three are present but not
+shortlisted (10700100/10700101/10700500). Current-day score is tied in all six.
+For the three present cases, recorded F0 lower bound is4/12/30 and upper4/16/38;
+they receive no W1 role or certificate. Later non-shared inputs are not treated
+as selection errors. Source follow-through in decision.cpp confirms F0 simulates
+two future days while W1 can produce a complete exact-bundle suffix; only floor
+leader, upside challenger and incumbent/last-sent enter W1. This is not proof
+that W1 would recover the missing gain:316 must measure that next on all recorded
+day1 candidates. The315 monitor is paused because the computation completed.
+
+## Closed runtime baseline revalidation — ATTR-THREE-PATROL-HTTP-BASELINE-314
+
+Parent research commit `c76a8ea`; production remains accepted 258. Audit 313
+proved that 312 measured a direct-engine path, not the complete HTTP checkpoint.
+314 measures the unchanged current Release HTTP executable on all twelve consumed
+312 development fixtures, with no candidate and no sealed holdout. The current
+binary SHA256 is `F97F168FE76FEF1B6226D2C2CFDAF954F116D39F427B6F157594151C461E1275`;
+Ninja's dry run confirms that the current Release target is up to date.
+
+The transport is a loopback-only synthetic HTTP server, NOT BTC. Its fixture and
+step bridge calls the frozen original `make_fixture` and the existing exact
+simulator plus independent validator. It never calls the oracle optimizer or
+another planner. Each fixture retains its fixed all-Patrol assignment through
+the existing replay-resume assignment contract, explicitly marked synthetic;
+role selection is outside this controlled comparison. The actual HTTP executable
+runs all daily solve, calibration/current-floor selection, checkpoint refinement,
+virtual/checkpoint/actual state, ACK and idle post-ACK scheduling unchanged.
+No real bearer credential is used. `--response-ms 5000`, public daySeconds=5,
+poll=220ms; next state is released only at the end of the prior 5-second window.
+No public continuation is authorized. Local clock/transport overhead and post-ACK
+opportunities are recorded, not tuned to obtain favorable scores.
+
+Freeze the complete twelve-case manifest, fixture bridge, runner, summarizer and
+binaries before the measured run. Validate the bridge/transport with independent
+contract tests first. Preserve per-case replay, server action/ACK/transition log,
+replay-check output and hashes. Completion requires twelve atomic results,
+48 accepted dual-valid actions, 36 reconciled transitions, zero mismatch,
+emergency, transport/deadline/fallback/certificate failure, complete oracle
+reference values and matching frozen hashes. Report oracle-versus-HTTP W/T/L,
+first differing tiers, all per-case gains and strata, plus measured HTTP versus
+the old engine values as a non-causal cross-run comparison. No partial score
+interpretation, no cherry-picking old wins, no rerun to chase cutoff variance.
+
+A surviving feasible oracle advantage authorizes read-only attribution only;
+all ties close this specific fixed-role residual in the measured scheduling
+condition, not a global ceiling. Any score above the complete oracle, fixture
+mismatch or missing lifecycle boundary blocks interpretation. No outcome grants
+SCORE/promotion authority or official-server/latency/competition readiness.
+
+Preflight: seven bridge/transport guard tests passed; there is no active solver
+process. Frozen manifest SHA256
+`FE31DDCA3C0419AD2279E0C4E076AC77D030E332039998ABBAC8FF906E940CB7`;
+runner `5D0A21945D32BF2EFB87AFBB0BE1B679FEF65A7F2B3A3C0038EA3D20BA527755`;
+summarizer `C2295FB20E1BB0DFF0711DF46A0FBFB058778359D39F6C15BEEFEA78C07FA94D`;
+bridge `CA869CEF3AFF78F17B57FF0DB1A207B54DAA4EBF3EFA579E4432ABB627A65902`.
+Run artifacts go to `research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/`.
+No automatic restart is authorized for an interrupted or ambiguous case.
+
+Completed: twelve results and one run_complete; 48 accepted dual-valid actions,
+36 replay-check reconciled transitions, zero stderr/safety failure, and all 39
+frozen input hashes matched. Oracle-versus-HTTP W/T/L is 6/6/0, all gains first
+differ at tier 3: +2,+1,+2,+2,+1,+1, aggregate +9. Balanced, duplicate and terminal
+families each contain two wins; stock, coverage and fuel each contain two ties.
+All twelve HTTP final scores equal the prior direct-engine scores; this is a
+non-causal cross-run observation, not proof that omitted runtime components are
+generally irrelevant. The 48 refiner calls accepted no improvement; recorded
+post-ACK work produced 240 session checkpoints and 40 cached-contingency reuses.
+Local maximum response/main times are 329/305 ms, diagnostic only. No observed
+checkpoint deadline was reached. Fixed-role roadless synthetic evidence cannot
+establish official-server conformance, multi-team traffic strength or a ceiling.
+Frozen summary SHA256 is
+`D926E5C3025643CAE8F4FB1350AD8FF8AD940DAB67F0563890C27213F538F96F`.
+Verdict: residual survives measured HTTP path; only read-only witness attribution
+315 is authorized next. Production remains unchanged and all holdouts stay sealed.
+
+Functionality-preservation answers: (1) no designed functionality is removed,
+disabled, deferred or reduced; this adds a controlled research transport around
+the unchanged executable; (2) nothing is deleted. User runbook remains untouched.
 
 ## Closed baseline attribution — ATTR-THREE-PATROL-BASELINE-PATH-313
 

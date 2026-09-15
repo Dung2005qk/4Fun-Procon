@@ -1,0 +1,77 @@
+case_complete seed=202609050000
+case_complete seed=202609050001
+case_complete seed=202609050002
+case_complete seed=202609050003
+case_complete seed=202609050100
+case_complete seed=202609050101
+case_complete seed=202609050102
+case_complete seed=202609050103
+case_complete seed=202609050200
+case_complete seed=202609050201
+case_complete seed=202609050202
+case_complete seed=202609050203
+case_complete seed=202609050300
+case_complete seed=202609050301
+case_complete seed=202609050302
+case_complete seed=202609050303
+case_complete seed=202609050400
+case_complete seed=202609050401
+case_complete seed=202609050402
+case_complete seed=202609050403
+case_complete seed=202609050500
+case_complete seed=202609050501
+case_complete seed=202609050502
+case_complete seed=202609050503
+run_complete cases=24
+attribution_complete roots=24
+{
+  "experiment": "ATTR-SELECTED-W1-STOCK-NEUTRAL-319",
+  "cases": 24,
+  "actions": 96,
+  "transitions": 72,
+  "selected_suffix_dual_valid_days": 72,
+  "strata": {
+    "three-balanced": {
+      "win": 4
+    },
+    "players-8": {
+      "win": 2,
+      "tie": 6
+    },
+    "players-9": {
+      "win": 1,
+      "tie": 7
+    },
+    "players-10": {
+      "win": 1,
+      "tie": 7
+    },
+    "three-duplicate": {
+      "tie": 4
+    },
+    "three-stock": {
+      "tie": 4
+    },
+    "three-coverage": {
+      "tie": 4
+    },
+    "three-fuel": {
+      "tie": 4
+    },
+    "three-terminal": {
+      "tie": 4
+    }
+  },
+  "qualifying_roots": 4,
+  "qualifying_families": [
+    "three-balanced"
+  ],
+  "gate_passed": false,
+  "manifest_sha256": "7ACB99569C046900E284A969D02A0BE734E8EA5E46D7763F5E81C27D21A1A070",
+  "zero_safety_failure": true,
+  "promotion_authority": false,
+  "holdout_authority": false,
+  "btc_authority": false,
+  "limits": "Fresh selected certificates only, not a candidate-vs-parent closed-loop score measurement. Roadless three-Patrol scope. No local performance claim."
+}
+summary_sha256 A6D40DCAAC9D1C7B63E4E3A34E31011147E1224BC18A3E86CBED6AE245D7F058

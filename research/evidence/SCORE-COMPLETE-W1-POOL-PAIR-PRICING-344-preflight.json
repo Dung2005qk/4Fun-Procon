@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "command": [
+        "D:\\VSBuildTools\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\ctest.exe",
+        "--test-dir",
+        "artifacts/research/344/build",
+        "--output-on-failure"
+      ],
+      "exit_code": 0,
+      "stderr": "",
+      "stdout": "Internal ctest changing into directory: C:/Users/LMC/Desktop/4Fun/artifacts/research/344/build\nTest project C:/Users/LMC/Desktop/4Fun/artifacts/research/344/build\n    Start 1: udonshield_tests\n1/3 Test #1: udonshield_tests ..................   Passed    1.54 sec\n    Start 2: udonshield_strategy_bench_smoke\n2/3 Test #2: udonshield_strategy_bench_smoke ...   Passed    3.28 sec\n    Start 3: udonshield_master_oracle_smoke\n3/3 Test #3: udonshield_master_oracle_smoke ....   Passed    0.14 sec\n\n100% tests passed, 0 tests failed out of 3\n\nTotal Test time (real) =   4.98 sec\n"
+    },
+    {
+      "command": [
+        "C:\\Users\\LMC\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "research/probes",
+        "-p",
+        "test_complete_pool_344.py"
+      ],
+      "exit_code": 0,
+      "stderr": "....................\n----------------------------------------------------------------------\nRan 20 tests in 3.460s\n\nOK\n",
+      "stdout": ""
+    }
+  ]
+}

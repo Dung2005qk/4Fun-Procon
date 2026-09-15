@@ -1,0 +1,18 @@
+{
+  "experiment": "HOTFIX-BTC-ROLE-FASTPATH-371",
+  "parent_commit": "c76a8eaa4f200e3eeeb1a58ef1d1fb3d0c13579c",
+  "preregistration_sha256": "8EEEFC6D7F8E62FADD1DC0A42FFED0A334DC56FF2E77860C63FB7DDABE0A53AD",
+  "source_diff_sha256": "6A8B390DDC01E6E0B3202DF03E7C9FD51F51DCD1F0267B2435968D78F4DFF5AD",
+  "candidate_binary": "artifacts/research/371/build-msvc/udonshield_btc.exe",
+  "candidate_binary_sha256": "01F33632411AB8A94921CA2EE63788169E172337D939A59E358219481329FFBE",
+  "installed_binary": "build-release/udonshield_btc.exe",
+  "installed_binary_sha256_at_capture": "8DD36EAC3EF878B64C6FEEA4AA67B8ABCD2DCFF9893E0A73F44BDDF16C698D56",
+  "toolchain": {
+    "cmake": "D:/VSBuildTools/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe",
+    "generator": "Ninja",
+    "compiler": "D:/VSBuildTools/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe",
+    "build_directory": "artifacts/research/371/build-msvc"
+  },
+  "tests": "CTest 3/3 passed in isolated candidate build",
+  "promotion_status": "not authorized; BTC canary and score gate pending"
+}

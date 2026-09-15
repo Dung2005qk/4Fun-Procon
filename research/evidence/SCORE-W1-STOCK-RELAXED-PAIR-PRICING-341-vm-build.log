@@ -1,0 +1,163 @@
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/LMC/udon341-0907/build
+[1/21] Building CXX object CMakeFiles/udon_shield.dir/src/json.cpp.o
+[2/21] Building CXX object CMakeFiles/udon_shield.dir/src/protocol.cpp.o
+/home/LMC/udon341-0907/source/src/protocol.cpp: In function ‘udon::MatchConfig udon::parse_match_config(const JsonValue&)’:
+/home/LMC/udon341-0907/source/src/protocol.cpp:188:29: warning: possibly dangling reference to a temporary [-Wdangling-reference]
+  188 |     const JsonValue::Array& daySeconds = require_array(document.at("daySeconds"), "daySeconds");
+      |                             ^~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:188:55: note: the temporary was destroyed at the end of the full expression ‘udon::{anonymous}::require_array((* &(& document)->udon::JsonValue::at(std::__cxx11::basic_string<char>(((const char*)"daySeconds"), std::allocator<char>()))), std::__cxx11::basic_string<char>(((const char*)"daySeconds"), std::allocator<char>()))’
+  188 |     const JsonValue::Array& daySeconds = require_array(document.at("daySeconds"), "daySeconds");
+      |                                          ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:189:29: warning: possibly dangling reference to a temporary [-Wdangling-reference]
+  189 |     const JsonValue::Array& daySteps = require_array(document.at("daySteps"), "daySteps");
+      |                             ^~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:189:53: note: the temporary was destroyed at the end of the full expression ‘udon::{anonymous}::require_array((* &(& document)->udon::JsonValue::at(std::__cxx11::basic_string<char>(((const char*)"daySteps"), std::allocator<char>()))), std::__cxx11::basic_string<char>(((const char*)"daySteps"), std::allocator<char>()))’
+  189 |     const JsonValue::Array& daySteps = require_array(document.at("daySteps"), "daySteps");
+      |                                        ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:211:29: warning: possibly dangling reference to a temporary [-Wdangling-reference]
+  211 |     const JsonValue::Array& rows = require_array(mapDocument.at("cells"), "map cells");
+      |                             ^~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:211:49: note: the temporary was destroyed at the end of the full expression ‘udon::{anonymous}::require_array((* &(& mapDocument)->udon::JsonValue::at(std::__cxx11::basic_string<char>(((const char*)"cells"), std::allocator<char>()))), std::__cxx11::basic_string<char>(((const char*)"map cells"), std::allocator<char>()))’
+  211 |     const JsonValue::Array& rows = require_array(mapDocument.at("cells"), "map cells");
+      |                                    ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:217:33: warning: possibly dangling reference to a temporary [-Wdangling-reference]
+  217 |         const JsonValue::Array& columns = require_array(rows.at(static_cast<std::size_t>(rowIndex)), "map row");
+      |                                 ^~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:217:56: note: the temporary was destroyed at the end of the full expression ‘udon::{anonymous}::require_array((* &(& rows)->std::vector<udon::JsonValue>::at(((std::size_t)rowIndex))), std::__cxx11::basic_string<char>(((const char*)"map row"), std::allocator<char>()))’
+  217 |         const JsonValue::Array& columns = require_array(rows.at(static_cast<std::size_t>(rowIndex)), "map row");
+      |                                           ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:227:29: warning: possibly dangling reference to a temporary [-Wdangling-reference]
+  227 |     const JsonValue::Array& initialAgents = require_array(document.at("agents"), "agents");
+      |                             ^~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:227:58: note: the temporary was destroyed at the end of the full expression ‘udon::{anonymous}::require_array((* &(& document)->udon::JsonValue::at(std::__cxx11::basic_string<char>(((const char*)"agents"), std::allocator<char>()))), std::__cxx11::basic_string<char>(((const char*)"agents"), std::allocator<char>()))’
+  227 |     const JsonValue::Array& initialAgents = require_array(document.at("agents"), "agents");
+      |                                             ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:255:29: warning: possibly dangling reference to a temporary [-Wdangling-reference]
+  255 |     const JsonValue::Array& spots = require_array(document.at("spots"), "spots");
+      |                             ^~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:255:50: note: the temporary was destroyed at the end of the full expression ‘udon::{anonymous}::require_array((* &(& document)->udon::JsonValue::at(std::__cxx11::basic_string<char>(((const char*)"spots"), std::allocator<char>()))), std::__cxx11::basic_string<char>(((const char*)"spots"), std::allocator<char>()))’
+  255 |     const JsonValue::Array& spots = require_array(document.at("spots"), "spots");
+      |                                     ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp: In function ‘udon::DayState udon::parse_day_state(const MatchConfig&, const JsonValue&)’:
+/home/LMC/udon341-0907/source/src/protocol.cpp:317:29: warning: possibly dangling reference to a temporary [-Wdangling-reference]
+  317 |     const JsonValue::Array& agents = require_array(document.at("agents"), "day agents");
+      |                             ^~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:317:51: note: the temporary was destroyed at the end of the full expression ‘udon::{anonymous}::require_array((* &(& document)->udon::JsonValue::at(std::__cxx11::basic_string<char>(((const char*)"agents"), std::allocator<char>()))), std::__cxx11::basic_string<char>(((const char*)"day agents"), std::allocator<char>()))’
+  317 |     const JsonValue::Array& agents = require_array(document.at("agents"), "day agents");
+      |                                      ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:326:29: warning: possibly dangling reference to a temporary [-Wdangling-reference]
+  326 |     const JsonValue::Array& others = require_array(document.at("others"), "others");
+      |                             ^~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:326:51: note: the temporary was destroyed at the end of the full expression ‘udon::{anonymous}::require_array((* &(& document)->udon::JsonValue::at(std::__cxx11::basic_string<char>(((const char*)"others"), std::allocator<char>()))), std::__cxx11::basic_string<char>(((const char*)"others"), std::allocator<char>()))’
+  326 |     const JsonValue::Array& others = require_array(document.at("others"), "others");
+      |                                      ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:340:33: warning: possibly dangling reference to a temporary [-Wdangling-reference]
+  340 |         const JsonValue::Array& otherAgents = require_array(otherDocument.at("agents"), "other team agents");
+      |                                 ^~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:340:60: note: the temporary was destroyed at the end of the full expression ‘udon::{anonymous}::require_array((* &(& otherDocument)->udon::JsonValue::at(std::__cxx11::basic_string<char>(((const char*)"agents"), std::allocator<char>()))), std::__cxx11::basic_string<char>(((const char*)"other team agents"), std::allocator<char>()))’
+  340 |         const JsonValue::Array& otherAgents = require_array(otherDocument.at("agents"), "other team agents");
+      |                                               ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:353:29: warning: possibly dangling reference to a temporary [-Wdangling-reference]
+  353 |     const JsonValue::Array& traffics = require_array(document.at("traffics"), "traffics");
+      |                             ^~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:353:53: note: the temporary was destroyed at the end of the full expression ‘udon::{anonymous}::require_array((* &(& document)->udon::JsonValue::at(std::__cxx11::basic_string<char>(((const char*)"traffics"), std::allocator<char>()))), std::__cxx11::basic_string<char>(((const char*)"traffics"), std::allocator<char>()))’
+  353 |     const JsonValue::Array& traffics = require_array(document.at("traffics"), "traffics");
+      |                                        ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp: In function ‘std::vector<udon::AgentKind> udon::parse_role_selection(const MatchConfig&, const JsonValue&)’:
+/home/LMC/udon341-0907/source/src/protocol.cpp:375:29: warning: possibly dangling reference to a temporary [-Wdangling-reference]
+  375 |     const JsonValue::Array& values = require_array(document, "role selection");
+      |                             ^~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:375:51: note: the temporary was destroyed at the end of the full expression ‘udon::{anonymous}::require_array((* & document), std::__cxx11::basic_string<char>(((const char*)"role selection"), std::allocator<char>()))’
+  375 |     const JsonValue::Array& values = require_array(document, "role selection");
+      |                                      ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp: In function ‘udon::DayPlan udon::parse_day_plan(const MatchConfig&, const JsonValue&)’:
+/home/LMC/udon341-0907/source/src/protocol.cpp:388:29: warning: possibly dangling reference to a temporary [-Wdangling-reference]
+  388 |     const JsonValue::Array& agents = require_array(document, "day plan");
+      |                             ^~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:388:51: note: the temporary was destroyed at the end of the full expression ‘udon::{anonymous}::require_array((* & document), std::__cxx11::basic_string<char>(((const char*)"day plan"), std::allocator<char>()))’
+  388 |     const JsonValue::Array& agents = require_array(document, "day plan");
+      |                                      ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:395:33: warning: possibly dangling reference to a temporary [-Wdangling-reference]
+  395 |         const JsonValue::Array& rawActions = require_array(agentActionsDocument, "agent action list");
+      |                                 ^~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:395:59: note: the temporary was destroyed at the end of the full expression ‘udon::{anonymous}::require_array((* & agentActionsDocument), std::__cxx11::basic_string<char>(((const char*)"agent action list"), std::allocator<char>()))’
+  395 |         const JsonValue::Array& rawActions = require_array(agentActionsDocument, "agent action list");
+      |                                              ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp: In function ‘udon::MatchLedger udon::parse_match_ledger(const MatchConfig&, const JsonValue&)’:
+/home/LMC/udon341-0907/source/src/protocol.cpp:426:29: warning: possibly dangling reference to a temporary [-Wdangling-reference]
+  426 |     const JsonValue::Array& brands = require_array(document.at("brands"), "ledger brands");
+      |                             ^~~~~~
+/home/LMC/udon341-0907/source/src/protocol.cpp:426:51: note: the temporary was destroyed at the end of the full expression ‘udon::{anonymous}::require_array((* &(& document)->udon::JsonValue::at(std::__cxx11::basic_string<char>(((const char*)"brands"), std::allocator<char>()))), std::__cxx11::basic_string<char>(((const char*)"ledger brands"), std::allocator<char>()))’
+  426 |     const JsonValue::Array& brands = require_array(document.at("brands"), "ledger brands");
+      |                                      ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[3/21] Building CXX object CMakeFiles/udon_shield.dir/src/simulator.cpp.o
+[4/21] Building CXX object CMakeFiles/udon_shield.dir/src/btc_protocol.cpp.o
+[5/21] Building CXX object CMakeFiles/udon_shield.dir/src/validator.cpp.o
+[6/21] Building CXX object CMakeFiles/udon_shield.dir/src/graph.cpp.o
+[7/21] Building CXX object CMakeFiles/udon_shield.dir/src/slack_refiner.cpp.o
+[8/21] Building CXX object CMakeFiles/udon_shield.dir/src/orienteering.cpp.o
+[9/21] Building CXX object CMakeFiles/udon_shield.dir/src/horizon_pricing.cpp.o
+[10/21] Building CXX object CMakeFiles/udon_shield.dir/src/decision.cpp.o
+/home/LMC/udon341-0907/source/src/decision.cpp: In lambda function:
+/home/LMC/udon341-0907/source/src/decision.cpp:3027:9: warning: missing initializer for member ‘udon::DeadlineProfile::calibrationVersion’ [-Wmissing-field-initializers]
+ 3027 |         };
+      |         ^
+[11/21] Building CXX object CMakeFiles/udon_shield.dir/src/audit.cpp.o
+[12/21] Building CXX object CMakeFiles/udon_shield.dir/src/planner.cpp.o
+/home/LMC/udon341-0907/source/src/planner.cpp: In member function ‘std::vector<udon::MasterCandidate> udon::RouteMaster::solve(const udon::DayState&, const udon::MatchLedger&, const udon::RoutePortfolio&, const udon::MasterOptions&, udon::MasterDiagnostics&) const’:
+/home/LMC/udon341-0907/source/src/planner.cpp:5480:106: warning: missing initializer for member ‘udon::RouteMaster::solve(const udon::DayState&, const udon::MatchLedger&, const udon::RoutePortfolio&, const udon::MasterOptions&, udon::MasterDiagnostics&) const::BeamSelection::brands’ [-Wmissing-field-initializers]
+ 5480 |                 std::vector<const RouteColumn*>(static_cast<std::size_t>(config_.agent_count()), nullptr)});
+      |                                                                                                          ^
+/home/LMC/udon341-0907/source/src/planner.cpp: At global scope:
+/home/LMC/udon341-0907/source/src/planner.cpp:6005:27: warning: ‘std::size_t udon::{anonymous}::alns_index(udon::AlnsOperator)’ defined but not used [-Wunused-function]
+ 6005 | [[nodiscard]] std::size_t alns_index(AlnsOperator value) {
+      |                           ^~~~~~~~~~
+/home/LMC/udon341-0907/source/src/planner.cpp:2377:29: warning: ‘udon::OfficialScore udon::{anonymous}::optimistic_partial_score(const udon::MatchConfig&, const udon::MatchLedger&, const std::vector<const udon::RouteColumn*>&, const std::vector<int>&, std::size_t, const std::vector<std::vector<const udon::RouteColumn*> >&)’ defined but not used [-Wunused-function]
+ 2377 | [[nodiscard]] OfficialScore optimistic_partial_score(
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/planner.cpp:141:25: warning: ‘udon::AgentPlan udon::{anonymous}::rendezvous_wait_actions(const udon::MatchConfig&, const udon::DayState&, int32_t, const udon::ParetoPath&)’ defined but not used [-Wunused-function]
+  141 | [[nodiscard]] AgentPlan rendezvous_wait_actions(
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~
+[13/21] Building CXX object CMakeFiles/udon_shield.dir/src/runtime.cpp.o
+[14/21] Building CXX object CMakeFiles/udonshield_cli.dir/src/main.cpp.o
+[15/21] Building CXX object CMakeFiles/udon_shield.dir/strategies/blank_slate/planners.cpp.o
+[16/21] Linking CXX static library libudon_shield.a
+[17/21] Linking CXX executable udonshield_cli
+[18/21] Building CXX object CMakeFiles/udonshield_btc.dir/src/btc_main.cpp.o
+/home/LMC/udon341-0907/source/src/btc_main.cpp:419:31: warning: ‘udon::JsonValue {anonymous}::serialize_session_checkpoint(int32_t, const udon::ResponseLedger&)’ defined but not used [-Wunused-function]
+  419 | [[nodiscard]] udon::JsonValue serialize_session_checkpoint(
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/btc_main.cpp:310:53: warning: ‘std::optional<udon::SimulationResult> {anonymous}::try_validate_plan(const udon::DayState&, const udon::DayPlan&, const udon::ExactStepSimulator&, const udon::IndependentDayValidator&, std::string&)’ defined but not used [-Wunused-function]
+  310 | [[nodiscard]] std::optional<udon::SimulationResult> try_validate_plan(
+      |                                                     ^~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/btc_main.cpp:278:31: warning: ‘udon::JsonValue {anonymous}::parse_tolerant_http_body(const std::string&)’ defined but not used [-Wunused-function]
+  278 | [[nodiscard]] udon::JsonValue parse_tolerant_http_body(const std::string& body) {
+      |                               ^~~~~~~~~~~~~~~~~~~~~~~~
+/home/LMC/udon341-0907/source/src/btc_main.cpp:274:31: warning: ‘udon::JsonValue {anonymous}::parse_optional_json(const std::string&)’ defined but not used [-Wunused-function]
+  274 | [[nodiscard]] udon::JsonValue parse_optional_json(const std::string& body) {
+      |                               ^~~~~~~~~~~~~~~~~~~
+[19/21] Linking CXX executable udonshield_btc
+[20/21] Building CXX object CMakeFiles/udonshield_tests.dir/tests/test_main.cpp.o
+[21/21] Linking CXX executable udonshield_tests
+Internal ctest changing into directory: /home/LMC/udon341-0907/build
+Test project /home/LMC/udon341-0907/build
+    Start 1: udonshield_tests
+1/1 Test #1: udonshield_tests .................   Passed    1.02 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   1.02 sec
+cross_compiler_complete cases=17 summary_sha256=E6E116A076823897DA5CB029A37D2BA4CA75BD581DFE9F68BB03631FB1EC850C
+8e70ecd0eba0489c315e00655438c3cc0e2d774f6953e6864858c3b02fa8bd47  source-linux.tar
+ce67231797eb97e78ad07dfa7fc4ae72d4766b3b38690b65d9a6b5a338e7ebec  source/src/horizon_pricing.cpp
+a8525d6ac075f896643593155c9b666e6bc3a183f1aa799d32f7bc7a8b042ccf  build/udonshield_btc
+a6da67547189a29ac89273b616092f218582946d2ad544567d8bbae24e4315bd  probe
+377ed6b438f2782442186e8d8d4bf6cd839bde67f73e0d06578d35afe05f8706  build/libudon_shield.a

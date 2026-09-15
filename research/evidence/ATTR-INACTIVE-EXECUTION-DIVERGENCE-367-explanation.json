@@ -1,0 +1,4475 @@
+{
+  "experiment": "ATTR-INACTIVE-EXECUTION-DIVERGENCE-367",
+  "first_boundaries": [
+    {
+      "boundary": "main-selection",
+      "delta": [
+        0,
+        0,
+        -12
+      ],
+      "first_day": 1,
+      "kind": "AB_B",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": false,
+      "scenario_counts": [
+        2,
+        2
+      ],
+      "seed": 202609093620055,
+      "selected_f0_scores_in_both_runs": {
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 40
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 40
+            }
+          ]
+        ],
+        "parentB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 40
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 40
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateB": 1184,
+        "parentB": 1225
+      },
+      "selected_membership": [
+        "present-not-W1-shortlisted",
+        "present-not-W1-shortlisted"
+      ],
+      "set": "362DEV",
+      "state_equal": true,
+      "work": {
+        "candidateB": {
+          "alns": {
+            "accepted": 23,
+            "iterations": 29,
+            "poolNovelRoutes": 7,
+            "synthesizedRoutes": 36
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 179,
+            "independentRollouts": 177,
+            "independentRoutesGenerated": 1261,
+            "independentSearchNodes": 178
+          },
+          "master": {
+            "combinationsVisited": 10036,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 9532,
+            "searchComplete": false
+          }
+        },
+        "parentB": {
+          "alns": {
+            "accepted": 18,
+            "iterations": 24,
+            "poolNovelRoutes": 7,
+            "synthesizedRoutes": 34
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 179,
+            "independentRollouts": 177,
+            "independentRoutesGenerated": 1261,
+            "independentSearchNodes": 178
+          },
+          "master": {
+            "combinationsVisited": 10046,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 9552,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "main-selection",
+      "delta": [
+        0,
+        0,
+        -12
+      ],
+      "first_day": 1,
+      "kind": "AA_candidate",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": false,
+      "scenario_counts": [
+        2,
+        2
+      ],
+      "seed": 202609093620055,
+      "selected_f0_scores_in_both_runs": {
+        "candidateA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 40
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 40
+            }
+          ]
+        ],
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 40
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 40
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateA": 1225,
+        "candidateB": 1184
+      },
+      "selected_membership": [
+        "present-not-W1-shortlisted",
+        "present-not-W1-shortlisted"
+      ],
+      "set": "362DEV",
+      "state_equal": true,
+      "work": {
+        "candidateA": {
+          "alns": {
+            "accepted": 18,
+            "iterations": 24,
+            "poolNovelRoutes": 7,
+            "synthesizedRoutes": 34
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 179,
+            "independentRollouts": 177,
+            "independentRoutesGenerated": 1261,
+            "independentSearchNodes": 178
+          },
+          "master": {
+            "combinationsVisited": 10061,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 9561,
+            "searchComplete": false
+          }
+        },
+        "candidateB": {
+          "alns": {
+            "accepted": 23,
+            "iterations": 29,
+            "poolNovelRoutes": 7,
+            "synthesizedRoutes": 36
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 179,
+            "independentRollouts": 177,
+            "independentRoutesGenerated": 1261,
+            "independentSearchNodes": 178
+          },
+          "master": {
+            "combinationsVisited": 10036,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 9532,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "post-main-protected-or-submission",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_day": 5,
+      "kind": "AB_A",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093620141,
+      "selected_f0_scores_in_both_runs": {
+        "candidateA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 42,
+              "totalServings": 305
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 42,
+              "totalServings": 305
+            }
+          ]
+        ],
+        "parentA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 42,
+              "totalServings": 305
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 42,
+              "totalServings": 305
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateA": 1741,
+        "parentA": 1741
+      },
+      "selected_membership": [
+        "certified-final-selection",
+        "certified-final-selection"
+      ],
+      "set": "362DEV",
+      "state_equal": true,
+      "work": {
+        "candidateA": {
+          "alns": {
+            "accepted": 17,
+            "iterations": 23,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 42
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 295,
+            "independentRollouts": 291,
+            "independentRoutesGenerated": 2064,
+            "independentSearchNodes": 292
+          },
+          "master": {
+            "combinationsVisited": 11113,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10600,
+            "searchComplete": false
+          }
+        },
+        "parentA": {
+          "alns": {
+            "accepted": 17,
+            "iterations": 23,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 42
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 296,
+            "independentRollouts": 292,
+            "independentRoutesGenerated": 2071,
+            "independentSearchNodes": 293
+          },
+          "master": {
+            "combinationsVisited": 11130,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10617,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "post-main-protected-or-submission",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_day": 8,
+      "kind": "AB_B",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093620141,
+      "selected_f0_scores_in_both_runs": {
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 60,
+              "totalServings": 462
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 60,
+              "totalServings": 462
+            }
+          ]
+        ],
+        "parentB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 60,
+              "totalServings": 462
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 60,
+              "totalServings": 462
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateB": 1649,
+        "parentB": 1649
+      },
+      "selected_membership": [
+        "certified-final-selection",
+        "certified-final-selection"
+      ],
+      "set": "362DEV",
+      "state_equal": true,
+      "work": {
+        "candidateB": {
+          "alns": {
+            "accepted": 20,
+            "iterations": 27,
+            "poolNovelRoutes": 5,
+            "synthesizedRoutes": 60
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 225,
+            "independentRollouts": 222,
+            "independentRoutesGenerated": 1581,
+            "independentSearchNodes": 223
+          },
+          "master": {
+            "combinationsVisited": 10837,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10324,
+            "searchComplete": false
+          }
+        },
+        "parentB": {
+          "alns": {
+            "accepted": 18,
+            "iterations": 25,
+            "poolNovelRoutes": 5,
+            "synthesizedRoutes": 54
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 226,
+            "independentRollouts": 223,
+            "independentRoutesGenerated": 1588,
+            "independentSearchNodes": 224
+          },
+          "master": {
+            "combinationsVisited": 10828,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10315,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "post-main-protected-or-submission",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_day": 5,
+      "kind": "AA_candidate",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093620141,
+      "selected_f0_scores_in_both_runs": {
+        "candidateA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 42,
+              "totalServings": 305
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 42,
+              "totalServings": 305
+            }
+          ]
+        ],
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 42,
+              "totalServings": 305
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 42,
+              "totalServings": 305
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateA": 1741,
+        "candidateB": 1741
+      },
+      "selected_membership": [
+        "certified-final-selection",
+        "certified-final-selection"
+      ],
+      "set": "362DEV",
+      "state_equal": true,
+      "work": {
+        "candidateA": {
+          "alns": {
+            "accepted": 17,
+            "iterations": 23,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 42
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 295,
+            "independentRollouts": 291,
+            "independentRoutesGenerated": 2064,
+            "independentSearchNodes": 292
+          },
+          "master": {
+            "combinationsVisited": 11113,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10600,
+            "searchComplete": false
+          }
+        },
+        "candidateB": {
+          "alns": {
+            "accepted": 18,
+            "iterations": 23,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 42
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 296,
+            "independentRollouts": 292,
+            "independentRoutesGenerated": 2071,
+            "independentSearchNodes": 293
+          },
+          "master": {
+            "combinationsVisited": 11096,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10583,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "post-main-protected-or-submission",
+      "delta": [
+        0,
+        0,
+        -2
+      ],
+      "first_day": 2,
+      "kind": "AB_A",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093620166,
+      "selected_f0_scores_in_both_runs": {
+        "candidateA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 23,
+              "totalServings": 199
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 23,
+              "totalServings": 199
+            }
+          ]
+        ],
+        "parentA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 23,
+              "totalServings": 199
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 23,
+              "totalServings": 199
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateA": 952,
+        "parentA": 952
+      },
+      "selected_membership": [
+        "certified-final-selection",
+        "certified-final-selection"
+      ],
+      "set": "362DEV",
+      "state_equal": true,
+      "work": {
+        "candidateA": {
+          "alns": {
+            "accepted": 17,
+            "iterations": 24,
+            "poolNovelRoutes": 4,
+            "synthesizedRoutes": 56
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 542,
+            "independentRollouts": 545,
+            "independentRoutesGenerated": 4403,
+            "independentSearchNodes": 546
+          },
+          "master": {
+            "combinationsVisited": 11101,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10654,
+            "searchComplete": false
+          }
+        },
+        "parentA": {
+          "alns": {
+            "accepted": 18,
+            "iterations": 24,
+            "poolNovelRoutes": 4,
+            "synthesizedRoutes": 60
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 540,
+            "independentRollouts": 543,
+            "independentRoutesGenerated": 4387,
+            "independentSearchNodes": 544
+          },
+          "master": {
+            "combinationsVisited": 11118,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10671,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "post-main-protected-or-submission",
+      "delta": [
+        0,
+        0,
+        -2
+      ],
+      "first_day": 2,
+      "kind": "AB_B",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093620166,
+      "selected_f0_scores_in_both_runs": {
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 23,
+              "totalServings": 199
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 23,
+              "totalServings": 199
+            }
+          ]
+        ],
+        "parentB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 23,
+              "totalServings": 199
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 23,
+              "totalServings": 199
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateB": 952,
+        "parentB": 952
+      },
+      "selected_membership": [
+        "certified-final-selection",
+        "certified-final-selection"
+      ],
+      "set": "362DEV",
+      "state_equal": true,
+      "work": {
+        "candidateB": {
+          "alns": {
+            "accepted": 17,
+            "iterations": 24,
+            "poolNovelRoutes": 4,
+            "synthesizedRoutes": 56
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 540,
+            "independentRollouts": 543,
+            "independentRoutesGenerated": 4387,
+            "independentSearchNodes": 544
+          },
+          "master": {
+            "combinationsVisited": 11108,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10661,
+            "searchComplete": false
+          }
+        },
+        "parentB": {
+          "alns": {
+            "accepted": 18,
+            "iterations": 24,
+            "poolNovelRoutes": 4,
+            "synthesizedRoutes": 60
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 539,
+            "independentRollouts": 542,
+            "independentRoutesGenerated": 4379,
+            "independentSearchNodes": 543
+          },
+          "master": {
+            "combinationsVisited": 11101,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10654,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "main-selection",
+      "delta": [
+        0,
+        2,
+        -1
+      ],
+      "first_day": 1,
+      "kind": "AB_A",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        2,
+        2
+      ],
+      "seed": 202609093660026,
+      "selected_f0_scores_in_both_runs": {
+        "candidateA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 54
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 54
+            }
+          ]
+        ],
+        "parentA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 54
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 54
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateA": 1966,
+        "parentA": 1968
+      },
+      "selected_membership": [
+        "present-not-W1-shortlisted",
+        "present-not-W1-shortlisted"
+      ],
+      "set": "366DEV",
+      "state_equal": true,
+      "work": {
+        "candidateA": {
+          "alns": {
+            "accepted": 22,
+            "iterations": 29,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 25
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 420,
+            "independentRollouts": 417,
+            "independentRoutesGenerated": 3359,
+            "independentSearchNodes": 418
+          },
+          "master": {
+            "combinationsVisited": 3533,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 3203,
+            "searchComplete": false
+          }
+        },
+        "parentA": {
+          "alns": {
+            "accepted": 22,
+            "iterations": 29,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 30
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 421,
+            "independentRollouts": 418,
+            "independentRoutesGenerated": 3367,
+            "independentSearchNodes": 419
+          },
+          "master": {
+            "combinationsVisited": 3570,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 3236,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "main-selection",
+      "delta": [
+        0,
+        2,
+        -1
+      ],
+      "first_day": 1,
+      "kind": "AB_B",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": false,
+      "scenario_counts": [
+        2,
+        2
+      ],
+      "seed": 202609093660026,
+      "selected_f0_scores_in_both_runs": {
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 54
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 54
+            }
+          ]
+        ],
+        "parentB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 54
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 54
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateB": 1966,
+        "parentB": 1968
+      },
+      "selected_membership": [
+        "present-not-W1-shortlisted",
+        "present-not-W1-shortlisted"
+      ],
+      "set": "366DEV",
+      "state_equal": true,
+      "work": {
+        "candidateB": {
+          "alns": {
+            "accepted": 21,
+            "iterations": 27,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 24
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 421,
+            "independentRollouts": 418,
+            "independentRoutesGenerated": 3367,
+            "independentSearchNodes": 419
+          },
+          "master": {
+            "combinationsVisited": 3556,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 3236,
+            "searchComplete": false
+          }
+        },
+        "parentB": {
+          "alns": {
+            "accepted": 22,
+            "iterations": 29,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 30
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 421,
+            "independentRollouts": 418,
+            "independentRoutesGenerated": 3367,
+            "independentSearchNodes": 419
+          },
+          "master": {
+            "combinationsVisited": 3570,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 3236,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "main-selection",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_day": 7,
+      "kind": "AB_B",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": false,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093660137,
+      "selected_f0_scores_in_both_runs": {
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 54,
+              "totalServings": 407
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 54,
+              "totalServings": 407
+            }
+          ]
+        ],
+        "parentB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 54,
+              "totalServings": 408
+            }
+          ],
+          []
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateB": 1739,
+        "parentB": 1665
+      },
+      "selected_membership": [
+        "absent-from-post-F0-audit-generation-or-pruning-unresolved",
+        "certified-final-selection"
+      ],
+      "set": "366DEV",
+      "state_equal": true,
+      "work": {
+        "candidateB": {
+          "alns": {
+            "accepted": 28,
+            "iterations": 41,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 72
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 296,
+            "independentRollouts": 294,
+            "independentRoutesGenerated": 2084,
+            "independentSearchNodes": 295
+          },
+          "master": {
+            "combinationsVisited": 5414,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 5062,
+            "searchComplete": false
+          }
+        },
+        "parentB": {
+          "alns": {
+            "accepted": 25,
+            "iterations": 38,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 66
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 295,
+            "independentRollouts": 292,
+            "independentRoutesGenerated": 2070,
+            "independentSearchNodes": 293
+          },
+          "master": {
+            "combinationsVisited": 5414,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 5062,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "main-selection",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_day": 7,
+      "kind": "AA_candidate",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": false,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093660137,
+      "selected_f0_scores_in_both_runs": {
+        "candidateA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 54,
+              "totalServings": 408
+            }
+          ],
+          []
+        ],
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 54,
+              "totalServings": 407
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 54,
+              "totalServings": 407
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateA": 1665,
+        "candidateB": 1739
+      },
+      "selected_membership": [
+        "absent-from-post-F0-audit-generation-or-pruning-unresolved",
+        "certified-final-selection"
+      ],
+      "set": "366DEV",
+      "state_equal": true,
+      "work": {
+        "candidateA": {
+          "alns": {
+            "accepted": 26,
+            "iterations": 39,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 66
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 295,
+            "independentRollouts": 292,
+            "independentRoutesGenerated": 2070,
+            "independentSearchNodes": 293
+          },
+          "master": {
+            "combinationsVisited": 5414,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 5062,
+            "searchComplete": false
+          }
+        },
+        "candidateB": {
+          "alns": {
+            "accepted": 28,
+            "iterations": 41,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 72
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 296,
+            "independentRollouts": 294,
+            "independentRoutesGenerated": 2084,
+            "independentSearchNodes": 295
+          },
+          "master": {
+            "combinationsVisited": 5414,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 5062,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "post-main-protected-or-submission",
+      "delta": [
+        0,
+        0,
+        6
+      ],
+      "first_day": 2,
+      "kind": "AB_B",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093660162,
+      "selected_f0_scores_in_both_runs": {
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 22,
+              "totalServings": 166
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 22,
+              "totalServings": 166
+            }
+          ]
+        ],
+        "parentB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 22,
+              "totalServings": 166
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 22,
+              "totalServings": 166
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateB": 878,
+        "parentB": 878
+      },
+      "selected_membership": [
+        "certified-final-selection",
+        "certified-final-selection"
+      ],
+      "set": "366DEV",
+      "state_equal": true,
+      "work": {
+        "candidateB": {
+          "alns": {
+            "accepted": 18,
+            "iterations": 24,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 54
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 532,
+            "independentRollouts": 559,
+            "independentRoutesGenerated": 4499,
+            "independentSearchNodes": 560
+          },
+          "master": {
+            "combinationsVisited": 11196,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10716,
+            "searchComplete": false
+          }
+        },
+        "parentB": {
+          "alns": {
+            "accepted": 17,
+            "iterations": 24,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 51
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 532,
+            "independentRollouts": 559,
+            "independentRoutesGenerated": 4499,
+            "independentSearchNodes": 560
+          },
+          "master": {
+            "combinationsVisited": 11220,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10740,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "post-main-protected-or-submission",
+      "delta": [
+        0,
+        0,
+        6
+      ],
+      "first_day": 2,
+      "kind": "AA_candidate",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093660162,
+      "selected_f0_scores_in_both_runs": {
+        "candidateA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 22,
+              "totalServings": 166
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 22,
+              "totalServings": 166
+            }
+          ]
+        ],
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 22,
+              "totalServings": 166
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 22,
+              "totalServings": 166
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateA": 878,
+        "candidateB": 878
+      },
+      "selected_membership": [
+        "certified-final-selection",
+        "certified-final-selection"
+      ],
+      "set": "366DEV",
+      "state_equal": true,
+      "work": {
+        "candidateA": {
+          "alns": {
+            "accepted": 17,
+            "iterations": 24,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 51
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 534,
+            "independentRollouts": 561,
+            "independentRoutesGenerated": 4515,
+            "independentSearchNodes": 562
+          },
+          "master": {
+            "combinationsVisited": 11225,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10745,
+            "searchComplete": false
+          }
+        },
+        "candidateB": {
+          "alns": {
+            "accepted": 18,
+            "iterations": 24,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 54
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 532,
+            "independentRollouts": 559,
+            "independentRoutesGenerated": 4499,
+            "independentSearchNodes": 560
+          },
+          "master": {
+            "combinationsVisited": 11196,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10716,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "post-main-protected-or-submission",
+      "delta": [
+        0,
+        0,
+        -2
+      ],
+      "first_day": 1,
+      "kind": "AB_B",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093760089,
+      "selected_f0_scores_in_both_runs": {
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 17,
+              "totalServings": 132
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 17,
+              "totalServings": 132
+            }
+          ]
+        ],
+        "parentB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 17,
+              "totalServings": 132
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 17,
+              "totalServings": 132
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateB": 2053,
+        "parentB": 2053
+      },
+      "selected_membership": [
+        "certified-final-selection",
+        "certified-final-selection"
+      ],
+      "set": "366HOLDOUT",
+      "state_equal": true,
+      "work": {
+        "candidateB": {
+          "alns": {
+            "accepted": 29,
+            "iterations": 35,
+            "poolNovelRoutes": 8,
+            "synthesizedRoutes": 36
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 468,
+            "independentRollouts": 492,
+            "independentRoutesGenerated": 3974,
+            "independentSearchNodes": 493
+          },
+          "master": {
+            "combinationsVisited": 5309,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 4956,
+            "searchComplete": false
+          }
+        },
+        "parentB": {
+          "alns": {
+            "accepted": 29,
+            "iterations": 37,
+            "poolNovelRoutes": 8,
+            "synthesizedRoutes": 36
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 469,
+            "independentRollouts": 493,
+            "independentRoutesGenerated": 3982,
+            "independentSearchNodes": 494
+          },
+          "master": {
+            "combinationsVisited": 5309,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 4956,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "post-main-protected-or-submission",
+      "delta": [
+        0,
+        0,
+        -2
+      ],
+      "first_day": 1,
+      "kind": "AA_candidate",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093760089,
+      "selected_f0_scores_in_both_runs": {
+        "candidateA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 17,
+              "totalServings": 132
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 17,
+              "totalServings": 132
+            }
+          ]
+        ],
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 17,
+              "totalServings": 132
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 17,
+              "totalServings": 132
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateA": 2053,
+        "candidateB": 2053
+      },
+      "selected_membership": [
+        "certified-final-selection",
+        "certified-final-selection"
+      ],
+      "set": "366HOLDOUT",
+      "state_equal": true,
+      "work": {
+        "candidateA": {
+          "alns": {
+            "accepted": 27,
+            "iterations": 33,
+            "poolNovelRoutes": 8,
+            "synthesizedRoutes": 30
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 461,
+            "independentRollouts": 483,
+            "independentRoutesGenerated": 3902,
+            "independentSearchNodes": 484
+          },
+          "master": {
+            "combinationsVisited": 5309,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 4956,
+            "searchComplete": false
+          }
+        },
+        "candidateB": {
+          "alns": {
+            "accepted": 29,
+            "iterations": 35,
+            "poolNovelRoutes": 8,
+            "synthesizedRoutes": 36
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 468,
+            "independentRollouts": 492,
+            "independentRoutesGenerated": 3974,
+            "independentSearchNodes": 493
+          },
+          "master": {
+            "combinationsVisited": 5309,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 4956,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "post-main-protected-or-submission",
+      "delta": [
+        0,
+        0,
+        1
+      ],
+      "first_day": 2,
+      "kind": "AB_A",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093760126,
+      "selected_f0_scores_in_both_runs": {
+        "candidateA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 167
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 167
+            }
+          ]
+        ],
+        "parentA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 167
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 167
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateA": 889,
+        "parentA": 889
+      },
+      "selected_membership": [
+        "certified-final-selection",
+        "certified-final-selection"
+      ],
+      "set": "366HOLDOUT",
+      "state_equal": true,
+      "work": {
+        "candidateA": {
+          "alns": {
+            "accepted": 20,
+            "iterations": 25,
+            "poolNovelRoutes": 8,
+            "synthesizedRoutes": 54
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 430,
+            "independentRollouts": 455,
+            "independentRoutesGenerated": 3684,
+            "independentSearchNodes": 456
+          },
+          "master": {
+            "combinationsVisited": 10477,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 9997,
+            "searchComplete": false
+          }
+        },
+        "parentA": {
+          "alns": {
+            "accepted": 21,
+            "iterations": 27,
+            "poolNovelRoutes": 8,
+            "synthesizedRoutes": 54
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 431,
+            "independentRollouts": 456,
+            "independentRoutesGenerated": 3692,
+            "independentSearchNodes": 457
+          },
+          "master": {
+            "combinationsVisited": 10477,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 9997,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "post-main-protected-or-submission",
+      "delta": [
+        0,
+        0,
+        1
+      ],
+      "first_day": 2,
+      "kind": "AB_B",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093760126,
+      "selected_f0_scores_in_both_runs": {
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 167
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 167
+            }
+          ]
+        ],
+        "parentB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 167
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 167
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateB": 889,
+        "parentB": 889
+      },
+      "selected_membership": [
+        "certified-final-selection",
+        "certified-final-selection"
+      ],
+      "set": "366HOLDOUT",
+      "state_equal": true,
+      "work": {
+        "candidateB": {
+          "alns": {
+            "accepted": 20,
+            "iterations": 25,
+            "poolNovelRoutes": 8,
+            "synthesizedRoutes": 54
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 430,
+            "independentRollouts": 455,
+            "independentRoutesGenerated": 3684,
+            "independentSearchNodes": 456
+          },
+          "master": {
+            "combinationsVisited": 10497,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10017,
+            "searchComplete": false
+          }
+        },
+        "parentB": {
+          "alns": {
+            "accepted": 19,
+            "iterations": 24,
+            "poolNovelRoutes": 7,
+            "synthesizedRoutes": 48
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 430,
+            "independentRollouts": 455,
+            "independentRoutesGenerated": 3684,
+            "independentSearchNodes": 456
+          },
+          "master": {
+            "combinationsVisited": 10480,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10000,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "post-main-protected-or-submission",
+      "delta": [
+        0,
+        0,
+        6
+      ],
+      "first_day": 1,
+      "kind": "AB_A",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093760199,
+      "selected_f0_scores_in_both_runs": {
+        "candidateA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 17,
+              "totalServings": 103
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 17,
+              "totalServings": 103
+            }
+          ]
+        ],
+        "parentA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 17,
+              "totalServings": 103
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 17,
+              "totalServings": 103
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateA": 1847,
+        "parentA": 1847
+      },
+      "selected_membership": [
+        "certified-final-selection",
+        "certified-final-selection"
+      ],
+      "set": "366HOLDOUT",
+      "state_equal": true,
+      "work": {
+        "candidateA": {
+          "alns": {
+            "accepted": 28,
+            "iterations": 34,
+            "poolNovelRoutes": 8,
+            "synthesizedRoutes": 48
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 277,
+            "independentRollouts": 278,
+            "independentRoutesGenerated": 1983,
+            "independentSearchNodes": 279
+          },
+          "master": {
+            "combinationsVisited": 5482,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 5129,
+            "searchComplete": false
+          }
+        },
+        "parentA": {
+          "alns": {
+            "accepted": 27,
+            "iterations": 33,
+            "poolNovelRoutes": 8,
+            "synthesizedRoutes": 48
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 277,
+            "independentRollouts": 278,
+            "independentRoutesGenerated": 1983,
+            "independentSearchNodes": 279
+          },
+          "master": {
+            "combinationsVisited": 5449,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 5096,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "post-main-protected-or-submission",
+      "delta": [
+        0,
+        0,
+        1
+      ],
+      "first_day": 3,
+      "kind": "AB_B",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": false,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093760199,
+      "selected_f0_scores_in_both_runs": {
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 29,
+              "totalServings": 192
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 29,
+              "totalServings": 192
+            }
+          ]
+        ],
+        "parentB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 29,
+              "totalServings": 192
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 29,
+              "totalServings": 192
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateB": 1871,
+        "parentB": 1871
+      },
+      "selected_membership": [
+        "certified-final-selection",
+        "certified-final-selection"
+      ],
+      "set": "366HOLDOUT",
+      "state_equal": true,
+      "work": {
+        "candidateB": {
+          "alns": {
+            "accepted": 19,
+            "iterations": 25,
+            "poolNovelRoutes": 7,
+            "synthesizedRoutes": 52
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 344,
+            "independentRollouts": 344,
+            "independentRoutesGenerated": 2435,
+            "independentSearchNodes": 345
+          },
+          "master": {
+            "combinationsVisited": 10965,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10452,
+            "searchComplete": false
+          }
+        },
+        "parentB": {
+          "alns": {
+            "accepted": 19,
+            "iterations": 25,
+            "poolNovelRoutes": 7,
+            "synthesizedRoutes": 52
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 344,
+            "independentRollouts": 344,
+            "independentRoutesGenerated": 2435,
+            "independentSearchNodes": 345
+          },
+          "master": {
+            "combinationsVisited": 10923,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10418,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "post-main-protected-or-submission",
+      "delta": [
+        0,
+        0,
+        4
+      ],
+      "first_day": 1,
+      "kind": "AA_parent",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093760199,
+      "selected_f0_scores_in_both_runs": {
+        "parentA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 17,
+              "totalServings": 103
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 17,
+              "totalServings": 103
+            }
+          ]
+        ],
+        "parentB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 17,
+              "totalServings": 103
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 17,
+              "totalServings": 103
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "parentA": 1847,
+        "parentB": 1847
+      },
+      "selected_membership": [
+        "certified-final-selection",
+        "certified-final-selection"
+      ],
+      "set": "366HOLDOUT",
+      "state_equal": true,
+      "work": {
+        "parentA": {
+          "alns": {
+            "accepted": 27,
+            "iterations": 33,
+            "poolNovelRoutes": 8,
+            "synthesizedRoutes": 48
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 277,
+            "independentRollouts": 278,
+            "independentRoutesGenerated": 1983,
+            "independentSearchNodes": 279
+          },
+          "master": {
+            "combinationsVisited": 5449,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 5096,
+            "searchComplete": false
+          }
+        },
+        "parentB": {
+          "alns": {
+            "accepted": 31,
+            "iterations": 39,
+            "poolNovelRoutes": 8,
+            "synthesizedRoutes": 54
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 277,
+            "independentRollouts": 278,
+            "independentRoutesGenerated": 1983,
+            "independentSearchNodes": 279
+          },
+          "master": {
+            "combinationsVisited": 5449,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 5096,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "post-main-protected-or-submission",
+      "delta": [
+        0,
+        0,
+        -1
+      ],
+      "first_day": 2,
+      "kind": "AA_candidate",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093760199,
+      "selected_f0_scores_in_both_runs": {
+        "candidateA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 148
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 148
+            }
+          ]
+        ],
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 148
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 148
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateA": 1900,
+        "candidateB": 1900
+      },
+      "selected_membership": [
+        "certified-final-selection",
+        "certified-final-selection"
+      ],
+      "set": "366HOLDOUT",
+      "state_equal": true,
+      "work": {
+        "candidateA": {
+          "alns": {
+            "accepted": 18,
+            "iterations": 26,
+            "poolNovelRoutes": 7,
+            "synthesizedRoutes": 60
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 334,
+            "independentRollouts": 333,
+            "independentRoutesGenerated": 2372,
+            "independentSearchNodes": 334
+          },
+          "master": {
+            "combinationsVisited": 10946,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10433,
+            "searchComplete": false
+          }
+        },
+        "candidateB": {
+          "alns": {
+            "accepted": 16,
+            "iterations": 23,
+            "poolNovelRoutes": 6,
+            "synthesizedRoutes": 54
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 332,
+            "independentRollouts": 331,
+            "independentRoutesGenerated": 2358,
+            "independentSearchNodes": 332
+          },
+          "master": {
+            "combinationsVisited": 10947,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 10434,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "main-selection",
+      "delta": [
+        0,
+        3,
+        1
+      ],
+      "first_day": 1,
+      "kind": "AB_A",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093760236,
+      "selected_f0_scores_in_both_runs": {
+        "candidateA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 119
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 119
+            }
+          ]
+        ],
+        "parentA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 119
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 15,
+              "totalServings": 100
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateA": 1275,
+        "parentA": 1276
+      },
+      "selected_membership": [
+        "present-not-W1-shortlisted",
+        "present-not-W1-shortlisted"
+      ],
+      "set": "366HOLDOUT",
+      "state_equal": true,
+      "work": {
+        "candidateA": {
+          "alns": {
+            "accepted": 23,
+            "iterations": 29,
+            "poolNovelRoutes": 3,
+            "synthesizedRoutes": 30
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 476,
+            "independentRollouts": 474,
+            "independentRoutesGenerated": 3830,
+            "independentSearchNodes": 475
+          },
+          "master": {
+            "combinationsVisited": 10471,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 9990,
+            "searchComplete": false
+          }
+        },
+        "parentA": {
+          "alns": {
+            "accepted": 22,
+            "iterations": 29,
+            "poolNovelRoutes": 2,
+            "synthesizedRoutes": 29
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 476,
+            "independentRollouts": 474,
+            "independentRoutesGenerated": 3830,
+            "independentSearchNodes": 475
+          },
+          "master": {
+            "combinationsVisited": 10471,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 9990,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "main-selection",
+      "delta": [
+        0,
+        -3,
+        10
+      ],
+      "first_day": 1,
+      "kind": "AB_B",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": false,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093760236,
+      "selected_f0_scores_in_both_runs": {
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 15,
+              "totalServings": 100
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 119
+            }
+          ]
+        ],
+        "parentB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 119
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 119
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateB": 1276,
+        "parentB": 1275
+      },
+      "selected_membership": [
+        "present-not-W1-shortlisted",
+        "present-not-W1-shortlisted"
+      ],
+      "set": "366HOLDOUT",
+      "state_equal": true,
+      "work": {
+        "candidateB": {
+          "alns": {
+            "accepted": 25,
+            "iterations": 31,
+            "poolNovelRoutes": 3,
+            "synthesizedRoutes": 30
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 476,
+            "independentRollouts": 474,
+            "independentRoutesGenerated": 3830,
+            "independentSearchNodes": 475
+          },
+          "master": {
+            "combinationsVisited": 10465,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 9990,
+            "searchComplete": false
+          }
+        },
+        "parentB": {
+          "alns": {
+            "accepted": 23,
+            "iterations": 29,
+            "poolNovelRoutes": 3,
+            "synthesizedRoutes": 30
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 476,
+            "independentRollouts": 474,
+            "independentRoutesGenerated": 3830,
+            "independentSearchNodes": 475
+          },
+          "master": {
+            "combinationsVisited": 10444,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 9973,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "main-selection",
+      "delta": [
+        0,
+        3,
+        0
+      ],
+      "first_day": 1,
+      "kind": "AA_parent",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": true,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093760236,
+      "selected_f0_scores_in_both_runs": {
+        "parentA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 119
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 15,
+              "totalServings": 100
+            }
+          ]
+        ],
+        "parentB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 119
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 119
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "parentA": 1276,
+        "parentB": 1275
+      },
+      "selected_membership": [
+        "present-not-W1-shortlisted",
+        "present-not-W1-shortlisted"
+      ],
+      "set": "366HOLDOUT",
+      "state_equal": true,
+      "work": {
+        "parentA": {
+          "alns": {
+            "accepted": 22,
+            "iterations": 29,
+            "poolNovelRoutes": 2,
+            "synthesizedRoutes": 29
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 476,
+            "independentRollouts": 474,
+            "independentRoutesGenerated": 3830,
+            "independentSearchNodes": 475
+          },
+          "master": {
+            "combinationsVisited": 10471,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 9990,
+            "searchComplete": false
+          }
+        },
+        "parentB": {
+          "alns": {
+            "accepted": 23,
+            "iterations": 29,
+            "poolNovelRoutes": 3,
+            "synthesizedRoutes": 30
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 476,
+            "independentRollouts": 474,
+            "independentRoutesGenerated": 3830,
+            "independentSearchNodes": 475
+          },
+          "master": {
+            "combinationsVisited": 10444,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 9973,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "main-selection",
+      "delta": [
+        0,
+        -3,
+        9
+      ],
+      "first_day": 1,
+      "kind": "AA_candidate",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": false,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093760236,
+      "selected_f0_scores_in_both_runs": {
+        "candidateA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 119
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 119
+            }
+          ]
+        ],
+        "candidateB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 15,
+              "totalServings": 100
+            }
+          ],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 119
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateA": 1275,
+        "candidateB": 1276
+      },
+      "selected_membership": [
+        "present-not-W1-shortlisted",
+        "present-not-W1-shortlisted"
+      ],
+      "set": "366HOLDOUT",
+      "state_equal": true,
+      "work": {
+        "candidateA": {
+          "alns": {
+            "accepted": 23,
+            "iterations": 29,
+            "poolNovelRoutes": 3,
+            "synthesizedRoutes": 30
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 476,
+            "independentRollouts": 474,
+            "independentRoutesGenerated": 3830,
+            "independentSearchNodes": 475
+          },
+          "master": {
+            "combinationsVisited": 10471,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 9990,
+            "searchComplete": false
+          }
+        },
+        "candidateB": {
+          "alns": {
+            "accepted": 25,
+            "iterations": 31,
+            "poolNovelRoutes": 3,
+            "synthesizedRoutes": 30
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 476,
+            "independentRollouts": 474,
+            "independentRoutesGenerated": 3830,
+            "independentSearchNodes": 475
+          },
+          "master": {
+            "combinationsVisited": 10465,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 9990,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "main-selection",
+      "delta": [
+        0,
+        0,
+        11
+      ],
+      "first_day": 1,
+      "kind": "AB_A",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": false,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093760273,
+      "selected_f0_scores_in_both_runs": {
+        "candidateA": [
+          [],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 79
+            }
+          ]
+        ],
+        "parentA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 76
+            }
+          ],
+          []
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateA": 112,
+        "parentA": 140
+      },
+      "selected_membership": [
+        "absent-from-post-F0-audit-generation-or-pruning-unresolved",
+        "absent-from-post-F0-audit-generation-or-pruning-unresolved"
+      ],
+      "set": "366HOLDOUT",
+      "state_equal": true,
+      "work": {
+        "candidateA": {
+          "alns": {
+            "accepted": 23,
+            "iterations": 31,
+            "poolNovelRoutes": 8,
+            "synthesizedRoutes": 51
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 268,
+            "independentRollouts": 264,
+            "independentRoutesGenerated": 1605,
+            "independentSearchNodes": 265
+          },
+          "master": {
+            "combinationsVisited": 11821,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 11331,
+            "searchComplete": false
+          }
+        },
+        "parentA": {
+          "alns": {
+            "accepted": 24,
+            "iterations": 31,
+            "poolNovelRoutes": 9,
+            "synthesizedRoutes": 52
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 267,
+            "independentRollouts": 263,
+            "independentRoutesGenerated": 1599,
+            "independentSearchNodes": 264
+          },
+          "master": {
+            "combinationsVisited": 11816,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 11331,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "main-selection",
+      "delta": [
+        0,
+        0,
+        -11
+      ],
+      "first_day": 1,
+      "kind": "AB_B",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": false,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093760273,
+      "selected_f0_scores_in_both_runs": {
+        "candidateB": [
+          [],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 76
+            }
+          ]
+        ],
+        "parentB": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 79
+            }
+          ],
+          []
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateB": 140,
+        "parentB": 112
+      },
+      "selected_membership": [
+        "absent-from-post-F0-audit-generation-or-pruning-unresolved",
+        "absent-from-post-F0-audit-generation-or-pruning-unresolved"
+      ],
+      "set": "366HOLDOUT",
+      "state_equal": true,
+      "work": {
+        "candidateB": {
+          "alns": {
+            "accepted": 24,
+            "iterations": 31,
+            "poolNovelRoutes": 9,
+            "synthesizedRoutes": 52
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 266,
+            "independentRollouts": 262,
+            "independentRoutesGenerated": 1593,
+            "independentSearchNodes": 263
+          },
+          "master": {
+            "combinationsVisited": 11799,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 11314,
+            "searchComplete": false
+          }
+        },
+        "parentB": {
+          "alns": {
+            "accepted": 23,
+            "iterations": 31,
+            "poolNovelRoutes": 8,
+            "synthesizedRoutes": 50
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 264,
+            "independentRollouts": 260,
+            "independentRoutesGenerated": 1581,
+            "independentSearchNodes": 261
+          },
+          "master": {
+            "combinationsVisited": 11823,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 11331,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "main-selection",
+      "delta": [
+        0,
+        0,
+        11
+      ],
+      "first_day": 1,
+      "kind": "AA_parent",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": false,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093760273,
+      "selected_f0_scores_in_both_runs": {
+        "parentA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 76
+            }
+          ],
+          []
+        ],
+        "parentB": [
+          [],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 79
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "parentA": 140,
+        "parentB": 112
+      },
+      "selected_membership": [
+        "absent-from-post-F0-audit-generation-or-pruning-unresolved",
+        "absent-from-post-F0-audit-generation-or-pruning-unresolved"
+      ],
+      "set": "366HOLDOUT",
+      "state_equal": true,
+      "work": {
+        "parentA": {
+          "alns": {
+            "accepted": 24,
+            "iterations": 31,
+            "poolNovelRoutes": 9,
+            "synthesizedRoutes": 52
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 267,
+            "independentRollouts": 263,
+            "independentRoutesGenerated": 1599,
+            "independentSearchNodes": 264
+          },
+          "master": {
+            "combinationsVisited": 11816,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 11331,
+            "searchComplete": false
+          }
+        },
+        "parentB": {
+          "alns": {
+            "accepted": 23,
+            "iterations": 31,
+            "poolNovelRoutes": 8,
+            "synthesizedRoutes": 50
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 264,
+            "independentRollouts": 260,
+            "independentRoutesGenerated": 1581,
+            "independentSearchNodes": 261
+          },
+          "master": {
+            "combinationsVisited": 11823,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 11331,
+            "searchComplete": false
+          }
+        }
+      }
+    },
+    {
+      "boundary": "main-selection",
+      "delta": [
+        0,
+        0,
+        -11
+      ],
+      "first_day": 1,
+      "kind": "AA_candidate",
+      "ledger_equal": true,
+      "manifest_equal": true,
+      "post_F0_pool_equal": false,
+      "scenario_counts": [
+        1,
+        1
+      ],
+      "seed": 202609093760273,
+      "selected_f0_scores_in_both_runs": {
+        "candidateA": [
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 79
+            }
+          ],
+          []
+        ],
+        "candidateB": [
+          [],
+          [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 76
+            }
+          ]
+        ]
+      },
+      "selected_fuel_reserve": {
+        "candidateA": 112,
+        "candidateB": 140
+      },
+      "selected_membership": [
+        "absent-from-post-F0-audit-generation-or-pruning-unresolved",
+        "absent-from-post-F0-audit-generation-or-pruning-unresolved"
+      ],
+      "set": "366HOLDOUT",
+      "state_equal": true,
+      "work": {
+        "candidateA": {
+          "alns": {
+            "accepted": 23,
+            "iterations": 31,
+            "poolNovelRoutes": 8,
+            "synthesizedRoutes": 51
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 268,
+            "independentRollouts": 264,
+            "independentRoutesGenerated": 1605,
+            "independentSearchNodes": 265
+          },
+          "master": {
+            "combinationsVisited": 11821,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 11331,
+            "searchComplete": false
+          }
+        },
+        "candidateB": {
+          "alns": {
+            "accepted": 24,
+            "iterations": 31,
+            "poolNovelRoutes": 9,
+            "synthesizedRoutes": 52
+          },
+          "independent": {
+            "independentCandidateAccepted": true,
+            "independentDeadlineReached": true,
+            "independentPlansEvaluated": 266,
+            "independentRollouts": 262,
+            "independentRoutesGenerated": 1593,
+            "independentSearchNodes": 263
+          },
+          "master": {
+            "combinationsVisited": 11799,
+            "deadlineReached": true,
+            "depthFirstCombinationsVisited": 11314,
+            "searchComplete": false
+          }
+        }
+      }
+    }
+  ],
+  "inventory_sha256": "D839273028262C905C88A985AA6FFAB700CEFB89E2A71EF080F128BEF4384FD8",
+  "loss_trajectories": [
+    {
+      "days": [
+        {
+          "agents_equal": true,
+          "day": 1,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 6,
+              "totalServings": 54
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 6,
+              "totalServings": 53
+            }
+          ],
+          "main_plan_equal": true,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 53
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 53
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              54
+            ],
+            [
+              6,
+              53
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 2,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 12,
+              "totalServings": 112
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 12,
+              "totalServings": 110
+            }
+          ],
+          "main_plan_equal": true,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 12,
+              "totalServings": 103
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 12,
+              "totalServings": 103
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              58
+            ],
+            [
+              6,
+              57
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 3,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 18,
+              "totalServings": 178
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 18,
+              "totalServings": 176
+            }
+          ],
+          "main_plan_equal": true,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 154
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 154
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              66
+            ],
+            [
+              6,
+              66
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 4,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 24,
+              "totalServings": 253
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 24,
+              "totalServings": 251
+            }
+          ],
+          "main_plan_equal": true,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 208
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 208
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              75
+            ],
+            [
+              6,
+              75
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": true
+        }
+      ],
+      "seed": 202609093760089
+    },
+    {
+      "days": [
+        {
+          "agents_equal": false,
+          "day": 1,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 6,
+              "totalServings": 63
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 6,
+              "totalServings": 63
+            }
+          ],
+          "main_plan_equal": false,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 58
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 58
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              63
+            ],
+            [
+              6,
+              63
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 2,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 12,
+              "totalServings": 109
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 12,
+              "totalServings": 107
+            }
+          ],
+          "main_plan_equal": false,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 12,
+              "totalServings": 104
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 12,
+              "totalServings": 102
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              46
+            ],
+            [
+              6,
+              44
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 3,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 18,
+              "totalServings": 181
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 18,
+              "totalServings": 184
+            }
+          ],
+          "main_plan_equal": false,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 165
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 164
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              72
+            ],
+            [
+              6,
+              77
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 4,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 24,
+              "totalServings": 239
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 24,
+              "totalServings": 249
+            }
+          ],
+          "main_plan_equal": false,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 217
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 217
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              58
+            ],
+            [
+              6,
+              65
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 5,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 30,
+              "totalServings": 284
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 30,
+              "totalServings": 296
+            }
+          ],
+          "main_plan_equal": false,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 30,
+              "totalServings": 261
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 30,
+              "totalServings": 259
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              45
+            ],
+            [
+              6,
+              47
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 6,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 36,
+              "totalServings": 313
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 36,
+              "totalServings": 323
+            }
+          ],
+          "main_plan_equal": false,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 36,
+              "totalServings": 287
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 36,
+              "totalServings": 283
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              29
+            ],
+            [
+              6,
+              27
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 7,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 42,
+              "totalServings": 325
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 42,
+              "totalServings": 335
+            }
+          ],
+          "main_plan_equal": true,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 42,
+              "totalServings": 299
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 42,
+              "totalServings": 295
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              12
+            ],
+            [
+              6,
+              12
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": true
+        },
+        {
+          "agents_equal": false,
+          "day": 8,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 48,
+              "totalServings": 333
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 47,
+              "totalServings": 343
+            }
+          ],
+          "main_plan_equal": true,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 48,
+              "totalServings": 307
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 47,
+              "totalServings": 303
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              8
+            ],
+            [
+              5,
+              8
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": true
+        },
+        {
+          "agents_equal": false,
+          "day": 9,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 54,
+              "totalServings": 341
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 52,
+              "totalServings": 351
+            }
+          ],
+          "main_plan_equal": true,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 54,
+              "totalServings": 315
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 52,
+              "totalServings": 311
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              8
+            ],
+            [
+              5,
+              8
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": true
+        },
+        {
+          "agents_equal": false,
+          "day": 10,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 60,
+              "totalServings": 349
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 57,
+              "totalServings": 359
+            }
+          ],
+          "main_plan_equal": true,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 60,
+              "totalServings": 323
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 57,
+              "totalServings": 319
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              8
+            ],
+            [
+              5,
+              8
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": true
+        }
+      ],
+      "seed": 202609093760236
+    },
+    {
+      "days": [
+        {
+          "agents_equal": false,
+          "day": 1,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 6,
+              "totalServings": 46
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 6,
+              "totalServings": 45
+            }
+          ],
+          "main_plan_equal": false,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 39
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 6,
+              "totalServings": 39
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              46
+            ],
+            [
+              6,
+              45
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 2,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 12,
+              "totalServings": 70
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 12,
+              "totalServings": 77
+            }
+          ],
+          "main_plan_equal": false,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 12,
+              "totalServings": 62
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 12,
+              "totalServings": 60
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              24
+            ],
+            [
+              6,
+              32
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 3,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 18,
+              "totalServings": 111
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 18,
+              "totalServings": 113
+            }
+          ],
+          "main_plan_equal": false,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 92
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 18,
+              "totalServings": 85
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              41
+            ],
+            [
+              6,
+              36
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 4,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 24,
+              "totalServings": 148
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 24,
+              "totalServings": 152
+            }
+          ],
+          "main_plan_equal": false,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 124
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 24,
+              "totalServings": 119
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              37
+            ],
+            [
+              6,
+              39
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 5,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 30,
+              "totalServings": 186
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 30,
+              "totalServings": 193
+            }
+          ],
+          "main_plan_equal": false,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 30,
+              "totalServings": 154
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 30,
+              "totalServings": 156
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              38
+            ],
+            [
+              6,
+              41
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 6,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 36,
+              "totalServings": 228
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 36,
+              "totalServings": 226
+            }
+          ],
+          "main_plan_equal": false,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 36,
+              "totalServings": 190
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 36,
+              "totalServings": 187
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              42
+            ],
+            [
+              6,
+              33
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 7,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 42,
+              "totalServings": 272
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 42,
+              "totalServings": 263
+            }
+          ],
+          "main_plan_equal": false,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 42,
+              "totalServings": 225
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 42,
+              "totalServings": 217
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              44
+            ],
+            [
+              6,
+              37
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 8,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 48,
+              "totalServings": 315
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 48,
+              "totalServings": 307
+            }
+          ],
+          "main_plan_equal": false,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 48,
+              "totalServings": 255
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 48,
+              "totalServings": 254
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              43
+            ],
+            [
+              6,
+              44
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 9,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 54,
+              "totalServings": 358
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 54,
+              "totalServings": 350
+            }
+          ],
+          "main_plan_equal": false,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 54,
+              "totalServings": 290
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 54,
+              "totalServings": 288
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              43
+            ],
+            [
+              6,
+              43
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        },
+        {
+          "agents_equal": false,
+          "day": 10,
+          "ledger": [
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 60,
+              "totalServings": 408
+            },
+            {
+              "brands": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "totalDailyDistinct": 60,
+              "totalServings": 397
+            }
+          ],
+          "main_plan_equal": false,
+          "main_scores": [
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 60,
+              "totalServings": 326
+            },
+            {
+              "lifetimeDistinct": 6,
+              "totalDailyDistinct": 60,
+              "totalServings": 321
+            }
+          ],
+          "protected_scores": [
+            [
+              6,
+              50
+            ],
+            [
+              6,
+              47
+            ]
+          ],
+          "road_footprints_equal": true,
+          "submitted_plan_equal": false
+        }
+      ],
+      "seed": 202609093760273
+    }
+  ],
+  "script_sha256": "126CA5E1A997C231103DEA5886E9B73EF35CC9DCBC28635471C19FCEA916ED09",
+  "sets": [
+    {
+      "AA": {
+        "loss": 1,
+        "tie": 23
+      },
+      "AA_trajectory_differences": 2,
+      "AB": {
+        "loss": 3,
+        "tie": 21
+      },
+      "AB_trajectory_differences": 5,
+      "fixtures": 12,
+      "name": "362DEV"
+    },
+    {
+      "AA": {
+        "tie": 23,
+        "win": 1
+      },
+      "AA_trajectory_differences": 2,
+      "AB": {
+        "tie": 21,
+        "win": 3
+      },
+      "AB_trajectory_differences": 4,
+      "fixtures": 12,
+      "name": "366DEV"
+    },
+    {
+      "AA": {
+        "loss": 4,
+        "tie": 29,
+        "win": 3
+      },
+      "AA_trajectory_differences": 7,
+      "AB": {
+        "loss": 3,
+        "tie": 27,
+        "win": 6
+      },
+      "AB_trajectory_differences": 9,
+      "fixtures": 18,
+      "name": "366HOLDOUT"
+    }
+  ],
+  "singleton_checks": {
+    "multiple-scenarios-not-reconstructible": 336,
+    "no-strict-rank-inversion": 792
+  },
+  "source_equivalence_scope": "decision.cpp exact normalized text; complete canonical slack_refiner prefix before added research resource method",
+  "source_hashes": {
+    "artifacts/research/357/completed/source/src/decision.cpp": "FC8D6FF94B8C5863AD134A92050D35E9E068C0AE2800A264226B05D883050BB6",
+    "artifacts/research/357/completed/source/src/slack_refiner.cpp": "76A34E707AFD2466919E7911D5B554581F621AD407FEDA720DB061979CA601F2",
+    "include/udon/planner.hpp": "0D9566FD09CC47DB17E2B7F61D9EEF70F0E0E3313B1B99FD9F5CD7796AB984EE",
+    "src/decision.cpp": "150AA97731A73A86BE30C2CE1C7542F00D92173BD49B988E0B22D5BE901AA2DA",
+    "src/planner.cpp": "D9E0A81253619039BEB74D19A1278A11A48DC483B85DF346536F91A7683AF40C",
+    "src/slack_refiner.cpp": "A656B685D1B626C08EBB2CB8BBDAFE9F2111C02A00C2684F3FE400DC2264457F"
+  }
+}

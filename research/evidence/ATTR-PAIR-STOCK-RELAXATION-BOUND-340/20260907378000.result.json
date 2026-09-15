@@ -1,0 +1,171 @@
+{
+  "execution_sha256": "736F110BF73DE8880B3ACFF505DD7351872246A9B0B13AEB2F7A949D24D25DF2",
+  "outputs": {
+    "candidate": {
+      "actions": 9715,
+      "baseline": [
+        5,
+        20,
+        28
+      ],
+      "boundCuts": 4324,
+      "completed": 1,
+      "created": 2397,
+      "exhausted": 0,
+      "failures": 0,
+      "improvements": 0,
+      "memo": 374,
+      "ok": true,
+      "originalUnchanged": true,
+      "plans": [
+        [
+          [
+            -16
+          ],
+          [
+            -16
+          ],
+          [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            -4
+          ]
+        ],
+        [
+          [
+            -16
+          ],
+          [
+            -1,
+            2,
+            2,
+            2,
+            2,
+            -7
+          ],
+          [
+            -16
+          ]
+        ],
+        [
+          [
+            -1,
+            2,
+            5,
+            5,
+            5,
+            -8
+          ],
+          [
+            -17
+          ],
+          [
+            -1,
+            2,
+            2,
+            2,
+            -10
+          ]
+        ]
+      ],
+      "queries": 109,
+      "score": [
+        5,
+        20,
+        28
+      ],
+      "settled": 2397,
+      "supported": 1,
+      "transitions": 29891
+    },
+    "parent": {
+      "actions": 6702,
+      "baseline": [
+        5,
+        20,
+        28
+      ],
+      "completed": 0,
+      "created": 2134,
+      "exhausted": 1,
+      "failures": 0,
+      "improvements": 0,
+      "memo": 1696,
+      "ok": true,
+      "originalUnchanged": true,
+      "plans": [
+        [
+          [
+            -16
+          ],
+          [
+            -16
+          ],
+          [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            -4
+          ]
+        ],
+        [
+          [
+            -16
+          ],
+          [
+            -1,
+            2,
+            2,
+            2,
+            2,
+            -7
+          ],
+          [
+            -16
+          ]
+        ],
+        [
+          [
+            -1,
+            2,
+            5,
+            5,
+            5,
+            -8
+          ],
+          [
+            -17
+          ],
+          [
+            -1,
+            2,
+            2,
+            2,
+            -10
+          ]
+        ]
+      ],
+      "queries": 95,
+      "score": [
+        5,
+        20,
+        28
+      ],
+      "settled": 2134,
+      "supported": 1,
+      "transitions": 262144
+    }
+  },
+  "spec": {
+    "family": "three-fuel",
+    "players": 9,
+    "seed": 20260907378000
+  }
+}

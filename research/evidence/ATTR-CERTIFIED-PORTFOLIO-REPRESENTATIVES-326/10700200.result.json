@@ -1,0 +1,945 @@
+{
+  "elapsed_seconds": 4.153072733999579,
+  "id": "10700200",
+  "manifest_sha256": "C28F7E8287485F23E6341BA8086FB44C13C5A5520C6A7714EF9E094F99D41B4B",
+  "oracle": {
+    "certificates_checked": 36,
+    "complete": true,
+    "dual_validated_columns": 534,
+    "ok": true,
+    "portfolios": {
+      "legacy": {
+        "admissible_combinations": 1002,
+        "columns_before": 36,
+        "complete": true,
+        "days": [
+          {
+            "agents": [
+              {
+                "fuel": 9,
+                "kind": 0,
+                "pos": 17
+              },
+              {
+                "fuel": 1,
+                "kind": 0,
+                "pos": 17
+              },
+              {
+                "fuel": 4,
+                "kind": 0,
+                "pos": 17
+              }
+            ],
+            "day": 2,
+            "ledger": {
+              "brands": [
+                100,
+                200,
+                300,
+                400,
+                500
+              ],
+              "totalDailyDistinct": 10,
+              "totalServings": 10
+            },
+            "plan": [
+              [
+                -17
+              ],
+              [
+                -1,
+                2,
+                2,
+                5,
+                5,
+                5,
+                -6
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -5
+              ]
+            ],
+            "score": [
+              5,
+              10,
+              10
+            ]
+          },
+          {
+            "agents": [
+              {
+                "fuel": 4,
+                "kind": 0,
+                "pos": 20
+              },
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 16
+              },
+              {
+                "fuel": 1,
+                "kind": 0,
+                "pos": 16
+              }
+            ],
+            "day": 3,
+            "ledger": {
+              "brands": [
+                100,
+                200,
+                300,
+                400,
+                500
+              ],
+              "totalDailyDistinct": 15,
+              "totalServings": 15
+            },
+            "plan": [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                5,
+                -7
+              ],
+              [
+                -1,
+                5,
+                -15
+              ],
+              [
+                2,
+                5,
+                5,
+                -12
+              ]
+            ],
+            "score": [
+              5,
+              15,
+              15
+            ]
+          },
+          {
+            "agents": [
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 18
+              },
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 16
+              },
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 17
+              }
+            ],
+            "day": 4,
+            "ledger": {
+              "brands": [
+                100,
+                200,
+                300,
+                400,
+                500
+              ],
+              "totalDailyDistinct": 20,
+              "totalServings": 20
+            },
+            "plan": [
+              [
+                2,
+                5,
+                5,
+                5,
+                -8
+              ],
+              [
+                -16
+              ],
+              [
+                2,
+                -14
+              ]
+            ],
+            "score": [
+              5,
+              20,
+              20
+            ]
+          }
+        ],
+        "incompatible_combinations": 726,
+        "joint_transitions": 22980025,
+        "memo_states": 28567,
+        "score": [
+          5,
+          20,
+          20
+        ],
+        "unique_joint_roots": 784
+      },
+      "merged": {
+        "admissible_combinations": 1212,
+        "columns_before": 41,
+        "complete": true,
+        "days": [
+          {
+            "agents": [
+              {
+                "fuel": 9,
+                "kind": 0,
+                "pos": 17
+              },
+              {
+                "fuel": 1,
+                "kind": 0,
+                "pos": 17
+              },
+              {
+                "fuel": 2,
+                "kind": 0,
+                "pos": 17
+              }
+            ],
+            "day": 2,
+            "ledger": {
+              "brands": [
+                100,
+                200,
+                300,
+                400,
+                500
+              ],
+              "totalDailyDistinct": 10,
+              "totalServings": 10
+            },
+            "plan": [
+              [
+                -17
+              ],
+              [
+                -1,
+                2,
+                2,
+                5,
+                5,
+                5,
+                -6
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                2,
+                5,
+                5,
+                -1
+              ]
+            ],
+            "score": [
+              5,
+              10,
+              10
+            ]
+          },
+          {
+            "agents": [
+              {
+                "fuel": 4,
+                "kind": 0,
+                "pos": 20
+              },
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 16
+              },
+              {
+                "fuel": 1,
+                "kind": 0,
+                "pos": 16
+              }
+            ],
+            "day": 3,
+            "ledger": {
+              "brands": [
+                100,
+                200,
+                300,
+                400,
+                500
+              ],
+              "totalDailyDistinct": 15,
+              "totalServings": 15
+            },
+            "plan": [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                5,
+                -7
+              ],
+              [
+                -1,
+                5,
+                -15
+              ],
+              [
+                -1,
+                5,
+                -15
+              ]
+            ],
+            "score": [
+              5,
+              15,
+              15
+            ]
+          },
+          {
+            "agents": [
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 18
+              },
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 16
+              },
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 17
+              }
+            ],
+            "day": 4,
+            "ledger": {
+              "brands": [
+                100,
+                200,
+                300,
+                400,
+                500
+              ],
+              "totalDailyDistinct": 20,
+              "totalServings": 20
+            },
+            "plan": [
+              [
+                2,
+                5,
+                5,
+                5,
+                -8
+              ],
+              [
+                -16
+              ],
+              [
+                2,
+                -14
+              ]
+            ],
+            "score": [
+              5,
+              20,
+              20
+            ]
+          }
+        ],
+        "incompatible_combinations": 816,
+        "joint_transitions": 23118018,
+        "memo_states": 28714,
+        "score": [
+          5,
+          20,
+          20
+        ],
+        "unique_joint_roots": 931
+      },
+      "raw-expanded": {
+        "admissible_combinations": 12378,
+        "columns_before": 230,
+        "complete": true,
+        "days": [
+          {
+            "agents": [
+              {
+                "fuel": 1,
+                "kind": 0,
+                "pos": 17
+              },
+              {
+                "fuel": 1,
+                "kind": 0,
+                "pos": 17
+              },
+              {
+                "fuel": 5,
+                "kind": 0,
+                "pos": 18
+              }
+            ],
+            "day": 2,
+            "ledger": {
+              "brands": [
+                100,
+                200,
+                300,
+                400,
+                500
+              ],
+              "totalDailyDistinct": 10,
+              "totalServings": 10
+            },
+            "plan": [
+              [
+                2,
+                2,
+                2,
+                2,
+                5,
+                5,
+                5,
+                5,
+                -1
+              ],
+              [
+                2,
+                2,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ]
+            ],
+            "score": [
+              5,
+              10,
+              10
+            ]
+          },
+          {
+            "agents": [
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 16
+              },
+              {
+                "fuel": 1,
+                "kind": 0,
+                "pos": 17
+              },
+              {
+                "fuel": 2,
+                "kind": 0,
+                "pos": 21
+              }
+            ],
+            "day": 3,
+            "ledger": {
+              "brands": [
+                100,
+                200,
+                300,
+                400,
+                500
+              ],
+              "totalDailyDistinct": 15,
+              "totalServings": 15
+            },
+            "plan": [
+              [
+                -1,
+                5,
+                -15
+              ],
+              [
+                -1,
+                -17
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -11
+              ]
+            ],
+            "score": [
+              5,
+              15,
+              15
+            ]
+          },
+          {
+            "agents": [
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 16
+              },
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 18
+              },
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 19
+              }
+            ],
+            "day": 4,
+            "ledger": {
+              "brands": [
+                100,
+                200,
+                300,
+                400,
+                500
+              ],
+              "totalDailyDistinct": 20,
+              "totalServings": 20
+            },
+            "plan": [
+              [
+                -16
+              ],
+              [
+                -1,
+                2,
+                -13
+              ],
+              [
+                -1,
+                5,
+                5,
+                -11
+              ]
+            ],
+            "score": [
+              5,
+              20,
+              20
+            ]
+          }
+        ],
+        "incompatible_combinations": 3582,
+        "joint_transitions": 29726472,
+        "memo_states": 30468,
+        "score": [
+          5,
+          20,
+          20
+        ],
+        "unique_joint_roots": 2685
+      },
+      "raw-legacy": {
+        "admissible_combinations": 9002,
+        "columns_before": 191,
+        "complete": true,
+        "days": [
+          {
+            "agents": [
+              {
+                "fuel": 1,
+                "kind": 0,
+                "pos": 17
+              },
+              {
+                "fuel": 1,
+                "kind": 0,
+                "pos": 17
+              },
+              {
+                "fuel": 5,
+                "kind": 0,
+                "pos": 18
+              }
+            ],
+            "day": 2,
+            "ledger": {
+              "brands": [
+                100,
+                200,
+                300,
+                400,
+                500
+              ],
+              "totalDailyDistinct": 10,
+              "totalServings": 10
+            },
+            "plan": [
+              [
+                2,
+                2,
+                2,
+                2,
+                5,
+                5,
+                5,
+                5,
+                -1
+              ],
+              [
+                2,
+                2,
+                5,
+                5,
+                5,
+                -7
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                -7
+              ]
+            ],
+            "score": [
+              5,
+              10,
+              10
+            ]
+          },
+          {
+            "agents": [
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 16
+              },
+              {
+                "fuel": 1,
+                "kind": 0,
+                "pos": 17
+              },
+              {
+                "fuel": 2,
+                "kind": 0,
+                "pos": 21
+              }
+            ],
+            "day": 3,
+            "ledger": {
+              "brands": [
+                100,
+                200,
+                300,
+                400,
+                500
+              ],
+              "totalDailyDistinct": 15,
+              "totalServings": 15
+            },
+            "plan": [
+              [
+                -1,
+                5,
+                -15
+              ],
+              [
+                -1,
+                -17
+              ],
+              [
+                -1,
+                2,
+                2,
+                2,
+                -11
+              ]
+            ],
+            "score": [
+              5,
+              15,
+              15
+            ]
+          },
+          {
+            "agents": [
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 16
+              },
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 18
+              },
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 19
+              }
+            ],
+            "day": 4,
+            "ledger": {
+              "brands": [
+                100,
+                200,
+                300,
+                400,
+                500
+              ],
+              "totalDailyDistinct": 20,
+              "totalServings": 20
+            },
+            "plan": [
+              [
+                -16
+              ],
+              [
+                -1,
+                2,
+                -13
+              ],
+              [
+                -1,
+                5,
+                5,
+                -11
+              ]
+            ],
+            "score": [
+              5,
+              20,
+              20
+            ]
+          }
+        ],
+        "incompatible_combinations": 2932,
+        "joint_transitions": 29726472,
+        "memo_states": 30468,
+        "score": [
+          5,
+          20,
+          20
+        ],
+        "unique_joint_roots": 2436
+      },
+      "representatives": {
+        "admissible_combinations": 1002,
+        "columns_before": 36,
+        "complete": true,
+        "days": [
+          {
+            "agents": [
+              {
+                "fuel": 9,
+                "kind": 0,
+                "pos": 17
+              },
+              {
+                "fuel": 1,
+                "kind": 0,
+                "pos": 17
+              },
+              {
+                "fuel": 4,
+                "kind": 0,
+                "pos": 17
+              }
+            ],
+            "day": 2,
+            "ledger": {
+              "brands": [
+                100,
+                200,
+                300,
+                400,
+                500
+              ],
+              "totalDailyDistinct": 10,
+              "totalServings": 10
+            },
+            "plan": [
+              [
+                -17
+              ],
+              [
+                -1,
+                2,
+                2,
+                5,
+                5,
+                5,
+                -6
+              ],
+              [
+                5,
+                5,
+                5,
+                5,
+                5,
+                5,
+                -5
+              ]
+            ],
+            "score": [
+              5,
+              10,
+              10
+            ]
+          },
+          {
+            "agents": [
+              {
+                "fuel": 4,
+                "kind": 0,
+                "pos": 20
+              },
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 16
+              },
+              {
+                "fuel": 1,
+                "kind": 0,
+                "pos": 16
+              }
+            ],
+            "day": 3,
+            "ledger": {
+              "brands": [
+                100,
+                200,
+                300,
+                400,
+                500
+              ],
+              "totalDailyDistinct": 15,
+              "totalServings": 15
+            },
+            "plan": [
+              [
+                -1,
+                2,
+                2,
+                2,
+                2,
+                5,
+                -7
+              ],
+              [
+                -1,
+                5,
+                -15
+              ],
+              [
+                2,
+                5,
+                5,
+                -12
+              ]
+            ],
+            "score": [
+              5,
+              15,
+              15
+            ]
+          },
+          {
+            "agents": [
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 18
+              },
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 16
+              },
+              {
+                "fuel": 0,
+                "kind": 0,
+                "pos": 17
+              }
+            ],
+            "day": 4,
+            "ledger": {
+              "brands": [
+                100,
+                200,
+                300,
+                400,
+                500
+              ],
+              "totalDailyDistinct": 20,
+              "totalServings": 20
+            },
+            "plan": [
+              [
+                2,
+                5,
+                5,
+                5,
+                -8
+              ],
+              [
+                -16
+              ],
+              [
+                2,
+                -14
+              ]
+            ],
+            "score": [
+              5,
+              20,
+              20
+            ]
+          }
+        ],
+        "incompatible_combinations": 726,
+        "joint_transitions": 29726472,
+        "memo_states": 30468,
+        "score": [
+          5,
+          20,
+          20
+        ],
+        "unique_joint_roots": 784
+      }
+    }
+  },
+  "probe_sha256": "D71054B55E72DCCBC70BB05B8708E441F32ABA5B11CB8F059DFA1029EF233044",
+  "request_sha256": "561ED2F34062A3E7DCF553D75C6A8D4545A887A440202BFF9C508E1D44A263E6"
+}

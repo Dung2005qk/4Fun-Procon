@@ -1,0 +1,31 @@
+day=1 valid=1 validator_agrees=1 daily_distinct=7 servings=20 moves=38 wait_steps=5
+  served_by_agent=5,5,5,5 served_by_spot=43:3,52:4,36:2,54:2,26:4,27:4,59:1
+  starts=0@14/20:M4,1@63/20:M0,2@12/20:M4,3@31/20:M3
+  claims=a1@p54/b3/t2/Y,a2@p27/b5/t4/Y,a0@p36/b2/t5/Y,a1@p52/b1/t6/Y,a2@p26/b4/t6/Y,a3@p54/b3/t6/Y,a0@p52/b1/t9/Y,a2@p43/b0/t10/Y,a3@p52/b1/t10/Y,a1@p27/b5/t12/Y,a0@p43/b0/t13/Y,a1@p26/b4/t14/Y,a2@p52/b1/t14/Y,a3@p36/b2/t14/Y,a0@p26/b4/t17/Y,a1@p43/b0/t18/Y,a2@p59/b6/t18/Y,a3@p27/b5/t18/Y,a0@p27/b5/t19/Y,a3@p26/b4/t20/Y
+  refuels=
+transition_to_day=2 reconciled=1
+day=2 valid=1 validator_agrees=1 daily_distinct=7 servings=22 moves=32 wait_steps=20
+  served_by_agent=6,5,6,5 served_by_spot=43:3,52:4,36:4,54:1,26:4,27:4,59:2
+  starts=0@27/9:W1,1@43/11:W1,2@59/11:W1,3@26/10:W1
+  claims=a0@p27/b5/t1/Y,a1@p43/b0/t1/Y,a2@p59/b6/t1/Y,a3@p26/b4/t1/Y,a0@p26/b4/t3/Y,a3@p27/b5/t3/Y,a1@p26/b4/t5/Y,a2@p52/b1/t5/Y,a0@p43/b0/t7/Y,a1@p27/b5/t7/Y,a3@p36/b2/t7/Y,a2@p36/b2/t9/Y,a0@p59/b6/t11/Y,a1@p36/b2/t11/Y,a3@p52/b1/t11/Y,a2@p27/b5/t13/Y,a0@p52/b1/t15/Y,a1@p52/b1/t15/Y,a2@p26/b4/t15/Y,a3@p54/b3/t15/Y,a0@p36/b2/t19/Y,a2@p43/b0/t19/Y
+  refuels=
+transition_to_day=3 reconciled=1
+day=3 valid=1 validator_agrees=1 daily_distinct=7 servings=8 moves=8 wait_steps=72
+  served_by_agent=1,3,2,2 served_by_spot=43:1,52:2,36:1,54:1,26:1,27:1,59:1
+  starts=0@36/0:W1,1@52/4:W1,2@43/2:W1,3@54/3:W1
+  claims=a0@p36/b2/t1/Y,a1@p52/b1/t1/Y,a2@p43/b0/t1/Y,a3@p54/b3/t1/Y,a2@p59/b6/t5/Y,a3@p52/b1/t5/Y,a1@p27/b5/t7/Y,a1@p26/b4/t9/Y
+  refuels=
+transition_to_day=4 reconciled=1
+day=4 valid=1 validator_agrees=1 daily_distinct=4 servings=4 moves=0 wait_steps=80
+  served_by_agent=1,1,1,1 served_by_spot=52:1,36:1,26:1,59:1
+  starts=0@36/0:W1,1@26/0:W1,2@59/0:W1,3@52/1:W1
+  claims=a0@p36/b2/t1/Y,a1@p26/b4/t1/Y,a2@p59/b6/t1/Y,a3@p52/b1/t1/Y
+  refuels=
+transition_to_day=5 reconciled=1
+day=5 valid=1 validator_agrees=1 daily_distinct=4 servings=4 moves=0 wait_steps=84
+  served_by_agent=1,1,1,1 served_by_spot=52:1,36:1,26:1,59:1
+  starts=0@36/0:W1,1@26/0:W1,2@59/0:W1,3@52/1:W1
+  claims=a0@p36/b2/t1/Y,a1@p26/b4/t1/Y,a2@p59/b6/t1/Y,a3@p52/b1/t1/Y
+  refuels=
+summary days=5 reconciled_transitions=4 lifetime_distinct=7 daily_distinct=29 servings=58
+resume accepted_days=5 last_wire_day=4 cached_contingencies=0 strong_proofs=0

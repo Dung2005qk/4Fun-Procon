@@ -1,0 +1,31 @@
+day=1 valid=1 validator_agrees=1 daily_distinct=6 servings=8 moves=18 wait_steps=37
+  served_by_agent=3,0,2,3 served_by_spot=29:1,8:1,63:1,41:2,32:2,46:1
+  starts=0@53/54:M0,1@43/54:W18,2@19/54:M4,3@50/54:M0
+  claims=a3@p41/b3/t4/Y,a0@p29/b0/t6/Y,a3@p32/b4/t6/Y,a2@p41/b3/t8/Y,a2@p32/b4/t10/Y,a3@p8/b1/t10/Y,a0@p46/b5/t11/Y,a0@p63/b2/t15/Y
+  refuels=
+transition_to_day=2 reconciled=1
+day=2 valid=1 validator_agrees=1 daily_distinct=6 servings=8 moves=10 wait_steps=55
+  served_by_agent=3,2,2,1 served_by_spot=29:1,8:1,63:1,41:2,32:2,46:1
+  starts=0@63/46:W1,1@43/54:M5,2@32/49:M3,3@8/46:W19
+  claims=a0@p63/b2/t1/Y,a2@p41/b3/t2/Y,a2@p32/b4/t4/Y,a0@p46/b5/t5/Y,a1@p32/b4/t6/Y,a1@p41/b3/t8/Y,a0@p29/b0/t10/Y,a3@p8/b1/t19/Y
+  refuels=
+transition_to_day=3 reconciled=1
+day=3 valid=1 validator_agrees=1 daily_distinct=6 servings=8 moves=6 wait_steps=67
+  served_by_agent=3,2,2,1 served_by_spot=29:1,8:1,63:1,41:2,32:2,46:1
+  starts=0@29/41:W1,1@41/50:W1,2@32/47:W1,3@8/46:W20
+  claims=a0@p29/b0/t1/Y,a1@p41/b3/t1/Y,a2@p32/b4/t1/Y,a1@p32/b4/t3/Y,a2@p41/b3/t3/Y,a0@p46/b5/t6/Y,a0@p63/b2/t10/Y,a3@p8/b1/t20/Y
+  refuels=
+transition_to_day=4 reconciled=1
+day=4 valid=1 validator_agrees=1 daily_distinct=6 servings=8 moves=10 wait_steps=52
+  served_by_agent=2,2,3,1 served_by_spot=29:1,8:1,63:1,41:2,32:2,46:1
+  starts=0@63/36:W1,1@32/49:W1,2@41/46:W1,3@8/46:W18
+  claims=a0@p63/b2/t1/Y,a1@p32/b4/t1/Y,a2@p41/b3/t1/Y,a1@p41/b3/t3/Y,a2@p32/b4/t3/Y,a0@p46/b5/t5/Y,a2@p29/b0/t15/Y,a3@p8/b1/t18/Y
+  refuels=
+transition_to_day=5 reconciled=1
+day=5 valid=1 validator_agrees=1 daily_distinct=6 servings=8 moves=11 wait_steps=54
+  served_by_agent=2,2,3,1 served_by_spot=29:1,8:1,63:1,41:2,32:2,46:1
+  starts=0@46/34:W1,1@41/48:W1,2@29/39:W1,3@8/46:W19
+  claims=a0@p46/b5/t1/Y,a1@p41/b3/t1/Y,a2@p29/b0/t1/Y,a1@p32/b4/t3/Y,a0@p63/b2/t5/Y,a2@p32/b4/t13/Y,a2@p41/b3/t15/Y,a3@p8/b1/t19/Y
+  refuels=
+summary days=5 reconciled_transitions=4 lifetime_distinct=6 daily_distinct=30 servings=40
+resume accepted_days=5 last_wire_day=4 cached_contingencies=0 strong_proofs=0

@@ -1,0 +1,31 @@
+day=1 valid=1 validator_agrees=1 daily_distinct=6 servings=9 moves=29 wait_steps=22
+  served_by_agent=3,2,0,4 served_by_spot=39:2,20:1,10:1,25:2,44:1,48:2
+  starts=0@22/60:M3,1@15/60:M3,2@61/60:W20,3@19/60:M2
+  claims=a3@p20/b1/t2/Y,a0@p39/b0/t4/Y,a1@p39/b0/t6/Y,a3@p10/b2/t8/Y,a0@p44/b4/t12/Y,a3@p25/b3/t12/Y,a3@p48/b5/t18/Y,a0@p48/b5/t20/Y,a1@p25/b3/t20/Y
+  refuels=
+transition_to_day=2 reconciled=1
+day=2 valid=1 validator_agrees=1 daily_distinct=6 servings=9 moves=22 wait_steps=40
+  served_by_agent=3,2,3,1 served_by_spot=39:2,20:1,10:1,25:2,44:1,48:2
+  starts=0@48/50:W1,1@25/50:W1,2@61/60:M0,3@48/51:W21
+  claims=a0@p48/b5/t1/Y,a1@p25/b3/t1/Y,a2@p44/b4/t4/Y,a0@p25/b3/t7/Y,a1@p44/b4/t9/N,a2@p20/b1/t10/Y,a0@p10/b2/t11/Y,a1@p39/b0/t17/Y,a2@p39/b0/t18/Y,a3@p48/b5/t21/Y
+  refuels=
+transition_to_day=3 reconciled=1
+day=3 valid=1 validator_agrees=1 daily_distinct=6 servings=9 moves=15 wait_steps=58
+  served_by_agent=3,1,1,4 served_by_spot=39:2,20:1,10:1,25:2,44:1,48:2
+  starts=0@10/45:W1,1@39/42:W22,2@39/51:W22,3@48/51:W1
+  claims=a0@p10/b2/t1/Y,a3@p48/b5/t1/Y,a0@p25/b3/t5/Y,a3@p25/b3/t7/Y,a0@p48/b5/t11/Y,a3@p44/b4/t15/Y,a3@p20/b1/t21/Y,a1@p39/b0/t22/Y,a2@p39/b0/t22/Y
+  refuels=
+transition_to_day=4 reconciled=1
+day=4 valid=1 validator_agrees=1 daily_distinct=6 servings=9 moves=16 wait_steps=48
+  served_by_agent=3,1,1,4 served_by_spot=39:2,20:1,10:1,25:2,44:1,48:2
+  starts=0@48/40:W1,1@39/42:W20,2@39/51:W20,3@20/41:W1
+  claims=a0@p48/b5/t1/Y,a3@p20/b1/t1/Y,a3@p10/b2/t7/Y,a0@p44/b4/t9/Y,a3@p25/b3/t11/Y,a0@p25/b3/t17/Y,a3@p48/b5/t17/Y,a1@p39/b0/t20/Y,a2@p39/b0/t20/Y
+  refuels=
+transition_to_day=5 reconciled=1
+day=5 valid=1 validator_agrees=1 daily_distinct=6 servings=9 moves=16 wait_steps=52
+  served_by_agent=3,1,1,4 served_by_spot=39:2,20:1,10:1,25:2,44:1,48:2
+  starts=0@25/32:W1,1@39/42:W21,2@39/51:W21,3@48/33:W1
+  claims=a0@p25/b3/t1/Y,a3@p48/b5/t1/Y,a3@p25/b3/t7/Y,a0@p44/b4/t9/Y,a3@p10/b2/t11/Y,a0@p48/b5/t17/Y,a3@p20/b1/t17/Y,a1@p39/b0/t21/Y,a2@p39/b0/t21/Y
+  refuels=
+summary days=5 reconciled_transitions=4 lifetime_distinct=6 daily_distinct=30 servings=45
+resume accepted_days=5 last_wire_day=4 cached_contingencies=0 strong_proofs=0

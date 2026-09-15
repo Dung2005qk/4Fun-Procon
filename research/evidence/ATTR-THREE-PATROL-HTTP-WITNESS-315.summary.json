@@ -1,0 +1,4770 @@
+{
+  "boundary_counts": {
+    "absent-from-recorded-audit": 3,
+    "present-but-not-shortlisted": 3
+  },
+  "btc_authority": false,
+  "cases": 6,
+  "experiment": "ATTR-THREE-PATROL-HTTP-WITNESS-315",
+  "holdout_authority": false,
+  "http_days_dual_revalidated": 24,
+  "limits": "Consumed six known wins only; no prevalence, promotion or local latency inference. Final audit absence does not distinguish route supply from master retention. No comparison of candidates across different input states. Incidental engine traces ignored.",
+  "log_sha256": "FDA7542961B359C6438F086572E744CBAA77A3E1A7BF98EE44641C210124B888",
+  "manifest_sha256": "941FEBDC951D4037DE1B11B86BDC361E32CC1085F9BEB97F5B0A1097AF8AA540",
+  "next_read_only_source_attribution_authorized": true,
+  "oracle_days_dual_validated": 24,
+  "recurrent_boundaries": {
+    "absent-from-recorded-audit": 3,
+    "present-but-not-shortlisted": 3
+  },
+  "results": [
+    {
+      "boundary_class": "absent-from-recorded-audit",
+      "days": [
+        {
+          "audit_class": "absent-from-recorded-audit",
+          "day": 1,
+          "http_agents": [
+            {
+              "fuel": 7,
+              "kind": 0,
+              "pos": 19
+            },
+            {
+              "fuel": 8,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 4,
+              "kind": 0,
+              "pos": 17
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "totalDailyDistinct": 5,
+            "totalServings": 10
+          },
+          "http_score": [
+            5,
+            5,
+            10
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 9,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 18
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "totalDailyDistinct": 5,
+            "totalServings": 10
+          },
+          "oracle_plan": [
+            [
+              2,
+              -15
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              -7
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              -7
+            ]
+          ],
+          "oracle_score": [
+            5,
+            5,
+            10
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": true,
+          "shared_permutation_invariant_input": true,
+          "shared_physical_input": true,
+          "submitted_http_plan": [
+            [
+              2,
+              2,
+              2,
+              -11
+            ],
+            [
+              5,
+              5,
+              -13
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              -5
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 2,
+          "http_agents": [
+            {
+              "fuel": 3,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 3,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 4,
+              "kind": 0,
+              "pos": 17
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "totalDailyDistinct": 10,
+            "totalServings": 20
+          },
+          "http_score": [
+            5,
+            10,
+            20
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "totalDailyDistinct": 10,
+            "totalServings": 20
+          },
+          "oracle_plan": [
+            [
+              -1,
+              2,
+              2,
+              2,
+              2,
+              -7
+            ],
+            [
+              -1,
+              -15
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -9
+            ]
+          ],
+          "oracle_score": [
+            5,
+            10,
+            20
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              5,
+              2,
+              2,
+              2,
+              -7
+            ],
+            [
+              -1,
+              2,
+              5,
+              5,
+              5,
+              5,
+              -5
+            ],
+            [
+              -16
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 3,
+          "http_agents": [
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 3,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "totalDailyDistinct": 15,
+            "totalServings": 30
+          },
+          "http_score": [
+            5,
+            15,
+            30
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 1,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "totalDailyDistinct": 15,
+            "totalServings": 30
+          },
+          "oracle_plan": [
+            [
+              -1,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -10
+            ],
+            [
+              -1,
+              -16
+            ]
+          ],
+          "oracle_score": [
+            5,
+            15,
+            30
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              5,
+              5,
+              5,
+              -10
+            ],
+            [
+              -17
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              2,
+              -8
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 4,
+          "http_agents": [
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "totalDailyDistinct": 20,
+            "totalServings": 36
+          },
+          "http_score": [
+            5,
+            20,
+            36
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 19
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "totalDailyDistinct": 20,
+            "totalServings": 38
+          },
+          "oracle_plan": [
+            [
+              -1,
+              2,
+              -13
+            ],
+            [
+              -1,
+              5,
+              5,
+              -11
+            ],
+            [
+              -1,
+              5,
+              5,
+              -11
+            ]
+          ],
+          "oracle_score": [
+            5,
+            20,
+            38
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              -15
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -9
+            ],
+            [
+              -1,
+              -15
+            ]
+          ]
+        }
+      ],
+      "family": "three-balanced",
+      "first_permutation_invariant_divergence": 1,
+      "first_physical_divergence": 1,
+      "http_score": [
+        5,
+        20,
+        36
+      ],
+      "http_telemetry": {
+        "days": [
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 0,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 0
+            },
+            "day": 1,
+            "main_budget_ms": 5000,
+            "main_ms": 250,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 5000,
+              "day": 1,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 9,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 4,
+              "middayRounds": 0,
+              "middayRoutes": 22,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 4,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 10,
+              "middayTargetValidPlans": 4,
+              "middayValidPlans": 4,
+              "outerWindowMs": 5000,
+              "parentDailyDistinct": 5,
+              "parentServings": 10,
+              "refinedDailyDistinct": 5,
+              "refinedServings": 10,
+              "refinementBudgetMs": 3647,
+              "refinementDeadlineMs": 1788576142648,
+              "refinementReserveMs": 1100,
+              "routePairs": 10,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 9,
+              "virtualParentActive": false,
+              "waitAnchors": 3,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 276
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 2,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 2
+            },
+            "day": 2,
+            "main_budget_ms": 5000,
+            "main_ms": 212,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 5000,
+              "day": 2,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 6,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 3,
+              "middayRounds": 0,
+              "middayRoutes": 13,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 2,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 4,
+              "middayTargetValidPlans": 2,
+              "middayValidPlans": 3,
+              "outerWindowMs": 5000,
+              "parentDailyDistinct": 5,
+              "parentServings": 10,
+              "refinedDailyDistinct": 5,
+              "refinedServings": 10,
+              "refinementBudgetMs": 3685,
+              "refinementDeadlineMs": 1788576147764,
+              "refinementReserveMs": 1100,
+              "routePairs": 9,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 4,
+              "virtualParentActive": false,
+              "waitAnchors": 5,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 255
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 1,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 1
+            },
+            "day": 3,
+            "main_budget_ms": 4999,
+            "main_ms": 168,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4999,
+              "day": 3,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 8,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 1,
+              "middayRounds": 0,
+              "middayRoutes": 8,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 0,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 3,
+              "middayTargetValidPlans": 0,
+              "middayValidPlans": 1,
+              "outerWindowMs": 4999,
+              "parentDailyDistinct": 5,
+              "parentServings": 10,
+              "refinedDailyDistinct": 5,
+              "refinedServings": 10,
+              "refinementBudgetMs": 3730,
+              "refinementDeadlineMs": 1788576152897,
+              "refinementReserveMs": 1100,
+              "routePairs": 11,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 1,
+              "virtualParentActive": false,
+              "waitAnchors": 5,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 210
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 1,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 1
+            },
+            "day": 4,
+            "main_budget_ms": 4999,
+            "main_ms": 25,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4999,
+              "day": 4,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 0,
+              "firstRoundDailyDistinct": 20,
+              "firstRoundServings": 36,
+              "generatedPlans": 0,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": false,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 0,
+              "middayRounds": 0,
+              "middayRoutes": 0,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": false,
+              "middayTargetGeneratedPlans": 0,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 0,
+              "middayTargetValidPlans": 0,
+              "middayValidPlans": 0,
+              "outerWindowMs": 4999,
+              "parentDailyDistinct": 5,
+              "parentServings": 6,
+              "refinedDailyDistinct": 5,
+              "refinedServings": 6,
+              "refinementBudgetMs": 3873,
+              "refinementDeadlineMs": 1788576157997,
+              "refinementReserveMs": 1100,
+              "routePairs": 0,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 0,
+              "virtualParentActive": false,
+              "waitAnchors": 0,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 27
+          }
+        ],
+        "safety_pass": true,
+        "session_checkpoints": 45
+      },
+      "old_engine_score": [
+        5,
+        20,
+        36
+      ],
+      "oracle_score": [
+        5,
+        20,
+        38
+      ],
+      "players": 8,
+      "replay": "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700000.replay.jsonl",
+      "seed": 10700000,
+      "transport": "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700000.transport.json"
+    },
+    {
+      "boundary_class": "absent-from-recorded-audit",
+      "days": [
+        {
+          "audit_class": "absent-from-recorded-audit",
+          "day": 1,
+          "http_agents": [
+            {
+              "fuel": 7,
+              "kind": 0,
+              "pos": 19
+            },
+            {
+              "fuel": 8,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 4,
+              "kind": 0,
+              "pos": 17
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "totalDailyDistinct": 5,
+            "totalServings": 10
+          },
+          "http_score": [
+            5,
+            5,
+            10
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 9,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 18
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "totalDailyDistinct": 5,
+            "totalServings": 10
+          },
+          "oracle_plan": [
+            [
+              2,
+              -15
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              -7
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              -7
+            ]
+          ],
+          "oracle_score": [
+            5,
+            5,
+            10
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": true,
+          "shared_permutation_invariant_input": true,
+          "shared_physical_input": true,
+          "submitted_http_plan": [
+            [
+              2,
+              2,
+              2,
+              -11
+            ],
+            [
+              5,
+              5,
+              -13
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              -5
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 2,
+          "http_agents": [
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 3,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 3,
+              "kind": 0,
+              "pos": 18
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "totalDailyDistinct": 10,
+            "totalServings": 20
+          },
+          "http_score": [
+            5,
+            10,
+            20
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "totalDailyDistinct": 10,
+            "totalServings": 20
+          },
+          "oracle_plan": [
+            [
+              -1,
+              2,
+              2,
+              2,
+              2,
+              -8
+            ],
+            [
+              -1,
+              -16
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -10
+            ]
+          ],
+          "oracle_score": [
+            5,
+            10,
+            20
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              2,
+              2,
+              -12
+            ],
+            [
+              -1,
+              2,
+              5,
+              5,
+              5,
+              5,
+              -6
+            ],
+            [
+              -1,
+              2,
+              -14
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 3,
+          "http_agents": [
+            {
+              "fuel": 1,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 3,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "totalDailyDistinct": 15,
+            "totalServings": 30
+          },
+          "http_score": [
+            5,
+            15,
+            30
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 1,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "totalDailyDistinct": 15,
+            "totalServings": 30
+          },
+          "oracle_plan": [
+            [
+              -1,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -10
+            ],
+            [
+              -1,
+              -16
+            ]
+          ],
+          "oracle_score": [
+            5,
+            15,
+            30
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ],
+            [
+              -1,
+              -16
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -10
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 4,
+          "http_agents": [
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "totalDailyDistinct": 20,
+            "totalServings": 37
+          },
+          "http_score": [
+            5,
+            20,
+            37
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 19
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400,
+              500
+            ],
+            "totalDailyDistinct": 20,
+            "totalServings": 38
+          },
+          "oracle_plan": [
+            [
+              -1,
+              2,
+              -13
+            ],
+            [
+              -1,
+              5,
+              5,
+              -11
+            ],
+            [
+              -1,
+              5,
+              5,
+              -11
+            ]
+          ],
+          "oracle_score": [
+            5,
+            20,
+            38
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              2,
+              -13
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -9
+            ],
+            [
+              -1,
+              -15
+            ]
+          ]
+        }
+      ],
+      "family": "three-balanced",
+      "first_permutation_invariant_divergence": 1,
+      "first_physical_divergence": 1,
+      "http_score": [
+        5,
+        20,
+        37
+      ],
+      "http_telemetry": {
+        "days": [
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 0,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 0
+            },
+            "day": 1,
+            "main_budget_ms": 4999,
+            "main_ms": 202,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4999,
+              "day": 1,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 9,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 4,
+              "middayRounds": 0,
+              "middayRoutes": 22,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 4,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 10,
+              "middayTargetValidPlans": 4,
+              "middayValidPlans": 4,
+              "outerWindowMs": 4999,
+              "parentDailyDistinct": 5,
+              "parentServings": 10,
+              "refinedDailyDistinct": 5,
+              "refinedServings": 10,
+              "refinementBudgetMs": 3695,
+              "refinementDeadlineMs": 1788576163827,
+              "refinementReserveMs": 1100,
+              "routePairs": 10,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 9,
+              "virtualParentActive": false,
+              "waitAnchors": 3,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 228
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 2,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 2
+            },
+            "day": 2,
+            "main_budget_ms": 4999,
+            "main_ms": 248,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4999,
+              "day": 2,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 8,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 3,
+              "middayRounds": 0,
+              "middayRoutes": 13,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 2,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 4,
+              "middayTargetValidPlans": 2,
+              "middayValidPlans": 3,
+              "outerWindowMs": 4999,
+              "parentDailyDistinct": 5,
+              "parentServings": 10,
+              "refinedDailyDistinct": 5,
+              "refinedServings": 10,
+              "refinementBudgetMs": 3650,
+              "refinementDeadlineMs": 1788576168942,
+              "refinementReserveMs": 1100,
+              "routePairs": 11,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 5,
+              "virtualParentActive": false,
+              "waitAnchors": 6,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 278
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 1,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 1
+            },
+            "day": 3,
+            "main_budget_ms": 4999,
+            "main_ms": 103,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4999,
+              "day": 3,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 7,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 1,
+              "middayRounds": 0,
+              "middayRoutes": 8,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 0,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 3,
+              "middayTargetValidPlans": 0,
+              "middayValidPlans": 1,
+              "outerWindowMs": 4999,
+              "parentDailyDistinct": 5,
+              "parentServings": 10,
+              "refinedDailyDistinct": 5,
+              "refinedServings": 10,
+              "refinementBudgetMs": 3795,
+              "refinementDeadlineMs": 1788576174163,
+              "refinementReserveMs": 1100,
+              "routePairs": 10,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 1,
+              "virtualParentActive": false,
+              "waitAnchors": 6,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 125
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 1,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 1
+            },
+            "day": 4,
+            "main_budget_ms": 4999,
+            "main_ms": 27,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4999,
+              "day": 4,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 0,
+              "firstRoundDailyDistinct": 20,
+              "firstRoundServings": 37,
+              "generatedPlans": 0,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": false,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 0,
+              "middayRounds": 0,
+              "middayRoutes": 0,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": false,
+              "middayTargetGeneratedPlans": 0,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 0,
+              "middayTargetValidPlans": 0,
+              "middayValidPlans": 0,
+              "outerWindowMs": 4999,
+              "parentDailyDistinct": 5,
+              "parentServings": 7,
+              "refinedDailyDistinct": 5,
+              "refinedServings": 7,
+              "refinementBudgetMs": 3871,
+              "refinementDeadlineMs": 1788576179196,
+              "refinementReserveMs": 1100,
+              "routePairs": 0,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 0,
+              "virtualParentActive": false,
+              "waitAnchors": 0,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 29
+          }
+        ],
+        "safety_pass": true,
+        "session_checkpoints": 29
+      },
+      "old_engine_score": [
+        5,
+        20,
+        37
+      ],
+      "oracle_score": [
+        5,
+        20,
+        38
+      ],
+      "players": 8,
+      "replay": "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700001.replay.jsonl",
+      "seed": 10700001,
+      "transport": "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700001.transport.json"
+    },
+    {
+      "boundary_class": "present-but-not-shortlisted",
+      "days": [
+        {
+          "audit_class": "present-but-not-shortlisted",
+          "day": 1,
+          "http_agents": [
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 10,
+              "kind": 0,
+              "pos": 23
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400
+            ],
+            "totalDailyDistinct": 4,
+            "totalServings": 10
+          },
+          "http_score": [
+            4,
+            4,
+            10
+          ],
+          "matching_audit_outcomes": [
+            {
+              "certified": false,
+              "disposition": "not-shortlisted",
+              "finalCertifiedLowerBound": {
+                "lifetimeDistinct": 0,
+                "totalDailyDistinct": 0,
+                "totalServings": 0
+              },
+              "finalQuantile50": {
+                "lifetimeDistinct": 0,
+                "totalDailyDistinct": 0,
+                "totalServings": 0
+              },
+              "provisionalLowerBound": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 12,
+                "totalServings": 30
+              },
+              "scoreAfterToday": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 4,
+                "totalServings": 10
+              },
+              "selected": false,
+              "stableId": "[[2,-14],[5,5,5,5,5,-6],[5,5,5,5,5,-6]]",
+              "terminalCells": [
+                17,
+                17,
+                18
+              ],
+              "terminalFuel": [
+                9,
+                5,
+                5
+              ],
+              "validUpperBound": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 16,
+                "totalServings": 38
+              },
+              "w1Role": ""
+            }
+          ],
+          "oracle_agents": [
+            {
+              "fuel": 9,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 18
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400
+            ],
+            "totalDailyDistinct": 4,
+            "totalServings": 10
+          },
+          "oracle_plan": [
+            [
+              2,
+              -14
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              -6
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              -6
+            ]
+          ],
+          "oracle_score": [
+            4,
+            4,
+            10
+          ],
+          "permuted_matching_audit_outcomes": [
+            {
+              "certified": false,
+              "disposition": "not-shortlisted",
+              "finalCertifiedLowerBound": {
+                "lifetimeDistinct": 0,
+                "totalDailyDistinct": 0,
+                "totalServings": 0
+              },
+              "finalQuantile50": {
+                "lifetimeDistinct": 0,
+                "totalDailyDistinct": 0,
+                "totalServings": 0
+              },
+              "provisionalLowerBound": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 12,
+                "totalServings": 30
+              },
+              "scoreAfterToday": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 4,
+                "totalServings": 10
+              },
+              "selected": false,
+              "stableId": "[[2,-14],[5,5,5,5,5,-6],[5,5,5,5,5,-6]]",
+              "terminalCells": [
+                17,
+                17,
+                18
+              ],
+              "terminalFuel": [
+                9,
+                5,
+                5
+              ],
+              "validUpperBound": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 16,
+                "totalServings": 38
+              },
+              "w1Role": ""
+            }
+          ],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": true,
+          "shared_permutation_invariant_input": true,
+          "shared_physical_input": true,
+          "submitted_http_plan": [
+            [
+              2,
+              2,
+              2,
+              2,
+              2,
+              -6
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              -6
+            ],
+            [
+              -16
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 2,
+          "http_agents": [
+            {
+              "fuel": 1,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 1,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 10,
+              "kind": 0,
+              "pos": 23
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400
+            ],
+            "totalDailyDistinct": 8,
+            "totalServings": 20
+          },
+          "http_score": [
+            4,
+            8,
+            20
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400
+            ],
+            "totalDailyDistinct": 8,
+            "totalServings": 20
+          },
+          "oracle_plan": [
+            [
+              -1,
+              2,
+              2,
+              2,
+              2,
+              -8
+            ],
+            [
+              -1,
+              -16
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -10
+            ]
+          ],
+          "oracle_score": [
+            4,
+            8,
+            20
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              2,
+              -8
+            ],
+            [
+              -17
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 3,
+          "http_agents": [
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 4,
+              "kind": 0,
+              "pos": 17
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400
+            ],
+            "totalDailyDistinct": 12,
+            "totalServings": 29
+          },
+          "http_score": [
+            4,
+            12,
+            29
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 1,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400
+            ],
+            "totalDailyDistinct": 12,
+            "totalServings": 30
+          },
+          "oracle_plan": [
+            [
+              -1,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -10
+            ],
+            [
+              -1,
+              -16
+            ]
+          ],
+          "oracle_score": [
+            4,
+            12,
+            30
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              2,
+              -14
+            ],
+            [
+              -1,
+              5,
+              -14
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              -5
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 4,
+          "http_agents": [
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400
+            ],
+            "totalDailyDistinct": 16,
+            "totalServings": 36
+          },
+          "http_score": [
+            4,
+            16,
+            36
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 19
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400
+            ],
+            "totalDailyDistinct": 16,
+            "totalServings": 38
+          },
+          "oracle_plan": [
+            [
+              -1,
+              2,
+              -13
+            ],
+            [
+              -1,
+              5,
+              5,
+              -11
+            ],
+            [
+              -1,
+              5,
+              5,
+              -11
+            ]
+          ],
+          "oracle_score": [
+            4,
+            16,
+            38
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              -15
+            ],
+            [
+              -1,
+              -15
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              2,
+              -7
+            ]
+          ]
+        }
+      ],
+      "family": "three-duplicate",
+      "first_permutation_invariant_divergence": 1,
+      "first_physical_divergence": 1,
+      "http_score": [
+        4,
+        16,
+        36
+      ],
+      "http_telemetry": {
+        "days": [
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 0,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 0
+            },
+            "day": 1,
+            "main_budget_ms": 4999,
+            "main_ms": 159,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4999,
+              "day": 1,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 5,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 1,
+              "middayRounds": 0,
+              "middayRoutes": 24,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 1,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 6,
+              "middayTargetValidPlans": 1,
+              "middayValidPlans": 1,
+              "outerWindowMs": 4999,
+              "parentDailyDistinct": 4,
+              "parentServings": 10,
+              "refinedDailyDistinct": 4,
+              "refinedServings": 10,
+              "refinementBudgetMs": 3739,
+              "refinementDeadlineMs": 1788576184970,
+              "refinementReserveMs": 1100,
+              "routePairs": 11,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 5,
+              "virtualParentActive": false,
+              "waitAnchors": 3,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 178
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 1,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 1
+            },
+            "day": 2,
+            "main_budget_ms": 5000,
+            "main_ms": 124,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 5000,
+              "day": 2,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 7,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 3,
+              "middayRounds": 0,
+              "middayRoutes": 18,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 1,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 5,
+              "middayTargetValidPlans": 1,
+              "middayValidPlans": 3,
+              "outerWindowMs": 5000,
+              "parentDailyDistinct": 4,
+              "parentServings": 10,
+              "refinedDailyDistinct": 4,
+              "refinedServings": 10,
+              "refinementBudgetMs": 3774,
+              "refinementDeadlineMs": 1788576190043,
+              "refinementReserveMs": 1100,
+              "routePairs": 13,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 3,
+              "virtualParentActive": false,
+              "waitAnchors": 5,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 143
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 1,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 1
+            },
+            "day": 3,
+            "main_budget_ms": 4999,
+            "main_ms": 38,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4999,
+              "day": 3,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 5,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 0,
+              "middayRounds": 0,
+              "middayRoutes": 4,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 0,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 1,
+              "middayTargetValidPlans": 0,
+              "middayValidPlans": 0,
+              "outerWindowMs": 4999,
+              "parentDailyDistinct": 4,
+              "parentServings": 9,
+              "refinedDailyDistinct": 4,
+              "refinedServings": 9,
+              "refinementBudgetMs": 3860,
+              "refinementDeadlineMs": 1788576195078,
+              "refinementReserveMs": 1100,
+              "routePairs": 6,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 1,
+              "virtualParentActive": false,
+              "waitAnchors": 5,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 56
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 1,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 1
+            },
+            "day": 4,
+            "main_budget_ms": 4999,
+            "main_ms": 16,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4999,
+              "day": 4,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 0,
+              "firstRoundDailyDistinct": 16,
+              "firstRoundServings": 36,
+              "generatedPlans": 0,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": false,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 0,
+              "middayRounds": 0,
+              "middayRoutes": 0,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": false,
+              "middayTargetGeneratedPlans": 0,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 0,
+              "middayTargetValidPlans": 0,
+              "middayValidPlans": 0,
+              "outerWindowMs": 4999,
+              "parentDailyDistinct": 4,
+              "parentServings": 7,
+              "refinedDailyDistinct": 4,
+              "refinedServings": 7,
+              "refinementBudgetMs": 3882,
+              "refinementDeadlineMs": 1788576200245,
+              "refinementReserveMs": 1100,
+              "routePairs": 0,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 0,
+              "virtualParentActive": false,
+              "waitAnchors": 0,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 19
+          }
+        ],
+        "safety_pass": true,
+        "session_checkpoints": 26
+      },
+      "old_engine_score": [
+        4,
+        16,
+        36
+      ],
+      "oracle_score": [
+        4,
+        16,
+        38
+      ],
+      "players": 9,
+      "replay": "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700100.replay.jsonl",
+      "seed": 10700100,
+      "transport": "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700100.transport.json"
+    },
+    {
+      "boundary_class": "present-but-not-shortlisted",
+      "days": [
+        {
+          "audit_class": "present-but-not-shortlisted",
+          "day": 1,
+          "http_agents": [
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 10,
+              "kind": 0,
+              "pos": 23
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400
+            ],
+            "totalDailyDistinct": 4,
+            "totalServings": 10
+          },
+          "http_score": [
+            4,
+            4,
+            10
+          ],
+          "matching_audit_outcomes": [
+            {
+              "certified": false,
+              "disposition": "not-shortlisted",
+              "finalCertifiedLowerBound": {
+                "lifetimeDistinct": 0,
+                "totalDailyDistinct": 0,
+                "totalServings": 0
+              },
+              "finalQuantile50": {
+                "lifetimeDistinct": 0,
+                "totalDailyDistinct": 0,
+                "totalServings": 0
+              },
+              "provisionalLowerBound": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 12,
+                "totalServings": 30
+              },
+              "scoreAfterToday": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 4,
+                "totalServings": 10
+              },
+              "selected": false,
+              "stableId": "[[2,-15],[5,5,5,5,5,-7],[5,5,5,5,5,-7]]",
+              "terminalCells": [
+                17,
+                17,
+                18
+              ],
+              "terminalFuel": [
+                9,
+                5,
+                5
+              ],
+              "validUpperBound": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 16,
+                "totalServings": 38
+              },
+              "w1Role": ""
+            }
+          ],
+          "oracle_agents": [
+            {
+              "fuel": 9,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 18
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400
+            ],
+            "totalDailyDistinct": 4,
+            "totalServings": 10
+          },
+          "oracle_plan": [
+            [
+              2,
+              -15
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              -7
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              -7
+            ]
+          ],
+          "oracle_score": [
+            4,
+            4,
+            10
+          ],
+          "permuted_matching_audit_outcomes": [
+            {
+              "certified": false,
+              "disposition": "not-shortlisted",
+              "finalCertifiedLowerBound": {
+                "lifetimeDistinct": 0,
+                "totalDailyDistinct": 0,
+                "totalServings": 0
+              },
+              "finalQuantile50": {
+                "lifetimeDistinct": 0,
+                "totalDailyDistinct": 0,
+                "totalServings": 0
+              },
+              "provisionalLowerBound": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 12,
+                "totalServings": 30
+              },
+              "scoreAfterToday": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 4,
+                "totalServings": 10
+              },
+              "selected": false,
+              "stableId": "[[2,-15],[5,5,5,5,5,-7],[5,5,5,5,5,-7]]",
+              "terminalCells": [
+                17,
+                17,
+                18
+              ],
+              "terminalFuel": [
+                9,
+                5,
+                5
+              ],
+              "validUpperBound": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 16,
+                "totalServings": 38
+              },
+              "w1Role": ""
+            }
+          ],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": true,
+          "shared_permutation_invariant_input": true,
+          "shared_physical_input": true,
+          "submitted_http_plan": [
+            [
+              2,
+              2,
+              2,
+              2,
+              2,
+              -7
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              -7
+            ],
+            [
+              -17
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 2,
+          "http_agents": [
+            {
+              "fuel": 1,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 1,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 10,
+              "kind": 0,
+              "pos": 23
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400
+            ],
+            "totalDailyDistinct": 8,
+            "totalServings": 20
+          },
+          "http_score": [
+            4,
+            8,
+            20
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400
+            ],
+            "totalDailyDistinct": 8,
+            "totalServings": 20
+          },
+          "oracle_plan": [
+            [
+              -1,
+              2,
+              2,
+              2,
+              2,
+              -7
+            ],
+            [
+              -1,
+              -15
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -9
+            ]
+          ],
+          "oracle_score": [
+            4,
+            8,
+            20
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              5,
+              5,
+              5,
+              5,
+              -7
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              2,
+              -7
+            ],
+            [
+              -16
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 3,
+          "http_agents": [
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 4,
+              "kind": 0,
+              "pos": 17
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400
+            ],
+            "totalDailyDistinct": 12,
+            "totalServings": 29
+          },
+          "http_score": [
+            4,
+            12,
+            29
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 1,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400
+            ],
+            "totalDailyDistinct": 12,
+            "totalServings": 30
+          },
+          "oracle_plan": [
+            [
+              -1,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -10
+            ],
+            [
+              -1,
+              -16
+            ]
+          ],
+          "oracle_score": [
+            4,
+            12,
+            30
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              2,
+              -14
+            ],
+            [
+              -1,
+              5,
+              -14
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              -5
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 4,
+          "http_agents": [
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400
+            ],
+            "totalDailyDistinct": 16,
+            "totalServings": 36
+          },
+          "http_score": [
+            4,
+            16,
+            36
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 19
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              400
+            ],
+            "totalDailyDistinct": 16,
+            "totalServings": 38
+          },
+          "oracle_plan": [
+            [
+              -1,
+              2,
+              -14
+            ],
+            [
+              -1,
+              5,
+              5,
+              -12
+            ],
+            [
+              -1,
+              5,
+              5,
+              -12
+            ]
+          ],
+          "oracle_score": [
+            4,
+            16,
+            38
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              -16
+            ],
+            [
+              -1,
+              -16
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              2,
+              -8
+            ]
+          ]
+        }
+      ],
+      "family": "three-duplicate",
+      "first_permutation_invariant_divergence": 1,
+      "first_physical_divergence": 1,
+      "http_score": [
+        4,
+        16,
+        36
+      ],
+      "http_telemetry": {
+        "days": [
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 0,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 0
+            },
+            "day": 1,
+            "main_budget_ms": 4999,
+            "main_ms": 148,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4999,
+              "day": 1,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 5,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 1,
+              "middayRounds": 0,
+              "middayRoutes": 24,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 1,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 6,
+              "middayTargetValidPlans": 1,
+              "middayValidPlans": 1,
+              "outerWindowMs": 4999,
+              "parentDailyDistinct": 4,
+              "parentServings": 10,
+              "refinedDailyDistinct": 4,
+              "refinedServings": 10,
+              "refinementBudgetMs": 3751,
+              "refinementDeadlineMs": 1788576206036,
+              "refinementReserveMs": 1100,
+              "routePairs": 11,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 5,
+              "virtualParentActive": false,
+              "waitAnchors": 3,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 166
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 1,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 1
+            },
+            "day": 2,
+            "main_budget_ms": 4999,
+            "main_ms": 111,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4999,
+              "day": 2,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 5,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 3,
+              "middayRounds": 0,
+              "middayRoutes": 18,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 1,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 5,
+              "middayTargetValidPlans": 1,
+              "middayValidPlans": 3,
+              "outerWindowMs": 4999,
+              "parentDailyDistinct": 4,
+              "parentServings": 10,
+              "refinedDailyDistinct": 4,
+              "refinedServings": 10,
+              "refinementBudgetMs": 3787,
+              "refinementDeadlineMs": 1788576211128,
+              "refinementReserveMs": 1100,
+              "routePairs": 11,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 3,
+              "virtualParentActive": false,
+              "waitAnchors": 5,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 131
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 1,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 1
+            },
+            "day": 3,
+            "main_budget_ms": 5000,
+            "main_ms": 37,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 5000,
+              "day": 3,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 5,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 0,
+              "middayRounds": 0,
+              "middayRoutes": 4,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 0,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 1,
+              "middayTargetValidPlans": 0,
+              "middayValidPlans": 0,
+              "outerWindowMs": 5000,
+              "parentDailyDistinct": 4,
+              "parentServings": 9,
+              "refinedDailyDistinct": 4,
+              "refinedServings": 9,
+              "refinementBudgetMs": 3861,
+              "refinementDeadlineMs": 1788576216145,
+              "refinementReserveMs": 1100,
+              "routePairs": 6,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 1,
+              "virtualParentActive": false,
+              "waitAnchors": 5,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 56
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 1,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 1
+            },
+            "day": 4,
+            "main_budget_ms": 4999,
+            "main_ms": 24,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4999,
+              "day": 4,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 0,
+              "firstRoundDailyDistinct": 16,
+              "firstRoundServings": 36,
+              "generatedPlans": 0,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": false,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 0,
+              "middayRounds": 0,
+              "middayRoutes": 0,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": false,
+              "middayTargetGeneratedPlans": 0,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 0,
+              "middayTargetValidPlans": 0,
+              "middayValidPlans": 0,
+              "outerWindowMs": 4999,
+              "parentDailyDistinct": 4,
+              "parentServings": 7,
+              "refinedDailyDistinct": 4,
+              "refinedServings": 7,
+              "refinementBudgetMs": 3874,
+              "refinementDeadlineMs": 1788576221335,
+              "refinementReserveMs": 1100,
+              "routePairs": 0,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 0,
+              "virtualParentActive": false,
+              "waitAnchors": 0,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 27
+          }
+        ],
+        "safety_pass": true,
+        "session_checkpoints": 26
+      },
+      "old_engine_score": [
+        4,
+        16,
+        36
+      ],
+      "oracle_score": [
+        4,
+        16,
+        38
+      ],
+      "players": 9,
+      "replay": "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700101.replay.jsonl",
+      "seed": 10700101,
+      "transport": "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700101.transport.json"
+    },
+    {
+      "boundary_class": "present-but-not-shortlisted",
+      "days": [
+        {
+          "audit_class": "present-but-not-shortlisted",
+          "day": 1,
+          "http_agents": [
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 10,
+              "kind": 0,
+              "pos": 23
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              900
+            ],
+            "totalDailyDistinct": 4,
+            "totalServings": 10
+          },
+          "http_score": [
+            4,
+            4,
+            10
+          ],
+          "matching_audit_outcomes": [
+            {
+              "certified": false,
+              "disposition": "not-shortlisted",
+              "finalCertifiedLowerBound": {
+                "lifetimeDistinct": 0,
+                "totalDailyDistinct": 0,
+                "totalServings": 0
+              },
+              "finalQuantile50": {
+                "lifetimeDistinct": 0,
+                "totalDailyDistinct": 0,
+                "totalServings": 0
+              },
+              "provisionalLowerBound": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 12,
+                "totalServings": 30
+              },
+              "scoreAfterToday": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 4,
+                "totalServings": 10
+              },
+              "selected": false,
+              "stableId": "[[2,-16],[5,5,5,5,5,-8],[5,5,5,5,5,-8]]",
+              "terminalCells": [
+                17,
+                17,
+                18
+              ],
+              "terminalFuel": [
+                9,
+                5,
+                5
+              ],
+              "validUpperBound": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 16,
+                "totalServings": 38
+              },
+              "w1Role": ""
+            }
+          ],
+          "oracle_agents": [
+            {
+              "fuel": 9,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 18
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              900
+            ],
+            "totalDailyDistinct": 4,
+            "totalServings": 10
+          },
+          "oracle_plan": [
+            [
+              2,
+              -16
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ]
+          ],
+          "oracle_score": [
+            4,
+            4,
+            10
+          ],
+          "permuted_matching_audit_outcomes": [
+            {
+              "certified": false,
+              "disposition": "not-shortlisted",
+              "finalCertifiedLowerBound": {
+                "lifetimeDistinct": 0,
+                "totalDailyDistinct": 0,
+                "totalServings": 0
+              },
+              "finalQuantile50": {
+                "lifetimeDistinct": 0,
+                "totalDailyDistinct": 0,
+                "totalServings": 0
+              },
+              "provisionalLowerBound": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 12,
+                "totalServings": 30
+              },
+              "scoreAfterToday": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 4,
+                "totalServings": 10
+              },
+              "selected": false,
+              "stableId": "[[2,-16],[5,5,5,5,5,-8],[5,5,5,5,5,-8]]",
+              "terminalCells": [
+                17,
+                17,
+                18
+              ],
+              "terminalFuel": [
+                9,
+                5,
+                5
+              ],
+              "validUpperBound": {
+                "lifetimeDistinct": 4,
+                "totalDailyDistinct": 16,
+                "totalServings": 38
+              },
+              "w1Role": ""
+            }
+          ],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": true,
+          "shared_permutation_invariant_input": true,
+          "shared_physical_input": true,
+          "submitted_http_plan": [
+            [
+              2,
+              2,
+              2,
+              2,
+              2,
+              -8
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ],
+            [
+              -18
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 2,
+          "http_agents": [
+            {
+              "fuel": 1,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 8,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              900
+            ],
+            "totalDailyDistinct": 8,
+            "totalServings": 20
+          },
+          "http_score": [
+            4,
+            8,
+            20
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              900
+            ],
+            "totalDailyDistinct": 8,
+            "totalServings": 20
+          },
+          "oracle_plan": [
+            [
+              -1,
+              2,
+              2,
+              2,
+              2,
+              -8
+            ],
+            [
+              -1,
+              -16
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -10
+            ]
+          ],
+          "oracle_score": [
+            4,
+            8,
+            20
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -10
+            ],
+            [
+              5,
+              5,
+              -13
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 3,
+          "http_agents": [
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 1,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 4,
+              "kind": 0,
+              "pos": 17
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              900
+            ],
+            "totalDailyDistinct": 12,
+            "totalServings": 29
+          },
+          "http_score": [
+            4,
+            12,
+            29
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 1,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              900
+            ],
+            "totalDailyDistinct": 12,
+            "totalServings": 30
+          },
+          "oracle_plan": [
+            [
+              -1,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -10
+            ],
+            [
+              -1,
+              -16
+            ]
+          ],
+          "oracle_score": [
+            4,
+            12,
+            30
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              2,
+              -14
+            ],
+            [
+              -1,
+              2,
+              -14
+            ],
+            [
+              -1,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 4,
+          "http_agents": [
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              900
+            ],
+            "totalDailyDistinct": 16,
+            "totalServings": 37
+          },
+          "http_score": [
+            4,
+            16,
+            37
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 19
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              900
+            ],
+            "totalDailyDistinct": 16,
+            "totalServings": 38
+          },
+          "oracle_plan": [
+            [
+              -1,
+              2,
+              -14
+            ],
+            [
+              -1,
+              5,
+              5,
+              -12
+            ],
+            [
+              -1,
+              5,
+              5,
+              -12
+            ]
+          ],
+          "oracle_score": [
+            4,
+            16,
+            38
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              -16
+            ],
+            [
+              -1,
+              5,
+              -14
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              2,
+              -8
+            ]
+          ]
+        }
+      ],
+      "family": "three-terminal",
+      "first_permutation_invariant_divergence": 1,
+      "first_physical_divergence": 1,
+      "http_score": [
+        4,
+        16,
+        37
+      ],
+      "http_telemetry": {
+        "days": [
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 0,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 0
+            },
+            "day": 1,
+            "main_budget_ms": 4999,
+            "main_ms": 145,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4999,
+              "day": 1,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 7,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 1,
+              "middayRounds": 0,
+              "middayRoutes": 24,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 1,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 6,
+              "middayTargetValidPlans": 1,
+              "middayValidPlans": 1,
+              "outerWindowMs": 4999,
+              "parentDailyDistinct": 4,
+              "parentServings": 10,
+              "refinedDailyDistinct": 4,
+              "refinedServings": 10,
+              "refinementBudgetMs": 3753,
+              "refinementDeadlineMs": 1788576353704,
+              "refinementReserveMs": 1100,
+              "routePairs": 13,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 7,
+              "virtualParentActive": false,
+              "waitAnchors": 3,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 164
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 1,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 1
+            },
+            "day": 2,
+            "main_budget_ms": 5000,
+            "main_ms": 124,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 5000,
+              "day": 2,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 8,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 6,
+              "middayRounds": 0,
+              "middayRoutes": 21,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 4,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 8,
+              "middayTargetValidPlans": 4,
+              "middayValidPlans": 6,
+              "outerWindowMs": 5000,
+              "parentDailyDistinct": 4,
+              "parentServings": 10,
+              "refinedDailyDistinct": 4,
+              "refinedServings": 10,
+              "refinementBudgetMs": 3775,
+              "refinementDeadlineMs": 1788576358889,
+              "refinementReserveMs": 1100,
+              "routePairs": 12,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 5,
+              "virtualParentActive": false,
+              "waitAnchors": 5,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 144
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 2,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 2
+            },
+            "day": 3,
+            "main_budget_ms": 4998,
+            "main_ms": 77,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4998,
+              "day": 3,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 6,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 1,
+              "middayRounds": 0,
+              "middayRoutes": 8,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 0,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 2,
+              "middayTargetValidPlans": 0,
+              "middayValidPlans": 1,
+              "outerWindowMs": 4998,
+              "parentDailyDistinct": 4,
+              "parentServings": 9,
+              "refinedDailyDistinct": 4,
+              "refinedServings": 9,
+              "refinementBudgetMs": 3821,
+              "refinementDeadlineMs": 1788576363975,
+              "refinementReserveMs": 1100,
+              "routePairs": 8,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 2,
+              "virtualParentActive": false,
+              "waitAnchors": 6,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 95
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 1,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 1
+            },
+            "day": 4,
+            "main_budget_ms": 4999,
+            "main_ms": 25,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4999,
+              "day": 4,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 0,
+              "firstRoundDailyDistinct": 16,
+              "firstRoundServings": 37,
+              "generatedPlans": 0,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": false,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 0,
+              "middayRounds": 0,
+              "middayRoutes": 0,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": false,
+              "middayTargetGeneratedPlans": 0,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 0,
+              "middayTargetValidPlans": 0,
+              "middayValidPlans": 0,
+              "outerWindowMs": 4999,
+              "parentDailyDistinct": 4,
+              "parentServings": 8,
+              "refinedDailyDistinct": 4,
+              "refinedServings": 8,
+              "refinementBudgetMs": 3873,
+              "refinementDeadlineMs": 1788576369008,
+              "refinementReserveMs": 1100,
+              "routePairs": 0,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 0,
+              "virtualParentActive": false,
+              "waitAnchors": 0,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 28
+          }
+        ],
+        "safety_pass": true,
+        "session_checkpoints": 27
+      },
+      "old_engine_score": [
+        4,
+        16,
+        37
+      ],
+      "oracle_score": [
+        4,
+        16,
+        38
+      ],
+      "players": 10,
+      "replay": "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700500.replay.jsonl",
+      "seed": 10700500,
+      "transport": "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700500.transport.json"
+    },
+    {
+      "boundary_class": "absent-from-recorded-audit",
+      "days": [
+        {
+          "audit_class": "absent-from-recorded-audit",
+          "day": 1,
+          "http_agents": [
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 10,
+              "kind": 0,
+              "pos": 23
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              900
+            ],
+            "totalDailyDistinct": 4,
+            "totalServings": 10
+          },
+          "http_score": [
+            4,
+            4,
+            10
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 9,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 18
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              900
+            ],
+            "totalDailyDistinct": 4,
+            "totalServings": 10
+          },
+          "oracle_plan": [
+            [
+              2,
+              -16
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ]
+          ],
+          "oracle_score": [
+            4,
+            4,
+            10
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": true,
+          "shared_permutation_invariant_input": true,
+          "shared_physical_input": true,
+          "submitted_http_plan": [
+            [
+              2,
+              2,
+              2,
+              2,
+              2,
+              -8
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ],
+            [
+              -18
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 2,
+          "http_agents": [
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 4,
+              "kind": 0,
+              "pos": 17
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              900
+            ],
+            "totalDailyDistinct": 8,
+            "totalServings": 20
+          },
+          "http_score": [
+            4,
+            8,
+            20
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 5,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              900
+            ],
+            "totalDailyDistinct": 8,
+            "totalServings": 20
+          },
+          "oracle_plan": [
+            [
+              -1,
+              2,
+              2,
+              2,
+              2,
+              -8
+            ],
+            [
+              -1,
+              -16
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -10
+            ]
+          ],
+          "oracle_score": [
+            4,
+            8,
+            20
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -17
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -10
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5,
+              -5
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 3,
+          "http_agents": [
+            {
+              "fuel": 1,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 1,
+              "kind": 0,
+              "pos": 21
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 19
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              900
+            ],
+            "totalDailyDistinct": 12,
+            "totalServings": 30
+          },
+          "http_score": [
+            4,
+            12,
+            30
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 1,
+              "kind": 0,
+              "pos": 17
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 2,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              900
+            ],
+            "totalDailyDistinct": 12,
+            "totalServings": 30
+          },
+          "oracle_plan": [
+            [
+              -1,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ],
+            [
+              -1,
+              2,
+              2,
+              2,
+              -10
+            ],
+            [
+              -1,
+              -16
+            ]
+          ],
+          "oracle_score": [
+            4,
+            12,
+            30
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              5,
+              5,
+              5,
+              5,
+              -8
+            ],
+            [
+              -1,
+              2,
+              -14
+            ],
+            [
+              -1,
+              2,
+              2,
+              -12
+            ]
+          ]
+        },
+        {
+          "audit_class": "non-shared-input-not-attributable",
+          "day": 4,
+          "http_agents": [
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 20
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 21
+            }
+          ],
+          "http_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              900
+            ],
+            "totalDailyDistinct": 16,
+            "totalServings": 37
+          },
+          "http_score": [
+            4,
+            16,
+            37
+          ],
+          "matching_audit_outcomes": [],
+          "oracle_agents": [
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 18
+            },
+            {
+              "fuel": 0,
+              "kind": 0,
+              "pos": 19
+            }
+          ],
+          "oracle_ledger": {
+            "brands": [
+              100,
+              200,
+              300,
+              900
+            ],
+            "totalDailyDistinct": 16,
+            "totalServings": 38
+          },
+          "oracle_plan": [
+            [
+              -1,
+              2,
+              -15
+            ],
+            [
+              -1,
+              5,
+              5,
+              -13
+            ],
+            [
+              -1,
+              5,
+              5,
+              -13
+            ]
+          ],
+          "oracle_score": [
+            4,
+            16,
+            38
+          ],
+          "permuted_matching_audit_outcomes": [],
+          "same_output": false,
+          "same_unordered_output": false,
+          "selection_reason": "certified-undominated-current-floor",
+          "shared_decision_input": false,
+          "shared_permutation_invariant_input": false,
+          "shared_physical_input": false,
+          "submitted_http_plan": [
+            [
+              -1,
+              2,
+              -15
+            ],
+            [
+              -1,
+              5,
+              -15
+            ],
+            [
+              -1,
+              2,
+              2,
+              -13
+            ]
+          ]
+        }
+      ],
+      "family": "three-terminal",
+      "first_permutation_invariant_divergence": 1,
+      "first_physical_divergence": 1,
+      "http_score": [
+        4,
+        16,
+        37
+      ],
+      "http_telemetry": {
+        "days": [
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 0,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 0
+            },
+            "day": 1,
+            "main_budget_ms": 4999,
+            "main_ms": 162,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4999,
+              "day": 1,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 7,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 1,
+              "middayRounds": 0,
+              "middayRoutes": 24,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 1,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 6,
+              "middayTargetValidPlans": 1,
+              "middayValidPlans": 1,
+              "outerWindowMs": 4999,
+              "parentDailyDistinct": 4,
+              "parentServings": 10,
+              "refinedDailyDistinct": 4,
+              "refinedServings": 10,
+              "refinementBudgetMs": 3736,
+              "refinementDeadlineMs": 1788576374819,
+              "refinementReserveMs": 1100,
+              "routePairs": 13,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 7,
+              "virtualParentActive": false,
+              "waitAnchors": 3,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 180
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 1,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 1
+            },
+            "day": 2,
+            "main_budget_ms": 4994,
+            "main_ms": 305,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4994,
+              "day": 2,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 8,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 4,
+              "middayRounds": 0,
+              "middayRoutes": 19,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 3,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 6,
+              "middayTargetValidPlans": 3,
+              "middayValidPlans": 4,
+              "outerWindowMs": 4994,
+              "parentDailyDistinct": 4,
+              "parentServings": 10,
+              "refinedDailyDistinct": 4,
+              "refinedServings": 10,
+              "refinementBudgetMs": 3587,
+              "refinementDeadlineMs": 1788576380016,
+              "refinementReserveMs": 1100,
+              "routePairs": 10,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 5,
+              "virtualParentActive": false,
+              "waitAnchors": 4,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 329
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 1,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 1
+            },
+            "day": 3,
+            "main_budget_ms": 4990,
+            "main_ms": 149,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4990,
+              "day": 3,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 3,
+              "firstRoundDailyDistinct": 0,
+              "firstRoundServings": 0,
+              "generatedPlans": 8,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": true,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 3,
+              "middayRounds": 0,
+              "middayRoutes": 16,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": true,
+              "middayTargetGeneratedPlans": 2,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 5,
+              "middayTargetValidPlans": 2,
+              "middayValidPlans": 3,
+              "outerWindowMs": 4990,
+              "parentDailyDistinct": 4,
+              "parentServings": 10,
+              "refinedDailyDistinct": 4,
+              "refinedServings": 10,
+              "refinementBudgetMs": 3740,
+              "refinementDeadlineMs": 1788576385168,
+              "refinementReserveMs": 1100,
+              "routePairs": 10,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 2,
+              "virtualParentActive": false,
+              "waitAnchors": 6,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 170
+          },
+          {
+            "cache_repair": {
+              "deadlineReached": false,
+              "eligibleContingencies": 2,
+              "rejectedContingencies": 0,
+              "reusedContingencies": 2
+            },
+            "day": 4,
+            "main_budget_ms": 4999,
+            "main_ms": 33,
+            "reconciled_authoritative_state": false,
+            "refiner": {
+              "computeWindowMs": 4999,
+              "day": 4,
+              "deadlineReached": false,
+              "eligibleWaitAnchors": 0,
+              "firstRoundDailyDistinct": 16,
+              "firstRoundServings": 37,
+              "generatedPlans": 0,
+              "improved": false,
+              "liftablePlans": 0,
+              "middayChain": false,
+              "middayChainAcceptances": 0,
+              "middayFailure": false,
+              "middayGeneratedPlans": 0,
+              "middayRounds": 0,
+              "middayRoutes": 0,
+              "middayTargetAcceptances": 0,
+              "middayTargetFollowup": false,
+              "middayTargetGeneratedPlans": 0,
+              "middayTargetRounds": 0,
+              "middayTargetRoutes": 0,
+              "middayTargetValidPlans": 0,
+              "middayValidPlans": 0,
+              "outerWindowMs": 4999,
+              "parentDailyDistinct": 4,
+              "parentServings": 7,
+              "refinedDailyDistinct": 4,
+              "refinedServings": 7,
+              "refinementBudgetMs": 3865,
+              "refinementDeadlineMs": 1788576390243,
+              "refinementReserveMs": 1100,
+              "routePairs": 0,
+              "sparseFailure": false,
+              "sparseRoutes": 0,
+              "strictTerminalImprovements": 0,
+              "terminalSparse": false,
+              "terminalSparseRounds": 0,
+              "validPlans": 0,
+              "virtualParentActive": false,
+              "waitAnchors": 0,
+              "witnessAgent": -1,
+              "witnessAnchor": -1,
+              "witnessCandidateFuel": 0,
+              "witnessDuration": 0,
+              "witnessParentFuel": 0,
+              "witnessSpot": -1,
+              "witnessTravelSteps": 0
+            },
+            "response_ms": 36
+          }
+        ],
+        "safety_pass": true,
+        "session_checkpoints": 45
+      },
+      "old_engine_score": [
+        4,
+        16,
+        37
+      ],
+      "oracle_score": [
+        4,
+        16,
+        38
+      ],
+      "players": 10,
+      "replay": "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700501.replay.jsonl",
+      "seed": 10700501,
+      "transport": "research/evidence/ATTR-THREE-PATROL-HTTP-BASELINE-314/10700501.transport.json"
+    }
+  ],
+  "score_successor_authorized": false
+}

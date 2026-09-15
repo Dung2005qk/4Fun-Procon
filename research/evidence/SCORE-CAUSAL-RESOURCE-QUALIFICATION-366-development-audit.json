@@ -1,0 +1,9395 @@
+{
+  "acks": 912,
+  "active": {
+    "delta": [
+      0,
+      0,
+      98
+    ],
+    "first_tiers": {
+      "0": 24,
+      "3": 24
+    },
+    "gross_serving_gain": 98,
+    "gross_serving_loss": 0,
+    "pairs": 48,
+    "worst_serving_loss": 0,
+    "wtl": {
+      "tie": 24,
+      "win": 24
+    }
+  },
+  "archive_sha256": "CF96CF19F1FA2C4A3FC2BC995488263678A643A2844AE0018DC122EE075B1D4E",
+  "completion_sha256": "62E584047290605FE72C83B0AE4129BD36EA7E789866F324B56F481038CA8562",
+  "component_loss_rows": [
+    {
+      "A": [
+        6,
+        55,
+        407
+      ],
+      "B": [
+        6,
+        57,
+        406
+      ],
+      "causal": false,
+      "comparison_B_vs_A": "win",
+      "days": 10,
+      "delta": [
+        0,
+        2,
+        -1
+      ],
+      "family": "balanced",
+      "first_divergence": 1,
+      "first_takeover": null,
+      "first_tier": 2,
+      "first_tier_difference": 2,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "F33AACD2A1443F5D37406265629503143891ACAEF430FC333D87032B577C03CA",
+        "B": "7654E4AFB1FD1A987690FF119D7847865563CB3A7999DECD28B32D47ACCE0D75"
+      },
+      "plans_equal": false,
+      "players": 8,
+      "repeat": "A",
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660026,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": false
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        55,
+        407
+      ],
+      "B": [
+        6,
+        57,
+        406
+      ],
+      "causal": false,
+      "comparison_B_vs_A": "win",
+      "days": 10,
+      "delta": [
+        0,
+        2,
+        -1
+      ],
+      "family": "balanced",
+      "first_divergence": 1,
+      "first_takeover": null,
+      "first_tier": 2,
+      "first_tier_difference": 2,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "F33AACD2A1443F5D37406265629503143891ACAEF430FC333D87032B577C03CA",
+        "B": "7654E4AFB1FD1A987690FF119D7847865563CB3A7999DECD28B32D47ACCE0D75"
+      },
+      "plans_equal": false,
+      "players": 8,
+      "repeat": "B",
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660026,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": false
+      },
+      "window_ms": 5000
+    }
+  ],
+  "files": 1044,
+  "first_tier_losses": [],
+  "fixtures": 36,
+  "gains": [
+    {
+      "A": [
+        6,
+        30,
+        178
+      ],
+      "B": [
+        6,
+        30,
+        188
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        10
+      ],
+      "family": "balanced",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 10,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "39C74E1C299A59B99A547DD5D2633F5FB2C39B762A9F71FBE1A324E3979DAC41",
+        "B": "72A2DCBBE2D3FE0CE24D7CA8B2D5E0477F64E657827E0C475A6F274578EDBDC1"
+      },
+      "plans_equal": false,
+      "players": 9,
+      "repeat": "A",
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660002,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        30,
+        178
+      ],
+      "B": [
+        6,
+        30,
+        188
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        10
+      ],
+      "family": "balanced",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 10,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "39C74E1C299A59B99A547DD5D2633F5FB2C39B762A9F71FBE1A324E3979DAC41",
+        "B": "72A2DCBBE2D3FE0CE24D7CA8B2D5E0477F64E657827E0C475A6F274578EDBDC1"
+      },
+      "plans_equal": false,
+      "players": 9,
+      "repeat": "B",
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660002,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        24,
+        269
+      ],
+      "B": [
+        6,
+        24,
+        274
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        5
+      ],
+      "family": "balanced",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 5,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "098BEE8BDCCCC302939A20842E3A799954739D3892CAB152469588869FDBDCE5",
+        "B": "7B568F8FAF31A1A6329EF4CFE7B49CA122C72D64DD44E3FE758C13F104F24143"
+      },
+      "plans_equal": false,
+      "players": 10,
+      "repeat": "A",
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660014,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": true,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        24,
+        269
+      ],
+      "B": [
+        6,
+        24,
+        274
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        5
+      ],
+      "family": "balanced",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 5,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "098BEE8BDCCCC302939A20842E3A799954739D3892CAB152469588869FDBDCE5",
+        "B": "7B568F8FAF31A1A6329EF4CFE7B49CA122C72D64DD44E3FE758C13F104F24143"
+      },
+      "plans_equal": false,
+      "players": 10,
+      "repeat": "B",
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660014,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": true,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        55,
+        407
+      ],
+      "B": [
+        6,
+        57,
+        406
+      ],
+      "causal": false,
+      "comparison_B_vs_A": "win",
+      "days": 10,
+      "delta": [
+        0,
+        2,
+        -1
+      ],
+      "family": "balanced",
+      "first_divergence": 1,
+      "first_takeover": null,
+      "first_tier": 2,
+      "first_tier_difference": 2,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "F33AACD2A1443F5D37406265629503143891ACAEF430FC333D87032B577C03CA",
+        "B": "7654E4AFB1FD1A987690FF119D7847865563CB3A7999DECD28B32D47ACCE0D75"
+      },
+      "plans_equal": false,
+      "players": 8,
+      "repeat": "A",
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660026,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": false
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        55,
+        407
+      ],
+      "B": [
+        6,
+        57,
+        406
+      ],
+      "causal": false,
+      "comparison_B_vs_A": "win",
+      "days": 10,
+      "delta": [
+        0,
+        2,
+        -1
+      ],
+      "family": "balanced",
+      "first_divergence": 1,
+      "first_takeover": null,
+      "first_tier": 2,
+      "first_tier_difference": 2,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "F33AACD2A1443F5D37406265629503143891ACAEF430FC333D87032B577C03CA",
+        "B": "7654E4AFB1FD1A987690FF119D7847865563CB3A7999DECD28B32D47ACCE0D75"
+      },
+      "plans_equal": false,
+      "players": 8,
+      "repeat": "B",
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660026,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": false
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        24,
+        141
+      ],
+      "B": [
+        6,
+        24,
+        144
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        3
+      ],
+      "family": "rare-brand",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 3,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "386981DD8590E1B8AA94019F21282DACCA95F135525ED2E7CAD83924F58C9565",
+        "B": "75B7BE6E167DD723EAEFE7B2B82D75DCA90EB4D11CBD6DC0E74CF72476CA20B9"
+      },
+      "plans_equal": false,
+      "players": 8,
+      "repeat": "A",
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660039,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": true,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        24,
+        141
+      ],
+      "B": [
+        6,
+        24,
+        144
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        3
+      ],
+      "family": "rare-brand",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 3,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "386981DD8590E1B8AA94019F21282DACCA95F135525ED2E7CAD83924F58C9565",
+        "B": "75B7BE6E167DD723EAEFE7B2B82D75DCA90EB4D11CBD6DC0E74CF72476CA20B9"
+      },
+      "plans_equal": false,
+      "players": 8,
+      "repeat": "B",
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660039,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": true,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        30,
+        366
+      ],
+      "B": [
+        6,
+        30,
+        374
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        8
+      ],
+      "family": "rare-brand",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 8,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "B5F0CDEE5C497A65B0963DDA995C5DF0E6359F0D4193830CF250E44F5421547B",
+        "B": "A3BB4BE9B4479173E22584B4DEB574DB692E63ECA5A7E620F667866F0CCE8FF1"
+      },
+      "plans_equal": false,
+      "players": 10,
+      "repeat": "A",
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660063,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        30,
+        366
+      ],
+      "B": [
+        6,
+        30,
+        374
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        8
+      ],
+      "family": "rare-brand",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 8,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "B5F0CDEE5C497A65B0963DDA995C5DF0E6359F0D4193830CF250E44F5421547B",
+        "B": "A3BB4BE9B4479173E22584B4DEB574DB692E63ECA5A7E620F667866F0CCE8FF1"
+      },
+      "plans_equal": false,
+      "players": 10,
+      "repeat": "B",
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660063,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        30,
+        291
+      ],
+      "B": [
+        6,
+        30,
+        297
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        6
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 6,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "6A7ED3FE07AF721A2741859416B625F4E796A3AD5354D105C2B403253053AF42",
+        "B": "7D539B633F9FE4021A1F24D8B1865152E3DE9620F633C38E8D873A59541F0310"
+      },
+      "plans_equal": false,
+      "players": 8,
+      "repeat": "A",
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660088,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": true,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        30,
+        291
+      ],
+      "B": [
+        6,
+        30,
+        297
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        6
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 6,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "6A7ED3FE07AF721A2741859416B625F4E796A3AD5354D105C2B403253053AF42",
+        "B": "7D539B633F9FE4021A1F24D8B1865152E3DE9620F633C38E8D873A59541F0310"
+      },
+      "plans_equal": false,
+      "players": 8,
+      "repeat": "B",
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660088,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": true,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        24,
+        267
+      ],
+      "B": [
+        6,
+        24,
+        269
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        2
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": 2,
+      "first_takeover": 2,
+      "first_tier": 3,
+      "first_tier_difference": 2,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "4C8CA6F854AE1DAAC886AF59EE12F79B7FD44DBADE72863E8929F7A885F8F76C",
+        "B": "1D54533B4603AB59309906B744719C6D79AF83C4EBE475336ADACE5234E9EEBD"
+      },
+      "plans_equal": false,
+      "players": 9,
+      "repeat": "A",
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660100,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        24,
+        267
+      ],
+      "B": [
+        6,
+        24,
+        269
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        2
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": 2,
+      "first_takeover": 2,
+      "first_tier": 3,
+      "first_tier_difference": 2,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "4C8CA6F854AE1DAAC886AF59EE12F79B7FD44DBADE72863E8929F7A885F8F76C",
+        "B": "1D54533B4603AB59309906B744719C6D79AF83C4EBE475336ADACE5234E9EEBD"
+      },
+      "plans_equal": false,
+      "players": 9,
+      "repeat": "B",
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660100,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        24,
+        97
+      ],
+      "B": [
+        6,
+        24,
+        99
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        2
+      ],
+      "family": "fuel-tight",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 2,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "268179293657AB52FF1970FBE84AB09805DE96F4DB130CB76B6AAD3A2939EA9E",
+        "B": "E82D9BC12B5C616928271DE658FC8F7F5417BD3FDC58F919D0CBEB1A6C6C6D07"
+      },
+      "plans_equal": false,
+      "players": 9,
+      "repeat": "A",
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660113,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": true,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        24,
+        97
+      ],
+      "B": [
+        6,
+        24,
+        99
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        2
+      ],
+      "family": "fuel-tight",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 2,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "268179293657AB52FF1970FBE84AB09805DE96F4DB130CB76B6AAD3A2939EA9E",
+        "B": "E82D9BC12B5C616928271DE658FC8F7F5417BD3FDC58F919D0CBEB1A6C6C6D07"
+      },
+      "plans_equal": false,
+      "players": 9,
+      "repeat": "B",
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660113,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": true,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        23,
+        181
+      ],
+      "B": [
+        6,
+        23,
+        182
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        1
+      ],
+      "family": "fuel-tight",
+      "first_divergence": 2,
+      "first_takeover": 2,
+      "first_tier": 3,
+      "first_tier_difference": 1,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "AC29F3C88AA3D434B5556A518B0CC84DD2753EA3B668CD945AC1D82ECA729849",
+        "B": "FC8893CA167313DA9E429F9678503C35EE34EAEA756E854D76EBBEAB78A9B641"
+      },
+      "plans_equal": false,
+      "players": 10,
+      "repeat": "A",
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660125,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": true,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        23,
+        181
+      ],
+      "B": [
+        6,
+        23,
+        182
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        1
+      ],
+      "family": "fuel-tight",
+      "first_divergence": 2,
+      "first_takeover": 2,
+      "first_tier": 3,
+      "first_tier_difference": 1,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "AC29F3C88AA3D434B5556A518B0CC84DD2753EA3B668CD945AC1D82ECA729849",
+        "B": "FC8893CA167313DA9E429F9678503C35EE34EAEA756E854D76EBBEAB78A9B641"
+      },
+      "plans_equal": false,
+      "players": 10,
+      "repeat": "B",
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660125,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": true,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        22,
+        97
+      ],
+      "B": [
+        6,
+        22,
+        99
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        2
+      ],
+      "family": "high-stock",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 2,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "6BEC8EEB42BFCF4570E54218C0FC231E5093FB7533C1DECCF90AB4D49D64B42B",
+        "B": "AD85911AAA29EAF8AAB6308B11A27AEE97C62F166C395A4F85A2577E3B5B7164"
+      },
+      "plans_equal": false,
+      "players": 8,
+      "repeat": "A",
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660150,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        22,
+        97
+      ],
+      "B": [
+        6,
+        22,
+        99
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        2
+      ],
+      "family": "high-stock",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 2,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "6BEC8EEB42BFCF4570E54218C0FC231E5093FB7533C1DECCF90AB4D49D64B42B",
+        "B": "AD85911AAA29EAF8AAB6308B11A27AEE97C62F166C395A4F85A2577E3B5B7164"
+      },
+      "plans_equal": false,
+      "players": 8,
+      "repeat": "B",
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660150,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        56,
+        331
+      ],
+      "B": [
+        6,
+        56,
+        337
+      ],
+      "causal": false,
+      "comparison_B_vs_A": "win",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        6
+      ],
+      "family": "high-stock",
+      "first_divergence": 2,
+      "first_takeover": null,
+      "first_tier": 3,
+      "first_tier_difference": 6,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "2582BB234A31CF74EBC255189B48E20FC58A2F1AA21D822CE8C18AB081EB6B1D",
+        "B": "D5E12E41DDACA44971BAF1D609D8E8CC3F57B8BB309268FFE3D494F2E3189CA9"
+      },
+      "plans_equal": false,
+      "players": 9,
+      "repeat": "B",
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660162,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        30,
+        340
+      ],
+      "B": [
+        6,
+        30,
+        343
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        3
+      ],
+      "family": "high-stock",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 3,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "DDAB8CA3A6B4CA030D97766BB14C7A13CF5DC90D0C71974DF72AE6BE7DD7EDDA",
+        "B": "EDCAC403CFEF3D0768886AC1D82257F3C0F1E7788AA7CDB0BC43E7EDFC570CB9"
+      },
+      "plans_equal": false,
+      "players": 10,
+      "repeat": "A",
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660174,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        30,
+        340
+      ],
+      "B": [
+        6,
+        30,
+        343
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        3
+      ],
+      "family": "high-stock",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 3,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "DDAB8CA3A6B4CA030D97766BB14C7A13CF5DC90D0C71974DF72AE6BE7DD7EDDA",
+        "B": "EDCAC403CFEF3D0768886AC1D82257F3C0F1E7788AA7CDB0BC43E7EDFC570CB9"
+      },
+      "plans_equal": false,
+      "players": 10,
+      "repeat": "B",
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660174,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        30,
+        224
+      ],
+      "B": [
+        6,
+        30,
+        226
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        2
+      ],
+      "family": "overnight",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 2,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "013904B85685E12F460B91456591B758CF6A5195E4B2F2480428C5541DFFF32D",
+        "B": "56F0E58C5C518BC23F9EB4F5C0498F8725513FA7DCD26A7EF01D35AD2FFFF97D"
+      },
+      "plans_equal": false,
+      "players": 8,
+      "repeat": "A",
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660199,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        30,
+        224
+      ],
+      "B": [
+        6,
+        30,
+        226
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        2
+      ],
+      "family": "overnight",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 2,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "013904B85685E12F460B91456591B758CF6A5195E4B2F2480428C5541DFFF32D",
+        "B": "56F0E58C5C518BC23F9EB4F5C0498F8725513FA7DCD26A7EF01D35AD2FFFF97D"
+      },
+      "plans_equal": false,
+      "players": 8,
+      "repeat": "B",
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660199,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        24,
+        272
+      ],
+      "B": [
+        6,
+        24,
+        277
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        5
+      ],
+      "family": "overnight",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 5,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "A747825671B6C0ED029D1AEE782B1D0CAF398BF4CF081EE7E328BF592C4130B8",
+        "B": "BA754C05FF864C163B0FEAB896D618CAA861B90357A44435C49256B015697E22"
+      },
+      "plans_equal": false,
+      "players": 9,
+      "repeat": "A",
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660211,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        24,
+        272
+      ],
+      "B": [
+        6,
+        24,
+        277
+      ],
+      "causal": true,
+      "comparison_B_vs_A": "win",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        5
+      ],
+      "family": "overnight",
+      "first_divergence": 1,
+      "first_takeover": 1,
+      "first_tier": 3,
+      "first_tier_difference": 5,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "A747825671B6C0ED029D1AEE782B1D0CAF398BF4CF081EE7E328BF592C4130B8",
+        "B": "BA754C05FF864C163B0FEAB896D618CAA861B90357A44435C49256B015697E22"
+      },
+      "plans_equal": false,
+      "players": 9,
+      "repeat": "B",
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "safety": true,
+      "seed": 202609093660211,
+      "side": 32,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    }
+  ],
+  "gate": {
+    "all_robust_active_losses": 0,
+    "checks": {
+      "A_active_benefit": true,
+      "A_active_downside": true,
+      "A_active_strata": true,
+      "A_overall_components": true,
+      "B_active_benefit": true,
+      "B_active_downside": true,
+      "B_active_strata": true,
+      "B_overall_components": true,
+      "causal_breadth": true,
+      "causal_inactive_operation_equivalence": true,
+      "inactive_fixture_count": true,
+      "inactive_no_detected_negative_shift": true,
+      "inactive_noninferiority": true,
+      "inactive_same_fixture_tail": true,
+      "inactive_upper_tiers": true
+    },
+    "consistent_causal_seeds": [
+      202609093660002,
+      202609093660014,
+      202609093660039,
+      202609093660063,
+      202609093660088,
+      202609093660100,
+      202609093660113,
+      202609093660125,
+      202609093660150,
+      202609093660174,
+      202609093660199,
+      202609093660211
+    ],
+    "inactive_analysis": {
+      "checks": {
+        "inactive_fixture_count": true,
+        "inactive_no_detected_negative_shift": true,
+        "inactive_noninferiority": true,
+        "inactive_same_fixture_tail": true,
+        "inactive_upper_tiers": true
+      },
+      "fixtures": [
+        {
+          "normalized_mean": 0.0,
+          "same_fixture_aa_spread": 0,
+          "seed": 202609093659996,
+          "tail_limits": [
+            1,
+            1
+          ]
+        },
+        {
+          "normalized_mean": -0.12285012285012284,
+          "same_fixture_aa_spread": 0,
+          "seed": 202609093660026,
+          "tail_limits": [
+            8.14,
+            8.14
+          ]
+        },
+        {
+          "normalized_mean": 0.0,
+          "same_fixture_aa_spread": 0,
+          "seed": 202609093660051,
+          "tail_limits": [
+            10.44,
+            10.44
+          ]
+        },
+        {
+          "normalized_mean": 0.0,
+          "same_fixture_aa_spread": 0,
+          "seed": 202609093660057,
+          "tail_limits": [
+            1,
+            1
+          ]
+        },
+        {
+          "normalized_mean": 0.0,
+          "same_fixture_aa_spread": 0,
+          "seed": 202609093660076,
+          "tail_limits": [
+            2.74,
+            2.74
+          ]
+        },
+        {
+          "normalized_mean": 0.0,
+          "same_fixture_aa_spread": 0,
+          "seed": 202609093660082,
+          "tail_limits": [
+            1,
+            1
+          ]
+        },
+        {
+          "normalized_mean": 0.0,
+          "same_fixture_aa_spread": 0,
+          "seed": 202609093660107,
+          "tail_limits": [
+            1,
+            1
+          ]
+        },
+        {
+          "normalized_mean": 0.0,
+          "same_fixture_aa_spread": 0,
+          "seed": 202609093660137,
+          "tail_limits": [
+            11.54,
+            11.54
+          ]
+        },
+        {
+          "normalized_mean": 0.45317220543806647,
+          "same_fixture_aa_spread": 6,
+          "seed": 202609093660162,
+          "tail_limits": [
+            6.62,
+            6.62
+          ]
+        },
+        {
+          "normalized_mean": 0.0,
+          "same_fixture_aa_spread": 0,
+          "seed": 202609093660168,
+          "tail_limits": [
+            1.02,
+            1.02
+          ]
+        },
+        {
+          "normalized_mean": 0.0,
+          "same_fixture_aa_spread": 0,
+          "seed": 202609093660187,
+          "tail_limits": [
+            4.52,
+            4.52
+          ]
+        },
+        {
+          "normalized_mean": 0.0,
+          "same_fixture_aa_spread": 0,
+          "seed": 202609093660193,
+          "tail_limits": [
+            1,
+            1
+          ]
+        }
+      ],
+      "negative_shift_p": 0.75,
+      "noninferiority_p": 0.000244140625,
+      "passed": true
+    },
+    "passed": true,
+    "protocol": "366 prospective inactive calibration;362 verdict unchanged",
+    "robust_causal_wins": 12,
+    "robust_sign_p": 0.000244140625
+  },
+  "inactive": {
+    "delta": [
+      0,
+      4,
+      4
+    ],
+    "first_tiers": {
+      "0": 21,
+      "2": 2,
+      "3": 1
+    },
+    "gross_serving_gain": 6,
+    "gross_serving_loss": 2,
+    "pairs": 24,
+    "worst_serving_loss": 1,
+    "wtl": {
+      "tie": 21,
+      "win": 3
+    }
+  },
+  "inactive_score_mismatches": 3,
+  "inactive_trajectory_mismatches": 4,
+  "per_repeat_strata": {
+    "A": {
+      "days": {
+        "10": {
+          "delta": [
+            0,
+            2,
+            -1
+          ],
+          "first_tiers": {
+            "0": 11,
+            "2": 1
+          },
+          "gross_serving_gain": 0,
+          "gross_serving_loss": 1,
+          "pairs": 12,
+          "worst_serving_loss": 1,
+          "wtl": {
+            "tie": 11,
+            "win": 1
+          }
+        },
+        "4": {
+          "delta": [
+            0,
+            0,
+            18
+          ],
+          "first_tiers": {
+            "0": 6,
+            "3": 6
+          },
+          "gross_serving_gain": 18,
+          "gross_serving_loss": 0,
+          "pairs": 12,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 6,
+            "win": 6
+          }
+        },
+        "5": {
+          "delta": [
+            0,
+            0,
+            31
+          ],
+          "first_tiers": {
+            "0": 6,
+            "3": 6
+          },
+          "gross_serving_gain": 31,
+          "gross_serving_loss": 0,
+          "pairs": 12,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 6,
+            "win": 6
+          }
+        }
+      },
+      "family": {
+        "balanced": {
+          "delta": [
+            0,
+            2,
+            14
+          ],
+          "first_tiers": {
+            "0": 3,
+            "2": 1,
+            "3": 2
+          },
+          "gross_serving_gain": 15,
+          "gross_serving_loss": 1,
+          "pairs": 6,
+          "worst_serving_loss": 1,
+          "wtl": {
+            "tie": 3,
+            "win": 3
+          }
+        },
+        "fuel-tight": {
+          "delta": [
+            0,
+            0,
+            3
+          ],
+          "first_tiers": {
+            "0": 4,
+            "3": 2
+          },
+          "gross_serving_gain": 3,
+          "gross_serving_loss": 0,
+          "pairs": 6,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 4,
+            "win": 2
+          }
+        },
+        "high-stock": {
+          "delta": [
+            0,
+            0,
+            5
+          ],
+          "first_tiers": {
+            "0": 4,
+            "3": 2
+          },
+          "gross_serving_gain": 5,
+          "gross_serving_loss": 0,
+          "pairs": 6,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 4,
+            "win": 2
+          }
+        },
+        "overnight": {
+          "delta": [
+            0,
+            0,
+            7
+          ],
+          "first_tiers": {
+            "0": 4,
+            "3": 2
+          },
+          "gross_serving_gain": 7,
+          "gross_serving_loss": 0,
+          "pairs": 6,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 4,
+            "win": 2
+          }
+        },
+        "rare-brand": {
+          "delta": [
+            0,
+            0,
+            11
+          ],
+          "first_tiers": {
+            "0": 4,
+            "3": 2
+          },
+          "gross_serving_gain": 11,
+          "gross_serving_loss": 0,
+          "pairs": 6,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 4,
+            "win": 2
+          }
+        },
+        "threshold-corridor": {
+          "delta": [
+            0,
+            0,
+            8
+          ],
+          "first_tiers": {
+            "0": 4,
+            "3": 2
+          },
+          "gross_serving_gain": 8,
+          "gross_serving_loss": 0,
+          "pairs": 6,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 4,
+            "win": 2
+          }
+        }
+      },
+      "fuel": {
+        "default": {
+          "delta": [
+            0,
+            0,
+            14
+          ],
+          "first_tiers": {
+            "0": 8,
+            "3": 4
+          },
+          "gross_serving_gain": 14,
+          "gross_serving_loss": 0,
+          "pairs": 12,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 8,
+            "win": 4
+          }
+        },
+        "high": {
+          "delta": [
+            0,
+            2,
+            17
+          ],
+          "first_tiers": {
+            "0": 7,
+            "2": 1,
+            "3": 4
+          },
+          "gross_serving_gain": 18,
+          "gross_serving_loss": 1,
+          "pairs": 12,
+          "worst_serving_loss": 1,
+          "wtl": {
+            "tie": 7,
+            "win": 5
+          }
+        },
+        "low": {
+          "delta": [
+            0,
+            0,
+            17
+          ],
+          "first_tiers": {
+            "0": 8,
+            "3": 4
+          },
+          "gross_serving_gain": 17,
+          "gross_serving_loss": 0,
+          "pairs": 12,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 8,
+            "win": 4
+          }
+        }
+      },
+      "players": {
+        "10": {
+          "delta": [
+            0,
+            0,
+            17
+          ],
+          "first_tiers": {
+            "0": 8,
+            "3": 4
+          },
+          "gross_serving_gain": 17,
+          "gross_serving_loss": 0,
+          "pairs": 12,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 8,
+            "win": 4
+          }
+        },
+        "8": {
+          "delta": [
+            0,
+            2,
+            12
+          ],
+          "first_tiers": {
+            "0": 7,
+            "2": 1,
+            "3": 4
+          },
+          "gross_serving_gain": 13,
+          "gross_serving_loss": 1,
+          "pairs": 12,
+          "worst_serving_loss": 1,
+          "wtl": {
+            "tie": 7,
+            "win": 5
+          }
+        },
+        "9": {
+          "delta": [
+            0,
+            0,
+            19
+          ],
+          "first_tiers": {
+            "0": 8,
+            "3": 4
+          },
+          "gross_serving_gain": 19,
+          "gross_serving_loss": 0,
+          "pairs": 12,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 8,
+            "win": 4
+          }
+        }
+      },
+      "roadless": {
+        "False": {
+          "delta": [
+            0,
+            2,
+            19
+          ],
+          "first_tiers": {
+            "0": 11,
+            "2": 1,
+            "3": 6
+          },
+          "gross_serving_gain": 20,
+          "gross_serving_loss": 1,
+          "pairs": 18,
+          "worst_serving_loss": 1,
+          "wtl": {
+            "tie": 11,
+            "win": 7
+          }
+        },
+        "True": {
+          "delta": [
+            0,
+            0,
+            29
+          ],
+          "first_tiers": {
+            "0": 12,
+            "3": 6
+          },
+          "gross_serving_gain": 29,
+          "gross_serving_loss": 0,
+          "pairs": 18,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 12,
+            "win": 6
+          }
+        }
+      },
+      "role": {
+        "fixed-all-Patrol": {
+          "delta": [
+            0,
+            2,
+            20
+          ],
+          "first_tiers": {
+            "0": 11,
+            "2": 1,
+            "3": 6
+          },
+          "gross_serving_gain": 21,
+          "gross_serving_loss": 1,
+          "pairs": 18,
+          "worst_serving_loss": 1,
+          "wtl": {
+            "tie": 11,
+            "win": 7
+          }
+        },
+        "native": {
+          "delta": [
+            0,
+            0,
+            28
+          ],
+          "first_tiers": {
+            "0": 12,
+            "3": 6
+          },
+          "gross_serving_gain": 28,
+          "gross_serving_loss": 0,
+          "pairs": 18,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 12,
+            "win": 6
+          }
+        }
+      },
+      "side": {
+        "32": {
+          "delta": [
+            0,
+            2,
+            48
+          ],
+          "first_tiers": {
+            "0": 5,
+            "2": 1,
+            "3": 12
+          },
+          "gross_serving_gain": 49,
+          "gross_serving_loss": 1,
+          "pairs": 18,
+          "worst_serving_loss": 1,
+          "wtl": {
+            "tie": 5,
+            "win": 13
+          }
+        },
+        "8": {
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "first_tiers": {
+            "0": 18
+          },
+          "gross_serving_gain": 0,
+          "gross_serving_loss": 0,
+          "pairs": 18,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 18
+          }
+        }
+      },
+      "window_ms": {
+        "10000": {
+          "delta": [
+            0,
+            0,
+            31
+          ],
+          "first_tiers": {
+            "0": 6,
+            "3": 6
+          },
+          "gross_serving_gain": 31,
+          "gross_serving_loss": 0,
+          "pairs": 12,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 6,
+            "win": 6
+          }
+        },
+        "15000": {
+          "delta": [
+            0,
+            0,
+            18
+          ],
+          "first_tiers": {
+            "0": 6,
+            "3": 6
+          },
+          "gross_serving_gain": 18,
+          "gross_serving_loss": 0,
+          "pairs": 12,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 6,
+            "win": 6
+          }
+        },
+        "5000": {
+          "delta": [
+            0,
+            2,
+            -1
+          ],
+          "first_tiers": {
+            "0": 11,
+            "2": 1
+          },
+          "gross_serving_gain": 0,
+          "gross_serving_loss": 1,
+          "pairs": 12,
+          "worst_serving_loss": 1,
+          "wtl": {
+            "tie": 11,
+            "win": 1
+          }
+        }
+      }
+    },
+    "B": {
+      "days": {
+        "10": {
+          "delta": [
+            0,
+            2,
+            5
+          ],
+          "first_tiers": {
+            "0": 10,
+            "2": 1,
+            "3": 1
+          },
+          "gross_serving_gain": 6,
+          "gross_serving_loss": 1,
+          "pairs": 12,
+          "worst_serving_loss": 1,
+          "wtl": {
+            "tie": 10,
+            "win": 2
+          }
+        },
+        "4": {
+          "delta": [
+            0,
+            0,
+            18
+          ],
+          "first_tiers": {
+            "0": 6,
+            "3": 6
+          },
+          "gross_serving_gain": 18,
+          "gross_serving_loss": 0,
+          "pairs": 12,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 6,
+            "win": 6
+          }
+        },
+        "5": {
+          "delta": [
+            0,
+            0,
+            31
+          ],
+          "first_tiers": {
+            "0": 6,
+            "3": 6
+          },
+          "gross_serving_gain": 31,
+          "gross_serving_loss": 0,
+          "pairs": 12,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 6,
+            "win": 6
+          }
+        }
+      },
+      "family": {
+        "balanced": {
+          "delta": [
+            0,
+            2,
+            14
+          ],
+          "first_tiers": {
+            "0": 3,
+            "2": 1,
+            "3": 2
+          },
+          "gross_serving_gain": 15,
+          "gross_serving_loss": 1,
+          "pairs": 6,
+          "worst_serving_loss": 1,
+          "wtl": {
+            "tie": 3,
+            "win": 3
+          }
+        },
+        "fuel-tight": {
+          "delta": [
+            0,
+            0,
+            3
+          ],
+          "first_tiers": {
+            "0": 4,
+            "3": 2
+          },
+          "gross_serving_gain": 3,
+          "gross_serving_loss": 0,
+          "pairs": 6,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 4,
+            "win": 2
+          }
+        },
+        "high-stock": {
+          "delta": [
+            0,
+            0,
+            11
+          ],
+          "first_tiers": {
+            "0": 3,
+            "3": 3
+          },
+          "gross_serving_gain": 11,
+          "gross_serving_loss": 0,
+          "pairs": 6,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 3,
+            "win": 3
+          }
+        },
+        "overnight": {
+          "delta": [
+            0,
+            0,
+            7
+          ],
+          "first_tiers": {
+            "0": 4,
+            "3": 2
+          },
+          "gross_serving_gain": 7,
+          "gross_serving_loss": 0,
+          "pairs": 6,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 4,
+            "win": 2
+          }
+        },
+        "rare-brand": {
+          "delta": [
+            0,
+            0,
+            11
+          ],
+          "first_tiers": {
+            "0": 4,
+            "3": 2
+          },
+          "gross_serving_gain": 11,
+          "gross_serving_loss": 0,
+          "pairs": 6,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 4,
+            "win": 2
+          }
+        },
+        "threshold-corridor": {
+          "delta": [
+            0,
+            0,
+            8
+          ],
+          "first_tiers": {
+            "0": 4,
+            "3": 2
+          },
+          "gross_serving_gain": 8,
+          "gross_serving_loss": 0,
+          "pairs": 6,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 4,
+            "win": 2
+          }
+        }
+      },
+      "fuel": {
+        "default": {
+          "delta": [
+            0,
+            0,
+            20
+          ],
+          "first_tiers": {
+            "0": 7,
+            "3": 5
+          },
+          "gross_serving_gain": 20,
+          "gross_serving_loss": 0,
+          "pairs": 12,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 7,
+            "win": 5
+          }
+        },
+        "high": {
+          "delta": [
+            0,
+            2,
+            17
+          ],
+          "first_tiers": {
+            "0": 7,
+            "2": 1,
+            "3": 4
+          },
+          "gross_serving_gain": 18,
+          "gross_serving_loss": 1,
+          "pairs": 12,
+          "worst_serving_loss": 1,
+          "wtl": {
+            "tie": 7,
+            "win": 5
+          }
+        },
+        "low": {
+          "delta": [
+            0,
+            0,
+            17
+          ],
+          "first_tiers": {
+            "0": 8,
+            "3": 4
+          },
+          "gross_serving_gain": 17,
+          "gross_serving_loss": 0,
+          "pairs": 12,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 8,
+            "win": 4
+          }
+        }
+      },
+      "players": {
+        "10": {
+          "delta": [
+            0,
+            0,
+            17
+          ],
+          "first_tiers": {
+            "0": 8,
+            "3": 4
+          },
+          "gross_serving_gain": 17,
+          "gross_serving_loss": 0,
+          "pairs": 12,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 8,
+            "win": 4
+          }
+        },
+        "8": {
+          "delta": [
+            0,
+            2,
+            12
+          ],
+          "first_tiers": {
+            "0": 7,
+            "2": 1,
+            "3": 4
+          },
+          "gross_serving_gain": 13,
+          "gross_serving_loss": 1,
+          "pairs": 12,
+          "worst_serving_loss": 1,
+          "wtl": {
+            "tie": 7,
+            "win": 5
+          }
+        },
+        "9": {
+          "delta": [
+            0,
+            0,
+            25
+          ],
+          "first_tiers": {
+            "0": 7,
+            "3": 5
+          },
+          "gross_serving_gain": 25,
+          "gross_serving_loss": 0,
+          "pairs": 12,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 7,
+            "win": 5
+          }
+        }
+      },
+      "roadless": {
+        "False": {
+          "delta": [
+            0,
+            2,
+            19
+          ],
+          "first_tiers": {
+            "0": 11,
+            "2": 1,
+            "3": 6
+          },
+          "gross_serving_gain": 20,
+          "gross_serving_loss": 1,
+          "pairs": 18,
+          "worst_serving_loss": 1,
+          "wtl": {
+            "tie": 11,
+            "win": 7
+          }
+        },
+        "True": {
+          "delta": [
+            0,
+            0,
+            35
+          ],
+          "first_tiers": {
+            "0": 11,
+            "3": 7
+          },
+          "gross_serving_gain": 35,
+          "gross_serving_loss": 0,
+          "pairs": 18,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 11,
+            "win": 7
+          }
+        }
+      },
+      "role": {
+        "fixed-all-Patrol": {
+          "delta": [
+            0,
+            2,
+            26
+          ],
+          "first_tiers": {
+            "0": 10,
+            "2": 1,
+            "3": 7
+          },
+          "gross_serving_gain": 27,
+          "gross_serving_loss": 1,
+          "pairs": 18,
+          "worst_serving_loss": 1,
+          "wtl": {
+            "tie": 10,
+            "win": 8
+          }
+        },
+        "native": {
+          "delta": [
+            0,
+            0,
+            28
+          ],
+          "first_tiers": {
+            "0": 12,
+            "3": 6
+          },
+          "gross_serving_gain": 28,
+          "gross_serving_loss": 0,
+          "pairs": 18,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 12,
+            "win": 6
+          }
+        }
+      },
+      "side": {
+        "32": {
+          "delta": [
+            0,
+            2,
+            54
+          ],
+          "first_tiers": {
+            "0": 4,
+            "2": 1,
+            "3": 13
+          },
+          "gross_serving_gain": 55,
+          "gross_serving_loss": 1,
+          "pairs": 18,
+          "worst_serving_loss": 1,
+          "wtl": {
+            "tie": 4,
+            "win": 14
+          }
+        },
+        "8": {
+          "delta": [
+            0,
+            0,
+            0
+          ],
+          "first_tiers": {
+            "0": 18
+          },
+          "gross_serving_gain": 0,
+          "gross_serving_loss": 0,
+          "pairs": 18,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 18
+          }
+        }
+      },
+      "window_ms": {
+        "10000": {
+          "delta": [
+            0,
+            0,
+            31
+          ],
+          "first_tiers": {
+            "0": 6,
+            "3": 6
+          },
+          "gross_serving_gain": 31,
+          "gross_serving_loss": 0,
+          "pairs": 12,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 6,
+            "win": 6
+          }
+        },
+        "15000": {
+          "delta": [
+            0,
+            0,
+            18
+          ],
+          "first_tiers": {
+            "0": 6,
+            "3": 6
+          },
+          "gross_serving_gain": 18,
+          "gross_serving_loss": 0,
+          "pairs": 12,
+          "worst_serving_loss": 0,
+          "wtl": {
+            "tie": 6,
+            "win": 6
+          }
+        },
+        "5000": {
+          "delta": [
+            0,
+            2,
+            5
+          ],
+          "first_tiers": {
+            "0": 10,
+            "2": 1,
+            "3": 1
+          },
+          "gross_serving_gain": 6,
+          "gross_serving_loss": 1,
+          "pairs": 12,
+          "worst_serving_loss": 1,
+          "wtl": {
+            "tie": 10,
+            "win": 2
+          }
+        }
+      }
+    }
+  },
+  "repeats": {
+    "A": {
+      "delta": [
+        0,
+        2,
+        48
+      ],
+      "first_tiers": {
+        "0": 23,
+        "2": 1,
+        "3": 12
+      },
+      "gross_serving_gain": 49,
+      "gross_serving_loss": 1,
+      "pairs": 36,
+      "worst_serving_loss": 1,
+      "wtl": {
+        "tie": 23,
+        "win": 13
+      }
+    },
+    "B": {
+      "delta": [
+        0,
+        2,
+        54
+      ],
+      "first_tiers": {
+        "0": 22,
+        "2": 1,
+        "3": 13
+      },
+      "gross_serving_gain": 55,
+      "gross_serving_loss": 1,
+      "pairs": 36,
+      "worst_serving_loss": 1,
+      "wtl": {
+        "tie": 22,
+        "win": 14
+      }
+    }
+  },
+  "results": 144,
+  "robust_intervals": [
+    {
+      "candidate_interval": [
+        [
+          5,
+          17,
+          21
+        ],
+        [
+          5,
+          17,
+          21
+        ]
+      ],
+      "days": 4,
+      "family": "balanced",
+      "fuel": "low",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          5,
+          17,
+          21
+        ],
+        [
+          5,
+          17,
+          21
+        ]
+      ],
+      "players": 8,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093659996,
+      "side": 8,
+      "window_ms": 5000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          30,
+          188
+        ],
+        [
+          6,
+          30,
+          188
+        ]
+      ],
+      "days": 5,
+      "family": "balanced",
+      "fuel": "low",
+      "outcome": "win",
+      "parent_interval": [
+        [
+          6,
+          30,
+          178
+        ],
+        [
+          6,
+          30,
+          178
+        ]
+      ],
+      "players": 9,
+      "roadless": false,
+      "role": "native",
+      "seed": 202609093660002,
+      "side": 32,
+      "window_ms": 10000
+    },
+    {
+      "candidate_interval": [
+        [
+          7,
+          70,
+          89
+        ],
+        [
+          7,
+          70,
+          89
+        ]
+      ],
+      "days": 10,
+      "family": "balanced",
+      "fuel": "default",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          7,
+          70,
+          89
+        ],
+        [
+          7,
+          70,
+          89
+        ]
+      ],
+      "players": 9,
+      "roadless": false,
+      "role": "native",
+      "seed": 202609093660008,
+      "side": 8,
+      "window_ms": 10000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          24,
+          274
+        ],
+        [
+          6,
+          24,
+          274
+        ]
+      ],
+      "days": 4,
+      "family": "balanced",
+      "fuel": "default",
+      "outcome": "win",
+      "parent_interval": [
+        [
+          6,
+          24,
+          269
+        ],
+        [
+          6,
+          24,
+          269
+        ]
+      ],
+      "players": 10,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660014,
+      "side": 32,
+      "window_ms": 15000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          30,
+          40
+        ],
+        [
+          6,
+          30,
+          40
+        ]
+      ],
+      "days": 5,
+      "family": "balanced",
+      "fuel": "high",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          6,
+          30,
+          40
+        ],
+        [
+          6,
+          30,
+          40
+        ]
+      ],
+      "players": 10,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660020,
+      "side": 8,
+      "window_ms": 15000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          57,
+          406
+        ],
+        [
+          6,
+          57,
+          406
+        ]
+      ],
+      "days": 10,
+      "family": "balanced",
+      "fuel": "high",
+      "outcome": "win",
+      "parent_interval": [
+        [
+          6,
+          55,
+          407
+        ],
+        [
+          6,
+          55,
+          407
+        ]
+      ],
+      "players": 8,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660026,
+      "side": 32,
+      "window_ms": 5000
+    },
+    {
+      "candidate_interval": [
+        [
+          7,
+          45,
+          49
+        ],
+        [
+          7,
+          45,
+          49
+        ]
+      ],
+      "days": 10,
+      "family": "rare-brand",
+      "fuel": "low",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          7,
+          45,
+          49
+        ],
+        [
+          7,
+          45,
+          49
+        ]
+      ],
+      "players": 10,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660033,
+      "side": 8,
+      "window_ms": 10000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          24,
+          144
+        ],
+        [
+          6,
+          24,
+          144
+        ]
+      ],
+      "days": 4,
+      "family": "rare-brand",
+      "fuel": "low",
+      "outcome": "win",
+      "parent_interval": [
+        [
+          6,
+          24,
+          141
+        ],
+        [
+          6,
+          24,
+          141
+        ]
+      ],
+      "players": 8,
+      "roadless": true,
+      "role": "native",
+      "seed": 202609093660039,
+      "side": 32,
+      "window_ms": 15000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          30,
+          50
+        ],
+        [
+          6,
+          30,
+          50
+        ]
+      ],
+      "days": 5,
+      "family": "rare-brand",
+      "fuel": "default",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          6,
+          30,
+          50
+        ],
+        [
+          6,
+          30,
+          50
+        ]
+      ],
+      "players": 8,
+      "roadless": true,
+      "role": "native",
+      "seed": 202609093660045,
+      "side": 8,
+      "window_ms": 15000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          60,
+          522
+        ],
+        [
+          6,
+          60,
+          522
+        ]
+      ],
+      "days": 10,
+      "family": "rare-brand",
+      "fuel": "default",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          6,
+          60,
+          522
+        ],
+        [
+          6,
+          60,
+          522
+        ]
+      ],
+      "players": 9,
+      "roadless": false,
+      "role": "native",
+      "seed": 202609093660051,
+      "side": 32,
+      "window_ms": 5000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          24,
+          44
+        ],
+        [
+          6,
+          24,
+          44
+        ]
+      ],
+      "days": 4,
+      "family": "rare-brand",
+      "fuel": "high",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          6,
+          24,
+          44
+        ],
+        [
+          6,
+          24,
+          44
+        ]
+      ],
+      "players": 9,
+      "roadless": false,
+      "role": "native",
+      "seed": 202609093660057,
+      "side": 8,
+      "window_ms": 5000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          30,
+          374
+        ],
+        [
+          6,
+          30,
+          374
+        ]
+      ],
+      "days": 5,
+      "family": "rare-brand",
+      "fuel": "high",
+      "outcome": "win",
+      "parent_interval": [
+        [
+          6,
+          30,
+          366
+        ],
+        [
+          6,
+          30,
+          366
+        ]
+      ],
+      "players": 10,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660063,
+      "side": 32,
+      "window_ms": 10000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          24,
+          29
+        ],
+        [
+          6,
+          24,
+          29
+        ]
+      ],
+      "days": 5,
+      "family": "threshold-corridor",
+      "fuel": "low",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          6,
+          24,
+          29
+        ],
+        [
+          6,
+          24,
+          29
+        ]
+      ],
+      "players": 9,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660070,
+      "side": 8,
+      "window_ms": 15000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          60,
+          137
+        ],
+        [
+          6,
+          60,
+          137
+        ]
+      ],
+      "days": 10,
+      "family": "threshold-corridor",
+      "fuel": "low",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          6,
+          60,
+          137
+        ],
+        [
+          6,
+          60,
+          137
+        ]
+      ],
+      "players": 10,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660076,
+      "side": 32,
+      "window_ms": 5000
+    },
+    {
+      "candidate_interval": [
+        [
+          7,
+          26,
+          32
+        ],
+        [
+          7,
+          26,
+          32
+        ]
+      ],
+      "days": 4,
+      "family": "threshold-corridor",
+      "fuel": "default",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          7,
+          26,
+          32
+        ],
+        [
+          7,
+          26,
+          32
+        ]
+      ],
+      "players": 10,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660082,
+      "side": 8,
+      "window_ms": 5000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          30,
+          297
+        ],
+        [
+          6,
+          30,
+          297
+        ]
+      ],
+      "days": 5,
+      "family": "threshold-corridor",
+      "fuel": "default",
+      "outcome": "win",
+      "parent_interval": [
+        [
+          6,
+          30,
+          291
+        ],
+        [
+          6,
+          30,
+          291
+        ]
+      ],
+      "players": 8,
+      "roadless": true,
+      "role": "native",
+      "seed": 202609093660088,
+      "side": 32,
+      "window_ms": 10000
+    },
+    {
+      "candidate_interval": [
+        [
+          7,
+          70,
+          120
+        ],
+        [
+          7,
+          70,
+          120
+        ]
+      ],
+      "days": 10,
+      "family": "threshold-corridor",
+      "fuel": "high",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          7,
+          70,
+          120
+        ],
+        [
+          7,
+          70,
+          120
+        ]
+      ],
+      "players": 8,
+      "roadless": true,
+      "role": "native",
+      "seed": 202609093660094,
+      "side": 8,
+      "window_ms": 10000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          24,
+          269
+        ],
+        [
+          6,
+          24,
+          269
+        ]
+      ],
+      "days": 4,
+      "family": "threshold-corridor",
+      "fuel": "high",
+      "outcome": "win",
+      "parent_interval": [
+        [
+          6,
+          24,
+          267
+        ],
+        [
+          6,
+          24,
+          267
+        ]
+      ],
+      "players": 9,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660100,
+      "side": 32,
+      "window_ms": 15000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          23,
+          29
+        ],
+        [
+          6,
+          23,
+          29
+        ]
+      ],
+      "days": 4,
+      "family": "fuel-tight",
+      "fuel": "low",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          6,
+          23,
+          29
+        ],
+        [
+          6,
+          23,
+          29
+        ]
+      ],
+      "players": 8,
+      "roadless": false,
+      "role": "native",
+      "seed": 202609093660107,
+      "side": 8,
+      "window_ms": 5000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          24,
+          99
+        ],
+        [
+          6,
+          24,
+          99
+        ]
+      ],
+      "days": 5,
+      "family": "fuel-tight",
+      "fuel": "low",
+      "outcome": "win",
+      "parent_interval": [
+        [
+          6,
+          24,
+          97
+        ],
+        [
+          6,
+          24,
+          97
+        ]
+      ],
+      "players": 9,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660113,
+      "side": 32,
+      "window_ms": 10000
+    },
+    {
+      "candidate_interval": [
+        [
+          5,
+          34,
+          53
+        ],
+        [
+          5,
+          34,
+          53
+        ]
+      ],
+      "days": 10,
+      "family": "fuel-tight",
+      "fuel": "default",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          5,
+          34,
+          53
+        ],
+        [
+          5,
+          34,
+          53
+        ]
+      ],
+      "players": 9,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660119,
+      "side": 8,
+      "window_ms": 10000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          23,
+          182
+        ],
+        [
+          6,
+          23,
+          182
+        ]
+      ],
+      "days": 4,
+      "family": "fuel-tight",
+      "fuel": "default",
+      "outcome": "win",
+      "parent_interval": [
+        [
+          6,
+          23,
+          181
+        ],
+        [
+          6,
+          23,
+          181
+        ]
+      ],
+      "players": 10,
+      "roadless": false,
+      "role": "native",
+      "seed": 202609093660125,
+      "side": 32,
+      "window_ms": 15000
+    },
+    {
+      "candidate_interval": [
+        [
+          5,
+          25,
+          50
+        ],
+        [
+          5,
+          25,
+          50
+        ]
+      ],
+      "days": 5,
+      "family": "fuel-tight",
+      "fuel": "high",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          5,
+          25,
+          50
+        ],
+        [
+          5,
+          25,
+          50
+        ]
+      ],
+      "players": 10,
+      "roadless": false,
+      "role": "native",
+      "seed": 202609093660131,
+      "side": 8,
+      "window_ms": 15000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          60,
+          577
+        ],
+        [
+          6,
+          60,
+          577
+        ]
+      ],
+      "days": 10,
+      "family": "fuel-tight",
+      "fuel": "high",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          6,
+          60,
+          577
+        ],
+        [
+          6,
+          60,
+          577
+        ]
+      ],
+      "players": 8,
+      "roadless": true,
+      "role": "native",
+      "seed": 202609093660137,
+      "side": 32,
+      "window_ms": 5000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          53,
+          67
+        ],
+        [
+          6,
+          53,
+          67
+        ]
+      ],
+      "days": 10,
+      "family": "high-stock",
+      "fuel": "low",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          6,
+          53,
+          67
+        ],
+        [
+          6,
+          53,
+          67
+        ]
+      ],
+      "players": 10,
+      "roadless": true,
+      "role": "native",
+      "seed": 202609093660144,
+      "side": 8,
+      "window_ms": 10000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          22,
+          99
+        ],
+        [
+          6,
+          22,
+          99
+        ]
+      ],
+      "days": 4,
+      "family": "high-stock",
+      "fuel": "low",
+      "outcome": "win",
+      "parent_interval": [
+        [
+          6,
+          22,
+          97
+        ],
+        [
+          6,
+          22,
+          97
+        ]
+      ],
+      "players": 8,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660150,
+      "side": 32,
+      "window_ms": 15000
+    },
+    {
+      "candidate_interval": [
+        [
+          5,
+          23,
+          42
+        ],
+        [
+          5,
+          23,
+          42
+        ]
+      ],
+      "days": 5,
+      "family": "high-stock",
+      "fuel": "default",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          5,
+          23,
+          42
+        ],
+        [
+          5,
+          23,
+          42
+        ]
+      ],
+      "players": 8,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660156,
+      "side": 8,
+      "window_ms": 15000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          56,
+          331
+        ],
+        [
+          6,
+          56,
+          337
+        ]
+      ],
+      "days": 10,
+      "family": "high-stock",
+      "fuel": "default",
+      "outcome": "unresolved",
+      "parent_interval": [
+        [
+          6,
+          56,
+          331
+        ],
+        [
+          6,
+          56,
+          331
+        ]
+      ],
+      "players": 9,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660162,
+      "side": 32,
+      "window_ms": 5000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          24,
+          51
+        ],
+        [
+          6,
+          24,
+          51
+        ]
+      ],
+      "days": 4,
+      "family": "high-stock",
+      "fuel": "high",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          6,
+          24,
+          51
+        ],
+        [
+          6,
+          24,
+          51
+        ]
+      ],
+      "players": 9,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660168,
+      "side": 8,
+      "window_ms": 5000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          30,
+          343
+        ],
+        [
+          6,
+          30,
+          343
+        ]
+      ],
+      "days": 5,
+      "family": "high-stock",
+      "fuel": "high",
+      "outcome": "win",
+      "parent_interval": [
+        [
+          6,
+          30,
+          340
+        ],
+        [
+          6,
+          30,
+          340
+        ]
+      ],
+      "players": 10,
+      "roadless": false,
+      "role": "native",
+      "seed": 202609093660174,
+      "side": 32,
+      "window_ms": 10000
+    },
+    {
+      "candidate_interval": [
+        [
+          5,
+          25,
+          35
+        ],
+        [
+          5,
+          25,
+          35
+        ]
+      ],
+      "days": 5,
+      "family": "overnight",
+      "fuel": "low",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          5,
+          25,
+          35
+        ],
+        [
+          5,
+          25,
+          35
+        ]
+      ],
+      "players": 9,
+      "roadless": false,
+      "role": "native",
+      "seed": 202609093660181,
+      "side": 8,
+      "window_ms": 15000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          57,
+          226
+        ],
+        [
+          6,
+          57,
+          226
+        ]
+      ],
+      "days": 10,
+      "family": "overnight",
+      "fuel": "low",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          6,
+          57,
+          226
+        ],
+        [
+          6,
+          57,
+          226
+        ]
+      ],
+      "players": 10,
+      "roadless": true,
+      "role": "native",
+      "seed": 202609093660187,
+      "side": 32,
+      "window_ms": 5000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          24,
+          35
+        ],
+        [
+          6,
+          24,
+          35
+        ]
+      ],
+      "days": 4,
+      "family": "overnight",
+      "fuel": "default",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          6,
+          24,
+          35
+        ],
+        [
+          6,
+          24,
+          35
+        ]
+      ],
+      "players": 10,
+      "roadless": true,
+      "role": "native",
+      "seed": 202609093660193,
+      "side": 8,
+      "window_ms": 5000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          30,
+          226
+        ],
+        [
+          6,
+          30,
+          226
+        ]
+      ],
+      "days": 5,
+      "family": "overnight",
+      "fuel": "default",
+      "outcome": "win",
+      "parent_interval": [
+        [
+          6,
+          30,
+          224
+        ],
+        [
+          6,
+          30,
+          224
+        ]
+      ],
+      "players": 8,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660199,
+      "side": 32,
+      "window_ms": 10000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          60,
+          80
+        ],
+        [
+          6,
+          60,
+          80
+        ]
+      ],
+      "days": 10,
+      "family": "overnight",
+      "fuel": "high",
+      "outcome": "exact-tie",
+      "parent_interval": [
+        [
+          6,
+          60,
+          80
+        ],
+        [
+          6,
+          60,
+          80
+        ]
+      ],
+      "players": 8,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "seed": 202609093660205,
+      "side": 8,
+      "window_ms": 10000
+    },
+    {
+      "candidate_interval": [
+        [
+          6,
+          24,
+          277
+        ],
+        [
+          6,
+          24,
+          277
+        ]
+      ],
+      "days": 4,
+      "family": "overnight",
+      "fuel": "high",
+      "outcome": "win",
+      "parent_interval": [
+        [
+          6,
+          24,
+          272
+        ],
+        [
+          6,
+          24,
+          272
+        ]
+      ],
+      "players": 9,
+      "roadless": true,
+      "role": "native",
+      "seed": 202609093660211,
+      "side": 32,
+      "window_ms": 15000
+    }
+  ],
+  "same_binary_controls": [
+    {
+      "A": [
+        5,
+        17,
+        21
+      ],
+      "B": [
+        5,
+        17,
+        21
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "balanced",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "387726D55BFF2AF0791FAF695807315085CABA71878E3E90206641158D0C888A",
+        "B": "387726D55BFF2AF0791FAF695807315085CABA71878E3E90206641158D0C888A"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093659996,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        5,
+        17,
+        21
+      ],
+      "B": [
+        5,
+        17,
+        21
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "balanced",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "387726D55BFF2AF0791FAF695807315085CABA71878E3E90206641158D0C888A",
+        "B": "387726D55BFF2AF0791FAF695807315085CABA71878E3E90206641158D0C888A"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093659996,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        30,
+        178
+      ],
+      "B": [
+        6,
+        30,
+        178
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "balanced",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "39C74E1C299A59B99A547DD5D2633F5FB2C39B762A9F71FBE1A324E3979DAC41",
+        "B": "39C74E1C299A59B99A547DD5D2633F5FB2C39B762A9F71FBE1A324E3979DAC41"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660002,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        30,
+        188
+      ],
+      "B": [
+        6,
+        30,
+        188
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "balanced",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "72A2DCBBE2D3FE0CE24D7CA8B2D5E0477F64E657827E0C475A6F274578EDBDC1",
+        "B": "72A2DCBBE2D3FE0CE24D7CA8B2D5E0477F64E657827E0C475A6F274578EDBDC1"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660002,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        7,
+        70,
+        89
+      ],
+      "B": [
+        7,
+        70,
+        89
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "balanced",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "98EFCC0700AEE8AC05894C9D68A619AC5C6BC7EAA874E1666DA13F3C099DCCD7",
+        "B": "98EFCC0700AEE8AC05894C9D68A619AC5C6BC7EAA874E1666DA13F3C099DCCD7"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          1,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660008,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        7,
+        70,
+        89
+      ],
+      "B": [
+        7,
+        70,
+        89
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "balanced",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "98EFCC0700AEE8AC05894C9D68A619AC5C6BC7EAA874E1666DA13F3C099DCCD7",
+        "B": "98EFCC0700AEE8AC05894C9D68A619AC5C6BC7EAA874E1666DA13F3C099DCCD7"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          1,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660008,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        24,
+        269
+      ],
+      "B": [
+        6,
+        24,
+        269
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "balanced",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "098BEE8BDCCCC302939A20842E3A799954739D3892CAB152469588869FDBDCE5",
+        "B": "098BEE8BDCCCC302939A20842E3A799954739D3892CAB152469588869FDBDCE5"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660014,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        24,
+        274
+      ],
+      "B": [
+        6,
+        24,
+        274
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "balanced",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "7B568F8FAF31A1A6329EF4CFE7B49CA122C72D64DD44E3FE758C13F104F24143",
+        "B": "7B568F8FAF31A1A6329EF4CFE7B49CA122C72D64DD44E3FE758C13F104F24143"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660014,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        30,
+        40
+      ],
+      "B": [
+        6,
+        30,
+        40
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "balanced",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "F12297169F156E2E67251372FFAC6E99DC9D7F7A307CDD37DEC98698830EA687",
+        "B": "F12297169F156E2E67251372FFAC6E99DC9D7F7A307CDD37DEC98698830EA687"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660020,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        30,
+        40
+      ],
+      "B": [
+        6,
+        30,
+        40
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "balanced",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "F12297169F156E2E67251372FFAC6E99DC9D7F7A307CDD37DEC98698830EA687",
+        "B": "F12297169F156E2E67251372FFAC6E99DC9D7F7A307CDD37DEC98698830EA687"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660020,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        55,
+        407
+      ],
+      "B": [
+        6,
+        55,
+        407
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "balanced",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "F33AACD2A1443F5D37406265629503143891ACAEF430FC333D87032B577C03CA",
+        "B": "F33AACD2A1443F5D37406265629503143891ACAEF430FC333D87032B577C03CA"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660026,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        57,
+        406
+      ],
+      "B": [
+        6,
+        57,
+        406
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "balanced",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "7654E4AFB1FD1A987690FF119D7847865563CB3A7999DECD28B32D47ACCE0D75",
+        "B": "7654E4AFB1FD1A987690FF119D7847865563CB3A7999DECD28B32D47ACCE0D75"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660026,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        7,
+        45,
+        49
+      ],
+      "B": [
+        7,
+        45,
+        49
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "rare-brand",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "6E0CB6743E18E17742A489D5B317F0C6DB9CA8C6741A63E616E5E2EFB24C7C0E",
+        "B": "6E0CB6743E18E17742A489D5B317F0C6DB9CA8C6741A63E616E5E2EFB24C7C0E"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660033,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        7,
+        45,
+        49
+      ],
+      "B": [
+        7,
+        45,
+        49
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "rare-brand",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "6E0CB6743E18E17742A489D5B317F0C6DB9CA8C6741A63E616E5E2EFB24C7C0E",
+        "B": "6E0CB6743E18E17742A489D5B317F0C6DB9CA8C6741A63E616E5E2EFB24C7C0E"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660033,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        24,
+        141
+      ],
+      "B": [
+        6,
+        24,
+        141
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "rare-brand",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "386981DD8590E1B8AA94019F21282DACCA95F135525ED2E7CAD83924F58C9565",
+        "B": "386981DD8590E1B8AA94019F21282DACCA95F135525ED2E7CAD83924F58C9565"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660039,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        24,
+        144
+      ],
+      "B": [
+        6,
+        24,
+        144
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "rare-brand",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "75B7BE6E167DD723EAEFE7B2B82D75DCA90EB4D11CBD6DC0E74CF72476CA20B9",
+        "B": "75B7BE6E167DD723EAEFE7B2B82D75DCA90EB4D11CBD6DC0E74CF72476CA20B9"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660039,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        30,
+        50
+      ],
+      "B": [
+        6,
+        30,
+        50
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "rare-brand",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "97D77443848663EAECCDAB50F60B8E30F4051046B56FC1004B415A733DC7B36C",
+        "B": "97D77443848663EAECCDAB50F60B8E30F4051046B56FC1004B415A733DC7B36C"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660045,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        30,
+        50
+      ],
+      "B": [
+        6,
+        30,
+        50
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "rare-brand",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "97D77443848663EAECCDAB50F60B8E30F4051046B56FC1004B415A733DC7B36C",
+        "B": "97D77443848663EAECCDAB50F60B8E30F4051046B56FC1004B415A733DC7B36C"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660045,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        60,
+        522
+      ],
+      "B": [
+        6,
+        60,
+        522
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "rare-brand",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "AEC7488718EC0E6531F2F82517369858D577C1D96FD451C2DE9B695E50AB4921",
+        "B": "AEC7488718EC0E6531F2F82517369858D577C1D96FD451C2DE9B695E50AB4921"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660051,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        60,
+        522
+      ],
+      "B": [
+        6,
+        60,
+        522
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "rare-brand",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "AEC7488718EC0E6531F2F82517369858D577C1D96FD451C2DE9B695E50AB4921",
+        "B": "AEC7488718EC0E6531F2F82517369858D577C1D96FD451C2DE9B695E50AB4921"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660051,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        24,
+        44
+      ],
+      "B": [
+        6,
+        24,
+        44
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "rare-brand",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "A5CB650316FF2A8A053057638880EF5C0AFF7D6B1CC2352B2617D99A09CF97D5",
+        "B": "A5CB650316FF2A8A053057638880EF5C0AFF7D6B1CC2352B2617D99A09CF97D5"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660057,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        24,
+        44
+      ],
+      "B": [
+        6,
+        24,
+        44
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "rare-brand",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "A5CB650316FF2A8A053057638880EF5C0AFF7D6B1CC2352B2617D99A09CF97D5",
+        "B": "A5CB650316FF2A8A053057638880EF5C0AFF7D6B1CC2352B2617D99A09CF97D5"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660057,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        30,
+        366
+      ],
+      "B": [
+        6,
+        30,
+        366
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "rare-brand",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "B5F0CDEE5C497A65B0963DDA995C5DF0E6359F0D4193830CF250E44F5421547B",
+        "B": "B5F0CDEE5C497A65B0963DDA995C5DF0E6359F0D4193830CF250E44F5421547B"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660063,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        30,
+        374
+      ],
+      "B": [
+        6,
+        30,
+        374
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "rare-brand",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "A3BB4BE9B4479173E22584B4DEB574DB692E63ECA5A7E620F667866F0CCE8FF1",
+        "B": "A3BB4BE9B4479173E22584B4DEB574DB692E63ECA5A7E620F667866F0CCE8FF1"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660063,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        24,
+        29
+      ],
+      "B": [
+        6,
+        24,
+        29
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "3574F0F51C97102AD533A05CCA982DABB4751572011F1533E032D14E622C03FB",
+        "B": "3574F0F51C97102AD533A05CCA982DABB4751572011F1533E032D14E622C03FB"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660070,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        24,
+        29
+      ],
+      "B": [
+        6,
+        24,
+        29
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "3574F0F51C97102AD533A05CCA982DABB4751572011F1533E032D14E622C03FB",
+        "B": "3574F0F51C97102AD533A05CCA982DABB4751572011F1533E032D14E622C03FB"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660070,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        60,
+        137
+      ],
+      "B": [
+        6,
+        60,
+        137
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "32FD9F5A9FF9159B67FBA465AF6C6608ABBDC028EC00AB730F90E92D01BE94A0",
+        "B": "32FD9F5A9FF9159B67FBA465AF6C6608ABBDC028EC00AB730F90E92D01BE94A0"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660076,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        60,
+        137
+      ],
+      "B": [
+        6,
+        60,
+        137
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "32FD9F5A9FF9159B67FBA465AF6C6608ABBDC028EC00AB730F90E92D01BE94A0",
+        "B": "32FD9F5A9FF9159B67FBA465AF6C6608ABBDC028EC00AB730F90E92D01BE94A0"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660076,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        7,
+        26,
+        32
+      ],
+      "B": [
+        7,
+        26,
+        32
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "77F5E14ADFED4FCBBB00967A80EA98177C2EB16510808A2EB88BC1CD5969131C",
+        "B": "77F5E14ADFED4FCBBB00967A80EA98177C2EB16510808A2EB88BC1CD5969131C"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660082,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        7,
+        26,
+        32
+      ],
+      "B": [
+        7,
+        26,
+        32
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "77F5E14ADFED4FCBBB00967A80EA98177C2EB16510808A2EB88BC1CD5969131C",
+        "B": "77F5E14ADFED4FCBBB00967A80EA98177C2EB16510808A2EB88BC1CD5969131C"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660082,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        30,
+        291
+      ],
+      "B": [
+        6,
+        30,
+        291
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "6A7ED3FE07AF721A2741859416B625F4E796A3AD5354D105C2B403253053AF42",
+        "B": "6A7ED3FE07AF721A2741859416B625F4E796A3AD5354D105C2B403253053AF42"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660088,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        30,
+        297
+      ],
+      "B": [
+        6,
+        30,
+        297
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "7D539B633F9FE4021A1F24D8B1865152E3DE9620F633C38E8D873A59541F0310",
+        "B": "7D539B633F9FE4021A1F24D8B1865152E3DE9620F633C38E8D873A59541F0310"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660088,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        7,
+        70,
+        120
+      ],
+      "B": [
+        7,
+        70,
+        120
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "EDD83B53757953C82A487FF0E8FC206A889526287EFC37C9A6FF5E7BCF80475F",
+        "B": "EDD83B53757953C82A487FF0E8FC206A889526287EFC37C9A6FF5E7BCF80475F"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660094,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        7,
+        70,
+        120
+      ],
+      "B": [
+        7,
+        70,
+        120
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "EDD83B53757953C82A487FF0E8FC206A889526287EFC37C9A6FF5E7BCF80475F",
+        "B": "EDD83B53757953C82A487FF0E8FC206A889526287EFC37C9A6FF5E7BCF80475F"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660094,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        24,
+        267
+      ],
+      "B": [
+        6,
+        24,
+        267
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "4C8CA6F854AE1DAAC886AF59EE12F79B7FD44DBADE72863E8929F7A885F8F76C",
+        "B": "4C8CA6F854AE1DAAC886AF59EE12F79B7FD44DBADE72863E8929F7A885F8F76C"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660100,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        24,
+        269
+      ],
+      "B": [
+        6,
+        24,
+        269
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "threshold-corridor",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "1D54533B4603AB59309906B744719C6D79AF83C4EBE475336ADACE5234E9EEBD",
+        "B": "1D54533B4603AB59309906B744719C6D79AF83C4EBE475336ADACE5234E9EEBD"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660100,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        23,
+        29
+      ],
+      "B": [
+        6,
+        23,
+        29
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "fuel-tight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "0145D62E345F8921AACDCBC8ABA4F484F440DC7B7876E0E9AE70DB5C22A249F5",
+        "B": "0145D62E345F8921AACDCBC8ABA4F484F440DC7B7876E0E9AE70DB5C22A249F5"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660107,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        23,
+        29
+      ],
+      "B": [
+        6,
+        23,
+        29
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "fuel-tight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "0145D62E345F8921AACDCBC8ABA4F484F440DC7B7876E0E9AE70DB5C22A249F5",
+        "B": "0145D62E345F8921AACDCBC8ABA4F484F440DC7B7876E0E9AE70DB5C22A249F5"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660107,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        24,
+        97
+      ],
+      "B": [
+        6,
+        24,
+        97
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "fuel-tight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "268179293657AB52FF1970FBE84AB09805DE96F4DB130CB76B6AAD3A2939EA9E",
+        "B": "268179293657AB52FF1970FBE84AB09805DE96F4DB130CB76B6AAD3A2939EA9E"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660113,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        24,
+        99
+      ],
+      "B": [
+        6,
+        24,
+        99
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "fuel-tight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "E82D9BC12B5C616928271DE658FC8F7F5417BD3FDC58F919D0CBEB1A6C6C6D07",
+        "B": "E82D9BC12B5C616928271DE658FC8F7F5417BD3FDC58F919D0CBEB1A6C6C6D07"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660113,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        5,
+        34,
+        53
+      ],
+      "B": [
+        5,
+        34,
+        53
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "fuel-tight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "F3F57274BB2D05D46F1CF2FDFE12AE805FCC6F63134AB3A89F2700B38F0303CC",
+        "B": "F3F57274BB2D05D46F1CF2FDFE12AE805FCC6F63134AB3A89F2700B38F0303CC"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660119,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        5,
+        34,
+        53
+      ],
+      "B": [
+        5,
+        34,
+        53
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "fuel-tight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "F3F57274BB2D05D46F1CF2FDFE12AE805FCC6F63134AB3A89F2700B38F0303CC",
+        "B": "F3F57274BB2D05D46F1CF2FDFE12AE805FCC6F63134AB3A89F2700B38F0303CC"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660119,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        23,
+        181
+      ],
+      "B": [
+        6,
+        23,
+        181
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "fuel-tight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "AC29F3C88AA3D434B5556A518B0CC84DD2753EA3B668CD945AC1D82ECA729849",
+        "B": "AC29F3C88AA3D434B5556A518B0CC84DD2753EA3B668CD945AC1D82ECA729849"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660125,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        23,
+        182
+      ],
+      "B": [
+        6,
+        23,
+        182
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "fuel-tight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "FC8893CA167313DA9E429F9678503C35EE34EAEA756E854D76EBBEAB78A9B641",
+        "B": "FC8893CA167313DA9E429F9678503C35EE34EAEA756E854D76EBBEAB78A9B641"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660125,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        5,
+        25,
+        50
+      ],
+      "B": [
+        5,
+        25,
+        50
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "fuel-tight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "FBCB78A0570EE57123403DD8588092B89FB99A4A750BEBB33E3B967AE691774E",
+        "B": "FBCB78A0570EE57123403DD8588092B89FB99A4A750BEBB33E3B967AE691774E"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660131,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        5,
+        25,
+        50
+      ],
+      "B": [
+        5,
+        25,
+        50
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "fuel-tight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "FBCB78A0570EE57123403DD8588092B89FB99A4A750BEBB33E3B967AE691774E",
+        "B": "FBCB78A0570EE57123403DD8588092B89FB99A4A750BEBB33E3B967AE691774E"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660131,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        60,
+        577
+      ],
+      "B": [
+        6,
+        60,
+        577
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "fuel-tight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "29819FF50990E809ED46464A8D02303933681775A25B1D89F1AA8706DAA4F3CB",
+        "B": "29819FF50990E809ED46464A8D02303933681775A25B1D89F1AA8706DAA4F3CB"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660137,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        60,
+        577
+      ],
+      "B": [
+        6,
+        60,
+        577
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "fuel-tight",
+      "first_divergence": 7,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "29819FF50990E809ED46464A8D02303933681775A25B1D89F1AA8706DAA4F3CB",
+        "B": "36BFD34B77C2CDF4DC2C37113A980FD98A8F00E12BDD6E1CCA342F52C5EC01E4"
+      },
+      "plans_equal": false,
+      "players": 8,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660137,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        53,
+        67
+      ],
+      "B": [
+        6,
+        53,
+        67
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "high-stock",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "1A3FB6886DA74221E959F8393416B3720D405FFA368CA691EA2A643948B7507C",
+        "B": "1A3FB6886DA74221E959F8393416B3720D405FFA368CA691EA2A643948B7507C"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660144,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        53,
+        67
+      ],
+      "B": [
+        6,
+        53,
+        67
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "high-stock",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "1A3FB6886DA74221E959F8393416B3720D405FFA368CA691EA2A643948B7507C",
+        "B": "1A3FB6886DA74221E959F8393416B3720D405FFA368CA691EA2A643948B7507C"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660144,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        22,
+        97
+      ],
+      "B": [
+        6,
+        22,
+        97
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "high-stock",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "6BEC8EEB42BFCF4570E54218C0FC231E5093FB7533C1DECCF90AB4D49D64B42B",
+        "B": "6BEC8EEB42BFCF4570E54218C0FC231E5093FB7533C1DECCF90AB4D49D64B42B"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660150,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        22,
+        99
+      ],
+      "B": [
+        6,
+        22,
+        99
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "high-stock",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "AD85911AAA29EAF8AAB6308B11A27AEE97C62F166C395A4F85A2577E3B5B7164",
+        "B": "AD85911AAA29EAF8AAB6308B11A27AEE97C62F166C395A4F85A2577E3B5B7164"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660150,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        5,
+        23,
+        42
+      ],
+      "B": [
+        5,
+        23,
+        42
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "high-stock",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "026769D4968BFA6F7520899451858E57C1E17786CA2C93A5BB4DC8DC0F2B5ECC",
+        "B": "026769D4968BFA6F7520899451858E57C1E17786CA2C93A5BB4DC8DC0F2B5ECC"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660156,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        5,
+        23,
+        42
+      ],
+      "B": [
+        5,
+        23,
+        42
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "high-stock",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "026769D4968BFA6F7520899451858E57C1E17786CA2C93A5BB4DC8DC0F2B5ECC",
+        "B": "026769D4968BFA6F7520899451858E57C1E17786CA2C93A5BB4DC8DC0F2B5ECC"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660156,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        56,
+        331
+      ],
+      "B": [
+        6,
+        56,
+        331
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "high-stock",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "2582BB234A31CF74EBC255189B48E20FC58A2F1AA21D822CE8C18AB081EB6B1D",
+        "B": "2582BB234A31CF74EBC255189B48E20FC58A2F1AA21D822CE8C18AB081EB6B1D"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660162,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        56,
+        331
+      ],
+      "B": [
+        6,
+        56,
+        337
+      ],
+      "comparison_B_vs_A": "win",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        6
+      ],
+      "family": "high-stock",
+      "first_divergence": 2,
+      "first_tier": 3,
+      "first_tier_difference": 6,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "2582BB234A31CF74EBC255189B48E20FC58A2F1AA21D822CE8C18AB081EB6B1D",
+        "B": "D5E12E41DDACA44971BAF1D609D8E8CC3F57B8BB309268FFE3D494F2E3189CA9"
+      },
+      "plans_equal": false,
+      "players": 9,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660162,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        24,
+        51
+      ],
+      "B": [
+        6,
+        24,
+        51
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "high-stock",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "616D1F8D06237D8DBC6BEC764725BEEF979E808CFF554613048675A75DC03251",
+        "B": "616D1F8D06237D8DBC6BEC764725BEEF979E808CFF554613048675A75DC03251"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660168,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        24,
+        51
+      ],
+      "B": [
+        6,
+        24,
+        51
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "high-stock",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "616D1F8D06237D8DBC6BEC764725BEEF979E808CFF554613048675A75DC03251",
+        "B": "616D1F8D06237D8DBC6BEC764725BEEF979E808CFF554613048675A75DC03251"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": true,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660168,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        30,
+        340
+      ],
+      "B": [
+        6,
+        30,
+        340
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "high-stock",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "DDAB8CA3A6B4CA030D97766BB14C7A13CF5DC90D0C71974DF72AE6BE7DD7EDDA",
+        "B": "DDAB8CA3A6B4CA030D97766BB14C7A13CF5DC90D0C71974DF72AE6BE7DD7EDDA"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660174,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        30,
+        343
+      ],
+      "B": [
+        6,
+        30,
+        343
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "high-stock",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "EDCAC403CFEF3D0768886AC1D82257F3C0F1E7788AA7CDB0BC43E7EDFC570CB9",
+        "B": "EDCAC403CFEF3D0768886AC1D82257F3C0F1E7788AA7CDB0BC43E7EDFC570CB9"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660174,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        5,
+        25,
+        35
+      ],
+      "B": [
+        5,
+        25,
+        35
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "overnight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "A90196673A2A4A7982369CBABD7FDD9D2BB933CEC976025F31794DF435C635F7",
+        "B": "A90196673A2A4A7982369CBABD7FDD9D2BB933CEC976025F31794DF435C635F7"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660181,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        5,
+        25,
+        35
+      ],
+      "B": [
+        5,
+        25,
+        35
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "overnight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "A90196673A2A4A7982369CBABD7FDD9D2BB933CEC976025F31794DF435C635F7",
+        "B": "A90196673A2A4A7982369CBABD7FDD9D2BB933CEC976025F31794DF435C635F7"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": false,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660181,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        57,
+        226
+      ],
+      "B": [
+        6,
+        57,
+        226
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "overnight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "0A38458FF550DC76347DDA8DC2346A6546451544EB2C9DAB3E2B56FD9D1E2758",
+        "B": "0A38458FF550DC76347DDA8DC2346A6546451544EB2C9DAB3E2B56FD9D1E2758"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660187,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        57,
+        226
+      ],
+      "B": [
+        6,
+        57,
+        226
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "overnight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "low",
+      "plan_hashes": {
+        "A": "0A38458FF550DC76347DDA8DC2346A6546451544EB2C9DAB3E2B56FD9D1E2758",
+        "B": "0A38458FF550DC76347DDA8DC2346A6546451544EB2C9DAB3E2B56FD9D1E2758"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660187,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        24,
+        35
+      ],
+      "B": [
+        6,
+        24,
+        35
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "overnight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "BF4112CEE2CB6392F120BA160330186C444B9E1AD71A5EE70C55E12DAF5FFBCA",
+        "B": "BF4112CEE2CB6392F120BA160330186C444B9E1AD71A5EE70C55E12DAF5FFBCA"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          1,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660193,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        24,
+        35
+      ],
+      "B": [
+        6,
+        24,
+        35
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "overnight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "BF4112CEE2CB6392F120BA160330186C444B9E1AD71A5EE70C55E12DAF5FFBCA",
+        "B": "BF4112CEE2CB6392F120BA160330186C444B9E1AD71A5EE70C55E12DAF5FFBCA"
+      },
+      "plans_equal": true,
+      "players": 10,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          1,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660193,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 5000
+    },
+    {
+      "A": [
+        6,
+        30,
+        224
+      ],
+      "B": [
+        6,
+        30,
+        224
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "overnight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "013904B85685E12F460B91456591B758CF6A5195E4B2F2480428C5541DFFF32D",
+        "B": "013904B85685E12F460B91456591B758CF6A5195E4B2F2480428C5541DFFF32D"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660199,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        30,
+        226
+      ],
+      "B": [
+        6,
+        30,
+        226
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 5,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "overnight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "default",
+      "plan_hashes": {
+        "A": "56F0E58C5C518BC23F9EB4F5C0498F8725513FA7DCD26A7EF01D35AD2FFFF97D",
+        "B": "56F0E58C5C518BC23F9EB4F5C0498F8725513FA7DCD26A7EF01D35AD2FFFF97D"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660199,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        60,
+        80
+      ],
+      "B": [
+        6,
+        60,
+        80
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "overnight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "288D987B59928750AE752E9661B5BE0B583C8F322094F7AA0B6FFC97E7F0B529",
+        "B": "288D987B59928750AE752E9661B5BE0B583C8F322094F7AA0B6FFC97E7F0B529"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660205,
+      "side": 8,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        60,
+        80
+      ],
+      "B": [
+        6,
+        60,
+        80
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 10,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "overnight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "288D987B59928750AE752E9661B5BE0B583C8F322094F7AA0B6FFC97E7F0B529",
+        "B": "288D987B59928750AE752E9661B5BE0B583C8F322094F7AA0B6FFC97E7F0B529"
+      },
+      "plans_equal": true,
+      "players": 8,
+      "roadless": false,
+      "role": "fixed-all-Patrol",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660205,
+      "side": 8,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 10000
+    },
+    {
+      "A": [
+        6,
+        24,
+        272
+      ],
+      "B": [
+        6,
+        24,
+        272
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "overnight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "A747825671B6C0ED029D1AEE782B1D0CAF398BF4CF081EE7E328BF592C4130B8",
+        "B": "A747825671B6C0ED029D1AEE782B1D0CAF398BF4CF081EE7E328BF592C4130B8"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660211,
+      "side": 32,
+      "side_binary": "parent",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    },
+    {
+      "A": [
+        6,
+        24,
+        277
+      ],
+      "B": [
+        6,
+        24,
+        277
+      ],
+      "comparison_B_vs_A": "tie",
+      "days": 4,
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "family": "overnight",
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "fuel": "high",
+      "plan_hashes": {
+        "A": "BA754C05FF864C163B0FEAB896D618CAA861B90357A44435C49256B015697E22",
+        "B": "BA754C05FF864C163B0FEAB896D618CAA861B90357A44435C49256B015697E22"
+      },
+      "plans_equal": true,
+      "players": 9,
+      "roadless": true,
+      "role": "native",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093660211,
+      "side": 32,
+      "side_binary": "candidate",
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      },
+      "window_ms": 15000
+    }
+  ],
+  "strata": {
+    "days": {
+      "10": {
+        "delta": [
+          0,
+          4,
+          4
+        ],
+        "first_tiers": {
+          "0": 21,
+          "2": 2,
+          "3": 1
+        },
+        "gross_serving_gain": 6,
+        "gross_serving_loss": 2,
+        "pairs": 24,
+        "worst_serving_loss": 1,
+        "wtl": {
+          "tie": 21,
+          "win": 3
+        }
+      },
+      "4": {
+        "delta": [
+          0,
+          0,
+          36
+        ],
+        "first_tiers": {
+          "0": 12,
+          "3": 12
+        },
+        "gross_serving_gain": 36,
+        "gross_serving_loss": 0,
+        "pairs": 24,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 12,
+          "win": 12
+        }
+      },
+      "5": {
+        "delta": [
+          0,
+          0,
+          62
+        ],
+        "first_tiers": {
+          "0": 12,
+          "3": 12
+        },
+        "gross_serving_gain": 62,
+        "gross_serving_loss": 0,
+        "pairs": 24,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 12,
+          "win": 12
+        }
+      }
+    },
+    "family": {
+      "balanced": {
+        "delta": [
+          0,
+          4,
+          28
+        ],
+        "first_tiers": {
+          "0": 6,
+          "2": 2,
+          "3": 4
+        },
+        "gross_serving_gain": 30,
+        "gross_serving_loss": 2,
+        "pairs": 12,
+        "worst_serving_loss": 1,
+        "wtl": {
+          "tie": 6,
+          "win": 6
+        }
+      },
+      "fuel-tight": {
+        "delta": [
+          0,
+          0,
+          6
+        ],
+        "first_tiers": {
+          "0": 8,
+          "3": 4
+        },
+        "gross_serving_gain": 6,
+        "gross_serving_loss": 0,
+        "pairs": 12,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 8,
+          "win": 4
+        }
+      },
+      "high-stock": {
+        "delta": [
+          0,
+          0,
+          16
+        ],
+        "first_tiers": {
+          "0": 7,
+          "3": 5
+        },
+        "gross_serving_gain": 16,
+        "gross_serving_loss": 0,
+        "pairs": 12,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 7,
+          "win": 5
+        }
+      },
+      "overnight": {
+        "delta": [
+          0,
+          0,
+          14
+        ],
+        "first_tiers": {
+          "0": 8,
+          "3": 4
+        },
+        "gross_serving_gain": 14,
+        "gross_serving_loss": 0,
+        "pairs": 12,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 8,
+          "win": 4
+        }
+      },
+      "rare-brand": {
+        "delta": [
+          0,
+          0,
+          22
+        ],
+        "first_tiers": {
+          "0": 8,
+          "3": 4
+        },
+        "gross_serving_gain": 22,
+        "gross_serving_loss": 0,
+        "pairs": 12,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 8,
+          "win": 4
+        }
+      },
+      "threshold-corridor": {
+        "delta": [
+          0,
+          0,
+          16
+        ],
+        "first_tiers": {
+          "0": 8,
+          "3": 4
+        },
+        "gross_serving_gain": 16,
+        "gross_serving_loss": 0,
+        "pairs": 12,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 8,
+          "win": 4
+        }
+      }
+    },
+    "fuel": {
+      "default": {
+        "delta": [
+          0,
+          0,
+          34
+        ],
+        "first_tiers": {
+          "0": 15,
+          "3": 9
+        },
+        "gross_serving_gain": 34,
+        "gross_serving_loss": 0,
+        "pairs": 24,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 15,
+          "win": 9
+        }
+      },
+      "high": {
+        "delta": [
+          0,
+          4,
+          34
+        ],
+        "first_tiers": {
+          "0": 14,
+          "2": 2,
+          "3": 8
+        },
+        "gross_serving_gain": 36,
+        "gross_serving_loss": 2,
+        "pairs": 24,
+        "worst_serving_loss": 1,
+        "wtl": {
+          "tie": 14,
+          "win": 10
+        }
+      },
+      "low": {
+        "delta": [
+          0,
+          0,
+          34
+        ],
+        "first_tiers": {
+          "0": 16,
+          "3": 8
+        },
+        "gross_serving_gain": 34,
+        "gross_serving_loss": 0,
+        "pairs": 24,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 16,
+          "win": 8
+        }
+      }
+    },
+    "players": {
+      "10": {
+        "delta": [
+          0,
+          0,
+          34
+        ],
+        "first_tiers": {
+          "0": 16,
+          "3": 8
+        },
+        "gross_serving_gain": 34,
+        "gross_serving_loss": 0,
+        "pairs": 24,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 16,
+          "win": 8
+        }
+      },
+      "8": {
+        "delta": [
+          0,
+          4,
+          24
+        ],
+        "first_tiers": {
+          "0": 14,
+          "2": 2,
+          "3": 8
+        },
+        "gross_serving_gain": 26,
+        "gross_serving_loss": 2,
+        "pairs": 24,
+        "worst_serving_loss": 1,
+        "wtl": {
+          "tie": 14,
+          "win": 10
+        }
+      },
+      "9": {
+        "delta": [
+          0,
+          0,
+          44
+        ],
+        "first_tiers": {
+          "0": 15,
+          "3": 9
+        },
+        "gross_serving_gain": 44,
+        "gross_serving_loss": 0,
+        "pairs": 24,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 15,
+          "win": 9
+        }
+      }
+    },
+    "roadless": {
+      "False": {
+        "delta": [
+          0,
+          4,
+          38
+        ],
+        "first_tiers": {
+          "0": 22,
+          "2": 2,
+          "3": 12
+        },
+        "gross_serving_gain": 40,
+        "gross_serving_loss": 2,
+        "pairs": 36,
+        "worst_serving_loss": 1,
+        "wtl": {
+          "tie": 22,
+          "win": 14
+        }
+      },
+      "True": {
+        "delta": [
+          0,
+          0,
+          64
+        ],
+        "first_tiers": {
+          "0": 23,
+          "3": 13
+        },
+        "gross_serving_gain": 64,
+        "gross_serving_loss": 0,
+        "pairs": 36,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 23,
+          "win": 13
+        }
+      }
+    },
+    "role": {
+      "fixed-all-Patrol": {
+        "delta": [
+          0,
+          4,
+          46
+        ],
+        "first_tiers": {
+          "0": 21,
+          "2": 2,
+          "3": 13
+        },
+        "gross_serving_gain": 48,
+        "gross_serving_loss": 2,
+        "pairs": 36,
+        "worst_serving_loss": 1,
+        "wtl": {
+          "tie": 21,
+          "win": 15
+        }
+      },
+      "native": {
+        "delta": [
+          0,
+          0,
+          56
+        ],
+        "first_tiers": {
+          "0": 24,
+          "3": 12
+        },
+        "gross_serving_gain": 56,
+        "gross_serving_loss": 0,
+        "pairs": 36,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 24,
+          "win": 12
+        }
+      }
+    },
+    "side": {
+      "32": {
+        "delta": [
+          0,
+          4,
+          102
+        ],
+        "first_tiers": {
+          "0": 9,
+          "2": 2,
+          "3": 25
+        },
+        "gross_serving_gain": 104,
+        "gross_serving_loss": 2,
+        "pairs": 36,
+        "worst_serving_loss": 1,
+        "wtl": {
+          "tie": 9,
+          "win": 27
+        }
+      },
+      "8": {
+        "delta": [
+          0,
+          0,
+          0
+        ],
+        "first_tiers": {
+          "0": 36
+        },
+        "gross_serving_gain": 0,
+        "gross_serving_loss": 0,
+        "pairs": 36,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 36
+        }
+      }
+    },
+    "window_ms": {
+      "10000": {
+        "delta": [
+          0,
+          0,
+          62
+        ],
+        "first_tiers": {
+          "0": 12,
+          "3": 12
+        },
+        "gross_serving_gain": 62,
+        "gross_serving_loss": 0,
+        "pairs": 24,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 12,
+          "win": 12
+        }
+      },
+      "15000": {
+        "delta": [
+          0,
+          0,
+          36
+        ],
+        "first_tiers": {
+          "0": 12,
+          "3": 12
+        },
+        "gross_serving_gain": 36,
+        "gross_serving_loss": 0,
+        "pairs": 24,
+        "worst_serving_loss": 0,
+        "wtl": {
+          "tie": 12,
+          "win": 12
+        }
+      },
+      "5000": {
+        "delta": [
+          0,
+          4,
+          4
+        ],
+        "first_tiers": {
+          "0": 21,
+          "2": 2,
+          "3": 1
+        },
+        "gross_serving_gain": 6,
+        "gross_serving_loss": 2,
+        "pairs": 24,
+        "worst_serving_loss": 1,
+        "wtl": {
+          "tie": 21,
+          "win": 3
+        }
+      }
+    }
+  },
+  "summary": {
+    "delta": [
+      0,
+      4,
+      102
+    ],
+    "first_tiers": {
+      "0": 45,
+      "2": 2,
+      "3": 25
+    },
+    "gross_serving_gain": 104,
+    "gross_serving_loss": 2,
+    "pairs": 72,
+    "worst_serving_loss": 1,
+    "wtl": {
+      "tie": 45,
+      "win": 27
+    }
+  },
+  "summary_sha256": "5C31F1FFE142675563171FCA5FC6A7C432F08BD42BE0D9ED5EE541241AA0A376",
+  "transitions": 768,
+  "verified": true,
+  "work": {
+    "certified": 1478,
+    "deadline": 0,
+    "entered": 240,
+    "evaluated": 14592,
+    "failure": 0,
+    "queries": 1204,
+    "routes": 14592,
+    "settled": 528866712,
+    "takeover": 46,
+    "valid": 14592
+  }
+}

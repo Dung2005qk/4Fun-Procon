@@ -1,0 +1,4715 @@
+{
+  "aa_changed": 4,
+  "ab_changed": 5,
+  "authority": "Offline source/recorded-boundary attribution, not a new run, timing-causation proof or promotion gate",
+  "changed": [
+    {
+      "first_boundary": "later-canonical-protected-refinement-or-submission",
+      "first_day": 9,
+      "kind": "AB_B",
+      "ledger_equal": true,
+      "main_deadline": [
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 999,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 499,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1402,
+          "searchSoftMs": 1261,
+          "seedMs": 499,
+          "totalMs": 4999
+        },
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 999,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 499,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1402,
+          "searchSoftMs": 1261,
+          "seedMs": 499,
+          "totalMs": 4999
+        }
+      ],
+      "main_plan_equal": true,
+      "main_plan_hashes": [
+        "138FEC4A82AB217AACB55DD7CB4272EAAE631A88BBFC72A43A6A58B0398BF018",
+        "138FEC4A82AB217AACB55DD7CB4272EAAE631A88BBFC72A43A6A58B0398BF018"
+      ],
+      "main_score_equal": true,
+      "main_timing": [
+        {
+          "alnsMs": 53,
+          "candidatePreparationMs": 237,
+          "certificationMs": 17,
+          "columnGenerationMs": 121,
+          "fastPathMs": 0,
+          "incumbentMs": 20,
+          "independentGeneratorsMs": 175,
+          "initialMasterMs": 1516,
+          "recombinationMs": 61,
+          "searchMs": 1927,
+          "totalMs": 2201
+        },
+        {
+          "alnsMs": 54,
+          "candidatePreparationMs": 237,
+          "certificationMs": 17,
+          "columnGenerationMs": 121,
+          "fastPathMs": 1,
+          "incumbentMs": 19,
+          "independentGeneratorsMs": 175,
+          "initialMasterMs": 1516,
+          "recombinationMs": 61,
+          "searchMs": 1927,
+          "totalMs": 2201
+        }
+      ],
+      "protected_refinement": [
+        {
+          "computeWindowMs": 4999,
+          "day": 9,
+          "deadlineReached": false,
+          "eligibleWaitAnchors": 7,
+          "firstRoundDailyDistinct": 54,
+          "firstRoundServings": 535,
+          "generatedPlans": 15,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 1,
+          "middayFailure": false,
+          "middayGeneratedPlans": 416,
+          "middayRounds": 1,
+          "middayRoutes": 672,
+          "middayTargetAcceptances": 1,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 416,
+          "middayTargetRounds": 1,
+          "middayTargetRoutes": 448,
+          "middayTargetValidPlans": 416,
+          "middayValidPlans": 416,
+          "outerWindowMs": 4999,
+          "parentDailyDistinct": 6,
+          "parentServings": 51,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 52,
+          "refinementBudgetMs": 1697,
+          "refinementDeadlineMs": 1788926340488,
+          "refinementReserveMs": 1100,
+          "routePairs": 32,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 15,
+          "virtualParentActive": true,
+          "waitAnchors": 13,
+          "witnessAgent": 7,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 151,
+          "witnessDuration": 0,
+          "witnessParentFuel": 150,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        },
+        {
+          "computeWindowMs": 4999,
+          "day": 9,
+          "deadlineReached": false,
+          "eligibleWaitAnchors": 7,
+          "firstRoundDailyDistinct": 54,
+          "firstRoundServings": 535,
+          "generatedPlans": 15,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 1,
+          "middayFailure": false,
+          "middayGeneratedPlans": 416,
+          "middayRounds": 1,
+          "middayRoutes": 672,
+          "middayTargetAcceptances": 1,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 416,
+          "middayTargetRounds": 1,
+          "middayTargetRoutes": 448,
+          "middayTargetValidPlans": 416,
+          "middayValidPlans": 416,
+          "outerWindowMs": 4999,
+          "parentDailyDistinct": 6,
+          "parentServings": 51,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 53,
+          "refinementBudgetMs": 1697,
+          "refinementDeadlineMs": 1788926284634,
+          "refinementReserveMs": 1100,
+          "routePairs": 32,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 15,
+          "virtualParentActive": true,
+          "waitAnchors": 13,
+          "witnessAgent": 7,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 150,
+          "witnessDuration": 0,
+          "witnessParentFuel": 150,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        }
+      ],
+      "scores": [
+        [
+          6,
+          60,
+          617
+        ],
+        [
+          6,
+          60,
+          618
+        ]
+      ],
+      "seed": 202609093570051,
+      "semantic_state_equal": true
+    },
+    {
+      "first_boundary": "later-canonical-protected-refinement-or-submission",
+      "first_day": 9,
+      "kind": "AA_candidate",
+      "ledger_equal": true,
+      "main_deadline": [
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 1000,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 500,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1400,
+          "searchSoftMs": 1260,
+          "seedMs": 500,
+          "totalMs": 5000
+        },
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 999,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 499,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1402,
+          "searchSoftMs": 1261,
+          "seedMs": 499,
+          "totalMs": 4999
+        }
+      ],
+      "main_plan_equal": true,
+      "main_plan_hashes": [
+        "138FEC4A82AB217AACB55DD7CB4272EAAE631A88BBFC72A43A6A58B0398BF018",
+        "138FEC4A82AB217AACB55DD7CB4272EAAE631A88BBFC72A43A6A58B0398BF018"
+      ],
+      "main_score_equal": true,
+      "main_timing": [
+        {
+          "alnsMs": 54,
+          "candidatePreparationMs": 236,
+          "certificationMs": 17,
+          "columnGenerationMs": 121,
+          "fastPathMs": 0,
+          "incumbentMs": 20,
+          "independentGeneratorsMs": 175,
+          "initialMasterMs": 1516,
+          "recombinationMs": 61,
+          "searchMs": 1927,
+          "totalMs": 2200
+        },
+        {
+          "alnsMs": 54,
+          "candidatePreparationMs": 237,
+          "certificationMs": 17,
+          "columnGenerationMs": 121,
+          "fastPathMs": 1,
+          "incumbentMs": 19,
+          "independentGeneratorsMs": 175,
+          "initialMasterMs": 1516,
+          "recombinationMs": 61,
+          "searchMs": 1927,
+          "totalMs": 2201
+        }
+      ],
+      "protected_refinement": [
+        {
+          "computeWindowMs": 5000,
+          "day": 9,
+          "deadlineReached": false,
+          "eligibleWaitAnchors": 7,
+          "firstRoundDailyDistinct": 54,
+          "firstRoundServings": 535,
+          "generatedPlans": 15,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 1,
+          "middayFailure": false,
+          "middayGeneratedPlans": 416,
+          "middayRounds": 1,
+          "middayRoutes": 672,
+          "middayTargetAcceptances": 1,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 416,
+          "middayTargetRounds": 1,
+          "middayTargetRoutes": 448,
+          "middayTargetValidPlans": 416,
+          "middayValidPlans": 416,
+          "outerWindowMs": 5000,
+          "parentDailyDistinct": 6,
+          "parentServings": 51,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 52,
+          "refinementBudgetMs": 1698,
+          "refinementDeadlineMs": 1788926228771,
+          "refinementReserveMs": 1100,
+          "routePairs": 32,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 15,
+          "virtualParentActive": true,
+          "waitAnchors": 13,
+          "witnessAgent": 7,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 151,
+          "witnessDuration": 0,
+          "witnessParentFuel": 150,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        },
+        {
+          "computeWindowMs": 4999,
+          "day": 9,
+          "deadlineReached": false,
+          "eligibleWaitAnchors": 7,
+          "firstRoundDailyDistinct": 54,
+          "firstRoundServings": 535,
+          "generatedPlans": 15,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 1,
+          "middayFailure": false,
+          "middayGeneratedPlans": 416,
+          "middayRounds": 1,
+          "middayRoutes": 672,
+          "middayTargetAcceptances": 1,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 416,
+          "middayTargetRounds": 1,
+          "middayTargetRoutes": 448,
+          "middayTargetValidPlans": 416,
+          "middayValidPlans": 416,
+          "outerWindowMs": 4999,
+          "parentDailyDistinct": 6,
+          "parentServings": 51,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 53,
+          "refinementBudgetMs": 1697,
+          "refinementDeadlineMs": 1788926284634,
+          "refinementReserveMs": 1100,
+          "routePairs": 32,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 15,
+          "virtualParentActive": true,
+          "waitAnchors": 13,
+          "witnessAgent": 7,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 150,
+          "witnessDuration": 0,
+          "witnessParentFuel": 150,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        }
+      ],
+      "scores": [
+        [
+          6,
+          60,
+          617
+        ],
+        [
+          6,
+          60,
+          618
+        ]
+      ],
+      "seed": 202609093570051,
+      "semantic_state_equal": true
+    },
+    {
+      "first_boundary": "later-canonical-protected-refinement-or-submission",
+      "first_day": 3,
+      "kind": "AB_A",
+      "ledger_equal": true,
+      "main_deadline": [
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 999,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 499,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1402,
+          "searchSoftMs": 1261,
+          "seedMs": 499,
+          "totalMs": 4999
+        },
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 1000,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 500,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1400,
+          "searchSoftMs": 1260,
+          "seedMs": 500,
+          "totalMs": 5000
+        }
+      ],
+      "main_plan_equal": true,
+      "main_plan_hashes": [
+        "89DA781B2D1D8E9A11FEA7EA0B4B0109564FD87769743B30288DC14E29A38238",
+        "89DA781B2D1D8E9A11FEA7EA0B4B0109564FD87769743B30288DC14E29A38238"
+      ],
+      "main_score_equal": true,
+      "main_timing": [
+        {
+          "alnsMs": 54,
+          "candidatePreparationMs": 311,
+          "certificationMs": 90,
+          "columnGenerationMs": 29,
+          "fastPathMs": 0,
+          "incumbentMs": 4,
+          "independentGeneratorsMs": 176,
+          "initialMasterMs": 1623,
+          "recombinationMs": 63,
+          "searchMs": 1945,
+          "totalMs": 2350
+        },
+        {
+          "alnsMs": 54,
+          "candidatePreparationMs": 313,
+          "certificationMs": 89,
+          "columnGenerationMs": 29,
+          "fastPathMs": 0,
+          "incumbentMs": 4,
+          "independentGeneratorsMs": 176,
+          "initialMasterMs": 1623,
+          "recombinationMs": 62,
+          "searchMs": 1944,
+          "totalMs": 2350
+        }
+      ],
+      "protected_refinement": [
+        {
+          "computeWindowMs": 4999,
+          "day": 3,
+          "deadlineReached": true,
+          "eligibleWaitAnchors": 7,
+          "firstRoundDailyDistinct": 18,
+          "firstRoundServings": 134,
+          "generatedPlans": 2,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 2,
+          "middayFailure": false,
+          "middayGeneratedPlans": 319,
+          "middayRounds": 2,
+          "middayRoutes": 608,
+          "middayTargetAcceptances": 2,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 319,
+          "middayTargetRounds": 2,
+          "middayTargetRoutes": 384,
+          "middayTargetValidPlans": 319,
+          "middayValidPlans": 319,
+          "outerWindowMs": 4999,
+          "parentDailyDistinct": 6,
+          "parentServings": 45,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 47,
+          "refinementBudgetMs": 1548,
+          "refinementDeadlineMs": 1788929474988,
+          "refinementReserveMs": 1100,
+          "routePairs": 5,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 2,
+          "virtualParentActive": true,
+          "waitAnchors": 14,
+          "witnessAgent": 3,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 169,
+          "witnessDuration": 0,
+          "witnessParentFuel": 167,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        },
+        {
+          "computeWindowMs": 5000,
+          "day": 3,
+          "deadlineReached": false,
+          "eligibleWaitAnchors": 7,
+          "firstRoundDailyDistinct": 18,
+          "firstRoundServings": 134,
+          "generatedPlans": 2,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 3,
+          "middayFailure": false,
+          "middayGeneratedPlans": 713,
+          "middayRounds": 3,
+          "middayRoutes": 1036,
+          "middayTargetAcceptances": 3,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 713,
+          "middayTargetRounds": 3,
+          "middayTargetRoutes": 812,
+          "middayTargetValidPlans": 713,
+          "middayValidPlans": 713,
+          "outerWindowMs": 5000,
+          "parentDailyDistinct": 6,
+          "parentServings": 45,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 52,
+          "refinementBudgetMs": 1548,
+          "refinementDeadlineMs": 1788929530869,
+          "refinementReserveMs": 1100,
+          "routePairs": 5,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 2,
+          "virtualParentActive": true,
+          "waitAnchors": 14,
+          "witnessAgent": 0,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 238,
+          "witnessDuration": 0,
+          "witnessParentFuel": 238,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        }
+      ],
+      "scores": [
+        [
+          6,
+          60,
+          471
+        ],
+        [
+          6,
+          60,
+          489
+        ]
+      ],
+      "seed": 202609093570137,
+      "semantic_state_equal": true
+    },
+    {
+      "first_boundary": "later-canonical-protected-refinement-or-submission",
+      "first_day": 3,
+      "kind": "AB_B",
+      "ledger_equal": true,
+      "main_deadline": [
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 999,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 499,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1402,
+          "searchSoftMs": 1261,
+          "seedMs": 499,
+          "totalMs": 4999
+        },
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 1000,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 500,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1400,
+          "searchSoftMs": 1260,
+          "seedMs": 500,
+          "totalMs": 5000
+        }
+      ],
+      "main_plan_equal": true,
+      "main_plan_hashes": [
+        "89DA781B2D1D8E9A11FEA7EA0B4B0109564FD87769743B30288DC14E29A38238",
+        "89DA781B2D1D8E9A11FEA7EA0B4B0109564FD87769743B30288DC14E29A38238"
+      ],
+      "main_score_equal": true,
+      "main_timing": [
+        {
+          "alnsMs": 53,
+          "candidatePreparationMs": 312,
+          "certificationMs": 89,
+          "columnGenerationMs": 29,
+          "fastPathMs": 0,
+          "incumbentMs": 4,
+          "independentGeneratorsMs": 176,
+          "initialMasterMs": 1624,
+          "recombinationMs": 62,
+          "searchMs": 1944,
+          "totalMs": 2349
+        },
+        {
+          "alnsMs": 54,
+          "candidatePreparationMs": 312,
+          "certificationMs": 88,
+          "columnGenerationMs": 29,
+          "fastPathMs": 0,
+          "incumbentMs": 4,
+          "independentGeneratorsMs": 176,
+          "initialMasterMs": 1623,
+          "recombinationMs": 62,
+          "searchMs": 1944,
+          "totalMs": 2348
+        }
+      ],
+      "protected_refinement": [
+        {
+          "computeWindowMs": 4999,
+          "day": 3,
+          "deadlineReached": true,
+          "eligibleWaitAnchors": 7,
+          "firstRoundDailyDistinct": 18,
+          "firstRoundServings": 134,
+          "generatedPlans": 2,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 2,
+          "middayFailure": false,
+          "middayGeneratedPlans": 319,
+          "middayRounds": 2,
+          "middayRoutes": 608,
+          "middayTargetAcceptances": 2,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 319,
+          "middayTargetRounds": 2,
+          "middayTargetRoutes": 384,
+          "middayTargetValidPlans": 319,
+          "middayValidPlans": 319,
+          "outerWindowMs": 4999,
+          "parentDailyDistinct": 6,
+          "parentServings": 45,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 47,
+          "refinementBudgetMs": 1548,
+          "refinementDeadlineMs": 1788929419211,
+          "refinementReserveMs": 1100,
+          "routePairs": 5,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 2,
+          "virtualParentActive": true,
+          "waitAnchors": 14,
+          "witnessAgent": 3,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 169,
+          "witnessDuration": 0,
+          "witnessParentFuel": 167,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        },
+        {
+          "computeWindowMs": 5000,
+          "day": 3,
+          "deadlineReached": false,
+          "eligibleWaitAnchors": 7,
+          "firstRoundDailyDistinct": 18,
+          "firstRoundServings": 134,
+          "generatedPlans": 2,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 3,
+          "middayFailure": false,
+          "middayGeneratedPlans": 701,
+          "middayRounds": 3,
+          "middayRoutes": 1024,
+          "middayTargetAcceptances": 3,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 701,
+          "middayTargetRounds": 3,
+          "middayTargetRoutes": 800,
+          "middayTargetValidPlans": 701,
+          "middayValidPlans": 701,
+          "outerWindowMs": 5000,
+          "parentDailyDistinct": 6,
+          "parentServings": 45,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 52,
+          "refinementBudgetMs": 1551,
+          "refinementDeadlineMs": 1788929586795,
+          "refinementReserveMs": 1100,
+          "routePairs": 5,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 2,
+          "virtualParentActive": true,
+          "waitAnchors": 14,
+          "witnessAgent": 0,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 238,
+          "witnessDuration": 0,
+          "witnessParentFuel": 238,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        }
+      ],
+      "scores": [
+        [
+          6,
+          60,
+          442
+        ],
+        [
+          6,
+          60,
+          480
+        ]
+      ],
+      "seed": 202609093570137,
+      "semantic_state_equal": true
+    },
+    {
+      "first_boundary": "main-decision",
+      "first_day": 4,
+      "kind": "AA_parent",
+      "ledger_equal": true,
+      "main_deadline": [
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 999,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 499,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1402,
+          "searchSoftMs": 1261,
+          "seedMs": 499,
+          "totalMs": 4999
+        },
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 1000,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 500,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1400,
+          "searchSoftMs": 1260,
+          "seedMs": 500,
+          "totalMs": 5000
+        }
+      ],
+      "main_plan_equal": false,
+      "main_plan_hashes": [
+        "577034CA119D089B380A652DC3ACEEFBFBC66E25DBCF320AC0B5B6E79571E6A4",
+        "1B2A2F56ED186E7ECDBCC5A55536E5FD7C88744CE54B62B692F17354164D39C7"
+      ],
+      "main_score_equal": true,
+      "main_timing": [
+        {
+          "alnsMs": 53,
+          "candidatePreparationMs": 311,
+          "certificationMs": 121,
+          "columnGenerationMs": 48,
+          "fastPathMs": 0,
+          "incumbentMs": 4,
+          "independentGeneratorsMs": 176,
+          "initialMasterMs": 1604,
+          "recombinationMs": 63,
+          "searchMs": 1945,
+          "totalMs": 2381
+        },
+        {
+          "alnsMs": 55,
+          "candidatePreparationMs": 309,
+          "certificationMs": 117,
+          "columnGenerationMs": 48,
+          "fastPathMs": 0,
+          "incumbentMs": 4,
+          "independentGeneratorsMs": 176,
+          "initialMasterMs": 1603,
+          "recombinationMs": 65,
+          "searchMs": 1947,
+          "totalMs": 2377
+        }
+      ],
+      "protected_refinement": [
+        {
+          "computeWindowMs": 4999,
+          "day": 4,
+          "deadlineReached": true,
+          "eligibleWaitAnchors": 5,
+          "firstRoundDailyDistinct": 24,
+          "firstRoundServings": 183,
+          "generatedPlans": 5,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 3,
+          "middayFailure": false,
+          "middayGeneratedPlans": 316,
+          "middayRounds": 3,
+          "middayRoutes": 832,
+          "middayTargetAcceptances": 2,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 305,
+          "middayTargetRounds": 2,
+          "middayTargetRoutes": 384,
+          "middayTargetValidPlans": 305,
+          "middayValidPlans": 316,
+          "outerWindowMs": 4999,
+          "parentDailyDistinct": 6,
+          "parentServings": 46,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 51,
+          "refinementBudgetMs": 1517,
+          "refinementDeadlineMs": 1788929480176,
+          "refinementReserveMs": 1100,
+          "routePairs": 6,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 5,
+          "virtualParentActive": true,
+          "waitAnchors": 14,
+          "witnessAgent": 2,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 298,
+          "witnessDuration": 0,
+          "witnessParentFuel": 298,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        },
+        {
+          "computeWindowMs": 5000,
+          "day": 4,
+          "deadlineReached": true,
+          "eligibleWaitAnchors": 5,
+          "firstRoundDailyDistinct": 24,
+          "firstRoundServings": 183,
+          "generatedPlans": 5,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 3,
+          "middayFailure": false,
+          "middayGeneratedPlans": 316,
+          "middayRounds": 3,
+          "middayRoutes": 832,
+          "middayTargetAcceptances": 2,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 305,
+          "middayTargetRounds": 2,
+          "middayTargetRoutes": 384,
+          "middayTargetValidPlans": 305,
+          "middayValidPlans": 316,
+          "outerWindowMs": 5000,
+          "parentDailyDistinct": 6,
+          "parentServings": 46,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 51,
+          "refinementBudgetMs": 1522,
+          "refinementDeadlineMs": 1788929424400,
+          "refinementReserveMs": 1100,
+          "routePairs": 6,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 5,
+          "virtualParentActive": true,
+          "waitAnchors": 14,
+          "witnessAgent": 2,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 300,
+          "witnessDuration": 0,
+          "witnessParentFuel": 300,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        }
+      ],
+      "scores": [
+        [
+          6,
+          60,
+          471
+        ],
+        [
+          6,
+          60,
+          442
+        ]
+      ],
+      "seed": 202609093570137,
+      "semantic_state_equal": true
+    },
+    {
+      "first_boundary": "main-decision",
+      "first_day": 4,
+      "kind": "AA_candidate",
+      "ledger_equal": true,
+      "main_deadline": [
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 1000,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 500,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1400,
+          "searchSoftMs": 1260,
+          "seedMs": 500,
+          "totalMs": 5000
+        },
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 999,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 499,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1402,
+          "searchSoftMs": 1261,
+          "seedMs": 499,
+          "totalMs": 4999
+        }
+      ],
+      "main_plan_equal": false,
+      "main_plan_hashes": [
+        "577034CA119D089B380A652DC3ACEEFBFBC66E25DBCF320AC0B5B6E79571E6A4",
+        "1B2A2F56ED186E7ECDBCC5A55536E5FD7C88744CE54B62B692F17354164D39C7"
+      ],
+      "main_score_equal": true,
+      "main_timing": [
+        {
+          "alnsMs": 53,
+          "candidatePreparationMs": 311,
+          "certificationMs": 120,
+          "columnGenerationMs": 47,
+          "fastPathMs": 0,
+          "incumbentMs": 4,
+          "independentGeneratorsMs": 176,
+          "initialMasterMs": 1605,
+          "recombinationMs": 63,
+          "searchMs": 1945,
+          "totalMs": 2380
+        },
+        {
+          "alnsMs": 54,
+          "candidatePreparationMs": 310,
+          "certificationMs": 111,
+          "columnGenerationMs": 47,
+          "fastPathMs": 0,
+          "incumbentMs": 4,
+          "independentGeneratorsMs": 176,
+          "initialMasterMs": 1605,
+          "recombinationMs": 64,
+          "searchMs": 1946,
+          "totalMs": 2371
+        }
+      ],
+      "protected_refinement": [
+        {
+          "computeWindowMs": 5000,
+          "day": 4,
+          "deadlineReached": true,
+          "eligibleWaitAnchors": 5,
+          "firstRoundDailyDistinct": 24,
+          "firstRoundServings": 188,
+          "generatedPlans": 5,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 3,
+          "middayFailure": false,
+          "middayGeneratedPlans": 343,
+          "middayRounds": 3,
+          "middayRoutes": 859,
+          "middayTargetAcceptances": 2,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 332,
+          "middayTargetRounds": 2,
+          "middayTargetRoutes": 411,
+          "middayTargetValidPlans": 332,
+          "middayValidPlans": 343,
+          "outerWindowMs": 5000,
+          "parentDailyDistinct": 6,
+          "parentServings": 46,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 51,
+          "refinementBudgetMs": 1519,
+          "refinementDeadlineMs": 1788929536053,
+          "refinementReserveMs": 1100,
+          "routePairs": 6,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 5,
+          "virtualParentActive": true,
+          "waitAnchors": 14,
+          "witnessAgent": 2,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 298,
+          "witnessDuration": 0,
+          "witnessParentFuel": 298,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        },
+        {
+          "computeWindowMs": 4999,
+          "day": 4,
+          "deadlineReached": false,
+          "eligibleWaitAnchors": 5,
+          "firstRoundDailyDistinct": 24,
+          "firstRoundServings": 188,
+          "generatedPlans": 5,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 4,
+          "middayFailure": false,
+          "middayGeneratedPlans": 663,
+          "middayRounds": 4,
+          "middayRoutes": 1200,
+          "middayTargetAcceptances": 3,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 652,
+          "middayTargetRounds": 3,
+          "middayTargetRoutes": 752,
+          "middayTargetValidPlans": 652,
+          "middayValidPlans": 663,
+          "outerWindowMs": 4999,
+          "parentDailyDistinct": 6,
+          "parentServings": 46,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 52,
+          "refinementBudgetMs": 1527,
+          "refinementDeadlineMs": 1788929591978,
+          "refinementReserveMs": 1100,
+          "routePairs": 6,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 5,
+          "virtualParentActive": true,
+          "waitAnchors": 14,
+          "witnessAgent": 7,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 200,
+          "witnessDuration": 0,
+          "witnessParentFuel": 200,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        }
+      ],
+      "scores": [
+        [
+          6,
+          60,
+          489
+        ],
+        [
+          6,
+          60,
+          480
+        ]
+      ],
+      "seed": 202609093570137,
+      "semantic_state_equal": true
+    },
+    {
+      "first_boundary": "later-canonical-protected-refinement-or-submission",
+      "first_day": 1,
+      "kind": "AB_A",
+      "ledger_equal": true,
+      "main_deadline": [
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 1000,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 500,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1400,
+          "searchSoftMs": 1260,
+          "seedMs": 500,
+          "totalMs": 5000
+        },
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 1000,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 500,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1400,
+          "searchSoftMs": 1260,
+          "seedMs": 500,
+          "totalMs": 5000
+        }
+      ],
+      "main_plan_equal": true,
+      "main_plan_hashes": [
+        "3E4BA771E25D7C39E70A3385D213EA1309B880ACDD05FE74BCC968BEE794C5C1",
+        "3E4BA771E25D7C39E70A3385D213EA1309B880ACDD05FE74BCC968BEE794C5C1"
+      ],
+      "main_score_equal": true,
+      "main_timing": [
+        {
+          "alnsMs": 57,
+          "candidatePreparationMs": 192,
+          "certificationMs": 82,
+          "columnGenerationMs": 19,
+          "fastPathMs": 0,
+          "incumbentMs": 4,
+          "independentGeneratorsMs": 175,
+          "initialMasterMs": 1631,
+          "recombinationMs": 67,
+          "searchMs": 1949,
+          "totalMs": 2227
+        },
+        {
+          "alnsMs": 57,
+          "candidatePreparationMs": 193,
+          "certificationMs": 83,
+          "columnGenerationMs": 19,
+          "fastPathMs": 0,
+          "incumbentMs": 4,
+          "independentGeneratorsMs": 175,
+          "initialMasterMs": 1631,
+          "recombinationMs": 67,
+          "searchMs": 1949,
+          "totalMs": 2229
+        }
+      ],
+      "protected_refinement": [
+        {
+          "computeWindowMs": 5000,
+          "day": 1,
+          "deadlineReached": false,
+          "eligibleWaitAnchors": 7,
+          "firstRoundDailyDistinct": 6,
+          "firstRoundServings": 46,
+          "generatedPlans": 7,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 3,
+          "middayFailure": false,
+          "middayGeneratedPlans": 797,
+          "middayRounds": 3,
+          "middayRoutes": 2240,
+          "middayTargetAcceptances": 3,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 795,
+          "middayTargetRounds": 3,
+          "middayTargetRoutes": 1792,
+          "middayTargetValidPlans": 795,
+          "middayValidPlans": 797,
+          "outerWindowMs": 5000,
+          "parentDailyDistinct": 6,
+          "parentServings": 46,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 50,
+          "refinementBudgetMs": 1671,
+          "refinementDeadlineMs": 1788931451922,
+          "refinementReserveMs": 1100,
+          "routePairs": 25,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 7,
+          "virtualParentActive": false,
+          "waitAnchors": 7,
+          "witnessAgent": 5,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 14,
+          "witnessDuration": 0,
+          "witnessParentFuel": 8,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        },
+        {
+          "computeWindowMs": 5000,
+          "day": 1,
+          "deadlineReached": true,
+          "eligibleWaitAnchors": 7,
+          "firstRoundDailyDistinct": 6,
+          "firstRoundServings": 46,
+          "generatedPlans": 7,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 2,
+          "middayFailure": false,
+          "middayGeneratedPlans": 415,
+          "middayRounds": 2,
+          "middayRoutes": 1408,
+          "middayTargetAcceptances": 2,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 413,
+          "middayTargetRounds": 2,
+          "middayTargetRoutes": 960,
+          "middayTargetValidPlans": 413,
+          "middayValidPlans": 415,
+          "outerWindowMs": 5000,
+          "parentDailyDistinct": 6,
+          "parentServings": 46,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 48,
+          "refinementBudgetMs": 1669,
+          "refinementDeadlineMs": 1788931506980,
+          "refinementReserveMs": 1100,
+          "routePairs": 25,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 7,
+          "virtualParentActive": false,
+          "waitAnchors": 7,
+          "witnessAgent": 5,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 14,
+          "witnessDuration": 0,
+          "witnessParentFuel": 8,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        }
+      ],
+      "scores": [
+        [
+          6,
+          60,
+          244
+        ],
+        [
+          6,
+          60,
+          242
+        ]
+      ],
+      "seed": 202609093570187,
+      "semantic_state_equal": true
+    },
+    {
+      "first_boundary": "later-canonical-protected-refinement-or-submission",
+      "first_day": 1,
+      "kind": "AB_B",
+      "ledger_equal": true,
+      "main_deadline": [
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 999,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 499,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1402,
+          "searchSoftMs": 1261,
+          "seedMs": 499,
+          "totalMs": 4999
+        },
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 1000,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 500,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1400,
+          "searchSoftMs": 1260,
+          "seedMs": 500,
+          "totalMs": 5000
+        }
+      ],
+      "main_plan_equal": true,
+      "main_plan_hashes": [
+        "3E4BA771E25D7C39E70A3385D213EA1309B880ACDD05FE74BCC968BEE794C5C1",
+        "3E4BA771E25D7C39E70A3385D213EA1309B880ACDD05FE74BCC968BEE794C5C1"
+      ],
+      "main_score_equal": true,
+      "main_timing": [
+        {
+          "alnsMs": 58,
+          "candidatePreparationMs": 193,
+          "certificationMs": 82,
+          "columnGenerationMs": 18,
+          "fastPathMs": 0,
+          "incumbentMs": 4,
+          "independentGeneratorsMs": 175,
+          "initialMasterMs": 1630,
+          "recombinationMs": 67,
+          "searchMs": 1949,
+          "totalMs": 2228
+        },
+        {
+          "alnsMs": 58,
+          "candidatePreparationMs": 194,
+          "certificationMs": 82,
+          "columnGenerationMs": 18,
+          "fastPathMs": 0,
+          "incumbentMs": 4,
+          "independentGeneratorsMs": 175,
+          "initialMasterMs": 1630,
+          "recombinationMs": 67,
+          "searchMs": 1949,
+          "totalMs": 2229
+        }
+      ],
+      "protected_refinement": [
+        {
+          "computeWindowMs": 4999,
+          "day": 1,
+          "deadlineReached": false,
+          "eligibleWaitAnchors": 7,
+          "firstRoundDailyDistinct": 6,
+          "firstRoundServings": 46,
+          "generatedPlans": 7,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 2,
+          "middayFailure": false,
+          "middayGeneratedPlans": 607,
+          "middayRounds": 2,
+          "middayRoutes": 1792,
+          "middayTargetAcceptances": 2,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 605,
+          "middayTargetRounds": 2,
+          "middayTargetRoutes": 1344,
+          "middayTargetValidPlans": 605,
+          "middayValidPlans": 607,
+          "outerWindowMs": 4999,
+          "parentDailyDistinct": 6,
+          "parentServings": 46,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 49,
+          "refinementBudgetMs": 1670,
+          "refinementDeadlineMs": 1788931396680,
+          "refinementReserveMs": 1100,
+          "routePairs": 25,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 7,
+          "virtualParentActive": false,
+          "waitAnchors": 7,
+          "witnessAgent": 2,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 39,
+          "witnessDuration": 0,
+          "witnessParentFuel": 39,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        },
+        {
+          "computeWindowMs": 5000,
+          "day": 1,
+          "deadlineReached": true,
+          "eligibleWaitAnchors": 7,
+          "firstRoundDailyDistinct": 6,
+          "firstRoundServings": 46,
+          "generatedPlans": 7,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 2,
+          "middayFailure": false,
+          "middayGeneratedPlans": 403,
+          "middayRounds": 2,
+          "middayRoutes": 1372,
+          "middayTargetAcceptances": 2,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 401,
+          "middayTargetRounds": 2,
+          "middayTargetRoutes": 924,
+          "middayTargetValidPlans": 401,
+          "middayValidPlans": 403,
+          "outerWindowMs": 5000,
+          "parentDailyDistinct": 6,
+          "parentServings": 46,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 48,
+          "refinementBudgetMs": 1669,
+          "refinementDeadlineMs": 1788931562386,
+          "refinementReserveMs": 1100,
+          "routePairs": 25,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 7,
+          "virtualParentActive": false,
+          "waitAnchors": 7,
+          "witnessAgent": 5,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 14,
+          "witnessDuration": 0,
+          "witnessParentFuel": 8,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        }
+      ],
+      "scores": [
+        [
+          6,
+          60,
+          242
+        ],
+        [
+          6,
+          60,
+          242
+        ]
+      ],
+      "seed": 202609093570187,
+      "semantic_state_equal": true
+    },
+    {
+      "first_boundary": "later-canonical-protected-refinement-or-submission",
+      "first_day": 1,
+      "kind": "AA_parent",
+      "ledger_equal": true,
+      "main_deadline": [
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 1000,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 500,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1400,
+          "searchSoftMs": 1260,
+          "seedMs": 500,
+          "totalMs": 5000
+        },
+        {
+          "calibrationVersion": "btc-http-local-budget-v8-idempotent-ack-resend",
+          "certificationMs": 999,
+          "class": "normal",
+          "competitionReady": false,
+          "fastViabilityMs": 499,
+          "meetsMinimumFloors": true,
+          "networkMs": 1600,
+          "p99Calibrated": false,
+          "searchMs": 1402,
+          "searchSoftMs": 1261,
+          "seedMs": 499,
+          "totalMs": 4999
+        }
+      ],
+      "main_plan_equal": true,
+      "main_plan_hashes": [
+        "3E4BA771E25D7C39E70A3385D213EA1309B880ACDD05FE74BCC968BEE794C5C1",
+        "3E4BA771E25D7C39E70A3385D213EA1309B880ACDD05FE74BCC968BEE794C5C1"
+      ],
+      "main_score_equal": true,
+      "main_timing": [
+        {
+          "alnsMs": 57,
+          "candidatePreparationMs": 192,
+          "certificationMs": 82,
+          "columnGenerationMs": 19,
+          "fastPathMs": 0,
+          "incumbentMs": 4,
+          "independentGeneratorsMs": 175,
+          "initialMasterMs": 1631,
+          "recombinationMs": 67,
+          "searchMs": 1949,
+          "totalMs": 2227
+        },
+        {
+          "alnsMs": 58,
+          "candidatePreparationMs": 193,
+          "certificationMs": 82,
+          "columnGenerationMs": 18,
+          "fastPathMs": 0,
+          "incumbentMs": 4,
+          "independentGeneratorsMs": 175,
+          "initialMasterMs": 1630,
+          "recombinationMs": 67,
+          "searchMs": 1949,
+          "totalMs": 2228
+        }
+      ],
+      "protected_refinement": [
+        {
+          "computeWindowMs": 5000,
+          "day": 1,
+          "deadlineReached": false,
+          "eligibleWaitAnchors": 7,
+          "firstRoundDailyDistinct": 6,
+          "firstRoundServings": 46,
+          "generatedPlans": 7,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 3,
+          "middayFailure": false,
+          "middayGeneratedPlans": 797,
+          "middayRounds": 3,
+          "middayRoutes": 2240,
+          "middayTargetAcceptances": 3,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 795,
+          "middayTargetRounds": 3,
+          "middayTargetRoutes": 1792,
+          "middayTargetValidPlans": 795,
+          "middayValidPlans": 797,
+          "outerWindowMs": 5000,
+          "parentDailyDistinct": 6,
+          "parentServings": 46,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 50,
+          "refinementBudgetMs": 1671,
+          "refinementDeadlineMs": 1788931451922,
+          "refinementReserveMs": 1100,
+          "routePairs": 25,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 7,
+          "virtualParentActive": false,
+          "waitAnchors": 7,
+          "witnessAgent": 5,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 14,
+          "witnessDuration": 0,
+          "witnessParentFuel": 8,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        },
+        {
+          "computeWindowMs": 4999,
+          "day": 1,
+          "deadlineReached": false,
+          "eligibleWaitAnchors": 7,
+          "firstRoundDailyDistinct": 6,
+          "firstRoundServings": 46,
+          "generatedPlans": 7,
+          "improved": true,
+          "liftablePlans": 0,
+          "middayChain": true,
+          "middayChainAcceptances": 2,
+          "middayFailure": false,
+          "middayGeneratedPlans": 607,
+          "middayRounds": 2,
+          "middayRoutes": 1792,
+          "middayTargetAcceptances": 2,
+          "middayTargetFollowup": true,
+          "middayTargetGeneratedPlans": 605,
+          "middayTargetRounds": 2,
+          "middayTargetRoutes": 1344,
+          "middayTargetValidPlans": 605,
+          "middayValidPlans": 607,
+          "outerWindowMs": 4999,
+          "parentDailyDistinct": 6,
+          "parentServings": 46,
+          "refinedDailyDistinct": 6,
+          "refinedServings": 49,
+          "refinementBudgetMs": 1670,
+          "refinementDeadlineMs": 1788931396680,
+          "refinementReserveMs": 1100,
+          "routePairs": 25,
+          "sparseFailure": false,
+          "sparseRoutes": 0,
+          "strictTerminalImprovements": 0,
+          "terminalSparse": false,
+          "terminalSparseRounds": 0,
+          "validPlans": 7,
+          "virtualParentActive": false,
+          "waitAnchors": 7,
+          "witnessAgent": 2,
+          "witnessAnchor": -1,
+          "witnessCandidateFuel": 39,
+          "witnessDuration": 0,
+          "witnessParentFuel": 39,
+          "witnessSpot": -1,
+          "witnessTravelSteps": 0
+        }
+      ],
+      "scores": [
+        [
+          6,
+          60,
+          244
+        ],
+        [
+          6,
+          60,
+          242
+        ]
+      ],
+      "seed": 202609093570187,
+      "semantic_state_equal": true
+    }
+  ],
+  "controls": [
+    {
+      "A": [
+        5,
+        19,
+        31
+      ],
+      "B": [
+        5,
+        19,
+        31
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_parent",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "9E562484C6E0C0498A76AC8CCE25200A8057E8C468EF0FE0653B4FA6D38608D8",
+        "B": "9E562484C6E0C0498A76AC8CCE25200A8057E8C468EF0FE0653B4FA6D38608D8"
+      },
+      "plans_equal": true,
+      "right": "parentB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093569996,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        5,
+        19,
+        31
+      ],
+      "B": [
+        5,
+        19,
+        31
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_candidate",
+      "left": "candidateA",
+      "plan_hashes": {
+        "A": "9E562484C6E0C0498A76AC8CCE25200A8057E8C468EF0FE0653B4FA6D38608D8",
+        "B": "9E562484C6E0C0498A76AC8CCE25200A8057E8C468EF0FE0653B4FA6D38608D8"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093569996,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        58,
+        367
+      ],
+      "B": [
+        6,
+        58,
+        367
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_parent",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "808ECB49C217C06A79A5785DCF30BF4AC81F0D53ABE061CEEDC891BFFD7E4683",
+        "B": "808ECB49C217C06A79A5785DCF30BF4AC81F0D53ABE061CEEDC891BFFD7E4683"
+      },
+      "plans_equal": true,
+      "right": "parentB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570026,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        58,
+        367
+      ],
+      "B": [
+        6,
+        58,
+        367
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_candidate",
+      "left": "candidateA",
+      "plan_hashes": {
+        "A": "808ECB49C217C06A79A5785DCF30BF4AC81F0D53ABE061CEEDC891BFFD7E4683",
+        "B": "808ECB49C217C06A79A5785DCF30BF4AC81F0D53ABE061CEEDC891BFFD7E4683"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570026,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        617
+      ],
+      "B": [
+        6,
+        60,
+        617
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_parent",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "81A49510227293DB14FCEB9F9C2760881D42FA9BC518795393143148D7740074",
+        "B": "81A49510227293DB14FCEB9F9C2760881D42FA9BC518795393143148D7740074"
+      },
+      "plans_equal": true,
+      "right": "parentB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570051,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        617
+      ],
+      "B": [
+        6,
+        60,
+        618
+      ],
+      "comparison_B_vs_A": "win",
+      "delta": [
+        0,
+        0,
+        1
+      ],
+      "first_divergence": 9,
+      "first_tier": 3,
+      "first_tier_difference": 1,
+      "kind": "AA_candidate",
+      "left": "candidateA",
+      "plan_hashes": {
+        "A": "81A49510227293DB14FCEB9F9C2760881D42FA9BC518795393143148D7740074",
+        "B": "B3FCB6A0732701A35D3ED5E0E779B07C1941F86F5C84D8EC59309B8DC040C499"
+      },
+      "plans_equal": false,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570051,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        24,
+        32
+      ],
+      "B": [
+        6,
+        24,
+        32
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_parent",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "67410D6CA0ADA95754F3A1B1832291ACA259833C21850C8CEB6F75A10C3626B9",
+        "B": "67410D6CA0ADA95754F3A1B1832291ACA259833C21850C8CEB6F75A10C3626B9"
+      },
+      "plans_equal": true,
+      "right": "parentB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570057,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        24,
+        32
+      ],
+      "B": [
+        6,
+        24,
+        32
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_candidate",
+      "left": "candidateA",
+      "plan_hashes": {
+        "A": "67410D6CA0ADA95754F3A1B1832291ACA259833C21850C8CEB6F75A10C3626B9",
+        "B": "67410D6CA0ADA95754F3A1B1832291ACA259833C21850C8CEB6F75A10C3626B9"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570057,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        123
+      ],
+      "B": [
+        6,
+        60,
+        123
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_parent",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "BC2F00C69AFCA9A2462CB901B0E601266EBA622F41FFA515FFD1C61DF0A1884A",
+        "B": "BC2F00C69AFCA9A2462CB901B0E601266EBA622F41FFA515FFD1C61DF0A1884A"
+      },
+      "plans_equal": true,
+      "right": "parentB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570076,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        123
+      ],
+      "B": [
+        6,
+        60,
+        123
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_candidate",
+      "left": "candidateA",
+      "plan_hashes": {
+        "A": "BC2F00C69AFCA9A2462CB901B0E601266EBA622F41FFA515FFD1C61DF0A1884A",
+        "B": "BC2F00C69AFCA9A2462CB901B0E601266EBA622F41FFA515FFD1C61DF0A1884A"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570076,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        7,
+        28,
+        38
+      ],
+      "B": [
+        7,
+        28,
+        38
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_parent",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "B022E438366DB23159CDE733293A9918F7E38EA9FDA463FD292095BFC799A3BC",
+        "B": "B022E438366DB23159CDE733293A9918F7E38EA9FDA463FD292095BFC799A3BC"
+      },
+      "plans_equal": true,
+      "right": "parentB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570082,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        7,
+        28,
+        38
+      ],
+      "B": [
+        7,
+        28,
+        38
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_candidate",
+      "left": "candidateA",
+      "plan_hashes": {
+        "A": "B022E438366DB23159CDE733293A9918F7E38EA9FDA463FD292095BFC799A3BC",
+        "B": "B022E438366DB23159CDE733293A9918F7E38EA9FDA463FD292095BFC799A3BC"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570082,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        23,
+        29
+      ],
+      "B": [
+        6,
+        23,
+        29
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_parent",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "AB5D10AFCED4E61828CA9D8352E20ABE0BEAA82263375EBAA72E680345C33C76",
+        "B": "AB5D10AFCED4E61828CA9D8352E20ABE0BEAA82263375EBAA72E680345C33C76"
+      },
+      "plans_equal": true,
+      "right": "parentB",
+      "roles": {
+        "A": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570107,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        23,
+        29
+      ],
+      "B": [
+        6,
+        23,
+        29
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_candidate",
+      "left": "candidateA",
+      "plan_hashes": {
+        "A": "AB5D10AFCED4E61828CA9D8352E20ABE0BEAA82263375EBAA72E680345C33C76",
+        "B": "AB5D10AFCED4E61828CA9D8352E20ABE0BEAA82263375EBAA72E680345C33C76"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570107,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        471
+      ],
+      "B": [
+        6,
+        60,
+        442
+      ],
+      "comparison_B_vs_A": "loss",
+      "delta": [
+        0,
+        0,
+        -29
+      ],
+      "first_divergence": 4,
+      "first_tier": 3,
+      "first_tier_difference": -29,
+      "kind": "AA_parent",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "7038E588E8659073641CF9406C678F9508845F98856F1C4EFC00DA54E3806DBA",
+        "B": "BA2B48BC8015DFA269AE17577D4520D5DFE592041D4F6B151DE028CEC2D83A49"
+      },
+      "plans_equal": false,
+      "right": "parentB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570137,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        489
+      ],
+      "B": [
+        6,
+        60,
+        480
+      ],
+      "comparison_B_vs_A": "loss",
+      "delta": [
+        0,
+        0,
+        -9
+      ],
+      "first_divergence": 4,
+      "first_tier": 3,
+      "first_tier_difference": -9,
+      "kind": "AA_candidate",
+      "left": "candidateA",
+      "plan_hashes": {
+        "A": "A9DF954AA055FBDADD3946E36E108CEAB787FF898F105651432A1077B221E6F7",
+        "B": "3A66DAF02BF195A66C71B41C8F6CCF64CEB1E230207D058EC7C54A089B745511"
+      },
+      "plans_equal": false,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570137,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        55,
+        334
+      ],
+      "B": [
+        6,
+        55,
+        334
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_parent",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "DCDA049E5ABC9A466FA77BC11463567EDBE92F26E8BA41D2F866692EE8E035EC",
+        "B": "DCDA049E5ABC9A466FA77BC11463567EDBE92F26E8BA41D2F866692EE8E035EC"
+      },
+      "plans_equal": true,
+      "right": "parentB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570162,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        55,
+        334
+      ],
+      "B": [
+        6,
+        55,
+        334
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_candidate",
+      "left": "candidateA",
+      "plan_hashes": {
+        "A": "DCDA049E5ABC9A466FA77BC11463567EDBE92F26E8BA41D2F866692EE8E035EC",
+        "B": "DCDA049E5ABC9A466FA77BC11463567EDBE92F26E8BA41D2F866692EE8E035EC"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570162,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        7,
+        28,
+        75
+      ],
+      "B": [
+        7,
+        28,
+        75
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_parent",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "F740668A40E215B618E659840503D702DD928441E9F1B01A42B1F92BE1A4B700",
+        "B": "F740668A40E215B618E659840503D702DD928441E9F1B01A42B1F92BE1A4B700"
+      },
+      "plans_equal": true,
+      "right": "parentB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570168,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        7,
+        28,
+        75
+      ],
+      "B": [
+        7,
+        28,
+        75
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_candidate",
+      "left": "candidateA",
+      "plan_hashes": {
+        "A": "F740668A40E215B618E659840503D702DD928441E9F1B01A42B1F92BE1A4B700",
+        "B": "F740668A40E215B618E659840503D702DD928441E9F1B01A42B1F92BE1A4B700"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570168,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        244
+      ],
+      "B": [
+        6,
+        60,
+        242
+      ],
+      "comparison_B_vs_A": "loss",
+      "delta": [
+        0,
+        0,
+        -2
+      ],
+      "first_divergence": 1,
+      "first_tier": 3,
+      "first_tier_difference": -2,
+      "kind": "AA_parent",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "5133275D403DFD26A3FDFBA9D123D64849E70A4D06694203DCC60C36B5DCD4CA",
+        "B": "E6E47DAB6CC1AFA52EC5DA7832728D9CB7F719225E338B9AED329963502D6F58"
+      },
+      "plans_equal": false,
+      "right": "parentB",
+      "roles": {
+        "A": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570187,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        242
+      ],
+      "B": [
+        6,
+        60,
+        242
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_candidate",
+      "left": "candidateA",
+      "plan_hashes": {
+        "A": "0A7CF588C7F3B82078FD970D95DE773206333751F89197771B107E100A18BC44",
+        "B": "0A7CF588C7F3B82078FD970D95DE773206333751F89197771B107E100A18BC44"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570187,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        7,
+        28,
+        40
+      ],
+      "B": [
+        7,
+        28,
+        40
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_parent",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "D97B0185236D131C629B01F2012310DCEE9899C64E9257965352870B02911CFF",
+        "B": "D97B0185236D131C629B01F2012310DCEE9899C64E9257965352870B02911CFF"
+      },
+      "plans_equal": true,
+      "right": "parentB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570193,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        7,
+        28,
+        40
+      ],
+      "B": [
+        7,
+        28,
+        40
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AA_candidate",
+      "left": "candidateA",
+      "plan_hashes": {
+        "A": "D97B0185236D131C629B01F2012310DCEE9899C64E9257965352870B02911CFF",
+        "B": "D97B0185236D131C629B01F2012310DCEE9899C64E9257965352870B02911CFF"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570193,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    }
+  ],
+  "days": 336,
+  "experiment": "ATTR-INACTIVE-CHECKPOINT-CAUSALITY-358",
+  "fixtures": 12,
+  "flag_consumers": [
+    {
+      "line": 40,
+      "source": "bool resourceMarginal357 = false;"
+    },
+    {
+      "line": 147,
+      "source": "const char* resourceFlag357 = std::getenv(\"UDON_RESOURCE_MARGINAL_357\");"
+    },
+    {
+      "line": 148,
+      "source": "options.resourceMarginal357 = resourceFlag357 != nullptr && std::string_view(resourceFlag357) == \"1\";"
+    },
+    {
+      "line": 2397,
+      "source": "if (options.resourceMarginal357 && publicContinuationAuthorized &&"
+    },
+    {
+      "line": 2445,
+      "source": "if (options.resourceMarginal357 && publicContinuationAuthorized && state.dayNumber < config.day_count()) {"
+    }
+  ],
+  "frozen_inputs": {
+    "execution357.json": "F0188694FF3E0042D1B85F8111F06E42AF7F1538A71C6AECBB44F384ED4C102C",
+    "research/evidence/SCORE-PROTECTED-RESOURCE-MARGINAL-357-development.summary.json": "40D92A3B69923CE551DE5087090B2131FBD70B37A412691E33C00DA589DF11CC",
+    "research/evidence/SCORE-PROTECTED-RESOURCE-MARGINAL-357-development/run_complete.json": "146E3E25722E2287E6C22C56D46CDD6A139245100448E459321398321556F4CE"
+  },
+  "holdout_authorized": false,
+  "new_suffix_frames": 0,
+  "pairs": [
+    {
+      "A": [
+        5,
+        19,
+        31
+      ],
+      "B": [
+        5,
+        19,
+        31
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_A",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "9E562484C6E0C0498A76AC8CCE25200A8057E8C468EF0FE0653B4FA6D38608D8",
+        "B": "9E562484C6E0C0498A76AC8CCE25200A8057E8C468EF0FE0653B4FA6D38608D8"
+      },
+      "plans_equal": true,
+      "right": "candidateA",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093569996,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        5,
+        19,
+        31
+      ],
+      "B": [
+        5,
+        19,
+        31
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_B",
+      "left": "parentB",
+      "plan_hashes": {
+        "A": "9E562484C6E0C0498A76AC8CCE25200A8057E8C468EF0FE0653B4FA6D38608D8",
+        "B": "9E562484C6E0C0498A76AC8CCE25200A8057E8C468EF0FE0653B4FA6D38608D8"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093569996,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        58,
+        367
+      ],
+      "B": [
+        6,
+        58,
+        367
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_A",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "808ECB49C217C06A79A5785DCF30BF4AC81F0D53ABE061CEEDC891BFFD7E4683",
+        "B": "808ECB49C217C06A79A5785DCF30BF4AC81F0D53ABE061CEEDC891BFFD7E4683"
+      },
+      "plans_equal": true,
+      "right": "candidateA",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570026,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        58,
+        367
+      ],
+      "B": [
+        6,
+        58,
+        367
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_B",
+      "left": "parentB",
+      "plan_hashes": {
+        "A": "808ECB49C217C06A79A5785DCF30BF4AC81F0D53ABE061CEEDC891BFFD7E4683",
+        "B": "808ECB49C217C06A79A5785DCF30BF4AC81F0D53ABE061CEEDC891BFFD7E4683"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570026,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        617
+      ],
+      "B": [
+        6,
+        60,
+        617
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_A",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "81A49510227293DB14FCEB9F9C2760881D42FA9BC518795393143148D7740074",
+        "B": "81A49510227293DB14FCEB9F9C2760881D42FA9BC518795393143148D7740074"
+      },
+      "plans_equal": true,
+      "right": "candidateA",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570051,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        617
+      ],
+      "B": [
+        6,
+        60,
+        618
+      ],
+      "comparison_B_vs_A": "win",
+      "delta": [
+        0,
+        0,
+        1
+      ],
+      "first_divergence": 9,
+      "first_tier": 3,
+      "first_tier_difference": 1,
+      "kind": "AB_B",
+      "left": "parentB",
+      "plan_hashes": {
+        "A": "81A49510227293DB14FCEB9F9C2760881D42FA9BC518795393143148D7740074",
+        "B": "B3FCB6A0732701A35D3ED5E0E779B07C1941F86F5C84D8EC59309B8DC040C499"
+      },
+      "plans_equal": false,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570051,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        24,
+        32
+      ],
+      "B": [
+        6,
+        24,
+        32
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_A",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "67410D6CA0ADA95754F3A1B1832291ACA259833C21850C8CEB6F75A10C3626B9",
+        "B": "67410D6CA0ADA95754F3A1B1832291ACA259833C21850C8CEB6F75A10C3626B9"
+      },
+      "plans_equal": true,
+      "right": "candidateA",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570057,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        24,
+        32
+      ],
+      "B": [
+        6,
+        24,
+        32
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_B",
+      "left": "parentB",
+      "plan_hashes": {
+        "A": "67410D6CA0ADA95754F3A1B1832291ACA259833C21850C8CEB6F75A10C3626B9",
+        "B": "67410D6CA0ADA95754F3A1B1832291ACA259833C21850C8CEB6F75A10C3626B9"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570057,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        123
+      ],
+      "B": [
+        6,
+        60,
+        123
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_A",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "BC2F00C69AFCA9A2462CB901B0E601266EBA622F41FFA515FFD1C61DF0A1884A",
+        "B": "BC2F00C69AFCA9A2462CB901B0E601266EBA622F41FFA515FFD1C61DF0A1884A"
+      },
+      "plans_equal": true,
+      "right": "candidateA",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570076,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        123
+      ],
+      "B": [
+        6,
+        60,
+        123
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_B",
+      "left": "parentB",
+      "plan_hashes": {
+        "A": "BC2F00C69AFCA9A2462CB901B0E601266EBA622F41FFA515FFD1C61DF0A1884A",
+        "B": "BC2F00C69AFCA9A2462CB901B0E601266EBA622F41FFA515FFD1C61DF0A1884A"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570076,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        7,
+        28,
+        38
+      ],
+      "B": [
+        7,
+        28,
+        38
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_A",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "B022E438366DB23159CDE733293A9918F7E38EA9FDA463FD292095BFC799A3BC",
+        "B": "B022E438366DB23159CDE733293A9918F7E38EA9FDA463FD292095BFC799A3BC"
+      },
+      "plans_equal": true,
+      "right": "candidateA",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570082,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        7,
+        28,
+        38
+      ],
+      "B": [
+        7,
+        28,
+        38
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_B",
+      "left": "parentB",
+      "plan_hashes": {
+        "A": "B022E438366DB23159CDE733293A9918F7E38EA9FDA463FD292095BFC799A3BC",
+        "B": "B022E438366DB23159CDE733293A9918F7E38EA9FDA463FD292095BFC799A3BC"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570082,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        23,
+        29
+      ],
+      "B": [
+        6,
+        23,
+        29
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_A",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "AB5D10AFCED4E61828CA9D8352E20ABE0BEAA82263375EBAA72E680345C33C76",
+        "B": "AB5D10AFCED4E61828CA9D8352E20ABE0BEAA82263375EBAA72E680345C33C76"
+      },
+      "plans_equal": true,
+      "right": "candidateA",
+      "roles": {
+        "A": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570107,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        23,
+        29
+      ],
+      "B": [
+        6,
+        23,
+        29
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_B",
+      "left": "parentB",
+      "plan_hashes": {
+        "A": "AB5D10AFCED4E61828CA9D8352E20ABE0BEAA82263375EBAA72E680345C33C76",
+        "B": "AB5D10AFCED4E61828CA9D8352E20ABE0BEAA82263375EBAA72E680345C33C76"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570107,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        471
+      ],
+      "B": [
+        6,
+        60,
+        489
+      ],
+      "comparison_B_vs_A": "win",
+      "delta": [
+        0,
+        0,
+        18
+      ],
+      "first_divergence": 3,
+      "first_tier": 3,
+      "first_tier_difference": 18,
+      "kind": "AB_A",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "7038E588E8659073641CF9406C678F9508845F98856F1C4EFC00DA54E3806DBA",
+        "B": "A9DF954AA055FBDADD3946E36E108CEAB787FF898F105651432A1077B221E6F7"
+      },
+      "plans_equal": false,
+      "right": "candidateA",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570137,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        442
+      ],
+      "B": [
+        6,
+        60,
+        480
+      ],
+      "comparison_B_vs_A": "win",
+      "delta": [
+        0,
+        0,
+        38
+      ],
+      "first_divergence": 3,
+      "first_tier": 3,
+      "first_tier_difference": 38,
+      "kind": "AB_B",
+      "left": "parentB",
+      "plan_hashes": {
+        "A": "BA2B48BC8015DFA269AE17577D4520D5DFE592041D4F6B151DE028CEC2D83A49",
+        "B": "3A66DAF02BF195A66C71B41C8F6CCF64CEB1E230207D058EC7C54A089B745511"
+      },
+      "plans_equal": false,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570137,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        55,
+        334
+      ],
+      "B": [
+        6,
+        55,
+        334
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_A",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "DCDA049E5ABC9A466FA77BC11463567EDBE92F26E8BA41D2F866692EE8E035EC",
+        "B": "DCDA049E5ABC9A466FA77BC11463567EDBE92F26E8BA41D2F866692EE8E035EC"
+      },
+      "plans_equal": true,
+      "right": "candidateA",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570162,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        55,
+        334
+      ],
+      "B": [
+        6,
+        55,
+        334
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_B",
+      "left": "parentB",
+      "plan_hashes": {
+        "A": "DCDA049E5ABC9A466FA77BC11463567EDBE92F26E8BA41D2F866692EE8E035EC",
+        "B": "DCDA049E5ABC9A466FA77BC11463567EDBE92F26E8BA41D2F866692EE8E035EC"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570162,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        7,
+        28,
+        75
+      ],
+      "B": [
+        7,
+        28,
+        75
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_A",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "F740668A40E215B618E659840503D702DD928441E9F1B01A42B1F92BE1A4B700",
+        "B": "F740668A40E215B618E659840503D702DD928441E9F1B01A42B1F92BE1A4B700"
+      },
+      "plans_equal": true,
+      "right": "candidateA",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570168,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        7,
+        28,
+        75
+      ],
+      "B": [
+        7,
+        28,
+        75
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_B",
+      "left": "parentB",
+      "plan_hashes": {
+        "A": "F740668A40E215B618E659840503D702DD928441E9F1B01A42B1F92BE1A4B700",
+        "B": "F740668A40E215B618E659840503D702DD928441E9F1B01A42B1F92BE1A4B700"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570168,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        244
+      ],
+      "B": [
+        6,
+        60,
+        242
+      ],
+      "comparison_B_vs_A": "loss",
+      "delta": [
+        0,
+        0,
+        -2
+      ],
+      "first_divergence": 1,
+      "first_tier": 3,
+      "first_tier_difference": -2,
+      "kind": "AB_A",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "5133275D403DFD26A3FDFBA9D123D64849E70A4D06694203DCC60C36B5DCD4CA",
+        "B": "0A7CF588C7F3B82078FD970D95DE773206333751F89197771B107E100A18BC44"
+      },
+      "plans_equal": false,
+      "right": "candidateA",
+      "roles": {
+        "A": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570187,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        6,
+        60,
+        242
+      ],
+      "B": [
+        6,
+        60,
+        242
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": 1,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_B",
+      "left": "parentB",
+      "plan_hashes": {
+        "A": "E6E47DAB6CC1AFA52EC5DA7832728D9CB7F719225E338B9AED329963502D6F58",
+        "B": "0A7CF588C7F3B82078FD970D95DE773206333751F89197771B107E100A18BC44"
+      },
+      "plans_equal": false,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "B": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570187,
+      "trajectory_equal": false,
+      "transition_equal": {
+        "agents": false,
+        "ledger": false,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        7,
+        28,
+        40
+      ],
+      "B": [
+        7,
+        28,
+        40
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_A",
+      "left": "parentA",
+      "plan_hashes": {
+        "A": "D97B0185236D131C629B01F2012310DCEE9899C64E9257965352870B02911CFF",
+        "B": "D97B0185236D131C629B01F2012310DCEE9899C64E9257965352870B02911CFF"
+      },
+      "plans_equal": true,
+      "right": "candidateA",
+      "roles": {
+        "A": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570193,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    },
+    {
+      "A": [
+        7,
+        28,
+        40
+      ],
+      "B": [
+        7,
+        28,
+        40
+      ],
+      "comparison_B_vs_A": "tie",
+      "delta": [
+        0,
+        0,
+        0
+      ],
+      "first_divergence": null,
+      "first_tier": 0,
+      "first_tier_difference": 0,
+      "kind": "AB_B",
+      "left": "parentB",
+      "plan_hashes": {
+        "A": "D97B0185236D131C629B01F2012310DCEE9899C64E9257965352870B02911CFF",
+        "B": "D97B0185236D131C629B01F2012310DCEE9899C64E9257965352870B02911CFF"
+      },
+      "plans_equal": true,
+      "right": "candidateB",
+      "roles": {
+        "A": [
+          0,
+          0,
+          1,
+          0
+        ],
+        "B": [
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "roles_equal": true,
+      "seed": 202609093570193,
+      "trajectory_equal": true,
+      "transition_equal": {
+        "agents": true,
+        "ledger": true,
+        "road_footprint": true
+      }
+    }
+  ],
+  "promotion_authorized": false,
+  "script_sha256": "3FE8238F3996BEB2BE34BF0A7915A70CA74D03E46C05265A608287AB79EC9BB8",
+  "sides": 48,
+  "sides_detail": [
+    {
+      "days": 4,
+      "label": "parentA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093569996,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "candidateA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093569996,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "candidateB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093569996,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "parentB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093569996,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "parentA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570026,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "candidateA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570026,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "candidateB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570026,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "parentB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570026,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "parentA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570051,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "candidateA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570051,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "candidateB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570051,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "parentB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570051,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "parentA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570057,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "candidateA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570057,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "candidateB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570057,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "parentB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570057,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "parentA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570076,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "candidateA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570076,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "candidateB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570076,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "parentB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570076,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "parentA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570082,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "candidateA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570082,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "candidateB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570082,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "parentB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570082,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "parentA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570107,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "candidateA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570107,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "candidateB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570107,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "parentB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570107,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "parentA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570137,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "candidateA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570137,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "candidateB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570137,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "parentB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570137,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "parentA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570162,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "candidateA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570162,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "candidateB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570162,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "parentB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570162,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "parentA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570168,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "candidateA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570168,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "candidateB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570168,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "parentB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570168,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "parentA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570187,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "candidateA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570187,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "candidateB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570187,
+      "true_public_flags": 0
+    },
+    {
+      "days": 10,
+      "label": "parentB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570187,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "parentA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570193,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "candidateA",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570193,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "candidateB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570193,
+      "true_public_flags": 0
+    },
+    {
+      "days": 4,
+      "label": "parentB",
+      "public_flags_observed": 0,
+      "resource_frames": 0,
+      "seed": 202609093570193,
+      "true_public_flags": 0
+    }
+  ],
+  "source": "artifacts\\research\\357\\completed\\source\\src\\btc_main.cpp",
+  "source_sha256": "7339F0491D9800BDB9DBFADEE3F0CDCE6F4F10D8F43773ED194C659D32A7CCDC",
+  "true_public_flags": 0,
+  "verified_completed_files": 1044,
+  "verified_execution_dependencies": 281
+}

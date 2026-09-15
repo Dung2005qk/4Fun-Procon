@@ -22,6 +22,7 @@
 #include <winhttp.h>
 #endif
 
+#include "../strategies/blank_slate/planners.hpp"
 #include "udon/btc_protocol.hpp"
 #include "udon/protocol.hpp"
 #include "udon/runtime.hpp"
@@ -34,6 +35,8 @@ namespace {
 constexpr std::int64_t btcSubmissionFloorMs = 800;
 constexpr std::int64_t btcProtectedRefinementFloorMs = 1100;
 constexpr std::int32_t btcActionAckSliceMs = 750;
+constexpr std::int64_t btcRoleTransportReserveMs = 700;
+constexpr std::int64_t btcRoleLateFastPathSlackMs = 2200;
 
 struct RuntimeOptions {
     std::string mode;
@@ -82,6 +85,40 @@ struct HttpResponse {
 [[nodiscard]] std::int64_t unix_milliseconds() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()).count();
+}
+
+[[nodiscard]] std::int64_t starts_at_unix_milliseconds(std::int64_t startsAt) {
+    if (startsAt <= 0) {
+        return 0;
+    }
+    // BTC currently sends Unix seconds. Accept milliseconds as well so the
+    // late-role guard remains correct if the wire contract is upgraded.
+    constexpr std::int64_t unixMillisecondsThreshold = 100'000'000'000LL;
+    if (startsAt >= unixMillisecondsThreshold) {
+        return startsAt;
+    }
+    constexpr std::int64_t maxSeconds =
+        std::numeric_limits<std::int64_t>::max() / 1000;
+    if (startsAt > maxSeconds) {
+        return std::numeric_limits<std::int64_t>::max();
+    }
+    return startsAt * 1000;
+}
+
+[[nodiscard]] udon::JsonValue fast_role_selection(
+    const udon::MatchConfig& config) {
+    // The blank-slate portfolio selector is geometry-only and deterministic;
+    // it avoids the full multi-day role rollout when the setup arrives late.
+    std::vector<udon::AgentKind> roles =
+        udon::blank_slate::Planner(
+            config,
+            udon::blank_slate::Method::Portfolio).select_roles();
+    if (roles.size() != static_cast<std::size_t>(config.agent_count())) {
+        roles.assign(
+            static_cast<std::size_t>(config.agent_count()),
+            udon::AgentKind::Patrol);
+    }
+    return udon::serialize_role_selection(roles);
 }
 
 [[nodiscard]] udon::DeadlineCalibration btc_http_deadline_calibration() {
@@ -2055,6 +2092,10 @@ void run_http(const RuntimeOptions& options) {
     const udon::JsonValue setupDocument = parse_optional_json(setupResponse.body);
     replay.record("setup", setupDocument, setupResponse.status);
     const udon::MatchConfig config = udon::parse_btc_setup(setupDocument, adapterOptions);
+    const std::int64_t roleStartUnixMs = starts_at_unix_milliseconds(config.startsAt);
+    const std::int64_t roleSlackMs = roleStartUnixMs > 0
+        ? roleStartUnixMs - unix_milliseconds()
+        : std::numeric_limits<std::int64_t>::max();
     const ReplayResumeState resume = load_replay_resume(options.replayPath, config, adapterOptions);
     const udon::DeadlineCalibration deadlineCalibration = btc_http_deadline_calibration();
     udon::MatchSession session(
@@ -2079,12 +2120,30 @@ void run_http(const RuntimeOptions& options) {
             resume.strongProofs);
     }
     if (!resume.assignmentAccepted || !resume.assignment.has_value()) {
-        const std::chrono::milliseconds roleSelectionBudget{
-            effective_response_budget_ms(options)};
         udon::JsonValue roles;
         if (resume.assignment.has_value()) {
             roles = *resume.assignment;
+            replay.record("assignment_strategy", udon::JsonValue("replay"));
+        } else if (roleStartUnixMs > 0 && roleSlackMs <= btcRoleLateFastPathSlackMs) {
+            // Setup can arrive at or just after startsAt. Avoid spending the
+            // full rollout budget in that narrow window; use the deterministic
+            // portfolio mask while preserving normal rollout with safe slack.
+            roles = fast_role_selection(config);
+            udon::JsonValue::Object strategy;
+            strategy.emplace("mode", udon::JsonValue("late_fast_path"));
+            strategy.emplace("slack_ms", udon::JsonValue(roleSlackMs));
+            replay.record("assignment_strategy", udon::JsonValue(std::move(strategy)));
+            replay.record("assignment", roles);
         } else {
+            std::int64_t roleSelectionBudgetMs = effective_response_budget_ms(options);
+            if (roleStartUnixMs > 0) {
+                roleSelectionBudgetMs = std::min(
+                    roleSelectionBudgetMs,
+                    std::max<std::int64_t>(
+                        1,
+                        roleSlackMs - btcRoleTransportReserveMs));
+            }
+            const std::chrono::milliseconds roleSelectionBudget{roleSelectionBudgetMs};
             const std::vector<udon::RoleAssignment> assignments = session.select_roles_until(
                 roleSelectionBudget,
                 options.beamWidth);
@@ -2092,6 +2151,7 @@ void run_http(const RuntimeOptions& options) {
                 throw std::runtime_error("no role assignment survived BTC viability scan");
             }
             roles = udon::serialize_role_selection(assignments.front().roles);
+            replay.record("assignment_strategy", udon::JsonValue("rollout"));
             replay.record("assignment", roles);
         }
         HttpResponse assignmentResponse;

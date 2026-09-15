@@ -1,0 +1,80 @@
+import copy
+import unittest
+from unittest.mock import patch
+from run_http_baseline_314 import ROOT, Bridge
+import test_pair_stock_bound_340 as inherited
+import complete_pool_score_344 as runner
+
+
+class PricingContract(inherited.Contract):
+    def setUp(self):
+        super().setUp()
+        self.p.close();self.p.process.stdout.close();self.p.process.stderr.close()
+        self.p=Bridge(ROOT/'artifacts/research/344/build/udonshield_pricing_contract_344.exe')
+
+
+def score(n):return dict(lifetimeDistinct=2,totalDailyDistinct=8,totalServings=n)
+
+
+def audit_day():
+    return {'candidate':{'stableId':'plan'},'audit':{'completePoolPricing':{
+        'entered':True,'originalPoolSize':1,'baseSelectedId':'plan','finalSelectedId':'plan','replacements':0,
+        'currentPlansUnchanged':True,'noGainPoolUnchanged':True,'noGainSelectionUnchanged':True,
+        'outcomes':[{'candidateId':'plan','scenarioIndex':0,'beforeScore':score(8),'afterScore':score(8),
+                     'beforeWitness':'exact bytes','afterWitness':'exact bytes','replaced':False}]}}}
+
+
+class RunnerContract(unittest.TestCase):
+    def test_actual_causal_bytes_and_score_not_just_flags(self):
+        runner.check_causal(audit_day())
+        for k,v in [('afterScore',score(9)),('afterWitness','different')]:
+            d=audit_day();d['audit']['completePoolPricing']['outcomes'][0][k]=v
+            with self.assertRaises(Exception):runner.check_causal(d)
+
+    def test_replacements_require_strict_score_certificate(self):
+        d=audit_day();a=d['audit']['completePoolPricing'];a['replacements']=1;o=a['outcomes'][0]
+        o['replaced']=True;o['afterWitness']='new'
+        with self.assertRaises(Exception):runner.check_causal(d)
+        o['afterScore']=score(9);runner.check_causal(d)
+        a['replacements']=2
+        with self.assertRaises(Exception):runner.check_causal(d)
+
+    def test_candidate_coverage_and_selection(self):
+        for mutate in ('coverage','duplicate','selection'):
+            d=audit_day();a=d['audit']['completePoolPricing']
+            if mutate=='coverage':a['originalPoolSize']=2
+            if mutate=='duplicate':a['outcomes']*=2
+            if mutate=='selection':a['baseSelectedId']='changed'
+            with self.assertRaises(Exception):runner.check_causal(d)
+
+    def rows(self):
+        return [{'seed':i,'repeat':r,'family':str(i%2),'comparison':'win' if i<4 else 'tie',
+                 'first_tier':3 if i<4 else 0,'delta':[0,0,1 if i<4 else 0],
+                 'activated_before_divergence':i<4} for r in ('A','B') for i in range(24)]
+
+    def test_narrow_gate_repeated_breadth_and_small_losses(self):
+        rows=self.rows();self.assertTrue(runner.narrow_gate(rows,'development')['passed'])
+        for r in rows:
+            if r['seed']==6:r.update(comparison='loss',delta=[0,0,-1])
+        self.assertTrue(runner.narrow_gate(rows,'development')['passed'])
+        rows[-1].update(comparison='loss',delta=[0,-1,30])
+        self.assertFalse(runner.narrow_gate(rows,'development')['passed'])
+
+    def test_no_pseudoreplication_or_uncertified_wins(self):
+        rows=self.rows()
+        for r in rows:
+            if r['repeat']=='B' and r['seed']==0:r['comparison']='tie';r['delta']=[0,0,0]
+        self.assertFalse(runner.narrow_gate(rows,'development')['passed'])
+        rows=self.rows();rows[0]['activated_before_divergence']=False
+        self.assertFalse(runner.narrow_gate(rows,'development')['passed'])
+
+    def test_rotation_and_exact_expected_counts(self):
+        self.assertEqual(runner.order_for(1),['candidateA','candidateB','parentB','parentA'])
+        cases=[{'spec':{'seed':i},'run_order':runner.order_for(i),'setup':{'daySteps':[4]*4}} for i in range(24)]
+        self.assertEqual(runner.coverage(cases,'development'),
+                         {'fixtures':24,'results':96,'paired_comparisons':48,'actions':384,'transitions':288})
+        cases[0]['run_order'].reverse()
+        with self.assertRaises(Exception):runner.coverage(cases,'development')
+
+
+if __name__=='__main__':unittest.main()

@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "C:\Users\LMC\Desktop\4Fun\research\probes\run_pair_protected_341.py", line 183, in <module>
+    args=p.parse_args();run(args.resume) if args.mode=='run' else summarize()
+                        ~~~^^^^^^^^^^^^^
+  File "C:\Users\LMC\Desktop\4Fun\research\probes\run_pair_protected_341.py", line 97, in run
+    require(memory_available()>=m['resource_floor_bytes'],'available RAM below frozen 1024MiB safety floor')
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\LMC\Desktop\4Fun\research\probes\summarize_http_baseline_314.py", line 12, in require
+    raise ValueError(message)
+ValueError: available RAM below frozen 1024MiB safety floor

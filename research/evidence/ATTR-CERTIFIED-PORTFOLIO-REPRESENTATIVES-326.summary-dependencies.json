@@ -1,0 +1,12 @@
+{
+  "hashes": {
+    "research/holdouts/ATTR-CERTIFIED-PORTFOLIO-REPRESENTATIVES-326.json": "C28F7E8287485F23E6341BA8086FB44C13C5A5520C6A7714EF9E094F99D41B4B",
+    "research/holdouts/ATTR-DAY2-POOL-EXACT-VALUE-323.json": "A793940CA25D86FB25811C0DE5CD46120944C3E21FE8CE865DA5BD71EF17DB0B",
+    "research/probes/day2_pool_value_323.py": "BABEAD069465D2D5E52C70E53225A2831927801873ACD28E09710F342CEFB28E",
+    "research/probes/verify_summary_dependencies_326.py": "D37AC814CC9EBD2C58F009227E1FEB79DC63623AD4BE8DA9DBF639E9C38BB2EA"
+  },
+  "measurement_repeated": false,
+  "metric_or_gate_changed": false,
+  "reason": "326 reused the existing323 lexicographic comparator but did not directly duplicate its hash in local_hashes; verify its pre-existing frozen323 manifest before any326 score analysis.",
+  "source_modified": false
+}

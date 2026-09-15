@@ -1,0 +1,46 @@
+{
+  "configs": 108,
+  "exact_accepted_development_transitions": 384,
+  "original_error": {
+    "error": "unknown bridge operation",
+    "ok": false
+  },
+  "original_execution_sha256": "8AADA9AC98F9095403AE6DA850E879319ACC86C01990AA62ADC46F9182F5F66A",
+  "passed": true,
+  "protected_scored_sides": 0,
+  "records": [
+    {
+      "command": [
+        "C:\\Users\\LMC\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "research/probes",
+        "-p",
+        "test_protected_http_341.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "stderr": "test_fixed_roles_from_day_one (test_protected_http_341.ProtectedContract.test_fixed_roles_from_day_one) ... ok\ntest_invalid_roles_do_not_mutate (test_protected_http_341.ProtectedContract.test_invalid_roles_do_not_mutate) ... ok\ntest_late_or_changed_action_never_commits (test_protected_http_341.ProtectedContract.test_late_or_changed_action_never_commits) ... ok\ntest_native_assignment_idempotent_before_start_only (test_protected_http_341.ProtectedContract.test_native_assignment_idempotent_before_start_only) ... ok\ntest_native_real_assignment_before_state (test_protected_http_341.ProtectedContract.test_native_real_assignment_before_state) ... ok\ntest_new_bridge_matches_original_exact_transition (test_protected_http_341.ProtectedContract.test_new_bridge_matches_original_exact_transition) ... ok\ntest_parent_without_new_counter_is_not_candidate (test_protected_http_341.ProtectedContract.test_parent_without_new_counter_is_not_candidate) ... ok\ntest_source_cost_and_own_road_footprint_are_exact (test_protected_http_341.ProtectedContract.test_source_cost_and_own_road_footprint_are_exact) ... ok\ntest_state_traffic_frozen_for_open_day (test_protected_http_341.ProtectedContract.test_state_traffic_frozen_for_open_day) ... ok\ntest_team_normalization_and_exact_threshold_boundary (test_protected_http_341.ProtectedContract.test_team_normalization_and_exact_threshold_boundary) ... ok\ntest_two_day_traffic_thresholds_and_expiration (test_protected_http_341.ProtectedContract.test_two_day_traffic_thresholds_and_expiration) ... ok\ntest_unanswered_day_and_invalid_plan_fail_closed (test_protected_http_341.ProtectedContract.test_unanswered_day_and_invalid_plan_fail_closed) ... ok\ntest_variable_windows_and_ten_day_completion (test_protected_http_341.ProtectedContract.test_variable_windows_and_ten_day_completion) ... ok\n\n----------------------------------------------------------------------\nRan 13 tests in 0.057s\n\nOK\n",
+      "stdout": ""
+    },
+    {
+      "command": [
+        "C:\\Users\\LMC\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "research/probes",
+        "-p",
+        "test_claim_cap_protected_347.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "stderr": "test_candidate_input_and_metric_changes_rejected (test_claim_cap_protected_347.BindingContract.test_candidate_input_and_metric_changes_rejected) ... ok\ntest_dependency_removal_and_hash_change_rejected (test_claim_cap_protected_347.BindingContract.test_dependency_removal_and_hash_change_rejected) ... ok\ntest_only_bridge_binding_changes (test_claim_cap_protected_347.BindingContract.test_only_bridge_binding_changes) ... ok\ntest_original_provenance_required (test_claim_cap_protected_347.BindingContract.test_original_provenance_required) ... ok\ntest_other_bridge_and_new_policy_key_rejected (test_claim_cap_protected_347.BindingContract.test_other_bridge_and_new_policy_key_rejected) ... ok\ntest_prior_qualification_not_bypassed (test_claim_cap_protected_347.BindingContract.test_prior_qualification_not_bypassed) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.001s\n\nOK\n",
+      "stdout": ""
+    }
+  ],
+  "role_checks": 216
+}
