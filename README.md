@@ -2,19 +2,18 @@
 
 Đây là lõi C++20 cho agent HEXUDON, tách riêng luật trận đấu, tối ưu kế hoạch và lớp tích hợp mạng. Mục tiêu của mã nguồn là giữ nguyên semantics của đề bài: mọi action plan được gửi đi phải hợp lệ theo simulator độc lập, thay vì chỉ hợp lệ theo heuristic của planner.
 
-## Phạm vi đã hiện thực
+## Trạng thái dự án & Hướng nghiên cứu tiếp theo
 
-- Parser JSON nghiêm ngặt cho `config`, state theo ngày, action plan và match ledger.
-- Hình học lưới even-r, phản xạ hướng, road movement theo thời lượng, và action `0..5`/wait âm.
-- Simulator theo bước thời gian với thứ tự fuel, pickup/refuel, stock, servings và road-traffic đúng theo state chuyển tiếp.
-- Validator độc lập trả về lỗi có cấu trúc và footprint đường theo từng tick.
-- Router Pareto theo `(time, fuel)`; sinh route column; master set-packing native có lexicographic branch-and-bound, CAP/PREFIX cuts và luôn xác nhận tổ hợp cuối bằng exact simulator.
-- High-fuel production dùng exact orienteering trên toàn chuỗi spot khi search window đủ lớn. Ở ngày cuối, patrol có fuel hiện tại dưới ngưỡng exact high-fuel dùng frontier `cell × spot-mask × (steps,fuel)` giới hạn 1.250.000 settled states và 32 route/agent; mỗi route vẫn exact-feasible và được simulator/validator xác nhận, nhưng frontier bị cắt không được báo là proof hoàn tất. Pool raw-spot legacy luôn được giữ nguyên; nếu lifetime còn thiếu brand, một pool supplemental xếp hạng lexicographic theo missing-brand coverage được phối hợp thành bundle riêng và chỉ thêm nghiệm, không thay thế bundle legacy. Các ngày trước vẫn giữ planner đa ngày để tránh đổi servings hôm nay lấy fuel debt ngày mai.
-- ALNS destroy-repair có thể sinh route Pareto mới ngoài portfolio ban đầu cho đủ tám operator; mọi mutation được exact-evaluate và rollback nếu phá reservation đã chứng minh.
-- Phân vai pre-match, escort/refuel đồng bộ, repair deadline/fuel, traffic belief, scenario counterfactual và chọn candidate chỉ khi mọi scenario được chứng nhận bởi witness hợp lệ.
-- Adapter HTTP BTC chặn ngân sách bằng `response-ms` tính từ lúc nhận state trên máy cục bộ, không kéo dài search theo `endsAt` của đồng hồ server chưa đồng bộ; scheduler vẫn giữ riêng network floor trước khi gửi.
-- Proof cấp P chạy ngoài critical path sau ACK, tìm kiếm branch-and-bound trên toàn horizon còn lại dưới frozen persistent scenario và ghi rõ scope route-portfolio, UB, best score, số nhánh cắt và trạng thái complete.
-- Ledger nhiều ngày cho distinct-brand và tổng servings; ngày từ `2` trở đi fail-closed nếu thiếu ledger.
+Dự án hiện đã **chính thức dừng nghiên cứu**.
+
+Trong quá trình phát triển và kiểm thử thực chiến, hệ thống đã hoàn thiện một khung kiến trúc tối ưu hóa quy hoạch mạnh mẽ (ALNS, Sinh cột Route Master, Chứng chỉ toán học Dominance Proofs, Bộ lọc dôi dư thời gian Public Continuation và kỷ lục 531 bát Udon trên map lớn).
+
+Tuy nhiên, một vấn đề mấu chốt được phát hiện trong các chặng nghiên cứu cuối cùng là: **Cơ chế điều phối và tiếp tế nhiên liệu của Xe bồn (Tanker Coordination & Multi-waypoint Rendezvous)**. Trên một số cấu hình bản đồ (đặc biệt là map nhỏ/vừa nơi các xe tuần tra có thể chạy tự do hoặc khi xe bồn cần tiếp tế linh hoạt cho nhiều xe cùng lúc), việc phân bổ vai trò chưa tối ưu và hiện tượng lệch pha tiếp tế đã khiến hiệu năng điểm số của hệ thống bị kìm hãm so với tiềm năng tối đa.
+
+Dành cho bất kỳ ai quan tâm và muốn tiếp tục phát triển hệ thống:
+- **Tài liệu & Nhật ký nghiên cứu:** Tham khảo toàn bộ lịch sử thử nghiệm, phân tích pháp y và dữ liệu đối chứng chi tiết trong thư mục [`research/`](research/) (đặc biệt là các tệp [`research/STATE.md`](research/STATE.md), [`research/EXPERIMENTS.csv`](research/EXPERIMENTS.csv) và chuỗi thực nghiệm tiếp xăng đa điểm `284 - 288`).
+- **Khóa ràng buộc nguyên tử (Atomic Constraint):** Cần thiết lập ràng buộc đồng bộ nguyên tử trực tiếp trong bài toán quy hoạch tuyến tính Master Solver LP/ILP để đảm bảo Xe bồn và các Xe tuần tra không bao giờ bị tách rời khi ALNS tối ưu hóa.
+- **Phân bổ vai trò thích ứng (Adaptive Role Selection):** Nâng cấp bộ chọn vai trò để tự động giải phóng đội hình toàn lực tuần tra (All-Patrol) trên các map nhỏ/dồi dào nhiên liệu, và chỉ kích hoạt chiến thuật Xe bồn cơ động khi bước vào các map lớn đường dài.
 
 ## Bảo đảm correctness
 
